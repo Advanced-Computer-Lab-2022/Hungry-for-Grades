@@ -1,61 +1,77 @@
-import { User } from '@interfaces/users.interface';
+import { Role, User } from '@interfaces/users.interface';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 const SALT_WORK_FACTOR = 10;
 
 const Email: Schema = new Schema({
-  address: { type: String, lowercase: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true },
+  address: { index: true, lowercase: true, match: [/\S+@\S+\.\S+/, 'is invalid'], required: [true, "can't be blank"], type: String },
   // Change the default to true if you don't need to svalidate a new user's email address
-  validated: { type: Boolean, default: false },
+  validated: { default: false, type: Boolean },
 });
 
-const userSchema: Schema = new Schema(
+const userSchema = new Schema<User>(
   {
-    username: {
-      type: String,
-      lowercase: true,
-      unique: true,
-      required: [true, "can't be blank"],
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
-      index: true,
+    _corporate: { ref: 'Corporate', type: Schema.Types.ObjectId },
+    _instructor: { ref: 'Instructor', type: Schema.Types.ObjectId },
+    _trainee: { ref: 'Trainee', type: Schema.Types.ObjectId },
+    active: {
+      default: true,
+      type: Boolean,
     },
     email: {
-      type: Email,
       required: true,
+      type: Email,
       unique: true,
     },
+    name: {
+      required: true,
+      type: String,
+    },
     password: {
-      type: String,
       required: true,
-    },
-    _instructor: { type: Schema.Types.ObjectId, ref: 'Instructor' },
-    _trainee: { type: Schema.Types.ObjectId, ref: 'Trainee' },
-    _corporate: { type: Schema.Types.ObjectId, ref: 'Corporate' },
-    role: {
       type: String,
-      required: true,
-    },
-    active: {
-      type: Boolean,
-      default: true,
     },
     profileImage: {
-      type: String,
       default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
+      type: String,
     },
-    name: {
+    role: {
+      required: true,
+      enum: Object.values(Role),
+      type: String,
+    },
+    username: {
+      index: true,
+      lowercase: true,
+      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+      required: [true, "can't be blank"],
+      type: String,
+      unique: true,
+    },
+    gender: {
+      enum: ['Male', 'Female'],
       type: String,
       required: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
+    address: {
+      city: {
+        type: String,
+        required: true,
+      },
+      country: {
+        type: String,
+        required: true,
+      },
+    },
+    phone: {
+      type: String,
+      required: true,
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 userSchema.plugin(uniqueValidator, { message: 'is already taken.' });

@@ -1,25 +1,78 @@
-import { User } from '@interfaces/users.interface';
+import { Instructor } from '@/interfaces/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
-
-const userSchema: Schema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+const instructorSchema = new Schema<Instructor>({
+  balance: {
+    default: 0,
+    type: Number,
   },
-  password: {
-    type: String,
-    required: true,
+  bankAccount: {
+    default: {},
+    type: {
+      accountHolderName: String,
+      accountNumber: String,
+      bankName: String,
+      branchAddress: String,
+      branchName: String,
+      swiftCode: String,
+    },
   },
-  _instructor:{type:Schema.Types.ObjectId, ref:'Instructor'},
-  _trainee:{type:Schema.Types.ObjectId, ref:'Trainee'},
-  _corporate:{type:Schema.Types.ObjectId, ref:'Corporate'},
-  role: {
-    type: String,
+  biography: {
     required: true,
+    type: String,
+  },
+  contactInfo: {
+    ref: 'ContactInfo',
+    type: Schema.Types.ObjectId,
+  },
+  rating: {
+    default: [],
+    type: {
+      overallRating: {
+        required: true,
+        type: Number,
+      },
+      reviews: [
+        {
+          _user: {
+            ref: 'User',
+            type: Schema.Types.ObjectId,
+          },
+          comment: String,
+          createdAt: Date,
+          rating: {
+            required: true,
+            type: String,
+          },
+        },
+      ],
+    },
+  },
+  socialMedia: {
+    default: {},
+    type: {
+      facebook: String,
+      github: String,
+      linkedin: String,
+      personalWebsite: String,
+      twitter: String,
+    },
+  },
+  speciality: {
+    required: true,
+    type: String,
+  },
+  taughtCourses: [
+    {
+      ref: 'Course',
+      type: Schema.Types.ObjectId,
+    },
+  ],
+  title: {
+    required: true,
+    type: String,
   },
 });
 
-const userModel = model<User & Document>('User', userSchema);
+const instructorModel = model<Instructor & Document>('Instructor', instructorSchema);
 
-export default userModel;
+export default instructorModel;
