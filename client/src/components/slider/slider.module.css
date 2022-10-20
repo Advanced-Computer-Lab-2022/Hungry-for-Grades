@@ -1,0 +1,35 @@
+.swiper {
+  width: 100%;
+  padding-top: 7%;
+  padding-bottom: 8%;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 22%;
+  height: 22%;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 50%;
+  height: 50%;
+  text-align: center;
+}
+
+.test {
+  background-color: red;
+}
+
+/* MEDIA QUERIES  MEDIUM */
+
+@media screen and (max-width: 1124px) {
+  .swiper {
+    padding-bottom: 20%;
+  }
+  .swiper-slide {
+    width: 55%;
+    height: 55%;
+  }
+}

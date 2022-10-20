@@ -1,0 +1,37 @@
+.darkMode {
+  background: transparent url('../../../assets/moon.png') no-repeat center;
+  background-size: 30px 30px;
+  width: 3rem;
+  height: 3.1rem;
+  filter: grayscale(100%);
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  outline: none;
+  object-fit: cover;
+  transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  -webkit-transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  -ms-transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  -o-transition: background-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  -webkit-filter: grayscale(100%);
+}
+
+.darkMode:hover {
+  filter: none;
+  background-color: var(--variant-color);
+  cursor: pointer;
+  -webkit-filter: none;
+}
+
+.darkMode.clicked:hover {
+  filter: grayscale(100%) !important;
+  -webkit-filter: grayscale(100%) !important;
+  background-color: transparent !important;
+  cursor: pointer;
+}
+
+.darkMode.clicked {
+  filter: none !important;
+  background-color: var(--variant-color);
+}

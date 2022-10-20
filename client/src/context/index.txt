@@ -1,0 +1,304 @@
+import axios from 'axios';
+import React from 'react';
+
+import { handleError } from '../services/utils/validation';
+
+import Reducer from './Reducer';
+import { ContextType, State } from './types';
+
+axios.defaults.baseURL = 'https://wmc.dev.hoopoe.digital/api/auth/v2';
+// axios.defaults.baseURL = "http://localhost:5000/api/auth/v2";
+
+export const AuthContext = React.createContext<ContextType | undefined>(
+  undefined
+);
+
+type Props = { children: React.ReactNode };
+
+function AuthProvider({ children }: Props) {
+  const DefaultState: State = {
+    isLoading: false,
+    error: null,
+    validatorToken: null,
+    userInfo: null,
+    profiles: []
+  };
+
+  // get data from localStorage
+  const data = localStorage?.getItem('AuthState');
+  const prevState = data ? JSON.parse(data) : {};
+  // set state to default and previous state if it exists
+  const initialState = { ...DefaultState, ...prevState };
+
+  const [state, dispatch] = React.useReducer(Reducer, initialState);
+
+  // update the local storage whenever there is a change in the state
+  React.useEffect(() => {
+    const { userInfo, profiles } = state;
+    localStorage.setItem('AuthState', JSON.stringify({ userInfo, profiles }));
+  }, [state]);
+
+  function setError(error: string) {
+    console.log({ error });
+    dispatch({
+      type: 'FAIL',
+      payload: handleError(error || 'UNKNOWN_ERROR')
+    });
+  }
+
+  function setValidationError(error: State['error']) {
+    dispatch({ type: 'FAIL', payload: error! });
+  }
+
+  /**
+   * Logins the user and returns the user info and profiles
+   * @param email
+   * @param password
+   * @returns nextPage or false if there is an error
+   */
+  async function login(email: string, password: string) {
+    try {
+      dispatch({ type: 'PENDING' });
+
+      const res: {
+        data: {
+          message: 'NotVerified' | 'Success';
+          userInfo: State['userInfo'];
+          profiles: State['profiles'];
+        };
+      } = await axios.post('/signin', { email, password });
+      const { message, profiles, userInfo } = res.data;
+
+      // set user info
+      await dispatch({
+        type: 'SET_PROFILES',
+        payload: { profiles, userInfo }
+      });
+
+      //  check if the user is not verified and route him to the verification page
+      // if the user has more than one profile route him to the profile selection page
+      // If the user has only one profile route him to the dashboard
+      return message === 'NotVerified'
+        ? 'verify'
+        : profiles.length
+        ? 'profiles'
+        : 'dashboard';
+    } catch (err: any) {
+      // get error messages and show them to the user
+      console.error(err);
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * send an email to the user with a link to reset his password
+   * @param email
+   * @returns true or false
+   */
+  async function forgotPassword(email: string) {
+    try {
+      dispatch({ type: 'PENDING' });
+      const res = await axios.post('/forgot-password', { email });
+      if (res.data.message !== 'Success') throw new Error('UNKNOWN_ERROR');
+      dispatch({ type: 'SUCCESS' });
+      return true;
+    } catch (err: any) {
+      // err = Failed : Failed to send the email please try again later
+      // err = InvalidEmail : The email you entered is not valid
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * Check if the token (came from email) is valid
+   * @param token
+   * @returns the email or false if the token is invalid
+   */
+  async function validateToken(token: string) {
+    try {
+      dispatch({ type: 'PENDING' });
+      const res = await axios.get('/validate-token', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.message !== 'ValidToken' || !res.data.email)
+        throw new Error('UNKNOWN_ERROR');
+      dispatch({ type: 'SET_TOKEN', payload: { token } });
+      return res.data.email;
+    } catch (err: any) {
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * Reset the password of the user
+   * @param password
+   * @returns
+   */
+  async function resetPassword(password: string) {
+    try {
+      dispatch({ type: 'PENDING' });
+      await axios.post(
+        '/reset-password',
+        { password },
+        {
+          headers: { Authorization: `Bearer ${state.validatorToken}` }
+        }
+      );
+      dispatch({ type: 'SUCCESS' });
+      return true;
+    } catch (err: any) {
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * creates a new user and returns the user info and profiles if already exists
+   * @param firstName
+   * @param lastName
+   * @param email
+   * @param password
+   */
+  async function createAccount(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) {
+    try {
+      const { data } = await axios.post('/signup', {
+        firstName,
+        lastName,
+        email,
+        password
+      });
+
+      let nextPage: 'dashboard' | 'profiles' | 'verify' | '' = '';
+
+      // check if already exists and verified
+      if (data.message === 'Success' && data.profiles && data.userInfo) {
+        dispatch({
+          type: 'SET_PROFILES',
+          payload: {
+            profiles: data.profiles,
+            userInfo: data.userInfo
+          }
+        });
+        nextPage = data.profiles.length > 1 ? 'profiles' : 'dashboard';
+        return nextPage;
+      }
+
+      // check if already exists and not verified or creation is successful
+      if (data.message === 'NotVerified') nextPage = 'verify';
+      dispatch({ type: 'SUCCESS' });
+      return nextPage;
+    } catch (err: any) {
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * verify the email by the code sent to the user
+   * @param code
+   * @returns message and profiles, userInfo if success or already verified
+   */
+  async function verifyEmail(code: string) {
+    try {
+      const { email } = state?.userInfo!;
+      if (!email) throw new Error('TRY_AGAIN');
+      const res = await axios.post('/verify-email', { email, code });
+      const { message, profiles, userInfo } = res.data || {};
+      if (message !== 'GotVerified' || message !== 'AlreadyVerified')
+        throw new Error('UNKNOWN_ERROR');
+      dispatch({ type: 'SET_PROFILES', payload: { profiles, userInfo } });
+      return true;
+    } catch (err: any) {
+      // err = InvalidEmail : The email you entered is not valid
+      // err = InvalidCode : The code you entered is not valid
+      // err = TRY_AGAIN : The code you entered is not valid
+      console.error(err);
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * resend the code/verification Email
+   * @param email
+   * @returns "Success" | "AlreadyVerified"
+   */
+  async function resendCode(email: string) {
+    try {
+      const res = await axios.post('/resend-code', { email });
+      const { message }: { message: 'Success' | 'AlreadyVerified' } = res.data;
+      dispatch({ type: 'SUCCESS' });
+      return message;
+    } catch (err: any) {
+      console.error(err);
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  /**
+   * validate the social login token and login the user
+   * @param token
+   * @returns "profiles" | "dashboard" | false
+   */
+  async function socialLogin(token: string) {
+    try {
+      dispatch({ type: 'PENDING' });
+      const res = await axios.get('/social-login', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const { message, profiles, userInfo } = res.data;
+      // set user info
+      await dispatch({
+        type: 'SET_PROFILES',
+        payload: { profiles, userInfo }
+      });
+      // if the user has more than one profile route him to the profile selection page
+      // If the user has only one profile route him to the dashboard
+      return message === profiles.length ? 'profiles' : 'dashboard';
+    } catch (err: any) {
+      console.error(err);
+      await setError(err.response?.data?.message);
+      return false;
+    }
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{
+        error: state.error,
+        isLoading: state.isLoading,
+        validatorToken: state.validatorToken,
+        userInfo: state.userInfo,
+        profiles: state.profiles,
+        setError,
+        setValidationError,
+        login,
+        forgotPassword,
+        validateToken,
+        resetPassword,
+        createAccount,
+        verifyEmail,
+        resendCode,
+        socialLogin
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  // if (!context) throw new Error("You need to wrap the app with AuthProvider.");
+  return React.useContext(AuthContext);
+}
+
+export default AuthProvider;

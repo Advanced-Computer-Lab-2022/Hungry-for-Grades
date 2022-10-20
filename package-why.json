@@ -1,0 +1,17 @@
+{
+    "scripts": {
+        "dev": "run dev --port 8000",
+        "build": "Description for `npm run build` command",
+        "preview": "Description for `npm run preview` command",
+        "check": "it checks for unused dependencies to uninstall ot update",
+        "prelint": "it runs prettier",
+        "lint": "it uses prettier & eslint fix then checks",
+        "postlint": "it runs  eslint check",
+        "test": "runs the tests using vitest",
+        "lighthouse": "runs lighthouse ",
+        "restart": "restarts the server and solve error in node_modules",
+        "husky-setup": "npx husky set .husky/pre-commit 'npm run node-shield && npm run check && npm run lint && npm test'",
+        "node-shield": "it checks if correct node version is installed"
+
+    }
+}

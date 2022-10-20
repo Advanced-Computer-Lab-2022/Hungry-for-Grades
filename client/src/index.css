@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+:root {
+  --dark-color: #111;
+  --light-color: #fff;
+  /* for background */
+  --background-color: var(--light-color);
+  /* for text */
+  --text-color: var(--dark-color);
+  /* for buttons */
+  --variant-text-color: #bdbdee;
+  --variant-background-color: #1a1a1a;
+  --variant-border-color: #b6a6f1;
+  --variant-hover-color: #8c8ce1;
+  --variant-active-color: #6e6ecf;
+  --variant-color-focus: #6e6ecf;
+  --variant-disabled-background-color: #d9d9f3;
+  --variant-disabled-text-color: #a6a6f1;
+  --variant-color-disabled-border: #d9d9f3;
+  --container-width-lg: 75%;
+  --container-width-md: 80%;
+  --container-width-ms: 90%;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  font-family: 'Space Grotesk', sans-serif;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* SCREEN MODE*/
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--background-color);
+  color: var(--text-color);
+  font-weight: var(--font-weight);
+}
+
+body.light {
+  --background-color: var(--light-color);
+  --text-color: var(--dark-color);
+  --font-weight: 400;
+  --image: url('../day.jpg');
+}
+
+body.dark {
+  --background-color: var(--dark-color);
+  --text-color: var(--light-color);
+  --font-weight: 500;
+  --image: url('../night.jpg');
+}
+
+body.dark .icon {
+  color: #efefef;
+}
+
+body.dark img {
+  filter: brightness(0.8) contrast(1.2);
+  -webkit-filter: brightness(0.8) contrast(1.2);
+}
+
+section {
+  filter: brightness(0.8) contrast(0.7);
+}
+
+/* BUTTON */
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--variant-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  -webkit-transition: border-color 0.25s;
+  -moz-transition: border-color 0.25s;
+  -ms-transition: border-color 0.25s;
+  -o-transition: border-color 0.25s;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+button:hover {
+  border-color: var(--variant-color);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.test {
+  background-color: var(--variant-color);
+}
+
+/* MEDIA QUERY FOR PREFERED COLOR SCHEME */
+
+@media (prefers-color-scheme: light) {
+  body {
+    --text-color: var(--dark-color);
+    --background-color: var(--light-color);
+  }
+}

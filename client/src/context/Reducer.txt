@@ -1,0 +1,70 @@
+import { State } from './types';
+
+type Action =
+  | { type: 'PENDING' }
+  | { type: 'SUCCESS' }
+  | {
+      type: 'FAIL';
+      payload: {
+        inputName: string;
+        message: string;
+        hint: string;
+      };
+    }
+  | {
+      type: 'SET_TOKEN';
+      payload: { token: string };
+    }
+  | {
+      type: 'SET_PROFILES';
+      payload: {
+        profiles: State['profiles'];
+        userInfo: State['userInfo'];
+      };
+    };
+
+const Reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'PENDING':
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+
+    case 'FAIL':
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+
+    case 'SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+        error: null
+      };
+
+    case 'SET_TOKEN':
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        validatorToken: action.payload.token
+      };
+    case 'SET_PROFILES':
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        profiles: action.payload.profiles,
+        userInfo: action.payload.userInfo
+      };
+
+    default:
+      throw new Error('Action not supported');
+  }
+};
+
+export default Reducer;

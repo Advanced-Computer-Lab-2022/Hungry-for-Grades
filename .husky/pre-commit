@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint

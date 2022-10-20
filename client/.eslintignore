@@ -1,0 +1,14 @@
+.dockerignore
+node_modules/
+build
+coverage
+dist
+postcss.config.js
+dist/
+.prettierrc.json
+env.d.ts
+.npmrc
+.env
+.env.example
+!.storybook
+src/stories
