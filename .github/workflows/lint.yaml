@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Node.js dependencies in CLIENT
         working-directory: ./client
-        run: yarn
+        run: npm install -g eslint
 
       # ESLint and Prettier must be in `package.json`
       - name: run linters
