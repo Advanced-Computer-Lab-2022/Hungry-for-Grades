@@ -1,7 +1,5 @@
-import React from 'react';
-
 function Navbar() {
-  return <div>Navbar</div>;
+  return <div>Omar</div>;
 }
 
 export default Navbar;
