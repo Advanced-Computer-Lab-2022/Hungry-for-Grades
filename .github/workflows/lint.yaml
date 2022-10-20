@@ -34,12 +34,6 @@ jobs:
         run: yarn install && npm install -g eslint
 
       # ESLint and Prettier must be in `package.json`
-      - name: run linters
+      - name: run linter
         working-directory: ./client
-        run: eslint . --ext .js,.jsx,.ts,.tsx
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
+        run: eslint  --ext .js,.jsx,.ts,.tsx
