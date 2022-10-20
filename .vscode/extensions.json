@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "stylelint.vscode-stylelint",
+      "ms-vscode.vscode-typescript-tslint-plugin",
+      "ms-vscode.makefile-tools",
+      "technosophos.vscode-make",
+    ]
+  }

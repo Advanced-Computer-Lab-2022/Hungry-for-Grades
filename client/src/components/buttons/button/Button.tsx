@@ -9,7 +9,6 @@ function Button(props: ButtonProps) {
   const id = props.id || uuidv4();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-  const c = 1;
   return (
     <button
       className={`btn ${props.className ?? styles.button ?? ''} ${
