@@ -27,7 +27,7 @@ jobs:
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
-        working-directory: ./app
+        working-directory: ./client
         run: yarn install && yarn lint
 
       - name: Run linters
