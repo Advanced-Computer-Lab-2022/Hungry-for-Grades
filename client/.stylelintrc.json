@@ -1,22 +1,22 @@
 {
-    "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
-    "rules": {
-        "declaration-colon-newline-after": "always-multi-line",
-        "property-no-unknown": [
-            true,
-            {
-                "ingnoreProperties": ["content-visibility"]
-            }
-        ]
-    },
-    "customSyntax": "postcss-lit",
-    "ignoreFiles": [
-        "build/**",
-        "coverage/**",
-        "dist/**",
-        "**/*.js",
-        "**/*.jsx",
-        "**/*.ts",
-        "**/*.tsx"
+  "extends": ["stylelint-config-standard", "stylelint-config-prettier"],
+  "rules": {
+    "declaration-colon-newline-after": "always-multi-line",
+    "property-no-unknown": [
+      true,
+      {
+        "ingnoreProperties": ["content-visibility"]
+      }
     ]
+  },
+  "customSyntax": "postcss-lit",
+  "ignoreFiles": [
+    "build/**",
+    "coverage/**",
+    "dist/**",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
