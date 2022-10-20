@@ -24,14 +24,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
+
       - name: Install Node.js dependencies
         working-directory: ./
-        run: yarn install && yarn lint
+        run: yarn install
+
+      - name: Install Node.js dependencies in CLIENT
+        working-directory: ./client
+        run: yarn
 
       # ESLint and Prettier must be in `package.json`
-      - name: Install Node.js dependencies
-        working-directory: ./client
-        run: yarn install && yarn lint
+      - name: run linters
+        run: eslint . --ext .js,.jsx,.ts,.tsx
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
