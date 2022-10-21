@@ -8,6 +8,7 @@ import Routes from './routes/Routes';
 import ScreenMode from './components/buttons/screenMode/ScreenMode';
 import Reader from './components/reader/Reader';
 import Footer from './components/footer/Footer';
+import CourseSummary from './components/course-summary/CourseSummary';
 
 function App() {
   return (
@@ -16,6 +17,18 @@ function App() {
       <Header />
       <Routes />
       {/* <Toast message={'good request'} type={'success'} /> */}
+      <CourseSummary
+        discount
+        isLiked
+        courseID='1'
+        image='./logo.png'
+        instructorID='1'
+        instructorName='Omar El-Meteny'
+        price={15}
+        priceAfter={10}
+        rating={5}
+        title='CSEN704'
+      />
       <Footer />
     </>
   );
