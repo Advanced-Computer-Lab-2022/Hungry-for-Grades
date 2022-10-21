@@ -5,8 +5,7 @@ import ReactDOM from 'react-dom/client';
 // eslint-disable-next-line import/no-unresolved
 import { ClickToComponent } from 'click-to-react-component';
 // Bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import './main.scss';
 
 // QueryClient
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
