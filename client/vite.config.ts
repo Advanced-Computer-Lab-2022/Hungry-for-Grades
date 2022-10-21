@@ -29,7 +29,7 @@ export const aliases = [
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const base =
-    env.VITE_APP_ENV !== 'prod' ? '/login/' : 'https://your_cdn_domain/';
+    env.VITE_APP_ENV !== 'prod' ? '/' : 'https://your_cdn_domain/';
   const PORT = parseInt(env.VITE_APP_CLIENT_PORT);
   return {
     base,

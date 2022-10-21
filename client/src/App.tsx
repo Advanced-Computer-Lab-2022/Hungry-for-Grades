@@ -2,19 +2,25 @@ import {
   BrowserRouter as Router //it is for the browser that carry all the routes
 } from 'react-router-dom';
 
+//import Reader from './components/reader/Reader';
+
 // import Toast from './components/toast/MessageToast';
 import Header from './components/header/Header';
+
 import Routes from './routes/Routes';
+
 import ScreenMode from './components/buttons/screenMode/ScreenMode';
-import Reader from './components/reader/Reader';
+
 import Footer from './components/footer/Footer';
+
+import Navbar from './components/navbar/Navbar';
 
 function App() {
   return (
     <>
-      <Reader />
       <Header />
       <Routes />
+      <Navbar />
       {/* <Toast message={'good request'} type={'success'} /> */}
       <Footer />
     </>
@@ -24,8 +30,8 @@ function App() {
 function RoutedApp() {
   return (
     <Router>
-      <ScreenMode />
       <App />
+      <ScreenMode />
     </Router>
   );
 }
