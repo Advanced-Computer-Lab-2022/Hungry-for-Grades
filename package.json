@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "check": "npm-check --skip-unused --update-all",
-    "husky-setup": "npx husky set .husky/pre-commit 'yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint'",
+    "husky-setup": "npx husky set .husky/pre-commit 'yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint && cd ../server && yarn run lint'",
     "postinstall": "husky install && yarn run husky-setup",
     "lint:packages": "prettier-package-json --write ./package.json ./server/package.json ./client/package.json",
     "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
@@ -30,13 +30,19 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@typescript-eslint/parser": "^5.40.1",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-perf-standard": "^1.0.3",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "npm-check": "^6.0.1",
     "nvm-shield": "^1.0.6",
-    "prettier-package-json": "^2.7.0"
+    "prettier-package-json": "^2.7.0",
+    "typescript": "^4.8.4"
   },
   "keywords": [
     "courses"

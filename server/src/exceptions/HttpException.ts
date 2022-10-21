@@ -1,4 +1,4 @@
-import HttpStatusCodes from '@utils/HttpStatusCodes'
+import HttpStatusCodes from '@utils/HttpStatusCodes';
 export class HttpException extends Error {
   public status: HttpStatusCodes;
   public message: string;
