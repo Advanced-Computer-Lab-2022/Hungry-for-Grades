@@ -1,7 +1,6 @@
-import {
-  IsEmail,
-  IsString,
-} from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
+
+import { Role } from '@/interfaces/user.interface';
 
 export class CreateUserDto {
   @IsEmail()
@@ -9,4 +8,6 @@ export class CreateUserDto {
 
   @IsString()
   public password: string;
+
+  role: Role;
 }

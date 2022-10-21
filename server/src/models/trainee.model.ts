@@ -1,20 +1,14 @@
 import { Trainee } from '@interfaces/trainee.interface';
-import {
-  Document,
-  model,
-  Schema,
-} from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 
 const traineeSchema = new Schema<Trainee>(
   {
-    _cart: [
-      {
-        _course: {
-          ref: 'Course',
-          type: Schema.Types.ObjectId,
-        },
+    _cart: {
+      _course: {
+        ref: 'Course',
+        type: Schema.Types.ObjectId,
       },
-    ],
+    },
     _corporate: [
       {
         ref: 'Corporate',
@@ -27,34 +21,32 @@ const traineeSchema = new Schema<Trainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
-        createdAt: Date,
+        dateOfEnrollment: Date,
         notes: [
           {
+            content: String,
             createdAt: Date,
-            description: String,
             title: String,
           },
         ],
       },
     ],
-    _wishlist: [
-      {
-        _course: {
-          ref: 'Course',
-          type: Schema.Types.ObjectId,
-        },
+    _wishlist: {
+      _course: {
+        ref: 'Course',
+        type: Schema.Types.ObjectId,
       },
-    ],
+    },
     balance: {
       default: 0,
       type: Number,
     },
-    creditCard: [
+    creditCards: [
       {
         cardHolderName: String,
         cardNumber: String,
         cvv: String,
-        expirationDate: String,
+        expirationDate: Date,
       },
     ],
     preferredSkills: [
@@ -68,8 +60,6 @@ const traineeSchema = new Schema<Trainee>(
   },
 );
 
-const traineeModel = model<
-  Trainee & Document
->('Trainee', traineeSchema);
+const traineeModel = model<Trainee & Document>('Trainee', traineeSchema);
 
 export default traineeModel;

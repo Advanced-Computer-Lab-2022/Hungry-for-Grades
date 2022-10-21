@@ -6,15 +6,15 @@ export interface Instructor {
   _id: Types.ObjectId;
   _teachedCourses: Types.ObjectId[];
   balance: number;
-  bankAccount: bankAccount;
+  bankAccount: BankAccount;
   biography: string;
   rating: Rating;
-  socialMedia: socialMedia;
+  socialMedia: SocialMedia;
   speciality: string;
   title: string;
 }
 
-type bankAccount = {
+type BankAccount = {
   accountHolderName: string;
   accountNumber: string;
   bankName: string;
@@ -23,7 +23,7 @@ type bankAccount = {
   swiftCode: string;
 };
 
-type socialMedia = {
+type SocialMedia = {
   facebook: string;
   github: string;
   linkedin: string;

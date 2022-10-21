@@ -1,14 +1,7 @@
-import {
-  Role,
-  User,
-} from '@interfaces/users.interface';
+import { Role, User } from '@/interfaces/user.interface';
 import { requiredString } from '@models/common';
 import bcrypt from 'bcrypt';
-import {
-  Document,
-  model,
-  Schema,
-} from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 const SALT_WORK_FACTOR = 10;
 
@@ -20,8 +13,8 @@ const Email: Schema = new Schema({
     required: [true, "can't be blank"],
     type: String,
   },
-  // Change the default to true if you don't need to svalidate a new user's email address
-  validated: {
+  // Change the default to true if you don't need to validate a new user's email address upon registration
+  isValidated: {
     default: false,
     type: Boolean,
   },
@@ -63,8 +56,7 @@ const userSchema = new Schema<User>(
     password: requiredString,
     phone: requiredString,
     profileImage: {
-      default:
-        'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
+      default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
       type: String,
     },
     role: {
@@ -74,11 +66,7 @@ const userSchema = new Schema<User>(
     },
     username: {
       index: true,
-      lowercase: true,
-      match: [
-        /^[a-zA-Z0-9]+$/,
-        'is invalid',
-      ],
+      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       required: [true, "can't be blank"],
       type: String,
       unique: true,
@@ -97,16 +85,10 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-  this.password = bcrypt.hashSync(
-    this.password,
-    SALT_WORK_FACTOR,
-  );
+  this.password = bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
   next();
 });
 
-const userModel = model<User & Document>(
-  'User',
-  userSchema,
-);
+const userModel = model<User & Document>('User', userSchema);
 
 export default userModel;

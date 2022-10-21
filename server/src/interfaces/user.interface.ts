@@ -13,11 +13,11 @@ export interface User {
   _instructor?: Types.ObjectId;
   _trainee?: Types.ObjectId;
   active: boolean;
-  address: address;
+  address: Address;
   createdAt: Date;
   email: {
     address: string;
-    validated: boolean;
+    isValidated: boolean;
   };
   gender: 'Male' | 'Female';
   name: string;
@@ -28,12 +28,7 @@ export interface User {
   username: string;
 }
 
-export interface UserDto {
-  email: string;
-  password: string;
-  role: Role;
-}
-type address = {
+type Address = {
   city: string;
   country: string;
 };

@@ -1,52 +1,48 @@
 import { Types } from 'mongoose';
 
 export interface Trainee {
-  _cart?: cart[];
+  _cart?: Cart;
   _corporate?: Types.ObjectId[];
-  _enrolledCourses?: enrolledCourses[];
+  _enrolledCourses?: EnrolledCourse[];
   _id: Types.ObjectId;
-  _wishlist?: wishlist[];
+  _wishlist?: WishList;
   balance: number;
-  creditCard: creditCard[];
+  creditCards: CreditCard[];
   preferredSkills: string[];
 }
 
-type cart = {
-  _course: Types.ObjectId;
+type Cart = {
+  _course: Types.ObjectId[];
 };
-type wishlist = {
-  _course: Types.ObjectId;
+type WishList = {
+  _course: Types.ObjectId[];
 };
 
-type enrolledCourses = {
+type EnrolledCourse = {
   _course: Types.ObjectId;
-  createdAt: Date;
-  notes: notes[];
-  reminder: reminder;
+  dateOfEnrollment: Date;
+  notes: Note[];
+  reminder: Reminder;
   subscribedNotification: boolean;
 };
 
-type reminder = {
+type Reminder = {
   date: Date;
-  frequency:
-    | 'once'
-    | 'daily'
-    | 'weekly'
-    | 'monthly';
+  frequency: 'once' | 'daily' | 'weekly' | 'monthly';
   message: string;
   name: string;
   time: string;
 };
 
-type notes = {
+type Note = {
+  content: string;
   createdAt: Date;
-  description: string;
   title: string;
 };
 
-type creditCard = {
+type CreditCard = {
   cardHolderName: string;
   cardNumber: string;
   cvv: string;
-  expirationDate: string;
+  expirationDate: Date;
 };
