@@ -2,8 +2,6 @@ import React from 'react';
 
 import ReactDOM from 'react-dom/client';
 
-
-
 // debugging
 // eslint-disable-next-line import/no-unresolved
 import { ClickToComponent } from 'click-to-react-component';

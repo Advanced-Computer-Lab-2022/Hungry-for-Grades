@@ -4,7 +4,7 @@ import {
 
 //import Reader from './components/reader/Reader';
 
-import Navbar from './components/navbar/Navbar';
+import Navbar from './components/navbar/NavBar';
 
 // import Toast from './components/toast/MessageToast';
 import Header from './components/header/Header';
