@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@/dtos/users.dto';
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user.interface';
 import userService from '@services/users.service';
 import { HttpResponse } from '@/utils/HttpResponse';
-
 
 class UsersController {
   public userService = new userService();
@@ -12,7 +11,10 @@ class UsersController {
     try {
       const findAllUsersData: User[] = await this.userService.findAllUser();
 
-      res.json({ data: findAllUsersData, message: 'findAll' });
+      res.json({
+        data: findAllUsersData,
+        message: 'findAll',
+      });
     } catch (error) {
       next(error);
     }
@@ -20,10 +22,13 @@ class UsersController {
 
   public getUserById = async (req: Request, res: Response<HttpResponse<User>>, next: NextFunction) => {
     try {
-      const userId:string= req.params.id;
+      const userId: string = req.params.id;
       const findOneUserData: User = await this.userService.findUserById(userId);
 
-      res.json({ data: findOneUserData, message: 'findOne' });
+      res.json({
+        data: findOneUserData,
+        message: 'findOne',
+      });
     } catch (error) {
       next(error);
     }
@@ -34,7 +39,10 @@ class UsersController {
       const userData: CreateUserDto = req.body;
       const createUserData: User = await this.userService.createUser(userData);
 
-      res.status(201).json({ data: createUserData, message: 'created' });
+      res.status(201).json({
+        data: createUserData,
+        message: 'created',
+      });
     } catch (error) {
       next(error);
     }
@@ -46,7 +54,10 @@ class UsersController {
       const userData: CreateUserDto = req.body;
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
-      res.json({ data: updateUserData, message: 'updated' });
+      res.json({
+        data: updateUserData,
+        message: 'updated',
+      });
     } catch (error) {
       next(error);
     }
@@ -57,7 +68,10 @@ class UsersController {
       const userId: string = req.params.id;
       const deleteUserData: User = await this.userService.deleteUser(userId);
 
-      res.json({ data: deleteUserData, message: 'deleted' });
+      res.json({
+        data: deleteUserData,
+        message: 'deleted',
+      });
     } catch (error) {
       next(error);
     }

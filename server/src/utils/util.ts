@@ -1,8 +1,8 @@
 /**
+ *  this value is Empty Check
  * @method isEmpty
- * @param {String | Number | Object} value
+ * @param  value
  * @returns {Boolean} true & false
- * @description this value is Empty Check
  */
 export const isEmpty = (value: string | number | object): boolean => {
   if (value === null) {

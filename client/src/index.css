@@ -30,7 +30,6 @@
 }
 
 * {
-  font-family: 'Space Grotesk', sans-serif;
   box-sizing: border-box;
 }
 
@@ -46,7 +45,6 @@ html {
 /* SCREEN MODE*/
 
 body {
-  font-family: 'Ubuntu', sans-serif;
   background: var(--background-color);
   color: var(--text-color);
   font-weight: var(--font-weight);

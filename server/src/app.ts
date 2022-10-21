@@ -45,7 +45,12 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+    this.app.use(
+      cors({
+        credentials: CREDENTIALS,
+        origin: ORIGIN,
+      }),
+    );
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
@@ -62,14 +67,14 @@ class App {
 
   private initializeSwagger() {
     const options = {
+      apis: ['swagger.yaml'],
       swaggerDefinition: {
         info: {
+          description: 'Example docs',
           title: 'REST API',
           version: '1.0.0',
-          description: 'Example docs',
         },
       },
-      apis: ['swagger.yaml'],
     };
 
     const specs = swaggerJSDoc(options);

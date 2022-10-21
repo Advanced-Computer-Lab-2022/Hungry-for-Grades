@@ -21,7 +21,6 @@
     "check": "npm-check --skip-unused --update-all",
     "predev": "npm run node-shield",
     "dev": "vite",
-    "preinstall": "npm run node-shield && npx only-allow yarn && npx use-yarn $npm_execpath -m 'Please use yarn!'",
     "lighthouse": "lighthouse http://localhost:8000/",
     "prelint": "prettier --write **/src/**/*.{js,jsx,ts,tsx,css,md,json}  --config ./.prettierrc",
     "lint": "eslint --config ./.eslintrc.json  --color --fix --ext .js,.jsx,.ts,.tsx src",

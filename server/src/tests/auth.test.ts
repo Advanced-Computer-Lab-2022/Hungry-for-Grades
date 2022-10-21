@@ -18,7 +18,7 @@ describe('Testing Auth', () => {
       };
 
       const authRoute = new AuthRoute();
-      const users = authRoute.authController.authService.users;
+      const { users } = authRoute.authController.authService;
 
       users.findOne = jest.fn().mockReturnValue(null);
       users.create = jest.fn().mockReturnValue({
@@ -41,7 +41,7 @@ describe('Testing Auth', () => {
       };
 
       const authRoute = new AuthRoute();
-      const users = authRoute.authController.authService.users;
+      const { users } = authRoute.authController.authService;
 
       users.findOne = jest.fn().mockReturnValue({
         _id: '60706478aad6c9ad19a31c84',
