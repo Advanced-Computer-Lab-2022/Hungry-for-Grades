@@ -11,8 +11,8 @@
     "deploy:prod": "yarn run build && pm2 start ecosystem.config.js --only prod",
     "dev": "cross-env NODE_ENV=development nodemon",
     "prelint": "prettier --write **/src/**/*.{js,jsx,ts,tsx,css,md,json}  --config ./.prettierrc",
+    "lint": "yarn run eslint --fix --ignore-path .gitignore --ext .ts src/",
     "postlint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint": "yarn run lint -- --fix",
     "start": "yarn run build && cross-env NODE_ENV=production node dist/server.js",
     "test": "jest --forceExit --detectOpenHandles"
   },
