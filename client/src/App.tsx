@@ -2,7 +2,6 @@ import {
   BrowserRouter as Router //it is for the browser that carry all the routes
 } from 'react-router-dom';
 
-
 //import Reader from './components/reader/Reader';
 
 import Navbar from './components/navbar/Navbar';
