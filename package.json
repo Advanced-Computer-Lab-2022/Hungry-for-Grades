@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": "^5.40.1",
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "^8.25.0",
+    "eslint": "^8.26.0",
     "eslint-plugin-perf-standard": "^1.0.3",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
