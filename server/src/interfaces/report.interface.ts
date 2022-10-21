@@ -1,14 +1,12 @@
 import { Types } from 'mongoose';
 
-enum status {
+export enum status {
   PENDING = 'pending',
   REJECTED = 'rejected',
   RESOLVE = 'resolved',
 }
 
-enum reason {
-  BUG = 'bug',
-  FEATURE = 'feature',
+export enum reason {
   FINANCIAL = 'financial',
   OTHER = 'other',
   TECHNICAL = 'technical',
@@ -17,7 +15,6 @@ export interface Report {
   _course: Types.ObjectId;
   _id: Types.ObjectId;
   _user: Types.ObjectId;
-  createdAt: Date;
   description: string;
   reason: reason;
   status: status;

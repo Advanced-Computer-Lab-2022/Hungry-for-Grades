@@ -8,6 +8,7 @@ export interface Trainee {
   _wishlist?: wishlist[];
   balance: number;
   creditCard: creditCard[];
+  preferredSkills: string[];
 }
 
 type cart = {
@@ -27,7 +28,11 @@ type enrolledCourses = {
 
 type reminder = {
   date: Date;
-  frequency: 'once' | 'daily' | 'weekly' | 'monthly';
+  frequency:
+    | 'once'
+    | 'daily'
+    | 'weekly'
+    | 'monthly';
   message: string;
   name: string;
   time: string;

@@ -1,25 +1,34 @@
 import { Types } from 'mongoose';
 import { Rating } from './common.types';
 
-export interface Courses {
+export enum level {
+  ADVANCED = 'Advanced',
+  BEGINNER = 'Beginner',
+  INTERMEDIATE = 'Intermediate',
+}
+
+export interface Course {
   _corporate?: Types.ObjectId[];
   _id: Types.ObjectId;
   _instructor: Types.ObjectId;
   anouncments: anouncment[];
-  caption: string[];
+  captions: string[];
   category: string;
-  counpan: coupan[];
+  coupouns: coupoun[];
   createdAt: Date;
   description: string;
   duration: number;
   frequentlyAskedQuestions: frequentlyAskedQuestions[];
+  keywords: string[];
   language: string;
+  level: level;
   numberOfEnrolledTrainees: number;
-  outline: string[];
+  outlines: string[];
   previewVideo: string;
   price: price;
   rating: Rating;
-  section: section[];
+  sections: section[];
+  subcategory: string;
   thumbnail: string;
   title: string;
 }
@@ -62,11 +71,13 @@ export type lesson = {
   video: string;
 };
 
-export type coupan = {
+export type coupoun = {
   code: string;
   count: number;
   discount: discount;
+  expiryDate: Date;
 };
+
 export type discount = {
   endDate: Date;
   percentage: number;
