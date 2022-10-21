@@ -1,16 +1,7 @@
-import {
-  Course,
-  level,
-} from '@/interfaces/course.interface';
-import {
-  requiredNumber,
-  requiredString,
-} from '@models/common';
-import {
-  Document,
-  model,
-  Schema,
-} from 'mongoose';
+import { Course, Level } from '@/interfaces/course.interface';
+import { requiredNumber, requiredString } from '@models/common';
+import { Document, model, Schema } from 'mongoose';
+
 const courseSchema = new Schema<Course>(
   {
     _corporate: [
@@ -19,11 +10,13 @@ const courseSchema = new Schema<Course>(
         type: Schema.Types.ObjectId,
       },
     ],
-    _instructor: {
-      ref: 'Instructor',
-      type: Schema.Types.ObjectId,
-    },
-    anouncments: [
+    _instructor: [
+      {
+        ref: 'Instructor',
+        type: Schema.Types.ObjectId,
+      },
+    ],
+    announcements: [
       {
         createdAt: Date,
         description: String,
@@ -45,6 +38,20 @@ const courseSchema = new Schema<Course>(
       required: true,
       type: Number,
     },
+    exam: [
+      {
+        answer: String,
+        options: [{ type: String }],
+        question: String,
+      },
+    ],
+    frequentlyAskedQuestions: [
+      {
+        answer: String,
+        question: String,
+        votes: Number,
+      },
+    ],
     keywords: [
       {
         type: String,
@@ -52,19 +59,30 @@ const courseSchema = new Schema<Course>(
     ],
     language: requiredString,
     level: {
-      enum: Object.values(level),
+      enum: Object.values(Level),
       required: true,
       type: String,
     },
-    outlines: [
+    numberOfEnrolledTrainees: {
+      default: 0,
+      type: Number,
+    },
+    outline: [
       {
         type: String,
       },
     ],
-    previewVideo: requiredString,
+    previewVideoURL: requiredString,
     price: {
       currency: requiredString,
-      value: requiredNumber,
+      currentValue: requiredNumber,
+      discounts: [
+        {
+          endDate: Date,
+          percentage: Number,
+          startDate: Date,
+        },
+      ],
     },
     rating: {
       type: {
@@ -82,7 +100,7 @@ const courseSchema = new Schema<Course>(
             createdAt: Date,
             rating: {
               required: true,
-              type: String,
+              type: Number,
             },
           },
         ],
@@ -91,12 +109,19 @@ const courseSchema = new Schema<Course>(
     sections: [
       {
         description: String,
+        exercises: [
+          {
+            answer: String,
+            options: [{ type: String }],
+            question: String,
+          },
+        ],
         lessons: [
           {
             description: String,
             duration: Number,
             title: String,
-            video: String,
+            videoURL: String,
           },
         ],
         title: requiredString,
@@ -111,9 +136,6 @@ const courseSchema = new Schema<Course>(
   },
 );
 
-const courseModel = model<Course & Document>(
-  'Course',
-  courseSchema,
-);
+const courseModel = model<Course & Document>('Course', courseSchema);
 
 export default courseModel;

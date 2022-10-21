@@ -1,4 +1,4 @@
-import { User } from '@interfaces/users.interface';
+import { User } from '@/interfaces/user.interface';
 import { Request } from 'express';
 
 export interface TokenPayload {
@@ -10,7 +10,6 @@ export interface TokenData {
   token: string;
 }
 
-export interface RequestWithUser
-  extends Request {
+export interface RequestWithUser extends Request {
   user: User;
 }

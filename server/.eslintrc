@@ -1,20 +1,18 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
-  "plugin:jsonc/base",
-  "plugin:security/recommended",
-  "plugin:typescript-sort-keys/recommended",
-  "prettier",
-  "plugin:@typescript-eslint/recommended",
-  "plugin:prettier/recommended"],
+    "plugin:jsonc/base",
+    "plugin:security/recommended",
+    "plugin:typescript-sort-keys/recommended",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "xss",
-    "sort-keys-fix",
-    "typescript-sort-keys"    ],
+  "plugins": ["xss", "sort-keys-fix", "typescript-sort-keys"],
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
@@ -39,8 +37,5 @@
     "sort-keys-fix/sort-keys-fix": "error",
     "xss/no-location-href-assign": "error",
     "xss/no-mixed-html": "error"
-
-
-
   }
 }

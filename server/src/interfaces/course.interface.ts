@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { Rating } from './common.types';
 
-export enum level {
+export enum Level {
   ADVANCED = 'Advanced',
   BEGINNER = 'Beginner',
   INTERMEDIATE = 'Intermediate',
@@ -10,75 +10,76 @@ export enum level {
 export interface Course {
   _corporate?: Types.ObjectId[];
   _id: Types.ObjectId;
-  _instructor: Types.ObjectId;
-  anouncments: anouncment[];
+  _instructor: Types.ObjectId[];
+  announcements: Announcement[];
   captions: string[];
   category: string;
-  coupouns: coupoun[];
+  coupouns: Coupon[];
   createdAt: Date;
   description: string;
   duration: number;
-  frequentlyAskedQuestions: frequentlyAskedQuestions[];
+  exam: Question[];
+  frequentlyAskedQuestions: FrequentlyAskedQuestion[];
   keywords: string[];
   language: string;
-  level: level;
+  level: Level;
   numberOfEnrolledTrainees: number;
-  outlines: string[];
-  previewVideo: string;
-  price: price;
+  outline: string[];
+  previewVideoURL: string;
+  price: Price;
   rating: Rating;
-  sections: section[];
+  sections: Section[];
   subcategory: string;
   thumbnail: string;
   title: string;
 }
 
-type frequentlyAskedQuestions = {
+type FrequentlyAskedQuestion = {
   answer: string;
   question: string;
   votes: number;
 };
 
-type anouncment = {
+type Announcement = {
   createdAt: Date;
   description: string;
   title: string;
 };
 
-type price = {
+type Price = {
   currency: string;
-  dicounts: [];
-  value: number;
+  currentValue: number;
+  dicounts: Discount[];
 };
 
-export type question = {
+export type Question = {
   _id: Types.ObjectId;
   answer: string;
   options: string[];
   question: string;
 };
 
-export type section = {
+export type Section = {
   description: string;
-  excersises: question[];
-  lessons: lesson[];
+  excersises: Question[];
+  lessons: Lesson[];
   title: string;
 };
-export type lesson = {
+export type Lesson = {
   description: string;
   duration: number;
   title: string;
-  video: string;
+  videoURL: string;
 };
 
-export type coupoun = {
+export type Coupon = {
   code: string;
   count: number;
-  discount: discount;
+  discount: Discount;
   expiryDate: Date;
 };
 
-export type discount = {
+export type Discount = {
   endDate: Date;
   percentage: number;
   startDate: Date;

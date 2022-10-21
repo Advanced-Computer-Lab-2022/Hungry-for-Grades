@@ -1,13 +1,5 @@
-import {
-  reason,
-  Report,
-  status,
-} from '@/interfaces/report.interface';
-import {
-  Document,
-  model,
-  Schema,
-} from 'mongoose';
+import { Reason, Report, Status } from '@/interfaces/report.interface';
+import { Document, model, Schema } from 'mongoose';
 
 const reportSchema = new Schema<Report>(
   {
@@ -21,13 +13,13 @@ const reportSchema = new Schema<Report>(
     },
     description: String,
     reason: {
-      default: reason.OTHER,
-      enum: Object.values(reason),
+      default: Reason.OTHER,
+      enum: Object.values(Reason),
       type: String,
     },
     status: {
-      default: status.PENDING,
-      enum: Object.values(status),
+      default: Status.PENDING,
+      enum: Object.values(Status),
       type: String,
     },
   },
@@ -36,9 +28,6 @@ const reportSchema = new Schema<Report>(
   },
 );
 
-const reportModel = model<Report & Document>(
-  'Report',
-  reportSchema,
-);
+const reportModel = model<Report & Document>('Report', reportSchema);
 
 export default reportModel;
