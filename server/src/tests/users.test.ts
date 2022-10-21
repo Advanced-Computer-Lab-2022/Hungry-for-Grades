@@ -1,9 +1,9 @@
-import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
-import request from 'supertest';
 import App from '@/app';
 import { CreateUserDto } from '@dtos/users.dto';
 import UsersRoute from '@routes/users.route';
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
+import request from 'supertest';
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -13,7 +13,7 @@ describe('Testing Users', () => {
   describe('[GET] /users', () => {
     it('response fineAll Users', async () => {
       const usersRoute = new UsersRoute();
-      const users = usersRoute.usersController.userService.users;
+      const { users } = usersRoute.usersController.userService;
 
       users.find = jest.fn().mockReturnValue([
         {
@@ -44,7 +44,7 @@ describe('Testing Users', () => {
       const userId = 'qpwoeiruty';
 
       const usersRoute = new UsersRoute();
-      const users = usersRoute.usersController.userService.users;
+      const { users } = usersRoute.usersController.userService;
 
       users.findOne = jest.fn().mockReturnValue({
         _id: 'qpwoeiruty',
@@ -66,7 +66,7 @@ describe('Testing Users', () => {
       };
 
       const usersRoute = new UsersRoute();
-      const users = usersRoute.usersController.userService.users;
+      const { users } = usersRoute.usersController.userService;
 
       users.findOne = jest.fn().mockReturnValue(null);
       users.create = jest.fn().mockReturnValue({
@@ -90,7 +90,7 @@ describe('Testing Users', () => {
       };
 
       const usersRoute = new UsersRoute();
-      const users = usersRoute.usersController.userService.users;
+      const { users } = usersRoute.usersController.userService;
 
       if (userData.email) {
         users.findOne = jest.fn().mockReturnValue({
@@ -117,7 +117,7 @@ describe('Testing Users', () => {
       const userId = '60706478aad6c9ad19a31c84';
 
       const usersRoute = new UsersRoute();
-      const users = usersRoute.usersController.userService.users;
+      const { users } = usersRoute.usersController.userService;
 
       users.findByIdAndDelete = jest.fn().mockReturnValue({
         _id: '60706478aad6c9ad19a31c84',

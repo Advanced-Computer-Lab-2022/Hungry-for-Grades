@@ -8,16 +8,35 @@ import validationMiddleware from '@middlewares/validation.middleware';
 class AuthRoute implements Routes {
   public path = '';
   public router = Router();
-  public authController = new AuthController();
+  public authController =
+    new AuthController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.post("/signup", validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
-    this.router.post("/login", validationMiddleware(CreateUserDto, 'body'), this.authController.logIn);
-    this.router.post("/logout", authMiddleware, this.authController.logOut);
+    this.router.post(
+      '/signup',
+      validationMiddleware(
+        CreateUserDto,
+        'body',
+      ),
+      this.authController.signUp,
+    );
+    this.router.post(
+      '/login',
+      validationMiddleware(
+        CreateUserDto,
+        'body',
+      ),
+      this.authController.logIn,
+    );
+    this.router.post(
+      '/logout',
+      authMiddleware,
+      this.authController.logOut,
+    );
   }
 }
 
