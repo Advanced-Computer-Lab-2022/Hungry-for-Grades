@@ -113,6 +113,7 @@
       {
         "allow": [
           "**/*.css",
+          "**/*.scss",
           "**/*.min",
           "swiper/css/pagination",
           "swiper/css/effect-coverflow",
