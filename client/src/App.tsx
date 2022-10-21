@@ -4,8 +4,6 @@ import {
 
 //import Reader from './components/reader/Reader';
 
-import Navbar from './components/navbar/NavBar';
-
 // import Toast from './components/toast/MessageToast';
 import Header from './components/header/Header';
 
@@ -14,6 +12,8 @@ import Routes from './routes/Routes';
 import ScreenMode from './components/buttons/screenMode/ScreenMode';
 
 import Footer from './components/footer/Footer';
+
+import Navbar from './components/navbar/Navbar';
 
 function App() {
   return (

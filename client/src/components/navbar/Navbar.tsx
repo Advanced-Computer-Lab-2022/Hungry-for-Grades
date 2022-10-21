@@ -1,4 +1,4 @@
-function NavBar() {
+function Navbar() {
   return (
     <div className='dropdown'>
       <button
@@ -30,4 +30,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default Navbar;
