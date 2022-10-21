@@ -8,11 +8,12 @@
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev",
-    "deploy:prod": "npm run build && pm2 start ecosystem.config.js --only prod",
+    "deploy:prod": "yarn run build && pm2 start ecosystem.config.js --only prod",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix",
-    "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
+    "prelint": "prettier --write **/src/**/*.{js,jsx,ts,tsx,css,md,json}  --config ./.prettierrc",
+    "postlint": "eslint --ignore-path .gitignore --ext .ts src/",
+    "lint": "yarn run lint -- --fix",
+    "start": "yarn run build && cross-env NODE_ENV=production node dist/server.js",
     "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
