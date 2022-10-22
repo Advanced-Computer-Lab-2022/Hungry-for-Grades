@@ -1,6 +1,6 @@
-import userService from '@/User/users.dao';
-import { CreateUserDto } from '@/User/users.dto';
+import { CreateUserDto } from '@/User/user.dto';
 import { User } from '@/User/user.interface';
+import userService from '@/User/users.dao';
 import { HttpResponse } from '@/utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
@@ -10,11 +10,13 @@ class UsersController {
 
   public getUsers = async (req: Request, res: Response<HttpResponse<User[]>>, next: NextFunction) => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
+      const users: User[] = await this.userService.findAllUser();
 
       res.status(HttpStatusCodes.OK).json({
-        data: findAllUsersData,
-        message: 'findAll',
+        data: {
+          users,
+        },
+        message: 'find all users',
         success: true,
       });
     } catch (error) {

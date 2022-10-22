@@ -1,5 +1,5 @@
-import { Course, Level } from '@Course/course.interface';
-import { requiredNumber, requiredString } from '@Common/Models/common';
+import { requiredNumber, requiredString } from '@/common/Models/common';
+import { Course, Level } from '@/Course/course.interface';
 import { Document, model, Schema } from 'mongoose';
 
 const courseSchema = new Schema<Course>(

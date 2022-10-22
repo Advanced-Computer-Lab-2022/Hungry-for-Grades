@@ -1,5 +1,5 @@
+import { requiredString } from '@/common/Models/common';
 import { Role, User } from '@/User/user.interface';
-import { requiredString } from '@/Common/Models/common';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
@@ -9,8 +9,8 @@ const Email: Schema = new Schema({
   address: {
     index: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, 'is invalid'],
-    required: [true, "can't be blank"],
+    match: [/\S+@\S+\.\S+/, 'email is invalid'],
+    required: [true, "email can't be blank"],
     type: String,
   },
   // Change the default to true if you don't need to validate a new user's email address upon registration
@@ -66,8 +66,8 @@ const userSchema = new Schema<User>(
     },
     username: {
       index: true,
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
-      required: [true, "can't be blank"],
+      match: [/^[a-zA-Z0-9]+$/, 'username is invalid'],
+      required: [true, "username can't be blank"],
       type: String,
       unique: true,
     },

@@ -1,6 +1,6 @@
-import { CreateUserDto } from '@User/users.dto';
+import { Routes } from '@/common/Interfaces/routes.interface';
+import { CreateUserDto } from '@/User/user.dto';
 import AuthController from '@Authentication/auth.controller';
-import { Routes } from '@Common/Interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { Router } from 'express';

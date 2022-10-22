@@ -1,9 +1,9 @@
+import { CreateUserDto } from '@/User/user.dto';
 import AuthService from '@Authentication/auth.dao';
-import { CreateUserDto } from '@User/users.dto';
-import { User } from '@User/user.interface';
 import { RequestWithUser } from '@Authentication/auth.interface';
-import { NextFunction, Request, Response } from 'express';
+import { User } from '@User/user.interface';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
+import { NextFunction, Request, Response } from 'express';
 
 class AuthController {
   public authService = new AuthService();
