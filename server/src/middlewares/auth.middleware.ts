@@ -1,7 +1,7 @@
-import userModel from '@/models/user.model';
+import userModel from '@User/user.model';
 import { SECRET_KEY } from '@config';
 import { HttpException } from '@exceptions/HttpException';
-import { RequestWithUser, TokenPayload } from '@interfaces/auth.interface';
+import { RequestWithUser, TokenPayload } from '@Authentication/auth.interface';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';

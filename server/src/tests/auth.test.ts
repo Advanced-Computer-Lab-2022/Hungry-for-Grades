@@ -1,6 +1,6 @@
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
-import AuthRoute from '@routes/auth.route';
+import { CreateUserDto } from '@/User/users.dto';
+import AuthRoute from '@/Authentication/auth.route';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import request from 'supertest';

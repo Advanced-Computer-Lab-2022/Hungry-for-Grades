@@ -1,4 +1,4 @@
-import { Trainee } from '@interfaces/trainee.interface';
+import { Trainee } from '@/Trainee/trainee.interface';
 import { Document, model, Schema } from 'mongoose';
 
 const traineeSchema = new Schema<Trainee>(

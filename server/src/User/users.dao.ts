@@ -1,8 +1,8 @@
-import { CreateUserDto } from '@/dtos/users.dto';
-import { User } from '@/interfaces/user.interface';
-import userModel from '@/models/user.model';
+import { CreateUserDto } from '@/User/users.dto';
+import { User } from '@/User/user.interface';
+import userModel from '@/User/user.model';
 import HttpStatusCodes from '@/utils/HttpStatusCodes';
-import { HttpException } from '@exceptions/HttpException';
+import { HttpException } from '@/exceptions/HttpException';
 import { isEmpty } from '@utils/util';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';

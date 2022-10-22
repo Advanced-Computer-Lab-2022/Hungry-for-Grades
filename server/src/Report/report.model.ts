@@ -1,4 +1,4 @@
-import { Reason, Report, Status } from '@/interfaces/report.interface';
+import { Reason, Report, Status } from '@/Report/report.interface';
 import { Document, model, Schema } from 'mongoose';
 
 const reportSchema = new Schema<Report>(

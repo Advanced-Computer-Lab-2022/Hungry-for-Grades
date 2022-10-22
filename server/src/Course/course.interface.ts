@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Rating } from './common.types';
+import { Rating } from '@Common/Types/common.types';
 
 export enum Level {
   ADVANCED = 'Advanced',
