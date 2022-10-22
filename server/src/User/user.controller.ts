@@ -4,18 +4,21 @@ import { User } from '@/User/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
+import {PaginatedResponse} from '@/utils/Pagination';
 
 class UsersController {
   public userService = new userService();
 
-  public getUsers = async (req: Request, res: Response<HttpResponse<User[]>>, next: NextFunction) => {
+  public getUsers = async (req: Request, res: Response<PaginatedResponse<User>>, next: NextFunction) => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
-
+      const userData: User[] = await this.userService.findAllUser();
       res.status(HttpStatusCodes.OK).json({
-        data: findAllUsersData,
-        message: 'findAll',
+        data: userData,
+        message: 'findOne',
         success: true,
+        page: 0,
+        pageSize: 0,
+        totalPages: 0
       });
     } catch (error) {
       next(error);
