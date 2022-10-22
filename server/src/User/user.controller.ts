@@ -2,21 +2,19 @@ import { CreateUserDto } from '@/User/user.dto';
 import { User } from '@/User/user.interface';
 import userService from '@/User/users.dao';
 import { HttpResponse } from '@/utils/HttpResponse';
+import { PaginatedData, PaginatedResponse } from '@/utils/PaginationResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 
 class UsersController {
   public userService = new userService();
 
-  public getUsers = async (req: Request, res: Response<HttpResponse<User[]>>, next: NextFunction) => {
+  public getUsers = async (req: Request, res: Response<PaginatedResponse<User>>, next: NextFunction) => {
     try {
-      const users: User[] = await this.userService.findAllUser();
-
+      const users: PaginatedData<User> = await this.userService.findAllUser();
       res.status(HttpStatusCodes.OK).json({
-        data: {
-          users,
-        },
-        message: 'find all users',
+        ...users,
+        message: `found ${users.pageSize} users at page ${users.page}`,
         success: true,
       });
     } catch (error) {
@@ -31,7 +29,7 @@ class UsersController {
 
       res.json({
         data: findOneUserData,
-        message: 'findOne',
+        message: 'find one user by id',
         success: true,
       });
     } catch (error) {
@@ -46,7 +44,7 @@ class UsersController {
 
       res.status(201).json({
         data: createUserData,
-        message: 'created',
+        message: 'created user successfully with email ',
         success: true,
       });
     } catch (error) {

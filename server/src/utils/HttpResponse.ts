@@ -1,5 +1,5 @@
-export class HttpResponse<T extends object> {
-  success = true;
-  message: string;
+export interface HttpResponse<T> {
   data: T;
+  message: string;
+  success: boolean;
 }

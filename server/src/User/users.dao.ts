@@ -3,6 +3,7 @@ import { CreateUserDto } from '@/User/user.dto';
 import { User } from '@/User/user.interface';
 import userModel from '@/User/user.model';
 import HttpStatusCodes from '@/utils/HttpStatusCodes';
+import { PaginatedData } from '@/utils/PaginationResponse';
 import { isEmpty } from '@utils/util';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
@@ -10,9 +11,9 @@ import mongoose from 'mongoose';
 class UserService {
   public users = userModel;
 
-  public async findAllUser(): Promise<User[]> {
+  public async findAllUser(): Promise<PaginatedData<User>> {
     const users: User[] = await this.users.find();
-    return users;
+    return { data: users, page: 0, pageSize: 0, totalPages: 0 };
   }
 
   public async findUserById(userId: string): Promise<User> {
