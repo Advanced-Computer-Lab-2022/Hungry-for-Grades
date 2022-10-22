@@ -1,6 +1,6 @@
-import userService from '@/DAO/users.dao';
-import { CreateUserDto } from '@/dtos/users.dto';
-import { User } from '@/interfaces/user.interface';
+import userService from '@/User/users.dao';
+import { CreateUserDto } from '@/User/users.dto';
+import { User } from '@/User/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';

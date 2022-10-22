@@ -1,4 +1,4 @@
-import { User } from '@/interfaces/user.interface';
+import { User } from '@User/user.interface';
 import { Request } from 'express';
 import { Types } from 'mongoose';
 

@@ -23,17 +23,19 @@
     "paths": {
       "@/*": ["*"],
       "@config": ["./config"],
-      "@controllers/*": ["./controllers/*"],
-      "@databases": ["./databases"],
-      "@dtos/*": ["./dtos/*"],
+      "@User/*":["./User/*"],
+      "@Authentication/*":["./Authentication/*"],
+      "@Trainee/*":["./Trainee/*"],
+      "@Instructor/*":["./Instructor/*"],
+      "@Admin/*":["./Admin/*"],
+      "@Course/*":["./Course/*"],
+      "@NewsLetter/*":["./NewsLetter/*"],
+      "@Common/*":["./Common/*"],
+      "@Databases": ["./databases"],
       "@exceptions/*": ["./exceptions/*"],
-      "@interfaces/*": ["./interfaces/*"],
       "@middlewares/*": ["./middlewares/*"],
-      "@models/*": ["./models/*"],
-      "@routes/*": ["./routes/*"],
       "@services/*": ["./services/*"],
-      "@utils/*": ["./utils/*"],
-      "@DAO/*": ["./DAO/*"]
+      "@utils/*": ["./utils/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env", "swagger.ts", "swagger.ts"],
