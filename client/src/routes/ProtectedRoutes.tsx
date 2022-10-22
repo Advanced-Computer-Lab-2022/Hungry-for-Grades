@@ -23,10 +23,9 @@ function PrivateRoutes() {
   } else {
     return (
       <Suspense fallback={<Loader />}>
-				<Navbar />
+        <Navbar />
         <Outlet />
-				<Footer />
-
+        <Footer />
       </Suspense>
     );
   }
