@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import userService from '@/DAO/users.dao';
 import { CreateUserDto } from '@/dtos/users.dto';
 import { User } from '@/interfaces/user.interface';
-import userService from '@services/users.service';
 import { HttpResponse } from '@/utils/HttpResponse';
+import { NextFunction, Request, Response } from 'express';
 
 class UsersController {
   public userService = new userService();

@@ -1,0 +1,21 @@
+.course-block{
+    margin: 1rem;
+    img {
+        max-height: 8rem;
+        max-width: 16rem;
+        display: inline-block;
+    }
+}
+a{
+    text-decoration: none;
+    :hover{
+        cursor: pointer;
+    }
+}
+.old-price {
+    text-decoration: line-through;
+}
+.golden {
+    color: gold;
+}
+

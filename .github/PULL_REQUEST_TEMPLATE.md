@@ -1,8 +1,7 @@
 ## Write an overview about the feature or bug fix
 
-<!--
-    A clear and concise description of what this pr is about.
- -->
+<!--A clear and concise description of what this pr is about.-->
+- []
 
 ## PR Checklist
 
