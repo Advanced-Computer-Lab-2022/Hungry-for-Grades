@@ -1,5 +1,5 @@
-import { Role, User } from '@/interfaces/user.interface';
-import { requiredString } from '@models/common';
+import { Role, User } from '@/User/user.interface';
+import { requiredString } from '@/Common/Models/common';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';

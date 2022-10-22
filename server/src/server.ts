@@ -1,15 +1,14 @@
 import App from '@/app';
-import { dbConnection } from '@databases';
-import AuthRoute from '@routes/auth.route';
-import IndexRoute from '@routes/index.route';
-import UsersRoute from '@routes/users.route';
+import { dbConnection } from '@/databases';
+import AuthRoute from '@/Authentication/auth.route';
+import UsersRoute from '@/User/users.route';
 import { logger } from '@utils/logger';
 import validateEnv from '@utils/validateEnv';
 import { connect, connection } from 'mongoose';
 
 validateEnv();
 
-const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute()]);
+const app = new App([new UsersRoute(), new AuthRoute()]);
 
 (async function connectToDatabase() {
   connect(dbConnection.url, dbConnection.options)

@@ -1,9 +1,9 @@
-import { CreateUserDto } from '@/dtos/users.dto';
-import { User } from '@/interfaces/user.interface';
-import userModel from '@/models/user.model';
+import { CreateUserDto } from '@User/users.dto';
+import { User } from '@User/user.interface';
+import userModel from '@User/user.model';
 import { SECRET_KEY } from '@config';
 import { HttpException } from '@exceptions/HttpException';
-import { TokenData, TokenPayload } from '@interfaces/auth.interface';
+import { TokenData, TokenPayload } from '@Authentication/auth.interface';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { isEmpty } from '@utils/util';
 import { compare, hash } from 'bcrypt';
