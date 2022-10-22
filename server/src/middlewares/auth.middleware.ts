@@ -1,13 +1,15 @@
-import userModel from '@User/user.model';
+import { logger } from '@/utils/logger';
+import { RequestWithUser, TokenPayload } from '@Authentication/auth.interface';
 import { SECRET_KEY } from '@config';
 import { HttpException } from '@exceptions/HttpException';
-import { RequestWithUser, TokenPayload } from '@Authentication/auth.interface';
+import userModel from '@User/user.model';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 async function authMiddleware(req: RequestWithUser, res: Response, next: NextFunction) {
   try {
+    logger.info('authMiddleware');
     const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
 
     if (Authorization) {

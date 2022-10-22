@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-object-injection */
 import { HttpException } from '@/exceptions/HttpException';
 import { CreateUserDto } from '@/User/user.dto';
-import { User } from '@/User/user.interface';
+import { IUser } from '@/User/user.interface';
 import userModel from '@/User/user.model';
 import HttpStatusCodes from '@/utils/HttpStatusCodes';
 import { PaginatedData } from '@/utils/PaginationResponse';
@@ -13,7 +13,7 @@ import { filters } from './user.type';
 class UserService {
   public users = userModel;
 
-  public async findAllUser(filters: filters): Promise<PaginatedData<User>> {
+  public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
     const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
     const query = {};
     query['$or'] = [];
@@ -40,7 +40,7 @@ class UserService {
         },
       ];
     }
-    let users: (User &
+    let users: (IUser &
       mongoose.Document & {
         _id: mongoose.Types.ObjectId;
       })[];
@@ -63,11 +63,11 @@ class UserService {
     return { data: users, page: page, pageSize: users.length, totalPages: totalPages };
   }
 
-  public async findUserById(userId: string): Promise<User> {
+  public async findUserById(userId: string): Promise<IUser> {
     if (isEmpty(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is empty');
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
-    const findUser: User = await this.users.findOne({
+    const findUser: IUser = await this.users.findOne({
       _id: userId,
     });
     if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");
@@ -75,16 +75,16 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<User> {
+  public async createUser(userData: CreateUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
 
-    const findUser: User = await this.users.findOne({
+    const findUser: IUser = await this.users.findOne({
       email: userData.email,
     });
     if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: User = await this.users.create({
+    const createUserData: IUser = await this.users.create({
       ...userData,
       password: hashedPassword,
     });
@@ -92,19 +92,19 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userId: string, userData: CreateUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
-    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { userData });
+    const updateUserById: IUser = await this.users.findByIdAndUpdate(userId, { userData });
     if (!updateUserById) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");
 
     return updateUserById;
   }
 
-  public async deleteUser(userId: string): Promise<User> {
+  public async deleteUser(userId: string): Promise<IUser> {
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-    const deleteUserById: User = await this.users.findByIdAndDelete(userId);
+    const deleteUserById: IUser = await this.users.findByIdAndDelete(userId);
     if (!deleteUserById) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");
 
     return deleteUserById;

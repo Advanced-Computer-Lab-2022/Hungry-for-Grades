@@ -1,8 +1,9 @@
 import { requiredString } from '@/common/Models/common';
-import { Role, User } from '@/User/user.interface';
+import { IUser } from '@/User/user.interface';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import { Gender, Role } from './user.enum';
 const SALT_WORK_FACTOR = 10;
 
 const Email: Schema = new Schema({
@@ -20,7 +21,7 @@ const Email: Schema = new Schema({
   },
 });
 
-const userSchema = new Schema<User>(
+const userSchema = new Schema<IUser>(
   {
     _corporate: {
       ref: 'Corporate',
@@ -48,9 +49,12 @@ const userSchema = new Schema<User>(
       unique: true,
     },
     gender: {
-      enum: ['Male', 'Female'],
+      enum: Object.values(Gender),
       required: true,
       type: String,
+    },
+    lastLogin: {
+      type: Date,
     },
     name: requiredString,
     password: { ...requiredString, minlength: 8 },
@@ -85,10 +89,11 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+  this.lastLogin = new Date();
   this.password = bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
   next();
 });
 
-const userModel = model<User & Document>('User', userSchema);
+const userModel = model<IUser & Document>('User', userSchema);
 
 export default userModel;

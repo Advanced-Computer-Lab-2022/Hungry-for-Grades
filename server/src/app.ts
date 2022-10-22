@@ -15,6 +15,7 @@ import swaggerUi from 'swagger-ui-express';
 import { Routes } from '@/common/Interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+import modelsErrorMiddleware from './middlewares/modelsError.middleware';
 
 class App {
   public app: express.Application;
@@ -113,6 +114,7 @@ class App {
   }
 
   private initializeErrorHandling() {
+    this.app.use(modelsErrorMiddleware);
     this.app.use(errorMiddleware);
   }
 }
