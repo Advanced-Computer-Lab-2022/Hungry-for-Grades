@@ -12,9 +12,10 @@ validateEnv();
 const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute()]);
 
 (async function connectToDatabase() {
-  connect(dbConnection.url)
+  connect(dbConnection.url, dbConnection.options)
     .then(() => app.listen())
     .catch(err => logger.error(`Connection to database failed with error: ${err}`));
+
   connection.on('connecting', () => logger.info('database connecting'));
   connection.on('connected', () => logger.info('database connected'));
   connection.on('disconnecting', () => logger.info('database disconnecting'));

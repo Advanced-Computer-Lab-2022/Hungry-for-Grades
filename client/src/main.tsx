@@ -6,8 +6,8 @@ import ReactDOM from 'react-dom/client';
 // eslint-disable-next-line import/no-unresolved
 import { ClickToComponent } from 'click-to-react-component';
 // styles
-import './normalize.css';
 import './index.css';
+import './normalize.css';
 // Bootstrap
 import './main.scss';
 
@@ -15,7 +15,7 @@ import './main.scss';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // React Query Devtools
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // web vitals
 //import reportWebVitals from './reportWebVitals';
@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <RoutedApp />
 
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     <ClickToComponent />
   </React.StrictMode>

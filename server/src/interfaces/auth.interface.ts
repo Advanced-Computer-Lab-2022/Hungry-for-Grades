@@ -1,8 +1,9 @@
 import { User } from '@/interfaces/user.interface';
 import { Request } from 'express';
+import { Types } from 'mongoose';
 
 export interface TokenPayload {
-  _id: string;
+  _id: Types.ObjectId;
 }
 
 export interface TokenData {

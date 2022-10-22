@@ -1,11 +1,12 @@
-import { NextFunction, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import userModel from '@/models/user.model';
 import { SECRET_KEY } from '@config';
 import { HttpException } from '@exceptions/HttpException';
-import { TokenPayload, RequestWithUser } from '@interfaces/auth.interface';
-import userModel from '@/models/user.model';
+import { RequestWithUser, TokenPayload } from '@interfaces/auth.interface';
+import HttpStatusCodes from '@utils/HttpStatusCodes';
+import { NextFunction, Response } from 'express';
+import { verify } from 'jsonwebtoken';
 
-const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+async function authMiddleware(req: RequestWithUser, res: Response, next: NextFunction) {
   try {
     const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
 
@@ -19,14 +20,14 @@ const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFun
         req.user = findUser;
         next();
       } else {
-        next(new HttpException(401, 'Wrong authentication token'));
+        next(new HttpException(HttpStatusCodes.UNAUTHORIZED, 'Wrong authentication token'));
       }
     } else {
-      next(new HttpException(404, 'Authentication token missing'));
+      next(new HttpException(HttpStatusCodes.NOT_FOUND, 'Authentication token missing'));
     }
   } catch (error) {
-    next(new HttpException(401, 'Wrong authentication token'));
+    next(new HttpException(HttpStatusCodes.UNAUTHORIZED, 'Wrong authentication token'));
   }
-};
+}
 
 export default authMiddleware;
