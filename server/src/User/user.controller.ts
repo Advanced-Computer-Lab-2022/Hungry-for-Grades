@@ -5,13 +5,14 @@ import { HttpResponse } from '@/utils/HttpResponse';
 import { PaginatedData, PaginatedResponse } from '@/utils/PaginationResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
-
+import { type filters } from './user.type';
 class UsersController {
   public userService = new userService();
 
-  public getUsers = async (req: Request, res: Response<PaginatedResponse<User>>, next: NextFunction) => {
+  public getUsers = async (req: Request<{}, {}, {}, filters>, res: Response<PaginatedResponse<User>>, next: NextFunction) => {
     try {
-      const users: PaginatedData<User> = await this.userService.findAllUser();
+      const filter: filters = req.query;
+      const users: PaginatedData<User> = await this.userService.findAllUser(filter);
       res.status(HttpStatusCodes.OK).json({
         ...users,
         message: `found ${users.pageSize} users at page ${users.page}`,
@@ -60,7 +61,7 @@ class UsersController {
 
       res.json({
         data: updateUserData,
-        message: 'updated',
+        message: 'updated user successfully',
         success: true,
       });
     } catch (error) {
@@ -75,7 +76,7 @@ class UsersController {
 
       res.status(HttpStatusCodes.ACCEPTED).json({
         data: deleteUserData,
-        message: 'deleted',
+        message: 'deleted user successfully',
         success: true,
       });
     } catch (error) {

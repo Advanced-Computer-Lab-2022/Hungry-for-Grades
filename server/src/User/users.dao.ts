@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { HttpException } from '@/exceptions/HttpException';
 import { CreateUserDto } from '@/User/user.dto';
 import { User } from '@/User/user.interface';
@@ -7,13 +8,59 @@ import { PaginatedData } from '@/utils/PaginationResponse';
 import { isEmpty } from '@utils/util';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
+import { filters } from './user.type';
 
 class UserService {
   public users = userModel;
 
-  public async findAllUser(): Promise<PaginatedData<User>> {
-    const users: User[] = await this.users.find();
-    return { data: users, page: 0, pageSize: 0, totalPages: 0 };
+  public async findAllUser(filters: filters): Promise<PaginatedData<User>> {
+    const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
+    const query = {};
+    query['$or'] = [];
+    for (const key in filters) {
+      if (filters[key] && key !== 'page' && key !== 'limit' && key !== 'sortBy' && key !== 'orderBy') {
+        const filter = {};
+        filter[key] = filters[key];
+        query['$or'].push(filter);
+      }
+    }
+    if (search) {
+      query['$or'] = [
+        {
+          name: {
+            $options: 'i',
+            $regex: search,
+          },
+        },
+        {
+          email: {
+            $options: 'i',
+            $regex: search,
+          },
+        },
+      ];
+    }
+    let users: (User &
+      mongoose.Document & {
+        _id: mongoose.Types.ObjectId;
+      })[];
+
+    if (sortBy && orderBy) {
+      users = await this.users
+        .find(query)
+        .sort({ sortBy: orderBy })
+        .skip((page - 1) * limit)
+        .limit(limit);
+    } else {
+      users = await this.users
+        .find(query)
+        .skip((page - 1) * limit)
+        .limit(limit);
+    }
+
+    const totalPages = await this.users.countDocuments(query);
+
+    return { data: users, page: page, pageSize: users.length, totalPages: totalPages };
   }
 
   public async findUserById(userId: string): Promise<User> {
