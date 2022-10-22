@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
@@ -6,10 +6,11 @@ import Error404 from '../error/Error404'
 */
 import { Route, Routes } from 'react-router-dom';
 
-import Loader from '../components/loader/loaderpage/Loader';
+import AuthRoutes from './AuthRoutes';
 
 import ProtectedRoutes from './ProtectedRoutes';
-const LazyHome = lazy(() => import('../pages/home/Home'));
+import PublicRoutes from './PublicRoutes';
+const LazyLanding = lazy(() => import('../pages/landing/Landing'));
 const LazyLogin = lazy(() => import('../pages/login/Login'));
 const LazySignup = lazy(() => import('../pages/signup/Signup'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
@@ -20,31 +21,18 @@ function AllRoutes() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route
-          element={
-            <Suspense fallback={<Loader />}>
-              <LazyHome />
-            </Suspense>
-          }
-          path='/home'
-        />
+        <Route element={<div />} path='/home' />
       </Route>
-      <Route
-        element={
-          <Suspense fallback={<Loader />}>
-            <LazyLogin />
-          </Suspense>
-        }
-        path='/login'
-      />
-      <Route
-        element={
-          <Suspense fallback={<Loader />}>
-            <LazySignup />
-          </Suspense>
-        }
-        path='/signup'
-      />
+
+      <Route element={<PublicRoutes />}>
+        <Route element={<LazyLanding />} path='/' />
+      </Route>
+
+      <Route element={<AuthRoutes />}>
+        <Route element={<LazyLogin />} path='/login' />
+        <Route element={<LazySignup />} path='/signup' />
+      </Route>
+
       {/*
                 <Route path="/projects" element={
                 <Suspense fallback={<Loader/>}>

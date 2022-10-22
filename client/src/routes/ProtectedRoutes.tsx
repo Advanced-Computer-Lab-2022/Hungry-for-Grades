@@ -5,6 +5,9 @@ import Loader from '../components/loader/loaderpage/Loader';
 
 import Cookie from '../services/cookie/Cookie';
 
+import Footer from '@/components/footer/Footer';
+import Navbar from '@/components/navbar/Navbar';
+
 function Auth() {
   try {
     Cookie.get('auth');
@@ -20,7 +23,10 @@ function PrivateRoutes() {
   } else {
     return (
       <Suspense fallback={<Loader />}>
+				<Navbar />
         <Outlet />
+				<Footer />
+
       </Suspense>
     );
   }
