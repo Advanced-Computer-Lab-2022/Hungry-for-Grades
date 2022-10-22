@@ -3,6 +3,7 @@ import { CreateUserDto } from '@/dtos/users.dto';
 import { User } from '@/interfaces/user.interface';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { NextFunction, Request, Response } from 'express';
+import HttpStatusCodes from '../utils/HttpStatusCodes';
 
 class AuthController {
   public authService = new AuthService();
@@ -12,7 +13,7 @@ class AuthController {
       const userData: CreateUserDto = req.body;
       const signUpUserData: User = await this.authService.signup(userData);
 
-      res.status(201).json({
+      res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
         message: 'signup',
       });
@@ -27,7 +28,7 @@ class AuthController {
       const { cookie, findUser } = await this.authService.login(userData);
 
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         data: findUser,
         message: 'login',
       });
@@ -42,7 +43,7 @@ class AuthController {
       const logOutUserData: User = await this.authService.logout(userData);
 
       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         data: logOutUserData,
         message: 'logout',
       });

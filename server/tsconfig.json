@@ -36,6 +36,6 @@
       "@DAO/*": ["./DAO/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "include": ["src/**/*.ts", "src/**/*.json", ".env", "swagger.ts", "swagger.ts"],
   "exclude": ["node_modules", "src/http", "src/logs"]
 }

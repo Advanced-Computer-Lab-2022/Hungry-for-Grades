@@ -18,7 +18,7 @@ class AuthService {
       email: userData.email,
     });
     if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
-
+    //TODO : remove the check if user already existsalready in mongoose
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: User = await this.users.create({
       ...userData,

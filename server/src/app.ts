@@ -1,14 +1,16 @@
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
+import { version } from '../package.json';
+import swaggerFile from '../swagger.json';
 
+import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
@@ -34,7 +36,8 @@ class App {
     this.app.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
-      logger.info(`🚀 App listening on the port ${this.port}`);
+      logger.info(`🚀 App listening on the http://localhost:${this.port}`);
+      logger.info(`📃 API on the http://localhost:${this.port}/docs`);
       logger.info(`=================================`);
     });
   }
@@ -66,19 +69,47 @@ class App {
   }
 
   private initializeSwagger() {
-    const options = {
-      apis: ['swagger.yaml'],
-      swaggerDefinition: {
-        info: {
-          description: 'Example docs',
-          title: 'REST API',
-          version: '1.0.0',
+    const options: swaggerJSDoc.Options = {
+      apis: ['src/routes/*.route.ts', 'src/dtos/*.dto.ts'],
+      definition: {
+        apis: ['swagger.json'],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              bearerFormat: 'JWT',
+              scheme: 'bearer',
+              type: 'http',
+            },
+          },
         },
+        info: {
+          contact: { email: 'osa.helpme@gmail.com' },
+          description: '',
+          license: {
+            name: 'Apache 2.0',
+            url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
+          },
+          termsOfService: 'http://swagger.io/terms/',
+          title: 'Swagger Cousrses API',
+          version: version,
+        },
+        openapi: '3.0.0',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        servers: [{ url: 'http://localhost:3000' }],
       },
     };
 
     const specs = swaggerJSDoc(options);
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs), swaggerUi.setup(swaggerFile));
+
+    this.app.get('/swagger.json', (req: Request, res: Response) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(specs);
+    });
   }
 
   private initializeErrorHandling() {

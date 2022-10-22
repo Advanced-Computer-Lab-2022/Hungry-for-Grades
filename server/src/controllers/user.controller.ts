@@ -3,9 +3,10 @@ import { CreateUserDto } from '@/dtos/users.dto';
 import { User } from '@/interfaces/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 
 class UsersController {
-  public userService = new userService();
+  private userService = new userService();
 
   public getUsers = async (req: Request, res: Response<HttpResponse<User[]>>, next: NextFunction) => {
     try {
@@ -48,9 +49,9 @@ class UsersController {
     }
   };
 
-  public updateUser = async (req: Request, res: Response<HttpResponse<User>>, next: NextFunction) => {
+  public updateUser = async (req: Request<{ id: Types.ObjectId }>, res: Response<HttpResponse<User>>, next: NextFunction) => {
     try {
-      const userId: string = req.params.id;
+      const userId = req.params.id;
       const userData: CreateUserDto = req.body;
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
@@ -63,9 +64,9 @@ class UsersController {
     }
   };
 
-  public deleteUser = async (req: Request, res: Response<HttpResponse<User>>, next: NextFunction) => {
+  public deleteUser = async (req: Request<{ id: Types.ObjectId }>, res: Response<HttpResponse<User>>, next: NextFunction) => {
     try {
-      const userId: string = req.params.id;
+      const userId = req.params.id;
       const deleteUserData: User = await this.userService.deleteUser(userId);
 
       res.json({
