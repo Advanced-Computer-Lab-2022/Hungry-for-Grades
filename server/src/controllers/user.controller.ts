@@ -6,7 +6,7 @@ import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 
 class UsersController {
-  private userService = new userService();
+  public userService = new userService();
 
   public getUsers = async (req: Request, res: Response<HttpResponse<User[]>>, next: NextFunction) => {
     try {

@@ -9,7 +9,7 @@ import { isEmpty } from '@utils/util';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 class AuthService {
-  private users = userModel;
+  public users = userModel;
 
   public async signup(userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');

@@ -8,7 +8,7 @@ import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
 
 class UserService {
-  private users = userModel;
+  public users = userModel;
 
   public async findAllUser(): Promise<User[]> {
     const users: User[] = await this.users.find();
