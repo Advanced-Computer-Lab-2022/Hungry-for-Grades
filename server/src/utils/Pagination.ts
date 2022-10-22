@@ -1,14 +1,13 @@
+import { HttpResponse } from './HttpResponse';
 
-export interface PaginatedRequest {
-  limit: number;
-  page: number;
+export class PaginatedRequest {
+  limit = 12;
+  page = 1;
 }
 
-export interface PaginatedResponse<T> {
+export class PaginatedResponse<T> extends HttpResponse<object> {
   data: T[];
   page: number;
   pageSize: number;
   totalPages: number;
 }
-
-
