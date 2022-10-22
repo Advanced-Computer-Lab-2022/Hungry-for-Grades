@@ -1,7 +1,7 @@
 import { formatCurrency } from '../../utils/currency';
 
+import styles from './course-summary.module.scss';
 import { CourseSummaryProps } from './types';
-import './course-summary.scss';
 
 function CoursePrice(props: CourseSummaryProps) {
   if (!props.discount) {
@@ -10,7 +10,7 @@ function CoursePrice(props: CourseSummaryProps) {
   return (
     <h5 className='text-dark'>
       <strong>{formatCurrency(props.priceAfter)}</strong>{' '}
-      <small className='old-price text-secondary'>
+      <small className={`${styles['old-price'] ?? ''} text-secondary`}>
         {formatCurrency(props.price)}
       </small>
     </h5>
@@ -20,7 +20,7 @@ function CoursePrice(props: CourseSummaryProps) {
 function CourseSummary(props: CourseSummaryProps) {
   return (
     <a href='/'>
-      <div className='course-block text-left'>
+      <div className={`${styles['course-block'] ?? ''} text-left`}>
         <img alt={props.title} src={props.image} />
         <h5 className='text-dark'>
           <strong>{props.title}</strong>
@@ -30,7 +30,7 @@ function CourseSummary(props: CourseSummaryProps) {
             <small>{props.instructorName}</small>
           </a>
         </h6>
-        <p className='mb-1 golden'>
+        <p className={`mb-1 ${styles.golden ?? ''}`}>
           <strong>{props.rating}</strong>
         </p>
         <CoursePrice {...props} />
