@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 export type Rating = {
-  overallRating: number;
+  averageRating: number;
   reviews: Review[];
 };
 export type Review = {

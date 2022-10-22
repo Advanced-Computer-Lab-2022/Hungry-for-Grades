@@ -27,7 +27,9 @@ const instructorSchema = new Schema<Instructor>({
   biography: requiredString,
   rating: {
     type: {
-      overallRating: {
+      averageRating: {
+        max: 5,
+        min: 0,
         required: true,
         type: Number,
       },
@@ -40,8 +42,10 @@ const instructorSchema = new Schema<Instructor>({
           comment: String,
           createdAt: Date,
           rating: {
+            max: 5,
+            min: 0,
             required: true,
-            type: String,
+            type: Number,
           },
         },
       ],

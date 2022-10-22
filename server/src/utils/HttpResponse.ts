@@ -1,5 +1,5 @@
 export class HttpResponse<T extends object> {
-  IsSuccessful?: boolean = true;
+  success = true;
   message: string;
   data: T;
 }

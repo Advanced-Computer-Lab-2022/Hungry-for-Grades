@@ -2,6 +2,7 @@ import userService from '@/DAO/users.dao';
 import { CreateUserDto } from '@/dtos/users.dto';
 import { User } from '@/interfaces/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
+import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 
 class UsersController {
@@ -11,9 +12,10 @@ class UsersController {
     try {
       const findAllUsersData: User[] = await this.userService.findAllUser();
 
-      res.json({
+      res.status(HttpStatusCodes.OK).json({
         data: findAllUsersData,
         message: 'findAll',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -28,6 +30,7 @@ class UsersController {
       res.json({
         data: findOneUserData,
         message: 'findOne',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -42,6 +45,7 @@ class UsersController {
       res.status(201).json({
         data: createUserData,
         message: 'created',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -57,6 +61,7 @@ class UsersController {
       res.json({
         data: updateUserData,
         message: 'updated',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -68,9 +73,10 @@ class UsersController {
       const userId: string = req.params.id;
       const deleteUserData: User = await this.userService.deleteUser(userId);
 
-      res.json({
+      res.status(HttpStatusCodes.ACCEPTED).json({
         data: deleteUserData,
         message: 'deleted',
+        success: true,
       });
     } catch (error) {
       next(error);

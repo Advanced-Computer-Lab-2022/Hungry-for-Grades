@@ -9,5 +9,6 @@ export class CreateUserDto {
   @IsString()
   public password: string;
 
-  role: Role;
+  @IsString()
+  public role: Role;
 }
