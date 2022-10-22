@@ -2,8 +2,8 @@ import userService from '@/DAO/users.dao';
 import { CreateUserDto } from '@/dtos/users.dto';
 import { User } from '@/interfaces/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
+import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
-import { Types } from 'mongoose';
 
 class UsersController {
   private userService = new userService();
@@ -12,9 +12,10 @@ class UsersController {
     try {
       const findAllUsersData: User[] = await this.userService.findAllUser();
 
-      res.json({
+      res.status(HttpStatusCodes.OK).json({
         data: findAllUsersData,
         message: 'findAll',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -29,6 +30,7 @@ class UsersController {
       res.json({
         data: findOneUserData,
         message: 'findOne',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -43,35 +45,38 @@ class UsersController {
       res.status(201).json({
         data: createUserData,
         message: 'created',
+        success: true,
       });
     } catch (error) {
       next(error);
     }
   };
 
-  public updateUser = async (req: Request<{ id: Types.ObjectId }>, res: Response<HttpResponse<User>>, next: NextFunction) => {
+  public updateUser = async (req: Request, res: Response<HttpResponse<User>>, next: NextFunction) => {
     try {
-      const userId = req.params.id;
+      const userId: string = req.params.id;
       const userData: CreateUserDto = req.body;
       const updateUserData: User = await this.userService.updateUser(userId, userData);
 
       res.json({
         data: updateUserData,
         message: 'updated',
+        success: true,
       });
     } catch (error) {
       next(error);
     }
   };
 
-  public deleteUser = async (req: Request<{ id: Types.ObjectId }>, res: Response<HttpResponse<User>>, next: NextFunction) => {
+  public deleteUser = async (req: Request, res: Response<HttpResponse<User>>, next: NextFunction) => {
     try {
-      const userId = req.params.id;
+      const userId: string = req.params.id;
       const deleteUserData: User = await this.userService.deleteUser(userId);
 
-      res.json({
+      res.status(HttpStatusCodes.ACCEPTED).json({
         data: deleteUserData,
         message: 'deleted',
+        success: true,
       });
     } catch (error) {
       next(error);

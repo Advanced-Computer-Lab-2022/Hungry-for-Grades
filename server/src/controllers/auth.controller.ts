@@ -6,7 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import HttpStatusCodes from '../utils/HttpStatusCodes';
 
 class AuthController {
-  public authService = new AuthService();
+  private authService = new AuthService();
 
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {

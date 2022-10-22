@@ -5,7 +5,7 @@ import HttpStatusCodes from '@/utils/HttpStatusCodes';
 import { HttpException } from '@exceptions/HttpException';
 import { isEmpty } from '@utils/util';
 import { hash } from 'bcrypt';
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 class UserService {
   private users = userModel;
@@ -44,24 +44,9 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: Types.ObjectId, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-
-    if (userData.email) {
-      const findUser: User = await this.users.findOne({
-        email: userData.email,
-      });
-      if (findUser && findUser._id != userId) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
-    }
-
-    if (userData.password) {
-      const hashedPassword = await hash(userData.password, 10);
-      userData = {
-        ...userData,
-        password: hashedPassword,
-      };
-    }
 
     const updateUserById: User = await this.users.findByIdAndUpdate(userId, { userData });
     if (!updateUserById) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");
@@ -69,7 +54,7 @@ class UserService {
     return updateUserById;
   }
 
-  public async deleteUser(userId: Types.ObjectId): Promise<User> {
+  public async deleteUser(userId: string): Promise<User> {
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
     const deleteUserById: User = await this.users.findByIdAndDelete(userId);
     if (!deleteUserById) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");

@@ -86,7 +86,9 @@ const courseSchema = new Schema<Course>(
     },
     rating: {
       type: {
-        overallRating: {
+        averageRating: {
+          max: 5,
+          min: 0,
           required: true,
           type: Number,
         },
@@ -99,6 +101,8 @@ const courseSchema = new Schema<Course>(
             comment: String,
             createdAt: Date,
             rating: {
+              max: 5,
+              min: 0,
               required: true,
               type: Number,
             },

@@ -53,7 +53,7 @@ const userSchema = new Schema<User>(
       type: String,
     },
     name: requiredString,
-    password: requiredString,
+    password: { ...requiredString, minlength: 8 },
     phone: requiredString,
     profileImage: {
       default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
