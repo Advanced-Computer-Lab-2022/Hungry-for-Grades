@@ -33,7 +33,16 @@ jobs:
         working-directory: ./client
         run: yarn install && npm install -g eslint
 
+      - name: Install Node.js dependencies in SERVER
+        working-directory: ./server
+        run: yarn install && npm install -g eslint
+
       # ESLint and Prettier must be in `package.json`
-      - name: run linter
+      - name: run linter in CLIENT
         working-directory: ./client
         run: eslint  --ext .js,.jsx,.ts,.tsx
+
+      # ESLint and Prettier must be in `package.json`
+      - name: run linter in SERVER
+        working-directory: ./server
+        run: eslint  --ext .js,.jsx,.ts,.tsxw

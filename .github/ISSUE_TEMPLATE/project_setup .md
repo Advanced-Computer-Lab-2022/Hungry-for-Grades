@@ -1,8 +1,8 @@
 ---
-name: Backend Feature request
-about: Suggest an backend endpoint for this project
-title: "[Backend Feature]:"
-milestone: 'Sprint1'
+name: Project Setup request
+about: Project Setup , Configuration , and 3rd Party Integration like CI/CD, Code Quality,Github actions etc.
+title: "[Project Setup]:"
+milestone: 'Project Setup'
 
 ---
 
@@ -20,5 +20,6 @@ milestone: 'Sprint1'
 
 ### **Contributers**
 <!-- Tag the Contributers -->
+
 ### **Additional context**
 <!-- Add any other context or screenshots about the feature request here -->
