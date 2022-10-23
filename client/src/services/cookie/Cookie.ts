@@ -15,7 +15,7 @@ class Cookie {
         })
         .join(';');
     } else {
-      throw new Error('Cookie not found to be retrieved');
+      return null;
     }
   }
 
@@ -24,7 +24,7 @@ class Cookie {
     if (!this.isFound(key)) {
       const date = new Date();
       date.setMonth(date.getMonth() + expiresMonth);
-      document.cookie = `${key}=${value};expires=${date.toUTCString()}`;
+      document.cookie += `${key}=${value};expires=${date.toUTCString()}`;
     } else {
       this.update(key, value, expiresMonth);
     }

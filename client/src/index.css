@@ -76,9 +76,8 @@ body.dark img {
   -webkit-filter: brightness(0.8) contrast(1.2);
 }
 
-section {
+.dark section {
   filter: brightness(0.8) contrast(0.7);
-  -webkit-filter: brightness(0.8) contrast(0.7);
 }
 
 /* BUTTON */

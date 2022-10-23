@@ -1,0 +1,29 @@
+button {
+    width: 100vh;
+    border-radius: 0;
+}
+.course-title {
+   h1,h3{
+    color: var(--bs-light);
+   }
+}
+.rating {
+    color: gold;
+}
+.other{
+    color: var(--bs-light);
+}
+ul li::before {
+    content: "\2022";
+    color: #161A1D;
+    font-weight: bolder;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;
+}
+button {
+    color: var(--bs-light);
+}
+.space {
+    margin-right:70em
+}
