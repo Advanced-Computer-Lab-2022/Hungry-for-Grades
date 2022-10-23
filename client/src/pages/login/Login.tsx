@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
@@ -52,7 +52,7 @@ function Login() {
   }, [navigate, formik, login]);
 
   return (
-    <div className='d-flex flex-row justify-content-between'>
+    <div className='login d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
           <Form
@@ -106,28 +106,31 @@ function Login() {
             title='Login'
             onResetFunc={formik.handleReset}
           >
-            <Button
-              backgroundColor={'default-bg'}
-              isDisabled={formik.isValid}
-              label='Login'
-              name='login'
-              type='button'
-              onClickFunc={handleSubmit}
-            />
-            <Button
-              backgroundColor={'default-bg'}
-              isDisabled={false}
-              label='Register'
-              name='register'
-              type='button'
-              onClickFunc={navigateToSignup}
-            />
+            <div className='d-flex flex-column justify-content-between'>
+              <Button
+                backgroundColor='primary-bg'
+                isDisabled={formik.isValid}
+                label='Login'
+                name='login'
+                type='button'
+                onClickFunc={handleSubmit}
+              />
+              <span className='d-flex flex-row justify-content-end'>
+                Don&apos;t have an account? &nbsp;
+                <Link to='/signup' onClick={navigateToSignup}>
+                  Sign Up
+                </Link>
+              </span>
+            </div>
+
             <div />
           </Form>
           {isError && <div>{data}</div>}
         </div>
       </section>
-      <div className='w-75 img__container' />
+      <div className='w-75 img__container'>
+        <img alt='t' src={'/login.jpg'} />
+      </div>
     </div>
   );
 }

@@ -1,23 +1,18 @@
 form {
-    padding: 2rem 2rem;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    border-radius: 5px;
 }
 
 .title {
     font-size: 2rem;
+    text-align: inherit;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--primary-dark-color);
 }
 
 .subtitle {
     font-size: 1.5rem;
     font-weight: 400;
     margin-bottom: 1rem;
-    text-align: center;
-    color: var(--variant-text-color);
+    text-align: inherit;
+    color: var(--secondary-dark-color);
 }
