@@ -1,4 +1,4 @@
-import { requiredString } from '@/common/Models/common';
+import { requiredString } from '@Common/Models/common';
 import { Instructor } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
 
@@ -9,6 +9,10 @@ const instructorSchema = new Schema<Instructor>({
       type: Schema.Types.ObjectId,
     },
   ],
+  _user: {
+    ref: 'User',
+    type: Schema.Types.ObjectId,
+  },
   balance: {
     default: 0,
     type: Number,

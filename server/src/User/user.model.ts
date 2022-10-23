@@ -1,4 +1,4 @@
-import { requiredString } from '@/common/Models/common';
+import { requiredString } from '@Common/Models/common';
 import { IUser } from '@/User/user.interface';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
@@ -23,18 +23,6 @@ const Email: Schema = new Schema({
 
 const userSchema = new Schema<IUser>(
   {
-    _corporate: {
-      ref: 'Corporate',
-      type: Schema.Types.ObjectId,
-    },
-    _instructor: {
-      ref: 'Instructor',
-      type: Schema.Types.ObjectId,
-    },
-    _trainee: {
-      ref: 'Trainee',
-      type: Schema.Types.ObjectId,
-    },
     active: {
       default: true,
       type: Boolean,

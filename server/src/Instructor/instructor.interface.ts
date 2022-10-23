@@ -2,9 +2,9 @@ import { Rating } from '@/common/Types/common.types';
 import { Types } from 'mongoose';
 
 export interface Instructor {
-  _corporate?: Types.ObjectId[];
   _id: Types.ObjectId;
   _teachedCourses: Types.ObjectId[];
+  _user: Types.ObjectId;
   balance: number;
   bankAccount: BankAccount;
   biography: string;
