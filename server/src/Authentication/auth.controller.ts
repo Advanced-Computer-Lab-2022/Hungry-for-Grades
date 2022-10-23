@@ -1,17 +1,19 @@
+import { CreateUserDto, FindUserDto } from '@/User/user.dto';
 import AuthService from '@Authentication/auth.dao';
-import { CreateUserDto } from '@User/users.dto';
-import { User } from '@User/user.interface';
 import { RequestWithUser } from '@Authentication/auth.interface';
-import { NextFunction, Request, Response } from 'express';
+import { IUser } from '@User/user.interface';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
+import { logger } from '@utils/logger';
+import { NextFunction, Request, Response } from 'express';
 
 class AuthController {
   public authService = new AuthService();
 
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      logger.info('signUp');
       const userData: CreateUserDto = req.body;
-      const signUpUserData: User = await this.authService.signup(userData);
+      const signUpUserData: IUser = await this.authService.signup(userData);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
@@ -24,10 +26,12 @@ class AuthController {
 
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
+      logger.info('login');
+      const userData: FindUserDto = req.body;
       const { cookie, findUser } = await this.authService.login(userData);
 
-      res.setHeader('Set-Cookie', [cookie]);
+      //res.setHeader('Set-Cookie', [cookie]);
+      res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
         data: findUser,
         message: 'login',
@@ -39,8 +43,8 @@ class AuthController {
 
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const userData: User = req.user;
-      const logOutUserData: User = await this.authService.logout(userData);
+      const userData: IUser = req.user;
+      const logOutUserData: IUser = await this.authService.logout(userData);
 
       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
       res.status(HttpStatusCodes.OK).json({

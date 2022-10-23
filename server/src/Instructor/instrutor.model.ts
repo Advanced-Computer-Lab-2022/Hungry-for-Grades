@@ -1,5 +1,5 @@
+import { requiredString } from '@/common/Models/common';
 import { Instructor } from '@Instructor/instructor.interface';
-import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
 const instructorSchema = new Schema<Instructor>({

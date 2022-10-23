@@ -1,4 +1,4 @@
-import { Newsletter } from '@NewsLetter/newsletter.interface';
+import { Newsletter } from '@/NewsLetter/newsletter.interface';
 import { Document, model, Schema } from 'mongoose';
 const newsLetterSchema = new Schema<Newsletter>(
   {
