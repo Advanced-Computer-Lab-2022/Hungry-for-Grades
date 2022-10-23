@@ -1,6 +1,5 @@
-
 export interface HttpResponse<T> {
-  success: boolean;
-  message: string;
   data: T;
+  message: string;
+  success: boolean;
 }

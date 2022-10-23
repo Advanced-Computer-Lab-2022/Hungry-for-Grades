@@ -8,10 +8,7 @@ export enum Role {
 }
 
 export interface User {
-  _corporate?: Types.ObjectId;
   _id: Types.ObjectId;
-  _instructor?: Types.ObjectId;
-  _trainee?: Types.ObjectId;
   active: boolean;
   address: Address;
   createdAt: Date;

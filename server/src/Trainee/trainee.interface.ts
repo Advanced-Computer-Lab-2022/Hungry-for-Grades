@@ -2,9 +2,9 @@ import { Types } from 'mongoose';
 
 export interface Trainee {
   _cart?: Cart;
-  _corporate?: Types.ObjectId[];
   _enrolledCourses?: EnrolledCourse[];
   _id: Types.ObjectId;
+  _user: Types.ObjectId;
   _wishlist?: WishList;
   balance: number;
   creditCards: CreditCard[];

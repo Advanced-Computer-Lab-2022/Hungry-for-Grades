@@ -4,7 +4,7 @@ import { User } from '@/User/user.interface';
 import { HttpResponse } from '@/utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
-import {PaginatedResponse} from '@/utils/Pagination';
+import { PaginatedResponse } from '@/utils/Pagination';
 
 class UsersController {
   public userService = new userService();
@@ -15,10 +15,10 @@ class UsersController {
       res.status(HttpStatusCodes.OK).json({
         data: userData,
         message: 'findOne',
-        success: true,
         page: 0,
         pageSize: 0,
-        totalPages: 0
+        success: true,
+        totalPages: 0,
       });
     } catch (error) {
       next(error);

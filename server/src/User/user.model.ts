@@ -22,18 +22,6 @@ const Email: Schema = new Schema({
 
 const userSchema = new Schema<User>(
   {
-    _corporate: {
-      ref: 'Corporate',
-      type: Schema.Types.ObjectId,
-    },
-    _instructor: {
-      ref: 'Instructor',
-      type: Schema.Types.ObjectId,
-    },
-    _trainee: {
-      ref: 'Trainee',
-      type: Schema.Types.ObjectId,
-    },
     active: {
       default: true,
       type: Boolean,

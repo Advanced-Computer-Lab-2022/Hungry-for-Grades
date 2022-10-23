@@ -34,19 +34,19 @@ export interface Course {
   title: string;
 }
 
-type FrequentlyAskedQuestion = {
+export type FrequentlyAskedQuestion = {
   answer: string;
   question: string;
   votes: number;
 };
 
-type Announcement = {
+export type Announcement = {
   createdAt: Date;
   description: string;
   title: string;
 };
 
-type Price = {
+export type Price = {
   currency: string;
   currentValue: number;
   dicounts: Discount[];

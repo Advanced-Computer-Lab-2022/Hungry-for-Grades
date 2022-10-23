@@ -1,15 +1,9 @@
 import { Course, Level } from '@Course/course.interface';
-import { requiredNumber, requiredString } from '@Common/Models/common';
+import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
 const courseSchema = new Schema<Course>(
   {
-    _corporate: [
-      {
-        ref: 'Corporate',
-        type: Schema.Types.ObjectId,
-      },
-    ],
     _instructor: [
       {
         ref: 'Instructor',
@@ -75,7 +69,11 @@ const courseSchema = new Schema<Course>(
     previewVideoURL: requiredString,
     price: {
       currency: requiredString,
-      currentValue: requiredNumber,
+      currentValue: {
+        required: true,
+        type: Number,
+        // get: getCurrentCoursePrice,
+      },
       discounts: [
         {
           endDate: Date,
@@ -137,9 +135,25 @@ const courseSchema = new Schema<Course>(
   },
   {
     timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
   },
 );
 
 const courseModel = model<Course & Document>('Course', courseSchema);
+
+// function getCurrentCoursePrice() {
+//   console.log('entered here');
+//   return 1000;
+//   const discountAvailable = this.price.dicounts.filter(discount => {
+//     return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
+//   });
+//   let result = 0;
+//   if (discountAvailable.length == 0)
+//     // No discounts are available on the course
+//     result = this.price.currentValue; // Original Value Returned
+//   else result = ((100 - discountAvailable[0].percentage) / 100) * this.price.currentValue;
+//   return Math.round(result * 100) / 100; // round to 2 decimal places
+// }
 
 export default courseModel;

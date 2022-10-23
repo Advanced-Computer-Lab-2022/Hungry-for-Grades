@@ -1,17 +1,13 @@
-
-export class PaginatedRequest {
-  limit = 12;
-  page = 1;
+export interface PaginatedRequest {
+  limit: number;
+  page: number;
 }
 
- export interface PaginatedResponse<T>  {
+export interface PaginatedResponse<T> {
   data: T[];
+  message: string;
   page: number;
   pageSize: number;
-  totalPages: number;
   success: boolean;
-  message: string;
-
+  totalPages: number;
 }
-
-

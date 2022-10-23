@@ -9,6 +9,10 @@ const instructorSchema = new Schema<Instructor>({
       type: Schema.Types.ObjectId,
     },
   ],
+  _user: {
+    ref: 'User',
+    type: Schema.Types.ObjectId,
+  },
   balance: {
     default: 0,
     type: Number,
