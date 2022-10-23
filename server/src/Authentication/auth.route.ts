@@ -1,12 +1,12 @@
-import { CreateUserDto } from '@User/users.dto';
+import { Routes } from '@/common/Interfaces/routes.interface';
+import { CreateUserDto, FindUserDto } from '@/User/user.dto';
 import AuthController from '@Authentication/auth.controller';
-import { Routes } from '@Common/Interfaces/routes.interface';
 import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import { Router } from 'express';
 
 class AuthRoute implements Routes {
-  public path = 'auth';
+  public path = '';
   public router = Router();
   public authController = new AuthController();
 
@@ -16,7 +16,7 @@ class AuthRoute implements Routes {
 
   private initializeRoutes() {
     this.router.post('/signup', validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
-    this.router.post('/login', validationMiddleware(CreateUserDto, 'body'), this.authController.logIn);
+    this.router.post('/login', validationMiddleware(FindUserDto, 'body'), this.authController.logIn);
     this.router.post('/logout', authMiddleware, this.authController.logOut);
   }
 }

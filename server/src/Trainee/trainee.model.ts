@@ -1,3 +1,4 @@
+import { requiredString } from '@/common/Models/common';
 import { Trainee } from '@/Trainee/trainee.interface';
 import { Document, model, Schema } from 'mongoose';
 
@@ -41,9 +42,9 @@ const traineeSchema = new Schema<Trainee>(
     },
     creditCards: [
       {
-        cardHolderName: String,
-        cardNumber: String,
-        cvv: String,
+        cardHolderName: requiredString,
+        cardNumber: requiredString,
+        cvv: requiredString,
         expirationDate: Date,
       },
     ],

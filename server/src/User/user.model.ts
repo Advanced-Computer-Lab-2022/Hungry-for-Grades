@@ -1,16 +1,17 @@
-import { Role, User } from '@/User/user.interface';
-import { requiredString } from '@/Common/Models/common';
+import { requiredString } from '@Common/Models/common';
+import { IUser } from '@/User/user.interface';
 import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
+import { Gender, Role } from './user.enum';
 const SALT_WORK_FACTOR = 10;
 
 const Email: Schema = new Schema({
   address: {
     index: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, 'is invalid'],
-    required: [true, "can't be blank"],
+    match: [/\S+@\S+\.\S+/, 'email is invalid'],
+    required: [true, "email can't be blank"],
     type: String,
   },
   // Change the default to true if you don't need to validate a new user's email address upon registration
@@ -20,7 +21,7 @@ const Email: Schema = new Schema({
   },
 });
 
-const userSchema = new Schema<User>(
+const userSchema = new Schema<IUser>(
   {
     active: {
       default: true,
@@ -36,9 +37,12 @@ const userSchema = new Schema<User>(
       unique: true,
     },
     gender: {
-      enum: ['Male', 'Female'],
+      enum: Object.values(Gender),
       required: true,
       type: String,
+    },
+    lastLogin: {
+      type: Date,
     },
     name: requiredString,
     password: { ...requiredString, minlength: 8 },
@@ -54,8 +58,8 @@ const userSchema = new Schema<User>(
     },
     username: {
       index: true,
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
-      required: [true, "can't be blank"],
+      match: [/^[a-zA-Z0-9]+$/, 'username is invalid'],
+      required: [true, "username can't be blank"],
       type: String,
       unique: true,
     },
@@ -73,10 +77,11 @@ userSchema.pre('save', function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+  this.lastLogin = new Date();
   this.password = bcrypt.hashSync(this.password, SALT_WORK_FACTOR);
   next();
 });
 
-const userModel = model<User & Document>('User', userSchema);
+const userModel = model<IUser & Document>('User', userSchema);
 
 export default userModel;

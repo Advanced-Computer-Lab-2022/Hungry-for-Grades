@@ -1,5 +1,5 @@
+import { Rating } from '@/common/Types/common.types';
 import { Types } from 'mongoose';
-import { Rating } from '@Common/Types/common.types';
 
 export interface Instructor {
   _id: Types.ObjectId;

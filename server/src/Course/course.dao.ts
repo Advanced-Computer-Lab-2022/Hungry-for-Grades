@@ -3,7 +3,7 @@ import CourseModel from '@Course/course.model';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { HttpException } from '@exceptions/HttpException';
 import { isEmpty } from '@utils/util';
-import { PaginatedResponse } from '@utils/Pagination';
+import { PaginatedResponse } from '@/utils/PaginationResponse';
 import mongoose from 'mongoose';
 import { CourseFilters } from '@Course/course.types';
 import courseModel from '@Course/course.model';

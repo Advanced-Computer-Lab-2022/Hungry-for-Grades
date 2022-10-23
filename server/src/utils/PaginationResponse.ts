@@ -3,11 +3,15 @@ export interface PaginatedRequest {
   page: number;
 }
 
-export interface PaginatedResponse<T> {
+export interface PaginatedData<T> {
   data: T[];
   message: string;
   page: number;
   pageSize: number;
-  success: boolean;
   totalPages: number;
+}
+
+export interface PaginatedResponse<T> extends PaginatedData<T> {
+  message: string;
+  success: boolean;
 }

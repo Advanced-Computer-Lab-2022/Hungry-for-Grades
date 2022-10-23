@@ -1,4 +1,4 @@
-import { User } from '@User/user.interface';
+import { IUser } from '@User/user.interface';
 import { Request } from 'express';
 import { Types } from 'mongoose';
 
@@ -12,5 +12,15 @@ export interface TokenData {
 }
 
 export interface RequestWithUser extends Request {
-  user: User;
+  user: IUser;
+}
+
+export interface ICookie {
+  name: string;
+  options: {
+    httpOnly: boolean;
+    maxAge: number;
+    secure?: boolean;
+  };
+  value: string;
 }

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
@@ -8,11 +8,10 @@ import { LoginProps } from './types';
 
 import useLogin from './useLogin';
 
+import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-
-import Button from '@components/buttons/button/Button';
-
+import './login.scss';
 function Login() {
   const { mutateAsync: login, isError, data } = useLogin();
   const navigate = useNavigate();
@@ -53,74 +52,87 @@ function Login() {
   }, [navigate, formik, login]);
 
   return (
-    <section className='login container'>
-      <Form
-        ariaLabel={'Login Form'}
-        disabled={false}
-        encType={'application/x-www-form-urlencoded'}
-        inputs={[
-          <Input
-            key='email-1'
-            correctMessage={''}
-            errorMessage={formik.errors.email as string}
-            hint={''}
-            isError={formik.touched.email && formik.errors.email ? true : null}
-            isTop={false}
-            label={'Email'}
-            name={'email'}
-            placeholder='Email'
-            size={0}
-            type='email'
-            value={formik.values.email}
-            onBlurFunc={formik.handleBlur}
-            onChangeFunc={formik.handleChange}
-          />,
-          <Input
-            key={'password-1'}
-            correctMessage={''}
-            errorMessage={formik.errors.password as string}
-            hint={''}
-            isError={
-              formik.touched.password && formik.errors.password ? true : null
-            }
-            isTop={false}
-            label={''}
-            name={'password'}
-            placeholder='Password'
-            size={0}
-            type='password'
-            value={formik.values.password}
-            onBlurFunc={formik.handleBlur}
-            onChangeFunc={formik.handleChange}
-          />
-        ]}
-        isError={false}
-        isLoading={false}
-        method={'post'}
-        subtitle='Login to your account'
-        title='Login'
-        onResetFunc={formik.handleReset}
-      >
-        <Button
-          backgroundColor={'default-bg'}
-          isDisabled={formik.isValid}
-          label='Login'
-          name='login'
-          type='button'
-          onClickFunc={handleSubmit}
-        />
-        <Button
-          backgroundColor={'default-bg'}
-          isDisabled={false}
-          label='Register'
-          name='register'
-          type='button'
-          onClickFunc={navigateToSignup}
-        />
-      </Form>
+    <div className='login d-flex flex-row justify-content-between'>
+      <section className='container-fluid'>
+        <div className='form__container'>
+          <Form
+            ariaLabel={'Login Form'}
+            disabled={false}
+            encType={'application/x-www-form-urlencoded'}
+            inputs={[
+              <Input
+                key='email-1'
+                correctMessage={''}
+                errorMessage={formik.errors.email as string}
+                hint={''}
+                isError={
+                  formik.touched.email && formik.errors.email ? true : null
+                }
+                isTop={false}
+                label={'Email'}
+                name={'email'}
+                placeholder='Email'
+                size={0}
+                type='email'
+                value={formik.values.email}
+                onBlurFunc={formik.handleBlur}
+                onChangeFunc={formik.handleChange}
+              />,
+              <Input
+                key={'password-1'}
+                correctMessage={''}
+                errorMessage={formik.errors.password as string}
+                hint={''}
+                isError={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : null
+                }
+                isTop={false}
+                label={'Password'}
+                name={'password'}
+                placeholder='Password'
+                size={0}
+                type='password'
+                value={formik.values.password}
+                onBlurFunc={formik.handleBlur}
+                onChangeFunc={formik.handleChange}
+              />
+            ]}
+            isError={false}
+            isLoading={false}
+            method={'post'}
+            subtitle='Login to your account'
+            title='Login'
+            onResetFunc={formik.handleReset}
+          >
+            <div className='d-flex flex-column justify-content-between'>
+              <Button
+                backgroundColor='primary-bg'
+                isDisabled={formik.isValid}
+                label='Login'
+                name='login'
+                type='button'
+                onClickFunc={handleSubmit}
+              />
+              <span className='d-flex flex-row justify-content-end'>
+                Don&apos;t have an account? &nbsp;
+                <Link to='/signup' onClick={navigateToSignup}>
+                  Sign Up
+                </Link>
+              </span>
+            </div>
 
-      {isError && <div>{data}</div>}
-    </section>
+            <div />
+          </Form>
+          {isError && <div>{data}</div>}
+        </div>
+      </section>
+      <div className='w-75 img__container'>
+        <img alt='t' src={'/login.jpg'} />
+        <div />
+      </div>
+    </div>
   );
 }
 

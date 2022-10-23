@@ -1,9 +1,14 @@
 .button:disabled {
   background-color: #e2e8f0;
   color: #a0aec0;
+  border: #e2e8f0;
 }
 
 .button {
+  padding: 0.7rem 1rem;
+}
+
+.default {
   font-size: 1rem;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -13,21 +18,47 @@
   cursor: pointer;
   filter: brightness(0.5) contrast(1.7);
   -webkit-filter: brightness(0.5) contrast(1.7);
+  -webkit-border-radius: 0.25rem;
+  -moz-border-radius: 0.25rem;
+  -ms-border-radius: 0.25rem;
+  -o-border-radius: 0.25rem;
 }
 
-.button:hover {
+.default:hover {
   background-color: var(--variant-hover-color);
   color: var(--text-color);
 }
 
 .button:disabled {
-  background-color: var(--variant-disabled-background-color);
+  /*   background-color: var(--variant-disabled-background-color);
+ */
   color: var(--variant-disabled-text-color);
+}
+
+.primary-bg {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -ms-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+}
+
+.primary-bg:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.primary-bg:disabled {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .success-bg {
   background-color: #d4edda;
-  color: #155724;
 }
 
 strong.success-bg {

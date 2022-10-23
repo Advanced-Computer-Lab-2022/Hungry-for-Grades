@@ -1,37 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="language" content="English" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="icon" href="/favicon.ico" />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="32x32" href="address" />
-  </head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+    <!-- JavaScript Bundle with Popper -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</head>
 
-  <body>
+<body>
     <div id="root"></div>
     <div id="modal-root" role="dialog"></div>
     <div id="toast" role="dialog"></div>
 
     <script type="module" src="/src/main.tsx"></script>
-  </body>
-  <script>
-    window.ga = function () {
-      ga.q.push(arguments);
+</body>
+<script>
+    window.ga = function() {
+        ga.q.push(arguments);
     };
     ga.q = [];
     ga.l = +new Date();
@@ -39,5 +34,6 @@
     ga('set', 'anonymizeIp', true);
     ga('set', 'transport', 'beacon');
     ga('send', 'pageview');
-  </script>
+</script>
+
 </html>

@@ -1,4 +1,4 @@
-import { PaginatedResponse } from '@/utils/Pagination';
+import { PaginatedResponse } from '@/utils/PaginationResponse';
 import courseService from '@Course/course.dao';
 import { Course } from '@Course/course.interface';
 import { HttpResponse } from '@utils/HttpResponse';

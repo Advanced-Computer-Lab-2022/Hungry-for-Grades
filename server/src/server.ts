@@ -1,7 +1,7 @@
 import App from '@/app';
-import { dbConnection } from '@/databases';
 import AuthRoute from '@/Authentication/auth.route';
-import UsersRoute from '@/User/users.route';
+import { dbConnection } from '@/databases';
+import UsersRoute from '@/User/user.route';
 import { logger } from '@utils/logger';
 import validateEnv from '@utils/validateEnv';
 import { connect, connection } from 'mongoose';

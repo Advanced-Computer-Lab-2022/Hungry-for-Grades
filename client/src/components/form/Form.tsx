@@ -10,7 +10,7 @@ function Form(props: FormProps) {
       noValidate
       acceptCharset='utf-8'
       aria-label={props.ariaLabel}
-      autoComplete='on'
+      autoComplete='off'
       className={`needs-validation ${props.className ?? ''}`}
       encType={props.encType}
       id={id}
