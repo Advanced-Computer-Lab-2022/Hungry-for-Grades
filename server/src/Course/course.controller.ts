@@ -17,7 +17,7 @@ class CourseController {
 
       // Parse Numbers sent in query
       for (const key in filters) {
-        if (!isNaN(parseInt(filters[key]))) filters[key] = parseInt(filters[key]);
+        if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
       }
       //console.log(filters);
 
