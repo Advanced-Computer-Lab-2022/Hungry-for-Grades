@@ -16,12 +16,12 @@ class UserService {
   public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
     const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
     const query = {};
-    query['$or'] = [];
+    query['$and'] = [];
     for (const key in filters) {
       if (filters[key] && key !== 'page' && key !== 'limit' && key !== 'sortBy' && key !== 'orderBy') {
         const filter = {};
         filter[key] = filters[key];
-        query['$or'].push(filter);
+        query['$and'].push(filter);
       }
     }
     if (search) {
