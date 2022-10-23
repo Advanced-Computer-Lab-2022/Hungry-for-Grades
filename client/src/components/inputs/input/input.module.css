@@ -1,5 +1,10 @@
-.input {
+/* .input {
   margin-top: 0.3rem;
   background-color: var(--variant-color);
   color: var(--text-color);
+} */
+
+input:-webkit-autofill {
+    color: var(--text-color) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--background-color) inset;
 }

@@ -9,6 +9,9 @@ import { ClickToComponent } from 'click-to-react-component';
 import './index.css';
 import './normalize.css';
 // Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
 import './main.scss';
 
 // QueryClient
