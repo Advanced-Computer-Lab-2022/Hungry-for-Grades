@@ -1,35 +1,34 @@
 .input {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    height: 3rem;
-    width: 100%;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  height: 3rem;
+  width: 100%;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    background-color: var(--background-color) !important;
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  background-color: var(--background-color) !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 50px white inset;
-    /* Change the color to your own background color */
-    -webkit-text-fill-color: #333;
+  -webkit-box-shadow: 0 0 0 50px white inset;
+  /* Change the color to your own background color */
+  -webkit-text-fill-color: #333;
 }
 
 input:-webkit-autofill:focus {
-    -webkit-box-shadow: /*your box-shadow*/
-    , 0 0 0 50px white inset;
-    -webkit-text-fill-color: #333;
+  -webkit-box-shadow: /*your box-shadow*/ , 0 0 0 50px white inset;
+  -webkit-text-fill-color: #333;
 }
 
 .input:focus {
-    outline: none;
-    background-color: var(--background-color);
+  outline: none;
+  background-color: var(--background-color);
 }
 
 label {
-    color: var(--secondary-primary-color);
+  color: var(--secondary-primary-color);
 }
