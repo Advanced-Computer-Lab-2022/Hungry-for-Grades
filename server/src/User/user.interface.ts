@@ -1,13 +1,6 @@
 import { Types } from 'mongoose';
-
-export enum Role {
-  ADMIN = 'admin',
-  CORPORATE = 'corporate',
-  INSTRUCTOR = 'instructor',
-  TRAINEE = 'trainee',
-}
-
-export interface User {
+import { Gender, Role } from './user.enum';
+export interface IUser {
   _corporate?: Types.ObjectId;
   _id: Types.ObjectId;
   _instructor?: Types.ObjectId;
@@ -19,7 +12,8 @@ export interface User {
     address: string;
     isValidated: boolean;
   };
-  gender: 'Male' | 'Female';
+  gender: Gender;
+  lastLogin: Date;
   name: string;
   password: string;
   phone: string;
