@@ -18,7 +18,7 @@ function Navbar() {
               alt='Company Logo'
               className='float-left'
               src='./logo.png'
-              style={{ width: '12rem', height: '6rem' }}
+              style={{ width: '12rem', height: '4.8rem' }}
             />
           </a>
           <button
