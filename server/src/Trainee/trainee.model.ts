@@ -10,12 +10,6 @@ const traineeSchema = new Schema<Trainee>(
         type: Schema.Types.ObjectId,
       },
     },
-    _corporate: [
-      {
-        ref: 'Corporate',
-        type: Schema.Types.ObjectId,
-      },
-    ],
     _enrolledCourses: [
       {
         _course: {
@@ -32,6 +26,10 @@ const traineeSchema = new Schema<Trainee>(
         ],
       },
     ],
+    _user: {
+      ref: 'User',
+      type: Schema.Types.ObjectId,
+    },
     _wishlist: {
       _course: {
         ref: 'Course',
