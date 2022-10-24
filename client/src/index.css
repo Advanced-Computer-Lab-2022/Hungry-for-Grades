@@ -5,11 +5,14 @@
   --primary-dark-color: #111;
   --secondary-dark-color: #777;
   --background-dark-color: #0b090a;
-  --primary-light-color: #ff4c68;
-  --secondary-light-color: #dd8f90;
-  --background-light-color: #fff;
+  --primary-light-color: #112D4E;
+  --secondary-light-color: #3F72AF;
+  --primary-background-light-color: #F9F7F7;
+  --secondary-background-light-color: #DBE2EF;
+  /*My Variables */
   /* for background */
-  --background-color: var(--background-light-color);
+  --primary-background-color: var(--primary-background-light-color);
+  --secondary-background-color: var(--secondary-background-light-color);
   /* for text */
   --primary-color: var(--primary-light-color);
   --secondary-color: var(--secondary-light-color);

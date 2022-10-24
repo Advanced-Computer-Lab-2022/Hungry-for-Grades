@@ -1,8 +1,20 @@
-$dark: #161A1D;
-$light: #D3D3D3;
-$primary: #A4161A;
-$secondary: #B1A7A6;
-$s: #e5383b;
+@import 'index.css';
+
+$dark: #112D4E;
+$light: #F9F7F7;
+$primary: #3F72AF;
+$secondary: #DBE2EF;
+
+
+
+/*
+dark --> a8ma2 daraga azra2
+light --> aktar wa7da white
+primary --> second blue
+secondary --> samawy fate7 gedan
+*/
+
+
 @import "node_modules/bootstrap/scss/bootstrap";
 body {
     min-height: 100vh;
