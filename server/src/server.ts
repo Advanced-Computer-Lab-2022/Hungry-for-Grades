@@ -5,10 +5,12 @@ import UsersRoute from '@/User/user.route';
 import { logger } from '@utils/logger';
 import validateEnv from '@utils/validateEnv';
 import { connect, connection } from 'mongoose';
+import CoursesRoute from './Course/course.route';
+import AdminRoute from './Admin/admin.route';
 
 validateEnv();
 
-const app = new App([new UsersRoute(), new AuthRoute()]);
+const app = new App([new UsersRoute(), new AuthRoute(), new CoursesRoute(), new AdminRoute()]);
 
 (async function connectToDatabase() {
   connect(dbConnection.url, dbConnection.options)
