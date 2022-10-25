@@ -10,6 +10,7 @@ export interface CourseFilters extends PaginatedRequest {
   searchTerm: string;
   sortBy: number;
   subcategory: string; // 0 for Most Viewed, 1 for Most Rated, -1 don't sort
+  country:string
 }
 
 export const CourseFiltersDefault: CourseFilters = {
@@ -19,9 +20,10 @@ export const CourseFiltersDefault: CourseFilters = {
   level: undefined,
   limit: 12,
   page: 1,
-  priceHigh: 10000,
+  priceHigh: 1e5,
   priceLow: 0,
   searchTerm: '',
   sortBy: -1,
   subcategory: undefined,
+  country: 'United States'
 };

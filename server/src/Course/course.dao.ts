@@ -1,4 +1,4 @@
-import { Course } from '@Course/course.interface';
+import { Course, Price } from '@Course/course.interface';
 import CourseModel from '@Course/course.model';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { HttpException } from '@exceptions/HttpException';
@@ -7,24 +7,27 @@ import { PaginatedResponse } from '@/utils/PaginationResponse';
 import mongoose from 'mongoose';
 import { CourseFilters } from '@Course/course.types';
 import courseModel from '@Course/course.model';
+import {displayCurrentPrice} from '@Course/course.common';
+
 // const instructorModel = require('@Instructor/instrutor.model');
 // const userModel = require('@User/user.model');
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedResponse<Course>> => {
-    const { page, limit, searchTerm, category, subcategory, level, sortBy } = filters;
+    const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
+    // console.log("category",category);
     const filterQuery = {};
-    if (category != undefined) filterQuery['category'] = category;
-    if (level != undefined) filterQuery['level'] = level;
-    if (subcategory != undefined) filterQuery['subcategory'] = subcategory;
+    if (category != undefined) filterQuery['category'] = category//{$eq:category};
+    if (level != undefined) filterQuery['level'] = {$eq:level};
+    if (subcategory != undefined) filterQuery['subcategory'] = {$eq:subcategory};
 
     filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
     filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh }; // should be modified to compare with discounted price instead
 
-    //console.log(filterQuery);
+    console.log(filterQuery);
 
     const aggregateQuery: any[] = [
       { $match: { $and: [filterQuery] } },
@@ -34,17 +37,38 @@ class CourseService {
           foreignField: '_id',
           from: 'instructors',
           localField: '_instructor',
+          // pipeline:[{$project:{"_user":1}}]
         },
-      }, // Project instructor rating
+      }, 
       {
         $lookup: {
-          as: '_instructor._user',
+          
           foreignField: '_id',
           from: 'users',
           localField: '_instructor._user',
-          pipeline: [{ $project: { name: 1 } }],
+          as: '_instructor._user',
+          pipeline: [{ $project: { name: 1} }],
         },
       },
+      // {
+      //   $lookup: {
+      //     as: '_instructor',
+      //     foreignField: '_id',
+      //     from: 'instructors',
+      //     localField: '_instructor',
+      //     // pipeline:[{$project:{"_user":1}}]
+      //   },
+      // }, 
+      // {
+      //   $lookup: {
+          
+      //     foreignField: '_id',
+      //     from: 'users',
+      //     localField: '_instructor._user',
+      //     as: 'user',
+      //     pipeline: [{ $project: { name: 1} }],
+      //   },
+      // },
       {
         $match: {
           $or: [
@@ -80,6 +104,18 @@ class CourseService {
 
     const totalPages = Math.ceil(queryResult.length / pageLimit);
     const paginatedCourses = queryResult.slice(toBeSkipped, toBeSkipped + pageLimit);
+    // console.log(paginatedCourses);
+
+    // Get price after discount then change it to the needed currency
+    for (let course of paginatedCourses)
+    {
+      const newPrice:Price= await displayCurrentPrice(course.price, country);
+      course.price=newPrice;
+    }
+    
+
+    // console.log(paginatedCourses);
+                          
     const pageSize = paginatedCourses.length;
 
     return {
@@ -90,14 +126,6 @@ class CourseService {
       success: true,
       totalPages,
     };
-  };
-
-  public async createCourse(courseData: Course): Promise<Course> {
-    if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
-
-    // Rating should be modified pre save
-    const course: Course = await CourseModel.create(courseData);
-    return course;
   }
 
   public async findCourseById(courseId: string): Promise<Course> {
@@ -107,6 +135,14 @@ class CourseService {
     const course: Course = await CourseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
+    return course;
+  }
+
+  public async createCourse(courseData: Course): Promise<Course> {
+    if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
+
+    // Rating should be modified pre save
+    const course: Course = await CourseModel.create(courseData);
     return course;
   }
 

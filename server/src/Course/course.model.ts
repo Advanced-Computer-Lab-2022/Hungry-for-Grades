@@ -2,6 +2,7 @@ import { Course, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
+
 const courseSchema = new Schema<Course>(
   {
     _instructor: [
@@ -68,7 +69,7 @@ const courseSchema = new Schema<Course>(
     ],
     previewVideoURL: requiredString,
     price: {
-      currency: requiredString,
+      currency: {... requiredString, default:"USD"},
       currentValue: {
         required: true,
         type: Number,
@@ -129,7 +130,7 @@ const courseSchema = new Schema<Course>(
         title: requiredString,
       },
     ],
-    subcategory: requiredString,
+    subcategory: [requiredString],
     thumbnail: requiredString,
     title: requiredString,
   },
@@ -142,18 +143,6 @@ const courseSchema = new Schema<Course>(
 
 const courseModel = model<Course & Document>('Course', courseSchema);
 
-// function getCurrentCoursePrice() {
-//   console.log('entered here');
-//   return 1000;
-//   const discountAvailable = this.price.dicounts.filter(discount => {
-//     return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
-//   });
-//   let result = 0;
-//   if (discountAvailable.length == 0)
-//     // No discounts are available on the course
-//     result = this.price.currentValue; // Original Value Returned
-//   else result = ((100 - discountAvailable[0].percentage) / 100) * this.price.currentValue;
-//   return Math.round(result * 100) / 100; // round to 2 decimal places
-// }
+
 
 export default courseModel;
