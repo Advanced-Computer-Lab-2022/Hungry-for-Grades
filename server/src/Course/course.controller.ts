@@ -4,7 +4,7 @@ import { Course } from '@Course/course.interface';
 import { HttpResponse } from '@utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
-import { CourseFilters, CourseFiltersDefault } from '@Course/course.types';
+import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 
 class CourseController {
   public courseService = new courseService();
@@ -90,6 +90,19 @@ class CourseController {
       res.status(HttpStatusCodes.ACCEPTED).json({
         data: deleteUserData,
         message: 'Course Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getAllCategories = async (req: Request, res: Response<HttpResponse<Category[]>>, next: NextFunction) => {
+    try {
+      const categoryList = await this.courseService.getAllCategories();
+      res.json({
+        data: categoryList,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {

@@ -27,3 +27,8 @@ export const CourseFiltersDefault: CourseFilters = {
   sortBy: -1,
   subcategory: undefined,
 };
+
+export type Category = {
+    name: string;
+    subcat: string[];
+};
