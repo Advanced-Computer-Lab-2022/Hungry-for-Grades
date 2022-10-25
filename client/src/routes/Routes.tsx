@@ -14,6 +14,9 @@ const LazyLanding = lazy(() => import('../pages/landing/Landing'));
 const LazyCourse = lazy(() => import('../pages/course/Course'));
 const LazyLogin = lazy(() => import('../pages/login/Login'));
 const LazySignup = lazy(() => import('../pages/signup/Signup'));
+const LazyInstructorDashboard = lazy(
+  () => import('../pages/instructorDashboard/InstructorDashboard')
+);
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -27,10 +30,8 @@ function AllRoutes() {
 
       <Route element={<PublicRoutes />}>
         <Route element={<LazyLanding />} path='/' />
-      </Route>
-
-      <Route element={<PublicRoutes />}>
         <Route element={<LazyCourse />} path='/course' />
+        <Route element={<LazyInstructorDashboard />} path='/home/instructor' />
       </Route>
 
       <Route element={<AuthRoutes />}>

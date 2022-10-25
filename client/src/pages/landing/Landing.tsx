@@ -1,10 +1,14 @@
+import CourseCard from '../course/CourseCard';
+
 import CourseSummary from './CourseSummary';
+
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
 
 function Landing() {
   return (
     <>
       <InstructorBillboard />
+      <CourseCard />
       <section>
         <CourseSummary
           discount
