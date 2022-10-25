@@ -29,8 +29,6 @@ export const CourseFiltersDefault: CourseFilters = {
 };
 
 export type Category = {
-  _id: {
-    cat: string;
+    name: string;
     subcat: string[];
-  };
 };
