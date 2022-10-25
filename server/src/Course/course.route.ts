@@ -14,6 +14,7 @@ class CoursesRoute implements Routes {
   private initializeRoutes() {
     this.router.get('', this.courseController.getAllCourses);
     this.router.post('/', this.courseController.createCourse);
+    this.router.get('/category', this.courseController.getAllCategories);
     this.router.get('/:id', this.courseController.getCourseById);
     this.router.put('/:id', this.courseController.updateCourse);
     this.router.delete('/:id', this.courseController.deleteCourse);
