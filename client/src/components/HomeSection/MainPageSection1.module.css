@@ -1,0 +1,26 @@
+.MainSectionHome__content h2 {
+    font-weight: 600;
+    line-height: 2.5rem;
+  }
+  
+  .MainSectionHome__content {
+    color : #112D4E;
+  }
+
+  .search input {
+    border-radius: 50rem;
+    width:70%;
+    padding: 3% 10%;
+    padding-left: 0%;
+    background-color: #F9F7F7;
+  }
+  
+  .search {
+    width: 60%;
+    border: 1px solid #3F72AF;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 50rem;
+    margin-top: 0rem;
+  }
