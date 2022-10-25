@@ -8,7 +8,7 @@ import {
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import './accordion.scss';
-import './course-details.scss';
+import styles from './course-content.module.scss';
 
 function Title() {
   return <h2 className='text-dark mb-4'>Course content</h2>;
@@ -23,7 +23,7 @@ function CourseContent() {
           <AccordionItemHeading>
             <AccordionItemButton>
               <span>
-                <span className='text-dark space'>
+                <span className={`text-dark ${styles['span-space'] ?? ''}`}>
                   <strong>Introduction</strong>
                 </span>
                 <span className='text-right text-dark'>
