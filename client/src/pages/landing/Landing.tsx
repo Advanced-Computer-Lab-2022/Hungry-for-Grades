@@ -1,12 +1,10 @@
-
 import CourseCard from '../course/CourseCard';
 
 import CourseSummary from './CourseSummary';
 
-import  MainPageSection1  from '@components/HomeSection/MainPageSection1';
+import MainPageSection1 from '@components/HomeSection/MainPageSection1';
 
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
-
 
 function Landing() {
   return (

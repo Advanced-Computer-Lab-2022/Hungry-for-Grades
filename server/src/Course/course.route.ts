@@ -1,5 +1,5 @@
 import CourseController from '@Course/course.controller';
-import { Routes } from '@/Common/Interfaces/routes.interface';
+import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
 
 class CoursesRoute implements Routes {

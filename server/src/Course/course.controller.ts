@@ -12,14 +12,21 @@ class CourseController {
   public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
     try {
       const requestFilters: CourseFilters = req.query;
-      //console.log(requestFilters);
+
+      // FIlter out empty params
+      for (const param in requestFilters) {
+        if (requestFilters[param] === null || requestFilters[param] === '') {
+          delete requestFilters[param];
+        }
+      }
+
+      // Supply default values to query params (if not supplied)
       const filters = { ...CourseFiltersDefault, ...requestFilters };
 
       // Parse Numbers sent in query
       for (const key in filters) {
         if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
       }
-      //console.log(filters);
 
       const coursesPaginatedResponse: PaginatedResponse<Course> = await this.courseService.getAllCourses(filters);
 

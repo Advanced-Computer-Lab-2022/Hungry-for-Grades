@@ -12,7 +12,7 @@ import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-import { Routes } from '@/common/Interfaces/routes.interface';
+import { Routes } from '@Common/Interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
 import modelsErrorMiddleware from './middlewares/modelsError.middleware';
