@@ -2,7 +2,6 @@ import { Course, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
-
 const courseSchema = new Schema<Course>(
   {
     _instructor: [
@@ -69,7 +68,7 @@ const courseSchema = new Schema<Course>(
     ],
     previewVideoURL: requiredString,
     price: {
-      currency: {... requiredString, default:"USD"},
+      currency: { ...requiredString, default: 'USD' },
       currentValue: {
         required: true,
         type: Number,
@@ -142,7 +141,5 @@ const courseSchema = new Schema<Course>(
 );
 
 const courseModel = model<Course & Document>('Course', courseSchema);
-
-
 
 export default courseModel;

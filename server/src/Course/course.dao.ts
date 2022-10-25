@@ -7,7 +7,7 @@ import { PaginatedResponse } from '@/utils/PaginationResponse';
 import mongoose from 'mongoose';
 import { CourseFilters } from '@Course/course.types';
 import courseModel from '@Course/course.model';
-import {displayCurrentPrice} from '@Course/course.common';
+import { displayCurrentPrice } from '@Course/course.common';
 
 // const instructorModel = require('@Instructor/instrutor.model');
 // const userModel = require('@User/user.model');
@@ -18,16 +18,14 @@ class CourseService {
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
-    // console.log("category",category);
     const filterQuery = {};
-    if (category != undefined) filterQuery['category'] = category//{$eq:category};
-    if (level != undefined) filterQuery['level'] = {$eq:level};
-    if (subcategory != undefined) filterQuery['subcategory'] = {$eq:subcategory};
+    if (category != undefined) filterQuery['category'] = category; //{$eq:category};
+    if (level != undefined) filterQuery['level'] = { $eq: level };
+    if (subcategory != undefined) filterQuery['subcategory'] = { $eq: subcategory };
 
     filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
     filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh }; // should be modified to compare with discounted price instead
 
-    console.log(filterQuery);
 
     const aggregateQuery: any[] = [
       { $match: { $and: [filterQuery] } },
@@ -37,38 +35,18 @@ class CourseService {
           foreignField: '_id',
           from: 'instructors',
           localField: '_instructor',
-          // pipeline:[{$project:{"_user":1}}]
         },
-      }, 
+      },
       {
         $lookup: {
-          
+          as: '_instructor._user',
           foreignField: '_id',
           from: 'users',
           localField: '_instructor._user',
-          as: '_instructor._user',
-          pipeline: [{ $project: { name: 1} }],
+          pipeline: [{ $project: { name: 1 } }],
         },
       },
-      // {
-      //   $lookup: {
-      //     as: '_instructor',
-      //     foreignField: '_id',
-      //     from: 'instructors',
-      //     localField: '_instructor',
-      //     // pipeline:[{$project:{"_user":1}}]
-      //   },
-      // }, 
-      // {
-      //   $lookup: {
-          
-      //     foreignField: '_id',
-      //     from: 'users',
-      //     localField: '_instructor._user',
-      //     as: 'user',
-      //     pipeline: [{ $project: { name: 1} }],
-      //   },
-      // },
+      {$project:{"rating.reviews":0}},
       {
         $match: {
           $or: [
@@ -104,18 +82,13 @@ class CourseService {
 
     const totalPages = Math.ceil(queryResult.length / pageLimit);
     const paginatedCourses = queryResult.slice(toBeSkipped, toBeSkipped + pageLimit);
-    // console.log(paginatedCourses);
 
     // Get price after discount then change it to the needed currency
-    for (let course of paginatedCourses)
-    {
-      const newPrice:Price= await displayCurrentPrice(course.price, country);
-      course.price=newPrice;
+    for (const course of paginatedCourses) {
+      const newPrice: Price = await displayCurrentPrice(course.price, country);
+      course.price = newPrice;
     }
-    
 
-    // console.log(paginatedCourses);
-                          
     const pageSize = paginatedCourses.length;
 
     return {
@@ -126,7 +99,7 @@ class CourseService {
       success: true,
       totalPages,
     };
-  }
+  };
 
   public async findCourseById(courseId: string): Promise<Course> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
