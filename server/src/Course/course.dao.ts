@@ -26,7 +26,6 @@ class CourseService {
     filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
     filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh }; // should be modified to compare with discounted price instead
 
-
     const aggregateQuery: any[] = [
       { $match: { $and: [filterQuery] } },
       {
@@ -46,7 +45,7 @@ class CourseService {
           pipeline: [{ $project: { name: 1 } }],
         },
       },
-      {$project:{"rating.reviews":0}},
+      { $project: { 'rating.reviews': 0 } },
       {
         $match: {
           $or: [

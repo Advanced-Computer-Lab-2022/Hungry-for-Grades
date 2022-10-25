@@ -13,7 +13,7 @@ const validationMiddleware = (
 ): RequestHandler => {
   return (req, res, next) => {
     logger.info('validationMiddleware');
-    validate(plainToClass(type, req[value]), { forbidNonWhitelisted, skipMissingProperties, whitelist }).then((errors: ValidationError[]) => {
+    validate(plainToClass(type, req.get(value)), { forbidNonWhitelisted, skipMissingProperties, whitelist }).then((errors: ValidationError[]) => {
       if (errors.length > 0) {
         const message = errors.map((error: ValidationError) => Object.values(error.constraints)).join(', ');
         next(new HttpException(400, message));
