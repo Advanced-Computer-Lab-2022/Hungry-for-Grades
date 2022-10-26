@@ -1,4 +1,4 @@
-import { Rating } from '@/common/Types/common.types';
+import { Rating } from '@Common/Types/common.types';
 import { Types } from 'mongoose';
 
 export enum Level {
@@ -49,7 +49,7 @@ export type Announcement = {
 export type Price = {
   currency: string;
   currentValue: number;
-  dicounts: Discount[];
+  discounts: Discount[];
 };
 
 export type Question = {
