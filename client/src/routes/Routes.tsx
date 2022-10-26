@@ -12,6 +12,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 import PublicRoutes from './PublicRoutes';
 const LazyLanding = lazy(() => import('../pages/landing/Landing'));
 const LazyCourse = lazy(() => import('../pages/course/Course'));
+const LazyCourses = lazy(() => import('../pages/courses/Courses'));
 const LazyLogin = lazy(() => import('../pages/login/Login'));
 const LazySignup = lazy(() => import('../pages/signup/Signup'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
@@ -30,7 +31,8 @@ function AllRoutes() {
       </Route>
 
       <Route element={<PublicRoutes />}>
-        <Route element={<LazyCourse />} path='/course' />
+        <Route element={<LazyCourses />} path='courses' />
+        <Route element={<LazyCourse />} path='course/:courseid' />
       </Route>
 
       <Route element={<AuthRoutes />}>

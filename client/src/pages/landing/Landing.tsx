@@ -1,4 +1,5 @@
-import CourseSummary from './CourseSummary';
+import CourseSummary from '../../components/courseCard/CourseSummary';
+
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
 
 function Landing() {

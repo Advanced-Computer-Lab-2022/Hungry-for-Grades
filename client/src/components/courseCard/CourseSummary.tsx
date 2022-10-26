@@ -1,7 +1,8 @@
 import { formatCurrency } from '../../utils/currency';
 
+import { CourseSummaryProps } from '../../pages/landing/types';
+
 import styles from './course-summary.module.scss';
-import { CourseSummaryProps } from './types';
 
 function CoursePrice(props: CourseSummaryProps) {
   if (!props.discount) {
