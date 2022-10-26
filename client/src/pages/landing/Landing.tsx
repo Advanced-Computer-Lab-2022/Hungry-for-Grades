@@ -1,6 +1,7 @@
 import CourseCard from '../course/CourseCard';
 
-import CourseSummary from './CourseSummary';
+import CourseSummary from '@components/courseCard/CourseSummary';
+
 
 import MainPageSection1 from '@components/HomeSection/MainPageSection1';
 

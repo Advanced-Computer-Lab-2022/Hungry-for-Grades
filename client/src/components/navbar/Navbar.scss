@@ -1,0 +1,81 @@
+.navbar {
+    .flag__select {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.5rem 0;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        &:focus-visible,
+        &:focus,
+        &:active,
+        &:hover,
+        &:focus-within {
+            width: 10rem;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -ms-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+        }
+        li:hover {
+            background-color: var(--secondary-background-color);
+            color: var(--secondary-color);
+        }
+        li:active,
+        li:focus {
+            background-color: var(--secondary-background-color);
+            color: var(--secondary-color);
+        }
+    }
+    .auth_btn {
+        height: fit-content;
+        border-radius: 5px;
+        transition: all 0.5 ease-in-out;
+        -webkit-transition: all 0.5 ease-in-out;
+        -moz-transition: all 0.5 ease-in-out;
+        -ms-transition: all 0.5 ease-in-out;
+        -o-transition: all 0.5 ease-in-out;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        margin-top: 0.45rem;
+        .login__btn {
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            &:hover {
+                background-color: var(--secondary-color);
+                color: white;
+                filter: contrast(1.5);
+                -webkit-filter: contrast(1.5);
+            }
+        }
+        .signup__btn {
+            border-radius: 5px;
+            margin-top: 4rem;
+            text-align: center;
+            margin: auto;
+            background-color: transparent;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            color: white !important;
+            border: 1px solid var(--primary-color);
+            padding: 0.5rem 1rem;
+            &:hover {
+                filter: contrast(1.5);
+                -webkit-filter: contrast(1.5);
+            }
+        }
+    }
+}

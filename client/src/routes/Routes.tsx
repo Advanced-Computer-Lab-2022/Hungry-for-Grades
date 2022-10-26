@@ -12,6 +12,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 import PublicRoutes from './PublicRoutes';
 const LazyLanding = lazy(() => import('../pages/landing/Landing'));
 const LazyCourse = lazy(() => import('../pages/course/Course'));
+const LazyCourses = lazy(() => import('../pages/courses/Courses'));
 const LazyLogin = lazy(() => import('../pages/login/Login'));
 const LazySignup = lazy(() => import('../pages/signup/Signup'));
 const LazyInstructorDashboard = lazy(
@@ -30,6 +31,11 @@ function AllRoutes() {
 
       <Route element={<PublicRoutes />}>
         <Route element={<LazyLanding />} path='/' />
+      </Route>
+
+      <Route element={<PublicRoutes />}>
+        <Route element={<LazyCourses />} path='courses' />
+        <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
         <Route element={<LazyInstructorDashboard />} path='/home/instructor' />
       </Route>
@@ -39,27 +45,9 @@ function AllRoutes() {
         <Route element={<LazySignup />} path='/signup' />
       </Route>
 
-      {/*
-                <Route path="/projects" element={
-                <Suspense fallback={<Loader/>}>
-                <LazyProject />
-                </Suspense>} />
 
-                <Route path="/achievements" element={
-                <Suspense fallback={<Loader/>}>
-                <LazyAchievements />
-                </Suspense>} />
 
-                <Route path="/contact" element={
-                <Suspense fallback={<Loader/>}>
-                <LazyContact />
-                </Suspense>} /> */}
-      {/*          <Route path="/skills" element={
-                <Suspense fallback={<Loader/>}>
-                <LazySkills />
-                </Suspense>} />
-
-                <Route path="/*" element={<Error404 />} /> */}
+               {/*  <Route element={<Error404 />} path="/*" /> */}
     </Routes>
   );
 }
