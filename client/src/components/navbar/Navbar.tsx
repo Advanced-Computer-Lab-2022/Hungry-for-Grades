@@ -18,7 +18,7 @@ function NavbarComponent() {
     setCurrentPath(location.pathname);
   }, [location]);
 
- /*
+  /*
  const categories = [
     {
       name: 'Web Development',
@@ -86,11 +86,15 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <Nav.Link className="auth_btn">
-                  <Link className='signup__btn' to='/auth/register'>Sign Up</Link>
+                <Nav.Link className='auth_btn'>
+                  <Link className='signup__btn' to='/auth/register'>
+                    Sign Up
+                  </Link>
                 </Nav.Link>
-                <Nav.Link className="auth_btn">
-                  <Link className='login__btn' to='/auth/login'>Login</Link>
+                <Nav.Link className='auth_btn'>
+                  <Link className='login__btn' to='/auth/login'>
+                    Login
+                  </Link>
                 </Nav.Link>
               </>
             )}

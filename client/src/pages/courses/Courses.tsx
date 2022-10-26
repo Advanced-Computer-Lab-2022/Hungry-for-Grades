@@ -9,7 +9,7 @@ import LoaderCard from '@/components/loader/loaderCard/LoaderCard';
 // eslint-disable-next-line @typescript-eslint/require-await
 async function getCourses(selectedFilters: SelectFiltersType) {
   //getRequest()
-	alert(selectedFilters);
+  alert(selectedFilters);
 }
 
 function SearchCourses() {
