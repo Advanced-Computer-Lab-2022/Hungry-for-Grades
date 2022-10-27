@@ -2,37 +2,25 @@
 import { CourseCardProps } from '../landing/types';
 import styles from './CourseCard.module.scss';
 import StarRatings from 'react-star-ratings';
+import { formatCurrency } from '@/utils/currency';
 
-// function CourseCard() {
-//   return (
-//     <div className='course-container'>
-//       <div className='img-wrapper'>
-//         <img
-//           alt='course'
-//           src={'https://img-c.udemycdn.com/course/750x422/394676_ce3d_5.jpg'}
-//           style={{ height: '8.4375rem', width: '15rem' }}
-//         />
-//       </div>
-//       <div>
-//         <div>
-//           <h4 className='course-title fnt-md'>
-//             Learn Python: The Complete Python Programming Course
-//           </h4>
-//         </div>
-//         <div className='instructors fnt-xs'>Avinash Jain, The Codex</div>
-//         <div>
-//           <span className='star-rating-number fnt-sm-b'>
-//             4.3
-//             {'\u00A0'}
-//           </span>
-//         </div>
-//         <div className='fnt-md-b'>$16.99</div>
-//       </div>
-//     </div>
-//   );
-// }
-
-//component with props:
+function Price(props: CourseCardProps) {
+  if (props.originalPrice) {
+    return (
+      <div className={styles['fnt-md-b']}>
+        {formatCurrency(props.price, props.currency)}{' '}
+        <small className={`${styles['original-price'] ?? ''}`}>
+          {formatCurrency(props.originalPrice, props.currency)}
+        </small>
+      </div>
+    );
+  }
+  return (
+    <div className={styles['fnt-md-b']}>
+      {formatCurrency(props.price, props.currency)}
+    </div>
+  );
+}
 
 function CourseCard(props: CourseCardProps) {
   return (
@@ -51,10 +39,11 @@ function CourseCard(props: CourseCardProps) {
               {props.title}
             </h4>
           </div>
-          <div
-            className={`${styles.instructors ?? ''} ${styles['fnt-xs'] ?? ''}`}
-          >
+          <div className={`${styles['fnt-xs'] ?? ''}`}>
             {props.instructors.map(instructor => instructor.name).join(', ')}
+          </div>
+          <div className={` ${styles['fnt-xs'] ?? ''}`}>
+            <strong>Duration: {props.totalHours}h</strong>
           </div>
           <div>
             <span className={styles['star-rating-number']}>
@@ -71,7 +60,7 @@ function CourseCard(props: CourseCardProps) {
               />
             </span>
           </div>
-          <div className={styles['fnt-md-b']}>${props.price}</div>
+          <Price {...props} />
         </div>
       </div>
     </a>

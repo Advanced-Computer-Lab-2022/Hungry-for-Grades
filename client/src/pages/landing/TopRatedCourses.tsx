@@ -20,6 +20,9 @@ function TopRatedCourses() {
             </div>
           ))}
         </div>
+        <p className='text-end'>
+          <a href='/courses'>View all courses</a>
+        </p>
       </div>
     );
   }

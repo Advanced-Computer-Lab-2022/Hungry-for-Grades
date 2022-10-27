@@ -24,7 +24,7 @@ export type CourseFilters = {
 export type Price = {
   currency: string;
   currentValue: number;
-  discounts: number[];
+  discounts: Array<{ endDate: Date; percentage: number; startDate: Date }>;
 };
 export type Review = {
   userID: string;

@@ -1,4 +1,21 @@
-import { Course } from '@/services/axios/dataServices/CoursesDataService';
+import {
+  Course,
+  Price
+} from '@/services/axios/dataServices/CoursesDataService';
+
+function getOriginalPrice(price: Price): number | undefined {
+  if (!price.discounts?.length) {
+    return undefined;
+  }
+  const now = new Date();
+  const discount = price.discounts.find(
+    d => new Date(d.startDate) <= now && new Date(d.endDate) > now
+  );
+  if (!discount) {
+    return undefined;
+  }
+  return (price.currentValue / (100 - discount.percentage)) * 100;
+}
 
 export type CourseCardProps = {
   id: string;
@@ -11,6 +28,7 @@ export type CourseCardProps = {
   originalPrice?: number;
   currency: string;
   rating: number;
+  totalHours: number;
 };
 
 export function mapCourseToCardProps(course: Course): CourseCardProps {
@@ -22,13 +40,9 @@ export function mapCourseToCardProps(course: Course): CourseCardProps {
     })),
     image: course.thumbnail,
     price: course.price.currentValue,
-    originalPrice:
-      course.price.discounts.length === 0
-        ? undefined
-        : course.price.currentValue +
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          course.price.discounts[course.price.discounts.length - 1]!,
+    originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
-    rating: course.rating.averageRating
+    rating: course.rating.averageRating,
+    totalHours: course.duration
   };
 }
