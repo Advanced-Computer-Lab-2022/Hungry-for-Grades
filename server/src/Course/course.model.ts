@@ -83,30 +83,30 @@ const courseSchema = new Schema<Course>(
       ],
     },
     rating: {
-      type: {
-        averageRating: {
-          max: 5,
-          min: 0,
-          required: true,
-          type: Number,
-        },
-        reviews: [
-          {
-            _user: {
-              ref: 'User',
-              type: Schema.Types.ObjectId,
-            },
-            comment: String,
-            createdAt: Date,
-            rating: {
-              max: 5,
-              min: 0,
-              required: true,
-              type: Number,
-            },
-          },
-        ],
+      // type: {
+      averageRating: {
+        max: 5,
+        min: 0,
+        required: true,
+        type: Number,
       },
+      reviews: [
+        {
+          _user: {
+            ref: 'User',
+            type: Schema.Types.ObjectId,
+          },
+          comment: String,
+          createdAt: Date,
+          rating: {
+            max: 5,
+            min: 0,
+            required: true,
+            type: Number,
+          },
+        },
+      ],
+      // },
     },
     sections: [
       {
@@ -135,8 +135,8 @@ const courseSchema = new Schema<Course>(
   },
   {
     timestamps: true,
-    toJSON: { getters: true },
-    toObject: { getters: true },
+    toJSON: { getters: true, virtuals: true },
+    toObject: { getters: true, virtuals: true },
   },
 );
 
