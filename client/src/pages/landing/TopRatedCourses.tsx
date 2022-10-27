@@ -12,6 +12,7 @@ function TopRatedCourses() {
   if (coursesMapped) {
     return (
       <div className='container'>
+        <h2 className='text-dark text-left mb-3'>Top rated courses</h2>
         <div className='row'>
           {coursesMapped.map(c => (
             <div key={c.id} className='col'>
