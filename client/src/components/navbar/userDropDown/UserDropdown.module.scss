@@ -1,0 +1,75 @@
+.user__avatar {
+    width: 2.9rem;
+    height: 2.9rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    text-align: center;
+    padding: 0%;
+    img {
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        padding: 0%;
+        margin: 0%;
+        outline: none;
+        background-size: contain;
+        background-position: center;
+        border: 1px solid var(--secondary-color);
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        &:hover {
+            outline: none;
+            border: 1px solid var(--primary-color);
+        }
+    }
+}
+
+.dropdown__menu {
+    position: absolute;
+    background-color: var(--primary-background-color);
+    padding: 2px 10px;
+    color: var(--primary-color);
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    text-align: left;
+    -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    a {
+        padding: 1rem;
+    }
+    a:hover {
+        background-color: var(--secondary-background-color);
+        color: var(--secondary-color);
+    }
+    .active__link {
+        background-color: var(--secondary-background-color);
+        color: var(--secondary-color);
+    }
+    .nav__link {
+        img {
+            width: 1.5rem;
+            height: 1.5rem;
+            padding: 0%;
+            margin: 0%;
+            outline: none;
+            &:hover {
+                outline: none;
+                border: 1px solid var(--primary-color);
+            }
+        }
+    }
+}
+
+.nav__icon {
+    margin-right: 0.4rem;
+    text-align: center;
+    padding: 0;
+}

@@ -1,13 +1,18 @@
-import CourseTitle from './CourseTitle';
-import CourseOverview from './CourseOverview';
+import { useParams } from 'react-router-dom';
+
 import CourseContent from './CourseContent';
+import CourseOverview from './CourseOverview';
+import CourseTitle from './CourseTitle';
 
 import styles from './course.module.scss';
 // import CourseCard from './CourseCard';
 
 function Course() {
+  const { courseid } = useParams();
+
   return (
     <div>
+      your course id is {courseid}
       <section>
         <div className={`${styles.container ?? ''}`}>
           <CourseTitle />
