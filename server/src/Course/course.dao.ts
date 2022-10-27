@@ -8,9 +8,10 @@ import mongoose from 'mongoose';
 import { CourseFilters, Category } from '@Course/course.types';
 import courseModel from '@Course/course.model';
 import { displayCurrentPrice } from '@Course/course.common';
+import { Rating, Review } from '@/Common/Types/common.types';
 
 // const instructorModel = require('@Instructor/instrutor.model');
-// const userModel = require('@User/user.model');
+import userModel from '@User/user.model';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedResponse<Course>> => {
@@ -19,7 +20,7 @@ class CourseService {
     const toBeSkipped = (page - 1) * pageLimit;
 
     const filterQuery = {};
-    if (category != undefined) filterQuery['category'] = category; //{$eq:category};
+    if (category != undefined) filterQuery['category'] = category;
     if (level != undefined) filterQuery['level'] = { $eq: level };
     if (subcategory != undefined) filterQuery['subcategory'] = { $eq: subcategory };
 
@@ -113,7 +114,6 @@ class CourseService {
   public async createCourse(courseData: Course): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
 
-    // Rating should be modified pre save
     const course: Course = await CourseModel.create(courseData);
     return course;
   }
@@ -144,7 +144,7 @@ class CourseService {
         { $unwind: '$subcategory' },
         { $group: { _id: { cat: '$category', subcat: '$subcategory' } } },
         { $group: { _id: '$_id.cat', subcat: { $push: '$_id.subcat' } } },
-        {$project: {_id:0,name:"$_id",subcat:"$subcat"}}
+        { $project: { _id: 0, name: '$_id', subcat: '$subcat' } },
       ],
       (err: any, result: Category[]) => {
         if (err) throw new HttpException(500, 'Internal error occured while fetching from database');
@@ -153,6 +153,27 @@ class CourseService {
     );
 
     return categoryList;
+  };
+
+  public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userReview._user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+    if (!(await userModel.findById(userReview._user))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    course.rating.reviews.push(userReview);
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+
+    course.save();
+
+    return {
+      averageRating: course.rating.averageRating,
+      reviews: course.rating.reviews.slice(-1),
+    };
   };
 }
 

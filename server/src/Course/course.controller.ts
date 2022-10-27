@@ -5,6 +5,8 @@ import { HttpResponse } from '@utils/HttpResponse';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
+import { Rating, Review } from '@/Common/Types/common.types';
+import { TransformationType } from 'class-transformer';
 
 class CourseController {
   public courseService = new courseService();
@@ -109,6 +111,21 @@ class CourseController {
       next(error);
     }
   };
-}
 
+  public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+    try {
+      const userReview: Review = req.body;
+      const courseId: string = req.params.id;
+
+      const courseRating = await this.courseService.addRating(courseId, userReview);
+      res.status(201).json({
+        data: courseRating,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
 export default CourseController;
