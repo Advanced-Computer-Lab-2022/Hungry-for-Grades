@@ -45,9 +45,7 @@ function AllRoutes() {
         <Route element={<LazySignup />} path='/signup' />
       </Route>
 
-
-
-               {/*  <Route element={<Error404 />} path="/*" /> */}
+      {/*  <Route element={<Error404 />} path="/*" /> */}
     </Routes>
   );
 }
