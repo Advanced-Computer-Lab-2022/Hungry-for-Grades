@@ -1,5 +1,6 @@
 .course-container {
   max-width: 15rem;
+  margin: 0 auto;
 }
 
 .img-wrapper {
@@ -44,17 +45,12 @@
 
 .star-rating-number {
   color: #b4690e;
-  font-weight: 700 !important;
-}
-
-.fnt-sm-b {
-  font-family: udemy sans, -apple-system, BlinkMacSystemFont, Roboto, segoe ui,
-    Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
-    segoe ui symbol;
   font-weight: 700;
+  vertical-align: bottom;
+  display: inline-block;
+  font-size: 1.1rem;
   line-height: 1.2;
-  letter-spacing: -0.0125rem;
-  font-size: 0.875rem;
+  margin-bottom: -1px;
 }
 
 .fnt-md-b {
