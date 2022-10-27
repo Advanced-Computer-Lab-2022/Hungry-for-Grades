@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import './Navbar.scss';
 import UserDropdown from './userDropDown/UserDropdown';
@@ -45,12 +45,14 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link
-              className={`${currentPath === '/courses' ? 'active' : ''}`}
-              href='/courses'
+            <NavLink
+              className={`nav-link ${
+                currentPath === '/courses' ? 'active' : ''
+              }`}
+              to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
-            </Nav.Link>
+            </NavLink>
             <NavDropdown id='basic-nav-dropdown' title='Explore'>
               <NavDropdown.Item>
                 <Link to='/courses'>Courses</Link>
@@ -85,12 +87,12 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <Nav.Link className='auth_btn' href='/auth/register'>
+                <NavLink className='auth_btn nav-link' to='/auth/register'>
                   <span className='signup__btn'>Sign Up</span>
-                </Nav.Link>
-                <Nav.Link className='auth_btn' href='/auth/login'>
+                </NavLink>
+                <NavLink className='auth_btn nav-link' to='/auth/login'>
                   <span className='login__btn'>Login</span>
-                </Nav.Link>
+                </NavLink>
               </>
             )}
           </Nav>

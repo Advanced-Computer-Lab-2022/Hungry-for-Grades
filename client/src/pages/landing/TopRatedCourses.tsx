@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { Link } from 'react-router-dom';
+
 import CourseCard from '../course/CourseCard';
 
 import { mapCourseToCardProps } from './types';
@@ -21,7 +23,7 @@ function TopRatedCourses() {
           ))}
         </div>
         <p className='text-end'>
-          <a href='/courses'>View all courses</a>
+          <Link to='/courses'>View all courses</Link>
         </p>
       </div>
     );

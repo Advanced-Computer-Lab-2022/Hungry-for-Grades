@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styles from './footer.module.scss';
 
 function Footer() {
@@ -12,29 +14,29 @@ function Footer() {
       <div className={`${styles['link-container'] ?? ''}`}>
         <ul className='row'>
           <li className='col'>
-            <a className='text-dark' href='/'>
+            <Link className='text-dark' to='/'>
               Home
-            </a>
+            </Link>
           </li>
           <li className='col'>
-            <a className='text-dark' href='/'>
+            <Link className='text-dark' to='/'>
               Features
-            </a>
+            </Link>
           </li>
           <li className='col'>
-            <a className='text-dark' href='/'>
+            <Link className='text-dark' to='/'>
               Pricing
-            </a>
+            </Link>
           </li>
           <li className='col'>
-            <a className='text-dark' href='/'>
+            <Link className='text-dark' to='/'>
               FAQs
-            </a>
+            </Link>
           </li>
           <li className='col'>
-            <a className='text-dark' href='/'>
+            <Link className='text-dark' to='/'>
               About
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
