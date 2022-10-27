@@ -74,10 +74,11 @@ class CourseService {
     //console.log(sortQuery);
 
     let queryResult: Course[] = [];
-    await courseModel.aggregate(aggregateQuery, (err: any, result: Course[]) => {
-      if (err) throw new HttpException(500, 'Internal error occured while fetching from database');
-      queryResult = result;
-    });
+    try {
+      queryResult = await courseModel.aggregate(aggregateQuery);
+    } catch {
+      throw new HttpException(500, 'Internal error occured while fetching from database');
+    }
 
     const totalPages = Math.ceil(queryResult.length / pageLimit);
     const paginatedCourses = queryResult.slice(toBeSkipped, toBeSkipped + pageLimit);
