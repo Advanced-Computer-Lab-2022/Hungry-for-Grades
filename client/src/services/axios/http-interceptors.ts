@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse
+	AxiosError,
+	AxiosInstance,
+	AxiosRequestConfig,
+	AxiosResponse
 } from 'axios';
 
 import { toast } from 'react-toastify';
@@ -49,7 +49,7 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
         {
           nextPath: window.location.pathname
         },
-        '/login'
+        '/auth/login'
       );
       toast.error('Internal Server Error');
       break;

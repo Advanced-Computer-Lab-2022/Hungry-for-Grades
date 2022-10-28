@@ -1,13 +1,10 @@
 import { createContext } from 'react';
 
 const initialState = {
-	isAuthenticated: false,
-	user: null,
+  isAuthenticated: false,
+  user: null
 };
 //type AuthType = 'LOGIN' | 'LOGOUT';
-
-
-
 
 /* function authReducer(state, { type, payload }) {
 	switch (type) {
@@ -27,10 +24,10 @@ const initialState = {
 }; */
 
 const AuthContext = createContext({
-	...initialState,
-	logIn: () => Promise.resolve(),
-	register: () => Promise.resolve(),
-	logOut: () => Promise.resolve(),
+  ...initialState,
+  logIn: () => Promise.resolve(),
+  register: () => Promise.resolve(),
+  logOut: () => Promise.resolve()
 });
 
 /* export const AuthProvider = ({ children }) => {
