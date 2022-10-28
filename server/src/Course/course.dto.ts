@@ -1,5 +1,5 @@
 import { Level, Coupon, Announcement, Question, FrequentlyAskedQuestion, Price, Section } from '@Course/course.interface';
-import { Rating } from '@/common/Types/common.types';
+import { Rating } from '@Common/Types/common.types';
 
 export interface CourseDTO {
   _instructor: string[];

@@ -68,7 +68,7 @@ const courseSchema = new Schema<Course>(
     ],
     previewVideoURL: requiredString,
     price: {
-      currency: requiredString,
+      currency: { ...requiredString, default: 'USD' },
       currentValue: {
         required: true,
         type: Number,
@@ -83,30 +83,30 @@ const courseSchema = new Schema<Course>(
       ],
     },
     rating: {
-      type: {
-        averageRating: {
-          max: 5,
-          min: 0,
-          required: true,
-          type: Number,
-        },
-        reviews: [
-          {
-            _user: {
-              ref: 'User',
-              type: Schema.Types.ObjectId,
-            },
-            comment: String,
-            createdAt: Date,
-            rating: {
-              max: 5,
-              min: 0,
-              required: true,
-              type: Number,
-            },
-          },
-        ],
+      // type: {
+      averageRating: {
+        max: 5,
+        min: 0,
+        required: true,
+        type: Number,
       },
+      reviews: [
+        {
+          _user: {
+            ref: 'User',
+            type: Schema.Types.ObjectId,
+          },
+          comment: String,
+          createdAt: Date,
+          rating: {
+            max: 5,
+            min: 0,
+            required: true,
+            type: Number,
+          },
+        },
+      ],
+      // },
     },
     sections: [
       {
@@ -129,31 +129,17 @@ const courseSchema = new Schema<Course>(
         title: requiredString,
       },
     ],
-    subcategory: requiredString,
+    subcategory: [requiredString],
     thumbnail: requiredString,
     title: requiredString,
   },
   {
     timestamps: true,
-    toJSON: { getters: true },
-    toObject: { getters: true },
+    toJSON: { getters: true, virtuals: true },
+    toObject: { getters: true, virtuals: true },
   },
 );
 
 const courseModel = model<Course & Document>('Course', courseSchema);
-
-// function getCurrentCoursePrice() {
-//   console.log('entered here');
-//   return 1000;
-//   const discountAvailable = this.price.dicounts.filter(discount => {
-//     return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
-//   });
-//   let result = 0;
-//   if (discountAvailable.length == 0)
-//     // No discounts are available on the course
-//     result = this.price.currentValue; // Original Value Returned
-//   else result = ((100 - discountAvailable[0].percentage) / 100) * this.price.currentValue;
-//   return Math.round(result * 100) / 100; // round to 2 decimal places
-// }
 
 export default courseModel;

@@ -1,6 +1,9 @@
-export function formatCurrency(value: number | undefined): string {
+export function formatCurrency(
+  value: number | undefined,
+  currency: string
+): string {
   if (value === undefined) {
     return '';
   }
-  return 'CAD$ ' + value.toFixed(2);
+  return currency + ' ' + value.toFixed(2);
 }

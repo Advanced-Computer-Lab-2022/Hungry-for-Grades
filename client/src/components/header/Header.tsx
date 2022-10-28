@@ -1,4 +1,6 @@
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+
+const helmetContext = {};
 
 function Header() {
   const author = import.meta.env.VITE_APP_AUTHOR;
@@ -7,13 +9,15 @@ function Header() {
   const keywords = import.meta.env.VITE_APP_KEYWORDS;
 
   return (
-    <Helmet>
-      <meta content={description} name='description' />
-      <meta content={author} name='author' />
-      <meta content='#000000' name='theme-color' />
-      <meta content={keywords} name='keywords' />
-      <title>{title}</title>
-    </Helmet>
+    <HelmetProvider context={helmetContext}>
+      <Helmet>
+        <meta content={description} name='description' />
+        <meta content={author} name='author' />
+        <meta content='#000000' name='theme-color' />
+        <meta content={keywords} name='keywords' />
+        <title>{title}</title>
+      </Helmet>
+    </HelmetProvider>
   );
 }
 

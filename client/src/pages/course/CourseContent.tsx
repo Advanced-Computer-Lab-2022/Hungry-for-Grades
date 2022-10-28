@@ -8,38 +8,47 @@ import {
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import './accordion.scss';
-import styles from './course-content.module.scss';
+// import styles from './course-content.module.scss';
 
-function Title() {
-  return <h2 className='text-dark mb-4'>Course content</h2>;
-}
+import { Course } from '@/services/axios/dataServices/CoursesDataService';
 
-function CourseContent() {
+function CourseContent(props: Course) {
   return (
-    <div className='mt-3 pt-3 ml-5 px-5'>
-      <Title />
+    <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
+      <h3>Course content</h3>
+      <p className='text-dark'>
+        {props.sections.length} sections &nbsp;• &nbsp;
+        {props.sections.reduce((s, l) => s + l.lessons.length, 0)} lessons&nbsp;
+        • &nbsp;
+        {props.sections.reduce(
+          (s, l) => s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+          0
+        )}{' '}
+        mins
+      </p>
       <Accordion allowZeroExpanded>
-        <AccordionItem>
-          <AccordionItemHeading>
-            <AccordionItemButton>
-              <span>
-                <span className={`text-dark ${styles['span-space'] ?? ''}`}>
-                  <strong>Introduction</strong>
+        {props.sections.map(sec => (
+          <AccordionItem key={sec.title}>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                <span>
+                  <span className={`text-dark`}>
+                    <strong>{sec.title}</strong>
+                  </span>
+                  <span className='text-dark float-end'>
+                    <small>
+                      {sec.lessons.length} lessons •{' '}
+                      {sec.lessons.reduce((sum, l) => sum + l.duration, 0)}min
+                    </small>
+                  </span>
                 </span>
-                <span className='text-right text-dark'>
-                  <small>3 lectures.12min</small>
-                </span>
-              </span>
-            </AccordionItemButton>
-          </AccordionItemHeading>
-          <AccordionItemPanel>
-            <p>
-              Exercitation in fugiat est ut ad ea cupidatat ut in cupidatat
-              occaecat ut occaecat consequat est minim minim esse tempor laborum
-              consequat esse adipisicing eu reprehenderit enim.
-            </p>
-          </AccordionItemPanel>
-        </AccordionItem>
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <p>{sec.description}</p>
+            </AccordionItemPanel>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   );

@@ -1,161 +1,105 @@
-//import  './Navbar.scss';
+/* eslint-disable react/jsx-no-bind */
+import { useEffect, useState } from 'react';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import ReactFlagsSelect from 'react-flags-select';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
-import { GoSearch } from 'react-icons/go';
+import './Navbar.scss';
+import UserDropdown from './userDropDown/UserDropdown';
+function NavbarComponent() {
+  const location = useLocation();
+  const [selected, setSelected] = useState('');
 
-import styles from './Navbar.module.css';
+  const [currentPath, setCurrentPath] = useState('');
+  useEffect(() => {
+    setCurrentPath(location.pathname);
+  }, [location]);
 
-function Navbar() {
-  const isLoggedIn = false;
-
+  /*
+ const categories = [
+    {
+      name: 'Web Development',
+      subCatregories: [
+        { name: 'All', link: '/products' },
+        { name: 'Clothing', link: '/products/clothing' },
+        { name: 'Shoes', link: '/products/shoes' }
+      ]
+    },
+    { name: 'Clothing', path: '/products/clothing' },
+    { name: 'Electronics', path: '/products/electronics' },
+    { name: 'Home', path: '/products/home' },
+    { name: 'Toys', path: '/products/toys' },
+    { name: 'Other', path: '/products/other' }
+  ];
+ */
+  const user = null;
   return (
-    <div>
-      <div className='superNav border-bottom py-2 bg-dark' />
-      <nav className='navbar navbar-expand-lg bg-white sticky-top navbar-light p-0 shadow-sm'>
-        <div className='container' style={{ marginLeft: '2rem' }}>
-          <a className='navbar-brand' href='/' style={{ marginRight: '10rem' }}>
-            {' '}
-            <img
-              alt='Company Logo'
-              className='float-left'
-              src='./logo.png'
-              style={{ width: '12rem', height: '4.8rem' }}
-            />
-          </a>
-          <button
-            aria-controls='navbarNavDropdown'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-            className='navbar-toggler'
-            data-bs-target='#navbarNavDropdown'
-            data-bs-toggle='collapse'
-            type='button'
-          >
-            <span className='navbar-toggler-icon' />
-          </button>
-
-          <div className='mx-auto my-3 d-lg-none d-sm-block d-xs-block'>
-            <div className='input-group'>
-              <span className='border-warning input-group-text bg-primary text-white'>
-                <GoSearch />
-              </span>
-              <input
-                className='form-control border-dark'
-                placeholder='Search for anything...'
-                type='text'
+    <Navbar bg='secondary' className='navbar' expand='lg'>
+      <Container>
+        <Navbar.Brand>
+          <Link to='/'>CamCham</Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='me-auto'>
+            <NavLink
+              className={`nav-link ${
+                currentPath === '/courses' ? 'active' : ''
+              }`}
+              to='/courses'
+            >
+              <span style={{ color: 'inherit' }}>Courses</span>
+            </NavLink>
+            <NavDropdown id='basic-nav-dropdown' title='Explore'>
+              <NavDropdown.Item>
+                <Link to='/courses'>Courses</Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>Navbar </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.3'>Image</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.4'>
+                Image Slider
+              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.5'>Image</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.6'>Div</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.6'>Footer</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href='#action/3.9'>
+                Documentation{' '}
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav className='ml-auto'>
+            <Nav.Link>
+              <ReactFlagsSelect
+                className='flag__select'
+                placeholder='Country'
+                selected={selected}
+                showSelectedLabel={false}
+                onSelect={code => setSelected(code)}
               />
-              <button className='btn btn-primary text-white' type='button'>
-                Search
-              </button>
-            </div>
-          </div>
-          <div className=' collapse navbar-collapse' id='navbarNavDropdown'>
-            <div className='ms-auto d-none d-lg-block' style={{ width: '70%' }}>
-              <div className='input-group'>
-                <span className='border-warning input-group-text bg-primary text-white'>
-                  {' '}
-                  <GoSearch />{' '}
-                </span>
-                <input
-                  className='form-control border-dark'
-                  placeholder='Search for anything...'
-                  type='text'
-                />
-                <button
-                  className='btn btn-primary text-white'
-                  style={{ color: '#161A1D' }}
-                  type='button'
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-            <ul className='navbar-nav ms-auto'>
-              <li className='nav-item'>
-                <a
-                  className={`${
-                    styles.link || ''
-                  } nav-link mx-2 text-uppercase`}
-                  href='/'
-                >
-                  Home
-                </a>
-              </li>
-              <li className='nav-item'>
-                <a
-                  className={`${
-                    styles.link || ''
-                  } nav-link mx-2 text-uppercase`}
-                  href='/'
-                >
-                  Courses
-                </a>
-              </li>
-              <li className='nav-item'>
-                <a
-                  className={`${
-                    styles.link || ''
-                  } nav-link mx-2 text-uppercase`}
-                  href='/'
-                >
-                  About
-                </a>
-              </li>
-              <li className='nav-item'>
-                <a
-                  className={`${
-                    styles.link || ''
-                  } nav-link mx-2 text-uppercase`}
-                  href='/'
-                >
-                  <span>Cart</span>
-                </a>
-              </li>
-            </ul>
-            <ul className='navbar-nav'>
-              {isLoggedIn && (
-                <li
-                  className='nav-item'
-                  style={{ display: 'flex', alignItems: 'center' }}
-                >
-                  <div
-                    className={styles.user}
-                    style={{
-                      backgroundImage:
-                        'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpocPiLKadGwSqjYY7lXgmtnYdgocFMqX45oHDc5-OVk3ZSbn4Pami5tOGELcsENrWHus&usqp=CAU")'
-                    }}
-                  />
-                  <a
-                    className='nav-link mx-2 text-uppercase'
-                    href='/'
-                    style={{ color: '#161A1D', fontSize: 'medium' }}
-                  >
-                    name
-                  </a>
-                </li>
-              )}
-              {!isLoggedIn && (
-                <>
-                  <li className='nav-item'>
-                    <button className='btn btn-outline-dark' type='button'>
-                      Signup
-                    </button>
-                  </li>
-                  <li className='nav-item'>
-                    <button className='btn btn-outline-dark' type='button'>
-                      Login
-                    </button>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div
-        style={{ width: '100%', height: '0.3vh', backgroundColor: '#A4161A' }}
-      />
-    </div>
+            </Nav.Link>
+            {user ? (
+              <Nav.Link>
+                <UserDropdown />
+              </Nav.Link>
+            ) : (
+              <>
+                <NavLink className='auth_btn nav-link' to='/auth/register'>
+                  <span className='signup__btn'>Sign Up</span>
+                </NavLink>
+                <NavLink className='auth_btn nav-link' to='/auth/login'>
+                  <span className='login__btn'>Login</span>
+                </NavLink>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavbarComponent;
