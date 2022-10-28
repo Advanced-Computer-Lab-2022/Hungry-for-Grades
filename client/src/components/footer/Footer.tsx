@@ -7,7 +7,7 @@ function Footer() {
     <footer
       className={`${
         styles['footer-design'] ?? ''
-      } bg-light text-center container-fluid`}
+      } bg-secondary text-center container-fluid`}
     >
       <img alt='canadian chamber of commerce logo' src='/logo.png' />
       <br />
