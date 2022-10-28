@@ -1,9 +1,9 @@
-import { logger } from '@/utils/logger';
+import { SECRET_KEY } from '@/Config';
+import { HttpException } from '@/Exceptions/HttpException';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { logger } from '@/Utils/logger';
 import { RequestWithUser, TokenPayload } from '@Authentication/auth.interface';
-import { SECRET_KEY } from '@config';
-import { HttpException } from '@exceptions/HttpException';
-import userModel from '@User/user.model';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
+import userModel from '@/User/user.model';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
@@ -17,8 +17,8 @@ async function authMiddleware(req: RequestWithUser, res: Response, next: NextFun
       const verificationResponse = (await verify(Authorization, secretKey)) as TokenPayload;
       const userId = verificationResponse._id;
       const findUser = await userModel.findById(userId);
-
       if (findUser) {
+        delete findUser.password;
         req.user = findUser;
         next();
       } else {

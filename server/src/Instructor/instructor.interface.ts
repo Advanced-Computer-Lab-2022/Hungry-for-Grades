@@ -1,7 +1,7 @@
-import { Rating } from '@Common/Types/common.types';
+import { Rating } from '@/Common/Types/common.types';
 import { Types } from 'mongoose';
 
-export interface Instructor {
+export interface IInstructor {
   _id: Types.ObjectId;
   _teachedCourses: Types.ObjectId[];
   _user: Types.ObjectId;

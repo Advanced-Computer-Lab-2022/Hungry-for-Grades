@@ -1,13 +1,13 @@
 import App from '@/app';
 import AuthRoute from '@/Authentication/auth.route';
-import { dbConnection } from '@/databases';
+import { dbConnection } from '@/Databases';
 import UsersRoute from '@/User/user.route';
-import { logger } from '@utils/logger';
-import validateEnv from '@utils/validateEnv';
+import { logger } from '@/Utils/logger';
+import validateEnv from '@/Utils/validateEnv';
 import { connect, connection } from 'mongoose';
+import AdminRoute from './Admin/admin.route';
 import CoursesRoute from './Course/course.route';
 import InstructorsRoute from '@Instructor/instructor.route';
-import AdminRoute from './Admin/admin.route';
 
 validateEnv();
 

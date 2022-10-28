@@ -1,9 +1,9 @@
 import { CreateUserDto } from '@/User/user.dto';
 import { IUser } from '@/User/user.interface';
 import userService from '@/User/users.dao';
-import { HttpResponse } from '@/utils/HttpResponse';
-import { PaginatedData, PaginatedResponse } from '@/utils/PaginationResponse';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
+import { HttpResponse } from '@/Utils/HttpResponse';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import { NextFunction, Request, Response } from 'express';
 import { type filters } from './user.type';
 class UsersController {

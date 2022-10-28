@@ -8,14 +8,14 @@ import morgan from 'morgan';
 import { version } from '../package.json';
 import swaggerFile from '../swagger.json';
 
-import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@config';
+import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@/Config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import errorMiddleware from '@/Middlewares/error.middleware';
+import { logger, stream } from '@/Utils/logger';
 import { Routes } from '@Common/Interfaces/routes.interface';
-import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@utils/logger';
-import modelsErrorMiddleware from './middlewares/modelsError.middleware';
+import modelsErrorMiddleware from './Middlewares/modelsError.middleware';
 
 class App {
   public app: express.Application;

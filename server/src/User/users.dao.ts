@@ -1,11 +1,11 @@
 /* eslint-disable security/detect-object-injection */
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto } from '@/User/user.dto';
 import { IUser } from '@/User/user.interface';
 import userModel from '@/User/user.model';
-import HttpStatusCodes from '@/utils/HttpStatusCodes';
-import { PaginatedData } from '@/utils/PaginationResponse';
-import { isEmpty } from '@utils/util';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedData } from '@/Utils/PaginationResponse';
+import { isEmpty } from '@/Utils/util';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
 import { filters } from './user.type';

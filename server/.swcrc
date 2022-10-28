@@ -21,7 +21,7 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@config": ["./config"],
+      "@Config": ["./Config"],
       "@User/*":["./User/*"],
       "@Authentication/*":["./Authentication/*"],
       "@Trainee/*":["./Trainee/*"],
@@ -30,11 +30,11 @@
       "@Course/*":["./Course/*"],
       "@NewsLetter/*":["./NewsLetter/*"],
       "@Common/*":["./Common/*"],
-      "@Databases": ["./databases"],
-      "@exceptions/*": ["./exceptions/*"],
-      "@middlewares/*": ["./middlewares/*"],
-      "@services/*": ["./services/*"],
-      "@utils/*": ["./utils/*"]
+      "@Databases": ["./Databases"],
+      "@Exceptions/*": ["./Exceptions/*"],
+      "@Eiddlewares/*": ["./Middlewares/*"],
+      "@Services/*": ["./Services/*"],
+      "@Utils/*": ["./Utils/*"]
     }
   },
   "module": {

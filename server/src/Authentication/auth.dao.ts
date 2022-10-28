@@ -1,11 +1,11 @@
+import { SECRET_KEY } from '@/Config';
+import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto, FindUserDto } from '@/User/user.dto';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { isEmpty } from '@/Utils/util';
 import { ICookie, TokenData, TokenPayload } from '@Authentication/auth.interface';
-import { SECRET_KEY } from '@config';
-import { HttpException } from '@exceptions/HttpException';
-import { IUser } from '@User/user.interface';
+import { IUser } from '@/User/user.interface';
 import userModel from '@User/user.model';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { isEmpty } from '@utils/util';
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 class AuthService {

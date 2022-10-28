@@ -1,8 +1,8 @@
 import { requiredString } from '@Common/Models/common';
-import { Instructor } from '@Instructor/instructor.interface';
+import { IInstructor } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
 
-const instructorSchema = new Schema<Instructor>({
+const instructorSchema = new Schema<IInstructor>({
   _teachedCourses: [
     {
       ref: 'Course',
@@ -69,6 +69,6 @@ const instructorSchema = new Schema<Instructor>({
   title: requiredString,
 });
 
-const instructorModel = model<Instructor & Document>('Instructor', instructorSchema);
+const instructorModel = model<IInstructor & Document>('Instructor', instructorSchema);
 
 export default instructorModel;
