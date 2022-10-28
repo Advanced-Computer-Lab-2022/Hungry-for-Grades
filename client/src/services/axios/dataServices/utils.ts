@@ -14,3 +14,9 @@ export type PaginatedRequest = {
   limit: number;
   page: number;
 };
+
+export type HttpResponse<T> = {
+  data: T;
+  message: string;
+  success: boolean;
+};

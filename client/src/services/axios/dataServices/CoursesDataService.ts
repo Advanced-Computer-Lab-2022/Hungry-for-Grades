@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PaginatedRequest, PaginatedResponse } from './utils';
+import { HttpResponse, PaginatedRequest, PaginatedResponse } from './utils';
 
 export enum Level {
   ADVANCED = 'Advanced',
@@ -86,4 +86,22 @@ export function getTopRatedCourses(): Promise<PaginatedResponse<Course>> {
     limit: 3,
     sortBy: 1
   });
+}
+
+export async function getCourseByID(
+  courseID: string | undefined
+): Promise<Course | undefined> {
+  if (!courseID) {
+    return undefined;
+  }
+  const res = await axios.get<HttpResponse<Course>>(
+    `http://localhost:3000/courses/${encodeURIComponent(courseID)}`
+  );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
 }

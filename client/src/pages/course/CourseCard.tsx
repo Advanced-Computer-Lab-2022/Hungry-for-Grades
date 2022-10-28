@@ -3,6 +3,7 @@ import { CourseCardProps } from '../landing/types';
 import styles from './CourseCard.module.scss';
 import StarRatings from 'react-star-ratings';
 import { formatCurrency } from '@/utils/currency';
+import { Link } from 'react-router-dom';
 
 function Price(props: CourseCardProps) {
   if (props.originalPrice) {
@@ -24,7 +25,7 @@ function Price(props: CourseCardProps) {
 
 function CourseCard(props: CourseCardProps) {
   return (
-    <a href='/course'>
+    <Link to={`/course/${props.id}`}>
       <div className={styles['course-container']}>
         <div className={styles['img-wrapper']}>
           <img alt='course' height='135px' src={props.image} width='240px' />
@@ -63,7 +64,7 @@ function CourseCard(props: CourseCardProps) {
           <Price {...props} />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

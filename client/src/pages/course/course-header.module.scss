@@ -1,0 +1,21 @@
+.star-rating-number {
+  color: #b4690e;
+  font-weight: 700;
+  vertical-align: bottom;
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  margin-bottom: -1px;
+}
+.reviews {
+    line-height: 1.2;
+    margin-bottom: -1px;
+    margin-left: 0.5rem;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.bread-crumb {
+    a:hover{
+        color: var(--bs-secondary) !important;
+    }
+}

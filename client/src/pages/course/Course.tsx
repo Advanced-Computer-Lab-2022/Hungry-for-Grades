@@ -1,29 +1,38 @@
 import { useParams } from 'react-router-dom';
 
+import { useQuery } from '@tanstack/react-query';
+
 import CourseContent from './CourseContent';
 import CourseOverview from './CourseOverview';
-import CourseTitle from './CourseTitle';
+import CourseHeader from './CourseHeader';
 
-import styles from './course.module.scss';
-// import CourseCard from './CourseCard';
+// import styles from './course.module.scss';
+
+import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 
 function Course() {
   const { courseid } = useParams();
-
+  const { isError, isLoading, data } = useQuery(['courseByID', courseid], () =>
+    getCourseByID(courseid)
+  );
+  if (isError) {
+    return (
+      <h1 className='text-danger text-center'>
+        An error has occurred while loading course information.
+      </h1>
+    );
+  }
+  if (isLoading) {
+    return (
+      <div className='text-info text-center'>Loading course information...</div>
+    );
+  }
+  if (!data) {
+    return <></>;
+  }
   return (
-    <div>
-      your course id is {courseid}
-      <section>
-        <div className={`${styles.container ?? ''}`}>
-          <CourseTitle />
-          <div
-            className={`${styles.card ?? ''} pt-3 pb-4 ml-5 px-5 `}
-            style={{ width: '40%', float: 'right' }}
-          >
-            {/* <CourseCard/> */}
-          </div>
-        </div>
-      </section>
+    <div className='container'>
+      <CourseHeader {...data} />
       <section>
         <CourseOverview />
       </section>
