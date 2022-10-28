@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import './Navbar.scss';
 import UserDropdown from './userDropDown/UserDropdown';
@@ -45,13 +45,14 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link
-              className={`${currentPath === '/courses' ? 'active' : ''}`}
+            <NavLink
+              className={`nav-link ${
+                currentPath === '/courses' ? 'active' : ''
+              }`}
+              to='/courses'
             >
-              <Link style={{ color: 'inherit' }} to='/courses'>
-                Courses
-              </Link>
-            </Nav.Link>
+              <span style={{ color: 'inherit' }}>Courses</span>
+            </NavLink>
             <NavDropdown id='basic-nav-dropdown' title='Explore'>
               <NavDropdown.Item>
                 <Link to='/courses'>Courses</Link>
@@ -86,16 +87,12 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <Nav.Link className='auth_btn'>
-                  <Link className='signup__btn' to='/auth/register'>
-                    Sign Up
-                  </Link>
-                </Nav.Link>
-                <Nav.Link className='auth_btn'>
-                  <Link className='login__btn' to='/auth/login'>
-                    Login
-                  </Link>
-                </Nav.Link>
+                <NavLink className='auth_btn nav-link' to='/auth/register'>
+                  <span className='signup__btn'>Sign Up</span>
+                </NavLink>
+                <NavLink className='auth_btn nav-link' to='/auth/login'>
+                  <span className='login__btn'>Login</span>
+                </NavLink>
               </>
             )}
           </Nav>

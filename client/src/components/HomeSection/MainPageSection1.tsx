@@ -1,6 +1,7 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
 import { BsSearch } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 import styles from './MainPageSection1.module.css';
 
@@ -30,7 +31,7 @@ export default function MainPageSection1() {
                 style={{ color: '#3F72AF' }}
                 type='text'
               />
-              <a href='./courses'>
+              <Link to='/courses'>
                 <BsSearch
                   style={{
                     fontSize: '1.5rem',
@@ -38,7 +39,7 @@ export default function MainPageSection1() {
                     cursor: 'pointer'
                   }}
                 />
-              </a>
+              </Link>
             </div>
           </Col>
           <Col lg='6' md='6'>

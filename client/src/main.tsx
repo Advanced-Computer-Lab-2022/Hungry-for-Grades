@@ -9,9 +9,7 @@ import { ClickToComponent } from 'click-to-react-component';
 import './index.css';
 import './normalize.css';
 // Bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.css';
-
+// Bootstrap is already included in main.scss, do not include it again
 import './main.scss';
 
 // QueryClient

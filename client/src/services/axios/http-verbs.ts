@@ -1,7 +1,7 @@
 import http from './http-common';
 import {
   type DELETERoutesType,
-  type GETRoutesType,
+  //type GETRoutesType,
   type PATCHRoutesType,
   type POSTRoutesType,
   type PUTRoutesType
@@ -12,12 +12,12 @@ import {
  * @param request - request object
  * @returns a promise - with the response from the server
  */
-export async function getRequest(request: GETRoutesType) {
-  return http.get<typeof request.response>(
-    `${request.URL}${request.params ? '?' + request.params : ''}`,
-    request.payload
-  );
-}
+// export async function getRequest(request: GETRoutesType) {
+//   return http.get<typeof request.response>(
+//     `${request.URL}${request.params ? '?' + request.params : ''}`,
+//     request.payload
+//   );
+// }
 
 /**
  * POST request

@@ -1,24 +1,17 @@
-import styles from './course-overview.module.scss';
+import { Course } from '@/services/axios/dataServices/CoursesDataService';
 
-import Button from '@/components/buttons/button/Button';
-
-function CourseOverview() {
+function CourseOverview(props: Course) {
+  if (!props.outline) {
+    return <></>;
+  }
   return (
-    <div className={`mt-3 pt-3 ml-5 px-5 ${styles['overview-design'] ?? ''}`}>
-      <h2>Course overview</h2>
-      <ul className={`text-dark m-2 ${styles['list-design'] ?? ''}`}>
-        <li className='m-1'>point1</li>
-        <li className='m-1'>point2</li>
-        <li className='m-1'>point3</li>
-        <li className='m-1'>point4</li>
+    <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
+      <h3 className='mb-2'>Course overview</h3>
+      <ul>
+        {props.outline.map(o => (
+          <li key={o.type}>{o.type}</li>
+        ))}
       </ul>
-      <Button
-        isDisabled
-        backgroundColor='primary-bg'
-        label='Show full overview'
-        name='omar'
-        type='button'
-      />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedResponse } from '@/Utils/PaginationResponse';
@@ -109,6 +110,21 @@ class CourseController {
       next(error);
     }
   };
-}
 
+  public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+    try {
+      const userReview: Review = req.body;
+      const courseId: string = req.params.id;
+
+      const courseRating = await this.courseService.addRating(courseId, userReview);
+      res.status(201).json({
+        data: courseRating,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
 export default CourseController;
