@@ -34,7 +34,7 @@ function Course() {
     <div className='container'>
       <CourseHeader {...data} />
       <section>
-        <CourseOverview />
+        <CourseOverview {...data} />
       </section>
       <section>
         <CourseContent />

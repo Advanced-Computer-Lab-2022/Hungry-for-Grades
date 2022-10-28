@@ -43,6 +43,21 @@ export type User = {
 export type Instructor = {
   _user: User[];
 };
+export type CourseSection = {
+  description: string;
+  lessons: {
+    description: string;
+    duration: number;
+    title: string;
+    videoURL: string;
+  }[];
+  exercises: {
+    answer: string;
+    options: [{ type: string }];
+    question: string;
+  }[];
+  title: string;
+};
 export type Course = {
   _id: string;
   _instructor: Instructor;
@@ -60,6 +75,8 @@ export type Course = {
   numberOfEnrolledTrainees: number;
   duration: number;
   rating: Rating;
+  outline: { type: string }[];
+  sections: CourseSection[];
 };
 
 export async function getCourses(
