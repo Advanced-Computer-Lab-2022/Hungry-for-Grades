@@ -1,14 +1,13 @@
-import { Course, Price } from '@Course/course.interface';
-import CourseModel from '@Course/course.model';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { HttpException } from '@exceptions/HttpException';
-import { isEmpty } from '@utils/util';
-import { PaginatedResponse } from '@/utils/PaginationResponse';
-import mongoose from 'mongoose';
-import { CourseFilters, Category } from '@Course/course.types';
-import courseModel from '@Course/course.model';
-import { displayCurrentPrice } from '@Course/course.common';
 import { Rating, Review } from '@/Common/Types/common.types';
+import { HttpException } from '@/Exceptions/HttpException';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedResponse } from '@/Utils/PaginationResponse';
+import { isEmpty } from '@/Utils/util';
+import { displayCurrentPrice } from '@Course/course.common';
+import { Course, Price } from '@Course/course.interface';
+import { default as CourseModel, default as courseModel } from '@Course/course.model';
+import { Category, CourseFilters } from '@Course/course.types';
+import mongoose from 'mongoose';
 
 // const instructorModel = require('@Instructor/instrutor.model');
 import userModel from '@User/user.model';

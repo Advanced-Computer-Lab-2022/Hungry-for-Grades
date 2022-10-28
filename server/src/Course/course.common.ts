@@ -1,8 +1,8 @@
-import CountryToCurrency from 'iso-country-currency';
-import CC from 'currency-converter-lt';
+import { HttpException } from '@/Exceptions/HttpException';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { Price } from '@Course/course.interface';
-import { HttpException } from '@/exceptions/HttpException';
-import HttpStatusCodes from '@/utils/HttpStatusCodes';
+import CC from 'currency-converter-lt';
+import CountryToCurrency from 'iso-country-currency';
 
 // Converts from input currency to the currency of the chosen country
 export async function displayCurrentPrice(price: Price, country: string): Promise<Price> {

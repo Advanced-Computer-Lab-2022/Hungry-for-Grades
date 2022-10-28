@@ -1,7 +1,6 @@
 import { IUser } from '@User/user.interface';
 import { Request } from 'express';
 import { Types } from 'mongoose';
-
 export interface TokenPayload {
   _id: Types.ObjectId;
 }

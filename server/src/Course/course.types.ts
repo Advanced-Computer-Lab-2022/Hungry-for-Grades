@@ -1,4 +1,4 @@
-import { PaginatedRequest } from '@/utils/PaginationResponse';
+import { PaginatedRequest } from '@/Utils/PaginationResponse';
 import { Level } from './course.interface';
 export interface CourseFilters extends PaginatedRequest {
   category: string;

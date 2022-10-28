@@ -1,9 +1,9 @@
 import { CreateUserDto, FindUserDto } from '@/User/user.dto';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
 import { RequestWithUser } from '@Authentication/auth.interface';
 import { IUser } from '@User/user.interface';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { logger } from '@utils/logger';
 import { NextFunction, Request, Response } from 'express';
 
 class AuthController {

@@ -1,5 +1,5 @@
-import { HttpResponse } from '@utils/HttpResponse';
-import { logger } from '@utils/logger';
+import { HttpResponse } from '@/Utils/HttpResponse';
+import { logger } from '@/Utils/logger';
 import { NextFunction, Request, Response } from 'express';
 import { Error } from 'mongoose';
 
