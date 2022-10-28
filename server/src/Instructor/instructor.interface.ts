@@ -1,4 +1,4 @@
-import { Rating } from '@/common/Types/common.types';
+import { Rating } from '@Common/Types/common.types';
 import { Types } from 'mongoose';
 
 export interface Instructor {

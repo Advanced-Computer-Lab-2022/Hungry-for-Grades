@@ -6,7 +6,6 @@ import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { Rating, Review } from '@/Common/Types/common.types';
-import { TransformationType } from 'class-transformer';
 
 class CourseController {
   public courseService = new courseService();
@@ -41,7 +40,8 @@ class CourseController {
   public getCourseById = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const courseData: Course = await this.courseService.findCourseById(courseId);
+      const country: string = req.query.country as string;
+      const courseData: Course = await this.courseService.getCourseById(courseId, country);
 
       res.json({
         data: courseData,

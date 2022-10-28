@@ -1,4 +1,4 @@
-import { Routes } from '@/common/Interfaces/routes.interface';
+import { Routes } from '@Common/Interfaces/routes.interface';
 import UsersController from '@/User/user.controller';
 import { CreateUserDto } from '@/User/user.dto';
 import validationMiddleware from '@middlewares/validation.middleware';

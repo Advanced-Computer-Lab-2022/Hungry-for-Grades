@@ -3,15 +3,17 @@ import CourseModel from '@Course/course.model';
 import HttpStatusCodes from '@utils/HttpStatusCodes';
 import { HttpException } from '@exceptions/HttpException';
 import { isEmpty } from '@utils/util';
-import { PaginatedResponse } from '@/utils/PaginationResponse';
+import { PaginatedData, PaginatedResponse } from '@/utils/PaginationResponse';
 import mongoose from 'mongoose';
 import { CourseFilters, Category } from '@Course/course.types';
-import courseModel from '@Course/course.model';
-import { displayCurrentPrice } from '@Course/course.common';
-import { Rating, Review } from '@/Common/Types/common.types';
 
-// const instructorModel = require('@Instructor/instrutor.model');
+import { getCurrentPrice } from '@Course/course.common';
+import { Rating, Review } from '@Common/Types/common.types';
+
+// import { Instructor } from '@/Instructor/instructor.interface';
 import userModel from '@User/user.model';
+import courseModel from '@Course/course.model';
+import instructorModel from '@Instructor/instructor.model';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedResponse<Course>> => {
@@ -86,7 +88,7 @@ class CourseService {
 
     // Get price after discount then change it to the needed currency
     for (const course of paginatedCourses) {
-      const newPrice: Price = await displayCurrentPrice(course.price, country);
+      const newPrice: Price = await getCurrentPrice(course.price, country);
       course.price = newPrice;
     }
 
@@ -101,16 +103,81 @@ class CourseService {
       totalPages,
     };
   };
-
-  public async findCourseById(courseId: string): Promise<Course> {
+  //get course by id aggregate
+  public async getCourseById(courseId: string, country: string): Promise<Course> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    const course: Course = await CourseModel.findById(courseId);
-    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    const REVIEWS_LIMIT = 5;
+    country = country || 'United States';
+
+    const course: Course = await CourseModel.findById(courseId)
+      .populate({
+        model: instructorModel,
+        path: '_instructor',
+        populate: {
+          model: userModel,
+          path: '_user',
+          select: { name: 1, profileImage: 1 },
+        },
+        select: { _user: 1, address: 1, 'rating.averageRating': 1 },
+      })
+      .populate({
+        model: userModel,
+        path: 'rating.reviews._user',
+        select: { name: 1, profileImage: 1 },
+      });
+
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Course doesn't exist");
+    course.rating.reviews
+      .sort((a, b) => {
+        return b.createdAt.getTime() - a.createdAt.getTime();
+      })
+      .slice(0, REVIEWS_LIMIT);
+
+    const newPrice = await getCurrentPrice(course.price, country);
+    course.price = newPrice;
 
     return course;
   }
+
+  //get course by id aggregate
+  // public async getCourseById(courseId: string, country:string): Promise<Course> {
+  //   if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+  //   const REVIEWS_LIMIT = 5;
+  //   country = country || 'United States';
+
+  // const aggregateQuery: any[] = [
+  //   { $match: { _id: new mongoose.Types.ObjectId(courseId) } },
+  //   {
+  //     $lookup: {
+  //       as: '_instructor',
+  //       foreignField: '_id',
+  //       from: 'instructors',
+  //       localField: '_instructor',
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       as: '_instructor.user',
+  //       foreignField: '_id',
+  //       from: 'users',
+  //       localField: '_instructor._user',
+  //       pipeline: [{ $project: { name: 1 } }],
+  //     },
+  //   },
+  // ];
+
+  //   let course: Course; ;
+  //   try {
+  //     course = await courseModel.aggregate(aggregateQuery);
+  //   } catch {
+  //     throw new HttpException(500, 'Internal error occured while fetching from database');
+  //   }
+
+  //   return course;
+  // }
 
   public async createCourse(courseData: Course): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');

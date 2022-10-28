@@ -5,7 +5,7 @@ import { HttpException } from '@/exceptions/HttpException';
 import HttpStatusCodes from '@/utils/HttpStatusCodes';
 
 // Converts from input currency to the currency of the chosen country
-export async function displayCurrentPrice(price: Price, country: string): Promise<Price> {
+export async function getCurrentPrice(price: Price, country: string): Promise<Price> {
   try {
     const discountedPrice = getPriceAfterDiscount(price);
 

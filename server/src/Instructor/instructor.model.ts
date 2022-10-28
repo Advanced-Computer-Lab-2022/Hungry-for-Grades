@@ -30,30 +30,30 @@ const instructorSchema = new Schema<Instructor>({
   },
   biography: requiredString,
   rating: {
-    type: {
-      averageRating: {
-        max: 5,
-        min: 0,
-        required: true,
-        type: Number,
-      },
-      reviews: [
-        {
-          _user: {
-            ref: 'User',
-            type: Schema.Types.ObjectId,
-          },
-          comment: String,
-          createdAt: Date,
-          rating: {
-            max: 5,
-            min: 0,
-            required: true,
-            type: Number,
-          },
-        },
-      ],
+    // type: {
+    averageRating: {
+      max: 5,
+      min: 0,
+      required: true,
+      type: Number,
     },
+    reviews: [
+      {
+        _user: {
+          ref: 'User',
+          type: Schema.Types.ObjectId,
+        },
+        comment: String,
+        createdAt: Date,
+        rating: {
+          max: 5,
+          min: 0,
+          required: true,
+          type: Number,
+        },
+      },
+    ],
+    // },
   },
   socialMedia: {
     default: {},
