@@ -1,15 +1,10 @@
-import { requiredString } from '@/common/Models/common';
+import { requiredString } from '@Common/Models/common';
 import { Trainee } from '@/Trainee/trainee.interface';
 import { Document, model, Schema } from 'mongoose';
 
 const traineeSchema = new Schema<Trainee>(
   {
-    _cart: {
-      _course: {
-        ref: 'Course',
-        type: Schema.Types.ObjectId,
-      },
-    },
+    _cart: [{ ref: 'Course', type: Schema.Types.ObjectId }],
     _enrolledCourses: [
       {
         _course: {
@@ -30,12 +25,8 @@ const traineeSchema = new Schema<Trainee>(
       ref: 'User',
       type: Schema.Types.ObjectId,
     },
-    _wishlist: {
-      _course: {
-        ref: 'Course',
-        type: Schema.Types.ObjectId,
-      },
-    },
+    _wishlist: [{ ref: 'Course', type: Schema.Types.ObjectId }],
+
     balance: {
       default: 0,
       type: Number,

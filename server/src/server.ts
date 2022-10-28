@@ -7,10 +7,11 @@ import validateEnv from '@/Utils/validateEnv';
 import { connect, connection } from 'mongoose';
 import AdminRoute from './Admin/admin.route';
 import CoursesRoute from './Course/course.route';
+import InstructorsRoute from '@Instructor/instructor.route';
 
 validateEnv();
 
-const app = new App([new UsersRoute(), new AuthRoute(), new CoursesRoute(), new AdminRoute()]);
+const app = new App([new UsersRoute(), new InstructorsRoute(), new AuthRoute(), new AdminRoute(), new CoursesRoute()]);
 
 (async function connectToDatabase() {
   connect(dbConnection.url, dbConnection.options)
