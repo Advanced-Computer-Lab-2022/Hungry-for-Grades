@@ -28,7 +28,12 @@ function CourseCard(props: CourseCardProps) {
     <Link to={`/course/${props.id}`}>
       <div className={styles['course-container']}>
         <div className={styles['img-wrapper']}>
-          <img alt='course' height='135px' src={props.image} width='240px' />
+          <img
+            alt={props.title}
+            height='135px'
+            src={props.image}
+            width='240px'
+          />
         </div>
         <div>
           <div>

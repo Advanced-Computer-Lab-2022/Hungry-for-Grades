@@ -26,6 +26,9 @@ function CourseHeader(props: Course) {
         </ol>
       </nav>
       <h1>{props.title}</h1>
+      {/* <div className='float-end'>
+            <img alt={props.title} height='135px' src={props.thumbnail} width='240px'/>
+      </div> */}
       <h3 className='pb-2'>{props.description}</h3>
       <div>
         <span className={styles['star-rating-number']}>
