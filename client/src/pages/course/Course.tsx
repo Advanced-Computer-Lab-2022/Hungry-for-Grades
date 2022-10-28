@@ -37,7 +37,7 @@ function Course() {
         <CourseOverview {...data} />
       </section>
       <section>
-        <CourseContent />
+        <CourseContent {...data} />
       </section>
     </div>
   );
