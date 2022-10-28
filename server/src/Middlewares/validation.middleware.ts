@@ -1,5 +1,5 @@
-import { logger } from '@/utils/logger';
-import { HttpException } from '@exceptions/HttpException';
+import { HttpException } from '@/Exceptions/HttpException';
+import { logger } from '@/Utils/logger';
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';

@@ -1,43 +1,15 @@
-type AccountTypes = 'Owner' | 'Admin' | 'Manager' | 'Agent';
+import { IUser } from '@/interfaces/user.interface';
 
 export type State = {
-  isLoading: boolean;
-  error: null | {
-    inputName: string;
-    message: string;
-    hint: string;
+  user: IUser | null;
+  isAuthenticated: boolean;
+  token: {
+    ACCESS_TOKEN: string;
+    REFRESH_TOKEN: string;
   };
-  validatorToken: null | string;
-  userInfo: null | {
-    email: string;
-    userId?: number;
-    firstName?: string;
-    lastName?: string;
-    birthDate?: string;
-    address1?: string;
-    address2?: string;
-    city?: string;
-    country?: string;
-    profilePic?: string;
-  };
-  profiles: Array<{
-    token: string;
-    companyName: string;
-    companyId: number;
-    role: AccountTypes;
-    permissions: Array<string>;
-    companyLogo: string;
-  }>;
 };
 
-export type FormValues = Array<{
-  name: string;
-  value: string;
-}>;
-
 export type ContextType = State & {
-  setError: (error: string) => void;
-  setValidationError: (error: State['error']) => void;
   login: (
     email: string,
     password: string

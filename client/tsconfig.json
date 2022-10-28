@@ -32,6 +32,7 @@
       "@/*": ["./src/*"],
       "@src/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "@interfaces/*": ["src/interfaces/*"],
       "@pages/*": ["./src/pages/*"],
       "@services/*": ["./src/services/*"],
       "@utils/*": ["./src/utils/*"],

@@ -1,10 +1,10 @@
-import { PaginatedResponse } from '@/utils/PaginationResponse';
+import { HttpResponse } from '@/Utils/HttpResponse';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
 import { Course } from '@Course/course.interface';
-import { HttpResponse } from '@utils/HttpResponse';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { NextFunction, Request, Response } from 'express';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
+import { NextFunction, Request, Response } from 'express';
 
 class CourseController {
   public courseService = new courseService();

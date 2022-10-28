@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import styles from './input.module.css';
+import styles from './input.module.scss';
 import { type InputProps } from './types';
 function Input(props: InputProps) {
   const id = uuidv4();
@@ -34,11 +34,11 @@ function Input(props: InputProps) {
           onChange={props.onChangeFunc}
         />
 
-        <div className='invalid-feedback ' id={id}>
+        <div className='invalid-feedback px-3' id={id}>
           <span className='alert-link'>{props.errorMessage}</span>
           {props.hint ? ' , ' + props.hint : ''}
         </div>
-        <div className='valid-feedback' id={props.id}>
+        <div className='valid-feedback px-3' id={props.id}>
           {props.correctMessage}
         </div>
       </div>

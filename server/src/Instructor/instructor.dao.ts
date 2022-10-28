@@ -1,69 +1,27 @@
 /* eslint-disable security/detect-object-injection */
 import { HttpException } from '@/Exceptions/HttpException';
-import { CreateUserDto } from '@/User/user.dto';
-import { IUser } from '@/User/user.interface';
-import userModel from '@/User/user.model';
+import instructorModel from '@/Instructor/instructor.model';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { PaginatedData } from '@/Utils/PaginationResponse';
-import { isEmpty } from '@/Utils/util';
-import { hash } from 'bcrypt';
+import { IInstructor } from '@Instructor/instructor.interface';
 import mongoose from 'mongoose';
-import { filters } from './user.type';
+import { isEmpty } from '../Utils/util';
 
-class UserService {
-  public users = userModel;
+class InstructorService {
+  public instructors = instructorModel;
 
-  public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
-    const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
-    const query = {};
-    query['$and'] = [];
-    for (const key in filters) {
-      if (filters[key] && key !== 'page' && key !== 'limit' && key !== 'sortBy' && key !== 'orderBy') {
-        const filter = {};
-        filter[key] = filters[key];
-        query['$and'].push(filter);
-      }
-    }
-    if (search) {
-      query['$or'] = [
-        {
-          name: {
-            $options: 'i',
-            $regex: search,
-          },
-        },
-        {
-          email: {
-            $options: 'i',
-            $regex: search,
-          },
-        },
-      ];
-    }
-    let users: (IUser &
+  public async findInstructorByUserId(_user: string): Promise<IInstructor> {
+    if (isEmpty(_user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is empty');
+
+    if (!mongoose.Types.ObjectId.isValid(_user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+
+    const instructor: IInstructor &
       mongoose.Document & {
         _id: mongoose.Types.ObjectId;
-      })[];
-
-    if (sortBy && orderBy) {
-      users = await this.users
-        .find(query)
-        .sort({ sortBy: orderBy })
-        .skip((page - 1) * limit)
-        .limit(limit);
-    } else {
-      users = await this.users
-        .find(query)
-        .skip((page - 1) * limit)
-        .limit(limit);
-    }
-
-    const totalPages = await this.users.countDocuments(query);
-
-    return { data: users, message: 'Completed Successfully', page: page, pageSize: users.length, totalPages: totalPages };
+      } = await this.instructors.findOne({ _user: _user });
+    return instructor;
   }
 
-  public async findUserById(userId: string): Promise<IUser> {
+  /*   public async findUserById(userId: string): Promise<IUser> {
     if (isEmpty(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is empty');
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
@@ -108,7 +66,7 @@ class UserService {
     if (!deleteUserById) throw new HttpException(HttpStatusCodes.CONFLICT, "User doesn't exist");
 
     return deleteUserById;
-  }
+  } */
 }
 
-export default UserService;
+export default InstructorService;

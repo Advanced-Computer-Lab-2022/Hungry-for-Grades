@@ -278,9 +278,7 @@ function AuthProvider({ children }: Props) {
         isLoading: state.isLoading,
         validatorToken: state.validatorToken,
         userInfo: state.userInfo,
-        profiles: state.profiles,
-        setError,
-        setValidationError,
+
         login,
         forgotPassword,
         validateToken,

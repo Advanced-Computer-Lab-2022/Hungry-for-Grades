@@ -1,4 +1,4 @@
-import { DB_DATABASE, DB_PASSWORD, DB_USERNAME } from '@config';
+import { DB_DATABASE, DB_PASSWORD, DB_USERNAME } from '@/Config';
 import { ConnectOptions } from 'mongoose';
 
 const options: ConnectOptions = {
