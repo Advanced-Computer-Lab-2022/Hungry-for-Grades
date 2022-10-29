@@ -6,6 +6,8 @@ import SearchSection from './searchSection/SearchSection';
 
 import useSearchQuery from './useSearchQuery';
 
+import CoursesSection from './coursesSection/CoursesSection';
+
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 
 function SearchCourses() {
@@ -19,17 +21,14 @@ function SearchCourses() {
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      <section>
+      <section className={styles.courses__section}>
         <div className='container'>
           {isLoading && <LoaderCards numberOfCards={12} />}
           {error && <div>error</div>}
-          {/* 			{data?.data.map(course => (
-								<div key={course._id}>{course.title}</div>
-							))} */}
+          {data && <CoursesSection {...data.data} />}
+          {error && <div>Error: </div>}
         </div>
       </section>
-      {error && <div>Error: </div>}
-      {data && <div>{JSON.stringify(data)}</div>}
     </section>
   );
 }

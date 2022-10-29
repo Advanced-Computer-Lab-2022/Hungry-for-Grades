@@ -1,3 +1,6 @@
 .courses__page {
-    overflow-x: hidden;
+    display: unset;
+    .courses__section {
+        display: block;
+    }
 }

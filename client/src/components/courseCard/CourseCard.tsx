@@ -1,9 +1,11 @@
 /* eslint-disable import/order */
 import { formatCurrency } from '@/utils/currency';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { CourseCardProps } from '../../pages/landing/types';
 import styles from './courseCard.module.scss';
+import CourseCardOverlay from './CourseInstructorCardOverlay';
 
 function Price(props: CourseCardProps) {
   if (props.originalPrice) {
@@ -24,53 +26,85 @@ function Price(props: CourseCardProps) {
 }
 
 function CourseCard(props: CourseCardProps) {
+  const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
+
   return (
-    <Link to={`/course/${props.id}`}>
-      <article className={` card rounded bg-light shadow `}>
-        <div className={`p-5 mx-auto`}>
-          <img
-            alt={props.title}
-            className=' card-img-top img-fluid'
-            height='80%'
-            src={props.image}
-            width='80%'
-          />
-        </div>
-        <div>
+    <>
+      <OverlayTrigger
+        overlay={
           <div>
-            <h4
-              className={`${styles['course-title'] ?? ''} ${
-                styles['fnt-md'] ?? ''
-              } card-title text-dark text-left`}
-            >
-              {props.title}
-            </h4>
+            <CourseCardOverlay />
           </div>
-          <div className={`${styles['fnt-xs'] ?? ''}`}>
-            {props.instructors.map(instructor => instructor.name).join(', ')}
-          </div>
-          <div className={` ${styles['fnt-xs'] ?? ''}`}>
-            <strong>Duration: {props.totalHours}h</strong>
-          </div>
-          <div>
-            <span className={styles['star-rating-number']}>
-              {props.rating}
-              {'\u00A0'}
-            </span>
-            <span>
-              <StarRatings
-                numberOfStars={5}
-                rating={props.rating}
-                starDimension='20px'
-                starRatedColor='rgb(229, 152, 25)'
-                starSpacing='0px'
+        }
+        placement='right'
+      >
+        <article
+          className={`${
+            styles.course__card ?? ''
+          } card card-cascade rounded bg-light shadow my-5`}
+        >
+          <Link to={`/course/${props.id}`}>
+            <div className={`${styles.course__img__container ?? ''}`}>
+              <img
+                alt={props.title}
+                className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+                src={
+                  props.image && props.image.length > 0
+                    ? props.image
+                    : COMPANY_LOGO
+                }
+                onError={e => {
+                  e.currentTarget.src = COMPANY_LOGO;
+                }}
               />
-            </span>
+            </div>
+          </Link>
+          <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
+            <Link to={`/course/${props.id}`}>
+              <h4
+                className={`${styles.course__title ?? ''} ${
+                  styles['fnt-md'] ?? ''
+                } text-dark text-left text-break`}
+              >
+                {props.title}
+              </h4>
+            </Link>
+            <Link to={`/instructor/${props.id}`}>
+              <div
+                className={`${
+                  styles.course__card__instructor ?? ''
+                } text-break`}
+              >
+                {props.instructors
+                  .map(instructor => instructor.name)
+                  .join(', ')}
+              </div>
+            </Link>
+            <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
+              <strong>
+                Duration: {props.totalHours} hr{props.totalHours > 1 ? 's' : ''}
+              </strong>
+            </div>
+            <div>
+              <span className={styles['star-rating-number']}>
+                {props.rating}
+                {'\u00A0'}
+              </span>
+              <span>
+                <StarRatings
+                  numberOfStars={5}
+                  rating={props.rating}
+                  starDimension='20px'
+                  starRatedColor='#FFD700'
+                  starSpacing='0px'
+                />
+              </span>
+            </div>
+            <Price {...props} />
           </div>
-          <Price {...props} />
-        </div>
-      </article>
-    </Link>
+        </article>
+      </OverlayTrigger>
+    </>
   );
 }
 
