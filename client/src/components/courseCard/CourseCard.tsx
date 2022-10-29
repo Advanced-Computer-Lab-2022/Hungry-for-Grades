@@ -26,8 +26,10 @@ function Price(props: CourseCardProps) {
 }
 
 function CourseCard(props: CourseCardProps) {
+  const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
+
   return (
-    <Link to={`/course/${props.id}`}>
+    <>
       <OverlayTrigger
         overlay={
           <div>
@@ -39,28 +41,49 @@ function CourseCard(props: CourseCardProps) {
         <article
           className={`${
             styles.course__card ?? ''
-          } card card-cascade rounded bg-light shadow `}
+          } card card-cascade rounded bg-light shadow my-5`}
         >
-          <div className={`${styles.course__img__container ?? ''}`}>
-            <img
-              alt={props.title}
-              className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
-              src={props.image}
-            />
-          </div>
-          <div className='card-body'>
-            <h4
-              className={`${styles.course__title ?? ''} ${
-                styles['fnt-md'] ?? ''
-              } card-title text-dark text-left `}
-            >
-              {props.title}
-            </h4>
-            <div className={`${styles['fnt-xs'] ?? ''}`}>
-              {props.instructors.map(instructor => instructor.name).join(', ')}
+          <Link to={`/course/${props.id}`}>
+            <div className={`${styles.course__img__container ?? ''}`}>
+              <img
+                alt={props.title}
+                className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+                src={
+                  props.image && props.image.length > 0
+                    ? props.image
+                    : COMPANY_LOGO
+                }
+                onError={e => {
+                  e.currentTarget.src = COMPANY_LOGO;
+                }}
+              />
             </div>
-            <div className={` ${styles['fnt-xs'] ?? ''}`}>
-              <strong>Duration: {props.totalHours}h</strong>
+          </Link>
+          <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
+            <Link to={`/course/${props.id}`}>
+              <h4
+                className={`${styles.course__title ?? ''} ${
+                  styles['fnt-md'] ?? ''
+                } text-dark text-left text-break`}
+              >
+                {props.title}
+              </h4>
+            </Link>
+            <Link to={`/instructor/${props.id}`}>
+              <div
+                className={`${
+                  styles.course__card__instructor ?? ''
+                } text-break`}
+              >
+                {props.instructors
+                  .map(instructor => instructor.name)
+                  .join(', ')}
+              </div>
+            </Link>
+            <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
+              <strong>
+                Duration: {props.totalHours} hr{props.totalHours > 1 ? 's' : ''}
+              </strong>
             </div>
             <div>
               <span className={styles['star-rating-number']}>
@@ -81,7 +104,7 @@ function CourseCard(props: CourseCardProps) {
           </div>
         </article>
       </OverlayTrigger>
-    </Link>
+    </>
   );
 }
 

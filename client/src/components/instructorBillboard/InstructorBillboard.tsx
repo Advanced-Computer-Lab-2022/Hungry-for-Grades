@@ -9,7 +9,7 @@ function InstructorBillboard() {
         styles.instructor_billboard || ''
       } container d-flex flex-lg-row flex-column-reverse `}
     >
-      <div className={styles.billboard_content}>
+      <div className={`${styles.billboard_content ?? ''} text-start`}>
         <h5>Share your knowledge</h5>
         <p>
           Real-world experts like you make a global impact by teaching on

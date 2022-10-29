@@ -1,4 +1,3 @@
-
 import { lazy } from 'react';
 
 //import Home from './pages/home/Home';
@@ -15,7 +14,6 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
 
-
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
 const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
@@ -26,7 +24,9 @@ const LazyInstructorDashboard = lazy(
 );
 const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
 const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
-const LazyAddCorporateTrainee = lazy(() => import('@pages/Admin/AddCorporateTrainee'));
+const LazyAddCorporateTrainee = lazy(
+  () => import('@pages/Admin/AddCorporateTrainee')
+);
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -48,9 +48,12 @@ function AllRoutes() {
         <Route element={<LazyCourse />} path='/course' />
         <Route element={<LazyInstructorDashboard />} path='/home/instructor' />
         <Route element={<AdminRoutes />} path='/admin'>
-          <Route element = {<LazyAddInstructor />} path = 'addinstructor' />
-          <Route element = {<LazyAddAdmin />} path = 'addadmin' />
-          <Route element = {<LazyAddCorporateTrainee />} path = 'addcorporatetrainee' />
+          <Route element={<LazyAddInstructor />} path='addinstructor' />
+          <Route element={<LazyAddAdmin />} path='addadmin' />
+          <Route
+            element={<LazyAddCorporateTrainee />}
+            path='addcorporatetrainee'
+          />
         </Route>
       </Route>
 

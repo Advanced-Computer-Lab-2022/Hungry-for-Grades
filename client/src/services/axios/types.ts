@@ -1,4 +1,5 @@
 import { CategoryRoute } from './dataServices/CategoryDataService';
+import { CoursesRoutes } from './dataServices/CoursesDataService';
 import { UserRoutes } from './dataServices/UserDataService';
 /**
  * HTTP methods
@@ -16,10 +17,17 @@ export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
   typeof CategoryRoute['GET']
 >];
 
+export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
+  typeof CoursesRoutes['GET']
+>];
+
 /**
  * All GET routes that are available for the  data service
  */
-export type GETRoutesType = UserRoutesType<'GET'> | CategoryRouteType;
+export type GETRoutesType =
+  | UserRoutesType<'GET'>
+  | CategoryRouteType
+  | CoursesRoutesType;
 /**
  * All POST routes that are available for the  data service
  */

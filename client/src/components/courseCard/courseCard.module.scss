@@ -1,11 +1,16 @@
 .course__card {
+    height: 30rem;
     .course__title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
         font-weight: 700 !important;
+        font-size: 1.9rem !important;
+        height: fit-content;
+    }
+    .course__card__body {
+        font-weight: 400 !important;
+        font-size: 2rem;
+        .course__card__instructor {
+            font-size: 1rem;
+        }
     }
     .fnt-md {
         font-family: udemy sans, sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
@@ -20,9 +25,9 @@
         text-align: center;
         .course__img {
             top: -10%;
-            left: 10%;
+            left: 15%;
             height: 100%;
-            width: 80%;
+            width: 70%;
             border-radius: 5%;
             position: absolute;
             background-attachment: fixed;
