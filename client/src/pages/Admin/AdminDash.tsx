@@ -6,15 +6,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import styles from './AdminDash.module.css';
 
-import AddAdmin from './AddAdmin';
-
-
-
 
 export default function AdminDash() {
 
   const location = useLocation();
-  const [selected, setSelected] = useState('');
 
   const [currentPath, setCurrentPath] = useState('');
   useEffect(() => {
@@ -42,6 +37,10 @@ export default function AdminDash() {
                 <Nav.Item>
                     <NavLink className={`nav-link ${
                 currentPath === '/admin/addinstructor' ? 'active' : ''}`} to='/admin/addinstructor'><span className = {styles.dashhero}>Add Instructor </span> </NavLink>
+                </Nav.Item>
+                <Nav.Item>
+                    <NavLink className={`nav-link ${
+                currentPath === '/admin/addcorporatetrainee' ? 'active' : ''}`} to='/admin/addcorporatetrainee'><span className = {styles.dashhero}>Add Corporate Trainee </span> </NavLink>
                 </Nav.Item>
             </Nav>
         </div>

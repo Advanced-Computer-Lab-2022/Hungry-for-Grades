@@ -24,8 +24,9 @@ const LazySignup = lazy(() => import('@/pages/signup/Signup'));
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructorDashboard/InstructorDashboard')
 );
-const LazyAddInstructor = lazy(() => import('@components/Admin/AddInstructor'));
-const LazyAddAdmin = lazy(() => import('@components/Admin/AddAdmin'));
+const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
+const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
+const LazyAddCorporateTrainee = lazy(() => import('@pages/Admin/AddCorporateTrainee'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -49,6 +50,7 @@ function AllRoutes() {
         <Route element={<AdminRoutes />} path='/admin'>
           <Route element = {<LazyAddInstructor />} path = 'addinstructor' />
           <Route element = {<LazyAddAdmin />} path = 'addadmin' />
+          <Route element = {<LazyAddCorporateTrainee />} path = 'addcorporatetrainee' />
         </Route>
       </Route>
 
