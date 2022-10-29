@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-import { HttpResponse, PaginatedRequest, PaginatedResponse } from './utils';
+import {
+  HttpResponse,
+  PaginatedResponse
+} from '@interfaces/response.interface';
 
-export enum Level {
-  BEGINNER = 'Beginner',
-  INTERMEDIATE = 'Intermediate',
-  ADVANCED = 'Advanced'
-}
+import { PaginatedRequest } from '@interfaces/request.interface';
+
+import { Level } from '@enums/level.enum';
 
 export type CourseFilters = {
   category?: string;
@@ -83,7 +84,7 @@ export async function getCourses(
   filter: CourseFilters
 ): Promise<PaginatedResponse<Course>> {
   const res = await axios.get<PaginatedResponse<Course>>(
-    'http://localhost:3000/courses',
+    'http://localhost:3000/api/courses',
     {
       params: filter
     }
@@ -112,7 +113,7 @@ export async function getCourseByID(
     return undefined;
   }
   const res = await axios.get<HttpResponse<Course>>(
-    `http://localhost:3000/courses/${encodeURIComponent(courseID)}`
+    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
@@ -122,3 +123,77 @@ export async function getCourseByID(
   }
   return res.data?.data;
 }
+
+export const CoursesRoutes = {
+  GET: {
+    getCSRFToken: {
+      URL: '/getCSRFToken' as const,
+      params: '',
+      payload: {},
+      response: {
+        _id: '',
+        username: '',
+        email: '',
+        createdAt: '',
+        updatedAt: ''
+      }
+    },
+    getCoursesSearchFilter: {
+      URL: '/courses/' as const,
+      params:
+        '?priceLow=6&priceHigh=10000&page=&limit=12&searchTerm=learn&country=Egypt',
+      payload: {},
+      response: {
+        data: [
+          {
+            _id: '',
+            _instructor: {
+              _user: [
+                {
+                  _id: '',
+                  name: ''
+                }
+              ]
+            },
+            captions: [''],
+            category: '',
+            description: '',
+            keywords: [''],
+            language: '',
+            level: '',
+            previewVideoURL: '',
+            price: {
+              currency: 'EGP',
+              currentValue: 0,
+              discounts: [
+                {
+                  startDate: '',
+                  endDate: '',
+                  percentage: 0
+                },
+                {
+                  startDate: '',
+                  endDate: '',
+                  percentage: 30
+                }
+              ]
+            },
+            subcategory: [''],
+            thumbnail: '',
+            title: '',
+            numberOfEnrolledTrainees: 0,
+            duration: 3,
+            rating: {
+              averageRating: 5
+            }
+          }
+        ],
+        message: 'Completed Successfully',
+        page: 1,
+        pageSize: 1,
+        success: true,
+        totalPages: 1
+      }
+    }
+  }
+};

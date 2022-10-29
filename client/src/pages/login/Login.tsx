@@ -6,14 +6,14 @@ import { useCallback } from 'react';
 
 import { LoginProps } from './types';
 
-import useLogin from './useLogin';
+import useLoginQuery from './useLoginQuery';
 
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 import './login.scss';
 function Login() {
-  const { mutateAsync: login, isError, data } = useLogin();
+  const { mutateAsync: login, isError, data } = useLoginQuery();
   const navigate = useNavigate();
   const formik = useFormik<LoginProps>({
     enableReinitialize: true,
@@ -44,9 +44,9 @@ function Login() {
 
   const handleSubmit = useCallback(async () => {
     const values = (await formik.submitForm()) as LoginProps;
-    alert(values.password);
+    //alert(values.password);
     await login(values);
-    alert('after');
+    //alert('after');
     navigate('/tasks');
     return true;
   }, [navigate, formik, login]);

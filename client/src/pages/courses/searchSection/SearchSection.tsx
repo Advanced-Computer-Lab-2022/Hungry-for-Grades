@@ -2,11 +2,11 @@ import { v4 as uuid } from 'uuid';
 
 import { AiOutlineFilter } from 'react-icons/ai';
 
-import styles from './Search.module.scss';
+import styles from './SearchSection.module.scss';
 
+import CategoryFilter from './filtersInput/Category&SubFilter';
+import PaidFreeFilter from './filtersInput/Paid&FreeFilter';
 import { type SearchSectionProps } from './types';
-
-// price range input filter functional component
 
 function SearchSection(props: SearchSectionProps) {
   const id = uuid();
@@ -46,42 +46,15 @@ function SearchSection(props: SearchSectionProps) {
             <label className='form-label' htmlFor='customRange2'>
               Price range
             </label>
-            <input
-              className='form-range'
-              id='min'
-              max='5'
-              min='0'
-              name='min'
-              type='range'
-              value={selectedFilters.min}
-              onChange={e =>
-                setSelectedFilters(prev => {
-                  return {
-                    ...prev,
-                    [e.target.name]: e.target.value
-                  };
-                })
-              }
-            />
-            <input
-              className='form-range'
-              id='customRange2'
-              max='5'
-              min='0'
-              name='max'
-              type='range'
-              value={selectedFilters.min}
-              onChange={e =>
-                setSelectedFilters(prev => {
-                  alert(e.target.name);
-                  return {
-                    ...prev,
-                    [e.target.name]: e.target.value
-                  };
-                })
-              }
-            />
           </div>
+          <CategoryFilter
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+          <PaidFreeFilter
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
         </div>
       </div>
     </div>

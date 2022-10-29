@@ -1,14 +1,9 @@
+import { Role } from '@enums/role.enum';
+
 type Address = {
   city: string;
   country: string;
 };
-
-export enum Role {
-  ADMIN = 'admin',
-  CORPORATE = 'corporate',
-  INSTRUCTOR = 'instructor',
-  TRAINEE = 'trainee'
-}
 
 export enum Gender {
   FEMALE = 'female',

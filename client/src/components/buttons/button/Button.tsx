@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './button.module.css';
 import { type ButtonProps } from './types';
 
+import { customComparator } from '@/utils/comparator';
+
 function Button(props: ButtonProps) {
   const id = props.id || uuidv4();
   const [isLoading, setIsLoading] = useState(false);
@@ -81,8 +83,5 @@ function Button(props: ButtonProps) {
     </button>
   );
 }
-const customComparator = (prevProps: ButtonProps, nextProps: ButtonProps) => {
-  return JSON.stringify(nextProps) === JSON.stringify(prevProps);
-};
 
 export default memo(Button, customComparator);

@@ -7,7 +7,7 @@ import {
   stringArrayToOptions
 } from '@/components/form/types';
 import SelectField from '@/components/form/SelectField';
-import { Level } from '@/services/axios/dataServices/CoursesDataService';
+import { Level } from '@/enums/level.enum';
 
 const languages = [
   'English',

@@ -41,7 +41,8 @@
       "@context/*": ["./src/context/*"],
       "@assets/*": ["./src/assets/*"],
       "@test/*": ["./src/test/*"],
-      "@public/*": ["./public/*"]
+      "@public/*": ["./public/*"],
+      "@enums/*": ["./src/enums/*"],
     },
     "rootDir": "./src" /* Specify the root folder within your source files. */,
     "outDir": "./build" /* Specify an output folder for all emitted files. */
