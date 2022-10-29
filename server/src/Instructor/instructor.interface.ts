@@ -1,9 +1,10 @@
 import { Rating } from '@/Common/Types/common.types';
+import { Course } from '@/Course/course.interface';
 import { Types } from 'mongoose';
 
 export interface IInstructor {
   _id: Types.ObjectId;
-  _teachedCourses: Types.ObjectId[];
+  _teachedCourses: ITeachedCourse[];
   _user: Types.ObjectId;
   balance: number;
   bankAccount: BankAccount;
@@ -12,6 +13,11 @@ export interface IInstructor {
   socialMedia: SocialMedia;
   speciality: string;
   title: string;
+}
+
+export interface ITeachedCourse {
+  _course: Types.ObjectId;
+  earning: Number;
 }
 
 type BankAccount = {

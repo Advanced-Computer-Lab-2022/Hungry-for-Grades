@@ -1,6 +1,14 @@
 import { requiredString } from '@Common/Models/common';
-import { IInstructor } from '@Instructor/instructor.interface';
+import { IInstructor, ITeachedCourse } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
+
+const teachedCourseSchema = new Schema<ITeachedCourse>({
+  _course: {
+    ref: 'Course',
+    type: Schema.Types.ObjectId,
+  },
+  earning: Number,
+});
 
 const instructorSchema = new Schema<IInstructor>({
   // _teachedCourses: [
@@ -9,6 +17,7 @@ const instructorSchema = new Schema<IInstructor>({
   //     type: Schema.Types.ObjectId,
   //   },
   // ],
+  _teachedCourses: [teachedCourseSchema],
   _user: {
     ref: 'User',
     type: Schema.Types.ObjectId,
