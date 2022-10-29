@@ -18,9 +18,9 @@ async function searchRequest(
 ) {
   if (!customComparator<SelectFiltersType>(oldFilters, filters)) {
     setActivePage(1);
-		page = 1;
+    page = 1;
   }
-	oldFilters = filters;
+  oldFilters = filters;
 
   const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
   getCoursesSearchFilter.params = `searchTerm=${filters.searchTerm}&category=${
@@ -32,7 +32,6 @@ async function searchRequest(
   }&sortBy=${filters.sortBy}&durationLow=${filters.durationLow}&durationHigh=${
     filters.durationHigh
   }&limit=${12}&page=${page}`;
-	alert(getCoursesSearchFilter.params);
   return getRequest(getCoursesSearchFilter);
 }
 

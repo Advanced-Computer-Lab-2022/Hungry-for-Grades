@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { SelectFiltersType } from './types';
 
-
 export function useSeletedFilters() {
   return useState<SelectFiltersType>({
     category: '',
