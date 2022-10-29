@@ -1,11 +1,11 @@
 import {
-	FaApple,
-	FaFacebookF,
-	FaGooglePlay,
-	FaInstagram,
-	FaLinkedinIn,
-	FaTwitter,
-	FaYoutube
+  FaApple,
+  FaFacebookF,
+  FaGooglePlay,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTwitter,
+  FaYoutube
 } from 'react-icons/fa';
 function Footer() {
   const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME;
