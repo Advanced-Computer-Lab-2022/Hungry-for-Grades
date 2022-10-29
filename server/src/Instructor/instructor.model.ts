@@ -3,12 +3,12 @@ import { IInstructor } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
 
 const instructorSchema = new Schema<IInstructor>({
-  _teachedCourses: [
-    {
-      ref: 'Course',
-      type: Schema.Types.ObjectId,
-    },
-  ],
+  // _teachedCourses: [
+  //   {
+  //     ref: 'Course',
+  //     type: Schema.Types.ObjectId,
+  //   },
+  // ],
   _user: {
     ref: 'User',
     type: Schema.Types.ObjectId,
@@ -28,9 +28,8 @@ const instructorSchema = new Schema<IInstructor>({
       swiftCode: String,
     },
   },
-  biography: requiredString,
+  biography: String,
   rating: {
-    // type: {
     averageRating: {
       max: 5,
       min: 0,
@@ -53,7 +52,6 @@ const instructorSchema = new Schema<IInstructor>({
         },
       },
     ],
-    // },
   },
   socialMedia: {
     default: {},
@@ -65,8 +63,8 @@ const instructorSchema = new Schema<IInstructor>({
       twitter: String,
     },
   },
-  speciality: requiredString,
-  title: requiredString,
+  speciality: String,
+  title: String,
 });
 
 const instructorModel = model<IInstructor & Document>('Instructor', instructorSchema);

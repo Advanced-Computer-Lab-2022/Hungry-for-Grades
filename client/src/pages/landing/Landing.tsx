@@ -6,10 +6,10 @@ import InstructorBillboard from '@/components/instructorBillboard/InstructorBill
 
 import InstructorMainSection from '@/components/Instructor/InstructorMainSection';
 
+
 function Landing() {
   return (
     <>
-      <InstructorMainSection />
       <MainPageSection1 />
       <InstructorBillboard />
       <section>

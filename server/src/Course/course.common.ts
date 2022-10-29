@@ -3,6 +3,7 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { Price } from '@Course/course.interface';
 import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
+import { CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 
 // Converts from input currency to the currency of the chosen country
 export async function getCurrentPrice(price: Price, country: string): Promise<Price> {
@@ -29,4 +30,22 @@ function getPriceAfterDiscount(price: Price) {
     result = price.currentValue; // Original Value Returned
   else result = ((100 - discountAvailable[0].percentage) / 100) * price.currentValue;
   return Math.round(result * 100) / 100; // round to 2 decimal places
+}
+
+// Adds default values to the course filters object sent in query params
+export function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
+  // Filter out empty params
+  for (const param in courseFilters) {
+    if (courseFilters[param] === null || courseFilters[param] === '') {
+      delete courseFilters[param];
+    }
+  }
+  // Supply default values to query params (if property is not defined)
+  const filters = { ...CourseFiltersDefault, ...courseFilters };
+
+  // Parse Numbers sent in query
+  for (const key in filters) {
+    if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
+  }
+  return filters;
 }
