@@ -23,12 +23,12 @@ function LevelFilter(props: SearchSectionProps) {
             value: '1'
           }
         ]}
-        selectedOption={selectedFilters.level}
-        setSelectedOption={function (value: '0' | '1') {
+        selectedOption={`${selectedFilters.sortBy}`}
+        setSelectedOption={function (value: '0' | '1' | '') {
           setSelectedFilters(prev => {
             return {
               ...prev,
-              sortBy: parseInt(value)
+              sortBy: value.length === 0 ? value : parseInt(value)
             };
           });
         }}

@@ -1,9 +1,10 @@
 import TopRatedCourses from './TopRatedCourses';
 
+import TopInstructorsSection from './topInstructorsSection/TopInstructorsSection';
+
 import MainPageSection1 from '@components/HomeSection/MainPageSection1';
 
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
-
 function Landing() {
   return (
     <>
@@ -12,6 +13,7 @@ function Landing() {
       <section>
         <TopRatedCourses />
       </section>
+      <TopInstructorsSection />
     </>
   );
 }
