@@ -5,6 +5,7 @@ import styles from './InstructorMainSection.module.css';
 export default function InstructorMainSection() {
   return (
     <div style={{width:'100%', backgroundColor:'#112D4E'}}>
+        <h2>Man</h2>
         <div className="container-lg" style={{width:'100%', backgroundColor:'#112D4E', alignItems:'center'}}>
             <br />
             <br />

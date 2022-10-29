@@ -6,10 +6,11 @@ import InstructorBillboard from '@/components/instructorBillboard/InstructorBill
 
 import InstructorMainSection from '@/components/Instructor/InstructorMainSection';
 
+import AdminDash from '@/components/Admin/AdminDash';
+
 function Landing() {
   return (
     <>
-      <InstructorMainSection />
       <MainPageSection1 />
       <InstructorBillboard />
       <section>
