@@ -1,4 +1,4 @@
-import styles from './loader.module.css';
+import styles from './loader.module.scss';
 function Loader() {
   return (
     <div className=''>

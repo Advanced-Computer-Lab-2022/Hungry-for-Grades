@@ -143,8 +143,8 @@ class CourseService {
       [
         { $unwind: '$subcategory' },
         { $group: { _id: { cat: '$category', subcat: '$subcategory' } } },
-        { $group: { _id: '$_id.cat', subcat: { $push: '$_id.subcat' } } },
-        { $project: { _id: 0, name: '$_id', subcat: '$subcat' } },
+        { $group: { _id: '$_id.cat', subcat: { $push: { label: '$_id.subcat' } } } },
+        { $project: { _id: 0, label: '$_id', subcategory: '$subcat' } },
       ],
       (err: any, result: Category[]) => {
         if (err) throw new HttpException(500, 'Internal error occured while fetching from database');

@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "check": "npm-check --skip-unused --update-all",
+    "check": "echo 'check' || npm-check --skip-unused --update-all",
     "dev": "yarn run installall && concurrently \"cd server && yarn run dev\" \"cd client && yarn run dev\"",
     "husky-setup": "npx husky set .husky/pre-commit 'yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint && cd ../server && yarn run lint'",
     "installall": "concurrently \"yarn install\" \"cd server && yarn install\" \"cd client && yarn install\"",

@@ -1,20 +1,30 @@
-export type SelectOption = {
-  label: string;
-  value: string | number;
-};
+import { ActionMeta, MultiValue, SingleValue } from 'react-select';
 
-export type MultipleSelectProps = {
-  multiple: true;
-  value: SelectOption[];
-  onChange: (value: SelectOption[]) => void;
+export type Option = {
+  readonly label: string;
+  readonly value: string;
+};
+export type SelectProps = {
+  options: Option[];
+  isDisabled: boolean;
+  isMulti: boolean;
+  isLoading: boolean;
+  isClearable?: boolean;
+  isSearchable?: boolean;
+  setSelectedOption:
+    | ((
+        newValue: MultiValue<Option> | SingleValue<Option>,
+        actionMeta: ActionMeta<string>
+      ) => void)
+    | undefined;
+  selectedOption: string;
+  backspaceRemovesValue?: boolean;
 };
 
 export type SingleSelectProps = {
-  multiple?: false;
-  value?: SelectOption;
-  onChange: (value: SelectOption | undefined) => void;
+  options: Option[];
+  setSelectedOption: (value: string) => void;
+  selectedOption: string;
+  isDisabled: boolean;
+  isLoading: boolean;
 };
-
-export type SelectProps = {
-  options: SelectOption[];
-} & (SingleSelectProps | MultipleSelectProps);
