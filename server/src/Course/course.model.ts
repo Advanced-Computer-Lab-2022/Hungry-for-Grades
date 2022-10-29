@@ -2,6 +2,7 @@ import { Course, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 import { getCurrentPrice } from '@Course/course.common';
+import validationMiddleware from '@/Middlewares/validation.middleware';
 
 const courseSchema = new Schema<Course>(
   {
@@ -84,7 +85,6 @@ const courseSchema = new Schema<Course>(
       ],
     },
     rating: {
-      // type: {
       averageRating: {
         max: 5,
         min: 0,
@@ -107,7 +107,6 @@ const courseSchema = new Schema<Course>(
           },
         },
       ],
-      // },
     },
     sections: [
       {
@@ -140,6 +139,53 @@ const courseSchema = new Schema<Course>(
     toObject: { getters: true, virtuals: true },
   },
 );
+
+//validate course pre save mongoose middleware
+
+courseSchema.pre('save', function (next) {
+  try {
+    //Validate answer is included inside options array in exam
+    this.exam.forEach(question => {
+      if (!question.options.includes(question.answer)) {
+        throw new Error('Answer is not included inside options array in exam');
+      }
+    });
+
+    //Validate answer is included inside options array in sections exercises
+    this.sections.forEach(section => {
+      section.exercises.forEach(exercise => {
+        if (!exercise.options.includes(exercise.answer)) {
+          throw new Error('Answer is not included inside options array in sections exercises');
+        }
+      });
+    });
+
+    // check price.discount is below 100 and above 0
+    this.price.discounts.forEach(discount => {
+      if (discount.percentage > 100 || discount.percentage < 0) {
+        throw new Error('Discount percentage is not valid');
+      }
+    });
+
+    //check if currency is a valid currency
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// courseSchema.post('save', function(error, doc, next) {
+//   if (error.name === 'ValidationError') {
+//     for (let field in error.errors) {
+//       console.log(field);
+//       console.log(error.errors[field].message);
+//   }
+//     next(error);
+//   } else {
+//     next(error);
+//   }
+// });
 
 const courseModel = model<Course & Document>('Course', courseSchema);
 
