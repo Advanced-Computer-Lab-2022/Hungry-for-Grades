@@ -16,7 +16,7 @@ const languages = [
   'French',
   'Spanish',
   'Italian'
-];
+].sort();
 
 const levels = Object.values(Level);
 

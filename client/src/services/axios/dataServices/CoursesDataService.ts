@@ -3,9 +3,9 @@ import axios from 'axios';
 import { HttpResponse, PaginatedRequest, PaginatedResponse } from './utils';
 
 export enum Level {
-  ADVANCED = 'Advanced',
   BEGINNER = 'Beginner',
-  INTERMEDIATE = 'Intermediate'
+  INTERMEDIATE = 'Intermediate',
+  ADVANCED = 'Advanced'
 }
 
 export type CourseFilters = {
