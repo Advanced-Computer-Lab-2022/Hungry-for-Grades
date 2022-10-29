@@ -6,14 +6,16 @@ import { useCallback } from 'react';
 
 import { LoginProps } from './types';
 
-import useLoginQuery from './useLoginQuery';
+import { UserRoutes } from '@services/axios/dataServices/UserDataService';
 
+import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 import './login.scss';
+
 function Login() {
-  const { mutateAsync: login, isError, data } = useLoginQuery();
+  const { mutateAsync: login, isError, data } = usePostQuery();
   const navigate = useNavigate();
   const formik = useFormik<LoginProps>({
     enableReinitialize: true,
@@ -43,12 +45,20 @@ function Login() {
   }, [navigate]);
 
   const handleSubmit = useCallback(async () => {
-    const values = (await formik.submitForm()) as LoginProps;
-    //alert(values.password);
-    await login(values);
-    //alert('after');
-    navigate('/tasks');
-    return true;
+    const { email, password } = (await formik.submitForm()) as LoginProps;
+    const loginRoute = UserRoutes.POST.login;
+    loginRoute.payload = {
+      email: {
+        address: email
+      },
+      password
+    };
+    const response = await login(loginRoute);
+    if (response) {
+      navigate('/aadmin');
+      return true;
+    }
+    return false;
   }, [navigate, formik, login]);
 
   return (

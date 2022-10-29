@@ -41,7 +41,9 @@ export const UserRoutes = {
       URL: '/auth/login' as const,
       params: '',
       payload: {
-        email: '',
+        email: {
+          address: ''
+        },
         password: ''
       },
       response: {

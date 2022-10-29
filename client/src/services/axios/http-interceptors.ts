@@ -17,7 +17,7 @@ type TokenType = {
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   const unParsedToken = localStorage.getItem('token');
   if (unParsedToken) {
-    alert('problem');
+    // alert('problem');
     const { ACCESS_TOKEN } = JSON.parse(unParsedToken) as TokenType;
 
     if (ACCESS_TOKEN && config && config.headers) {

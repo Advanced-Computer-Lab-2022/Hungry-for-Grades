@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 import styles from './course-header.module.scss';
 
-import { Course } from '@/services/axios/dataServices/CoursesDataService';
+import { type ICourse } from '@interfaces/course.interface';
 
-function CourseHeader(props: Course) {
+function CourseHeader(props: ICourse) {
   return (
     <div className={`p-5 text-light bg-dark rounded-3 m-3`}>
       <nav aria-label='breadcrumb'>
