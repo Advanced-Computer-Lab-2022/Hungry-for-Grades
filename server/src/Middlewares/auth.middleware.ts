@@ -3,7 +3,7 @@ import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { logger } from '@/Utils/logger';
 import { RequestWithUser, TokenPayload } from '@Authentication/auth.interface';
-import userModel from '@User/user.model';
+import userModel from '@/User/user.model';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 

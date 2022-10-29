@@ -5,7 +5,7 @@ import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 
 // Converts from input currency to the currency of the chosen country
-export async function displayCurrentPrice(price: Price, country: string): Promise<Price> {
+export async function getCurrentPrice(price: Price, country: string): Promise<Price> {
   try {
     const discountedPrice = getPriceAfterDiscount(price);
 

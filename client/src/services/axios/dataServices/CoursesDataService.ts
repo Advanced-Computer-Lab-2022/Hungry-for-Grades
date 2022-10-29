@@ -54,7 +54,7 @@ export type CourseSection = {
   }[];
   exercises: {
     answer: string;
-    options: [{ type: string }];
+    options: string[];
     question: string;
   }[];
   title: string;
@@ -76,7 +76,7 @@ export type Course = {
   numberOfEnrolledTrainees: number;
   duration: number;
   rating: Rating;
-  outline: { type: string }[];
+  outline: string[];
   sections: CourseSection[];
 };
 

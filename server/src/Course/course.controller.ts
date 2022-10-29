@@ -40,7 +40,8 @@ class CourseController {
   public getCourseById = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const courseData: Course = await this.courseService.findCourseById(courseId);
+      const country: string = req.query.country as string;
+      const courseData: Course = await this.courseService.getCourseById(courseId, country);
 
       res.json({
         data: courseData,

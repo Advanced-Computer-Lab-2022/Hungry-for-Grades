@@ -1,6 +1,7 @@
 import { Course, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
+import { getCurrentPrice } from '@Course/course.common';
 
 const courseSchema = new Schema<Course>(
   {
@@ -72,7 +73,7 @@ const courseSchema = new Schema<Course>(
       currentValue: {
         required: true,
         type: Number,
-        // get: getCurrentCoursePrice,
+        // get: getCurrentPrice,
       },
       discounts: [
         {

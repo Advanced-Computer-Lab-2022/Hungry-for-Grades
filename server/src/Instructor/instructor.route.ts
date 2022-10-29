@@ -1,9 +1,10 @@
-import { Routes } from '@/Common/Interfaces/routes.interface';
-import InstructorController from '@/Instructor/instructor.controller';
-import { Role } from '@/User/user.enum';
-import roleMiddleware from '@Middlewares/role.middleware';
+import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
-import authMiddleware from '../Middlewares/auth.middleware';
+import InstructorController from '@Instructor/instructor.controller';
+import { Role } from '@/User/user.enum';
+import roleMiddleware from '@/Middlewares/role.middleware';
+
+import authMiddleware from '@/Middlewares/auth.middleware';
 class InstructorsRoute implements Routes {
   public path = '/instructor';
   public router = Router();

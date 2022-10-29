@@ -1,4 +1,4 @@
-import { Routes } from '@/common/Interfaces/routes.interface';
+import { Routes } from '@Common/Interfaces/routes.interface';
 import authMiddleware from '@/Middlewares/auth.middleware';
 import validationMiddleware from '@/Middlewares/validation.middleware';
 import { CreateUserDto, FindUserDto } from '@/User/user.dto';
