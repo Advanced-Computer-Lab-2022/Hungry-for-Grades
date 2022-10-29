@@ -1,6 +1,5 @@
 export type CheckBoxInputProps = {
   // data
-  id: string;
   className: string;
   name: string;
   label: string | 'Agree to terms and conditions';

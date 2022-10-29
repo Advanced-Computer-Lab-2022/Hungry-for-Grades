@@ -8,12 +8,12 @@ import { LoginProps } from './types';
 async function loginRequest(data: LoginProps) {
   const login = UserRoutes.POST.login;
   login.payload = data; // set the payload  /user?id=1&isAdmin:true;
-  alert(login.payload.email);
+  //alert(login.payload.email);
   /*  alert(login.payload.email); */
   return postRequest(login);
 }
 
-export default function useLogin() {
+function useLoginQuery() {
   return useMutation(loginRequest, {
     cacheTime: 0,
     onError: error => {
@@ -27,3 +27,5 @@ export default function useLogin() {
     retryDelay: 1000 // 1 second
   });
 }
+
+export default useLoginQuery;

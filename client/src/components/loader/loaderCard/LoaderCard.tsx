@@ -1,11 +1,18 @@
-import { ReactElement } from 'react';
+import styles from './loaderCard.module.scss';
+import { type LoaderCardProps } from './types';
 
-import styles from './loaderCard.module.css';
+function LoaderCard(props: LoaderCardProps) {
+  const logo = import.meta.env.VITE_APP_AUTHOR;
 
-function LoaderCard(props: { img: ReactElement; className: string }) {
   return (
     <article className={props.className}>
-      <div style={{ margin: '0.5rem auto 2rem' }}>{props.img}</div>
+      <div style={{ margin: '0.5rem auto 2rem' }}>
+        <img
+          alt='logo'
+          src={logo}
+          style={{ width: '100px', height: '100px' }}
+        />
+      </div>
       <div className={styles.urls__blink}>
         <div className={styles.blink}>asas </div>
         <div className={styles.blink}>asas </div>

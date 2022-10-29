@@ -1,3 +1,4 @@
+import { CategoryRoute } from './dataServices/CategoryDataService';
 import { UserRoutes } from './dataServices/UserDataService';
 /**
  * HTTP methods
@@ -11,10 +12,14 @@ export type VERBS = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export type UserRoutesType<VERB extends VERBS> =
   typeof UserRoutes[VERB][keyof Partial<typeof UserRoutes[VERB]>];
 
+export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
+  typeof CategoryRoute['GET']
+>];
+
 /**
  * All GET routes that are available for the  data service
  */
-export type GETRoutesType = UserRoutesType<'GET'>;
+export type GETRoutesType = UserRoutesType<'GET'> | CategoryRouteType;
 /**
  * All POST routes that are available for the  data service
  */

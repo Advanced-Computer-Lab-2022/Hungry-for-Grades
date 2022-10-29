@@ -16,7 +16,12 @@ export const aliases = [
   {
     find: '@components',
     replacement: path.resolve(__dirname, './src/components')
-  },  {
+  },
+	{
+    find: '@enums',
+    replacement: path.resolve(__dirname, './src/enums')
+  },
+	{
     find: '@interfaces',
     replacement: path.resolve(__dirname, './src/interfaces')
   },
