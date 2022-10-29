@@ -16,6 +16,7 @@ export class CreateUserDto implements IUser {
   public active: boolean;
 
   @IsObject()
+  @IsOptional()
   public address: Address;
 
   @IsDate()

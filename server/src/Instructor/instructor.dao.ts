@@ -8,6 +8,7 @@ import { IInstructor } from '@Instructor/instructor.interface';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
 import { isEmpty } from '../Utils/util';
+import { CreateInstructorDTO } from './instructor.dto';
 
 class InstructorService {
   public instructors = instructorModel;
@@ -37,22 +38,13 @@ class InstructorService {
   //   return findUser;
   // }
 
-  // public async createUser(userData: CreateUserDto): Promise<IUser> {
-  //   if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
+  public async createInstructor(userData: CreateInstructorDTO): Promise<IInstructor> {
+    // User should be created first then instructor
+    if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
 
-  //   const findUser: IUser = await this.users.findOne({
-  //     email: userData.email,
-  //   });
-  //   if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
-
-  //   const hashedPassword = await hash(userData.password, 10);
-  //   const createUserData: IUser = await this.users.create({
-  //     ...userData,
-  //     password: hashedPassword,
-  //   });
-
-  //   return createUserData;
-  // }
+    const createdInstructor = this.instructors.create({ ...userData, rating: { averageRating: 0, ratings: [] } });
+    return createdInstructor;
+  }
 
   // public async updateUser(userId: string, userData: CreateUserDto): Promise<IUser> {
   //   if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');

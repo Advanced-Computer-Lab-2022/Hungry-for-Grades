@@ -28,8 +28,8 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
     },
     address: {
-      city: requiredString,
-      country: requiredString,
+      city: String,
+      country: String,
     },
     email: {
       required: true,
