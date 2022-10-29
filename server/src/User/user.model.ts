@@ -10,8 +10,8 @@ const Email: Schema = new Schema({
   address: {
     index: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, 'email is invalid'],
-    required: [true, "email can't be blank"],
+    match: [/\S+@\S+\.\S+/, ' Email is invalid'],
+    required: [true, " Email can't be left blank"],
     type: String,
   },
   // Change the default to true if you don't need to validate a new user's email address upon registration
@@ -38,7 +38,6 @@ const userSchema = new Schema<IUser>(
     },
     gender: {
       enum: Object.values(Gender),
-      required: true,
       type: String,
     },
     lastLogin: {
@@ -46,7 +45,7 @@ const userSchema = new Schema<IUser>(
     },
     name: requiredString,
     password: { ...requiredString, minlength: 8 },
-    phone: requiredString,
+    phone: String,
     profileImage: {
       default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
       type: String,
