@@ -1,15 +1,15 @@
 import { Types } from 'mongoose';
 
 export enum Status {
-  PENDING = 'pending',
-  REJECTED = 'rejected',
-  RESOLVE = 'resolved',
+  PENDING = 'Pending',
+  REJECTED = 'Rejected',
+  RESOLVE = 'Resolved',
 }
 
 export enum Reason {
-  FINANCIAL = 'financial',
-  OTHER = 'other',
-  TECHNICAL = 'technical',
+  FINANCIAL = 'Financial',
+  OTHER = 'Other',
+  TECHNICAL = 'Technical',
 }
 export interface Report {
   _course: Types.ObjectId;

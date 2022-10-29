@@ -8,14 +8,14 @@ import morgan from 'morgan';
 import { version } from '../package.json';
 import swaggerFile from '../swagger.json';
 
-import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@config';
+import { CREDENTIALS, LOG_FORMAT, NODE_ENV, ORIGIN, PORT } from '@/Config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
+import errorMiddleware from '@/Middlewares/error.middleware';
+import { logger, stream } from '@/Utils/logger';
 import { Routes } from '@Common/Interfaces/routes.interface';
-import errorMiddleware from '@middlewares/error.middleware';
-import { logger, stream } from '@utils/logger';
-import modelsErrorMiddleware from './middlewares/modelsError.middleware';
+import modelsErrorMiddleware from './Middlewares/modelsError.middleware';
 
 class App {
   public app: express.Application;
@@ -49,12 +49,30 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
+    this.app.use((req, res, next) => {
+      // Website you wish to allow to connect
+      res.setHeader('Access-Control-Allow-Origin', ORIGIN);
+
+      // Request methods you wish to allow
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+      // Request headers you wish to allow
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+      // Set to true if you need the website to include cookies in the requests sent
+      // to the API (e.g. in case you use sessions)
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      //      if (req.headers.authorization !== API_KEY) return res.status(400).json({ message: 'not authorized only Omar Sherif', status: 'error' });
+      // Pass to next layer of middleware
+      next();
+    });
     this.app.use(
       cors({
         credentials: CREDENTIALS,
         origin: ORIGIN,
       }),
     );
+
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
@@ -65,7 +83,7 @@ class App {
 
   private initializeRoutes(routes: Routes[]) {
     routes.forEach(route => {
-      this.app.use(route.path, route.router);
+      this.app.use(`/api${route.path}`, route.router);
     });
   }
 

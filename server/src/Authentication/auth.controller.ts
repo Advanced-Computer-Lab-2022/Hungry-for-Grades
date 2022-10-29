@@ -1,9 +1,9 @@
-import { CreateUserDto, FindUserDto } from '@/User/user.dto';
+import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
 import { RequestWithUser } from '@Authentication/auth.interface';
 import { IUser } from '@User/user.interface';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { logger } from '@utils/logger';
 import { NextFunction, Request, Response } from 'express';
 
 class AuthController {
@@ -27,7 +27,7 @@ class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info('login');
-      const userData: FindUserDto = req.body;
+      const userData: UserLoginDTO = req.body;
       const { cookie, findUser } = await this.authService.login(userData);
 
       //res.setHeader('Set-Cookie', [cookie]);

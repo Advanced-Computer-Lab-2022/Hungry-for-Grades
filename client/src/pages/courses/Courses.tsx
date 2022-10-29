@@ -1,37 +1,36 @@
-import { useQuery } from '@tanstack/react-query';
+import styles from './courses.module.scss';
 
-import { useSeletedFilters, type SelectFiltersType } from './useFilters';
+import { useSeletedFilters } from './useSelectedFilters';
 
 import SearchSection from './searchSection/SearchSection';
 
-import LoaderCard from '@/components/loader/loaderCard/LoaderCard';
+import useSearchQuery from './useSearchQuery';
 
-// eslint-disable-next-line @typescript-eslint/require-await
-async function getCourses(selectedFilters: SelectFiltersType) {
-  //getRequest()
-  alert(selectedFilters);
-}
+import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 
 function SearchCourses() {
   const [selectedFilters, setSelectedFilters] = useSeletedFilters();
 
-  const { data, isLoading, error } = useQuery(
-    ['courses', selectedFilters],
-    async () => {
-      await getCourses(selectedFilters);
-    }
-  );
+  const { data, isLoading, error } = useSearchQuery(selectedFilters);
 
   return (
-    <>
+    <section className={styles.courses__page}>
       <SearchSection
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      {isLoading && <LoaderCard className={''} img={''} />}
+      <section>
+        <div className='container'>
+          {isLoading && <LoaderCards numberOfCards={12} />}
+          {error && <div>error</div>}
+          {/* 			{data?.data.map(course => (
+								<div key={course._id}>{course.title}</div>
+							))} */}
+        </div>
+      </section>
       {error && <div>Error: </div>}
       {data && <div>{JSON.stringify(data)}</div>}
-    </>
+    </section>
   );
 }
 

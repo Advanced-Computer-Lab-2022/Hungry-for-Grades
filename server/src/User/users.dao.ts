@@ -1,11 +1,11 @@
 /* eslint-disable security/detect-object-injection */
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto } from '@/User/user.dto';
 import { IUser } from '@/User/user.interface';
 import userModel from '@/User/user.model';
-import HttpStatusCodes from '@/utils/HttpStatusCodes';
-import { PaginatedData } from '@/utils/PaginationResponse';
-import { isEmpty } from '@utils/util';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedData } from '@/Utils/PaginationResponse';
+import { isEmpty } from '@/Utils/util';
 import { hash } from 'bcrypt';
 import mongoose from 'mongoose';
 import { filters } from './user.type';
@@ -75,22 +75,22 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<IUser> {
-    if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
+  // public async createUser(userData: CreateUserDto): Promise<IUser> {
+  //   if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
 
-    const findUser: IUser = await this.users.findOne({
-      email: userData.email,
-    });
-    if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
+  //   const findUser: IUser = await this.users.findOne({
+  //     email: userData.email,
+  //   });
+  //   if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
 
-    const hashedPassword = await hash(userData.password, 10);
-    const createUserData: IUser = await this.users.create({
-      ...userData,
-      password: hashedPassword,
-    });
+  //   const hashedPassword = await hash(userData.password, 10);
+  //   const createUserData: IUser = await this.users.create({
+  //     ...userData,
+  //     password: hashedPassword,
+  //   });
 
-    return createUserData;
-  }
+  //   return createUserData;
+  // }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');

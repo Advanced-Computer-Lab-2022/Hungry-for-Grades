@@ -1,9 +1,9 @@
 import { CreateUserDto } from '@/User/user.dto';
 import { IUser } from '@/User/user.interface';
 import userService from '@/User/users.dao';
-import { HttpResponse } from '@/utils/HttpResponse';
-import { PaginatedData, PaginatedResponse } from '@/utils/PaginationResponse';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
+import { HttpResponse } from '@/Utils/HttpResponse';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import { NextFunction, Request, Response } from 'express';
 import { type filters } from './user.type';
 class UsersController {
@@ -38,20 +38,20 @@ class UsersController {
     }
   };
 
-  public createUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
-    try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: IUser = await this.userService.createUser(userData);
+  // public createUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
+  //   try {
+  //     const userData: CreateUserDto = req.body;
+  //     const createUserData: IUser = await this.userService.createUser(userData);
 
-      res.status(201).json({
-        data: createUserData,
-        message: 'created user successfully with email ',
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //     res.status(201).json({
+  //       data: createUserData,
+  //       message: 'created user successfully with email ',
+  //       success: true,
+  //     });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   public updateUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
     try {

@@ -1,12 +1,12 @@
-import { PaginatedResponse } from '@/utils/PaginationResponse';
+import { Rating, Review } from '@/Common/Types/common.types';
+import { HttpResponse } from '@/Utils/HttpResponse';
+import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
 import { Course } from '@Course/course.interface';
-import { HttpResponse } from '@utils/HttpResponse';
-import HttpStatusCodes from '@utils/HttpStatusCodes';
-import { NextFunction, Request, Response } from 'express';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
-import { Rating, Review } from '@/Common/Types/common.types';
-import { TransformationType } from 'class-transformer';
+import { NextFunction, Request, Response } from 'express';
+import { addDefaultValuesToCourseFilters } from '@Course/course.common';
 
 class CourseController {
   public courseService = new courseService();
@@ -14,23 +14,9 @@ class CourseController {
   public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
     try {
       const requestFilters: CourseFilters = req.query;
+      const newFilters = addDefaultValuesToCourseFilters(requestFilters);
 
-      // FIlter out empty params
-      for (const param in requestFilters) {
-        if (requestFilters[param] === null || requestFilters[param] === '') {
-          delete requestFilters[param];
-        }
-      }
-
-      // Supply default values to query params (if not supplied)
-      const filters = { ...CourseFiltersDefault, ...requestFilters };
-
-      // Parse Numbers sent in query
-      for (const key in filters) {
-        if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
-      }
-
-      const coursesPaginatedResponse: PaginatedResponse<Course> = await this.courseService.getAllCourses(filters);
+      const coursesPaginatedResponse: PaginatedResponse<Course> = await this.courseService.getAllCourses(newFilters);
 
       res.json(coursesPaginatedResponse);
     } catch (error) {
@@ -41,7 +27,8 @@ class CourseController {
   public getCourseById = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const courseData: Course = await this.courseService.findCourseById(courseId);
+      const country: string = req.query.country as string;
+      const courseData: Course = await this.courseService.getCourseById(courseId, country);
 
       res.json({
         data: courseData,
