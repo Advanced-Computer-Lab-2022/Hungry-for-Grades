@@ -1,9 +1,9 @@
 /* eslint-disable import/order */
-import { CourseCardProps } from '../landing/types';
-import styles from './CourseCard.module.scss';
-import StarRatings from 'react-star-ratings';
 import { formatCurrency } from '@/utils/currency';
 import { Link } from 'react-router-dom';
+import StarRatings from 'react-star-ratings';
+import { CourseCardProps } from '../../pages/landing/types';
+import styles from './courseCard.module.scss';
 
 function Price(props: CourseCardProps) {
   if (props.originalPrice) {
@@ -26,13 +26,14 @@ function Price(props: CourseCardProps) {
 function CourseCard(props: CourseCardProps) {
   return (
     <Link to={`/course/${props.id}`}>
-      <div className={styles['course-container']}>
-        <div className={styles['img-wrapper']}>
+      <article className={` card rounded bg-light shadow `}>
+        <div className={`p-5 mx-auto`}>
           <img
             alt={props.title}
-            height='135px'
+            className=' card-img-top img-fluid'
+            height='80%'
             src={props.image}
-            width='240px'
+            width='80%'
           />
         </div>
         <div>
@@ -40,7 +41,7 @@ function CourseCard(props: CourseCardProps) {
             <h4
               className={`${styles['course-title'] ?? ''} ${
                 styles['fnt-md'] ?? ''
-              }`}
+              } card-title text-dark text-left`}
             >
               {props.title}
             </h4>
@@ -68,7 +69,7 @@ function CourseCard(props: CourseCardProps) {
           </div>
           <Price {...props} />
         </div>
-      </div>
+      </article>
     </Link>
   );
 }

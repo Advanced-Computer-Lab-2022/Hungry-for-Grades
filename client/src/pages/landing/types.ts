@@ -1,7 +1,4 @@
-import {
-  Course,
-  Price
-} from '@/services/axios/dataServices/CoursesDataService';
+import { type ICourse, type Price } from '@interfaces/course.interface';
 
 function getOriginalPrice(price: Price): number | undefined {
   if (!price.discounts?.length) {
@@ -31,7 +28,7 @@ export type CourseCardProps = {
   totalHours: number;
 };
 
-export function mapCourseToCardProps(course: Course): CourseCardProps {
+export function mapCourseToCardProps(course: ICourse): CourseCardProps {
   return {
     id: course._id,
     title: course.title,
