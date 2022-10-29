@@ -1,5 +1,8 @@
+
 import { CategoryRoute } from './dataServices/CategoryDataService';
 import { UserRoutes } from './dataServices/UserDataService';
+
+import {AdminRoutes} from './dataServices/AdminDataService';
 /**
  * HTTP methods
  */
@@ -16,6 +19,11 @@ export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
   typeof CategoryRoute['GET']
 >];
 
+export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
+  typeof AdminRoutes['POST']
+>];
+
+
 /**
  * All GET routes that are available for the  data service
  */
@@ -23,10 +31,12 @@ export type GETRoutesType = UserRoutesType<'GET'> | CategoryRouteType;
 /**
  * All POST routes that are available for the  data service
  */
-export type POSTRoutesType = UserRoutesType<'POST'>;
+export type POSTRoutesType = UserRoutesType<'POST'> | AdminRoutesType;
 /**
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = UserRoutesType<'PUT'>;
 export type PATCHRoutesType = UserRoutesType<'PATCH'>;
 export type DELETERoutesType = UserRoutesType<'DELETE'>;
+
+
