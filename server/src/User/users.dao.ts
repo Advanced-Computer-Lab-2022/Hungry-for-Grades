@@ -75,22 +75,22 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<IUser> {
-    if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
+  // public async createUser(userData: CreateUserDto): Promise<IUser> {
+  //   if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
 
-    const findUser: IUser = await this.users.findOne({
-      email: userData.email,
-    });
-    if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
+  //   const findUser: IUser = await this.users.findOne({
+  //     email: userData.email,
+  //   });
+  //   if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
 
-    const hashedPassword = await hash(userData.password, 10);
-    const createUserData: IUser = await this.users.create({
-      ...userData,
-      password: hashedPassword,
-    });
+  //   const hashedPassword = await hash(userData.password, 10);
+  //   const createUserData: IUser = await this.users.create({
+  //     ...userData,
+  //     password: hashedPassword,
+  //   });
 
-    return createUserData;
-  }
+  //   return createUserData;
+  // }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');

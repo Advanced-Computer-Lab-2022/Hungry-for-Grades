@@ -38,20 +38,20 @@ class UsersController {
     }
   };
 
-  public createUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
-    try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: IUser = await this.userService.createUser(userData);
+  // public createUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
+  //   try {
+  //     const userData: CreateUserDto = req.body;
+  //     const createUserData: IUser = await this.userService.createUser(userData);
 
-      res.status(201).json({
-        data: createUserData,
-        message: 'created user successfully with email ',
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //     res.status(201).json({
+  //       data: createUserData,
+  //       message: 'created user successfully with email ',
+  //       success: true,
+  //     });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
   public updateUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
     try {
