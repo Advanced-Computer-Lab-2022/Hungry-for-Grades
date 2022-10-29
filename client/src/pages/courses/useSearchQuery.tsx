@@ -7,8 +7,8 @@ import { postRequest } from '@services/axios/http-verbs';
 
 async function searchRequest(filters: SelectFiltersType) {
   const login = UserRoutes.POST.login;
-   	alert ( filters);
-    return postRequest(login);
+  alert(filters);
+  return postRequest(login);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {
