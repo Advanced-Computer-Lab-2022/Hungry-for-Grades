@@ -27,57 +27,60 @@ function Price(props: CourseCardProps) {
 
 function CourseCard(props: CourseCardProps) {
   return (
-
     <Link to={`/course/${props.id}`}>
-			<OverlayTrigger
-      overlay={<div><CourseCardOverlay/></div>}
-      placement="right"
-    >
-      <article
-        className={`${
-          styles.course__card ?? ''
-        } card card-cascade rounded bg-light shadow `}
-      >
-        <div className={`${styles.course__img__container ?? ''}`}>
-          <img
-            alt={props.title}
-            className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
-            src={props.image}
-          />
-        </div>
-        <div className='card-body'>
-          <h4
-            className={`${styles.course__title ?? ''} ${
-              styles['fnt-md'] ?? ''
-            } card-title text-dark text-left `}
-          >
-            {props.title}
-          </h4>
-          <div className={`${styles['fnt-xs'] ?? ''}`}>
-            {props.instructors.map(instructor => instructor.name).join(', ')}
-          </div>
-          <div className={` ${styles['fnt-xs'] ?? ''}`}>
-            <strong>Duration: {props.totalHours}h</strong>
-          </div>
+      <OverlayTrigger
+        overlay={
           <div>
-            <span className={styles['star-rating-number']}>
-              {props.rating}
-              {'\u00A0'}
-            </span>
-            <span>
-              <StarRatings
-                numberOfStars={5}
-                rating={props.rating}
-                starDimension='20px'
-								starRatedColor="#FFD700"
-								starSpacing="0px"
-              />
-            </span>
+            <CourseCardOverlay />
           </div>
-          <Price {...props} />
-        </div>
-      </article>
-			</OverlayTrigger>
+        }
+        placement='right'
+      >
+        <article
+          className={`${
+            styles.course__card ?? ''
+          } card card-cascade rounded bg-light shadow `}
+        >
+          <div className={`${styles.course__img__container ?? ''}`}>
+            <img
+              alt={props.title}
+              className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+              src={props.image}
+            />
+          </div>
+          <div className='card-body'>
+            <h4
+              className={`${styles.course__title ?? ''} ${
+                styles['fnt-md'] ?? ''
+              } card-title text-dark text-left `}
+            >
+              {props.title}
+            </h4>
+            <div className={`${styles['fnt-xs'] ?? ''}`}>
+              {props.instructors.map(instructor => instructor.name).join(', ')}
+            </div>
+            <div className={` ${styles['fnt-xs'] ?? ''}`}>
+              <strong>Duration: {props.totalHours}h</strong>
+            </div>
+            <div>
+              <span className={styles['star-rating-number']}>
+                {props.rating}
+                {'\u00A0'}
+              </span>
+              <span>
+                <StarRatings
+                  numberOfStars={5}
+                  rating={props.rating}
+                  starDimension='20px'
+                  starRatedColor='#FFD700'
+                  starSpacing='0px'
+                />
+              </span>
+            </div>
+            <Price {...props} />
+          </div>
+        </article>
+      </OverlayTrigger>
     </Link>
   );
 }
