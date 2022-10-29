@@ -32,7 +32,7 @@ function SearchCourses() {
               <CoursesSection {...data.data} />
               <Pagination
                 activePage={activePage}
-                pages={data?.data?.totalPages as number }
+                pages={data?.data?.totalPages as number}
                 setActivePage={setActivePage}
               />
             </>

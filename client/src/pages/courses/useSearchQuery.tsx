@@ -1,13 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { type SelectFiltersType } from './types';
 
 import { CoursesRoutes } from '@services/axios/dataServices/CoursesDataService';
 import { getRequest } from '@services/axios/http-verbs';
 
-async function searchRequest(filters: SelectFiltersType, page: number) {
+import { customComparator } from '@/utils/comparator';
+
+let oldFilters: SelectFiltersType;
+
+async function searchRequest(
+  filters: SelectFiltersType,
+  page: number,
+  setActivePage: Dispatch<SetStateAction<number>>
+) {
+  if (!customComparator<SelectFiltersType>(oldFilters, filters)) {
+    setActivePage(1);
+		page = 1;
+  }
+	oldFilters = filters;
+
   const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
   getCoursesSearchFilter.params = `searchTerm=${filters.searchTerm}&category=${
     filters.category
@@ -18,6 +32,7 @@ async function searchRequest(filters: SelectFiltersType, page: number) {
   }&sortBy=${filters.sortBy}&durationLow=${filters.durationLow}&durationHigh=${
     filters.durationHigh
   }&limit=${12}&page=${page}`;
+	alert(getCoursesSearchFilter.params);
   return getRequest(getCoursesSearchFilter);
 }
 
@@ -26,7 +41,7 @@ function useSearchQuery(filters: SelectFiltersType) {
   return {
     ...useQuery(
       ['search', filters, activePage],
-      () => searchRequest(filters, activePage),
+      () => searchRequest(filters, activePage, setActivePage),
       {
         cacheTime: 1000 * 60 * 60 * 24,
         retryDelay: 1000 // 1 second
