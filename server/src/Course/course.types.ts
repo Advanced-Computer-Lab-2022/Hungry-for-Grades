@@ -7,9 +7,9 @@ export interface CourseFilters extends PaginatedRequest {
   durationLow: number;
   level: Level;
   priceHigh: number;
-  priceLow: number;
+  priceLow: number; // Price handled as Free or Paid
   searchTerm: string;
-  sortBy: number; // 0 for Most Viewed, 1 for Most Rated, -1 don't sort
+  sortBy: number; // 0 for Most Purchased, 1 for Most Rated, -1 don't sort
   subcategory: string;
 }
 

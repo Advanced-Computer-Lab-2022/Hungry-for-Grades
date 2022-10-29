@@ -74,7 +74,7 @@ const courseSchema = new Schema<Course>(
       currentValue: {
         required: true,
         type: Number,
-        // get: getCurrentPrice,
+        // get: getPrice,
       },
       discounts: [
         {
@@ -188,5 +188,4 @@ courseSchema.pre('save', function (next) {
 // });
 
 const courseModel = model<Course & Document>('Course', courseSchema);
-
 export default courseModel;

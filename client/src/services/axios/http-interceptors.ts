@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import axios, {
+import {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse
 } from 'axios';
-
 import { toast } from 'react-toastify';
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+
+import { toastOptions } from '@components/toast/options';
 
 type TokenType = {
   ACCESS_TOKEN: string;
@@ -17,12 +17,15 @@ type TokenType = {
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   const unParsedToken = localStorage.getItem('token');
   if (unParsedToken) {
+    // alert('problem');
     const { ACCESS_TOKEN } = JSON.parse(unParsedToken) as TokenType;
 
     if (ACCESS_TOKEN && config && config.headers) {
       config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
     }
   }
+  toast.error('Internal Server Error', toastOptions);
+
   return config;
 }
 
@@ -34,15 +37,15 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
         {
           nextPath: window.location.pathname
         },
-        '/login'
+        '/auth/login'
       );
-      toast.error('Unauthorized');
+      toast.error('Unauthorized', toastOptions);
       break;
     case 403:
-      toast.error('Forbidden access');
+      toast.error('Forbidden access', toastOptions);
       break;
     case 404:
-      toast.error('Page Not Found');
+      toast.error('Page Not Found', toastOptions);
       break;
     case 500:
       history.pushState(
@@ -51,10 +54,10 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
         },
         '/auth/login'
       );
-      toast.error('Internal Server Error');
+      toast.error('Internal Server Error', toastOptions);
       break;
     default:
-      toast.error(error.message);
+      toast.error(error.message, toastOptions);
   }
   return Promise.reject(error);
 };
@@ -64,7 +67,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
-  const unParsedToken = localStorage.getItem('token');
+  /*   const unParsedToken = localStorage.getItem('token');
   if (
     error.response &&
     unParsedToken &&
@@ -87,7 +90,7 @@ const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
     } catch (_error) {
       return Promise.reject(_error);
     }
-  }
+  } */
 
   return Promise.reject(error);
 };

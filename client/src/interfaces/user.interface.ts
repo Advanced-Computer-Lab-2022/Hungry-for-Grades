@@ -1,21 +1,7 @@
-type Address = {
-  city: string;
-  country: string;
-};
+import { Gender } from '@/enums/gender.enum';
+import { Role } from '@enums/role.enum';
 
-export enum Role {
-  ADMIN = 'admin',
-  CORPORATE = 'corporate',
-  INSTRUCTOR = 'instructor',
-  TRAINEE = 'trainee'
-}
-
-export enum Gender {
-  FEMALE = 'female',
-  MALE = 'male'
-}
-
-export type IUser = {
+interface IUser {
   _id: string;
   active: boolean;
   address: Address;
@@ -34,6 +20,10 @@ export type IUser = {
   username: string;
   updatedAt: string;
   __v: number;
+}
+export type Address = {
+  city: string;
+  country: string;
 };
 
 export type GenericResponse = {
@@ -43,6 +33,7 @@ export type GenericResponse = {
 
 export type ILoginResponse = {
   status: string;
+  message: string;
   access_token: string;
 };
 
@@ -52,3 +43,5 @@ export type IUserResponse = {
     user: IUser;
   };
 };
+
+export { type IUser };

@@ -1,22 +1,21 @@
 import { Routes } from '@/Common/Interfaces/routes.interface';
 // import validationMiddleware from '@middlewares/validation.middleware';
 import { Router } from 'express';
+import AdminController from './admin.controller';
 
 class AdminRoute implements Routes {
   public path = '/admin';
   public router = Router();
-  //   public usersController = new UsersController();
+  public adminController = new AdminController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    // this.router.get('', this.usersController.getUsers);
-    // this.router.get('/:id', this.usersController.getUserById);
-    // this.router.post('', validationMiddleware(CreateUserDto, 'body'), this.usersController.createUser);
-    // this.router.put('/:id', validationMiddleware(CreateUserDto, 'body', true), this.usersController.updateUser);
-    // this.router.delete('/:id', this.usersController.deleteUser);
+    this.router.post('/', this.adminController.createAdmin);
+    this.router.post('/instructor', this.adminController.createInstructor);
+    this.router.post('/corporateTrainee', this.adminController.createCorporateTrainee);
   }
 }
 

@@ -1,13 +1,13 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { logger } from '@/Utils/logger';
-import { plainToInstance } from 'class-transformer';
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 
 const validationMiddleware = (
   type: any,
   value: string | 'body' | 'query' | 'params' = 'body',
-  skipMissingProperties = false,
+  skipMissingProperties = true,
   whitelist = false,
   forbidNonWhitelisted = true,
 ): RequestHandler => {

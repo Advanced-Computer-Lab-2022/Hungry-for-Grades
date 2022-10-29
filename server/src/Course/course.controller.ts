@@ -1,11 +1,14 @@
 import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { PaginatedResponse } from '@/Utils/PaginationResponse';
+import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
 import { Course } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
+import { addDefaultValuesToCourseFilters } from '@Course/course.common';
+import { Types } from 'mongoose';
+import { ITeachedCourse } from '@/Instructor/instructor.interface';
 
 class CourseController {
   public courseService = new courseService();
@@ -13,25 +16,45 @@ class CourseController {
   public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
     try {
       const requestFilters: CourseFilters = req.query;
+      const newFilters = addDefaultValuesToCourseFilters(requestFilters);
 
-      // FIlter out empty params
-      for (const param in requestFilters) {
-        if (requestFilters[param] === null || requestFilters[param] === '') {
-          delete requestFilters[param];
-        }
-      }
+      const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getAllCourses(newFilters);
 
-      // Supply default values to query params (if not supplied)
-      const filters = { ...CourseFiltersDefault, ...requestFilters };
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-      // Parse Numbers sent in query
-      for (const key in filters) {
-        if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
-      }
+  // get instructor courses for instructor dashboard
+  // public getInstructorCourses = async (req: Request<{instructorId:string}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
+  //   try {
+  //     const requestFilters: CourseFilters = req.query;
+  //     const newFilters = addDefaultValuesToCourseFilters(requestFilters);
 
-      const coursesPaginatedResponse: PaginatedResponse<Course> = await this.courseService.getAllCourses(filters);
+  //     const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getCoursesTaughtByInstructor(req.params.instructorId,newFilters);
 
-      res.json(coursesPaginatedResponse);
+  //     res.json({ ...coursesPaginatedResponse, success:true, message:"Completed Successfully" });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
+
+  public getInstructorCourses = async (
+    req: Request<{ instructorId: string }, {}, {}, CourseFilters>,
+    res: Response<PaginatedResponse<ITeachedCourse>>,
+    next: NextFunction,
+  ) => {
+    try {
+      const requestFilters: CourseFilters = req.query;
+      const newFilters = addDefaultValuesToCourseFilters(requestFilters);
+
+      const coursesPaginatedResponse: PaginatedData<ITeachedCourse> = await this.courseService.getCoursesTaughtByInstructor(
+        req.params.instructorId,
+        newFilters,
+      );
+
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

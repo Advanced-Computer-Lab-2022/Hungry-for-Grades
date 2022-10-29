@@ -1,6 +1,6 @@
 import { SECRET_KEY } from '@/Config';
 import { HttpException } from '@/Exceptions/HttpException';
-import { CreateUserDto, FindUserDto } from '@/User/user.dto';
+import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
 import { ICookie, TokenData, TokenPayload } from '@Authentication/auth.interface';
@@ -14,11 +14,17 @@ class AuthService {
   public async signup(userData: CreateUserDto): Promise<IUser> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
-    const findUser: IUser = await this.users.findOne({
-      email: userData.email,
+    const userWithEmail: IUser = await this.users.findOne({
+      'email.address': userData.email.address,
     });
-    if (findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email} already exists`);
-    //TODO : remove the check if user already existsalready in mongoose
+    if (userWithEmail) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email.address} already exists`);
+
+    const userWithUsername: IUser = await this.users.findOne({
+      username: userData.username,
+    });
+
+    if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
+
     const hashedPassword = await hash(userData.password, 10);
     const createUserData: IUser = await this.users.create({
       ...userData,
@@ -28,19 +34,21 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: FindUserDto): Promise<{
+  public async login(userData: UserLoginDTO): Promise<{
     cookie: ICookie;
     findUser: IUser;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
     const findUser: IUser = await this.users.findOne({
-      email: userData.email,
+      $or: [{ 'email.address': userData.emailAddress }, { username: userData.username }],
     });
-    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `this email ${userData.email.address} was not found`);
+    //console.log(findUser);
+    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `Email or Username doesn't exist. Please try again`);
 
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.CONFLICT, 'password is not matching');
+    if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.CONFLICT, 'Password is invalid. Please try again');
+
     await this.users.updateOne({ _id: findUser._id }, { $set: { active: true, lastLogin: new Date() } });
     const tokenData = this.createToken(findUser);
     const cookie = this.createCookie(tokenData);
