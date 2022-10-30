@@ -5,22 +5,28 @@ import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 import CourseService from '@Course/course.dao';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
+import axios from 'axios';
+import { EXCHANGE_BASE_URL } from '@/Config';
 
 // Converts from input currency to the currency of the chosen country
-export async function getCurrentPrice(price: Price, country: string): Promise<Price> {
+export async function getCurrentPrice(price: Price, countryCode: string): Promise<Price> {
+  let discountedPrice = price.currentValue;
   try {
-    const discountedPrice = getPriceAfterDiscount(price);
+    discountedPrice = getPriceAfterDiscount(price);
 
     // No need to convert if the currency is same
-    if (country === 'United States') return { ...price, currentValue: discountedPrice };
+    if (countryCode === 'US') return { ...price, currentValue: discountedPrice };
 
-    const outputCurrency = CountryToCurrency.getParamByParam('countryName', country, 'currency');
-    const currencyConverter = new CC({ amount: discountedPrice, from: price.currency, to: outputCurrency });
+    const outputCurrency = CountryToCurrency.getParamByISO(countryCode, 'currency');
+    // const currencyConverter = new CC({ amount: discountedPrice, from: price.currency, to: outputCurrency });
+    // const convertedPrice = await currencyConverter.convert();
 
-    const convertedPrice = await currencyConverter.convert();
+    const response = await axios.get(`${EXCHANGE_BASE_URL}/${price.currency}/${outputCurrency}/${discountedPrice}`);
+    const convertedPrice = response.data.conversion_result;
+
     return { ...price, currency: outputCurrency, currentValue: convertedPrice };
   } catch (error) {
-    price.currentValue = 0;
+    price.currentValue = discountedPrice ?? price.currentValue;
     price.currency = 'USD';
 
     return price;
