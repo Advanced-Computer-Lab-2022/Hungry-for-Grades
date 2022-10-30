@@ -20,17 +20,12 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 
 
 import usePostQuery from '@/hooks/usePostQuery';
+
 import { toastOptions } from '@/components/toast/options';
 
 
 export default function AddAdmin() {
-  const validate = Yup.object({
-    firstName: Yup.string()
-      .min(2, 'First Name must at least 2 charactres')
-      .required('First Name is Required'),
-    lastName: Yup.string()
-      .min(2, 'First Name is Required')
-      .required('Last Name is Required'),
+
 
   const { mutateAsync : create, isError, data } = usePostQuery();
     
@@ -117,7 +112,7 @@ export default function AddAdmin() {
     </div>
     <div className={`row ${styles.clearfix||''}`}>
       <div className="">
-        <Form action = "google.com">
+        <Form >
           <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
             <TextArea name="firstName" placeholder="First Name" type="text" />
           </div> 
@@ -143,8 +138,8 @@ export default function AddAdmin() {
     </div>
   </div>
 </div>
-                );
-            }
+           );
+                }
 }
     </Formik>
   );

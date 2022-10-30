@@ -10,7 +10,6 @@ import AdminRoutes from './AdminRoutes';
 
 import InstructorRoutes from './InstructorRoutes';
 
-
 import AuthRoutes from './AuthRoutes';
 
 import ProtectedRoutes from './ProtectedRoutes';
@@ -29,6 +28,10 @@ const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
 const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
   () => import('@pages/Admin/AddCorporateTrainee')
+);
+
+const LazyCourseInstructorCard = lazy(
+  () => import('@pages/instructorDashboard/InstructorCourseCard')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -60,7 +63,7 @@ function AllRoutes() {
         </Route>
 
         <Route element = {<InstructorRoutes />} path = '/instructor'>
-        <Route element = {<LazyCourseInstructorCard />} path = '' />
+            <Route element = {<LazyCourseInstructorCard />} path = '' />
         </ Route>
         
       </Route>
