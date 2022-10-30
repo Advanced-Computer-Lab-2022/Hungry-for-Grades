@@ -6,21 +6,22 @@ export const AdminRoutes = {
         URL : '/admin' as const,
         params: '',
         payload : {
-            'email':{
-                'address':''
+            email:{
+                address:''
             },
-            'password':'',
-            'username':'',
-            'name':'',
-            'address':{
-                'city':'',
-                'country':''
+            password:'',
+            username:'',
+            name:'',
+            address:{
+                city:'',
+                country:''
             },
-            'role':'Admin' as const
+            role:'Admin' as const
         },
         response: {
-            'message':'',
-            'success':''
+            data : {},
+            message:'',
+            success:''
         }
     }
   }

@@ -7,18 +7,28 @@ import {RiAccountCircleFill} from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 
 
-// eslint-disable-next-line css-modules/no-unused-class
+
+import { toast } from 'react-toastify';
+
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
 
 import Button from '@components/buttons/button/Button';
 
+import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
+
+
+import usePostQuery from '@/hooks/usePostQuery';
+import { toastOptions } from '@/components/toast/options';
+
+
 export default function AddAdmin() {
 
+  const { mutateAsync : create, isError, data } = usePostQuery();
     
 
     const validate = Yup.object({
@@ -30,6 +40,7 @@ export default function AddAdmin() {
            .required('Last Name is Required'),
         
         username: Yup.string()
+           .matches(/^[A-Za-z0-9]+$/, 'Your Username must be alphabetical characters')
            .min(6, 'User Name must be at least 6 characters')
            .required('User Name is Required'),
         
@@ -55,9 +66,40 @@ export default function AddAdmin() {
               confirmPassword: ''
           }} 
           validationSchema={validate} 
-          onSubmit={function (values: { email: string; password: string; confirmPassword: string;})
+          onSubmit={
+            async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
             {
-                console.log(values);
+              const AdminRoute = Object.assign({}, AdminRoutes.POST.createAdmin);
+              AdminRoute.payload = {
+                email: {
+                  address: values.email
+                },
+                password: values.password,
+                username : values.username,
+                name : values.firstName + values.lastName,
+                address: {
+                  city: '',
+                  country: ''
+                },
+                role:'Admin'
+              };
+
+              try{ 
+                await toast.promise(create(AdminRoute),
+                {
+                pending:'Pending',
+                success:'Admin Added Successfuly',
+                
+              }, toastOptions)
+              actions.resetForm();
+            } //AxiosResponse
+              catch(err)
+              {
+                toast.error(err.response.data.message, toastOptions);
+              }
+            
+  
+              //('Internal Server Error', toastOptions);
             } 
         }
     >
@@ -71,7 +113,7 @@ export default function AddAdmin() {
     </div>
     <div className={`row ${styles.clearfix||''}`}>
       <div className="">
-        <form action = "www.google.com">
+        <Form action = "google.com">
           <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
             <TextArea name="firstName" placeholder="First Name" type="text" />
           </div> 
@@ -90,9 +132,9 @@ export default function AddAdmin() {
           <div className={styles.input_field}> <span> <FaLock /> </span>
             <TextArea name="confirmPassword" placeholder="Re-type Password" type="password" />
           </div>
-          <input className = "button" type="submit" />
-          <Button backgroundColor={'primary-bg'} isDisabled={formik.isValid} label={'Submit'} name={''} type={'submit'} />
-        </form>
+          <input className = "button" type="submit"  />
+        </Form>
+        <Button backgroundColor={'primary-bg'} isDisabled={formik.isValid} label={'Submit'} name={''} type={'submit'} />
       </div>
     </div>
   </div>
