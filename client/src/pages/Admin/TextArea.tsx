@@ -1,23 +1,29 @@
 import { ErrorMessage, useField } from 'formik';
 
-import styles from './TextArea.module.scss'
+import styles from './TextArea.module.scss';
 
-
-export default function TextArea(props: {name:string, placeholder:string, type:string}) {
-
-    const [field, meta] = useField(props);
+export default function TextArea(props: {
+  name: string;
+  placeholder: string;
+  type: string;
+}) {
+  const [field, meta] = useField(props);
 
   return (
     <>
-       <input
+      <input
         className={`
-        ${styles.textArea,  meta.error && meta.touched && 'is-invalid' || ''}
+        ${(styles.textArea, (meta.error && meta.touched && 'is-invalid') || '')}
         `}
-        {...field} 
+        {...field}
         {...props}
-        autoComplete="off"
+        autoComplete='off'
       />
-      <ErrorMessage className={styles.error} component="div" name={field.name} />
+      <ErrorMessage
+        className={styles.error}
+        component='div'
+        name={field.name}
+      />
     </>
-  )
+  );
 }

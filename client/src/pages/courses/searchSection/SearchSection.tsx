@@ -35,7 +35,7 @@ function SearchSection(props: SearchSectionProps) {
                 aria-describedby='search-addon'
                 aria-label='Search'
                 className={`form-control rounded input ${styles.search ?? ''}`}
-                name={'search'}
+                name={'searchTerm'}
                 placeholder='Search by the course name ...'
                 type='search'
                 value={selectedFilters.searchTerm}
@@ -57,7 +57,7 @@ function SearchSection(props: SearchSectionProps) {
           <div
             className={`${
               isFilterOpen ? '' : 'd-none '
-            } container d-flex flex-row justify-content-evenly gap-5 ${
+            } container d-flex flex-row justify-content-evenly gap-5 mb-3 ${
               styles.filters ?? ''
             }`}
           >

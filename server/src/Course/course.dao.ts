@@ -4,26 +4,22 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
 import { Course, Price } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
-import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
-import mongoose from 'mongoose';
+import { PaginatedData } from '@/Utils/PaginationResponse';
+import mongoose, { Document, Types } from 'mongoose';
 import { CourseFilters, Category } from '@Course/course.types';
-import { getCurrentPrice } from '@Course/course.common';
+import { generateCoursesFilterQuery, generateCoursesSortQuery, getCurrentPrice } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.model';
+import { CourseDTO } from './course.dto';
+import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 
 class CourseService {
-  public getAllCourses = async (filters: CourseFilters): Promise<PaginatedResponse<Course>> => {
-    const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
+  public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<Course>> => {
+    const { page, limit, searchTerm, sortBy, country } = filters;
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
-    const filterQuery = {};
-    if (category != undefined) filterQuery['category'] = category;
-    if (level != undefined) filterQuery['level'] = { $eq: level };
-    if (subcategory != undefined) filterQuery['subcategory'] = { $eq: subcategory };
-
-    filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
-    filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh }; // should be modified to compare with discounted price instead
+    const filterQuery = generateCoursesFilterQuery(filters);
 
     const aggregateQuery: any[] = [
       { $match: { $and: [filterQuery] } },
@@ -64,13 +60,8 @@ class CourseService {
       },
     ];
 
-    const sortQuery: any = {};
-    if (sortBy == 0) sortQuery['numberOfEnrolledTrainees'] = -1;
-    else if (sortBy == 1) sortQuery['rating.averageRating'] = -1;
-
+    const sortQuery: any = generateCoursesSortQuery(sortBy);
     if (Object.keys(sortQuery).length != 0) aggregateQuery.push({ $sort: sortQuery });
-
-    //console.log(sortQuery);
 
     let queryResult: Course[] = [];
     try {
@@ -92,13 +83,88 @@ class CourseService {
 
     return {
       data: paginatedCourses,
-      message: 'Completed Successfully',
       page,
       pageSize,
-      success: true,
       totalPages,
     };
   };
+
+  // public async getCoursesTaughtByInstructor(instructorId:string,filters: CourseFilters): Promise<PaginatedData<Course>> {
+  //   if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
+  //   if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+  //   const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
+  //   const pageLimit: number = limit;
+  //   const toBeSkipped = (page - 1) * pageLimit;
+
+  //   const filterQuery = generateCoursesFilterQuery(filters);
+
+  //   filterQuery['_instructor'] = instructorId;
+  //   filterQuery['title'] = { $regex: searchTerm, $options: 'i' };
+
+  //   // console.log(filterQuery);
+  //   const sortQuery: any = generateCoursesSortQuery(sortBy);
+  //   // console.log(sortQuery);
+
+  //   const courses: Course[] = await courseModel.find(filterQuery,{'rating.reviews':0}).sort(sortQuery);
+
+  //   const totalPages = Math.ceil(courses.length / pageLimit);
+  //   const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+  //    // Get price after discount then change it to the needed currency
+  //    for (const course of paginatedCourses) {
+  //     const newPrice: Price = await getCurrentPrice(course.price, country);
+  //     course.price =newPrice;
+  //   }
+
+  //   return {
+  //     data: paginatedCourses,
+  //     page,
+  //     pageSize: paginatedCourses.length,
+  //     totalPages,
+  //   };
+  // }
+
+  public async getCoursesTaughtByInstructor(instructorId: string, filters: CourseFilters): Promise<PaginatedData<ITeachedCourse>> {
+    if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
+    const pageLimit: number = limit;
+    const toBeSkipped = (page - 1) * pageLimit;
+
+    const filterQuery = generateCoursesFilterQuery(filters);
+    filterQuery['title'] = { $options: 'i', $regex: searchTerm };
+
+    const sortQuery: any = generateCoursesSortQuery(sortBy);
+    const instructor: IInstructor = await instructorModel.findById(instructorId).populate({
+      match: filterQuery,
+      model: courseModel,
+      path: '_teachedCourses._course',
+      select: '-rating.reviews',
+      sort: sortQuery,
+    });
+
+    //Remove nulls returned from mismatches when joining
+    const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
+
+    const totalPages = Math.ceil(courses.length / pageLimit);
+    const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+    // Get price after discount then change it to the needed currency
+    //  for (const {_course} of paginatedCourses) {
+    //   const newPrice: Price = await getCurrentPrice(_course.price, country);
+    //   _course.price =newPrice;
+    // }
+
+    return {
+      data: paginatedCourses,
+      page,
+      pageSize: paginatedCourses.length,
+      totalPages,
+    };
+  }
+
   //get course by id aggregate
   public async getCourseById(courseId: string, country: string): Promise<Course> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
@@ -138,18 +204,24 @@ class CourseService {
     return course;
   }
 
-  public async createCourse(courseData: Course): Promise<Course> {
+  public async createCourse(courseData: CourseDTO): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
+    if (!(await instructorModel.findById(courseData.instructorID))) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
-    const course: Course = await courseModel.create(courseData);
-    return course;
+    const _instructor = [new mongoose.Types.ObjectId(courseData.instructorID)];
+    delete courseData.instructorID;
+
+    const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
+
+    // Link Instructor to Course
+
+    return createdCourse;
   }
 
   public async updateCourse(courseId: string, courseData: Course): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course data is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    // Rating should be modified pre save
     const updatedCourse: Course = await courseModel.findByIdAndUpdate(courseId, { courseData: courseData });
     if (!updatedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 

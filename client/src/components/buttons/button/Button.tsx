@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line css-modules/no-unused-class
-import styles from './button.module.css';
+import styles from './button.module.scss';
 import { type ButtonProps } from './types';
 
 import { customComparator } from '@/utils/comparator';
