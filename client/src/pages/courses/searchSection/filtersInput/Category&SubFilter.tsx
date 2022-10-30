@@ -19,7 +19,7 @@ function CategoryFilter(props: SearchSectionProps) {
           Category
         </label>
         <SingleSelect
-          isDisabled={error || isLoading || !data}
+          isDisabled={isError || isLoading || !data}
           isLoading={isLoading}
           options={
             data?.data.map(category => ({
