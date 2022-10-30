@@ -21,7 +21,7 @@ function AccountForm() {
         .required('Email address is Required')
     }),
     onSubmit: (values, actions) => {
-      alert(JSON.stringify(values, null, 2));
+      //  alert(JSON.stringify(values, null, 2));
       actions.resetForm();
     }
   });

@@ -15,7 +15,7 @@ function App() {
     <>
       <Header />
       <Routes />
-      <Toast message={'good request'} type={'success'} />
+      <Toast />
     </>
   );
 }

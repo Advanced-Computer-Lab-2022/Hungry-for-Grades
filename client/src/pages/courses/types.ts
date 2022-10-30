@@ -1,8 +1,12 @@
+import { Level } from '@enums/level.enum';
 export type SelectFiltersType = {
   category: string;
   subCategory: string;
-  search: '';
+  searchTerm: '';
   paid: boolean;
   free: boolean;
-  rating: 0;
+  level: Level | '';
+  sortBy: 0 | 1; //0 for Most Viewed or 1 for Most Rated
+  durationLow: number;
+  durationHigh: number;
 };

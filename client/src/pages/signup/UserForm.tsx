@@ -77,7 +77,7 @@ function UserForm({
     });
     formik.handleSubmit();
     if (scrollToErrors(formik.errors) || formik.values.lastName === '') {
-      alert(' errors');
+      // alert(' errors');
       event.stopPropagation();
       return;
     }

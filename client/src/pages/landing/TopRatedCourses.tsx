@@ -2,23 +2,35 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Link } from 'react-router-dom';
 
-import CourseCard from '../course/CourseCard';
-
 import { mapCourseToCardProps } from './types';
 
+import CourseCard from '@components/courseCard/CourseCard';
+
+import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { getTopRatedCourses } from '@/services/axios/dataServices/CoursesDataService';
 
 function TopRatedCourses() {
-  const courses = useQuery(['topRated'], getTopRatedCourses);
-  const coursesMapped = courses.data?.data.map(mapCourseToCardProps);
-  if (coursesMapped) {
+  const { data, isLoading, isError } = useQuery(
+    ['topRated'],
+    getTopRatedCourses
+  );
+  const coursesMapped = data?.data.map(mapCourseToCardProps);
+  if (isLoading) {
     return (
       <div className='container'>
-        <h2 className='text-dark text-left mb-3'>Top rated courses</h2>
+        <LoaderCards numberOfCards={6} />
+      </div>
+    );
+  } else if (isError) {
+    return <div>Error</div>;
+  } else if (coursesMapped) {
+    return (
+      <div className='container'>
+        <h2 className='text-dark text-left mb-2'>Top rated courses</h2>
         <div className='row'>
-          {coursesMapped.map(c => (
-            <div key={c.id} className='col'>
-              <CourseCard {...c} />
+          {coursesMapped?.map(course => (
+            <div key={course.id} className='col-12 col-md-6 col-lg-4'>
+              <CourseCard {...course} />
             </div>
           ))}
         </div>

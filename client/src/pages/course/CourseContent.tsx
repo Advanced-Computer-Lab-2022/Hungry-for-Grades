@@ -1,8 +1,8 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionItemHeading,
   AccordionItemButton,
+  AccordionItemHeading,
   AccordionItemPanel
 } from 'react-accessible-accordion';
 
@@ -10,9 +10,8 @@ import {
 import './accordion.scss';
 // import styles from './course-content.module.scss';
 
-import { Course } from '@/services/axios/dataServices/CoursesDataService';
-
-function CourseContent(props: Course) {
+import { type ICourse } from '@/interfaces/course.interface';
+function CourseContent(props: ICourse) {
   return (
     <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
       <h3>Course content</h3>

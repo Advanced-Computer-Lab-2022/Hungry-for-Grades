@@ -1,6 +1,6 @@
-import { Course } from '@/services/axios/dataServices/CoursesDataService';
+import { ICourse } from '@interfaces/course.interface';
 
-function CourseOverview(props: Course) {
+function CourseOverview(props: ICourse) {
   if (!props.outline) {
     return <></>;
   }

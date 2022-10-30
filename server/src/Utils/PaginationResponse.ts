@@ -5,7 +5,6 @@ export interface PaginatedRequest {
 
 export interface PaginatedData<T> {
   data: T[];
-  message: string;
   page: number;
   pageSize: number;
   totalPages: number;

@@ -1,63 +1,57 @@
-import { IsAlpha, IsBoolean, IsDate, IsEnum, IsNotEmptyObject, IsObject, IsString, MinLength } from 'class-validator';
+import { IsAlpha, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmptyObject, IsObject, IsOptional, IsString, MinLength } from 'class-validator';
 
 import { Gender, Role } from '@/User/user.enum';
 import { Types } from 'mongoose';
-import { IUser } from './user.interface';
+import { IUser, Address } from '@User/user.interface';
 
 export class CreateUserDto implements IUser {
+  @IsOptional()
   lastLogin: Date;
-  _corporate?: Types.ObjectId;
+
+  @IsOptional()
   _id: Types.ObjectId;
-  _instructor?: Types.ObjectId;
-  _trainee?: Types.ObjectId;
 
   @IsBoolean()
+  @IsOptional()
   public active: boolean;
 
   @IsObject()
-  public address: { city: string; country: string };
+  @IsOptional()
+  public address: Address;
 
   @IsDate()
+  @IsOptional()
   public createdAt: Date;
 
   @IsObject()
   @IsNotEmptyObject()
   public email: { address: string; isValidated: boolean };
 
-  @IsEnum(Gender, { message: 'male or female' })
+  @IsEnum(Gender, { message: 'Gender cannot be left empty. Please choose either Male or Female' })
   public gender: Gender;
 
   public profileImage: string;
 
   @IsString()
-  username: string;
+  public username: string;
 
-  @IsNotEmptyObject()
-  public Address: { city: string; country: string };
-
-  @IsString({ message: 'password is invalid' })
-  @MinLength(8, { message: 'password is too short' })
+  @MinLength(8, { message: 'Password must be at least 8 characters' })
   public password: string;
 
   @IsString()
-  @IsEnum(Role)
+  @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
   public role: Role;
 
   @IsString()
-  @IsAlpha()
   public name: string;
 
   @IsString()
   public phone: string;
 }
 
-export class FindUserDto {
-  @IsObject({ message: 'email is object' })
-  @IsNotEmptyObject()
-  public email: {
-    address: string;
-  };
-
-  @IsString({ message: 'password is invalid' })
+export class UserLoginDTO {
+  @IsEmail()
+  public emailAddress: string;
+  public username: string;
   public password: string;
 }

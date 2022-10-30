@@ -6,18 +6,27 @@ import Error404 from '../error/Error404'
 */
 import { Route, Routes } from 'react-router-dom';
 
+import AdminRoutes from './AdminRoutes';
+
 import AuthRoutes from './AuthRoutes';
 
 import ProtectedRoutes from './ProtectedRoutes';
+
 import PublicRoutes from './PublicRoutes';
-const LazyAddCourse = lazy(() => import('../pages/new-course/CourseForm'));
-const LazyLanding = lazy(() => import('../pages/landing/Landing'));
-const LazyCourse = lazy(() => import('../pages/course/Course'));
-const LazyCourses = lazy(() => import('../pages/courses/Courses'));
-const LazyLogin = lazy(() => import('../pages/login/Login'));
-const LazySignup = lazy(() => import('../pages/signup/Signup'));
+
+const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
+const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
+const LazyCourse = lazy(() => import('@/pages/course/Course'));
+const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
+const LazyLogin = lazy(() => import('@/pages/login/Login'));
+const LazySignup = lazy(() => import('@/pages/signup/Signup'));
 const LazyInstructorDashboard = lazy(
-  () => import('../pages/instructorDashboard/InstructorDashboard')
+  () => import('@/pages/instructorDashboard/InstructorDashboard')
+);
+const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
+const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
+const LazyAddCorporateTrainee = lazy(
+  () => import('@pages/Admin/AddCorporateTrainee')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -39,6 +48,14 @@ function AllRoutes() {
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
         <Route element={<LazyInstructorDashboard />} path='/home/instructor' />
+        <Route element={<AdminRoutes />} path='/admin'>
+          <Route element={<LazyAddInstructor />} path='addinstructor' />
+          <Route element={<LazyAddAdmin />} path='addadmin' />
+          <Route
+            element={<LazyAddCorporateTrainee />}
+            path='addcorporatetrainee'
+          />
+        </Route>
         <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
       </Route>
 

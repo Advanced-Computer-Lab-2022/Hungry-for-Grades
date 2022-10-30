@@ -13,20 +13,30 @@ function SingleSelect(props: SingleSelectProps) {
   return (
     <select
       className={`form-select w-100 ${styles.select ?? ''} `}
+      defaultValue={'DEFAULT'}
       disabled={isDisabled}
+      placeholder='Select'
       value={selectedOption}
       onChange={e => setSelectedOption(e.target.value)}
     >
       {isLoading && <option>Loading...</option>}
-      {options?.map(option => (
-        <option
-          key={option.value}
-          className={'form-select'}
-          value={option.value}
-        >
-          {option.label}
+      {options && options?.length > 0 && (
+        <option key={'All'} className={styles.option} value={''}>
+          All
         </option>
-      ))}
+      )}
+
+      {options &&
+        options.length > 0 &&
+        options?.map(option => (
+          <option
+            key={option.value}
+            className={styles.option}
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
     </select>
   );
 }

@@ -34,11 +34,11 @@
         -ms-transition: all 0.3s ease-in-out;
         -o-transition: all 0.3s ease-in-out;
     }
-    option {
+    .option {
         font-weight: 700;
         background-color: var(--secondary-background-color);
         color: var(--secondary-color);
-        padding: 1rem;
+        padding: 10rem !important;
         box-shadow: 0 0 10px 100px #000 inset;
         &:hover {
             background-color: var(--primary-background-color);
@@ -58,8 +58,14 @@
         filter: contrast(1.5);
         -webkit-filter: contrast(1.5);
     }
-    &:focus>option::selection,
-    option:hover {
+    &:focus>.option::selection,
+    &:focus>.option::-moz-selection {
+        background: var(--secondary-background-color);
+        color: var(--primary-color);
+        filter: contrast(1.5);
+        -webkit-filter: contrast(1.5);
+    }
+    .option:hover {
         background: var(--secondary-background-color);
         color: var(--primary-color);
         filter: contrast(1.5);
