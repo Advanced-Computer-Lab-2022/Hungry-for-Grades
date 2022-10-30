@@ -1,5 +1,4 @@
 import { type AxiosResponse } from 'axios';
-import { TypeOf } from 'yup';
 
 import http from './http-common';
 import {
@@ -19,7 +18,9 @@ export async function getRequest(
   request: GETRoutesType
 ): Promise<AxiosResponse> {
   return http.get<typeof request.response>(
-    `${request.URL}${request.params ? '?' + request.params : ''}`,
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
     request.payload
   );
 }
@@ -30,9 +31,13 @@ export async function getRequest(
  * @returns a promise with the response from the server
  */
 export async function postRequest(request: POSTRoutesType) {
-  return http.post<typeof request.response, AxiosResponse <typeof request.response>>
-  (
-    `${request.URL}${request.params ? '?' + request.params : ''}`,
+  return http.post<
+    typeof request.response,
+    AxiosResponse<typeof request.response>
+  >(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
     { ...request.payload }
   );
 }
@@ -43,7 +48,9 @@ export async function postRequest(request: POSTRoutesType) {
  */
 export async function patchRequest(request: PATCHRoutesType) {
   return http.patch<typeof request.response>(
-    `${request.URL}${request.params ? '?' + request.params : ''}`,
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
     request.payload
   );
 }
@@ -55,7 +62,9 @@ export async function patchRequest(request: PATCHRoutesType) {
  */
 export async function deleteRequest(request: DELETERoutesType) {
   return http.delete<typeof request.response>(
-    `${request.URL}${request.params ? '?' + request.params : ''}`
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`
   );
 }
 
@@ -66,7 +75,9 @@ export async function deleteRequest(request: DELETERoutesType) {
  */
 export async function putRequest(request: PUTRoutesType) {
   return http.put<typeof request.response>(
-    `${request.URL}${request.params ? '?' + request.params : ''}`,
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
     request.payload
   );
 }

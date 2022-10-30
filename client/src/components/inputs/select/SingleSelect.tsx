@@ -6,10 +6,13 @@ import { type SingleSelectProps } from './types';
 
 import { customComparator } from '@/utils/comparator';
 
-function SingleSelect(props: SingleSelectProps) {
-  const { options, setSelectedOption, selectedOption, isLoading, isDisabled } =
-    props;
-
+function SingleSelect({
+  options,
+  setSelectedOption,
+  selectedOption,
+  isLoading,
+  isDisabled
+}: SingleSelectProps) {
   return (
     <select
       className={`form-select w-100 ${styles.select ?? ''} `}
