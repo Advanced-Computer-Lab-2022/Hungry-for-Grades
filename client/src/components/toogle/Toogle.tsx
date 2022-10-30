@@ -16,25 +16,22 @@ function Toogle(props: ToogleProps) {
         borderRadius: '0.5rem'
       }}
     >
-      {Object.keys(toogle).map((key,index )=> (
+      {Object.keys(toogle).map((key, index) => (
         <button
           key={key}
           className={`${
             toogle[key] ? 'bg-dark' : ''
           } text-white  py-2 px-4 btn btn-primary  `}
-          style={
-			  {
-				  outline: 'none',
-				  cursor: 'pointer',
-				  transition: 'all 0.3s ease-in-out',
-				  margin: '0',
-				  textTransform: 'uppercase',
-				  letterSpacing: '0.05rem',
-				  borderLeft: `${index!==0? '1.5px solid white': ''}`,
-
-
-		  }}
-		  type='button'
+          style={{
+            outline: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease-in-out',
+            margin: '0',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05rem',
+            borderLeft: `${index !== 0 ? '1.5px solid white' : ''}`
+          }}
+          type='button'
           onClick={() => {
             setToogle(prev => {
               Object.keys(prev).forEach(k => {
