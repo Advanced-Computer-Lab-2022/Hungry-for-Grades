@@ -7,10 +7,14 @@ import { Rating } from '@/interfaces/course.interface';
 function CourseRating(props: Rating) {
   return (
     <div className={styles['rating-container']}>
-      <span className={styles['star-rating-number']}>
-        {props.averageRating}
-        {'\u00A0'}
-      </span>
+      {props.averageRating > 0 ? (
+        <span className={styles['star-rating-number']}>
+          {props.averageRating}
+          {'\u00A0'}
+        </span>
+      ) : (
+        <></>
+      )}
       <span>
         <StarRatings
           numberOfStars={5}
