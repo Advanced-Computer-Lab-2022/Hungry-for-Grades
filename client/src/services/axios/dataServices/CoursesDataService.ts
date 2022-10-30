@@ -87,6 +87,7 @@ export async function getCourses(
   const res = await axios.get<PaginatedResponse<ICourse>>(
     'http://localhost:3000/api/courses',
     {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       params: filter
     }
   );
@@ -114,7 +115,7 @@ export async function getCourseByID(
     return undefined;
   }
   const res = await axios.get<HttpResponse<ICourse>>(
-    `http://localhost:3000/courses/${encodeURIComponent(courseID)}`
+    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
@@ -122,5 +123,6 @@ export async function getCourseByID(
   if (!res.data.success) {
     throw new Error(`server returned error ${res.data.message}`);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return res.data?.data;
 }

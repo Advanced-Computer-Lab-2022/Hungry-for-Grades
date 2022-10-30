@@ -2,7 +2,7 @@ import { PaginatedRequest } from '@/Utils/PaginationResponse';
 import { Level } from './course.interface';
 export interface CourseFilters extends PaginatedRequest {
   category: string;
-  country: string;
+  country: string; // ISO Code
   durationHigh: number;
   durationLow: number;
   level: Level;
@@ -15,7 +15,7 @@ export interface CourseFilters extends PaginatedRequest {
 
 export const CourseFiltersDefault: CourseFilters = {
   category: undefined,
-  country: 'United States',
+  country: 'US',
   durationHigh: 1000,
   durationLow: 1,
   level: undefined,

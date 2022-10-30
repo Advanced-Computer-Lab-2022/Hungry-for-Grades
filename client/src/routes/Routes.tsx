@@ -14,6 +14,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
 
+const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
 const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
@@ -55,6 +56,7 @@ function AllRoutes() {
             path='addcorporatetrainee'
           />
         </Route>
+        <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
       </Route>
 
       <Route element={<AuthRoutes />}>

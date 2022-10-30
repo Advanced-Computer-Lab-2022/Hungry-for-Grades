@@ -1,4 +1,5 @@
 import { Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import styles from './InstructorMainSection.module.css';
 
@@ -24,18 +25,20 @@ export default function InstructorMainSection() {
           >
             Instructor Dashboard
           </span>
-          <button
-            style={{
-              backgroundColor: '#F9F7F7',
-              color: '#3F72AF',
-              borderColor: '#3F72AF',
-              borderWidth: '1.5px',
-              width: 'auto'
-            }}
-            type='button'
-          >
-            Create new Course
-          </button>
+          <Link to='/instructor/addCourse'>
+            <button
+              style={{
+                backgroundColor: '#F9F7F7',
+                color: '#3F72AF',
+                borderColor: '#3F72AF',
+                borderWidth: '1.5px',
+                width: 'auto'
+              }}
+              type='button'
+            >
+              Create new Course
+            </button>
+          </Link>
         </div>
         <br />
 
