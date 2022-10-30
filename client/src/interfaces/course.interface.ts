@@ -17,9 +17,7 @@ interface ICourseFilters extends PaginatedRequest {
   subcategory?: string;
 }
 
-interface ICourse {
-  _id: string;
-  _instructor: Instructor;
+interface IBaseCourse {
   captions: string[];
   category: string;
   description: string;
@@ -31,17 +29,32 @@ interface ICourse {
   subcategory: string[];
   thumbnail: string;
   title: string;
-  numberOfEnrolledTrainees: number;
   duration: number;
-  rating: Rating;
   outline: string[];
   sections: CourseSection[];
 }
 
+export interface IAddCourseRequest extends IBaseCourse {
+  instructorID: string;
+}
+
+export interface ICourse extends IBaseCourse {
+  _id: string;
+  _instructor: Instructor;
+  numberOfEnrolledTrainees: number;
+  rating: Rating;
+}
+
+export type CourseDiscount = {
+  endDate: Date;
+  percentage: number;
+  startDate: Date;
+};
+
 export type Price = {
   currency: string;
   currentValue: number;
-  discounts: Array<{ endDate: Date; percentage: number; startDate: Date }>;
+  discounts: Array<CourseDiscount>;
 };
 export type Review = {
   userID: string;
@@ -58,20 +71,24 @@ export type Instructor = {
   _user: IUser[];
 };
 
+export type CourseLesson = {
+  description: string;
+  duration: number;
+  title: string;
+  videoURL: string;
+};
+
+export type CourseExercise = {
+  answer: string;
+  options: string[];
+  question: string;
+};
+
 export type CourseSection = {
   description: string;
-  lessons: {
-    description: string;
-    duration: number;
-    title: string;
-    videoURL: string;
-  }[];
-  exercises: {
-    answer: string;
-    options: string[];
-    question: string;
-  }[];
+  lessons: CourseLesson[];
+  exercises: CourseExercise[];
   title: string;
 };
 
-export { type ICourseFilters, type ICourse };
+export { type ICourseFilters };

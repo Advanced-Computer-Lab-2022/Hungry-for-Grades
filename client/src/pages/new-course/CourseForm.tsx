@@ -1,6 +1,10 @@
 import { string, object, number, array } from 'yup';
 import { Formik, Form, FieldArray, FormikProps } from 'formik';
 
+import { toast } from 'react-toastify';
+
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+
 import TextField from '@/components/form/TextField';
 import {
   getTextFieldProps,
@@ -9,18 +13,13 @@ import {
 import SelectField from '@/components/form/SelectField';
 import { Level } from '@/enums/level.enum';
 import ArrayErrorMessage from '@/components/form/ArrayErrorMessage';
-
-type Lesson = {
-  duration: string;
-  title: string;
-  videoURL: string;
-};
-
-type SectionFormValues = {
-  title: string;
-  description: string;
-  lessons: Lesson[];
-};
+import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
+import {
+  CourseDiscount,
+  CourseExercise,
+  CourseLesson,
+  CourseSection
+} from '@/interfaces/course.interface';
 
 type CourseFormValues = {
   title: string;
@@ -29,7 +28,7 @@ type CourseFormValues = {
   level: string;
   price: string;
   outline: string[];
-  sections: SectionFormValues[];
+  sections: CourseSection[];
 };
 
 const languages = [
@@ -108,8 +107,44 @@ const courseSchema = object().shape({
     )
 });
 
-function submitCourse(values: CourseFormValues) {
-  console.log(values);
+// TODO: later
+function getCurrentUserID() {
+  return '63545df5507c24fc734f65ee';
+}
+
+async function submitCourse(
+  values: CourseFormValues,
+  navigate: NavigateFunction
+) {
+  const result = await createCourse({
+    ...values,
+    instructorID: getCurrentUserID(),
+    level: values.level as Level,
+    category: 'Web Development',
+    captions: [] as string[],
+    subcategory: [] as string[],
+    price: {
+      currentValue: parseFloat(values.price),
+      currency: 'CAD',
+      discounts: [] as CourseDiscount[]
+    },
+    keywords: [] as string[],
+    previewVideoURL: 'https://www.youtube.com/watch?v=17DC_atNmkQ',
+    thumbnail: 'https://img-c.udemycdn.com/course/750x422/394676_ce3d_5.jpg',
+    duration: values.sections.reduce(
+      (sum, sec) =>
+        sum +
+        sec.lessons.reduce(
+          (sum2, les) => sum2 + parseInt(les.duration as unknown as string, 10),
+          0
+        ),
+      0
+    )
+  });
+  if (result) {
+    toast('Course was added successfully.');
+    navigate(`/course/${result._id}`);
+  }
 }
 
 function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
@@ -196,6 +231,14 @@ function LessonsForm(
                 <div className='col-12'>
                   <TextField
                     formik={props as FormikProps<unknown>}
+                    id={`sections.${props.sectionIndex}.lessons.${index}.description`}
+                    label={`Description`}
+                    name={`sections.${props.sectionIndex}.lessons.${index}.description`}
+                  />
+                </div>
+                <div className='col-12'>
+                  <TextField
+                    formik={props as FormikProps<unknown>}
                     id={`sections.${props.sectionIndex}.lessons.${index}.videoURL`}
                     label={`Video URL`}
                     name={`sections.${props.sectionIndex}.lessons.${index}.videoURL`}
@@ -219,6 +262,7 @@ function LessonsForm(
               onClick={() =>
                 push({
                   title: '',
+                  description: '',
                   videoURL: '',
                   duration: ''
                 })
@@ -284,7 +328,8 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
                 push({
                   title: '',
                   description: '',
-                  lessons: [] as Lesson[]
+                  lessons: [] as CourseLesson[],
+                  exercises: [] as CourseExercise[]
                 })
               }
             >
@@ -298,6 +343,7 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
 }
 
 function CourseForm() {
+  const navigate = useNavigate();
   return (
     <div className='container'>
       <h1 className='text-center text-dark mt-2'>Create Course</h1>
@@ -309,10 +355,11 @@ function CourseForm() {
           level: '',
           price: '',
           outline: [] as string[],
-          sections: [] as SectionFormValues[]
+          sections: [] as CourseSection[]
         }}
         validationSchema={courseSchema}
-        onSubmit={submitCourse}
+        // eslint-disable-next-line react/jsx-no-bind
+        onSubmit={values => submitCourse(values, navigate)}
       >
         {props => (
           <Form className='form-horizontal small'>
@@ -341,7 +388,11 @@ function CourseForm() {
               <CourseOutlineForm {...props} />
               <SectionsForm {...props} />
               <div className='form-group text-center m-3'>
-                <button className='btn btn-primary' type='submit'>
+                <button
+                  className='btn btn-primary'
+                  disabled={props.isSubmitting}
+                  type='submit'
+                >
                   Submit
                 </button>
               </div>

@@ -5,7 +5,11 @@ import {
   PaginatedResponse
 } from '@interfaces/response.interface';
 
-import { ICourse, ICourseFilters } from '@interfaces/course.interface';
+import {
+  IAddCourseRequest,
+  ICourse,
+  ICourseFilters
+} from '@interfaces/course.interface';
 
 export const CoursesRoutes = {
   GET: {
@@ -119,6 +123,22 @@ export async function getCourseByID(
     `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
   );
   if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function createCourse(
+  course: IAddCourseRequest
+): Promise<ICourse> {
+  const res = await axios.post<HttpResponse<ICourse>>(
+    'http://localhost:3000/api/courses/',
+    course
+  );
+  if (res.statusText !== 'Created') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {

@@ -245,11 +245,10 @@ class CourseService {
     const deletedCourse: Course = await courseModel.findByIdAndDelete(courseId);
     if (!deletedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-
     //Delete course from instructor's teached courses
     await instructorModel.updateOne(
       { _teachedCourses: { $elemMatch: { _course: deletedCourse._id } } },
-      { $pull: { _teachedCourses: { _course: deletedCourse._id } } }
+      { $pull: { _teachedCourses: { _course: deletedCourse._id } } },
     );
     return deletedCourse;
   };
