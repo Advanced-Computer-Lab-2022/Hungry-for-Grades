@@ -8,6 +8,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
 
+import InstructorRoutes from './InstructorRoutes';
+
 import AuthRoutes from './AuthRoutes';
 
 import ProtectedRoutes from './ProtectedRoutes';
@@ -27,6 +29,10 @@ const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
 const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
   () => import('@pages/Admin/AddCorporateTrainee')
+);
+
+const LazyCourseInstructorCard = lazy(
+  () => import('@pages/instructorDashboard/InstructorCourseCard')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -56,7 +62,13 @@ function AllRoutes() {
             path='addcorporatetrainee'
           />
         </Route>
-        <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
+
+        <Route element = {<InstructorRoutes />} path = '/instructor'>
+            <Route element = {<LazyCourseInstructorCard />} path = '' />
+            <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
+        </ Route>
+        
+  
       </Route>
 
       <Route element={<AuthRoutes />}>

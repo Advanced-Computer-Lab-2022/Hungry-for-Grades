@@ -1,4 +1,5 @@
 import { type AxiosResponse } from 'axios';
+import { TypeOf } from 'yup';
 
 import http from './http-common';
 import {
@@ -29,7 +30,8 @@ export async function getRequest(
  * @returns a promise with the response from the server
  */
 export async function postRequest(request: POSTRoutesType) {
-  return http.post<typeof request.response>(
+  return http.post<typeof request.response, AxiosResponse <typeof request.response>>
+  (
     `${request.URL}${request.params ? '?' + request.params : ''}`,
     { ...request.payload }
   );

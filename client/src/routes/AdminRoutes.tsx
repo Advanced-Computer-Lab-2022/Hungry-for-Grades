@@ -13,7 +13,6 @@ export default function AdminRoutes() {
   });
   return (
     <>
-      <Toogle setToogle={setToogle} toogle={toogle} />
       <AdminDash />
       <Outlet />
     </>

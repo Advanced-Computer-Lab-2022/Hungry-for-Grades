@@ -1,0 +1,45 @@
+.hr {
+    position: relative;
+    border: none;
+    border-left: 2px solid #112d4e; /*it was 1.4px*/
+    height: 6.5rem;
+    width: 2px;
+    padding: 0 !important;
+    top: 0.75rem;
+  }
+  
+  .courseTitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .altCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    flex-direction: column;
+  }
+  
+  .sec {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .partOne {
+    font-weight: 450;
+    line-height: 1.5;
+    font-size: 0.75rem;
+  }
+  
+  .fnt_sm {
+    font-weight: 450;
+    line-height: 1.4;
+    font-size: 0.8rem;
+  }
+  
