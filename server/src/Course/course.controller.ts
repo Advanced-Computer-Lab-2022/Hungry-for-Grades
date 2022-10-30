@@ -80,7 +80,8 @@ class CourseController {
   public createCourse = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
     try {
       const courseData: CourseDTO = req.body;
-      const createdCourse: Course = await this.courseService.createCourse(courseData);
+      const country = (req.query.country as string) ?? 'US';
+      const createdCourse: Course = await this.courseService.createCourse(courseData, country);
 
       res.status(201).json({
         data: createdCourse,

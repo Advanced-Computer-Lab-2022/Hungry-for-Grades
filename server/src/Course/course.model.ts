@@ -1,8 +1,6 @@
 import { Course, Level } from '@Course/course.interface';
-import { requiredString } from '@Common/Models/common';
+import { requiredString, requiredNumber } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
-import { getCurrentPrice } from '@Course/course.common';
-import validationMiddleware from '@/Middlewares/validation.middleware';
 
 const courseSchema = new Schema<Course>(
   {
@@ -144,14 +142,14 @@ const courseSchema = new Schema<Course>(
 
 courseSchema.pre('save', function (next) {
   try {
-    //Validate answer is included inside options array in exam
+    // Validate answer is included inside options array in exam
     this.exam.forEach(question => {
       if (!question.options.includes(question.answer)) {
         throw new Error('Answer is not included inside options array in exam');
       }
     });
 
-    //Validate answer is included inside options array in sections exercises
+    // Validate answer is included inside options array in sections exercises
     this.sections.forEach(section => {
       section.exercises.forEach(exercise => {
         if (!exercise.options.includes(exercise.answer)) {
@@ -167,23 +165,21 @@ courseSchema.pre('save', function (next) {
       }
     });
 
-    //check if currency is a valid currency
-
     next();
   } catch (error) {
     next(error);
   }
 });
 
-// courseSchema.post('save', function(error, doc, next) {
-//   if (error.name === 'ValidationError') {
-//     for (let field in error.errors) {
+// courseSchema.post('save', function(err, doc, next) {
+//   if (err.name === 'ValidationError') {
+//     for (let field in err.errors) {
 //       console.log(field);
-//       console.log(error.errors[field].message);
+//       console.log(err.errors[field].message);
+//       next(err);
 //   }
-//     next(error);
 //   } else {
-//     next(error);
+//     next(err);
 //   }
 // });
 

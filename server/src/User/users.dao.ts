@@ -60,7 +60,7 @@ class UserService {
 
     const totalPages = await this.users.countDocuments(query);
 
-    return { data: users, message: 'Completed Successfully', page: page, pageSize: users.length, totalPages: totalPages };
+    return { data: users, page: page, pageSize: users.length, totalPages: totalPages };
   }
 
   public async findUserById(userId: string): Promise<IUser> {
