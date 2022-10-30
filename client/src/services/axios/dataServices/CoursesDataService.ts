@@ -11,6 +11,8 @@ import {
   ICourseFilters
 } from '@interfaces/course.interface';
 
+const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+
 export const CoursesRoutes = {
   GET: {
     getCSRFToken: {
@@ -91,7 +93,7 @@ export async function getCourses(
   filter: ICourseFilters
 ): Promise<PaginatedResponse<ICourse>> {
   const res = await axios.get<PaginatedResponse<ICourse>>(
-    'http://localhost:3000/api/courses',
+    `${APP_BASE_API_URL}/courses`,
     {
       params: filter
     }
@@ -124,7 +126,7 @@ export async function getCourseByID(
     return undefined;
   }
   const res = await axios.get<HttpResponse<ICourse>>(
-    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`,
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseID)}`,
     {
       params: { country }
     }
@@ -142,7 +144,7 @@ export async function createCourse(
   course: IAddCourseRequest
 ): Promise<ICourse> {
   const res = await axios.post<HttpResponse<ICourse>>(
-    'http://localhost:3000/api/courses/',
+    `${APP_BASE_API_URL}/courses/`,
     course
   );
   if (res.statusText !== 'Created') {
