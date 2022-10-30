@@ -15,15 +15,18 @@ let oldFilters: SelectFiltersType;
 async function searchRequest(
   filters: SelectFiltersType,
   page: number,
-  setActivePage: Dispatch<SetStateAction<number>>
+  setActivePage: Dispatch<SetStateAction<number>>,
+	country: string
 ) {
-  const country = UseCountry();
   filters.country = country;
 
   if (!customComparator<SelectFiltersType>(oldFilters, filters)) {
     setActivePage(1);
     page = 1;
   }
+	if(window){
+		window.scrollTo(0, 100);
+	}
   oldFilters = filters;
 
   const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
@@ -40,15 +43,18 @@ async function searchRequest(
 	&country=${filters.country}
 	&limit=${12}
 	&page=${page}`;
+	alert(getCoursesSearchFilter.params);
   return getRequest(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {
   const [activePage, setActivePage] = useState<number>(1);
+	const country = UseCountry();
+
   return {
     ...useQuery(
-      ['search', filters, activePage],
-      () => searchRequest(filters, activePage, setActivePage),
+      ['search', filters, activePage,country],
+      () => searchRequest(filters, activePage, setActivePage,country),
       {
         cacheTime: 1000 * 60 * 60 * 24,
         retryDelay: 1000 // 1 second
