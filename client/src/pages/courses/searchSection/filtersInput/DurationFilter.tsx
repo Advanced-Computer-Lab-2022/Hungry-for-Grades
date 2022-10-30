@@ -19,14 +19,14 @@ function DurationFilter(props: SearchSectionProps) {
           },
           {
             label: 'Medium',
-            value: '1-3'
+            value: '1-2'
           },
           {
             label: 'Long',
-            value: '3-6'
+            value: '2-6'
           }
         ]}
-        selectedOption={selectedFilters.level}
+        selectedOption={`${selectedFilters.durationLow}-${selectedFilters.durationHigh}`}
         setSelectedOption={function (value: string) {
           const [durationLow, durationHigh] = value.split('-');
           setSelectedFilters(prev => {

@@ -53,7 +53,7 @@ function CategoryFilter(props: SearchSectionProps) {
                 value: subcategory.label
               })) ?? []
           }
-          selectedOption={selectedFilters.category}
+          selectedOption={selectedFilters.subCategory}
           setSelectedOption={function (value) {
             setSelectedFilters(prev => {
               return {

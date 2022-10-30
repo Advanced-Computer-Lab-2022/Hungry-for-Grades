@@ -5,7 +5,7 @@ export type SelectFiltersType = {
   searchTerm: '';
   paid: boolean;
   free: boolean;
-  level: Level;
+  level: Level | '';
   sortBy: 0 | 1; //0 for Most Viewed or 1 for Most Rated
   durationLow: number;
   durationHigh: number;
