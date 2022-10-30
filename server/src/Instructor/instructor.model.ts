@@ -1,23 +1,19 @@
-import { requiredString } from '@Common/Models/common';
 import { IInstructor, ITeachedCourse } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
-
-const teachedCourseSchema = new Schema<ITeachedCourse>({
-  _course: {
-    ref: 'Course',
-    type: Schema.Types.ObjectId,
-  },
-  earning: Number,
-});
-
 const instructorSchema = new Schema<IInstructor>({
-  // _teachedCourses: [
-  //   {
-  //     ref: 'Course',
-  //     type: Schema.Types.ObjectId,
-  //   },
-  // ],
-  _teachedCourses: [teachedCourseSchema],
+  _teachedCourses: [
+    {
+      _course: {
+        ref: 'Course',
+        type: Schema.Types.ObjectId,
+      },
+      _id: false,
+      earning: {
+        default: 0,
+        type: Number,
+      },
+    },
+  ],
   _user: {
     ref: 'User',
     type: Schema.Types.ObjectId,

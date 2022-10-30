@@ -17,12 +17,8 @@ export async function getCurrentPrice(price: Price, countryCode: string): Promis
     // No need to convert if the currency is same
     if (countryCode === 'US') return { ...price, currentValue: discountedPrice };
 
-    const outputCurrency = CountryToCurrency.getParamByISO(countryCode, 'currency');
-    // const currencyConverter = new CC({ amount: discountedPrice, from: price.currency, to: outputCurrency });
-    // const convertedPrice = await currencyConverter.convert();
-
-    const response = await axios.get(`${EXCHANGE_BASE_URL}/${price.currency}/${outputCurrency}/${discountedPrice}`);
-    const convertedPrice = response.data.conversion_result;
+    const outputCurrency = getCurrencyFromCountry(countryCode);
+    const convertedPrice = await convertCurrency(price.currency, outputCurrency, discountedPrice);
 
     return { ...price, currency: outputCurrency, currentValue: convertedPrice };
   } catch (error) {
@@ -43,6 +39,19 @@ function getPriceAfterDiscount(price: Price) {
     result = price.currentValue; // Original Value Returned
   else result = ((100 - discountAvailable[0].percentage) / 100) * price.currentValue;
   return Math.round(result * 100) / 100; // round to 2 decimal places
+}
+
+export async function convertCurrency(fromCurrency: string, toCurrency: string, amount: number): Promise<number> {
+  if (fromCurrency === toCurrency) return amount;
+
+  const response = await axios.get(`${EXCHANGE_BASE_URL}/${fromCurrency}/${toCurrency}/${amount}`);
+  const convertedPrice: number = response.data.conversion_result;
+
+  return convertedPrice;
+}
+
+export function getCurrencyFromCountry(countryCode: string): string {
+  return CountryToCurrency.getParamByISO(countryCode, 'currency');
 }
 
 // Adds default values to the course filters object sent in query params
