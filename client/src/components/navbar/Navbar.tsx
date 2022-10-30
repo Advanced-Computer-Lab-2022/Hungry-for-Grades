@@ -20,7 +20,7 @@ function NavbarComponent() {
     <Navbar bg='secondary' className='navbar' expand='lg'>
       <Container>
         <Navbar.Brand>
-          <Link to='/'>CamCham</Link>
+          <Link to='/'>CanCham</Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
