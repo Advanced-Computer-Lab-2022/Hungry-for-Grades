@@ -1,4 +1,4 @@
-import CourseCard from '@/components/courseCard/CourseCard';
+import CourseCard from '@/components/course/CourseCard';
 import { mapCourseToCardProps } from '@/pages/landing/types';
 import { ICourse } from '@interfaces/course.interface';
 
