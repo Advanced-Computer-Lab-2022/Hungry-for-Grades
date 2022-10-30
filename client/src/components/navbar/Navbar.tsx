@@ -1,40 +1,20 @@
 /* eslint-disable react/jsx-no-bind */
-import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
+import UserDropdown from './userDropDown/UserDropdown';
+
+import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import './Navbar.scss';
-import UserDropdown from './userDropDown/UserDropdown';
+
 function NavbarComponent() {
-  const location = useLocation();
-  const [selected, setSelected] = useState('');
-
-  const [currentPath, setCurrentPath] = useState('');
-  useEffect(() => {
-    setCurrentPath(location.pathname);
-  }, [location]);
-
-  /*
- const categories = [
-    {
-      name: 'Web Development',
-      subCatregories: [
-        { name: 'All', link: '/products' },
-        { name: 'Clothing', link: '/products/clothing' },
-        { name: 'Shoes', link: '/products/shoes' }
-      ]
-    },
-    { name: 'Clothing', path: '/products/clothing' },
-    { name: 'Electronics', path: '/products/electronics' },
-    { name: 'Home', path: '/products/home' },
-    { name: 'Toys', path: '/products/toys' },
-    { name: 'Other', path: '/products/other' }
-  ];
- */
+  const country = UseCountry();
+  const updateCountry = UpdateCountry();
   const user = null;
   return (
     <Navbar bg='secondary' className='navbar' expand='lg'>
@@ -46,9 +26,8 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
             <NavLink
-              className={`nav-link ${
-                currentPath === '/courses' ? 'active' : ''
-              }`}
+							className={({ isActive }) =>
+							isActive ? 'nav-link active'  : 'nav-link'}
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
@@ -76,9 +55,9 @@ function NavbarComponent() {
               <ReactFlagsSelect
                 className='flag__select'
                 placeholder='Country'
-                selected={selected}
+                selected={country}
                 showSelectedLabel={false}
-                onSelect={code => setSelected(code)}
+                onSelect={code => updateCountry(code)}
               />
             </Nav.Link>
             {user ? (

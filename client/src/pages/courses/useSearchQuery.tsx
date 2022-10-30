@@ -7,6 +7,7 @@ import { type SelectFiltersType } from './types';
 import { CoursesRoutes } from '@services/axios/dataServices/CoursesDataService';
 import { getRequest } from '@services/axios/http-verbs';
 
+import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
 
 let oldFilters: SelectFiltersType;
@@ -16,6 +17,9 @@ async function searchRequest(
   page: number,
   setActivePage: Dispatch<SetStateAction<number>>
 ) {
+	const country = UseCountry();
+	filters.country = country;
+
   if (!customComparator<SelectFiltersType>(oldFilters, filters)) {
     setActivePage(1);
     page = 1;
@@ -26,12 +30,13 @@ async function searchRequest(
   getCoursesSearchFilter.params = `searchTerm=${filters.searchTerm}&category=${
     filters.category
   }&subCategory=${filters.subCategory}&level=${filters.level}&priceLow=${
-    filters.paid && filters.free ? 0 : filters.paid ? 1 : 0
-  }${
-    filters.paid && filters.free ? '' : filters.free ? '&priceHigh=0' : ''
-  }&sortBy=${filters.sortBy}&durationLow=${filters.durationLow}&durationHigh=${
-    filters.durationHigh
-  }&limit=${12}&page=${page}`;
+    filters.paid && filters.free ? 0 : filters.paid ? 1 : 0}
+		${filters.paid && filters.free ? '' : filters.free ? '&priceHigh=0' : ''}
+	&sortBy=${filters.sortBy}
+	&durationLow=${filters.durationLow}
+	&durationHigh=${filters.durationHigh}
+	&country=${filters.country}
+	&limit=${12}&page=${page}`;
   return getRequest(getCoursesSearchFilter);
 }
 

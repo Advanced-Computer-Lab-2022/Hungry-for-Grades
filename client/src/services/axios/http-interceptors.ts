@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse
+	AxiosError,
+	AxiosInstance,
+	AxiosRequestConfig,
+	AxiosResponse
 } from 'axios';
 import { toast } from 'react-toastify';
 
@@ -24,7 +24,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
       config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
     }
   }
-  toast.error('Internal Server Error', toastOptions);
+  //toast.error('Internal Server Error', toastOptions);
 
   return config;
 }
