@@ -24,7 +24,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
       config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
     }
   }
-  toast.error('Internal Server Error', toastOptions);
+  //toast.error('Internal Server Error', toastOptions);
 
   return config;
 }
