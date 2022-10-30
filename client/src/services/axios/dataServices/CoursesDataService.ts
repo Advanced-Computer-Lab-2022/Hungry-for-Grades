@@ -114,7 +114,7 @@ export async function getCourseByID(
     return undefined;
   }
   const res = await axios.get<HttpResponse<ICourse>>(
-    `http://localhost:3000/courses/${encodeURIComponent(courseID)}`
+    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);

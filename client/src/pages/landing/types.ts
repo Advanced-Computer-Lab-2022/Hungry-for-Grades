@@ -1,4 +1,4 @@
-import { type ICourse, type Price } from '@interfaces/course.interface';
+import { Rating, type ICourse, type Price } from '@interfaces/course.interface';
 
 function getOriginalPrice(price: Price): number | undefined {
   if (!price.discounts?.length) {
@@ -24,7 +24,7 @@ export type CourseCardProps = {
   price: number;
   originalPrice?: number;
   currency: string;
-  rating: number;
+  rating: Rating;
   totalHours: number;
 };
 
@@ -39,7 +39,7 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     price: course.price.currentValue,
     originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
-    rating: course.rating.averageRating,
+    rating: course.rating,
     totalHours: course.duration
   };
 }

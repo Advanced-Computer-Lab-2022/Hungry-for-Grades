@@ -1,5 +1,5 @@
 .course__card {
-    height: 30rem;
+    height: calc(100% - 5rem);
     .course__title {
         font-weight: 700 !important;
         font-size: 1.9rem !important;
@@ -44,15 +44,6 @@
         font-family: udemy sans, sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
         font-weight: 400;
         font-size: 0.75rem;
-    }
-    .star-rating-number {
-        color: #b4690e;
-        font-weight: 700;
-        vertical-align: bottom;
-        display: inline-block;
-        font-size: 1.1rem;
-        line-height: 1.2;
-        margin-bottom: -1px;
     }
     .fnt-md-b {
         font-family: udemy sans, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
