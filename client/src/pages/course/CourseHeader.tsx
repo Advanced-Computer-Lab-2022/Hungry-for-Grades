@@ -1,8 +1,8 @@
-import StarRatings from 'react-star-ratings';
-
 import { Link } from 'react-router-dom';
 
 import styles from './course-header.module.scss';
+
+import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
 
@@ -30,24 +30,7 @@ function CourseHeader(props: ICourse) {
             <img alt={props.title} height='135px' src={props.thumbnail} width='240px'/>
       </div> */}
       <h3 className='pb-2'>{props.description}</h3>
-      <div>
-        <span className={styles['star-rating-number']}>
-          {props.rating.averageRating}
-          {'\u00A0'}
-        </span>
-        <span>
-          <StarRatings
-            numberOfStars={5}
-            rating={props.rating.averageRating}
-            starDimension='20px'
-            starRatedColor='rgb(229, 152, 25)'
-            starSpacing='0px'
-          />
-        </span>
-        <span className={`text-light ${styles.reviews ?? ''}`}>
-          ({props.rating.reviews.length} reviews)
-        </span>
-      </div>
+      <CourseRating {...props.rating} />
       <div className={`text-light`}>
         Created by: &nbsp;
         {/* {props._instructor._user.map(instructor => instructor.name).join(', ')} */}
