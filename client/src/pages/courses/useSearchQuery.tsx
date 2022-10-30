@@ -30,7 +30,7 @@ async function searchRequest(
   oldFilters = filters;
 
   const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
-  getCoursesSearchFilter.params = `
+  getCoursesSearchFilter.query = `
 	searchTerm=${filters.searchTerm}
 	&category=${filters.category}
 	&subCategory=${filters.subCategory}

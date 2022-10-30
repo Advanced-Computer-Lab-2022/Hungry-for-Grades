@@ -12,6 +12,7 @@ export const CoursesRoutes = {
     getCSRFToken: {
       URL: '/getCSRFToken' as const,
       params: '',
+      query: '',
       payload: {},
       response: {
         _id: '',
@@ -22,8 +23,9 @@ export const CoursesRoutes = {
       }
     },
     getCoursesSearchFilter: {
-      URL: '/courses/' as const,
-      params:
+      URL: '/courses' as const,
+      params: '' as const,
+      query:
         '?priceLow=6&priceHigh=10000&page=&limit=12&searchTerm=learn&country=Egypt',
       payload: {},
       response: {

@@ -14,6 +14,7 @@ export const CategoryRoute = {
     getCategories: {
       URL: '/courses/category' as const,
       params: '',
+      query: '',
       payload: {},
       response: {
         data: [

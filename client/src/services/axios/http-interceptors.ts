@@ -22,7 +22,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
 
     if (ACCESS_TOKEN && config && config.headers) {
       config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
-      //toast.error('Internal Server Error', toastOptions); 
+      //toast.error('Internal Server Error', toastOptions);
       //Here i changed the position it was outside the if condition and we commented it because it was giving internal server error on interactions that are not needed
     }
   }

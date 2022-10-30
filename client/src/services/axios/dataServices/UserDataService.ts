@@ -14,6 +14,7 @@ export const UserRoutes = {
     getCSRFToken: {
       URL: '/getCSRFToken' as const,
       params: '',
+      query: '',
       payload: {},
       response: {
         _id: '',
@@ -26,6 +27,7 @@ export const UserRoutes = {
     getUser: {
       URL: '/getUser' as const,
       params: '',
+      query: '',
       payload: {},
       response: {
         _id: '',
@@ -40,6 +42,7 @@ export const UserRoutes = {
     login: {
       URL: '/auth/login' as const,
       params: '',
+      query: '',
       payload: {
         email: {
           address: ''
@@ -57,6 +60,7 @@ export const UserRoutes = {
     logout: {
       URL: '/logout' as const,
       params: '',
+      query: '',
       payload: {
         email: '',
         password: ''
@@ -72,6 +76,7 @@ export const UserRoutes = {
     register: {
       URL: '/register' as const,
       params: '',
+      query: '',
       payload: {
         username: ''
       },
@@ -88,6 +93,7 @@ export const UserRoutes = {
     updateUser: {
       URL: '/logout' as const,
       params: '',
+      query: '',
       payload: {
         email: '',
         password: ''
@@ -105,6 +111,7 @@ export const UserRoutes = {
     updateUser: {
       URL: '/logout' as const,
       params: '',
+      query: '',
       payload: {
         email: '',
         password: ''
@@ -122,6 +129,7 @@ export const UserRoutes = {
     deleteUser: {
       URL: '/logout' as const,
       params: '',
+      query: '',
       payload: {
         email: '',
         password: ''
