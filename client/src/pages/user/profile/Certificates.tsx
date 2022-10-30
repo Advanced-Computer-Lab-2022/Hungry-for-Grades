@@ -1,8 +1,5 @@
-
 function Certificates() {
-  return (
-	<div>Certificates</div>
-  )
+  return <div>Certificates</div>;
 }
 
-export default Certificates
+export default Certificates;

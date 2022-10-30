@@ -26,8 +26,9 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
             <NavLink
-							className={({ isActive }) =>
-							isActive ? 'nav-link active'  : 'nav-link'}
+              className={({ isActive }) =>
+                isActive ? 'nav-link active' : 'nav-link'
+              }
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
