@@ -36,9 +36,8 @@ function SearchSection(props: SearchSectionProps) {
                 aria-label='Search'
                 className={`form-control rounded input ${styles.search ?? ''}`}
                 name={'searchTerm'}
-								placeholder='Search by the course name ...'
+                placeholder='Search by the course name ...'
                 type='search'
-
                 value={selectedFilters.searchTerm}
                 onChange={e => {
                   setSelectedFilters(prev => {
