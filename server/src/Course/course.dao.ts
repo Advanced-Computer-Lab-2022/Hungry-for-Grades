@@ -212,6 +212,9 @@ class CourseService {
     delete courseData.instructorID;
 
     const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
+
+    // Link Instructor to Course
+
     return createdCourse;
   }
 
