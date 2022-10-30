@@ -12,6 +12,7 @@ export function useSeletedFilters() {
     level: '',
     sortBy: 0,
     durationLow: 0,
-    durationHigh: 12
+    durationHigh: 12,
+    country: 'CA'
   });
 }
