@@ -105,22 +105,29 @@ export async function getCourses(
   return res.data;
 }
 
-export function getTopRatedCourses(): Promise<PaginatedResponse<ICourse>> {
+export function getTopRatedCourses(
+  country: string
+): Promise<PaginatedResponse<ICourse>> {
   return getCourses({
     page: 1,
     limit: 3,
-    sortBy: 1
+    sortBy: 1,
+    country
   });
 }
 
 export async function getCourseByID(
-  courseID: string | undefined
+  courseID: string | undefined,
+  country: string
 ): Promise<ICourse | undefined> {
   if (!courseID) {
     return undefined;
   }
   const res = await axios.get<HttpResponse<ICourse>>(
-    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
+    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`,
+    {
+      params: { country }
+    }
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
