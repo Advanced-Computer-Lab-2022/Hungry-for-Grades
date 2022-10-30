@@ -46,7 +46,7 @@ function Login() {
 
   const handleSubmit = useCallback(async () => {
     const { email, password } = (await formik.submitForm()) as LoginProps;
-    const loginRoute = UserRoutes.POST.login;
+    const loginRoute = Object.assign({}, UserRoutes.POST.login);
     loginRoute.payload = {
       email: {
         address: email

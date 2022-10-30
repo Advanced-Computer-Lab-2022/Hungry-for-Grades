@@ -1,9 +1,11 @@
-/* eslint-disable import/order */
+import { Link } from 'react-router-dom';
+
+import { CourseCardProps } from '../../pages/landing/types';
+
+import styles from './courseCard.module.scss';
+
 import CourseRating from '@/pages/course/CourseRating';
 import { formatCurrency } from '@/utils/currency';
-import { Link } from 'react-router-dom';
-import { CourseCardProps } from '../../pages/landing/types';
-import styles from './courseCard.module.scss';
 
 function Price(props: CourseCardProps) {
   if (props.originalPrice) {
