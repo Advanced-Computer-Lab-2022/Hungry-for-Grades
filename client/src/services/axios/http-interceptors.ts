@@ -26,10 +26,6 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
       //Here i changed the position it was outside the if condition and we commented it because it was giving internal server error on interactions that are not needed
     }
   }
-<<<<<<< HEAD
-=======
-  //toast.error('Internal Server Error', toastOptions);
->>>>>>> development
 
   return config;
 }

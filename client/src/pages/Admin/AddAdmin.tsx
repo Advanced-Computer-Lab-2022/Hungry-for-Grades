@@ -10,6 +10,8 @@ import { Formik, Form } from 'formik';
 
 import { toast } from 'react-toastify';
 
+import { useState } from 'react';
+
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
@@ -23,8 +25,17 @@ import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 
+import Toogle from '@/components/toogle/Toogle';
+
+
 
 export default function AddAdmin() {
+
+  const [toogle, setToogle] = useState<{ [key: string]: boolean }>({
+    corporateTrainer: false,
+    admin: false,
+    instructor: false
+  });
 
 
   const { mutateAsync : create, isError, data } = usePostQuery();
@@ -105,7 +116,9 @@ export default function AddAdmin() {
         {
             function(formik){
                 return(
+                  <>
         <div className={styles.form_wrapper}>
+        <Toogle setToogle={setToogle} toogle={toogle} />
   <div className={styles.form_container}>
     <div className={styles.title_container}>
       <h2>Register a new Admin</h2>
@@ -136,8 +149,10 @@ export default function AddAdmin() {
         <Button backgroundColor={'primary-bg'} isDisabled={formik.isValid} label={'Submit'} name={''} type={'submit'} />
       </div>
     </div>
+    
   </div>
 </div>
+</>
            );
                 }
 }

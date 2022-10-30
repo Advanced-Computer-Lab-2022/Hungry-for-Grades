@@ -62,15 +62,13 @@ function AllRoutes() {
             path='addcorporatetrainee'
           />
         </Route>
-<<<<<<< HEAD
 
         <Route element = {<InstructorRoutes />} path = '/instructor'>
             <Route element = {<LazyCourseInstructorCard />} path = '' />
+            <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
         </ Route>
         
-=======
-        <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
->>>>>>> development
+  
       </Route>
 
       <Route element={<AuthRoutes />}>
