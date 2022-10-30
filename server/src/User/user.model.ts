@@ -57,8 +57,8 @@ const userSchema = new Schema<IUser>(
     },
     username: {
       index: true,
-      match: [/^[a-zA-Z0-9]+$/, 'username is invalid'],
-      required: [true, "username can't be blank"],
+      match: [/^[a-zA-Z0-9]+$/, ' username is invalid'],
+      required: [true, " username can't be blank"],
       type: String,
       unique: true,
     },

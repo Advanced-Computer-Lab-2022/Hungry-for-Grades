@@ -61,7 +61,7 @@ export type Question = {
 
 export type Section = {
   description: string;
-  excersises: Question[];
+  exercises: Question[];
   lessons: Lesson[];
   title: string;
 };

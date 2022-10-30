@@ -3,8 +3,8 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { Price } from '@Course/course.interface';
 import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
-import { CourseFilters, CourseFiltersDefault } from '@Course/course.types';
-import { filter } from 'compression';
+import CourseService from '@Course/course.dao';
+import { CourseFilters, CourseFiltersDefault } from './course.types';
 
 // Converts from input currency to the currency of the chosen country
 export async function getCurrentPrice(price: Price, country: string): Promise<Price> {

@@ -10,6 +10,7 @@ import { CourseFilters, Category } from '@Course/course.types';
 import { generateCoursesFilterQuery, generateCoursesSortQuery, getCurrentPrice } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.model';
+import { CourseDTO } from './course.dto';
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 
 class CourseService {
@@ -203,18 +204,24 @@ class CourseService {
     return course;
   }
 
-  public async createCourse(courseData: Course): Promise<Course> {
+  public async createCourse(courseData: CourseDTO): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
+    if (!(await instructorModel.findById(courseData.instructorID))) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
-    const course: Course = await courseModel.create(courseData);
-    return course;
+    const _instructor = [new mongoose.Types.ObjectId(courseData.instructorID)];
+    delete courseData.instructorID;
+
+    const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
+
+    // Link Instructor to Course
+
+    return createdCourse;
   }
 
   public async updateCourse(courseId: string, courseData: Course): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course data is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    // Rating should be modified pre save
     const updatedCourse: Course = await courseModel.findByIdAndUpdate(courseId, { courseData: courseData });
     if (!updatedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 

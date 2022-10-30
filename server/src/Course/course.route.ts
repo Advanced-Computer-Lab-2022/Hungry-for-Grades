@@ -1,6 +1,8 @@
 import CourseController from '@Course/course.controller';
 import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
+import { CourseDTO } from './course.dto';
+import validationMiddleware from '@/Middlewares/validation.middleware';
 
 class CoursesRoute implements Routes {
   public path = '/courses';
@@ -13,7 +15,7 @@ class CoursesRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get('', this.courseController.getAllCourses);
-    this.router.post('/', this.courseController.createCourse);
+    this.router.post('/', validationMiddleware(CourseDTO, 'body'), this.courseController.createCourse);
     this.router.get('/category', this.courseController.getAllCategories);
     this.router.post('/rating/:id', this.courseController.addRating);
     this.router.get('/instructor/:instructorId', this.courseController.getInstructorCourses);

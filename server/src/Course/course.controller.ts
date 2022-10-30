@@ -9,6 +9,7 @@ import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
 import { Types } from 'mongoose';
 import { ITeachedCourse } from '@/Instructor/instructor.interface';
+import { CourseDTO } from './course.dto';
 
 class CourseController {
   public courseService = new courseService();
@@ -78,7 +79,7 @@ class CourseController {
 
   public createCourse = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
     try {
-      const courseData: Course = req.body;
+      const courseData: CourseDTO = req.body;
       const createdCourse: Course = await this.courseService.createCourse(courseData);
 
       res.status(201).json({
