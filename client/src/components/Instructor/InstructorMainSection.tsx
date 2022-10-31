@@ -7,7 +7,7 @@ export default function InstructorMainSection() {
   return (
     <div style={{ width: '100%', backgroundColor: '#112D4E' }}>
       <div
-        className='container-lg'
+        className='container-lg px-0'
         style={{
           width: '100%',
           backgroundColor: '#112D4E',

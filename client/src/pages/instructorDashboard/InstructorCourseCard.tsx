@@ -1,25 +1,36 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import styles from './InstructorCourseCard.module.css';
 
-function InstructorCourseCard() {
+import { formatCurrency } from '@/utils/currency';
+
+function InstructorCourseCard(props: any) {
+  const data = props?.props?._course ?? '';
+  const earned = props?.props?.earning ?? '';
+  const photo = data?.thumbnail ?? '';
+  const title = data?.title ?? '';
+  const price = data?.price ?? '';
+  const enrolled = data?.numberOfEnrolledTrainees ?? '';
+  const rating = data?.rating?.averageRating ?? '';
+  if (!props.props._course.price) return <></>;
   return (
     <div>
       <div
-        className='row border border-primary mx-auto'
-        style={{ height: '8rem', maxWidth: '90vw' }}
+        className='container-lg row border border-primary mx-auto px-0 my-3 d-flex flex-md-row flex-column'
+        style={{ minHeight: '8rem' }}
       >
         <div
-          className='col-4 d-flex align-center my-auto'
-          style={{ paddingLeft: '0' }}
+          className={`col d-flex align-center border-top border-bottom border-primary ${
+            styles.border_div || ''
+          }`}
+          style={{ height: '8rem', paddingLeft: '0' }}
         >
-          <div style={{ width: '8rem' }}>
+          <div>
             <img
               alt='course'
               className='img-fluid'
-              src={
-                'https://img-c.udemycdn.com/course/750x422/394676_ce3d_5.jpg'
-              }
+              src={photo}
               style={{
-                height: '7.7rem',
+                height: '8rem',
                 objectFit: 'cover'
               }}
             />
@@ -27,11 +38,9 @@ function InstructorCourseCard() {
 
           <div
             className='p-2 d-flex flex-column justify-content-around'
-            style={{ width: '70%' }}
+            style={{ width: '90%' }}
           >
-            <h6 className={styles.courseTitle}>
-              Learn Python: The Complete Python Programming Course
-            </h6>
+            <h6 className={styles.courseTitle}>{title}</h6>
             <div className='d-flex align-items-center justify-content-between'>
               <div
                 className={`bg-primary px-2 rounded-pill
@@ -39,59 +48,64 @@ function InstructorCourseCard() {
               >
                 live
               </div>
-              <div className={styles.fnt_sm}>$16.99</div>
+              <div className={styles.fnt_sm}>
+                {formatCurrency(price.currentValue, price.currency)}{' '}
+              </div>
             </div>
           </div>
         </div>
-        <hr className={styles.hr} />
-        <div className={`col ${styles.altCol || ''}`}>
-          <div className={styles.sec}>
-            <div className={styles.partOne}>Total earned</div>
-            <div>$35.69</div>
+        <hr className={`d-md-block d-none ${styles.hr || ''}`} />
+        <div
+          className={`col d-flex align-center px-0 border-top border-bottom border-primary ${
+            styles.border_div || ''
+          }`}
+          style={{ height: '8rem' }}
+        >
+          <div className={`col ${styles.altCol || ''}`}>
+            <div className={styles.sec}>
+              <div className={styles.partOne}>Total earned</div>
+              <div>
+                <h5>{formatCurrency(earned, price.currency)} </h5>
+              </div>
+            </div>
+          </div>
+          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <div className={`col ${styles.altCol || ''}`}>
+            <div className={styles.sec}>
+              <div className={styles.partOne}>Enrolled students</div>
+              <div>
+                <h4>{enrolled}</h4>
+              </div>
+            </div>
           </div>
         </div>
-        <hr className={styles.hr} />
-        <div className={`col ${styles.altCol || ''}`}>
-          <div className={styles.sec}>
-            <div className={styles.partOne}>Enrolled students</div>
-            <div>15</div>
+
+        <hr className={`d-md-block d-none ${styles.hr || ''}`} />
+        <div
+          className={`col d-flex align-center px-0 border-top border-bottom border-primary ${
+            styles.border_div || ''
+          }`}
+          style={{ height: '8rem' }}
+        >
+          <div className={`col ${styles.altCol || ''}`}>
+            <div className={styles.sec}>
+              <div className={styles.partOne}>Course rating</div>
+              <div>
+                <h4>{rating}</h4>
+              </div>
+            </div>
           </div>
-        </div>
-        <hr className={styles.hr} />
-        <div className={`col ${styles.altCol || ''}`}>
-          <div className={styles.sec}>
-            <div className={styles.partOne}>Course rating</div>
-            <div>4.6</div>
-          </div>
-        </div>
-        <hr className={styles.hr} />
-        <div className={`col ${styles.altCol || ''}`}>
-          <div className={styles.sec}>
-            <div className={styles.partOne}>Unanswered questions</div>
-            <div>2</div>
+          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <div className={`col ${styles.altCol || ''}`}>
+            <div className={styles.sec}>
+              <div className={styles.partOne}>Unanswered questions</div>
+              <div>
+                <h4>2</h4>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {/* <table className='table border m-1 text-center'>
-        <tbody>
-          <tr>
-            <td className='p-2' style={{ height: '12rem', width: '12rem' }}>
-              <img
-                alt='course'
-                className='my-auto'
-                src={
-                  'https://img-c.udemycdn.com/course/750x422/394676_ce3d_5.jpg'
-                }
-                style={{ maxHeight: '12rem', width: '12rem' }}
-              />
-            </td>
-            <td>
-              <tr>Learn Python: The Complete Python Programming Course</tr>
-              <tr>Avinash Jain, The Codex</tr>
-            </td>
-          </tr>
-        </tbody>
-      </table> */}
     </div>
   );
 }
