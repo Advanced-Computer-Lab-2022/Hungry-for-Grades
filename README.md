@@ -1,141 +1,67 @@
-# myCourses
+# CanCham
 
-A brief description of what this project does and who it's for
+A complete Online Learning System for the CSEN704 Course (Advanced Programming Lab) in GUC (German University in Cairo). An OnlineLearning System is a web application through which individuals can attend pre-recorded courses online. Existing web applications include but are not limited to Coursera, Udemy,
+LinkedIn Learning, Great Learning and Udacity.
 
-## Appendix
+## Motivation
 
-Any additional information goes here
+The project was created as a part for the CSEN704 Course (Advanced Programming Lab) in GUC (German University in Cairo). The goals is to learn fullstack web application development using MERN Stack ([MongoDB](https://www.mongodb.com/), [express](https://expressjs.com/), [React](https://reactjs.org/), [Node.js](https://nodejs.org/en/))
 
+## Build Status
 
+The project is currently under development. The goals for Sprint 1 are done.
 
-# Requirements 
-https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
+## Code Style
 
+- [ESLint](https://eslint.org) is used to statically analyzes the code to quickly find problems. It is run as a part of the commit workflow to ensure code adhere to the rules.
 
+- [Prettier](https://prettier.io/) is used as a part of the commit workflow to style the code according to configured rules to ensure code adhere to style guidelines.
 
+## Tech/Framework used
 
-
-
+- [MongoDB](https://www.mongodb.com/) is used as the Database server.
+- [express](https://expressjs.com/) is used as the backend webserver. 
+- [React](https://reactjs.org/) is used as the frontend framework
+- [Node.js](https://nodejs.org/en/) is used as the javascript engine running express webserver and also used in front end development for tooling and building the application.
+- [yarn](https://classic.yarnpkg.com/lang/en/) is used as the package manager.
+- [vite](https://vitejs.dev/) is used for frontend tooling.
+- [Typescript](https://www.typescriptlang.org/) is used as the main development language for both the frontend and the backend.
+- [Bootstrap](https://getbootstrap.com/) is used as a CSS library for styling the web pages.
+- [Sass](https://sass-lang.com/) is used a CSS preprocessor.
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](./screenshots/homepage.png)
 
-
-
-
-
-## Running Tests
-
-To run tests, run the following command
-
-```bash
-  npm run test
-```
-
-
-## Support
-
-For support, email fake@fake.com or join our Slack channel.
-
-
-## Tech Stack
-
-**Client:** React, Redux, TailwindCSS
-
-**Server:** Node, Express
-
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-
-
-## Features
-
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
-
-## FAQ
-
-#### Question 1
-
-Answer 1
-
-#### Question 2
-
-Answer 2
-
-
-## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
-
-`API_KEY`
-
-`ANOTHER_API_KEY`
-
-
-## Documentation
-
-[Documentation](https://linktodocumentation)
-
-
-## Deployment
-
-To deploy this project run
-
-```bash
-  npm run deploy
-```
-
-## Demo
-
-Insert gif or link to demo
-
-
-## Contributing
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-Please adhere to this project's `code of conduct`.
-
-
+## Requirements 
+https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
 
 ## Run Locally
 
-Clone the project
+- Clone the project
 
 ```bash
-https://github.com/omar-sherif9992/myCourses/
+git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades
 ```
-
-Go to the project directory
-
+### Start the frontend
+- Change to the client directory and run yarn to install packages then yarn dev.
 ```bash
-  cd myCourses
+cd Hungry-for-Grades/client
+yarn
+yarn dev
 ```
-
-Install dependencies
-
+### Start the backend
+- Change to the server directory and run yarn to install packages then yarn dev.
 ```bash
-  make install
-```
-
-Start the server
-
-```bash
-  make run
+cd Hungry-for-Grades/server
+yarn
+yarn dev
 ```
 
 ## Authors
 
-- [@omar-sherif9992](https://www.github.com/omar-sherif9992)
-
+- [Omar Sherif Ali](https://www.github.com/omar-sherif9992)
+- [Omar Sherif Elmeteny](https://github.com/omar-elmeteny)
+- [Ahmed Wahba](https://github.com/AWahba1)
+- [Hussein Yasser](https://github.com/HusseinYasser)
+- [Mohamed Shams](https://github.com/Abo4ams)
