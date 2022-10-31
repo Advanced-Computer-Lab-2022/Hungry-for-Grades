@@ -16,9 +16,9 @@ import ArrayErrorMessage from '@/components/form/ArrayErrorMessage';
 import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
 import {
   CourseDiscount,
-  CourseExercise,
-  CourseLesson,
-  CourseSection
+  ICourseExercise,
+  ICourseLesson,
+  ICourseSection
 } from '@/interfaces/course.interface';
 
 type CourseFormValues = {
@@ -28,7 +28,7 @@ type CourseFormValues = {
   level: string;
   price: string;
   outline: string[];
-  sections: CourseSection[];
+  sections: ICourseSection[];
 };
 
 const languages = [
@@ -328,8 +328,8 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
                 push({
                   title: '',
                   description: '',
-                  lessons: [] as CourseLesson[],
-                  exercises: [] as CourseExercise[]
+                  lessons: [] as ICourseLesson[],
+                  exercises: [] as ICourseExercise[]
                 })
               }
             >
@@ -355,7 +355,7 @@ function CourseForm() {
           level: '',
           price: '',
           outline: [] as string[],
-          sections: [] as CourseSection[]
+          sections: [] as ICourseSection[]
         }}
         validationSchema={courseSchema}
         // eslint-disable-next-line react/jsx-no-bind

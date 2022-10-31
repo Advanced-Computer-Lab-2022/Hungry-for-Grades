@@ -12,6 +12,7 @@ import './accordion.scss';
 
 import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
+import { Li } from 'react-flags-select';
 function CourseContent(props: ICourse) {
   return (
     <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
@@ -20,10 +21,12 @@ function CourseContent(props: ICourse) {
         {props.sections.length} sections &nbsp;• &nbsp;
         {props.sections.reduce((s, l) => s + l.lessons.length, 0)} lessons&nbsp;
         • &nbsp;
-        {formatDuration(props.sections.reduce(
-          (s, l) => s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
-          0
-        ))}
+        {formatDuration(
+          props.sections.reduce(
+            (s, l) => s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+            0
+          )
+        )}
       </p>
       <Accordion allowZeroExpanded>
         {props.sections.map(sec => (
@@ -37,7 +40,10 @@ function CourseContent(props: ICourse) {
                   <span className='text-dark float-end'>
                     <small>
                       {sec.lessons.length} lessons •{' '}
-                      {sec.lessons.reduce((sum, l) => sum + l.duration, 0)}min
+                      {formatDuration(
+                        sec.lessons.reduce((sum, l) => sum + l.duration, 0)
+                      )}{' '}
+                      • {sec.exercises.length} exercises
                     </small>
                   </span>
                 </span>
@@ -45,6 +51,34 @@ function CourseContent(props: ICourse) {
             </AccordionItemHeading>
             <AccordionItemPanel>
               <p>{sec.description}</p>
+              {sec.lessons ? (
+                <ol className='list-group'>
+                  {sec.lessons.map((l, index) => (
+                    <li key={l.title} className='list-item'>
+                      <strong>Lesson #{index + 1}:</strong> {l.title}{' '}
+                      <span className='float-end small'>
+                        {formatDuration(l.duration)}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <></>
+              )}
+              {sec.exercises ? (
+                <ol className='list-group'>
+                  {sec.exercises.map((e, index) => (
+                    <li key={e.title} className='list-item'>
+                      <strong>Exercise #{index + 1}:</strong> {e.title}{' '}
+                      <span className='float-end small'>
+                        {e.numberOfQuestions} Questions
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <></>
+              )}
             </AccordionItemPanel>
           </AccordionItem>
         ))}

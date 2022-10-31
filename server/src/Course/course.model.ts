@@ -1,5 +1,5 @@
 import { Course, Level } from '@Course/course.interface';
-import { requiredString, requiredNumber } from '@Common/Models/common';
+import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
 const courseSchema = new Schema<Course>(
@@ -111,9 +111,15 @@ const courseSchema = new Schema<Course>(
         description: String,
         exercises: [
           {
-            answer: String,
-            options: [{ type: String }],
-            question: String,
+            numberOfQuestions: Number,
+            questions: [
+              {
+                answer: String,
+                options: [{ type: String }],
+                question: String,
+              },
+            ],
+            title: String,
           },
         ],
         lessons: [
@@ -152,9 +158,11 @@ courseSchema.pre('save', function (next) {
     // Validate answer is included inside options array in sections exercises
     this.sections.forEach(section => {
       section.exercises.forEach(exercise => {
-        if (!exercise.options.includes(exercise.answer)) {
-          throw new Error('Answer is not included inside options array in sections exercises');
-        }
+        exercise.questions.forEach(question => {
+          if (!question.options.includes(question.answer)) {
+            throw new Error('Answer is not included inside options array in sections exercises');
+          }
+        });
       });
     });
 

@@ -31,7 +31,7 @@ interface IBaseCourse {
   title: string;
   duration: number;
   outline: string[];
-  sections: CourseSection[];
+  sections: ICourseSection[];
 }
 
 export interface IAddCourseRequest extends IBaseCourse {
@@ -71,23 +71,29 @@ export type Instructor = {
   _user: IUser[] | IUser;
 };
 
-export type CourseLesson = {
+export type ICourseLesson = {
   description: string;
   duration: number;
   title: string;
   videoURL: string;
 };
 
-export type CourseExercise = {
+export type ICourseQuestion = {
   answer: string;
   options: string[];
   question: string;
 };
 
-export type CourseSection = {
+export type ICourseExercise = {
+  title: string;
+  numberOfQuestions: number;
+  questions: ICourseQuestion[];
+}
+
+export type ICourseSection = {
   description: string;
-  lessons: CourseLesson[];
-  exercises: CourseExercise[];
+  lessons: ICourseLesson[];
+  exercises: ICourseExercise[];
   title: string;
 };
 
