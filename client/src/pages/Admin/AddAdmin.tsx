@@ -8,14 +8,11 @@ import { Form, Formik } from 'formik';
 
 import { toast } from 'react-toastify';
 
-import { useState } from 'react';
-
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
 
-import Button from '@components/buttons/button/Button';
 
 import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 
@@ -23,20 +20,10 @@ import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 
-import Toogle from '@/components/toogle/Toogle';
 
 export default function AddAdmin() {
-<<<<<<< HEAD
 
-=======
-  const [toogle, setToogle] = useState<{ [key: string]: boolean }>({
-    corporateTrainer: false,
-    admin: false,
-    instructor: false
-  });
-
-  const { mutateAsync: create } = usePostQuery();
->>>>>>> development
+  const { mutateAsync : create } = usePostQuery();
 
   const validate = Yup.object({
     firstName: Yup.string()

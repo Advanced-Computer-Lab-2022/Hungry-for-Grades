@@ -73,6 +73,7 @@ export default function AddCorporateTrainee() {
             role:'Trainee'
           };
 
+      
           try{ 
             await toast.promise(create(AdminRoute),
             {
