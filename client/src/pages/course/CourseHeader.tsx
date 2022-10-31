@@ -5,6 +5,9 @@ import styles from './course-header.module.scss';
 import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
+import Instructors from '@/components/course/Instructor';
+import Price from '@/components/course/Price';
+import { formatDuration } from '@/utils/duration';
 
 function CourseHeader(props: ICourse) {
   return (
@@ -33,12 +36,15 @@ function CourseHeader(props: ICourse) {
       <CourseRating {...props.rating} />
       <div className={`text-light`}>
         Created by: &nbsp;
-        {/* {props._instructor._user.map(instructor => instructor.name).join(', ')} */}
+        <Instructors instructor={props._instructor} />
       </div>
       <div className={`text-light`}>
         Duration: &nbsp;
-        {props.duration}h
+        {formatDuration(props.duration)}
       </div>
+      <Price
+        {...props.price}
+      />
     </div>
   );
 }

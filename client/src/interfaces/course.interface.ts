@@ -25,13 +25,13 @@ interface IBaseCourse {
   language: string;
   level: Level;
   previewVideoURL: string;
-  price: Price;
+  price: IPrice;
   subcategory: string[];
   thumbnail: string;
   title: string;
   duration: number;
   outline: string[];
-  sections: CourseSection[];
+  sections: ICourseSection[];
 }
 
 export interface IAddCourseRequest extends IBaseCourse {
@@ -40,7 +40,7 @@ export interface IAddCourseRequest extends IBaseCourse {
 
 export interface ICourse extends IBaseCourse {
   _id: string;
-  _instructor: Instructor;
+  _instructor: Instructor | Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
 }
@@ -51,7 +51,7 @@ export type CourseDiscount = {
   startDate: Date;
 };
 
-export type Price = {
+export type IPrice = {
   currency: string;
   currentValue: number;
   discounts: Array<CourseDiscount>;
@@ -68,26 +68,32 @@ export type Rating = {
 };
 
 export type Instructor = {
-  _user: IUser[];
+  _user: IUser[] | IUser;
 };
 
-export type CourseLesson = {
+export type ICourseLesson = {
   description: string;
   duration: number;
   title: string;
   videoURL: string;
 };
 
-export type CourseExercise = {
+export type ICourseQuestion = {
   answer: string;
   options: string[];
   question: string;
 };
 
-export type CourseSection = {
+export type ICourseExercise = {
+  title: string;
+  numberOfQuestions: number;
+  questions: ICourseQuestion[];
+}
+
+export type ICourseSection = {
   description: string;
-  lessons: CourseLesson[];
-  exercises: CourseExercise[];
+  lessons: ICourseLesson[];
+  exercises: ICourseExercise[];
   title: string;
 };
 

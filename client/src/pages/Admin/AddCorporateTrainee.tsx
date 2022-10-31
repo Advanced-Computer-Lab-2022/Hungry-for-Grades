@@ -4,16 +4,25 @@ import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 
 // eslint-disable-next-line css-modules/no-unused-class
+import { toast } from 'react-toastify';
+
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
 
-import Button from '@components/buttons/button/Button';
+import { toastOptions } from '@/components/toast/options';
+
+import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
+
+import usePostQuery from '@/hooks/usePostQuery';
 
 export default function AddCorporateTrainee() {
+
+  const { mutateAsync : create, isError, data } = usePostQuery();
+
   const validate = Yup.object({
     firstName: Yup.string()
       .min(2, 'First Name must at least 2 charactres')
@@ -46,13 +55,43 @@ export default function AddCorporateTrainee() {
         confirmPassword: ''
       }}
       validationSchema={validate}
-      onSubmit={function (values: {
-        email: string;
-        password: string;
-        confirmPassword: string;
-      }) {
-        console.log(values);
-      }}
+      onSubmit={
+        async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
+        {
+          const AdminRoute = Object.assign({}, AdminRoutes.POST.createCorporateTrainee);
+          AdminRoute.payload = {
+            email: {
+              address: values.email
+            },
+            password: values.password,
+            username : values.username,
+            name : values.firstName + values.lastName,
+            address: {
+              city: '',
+              country: ''
+            },
+            role:'Trainee'
+          };
+
+      
+          try{ 
+            await toast.promise(create(AdminRoute),
+            {
+            pending:'Pending',
+            success:'Corporate Trainee Added Successfuly',
+            
+          }, toastOptions)
+          actions.resetForm();
+        } //AxiosResponse
+          catch(err)
+          {
+            toast.error(err.response.data.message, toastOptions);
+          }
+        
+
+          //('Internal Server Error', toastOptions);
+        } 
+    }
     >
       {function (formik) {
         return (
@@ -63,7 +102,7 @@ export default function AddCorporateTrainee() {
               </div>
               <div className={`row ${styles.clearfix || ''}`}>
                 <div className=''>
-                  <form action='www.google.com'>
+                  <Form>
                     <div className={styles.input_field}>
                       {' '}
                       <span>
@@ -128,14 +167,7 @@ export default function AddCorporateTrainee() {
                       />
                     </div>
                     <input className='button' type='submit' />
-                    <Button
-                      backgroundColor={'primary-bg'}
-                      isDisabled={formik.isValid}
-                      label={'Submit'}
-                      name={''}
-                      type={'submit'}
-                    />
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

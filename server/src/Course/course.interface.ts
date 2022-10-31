@@ -52,6 +52,12 @@ export type Price = {
   discounts: Discount[];
 };
 
+export type Excercise = {
+  numberOfQuestions: number;
+  questions: Question[];
+  title: string;
+};
+
 export type Question = {
   _id: Types.ObjectId;
   answer: string;
@@ -61,10 +67,11 @@ export type Question = {
 
 export type Section = {
   description: string;
-  exercises: Question[];
+  exercises: Excercise[];
   lessons: Lesson[];
   title: string;
 };
+
 export type Lesson = {
   description: string;
   duration: number;

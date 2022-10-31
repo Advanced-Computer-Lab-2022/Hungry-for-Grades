@@ -8,6 +8,9 @@ Any additional information goes here
 
 
 
+# Requirements 
+https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
+
 
 
 
