@@ -12,7 +12,7 @@ import './accordion.scss';
 
 import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
-import { Li } from 'react-flags-select';
+
 function CourseContent(props: ICourse) {
   return (
     <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
