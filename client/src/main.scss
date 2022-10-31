@@ -18,6 +18,8 @@ secondary --> samawy fate7 gedan
 
 
 @import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/react-toastify/scss/main";
+
 body {
     min-height: 100vh;
     #root {
