@@ -5,13 +5,20 @@ import {
   PaginatedResponse
 } from '@interfaces/response.interface';
 
-import { ICourse, ICourseFilters } from '@interfaces/course.interface';
+import {
+  IAddCourseRequest,
+  ICourse,
+  ICourseFilters
+} from '@interfaces/course.interface';
+
+const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 export const CoursesRoutes = {
   GET: {
     getCSRFToken: {
       URL: '/getCSRFToken' as const,
       params: '',
+      query: '',
       payload: {},
       response: {
         _id: '',
@@ -22,8 +29,9 @@ export const CoursesRoutes = {
       }
     },
     getCoursesSearchFilter: {
-      URL: '/courses/' as const,
-      params:
+      URL: '/courses' as const,
+      params: '' as const,
+      query:
         '?priceLow=6&priceHigh=10000&page=&limit=12&searchTerm=learn&country=Egypt',
       payload: {},
       response: {
@@ -85,7 +93,7 @@ export async function getCourses(
   filter: ICourseFilters
 ): Promise<PaginatedResponse<ICourse>> {
   const res = await axios.get<PaginatedResponse<ICourse>>(
-    'http://localhost:3000/api/courses',
+    `${APP_BASE_API_URL}/courses`,
     {
       params: filter
     }
@@ -99,24 +107,47 @@ export async function getCourses(
   return res.data;
 }
 
-export function getTopRatedCourses(): Promise<PaginatedResponse<ICourse>> {
+export function getTopRatedCourses(
+  country: string
+): Promise<PaginatedResponse<ICourse>> {
   return getCourses({
     page: 1,
     limit: 3,
-    sortBy: 1
+    sortBy: 1,
+    country
   });
 }
 
 export async function getCourseByID(
-  courseID: string | undefined
+  courseID: string | undefined,
+  country: string
 ): Promise<ICourse | undefined> {
   if (!courseID) {
     return undefined;
   }
   const res = await axios.get<HttpResponse<ICourse>>(
-    `http://localhost:3000/api/courses/${encodeURIComponent(courseID)}`
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseID)}`,
+    {
+      params: { country }
+    }
   );
   if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function createCourse(
+  course: IAddCourseRequest
+): Promise<ICourse> {
+  const res = await axios.post<HttpResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses/`,
+    course
+  );
+  if (res.statusText !== 'Created') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {

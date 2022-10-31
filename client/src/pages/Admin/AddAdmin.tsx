@@ -1,17 +1,16 @@
-import { FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik, Form } from 'formik';
-
-
+import { Form, Formik } from 'formik';
 
 import { toast } from 'react-toastify';
 
 import { useState } from 'react';
 
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
@@ -20,92 +19,105 @@ import Button from '@components/buttons/button/Button';
 
 import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 
-
 import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 
 import Toogle from '@/components/toogle/Toogle';
 
-
-
 export default function AddAdmin() {
+<<<<<<< HEAD
 
+=======
+  const [toogle, setToogle] = useState<{ [key: string]: boolean }>({
+    corporateTrainer: false,
+    admin: false,
+    instructor: false
+  });
 
-  const { mutateAsync : create, isError, data } = usePostQuery();
-    
+  const { mutateAsync: create } = usePostQuery();
+>>>>>>> development
 
-    const validate = Yup.object({
-        firstName: Yup.string()
-           .min(2, 'First Name must at least 2 charactres')
-           .required('First Name is Required'),
-        lastName: Yup.string()
-           .min(2, 'First Name is Required')
-           .required('Last Name is Required'),
-        
-        username: Yup.string()
-           .matches(/^[A-Za-z0-9]+$/, 'Your Username must be alphabetical characters')
-           .min(6, 'User Name must be at least 6 characters')
-           .required('User Name is Required'),
-        
-        email: Yup.string()
-          .email('Email is invalid')
-          .required('Email is required'),
-        password: Yup.string()
-          .min(6, 'Password must be at least 6 charaters')
-          .required('Password is required'),
-        confirmPassword: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Password must match')
-          .required('Confirm password is required'),
-      })
+  const validate = Yup.object({
+    firstName: Yup.string()
+      .min(2, 'First Name must at least 2 charactres')
+      .required('First Name is Required'),
+    lastName: Yup.string()
+      .min(2, 'First Name is Required')
+      .required('Last Name is Required'),
+
+    username: Yup.string()
+      .matches(
+        /^[A-Za-z0-9]+$/,
+        'Your Username must be alphabetical characters'
+      )
+      .min(6, 'User Name must be at least 6 characters')
+      .required('User Name is Required'),
+
+    email: Yup.string().email('Email is invalid').required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 charaters')
+      .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Password must match')
+      .required('Confirm password is required')
+  });
 
   return (
     <Formik
-          initialValues={{
-              firstName : '',
-              lastName : '',
-              username : '',
-              email: '',
-              password: '',
-              confirmPassword: ''
-          }} 
-          validationSchema={validate} 
-          onSubmit={
-            async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
-            {
-              const AdminRoute = Object.assign({}, AdminRoutes.POST.createAdmin);
-              AdminRoute.payload = {
-                email: {
-                  address: values.email
-                },
-                password: values.password,
-                username : values.username,
-                name : values.firstName + values.lastName,
-                address: {
-                  city: '',
-                  country: ''
-                },
-                role:'Admin'
-              };
+      initialValues={{
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }}
+      validationSchema={validate}
+      onSubmit={async function (
+        values: {
+          firstName: string;
+          lastName: string;
+          username: string;
+          email: string;
+          password: string;
+          confirmPassword: string;
+        },
+        actions
+      ) {
+        const AdminRoute = Object.assign({}, AdminRoutes.POST.createAdmin);
+        AdminRoute.payload = {
+          email: {
+            address: values.email
+          },
+          password: values.password,
+          username: values.username,
+          name: values.firstName + values.lastName,
+          address: {
+            city: '',
+            country: ''
+          },
+          role: 'Admin'
+        };
 
-              try{ 
-                await toast.promise(create(AdminRoute),
-                {
-                pending:'Pending',
-                success:'Admin Added Successfuly',
-                
-              }, toastOptions)
-              actions.resetForm();
-            } //AxiosResponse
-              catch(err)
-              {
-                toast.error(err.response.data.message, toastOptions);
-              }
-            
-  
-              //('Internal Server Error', toastOptions);
-            } 
+        try {
+          await toast.promise(
+            create(AdminRoute),
+            {
+              pending: 'Pending',
+              success: 'Admin Added Successfuly'
+            },
+            toastOptions
+          );
+          actions.resetForm();
+        } catch (err) {
+          //AxiosResponse
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+          toast.error(err.response.data.message, toastOptions);
         }
+
+        //('Internal Server Error', toastOptions);
+      }}
     >
         {
             function(formik){

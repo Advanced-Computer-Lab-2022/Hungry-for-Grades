@@ -1,14 +1,16 @@
-import { ErrorMessage, Field } from 'formik';
+import { ErrorMessage, Field, getIn } from 'formik';
 
 import { TextFieldProps } from './types';
 
 function TextField(props: TextFieldProps) {
   let fieldClassName = 'form-control';
-  if (props.touched) {
-    fieldClassName += props.hasError ? ' is-invalid' : ' is-valid';
+  const touched = getIn(props.formik.touched, props.name);
+  const error = getIn(props.formik.errors, props.name);
+  if (touched) {
+    fieldClassName += error ? ' is-invalid' : ' is-valid';
   }
   return (
-    <div className='form-group'>
+    <div className='form-group my-1'>
       <label className='form-label' htmlFor={props.name}>
         {props.label}
       </label>

@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, FieldProps } from 'formik';
+import { ErrorMessage, Field, FieldProps, getIn } from 'formik';
 
 import Select, { StylesConfig, SingleValue } from 'react-select';
 
@@ -12,21 +12,23 @@ type SingleValueOption = SingleValue<SelectOption>;
 // https://react-select.com/styles#provided-styles-and-state
 
 function SelectWrapper(props: FieldProps & SelectFieldProps) {
+  const touched = !!getIn(props.formik.touched, props.id);
+  const error = !!getIn(props.formik.errors, props.id);
   const customStyles: StylesConfig<SelectOption> = {
     control: (provided, state) => {
       return {
         ...provided,
         // Using !important because the I can't override the hover blue border color
-        borderColor: !props.touched
+        borderColor: !touched
           ? '#ced4da !important'
-          : props.hasError
+          : error
           ? '#dc3545 !important'
           : '#198754 !important',
         boxShadow: !state.isFocused
           ? 'initial'
-          : !props.touched
+          : !touched
           ? '0 0 0 0.25rem rgb(63 114 175 / 25%)'
-          : props.hasError
+          : error
           ? '0 0 0 0.25rem rgb(220 53 69 / 25%)'
           : '0 0 0 0.25rem rgb(25 135 84 / 25%)'
       };
@@ -35,9 +37,7 @@ function SelectWrapper(props: FieldProps & SelectFieldProps) {
   return (
     <Select
       // Setting class name for the validation message to appear
-      className={`${
-        props.touched ? (props.hasError ? 'is-invalid' : 'is-valid') : ''
-      }`}
+      className={`${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
       name={props.name}
       options={props.options}
       styles={customStyles}
@@ -66,11 +66,10 @@ function SelectField(props: SelectFieldProps) {
       </label>
       <Field
         component={SelectWrapper}
-        hasError={props.hasError}
+        formik={props.formik}
         id={props.name}
         name={props.name}
         options={props.options}
-        touched={props.touched}
       />
       <ErrorMessage
         className='invalid-feedback'

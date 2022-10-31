@@ -59,7 +59,7 @@ export class DiscountDTO {
 
 export class CourseDTO {
   @IsString()
-  instructorID: string;
+  instructorID: string; // One to many is handled for now
   announcements: AnnouncementDTO[];
   captions: string[];
   category: string;

@@ -30,9 +30,9 @@ export type FormProps = {
 
 export type TextFieldProps = {
   label: string;
-  hasError: boolean;
-  touched: boolean;
+  formik: FormikProps<unknown>;
   name: string;
+  id: string;
 };
 
 export type SelectOption = {
@@ -45,7 +45,7 @@ export type SelectFieldProps = {
 } & TextFieldProps;
 
 export function getTextFieldProps<T>(
-  props: FormikProps<T>,
+  formik: FormikProps<T>,
   schema: BaseSchema,
   key: keyof T,
   label?: string
@@ -53,9 +53,9 @@ export function getTextFieldProps<T>(
   label = label ?? (reach(schema, key as string) as BaseSchema).spec.label;
   return {
     label: label as string,
-    hasError: !!props.errors[key],
-    touched: !!props.touched[key],
-    name: key as string
+    formik: formik as FormikProps<unknown>,
+    name: key as string,
+    id: key as string
   };
 }
 

@@ -8,11 +8,12 @@ import CourseCard from '@/components/course/CourseCard';
 
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { getTopRatedCourses } from '@/services/axios/dataServices/CoursesDataService';
+import { UseCountry } from '@/store/countryStore';
 
 function TopRatedCourses() {
-  const { data, isLoading, isError } = useQuery(
-    ['topRated'],
-    getTopRatedCourses
+  const country = UseCountry();
+  const { data, isLoading, isError } = useQuery(['topRated', country], () =>
+    getTopRatedCourses(country)
   );
   const coursesMapped = data?.data.map(mapCourseToCardProps);
   if (isLoading) {

@@ -7,7 +7,13 @@ import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
 import { CourseFilters, Category } from '@Course/course.types';
-import { generateCoursesFilterQuery, generateCoursesSortQuery, getCurrentPrice } from '@Course/course.common';
+import {
+  convertCurrency,
+  generateCoursesFilterQuery,
+  generateCoursesSortQuery,
+  getCurrencyFromCountry,
+  getCurrentPrice,
+} from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.model';
 import { CourseDTO } from './course.dto';
@@ -152,9 +158,9 @@ class CourseService {
     const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     // Get price after discount then change it to the needed currency
-    //  for (const {_course} of paginatedCourses) {
-    //   const newPrice: Price = await getCurrentPrice(_course.price, country);
-    //   _course.price =newPrice;
+    //  for (const course of paginatedCourses) {
+    //   const newPrice: Price = await getCurrentPrice(course.price, country);
+    //   course.price.currentValue =newPrice;
     // }
 
     return {
@@ -204,16 +210,22 @@ class CourseService {
     return course;
   }
 
-  public async createCourse(courseData: CourseDTO): Promise<Course> {
+  public async createCourse(courseData: CourseDTO, country: string): Promise<Course> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
     if (!(await instructorModel.findById(courseData.instructorID))) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
     const _instructor = [new mongoose.Types.ObjectId(courseData.instructorID)];
     delete courseData.instructorID;
 
+    // Convert course price to USD when saving
+    const inputCurrency = getCurrencyFromCountry(country);
+    const newPrice = await convertCurrency(inputCurrency, 'USD', courseData.price.currentValue);
+    courseData.price.currentValue = newPrice;
+
     const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
 
     // Link Instructor to Course
+    await instructorModel.findByIdAndUpdate(_instructor[0], { $push: { _teachedCourses: { _course: createdCourse._id } } });
 
     return createdCourse;
   }
@@ -233,6 +245,11 @@ class CourseService {
     const deletedCourse: Course = await courseModel.findByIdAndDelete(courseId);
     if (!deletedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
+    //Delete course from instructor's teached courses
+    await instructorModel.updateOne(
+      { _teachedCourses: { $elemMatch: { _course: deletedCourse._id } } },
+      { $pull: { _teachedCourses: { _course: deletedCourse._id } } },
+    );
     return deletedCourse;
   };
 

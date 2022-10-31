@@ -9,11 +9,14 @@ import CourseHeader from './CourseHeader';
 // import styles from './course.module.scss';
 
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
+import { UseCountry } from '@/store/countryStore';
 
 function Course() {
+  const country = UseCountry();
   const { courseid } = useParams();
-  const { isError, isLoading, data } = useQuery(['courseByID', courseid], () =>
-    getCourseByID(courseid)
+  const { isError, isLoading, data } = useQuery(
+    ['courseByID', courseid, country],
+    () => getCourseByID(courseid, country)
   );
   if (isError) {
     return (

@@ -1,9 +1,8 @@
-
 import { CategoryRoute } from './dataServices/CategoryDataService';
 import { CoursesRoutes } from './dataServices/CoursesDataService';
 import { UserRoutes } from './dataServices/UserDataService';
 
-import {AdminRoutes} from './dataServices/AdminDataService';
+import { AdminRoutes } from './dataServices/AdminDataService';
 /**
  * HTTP methods
  */
@@ -23,7 +22,6 @@ export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
 export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
   typeof AdminRoutes['POST']
 >];
-
 
 export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
   typeof CoursesRoutes['GET']
@@ -46,5 +44,3 @@ export type POSTRoutesType = UserRoutesType<'POST'> | AdminRoutesType;
 export type PUTRoutesType = UserRoutesType<'PUT'>;
 export type PATCHRoutesType = UserRoutesType<'PATCH'>;
 export type DELETERoutesType = UserRoutesType<'DELETE'>;
-
-

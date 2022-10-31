@@ -8,8 +8,8 @@ import SingleSelect from '@/components/inputs/select/SingleSelect';
 
 function CategoryFilter(props: SearchSectionProps) {
   const { setSelectedFilters, selectedFilters } = props;
-  const { data, isLoading, error } = useCategoryQuery();
-  if (error || isLoading || !data) {
+  const { data, isLoading, isError } = useCategoryQuery();
+  if (isError || isLoading || !data) {
     return <div>error</div>;
   }
   return (
@@ -19,7 +19,7 @@ function CategoryFilter(props: SearchSectionProps) {
           Category
         </label>
         <SingleSelect
-          isDisabled={error || isLoading || !data}
+          isDisabled={isError || isLoading || !data}
           isLoading={isLoading}
           options={
             data?.data.map(category => ({
@@ -43,7 +43,9 @@ function CategoryFilter(props: SearchSectionProps) {
           Sub Category
         </label>
         <SingleSelect
-          isDisabled={error || isLoading || !data || !selectedFilters.category}
+          isDisabled={
+            isError || isLoading || !data || !selectedFilters.category
+          }
           isLoading={isLoading}
           options={
             data?.data
