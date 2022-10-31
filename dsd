@@ -1,0 +1,124 @@
+[33mcommit 7a49dd882b2ccac582c656a5dcec834a4efd8223[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/InstructorDashboard-CoursesSection[m[33m)[m
+Author: Mohamed Shams <68266191+Abo4ams@users.noreply.github.com>
+Date:   Mon Oct 31 22:01:57 2022 +0200
+
+    feat(instructordashboard): added Courses Section in Instructor Dashboard and added searchbar
+    
+    Added Courses Section in Instructor Dashboard and added searchbar to search for the instructor
+    courses
+    
+    #37
+
+[33mcommit 23c67a6d97fb1b3e3588e4d26a5436ede15b6e02[m[33m ([m[1;31morigin/feature/InstructorDashboard-CoursesSection[m[33m, [m[1;31morigin/development[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelopment[m[33m)[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 21:47:43 2022 +0200
+
+    style(coursecontent): code style fixes
+
+[33mcommit ba4f24a2e59cc9351cd1eac55e5ab8eb6ef5b794[m
+Merge: 0693c5e c995f60
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 21:45:15 2022 +0200
+
+    Merge branch 'development' of https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades into development
+
+[33mcommit 0693c5e14cbee4c3c38659a46cdfac7152c81fb7[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 21:44:57 2022 +0200
+
+    feat(course content): added lessons and excercises to course content display
+
+[33mcommit c995f60dac5d8e99750bc40ee33acff379912133[m
+Merge: 8c7a70b 9e95806
+Author: HusseinYasser <96487516+HusseinYasser@users.noreply.github.com>
+Date:   Mon Oct 31 21:23:02 2022 +0200
+
+    Merge pull request #73 from Advanced-Computer-Lab-2022/feature/hussein
+    
+    Feature/hussein Revision on Admin Requirments
+
+[33mcommit 9e95806d9321494335e1660ba183a9e78817bd2a[m[33m ([m[1;31morigin/feature/hussein[m[33m)[m
+Merge: 1dc94ce 8c7a70b
+Author: HusseinYasser <husseinyasseer388@gmail.com>
+Date:   Mon Oct 31 12:19:15 2022 -0700
+
+    Merge branch 'development' into feature/hussein
+
+[33mcommit 1dc94cec27986e7f371194db46600f94b1056299[m
+Author: HusseinYasser <husseinyasseer388@gmail.com>
+Date:   Mon Oct 31 12:11:31 2022 -0700
+
+    feat: a
+
+[33mcommit 8c7a70bcc9a2c8dc6f0724739825cc0afbf1ce92[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 20:49:37 2022 +0200
+
+    fix(main.scss): restore toast style
+
+[33mcommit 260429490a6a446b0c2f35b66c73d6d3c49ac168[m
+Merge: aa42c8f b879f4f
+Author: HusseinYasser <husseinyasseer388@gmail.com>
+Date:   Mon Oct 31 11:22:08 2022 -0700
+
+    feat: a
+
+[33mcommit aa42c8f1ea3effd1f729e147bf99c169e9d631e2[m
+Author: HusseinYasser <husseinyasseer388@gmail.com>
+Date:   Mon Oct 31 11:06:06 2022 -0700
+
+    feat: a
+    
+    n
+
+[33mcommit b879f4fc1602688fc504563682e57145bbcc873d[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 19:01:49 2022 +0200
+
+    fix(course card): fixed duration display
+
+[33mcommit 8fcc36bb6ebbb8ebd6b81706f890dc7663972e16[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 18:07:19 2022 +0200
+
+    feat(coursecardoverlay): fixed styles of coursecardoverlay and made it appear again
+
+[33mcommit 67ebb4ee632b3456e662bb062492ddfa2ce3bb25[m
+Merge: 69e9d68 624fdf5
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 16:33:10 2022 +0200
+
+    Merge branch 'development' of https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades into development
+
+[33mcommit 69e9d6844f0341ab18dbab399eebfdb0478e3c21[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 16:30:25 2022 +0200
+
+    fix(course details): added instructor link in course header
+
+[33mcommit 490a07021494d51027634e05acb5d47750cd43a0[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 15:20:06 2022 +0200
+
+    fix(course header): added price to course header
+
+[33mcommit fe6e0b25c2f15b90346185a9af53121b32bd8f35[m
+Author: omar-elmeteny <omar.elmeteny@gmail.com>
+Date:   Mon Oct 31 15:18:33 2022 +0200
+
+    fix(course form): styles adjustment
+
+[33mcommit 624fdf5c6f9c27641603fe54c3719d5568e7c6cb[m
+Merge: 4c2ecf0 f2aafc7
+Author: Omar Sherif Ali <69806823+omar-sherif9992@users.noreply.github.com>
+Date:   Mon Oct 31 14:48:09 2022 +0200
+
+    Merge pull request #72 from Advanced-Computer-Lab-2022/excel/requirements
+    
+    feat: excel
+
+[33mcommit f2aafc73bff7ae14b45d244eb086f0b0b3dfb657[m
+Author: Omar Sherif Ali <omar.sherif9992@gmail.com>
+Date:   Mon Oct 31 14:46:20 2022 +0200
+
+    feat: excel

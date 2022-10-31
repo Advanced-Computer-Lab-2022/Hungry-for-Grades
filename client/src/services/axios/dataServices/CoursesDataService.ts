@@ -1,10 +1,25 @@
+import axios from 'axios';
+
+import {
+  HttpResponse,
+  PaginatedResponse
+} from '@interfaces/response.interface';
+
+import {
+  IAddCourseRequest,
+  ICourse,
+  ICourseFilters
+} from '@interfaces/course.interface';
+
+const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+
 export const CoursesRoutes = {
   GET: {
-    getCourseById: {
-      URL: '/courses' as const,
-      query: 'id=1;', //
-      payload: {},
+    getCSRFToken: {
+      URL: '/getCSRFToken' as const,
       params: '',
+      query: '',
+      payload: {},
       response: {
         _id: '',
         username: '',
@@ -12,23 +27,131 @@ export const CoursesRoutes = {
         createdAt: '',
         updatedAt: ''
       }
-    }
-  },
-  POST: {
-    createCourse: {
+    },
+    getCoursesSearchFilter: {
       URL: '/courses' as const,
-      query: '',
-      payload: {
-        name: '',
-        description: ''
-      },
+      params: '' as const,
+      query:
+        '?priceLow=6&priceHigh=10000&page=&limit=12&searchTerm=learn&country=Egypt',
+      payload: {},
       response: {
-        _id: '',
-        success: true
+        data: [
+          {
+            _id: '',
+            _instructor: {
+              _user: [
+                {
+                  _id: '',
+                  name: ''
+                }
+              ]
+            },
+            captions: [''],
+            category: '',
+            description: '',
+            keywords: [''],
+            language: '',
+            level: '',
+            previewVideoURL: '',
+            price: {
+              currency: 'EGP',
+              currentValue: 0,
+              discounts: [
+                {
+                  startDate: '',
+                  endDate: '',
+                  percentage: 0
+                },
+                {
+                  startDate: '',
+                  endDate: '',
+                  percentage: 30
+                }
+              ]
+            },
+            subcategory: [''],
+            thumbnail: '',
+            title: '',
+            numberOfEnrolledTrainees: 0,
+            duration: 3,
+            rating: {
+              averageRating: 5
+            }
+          }
+        ],
+        message: 'Completed Successfully',
+        page: 1,
+        pageSize: 1,
+        success: true,
+        totalPages: 1
       }
     }
-  },
-  PUT: {},
-  PATCH: {},
-  DELETE: {}
+  }
 };
+
+export async function getCourses(
+  filter: ICourseFilters
+): Promise<PaginatedResponse<ICourse>> {
+  const res = await axios.get<PaginatedResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses`,
+    {
+      params: filter
+    }
+  );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data;
+}
+
+export function getTopRatedCourses(
+  country: string
+): Promise<PaginatedResponse<ICourse>> {
+  return getCourses({
+    page: 1,
+    limit: 3,
+    sortBy: 1,
+    country
+  });
+}
+
+export async function getCourseByID(
+  courseID: string | undefined,
+  country: string
+): Promise<ICourse | undefined> {
+  if (!courseID) {
+    return undefined;
+  }
+  const res = await axios.get<HttpResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseID)}`,
+    {
+      params: { country }
+    }
+  );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function createCourse(
+  course: IAddCourseRequest
+): Promise<ICourse> {
+  const res = await axios.post<HttpResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses/`,
+    course
+  );
+  if (res.statusText !== 'Created') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}

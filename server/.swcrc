@@ -21,18 +21,20 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@config": ["config"],
-      "@controllers/*": ["controllers/*"],
-      "@databases": ["databases"],
-      "@dtos/*": ["dtos/*"],
-      "@exceptions/*": ["exceptions/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@models/*": ["models/*"],
-      "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"],
-      "@DAO/*": ["DAO/*"]
+      "@Config": ["./Config"],
+      "@User/*":["./User/*"],
+      "@Authentication/*":["./Authentication/*"],
+      "@Trainee/*":["./Trainee/*"],
+      "@Instructor/*":["./Instructor/*"],
+      "@Admin/*":["./Admin/*"],
+      "@Course/*":["./Course/*"],
+      "@NewsLetter/*":["./NewsLetter/*"],
+      "@Common/*":["./Common/*"],
+      "@Databases": ["./Databases"],
+      "@Exceptions/*": ["./Exceptions/*"],
+      "@Eiddlewares/*": ["./Middlewares/*"],
+      "@Services/*": ["./Services/*"],
+      "@Utils/*": ["./Utils/*"]
     }
   },
   "module": {

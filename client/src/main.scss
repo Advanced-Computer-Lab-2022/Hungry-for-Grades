@@ -1,14 +1,32 @@
-$dark : #161A1D;
-$light : #D3D3D3;
-$primary : #A4161A;
-$secondary : #B1A7A6;
+@import 'index.css';
+
+$dark: #112D4E;
+$light: #F9F7F7;
+$primary: #3F72AF;
+$secondary: #DBE2EF;
+
+$tooltip-bg: $secondary;
+$tooltip-max-width: 20rem;
+$tooltip-opacity: 1;
+
+/*
+dark --> a8ma2 daraga azra2
+light --> aktar wa7da white
+primary --> second blue
+secondary --> samawy fate7 gedan
+*/
+
+
 @import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/react-toastify/scss/main";
+
 body {
     min-height: 100vh;
     #root {
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+        /*
+		display: flex;
+        flex-direction: column; */
         margin: 0%;
         padding: 0%;
     }

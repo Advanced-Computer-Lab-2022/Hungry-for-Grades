@@ -1,3 +1,7 @@
+/* eslint-disable security/detect-object-injection */
+import { FormikProps } from 'formik';
+import { BaseSchema, reach } from 'yup';
+
 export type FormProps = {
   // headers
   title?: string;
@@ -23,3 +27,41 @@ export type FormProps = {
   onSubmitFunc?: (event: React.FormEvent<HTMLFormElement>) => void;
   onResetFunc?: (event: React.FormEvent<HTMLFormElement>) => void;
 };
+
+export type TextFieldProps = {
+  label: string;
+  formik: FormikProps<unknown>;
+  name: string;
+  id: string;
+};
+
+export type SelectOption = {
+  value: string;
+  label: string;
+};
+
+export type SelectFieldProps = {
+  options: Array<SelectOption>;
+} & TextFieldProps;
+
+export function getTextFieldProps<T>(
+  formik: FormikProps<T>,
+  schema: BaseSchema,
+  key: keyof T,
+  label?: string
+): TextFieldProps {
+  label = label ?? (reach(schema, key as string) as BaseSchema).spec.label;
+  return {
+    label: label as string,
+    formik: formik as FormikProps<unknown>,
+    name: key as string,
+    id: key as string
+  };
+}
+
+export function stringArrayToOptions(arr: Array<string>): SelectOption[] {
+  return arr.map(s => ({
+    label: s,
+    value: s
+  }));
+}

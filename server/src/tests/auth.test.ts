@@ -1,9 +1,10 @@
+import App from '@/app';
+import AuthRoute from '@/Authentication/auth.route';
+import { CreateUserDto } from '@/User/user.dto';
+import { Role } from '@/User/user.interface';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
-import AuthRoute from '@routes/auth.route';
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -15,6 +16,7 @@ describe('Testing Auth', () => {
       const userData: CreateUserDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        role: Role.ADMIN,
       };
 
       const authRoute = new AuthRoute();
@@ -38,6 +40,7 @@ describe('Testing Auth', () => {
       const userData: CreateUserDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        role: Role.ADMIN,
       };
 
       const authRoute = new AuthRoute();

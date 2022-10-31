@@ -12,12 +12,7 @@ up:
 
 # to install dependencies in root & client & server
 install:
-	yarn install
-	$(client)
-	yarn install
-	$(root)
-	$(server)
-	yarn install
+	yarn run installall
 
 # to run the server
 runserver:

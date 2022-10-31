@@ -1,0 +1,48 @@
+.course__card {
+    height: calc(100% - 5rem);
+    .course__title {
+        font-weight: 700 !important;
+        font-size: 1.9rem !important;
+        height: fit-content;
+    }
+    .course__card__body {
+        font-weight: 400 !important;
+        font-size: 2rem;
+        .course__card__instructor {
+            font-size: 1rem;
+        }
+    }
+    .fnt-md {
+        font-family: udemy sans, sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+        font-weight: 400;
+        line-height: 1.4;
+        font-size: 1rem;
+    }
+    .course__img__container {
+        position: relative;
+        width: inherit;
+        height: 10rem;
+        text-align: center;
+        .course__img {
+            top: -10%;
+            left: 15%;
+            height: 100%;
+            width: 70%;
+            border-radius: 5%;
+            position: absolute;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-border-radius: 5%;
+            -moz-border-radius: 5%;
+            -ms-border-radius: 5%;
+            -o-border-radius: 5%;
+        }
+    }
+    .fnt-xs {
+        font-family: udemy sans, sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
+        font-weight: 400;
+        font-size: 0.75rem;
+    }
+}

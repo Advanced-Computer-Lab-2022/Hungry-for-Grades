@@ -1,6 +1,7 @@
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
-import UsersRoute from '@routes/users.route';
+import { CreateUserDto } from '@/User/user.dto';
+import { Role } from '@/User/user.interface';
+import UsersRoute from '@/User/user.route';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import request from 'supertest';
@@ -63,6 +64,7 @@ describe('Testing Users', () => {
       const userData: CreateUserDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4',
+        role: Role.ADMIN,
       };
 
       const usersRoute = new UsersRoute();
@@ -87,6 +89,7 @@ describe('Testing Users', () => {
       const userData: CreateUserDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4',
+        role: Role.ADMIN,
       };
 
       const usersRoute = new UsersRoute();

@@ -32,6 +32,7 @@
       "@/*": ["./src/*"],
       "@src/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "@interfaces/*": ["src/interfaces/*"],
       "@pages/*": ["./src/pages/*"],
       "@services/*": ["./src/services/*"],
       "@utils/*": ["./src/utils/*"],
@@ -40,7 +41,9 @@
       "@context/*": ["./src/context/*"],
       "@assets/*": ["./src/assets/*"],
       "@test/*": ["./src/test/*"],
-      "@public/*": ["./public/*"]
+      "@public/*": ["./public/*"],
+      "@enums/*": ["./src/enums/*"],
+      "@store/*": ["./src/store/*"],
     },
     "rootDir": "./src" /* Specify the root folder within your source files. */,
     "outDir": "./build" /* Specify an output folder for all emitted files. */

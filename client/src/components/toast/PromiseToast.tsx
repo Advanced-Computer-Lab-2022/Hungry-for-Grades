@@ -2,7 +2,6 @@
 import { toast, ToastContainer } from 'react-toastify';
 
 import { createPortal } from 'react-dom';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { toastOptions } from './options';
 import { type PromiseToastProps } from './types';

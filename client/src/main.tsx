@@ -9,6 +9,7 @@ import { ClickToComponent } from 'click-to-react-component';
 import './index.css';
 import './normalize.css';
 // Bootstrap
+// Bootstrap is already included in main.scss, do not include it again
 import './main.scss';
 
 // QueryClient
@@ -23,7 +24,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // App
 import { RoutedApp } from './App';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 5 * 1000
+    }
+  }
+});
 
 // eslint-disable-next-line xss/no-mixed-html
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

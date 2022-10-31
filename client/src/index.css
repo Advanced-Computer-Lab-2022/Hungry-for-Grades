@@ -2,12 +2,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 :root {
-  --dark-color: #111;
-  --light-color: #fff;
+  --primary-dark-color: #111;
+  --secondary-dark-color: #777;
+  --background-dark-color: #0b090a;
+  --primary-light-color: #112d4e;
+  --secondary-light-color: #3f72af;
+  --primary-background-light-color: #f9f7f7;
+  --secondary-background-light-color: #dbe2ef;
+  /*My Variables */
   /* for background */
-  --background-color: var(--light-color);
+  --primary-background-color: var(--primary-background-light-color);
+  --secondary-background-color: var(--secondary-background-light-color);
   /* for text */
-  --text-color: var(--dark-color);
+  --primary-color: var(--primary-light-color);
+  --secondary-color: var(--secondary-light-color);
   /* for buttons */
   --variant-text-color: #bdbdee;
   --variant-background-color: #1a1a1a;
@@ -22,24 +30,19 @@
   --container-width-md: 80%;
   --container-width-ms: 90%;
   color-scheme: light dark;
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-* {
-  box-sizing: border-box;
+  font-size: 100%;
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 html {
   scroll-behavior: smooth;
-  font-size: 62.5%;
 }
 
 /* SCREEN MODE*/
@@ -51,15 +54,17 @@ body {
 }
 
 body.light {
-  --background-color: var(--light-color);
-  --text-color: var(--dark-color);
+  --background-color: var(--background-light-color);
+  --primary-color: var(--primary-light-color);
+  --secondary-color: var(--secondary-light-color);
   --font-weight: 400;
   --image: url('../day.jpg');
 }
 
 body.dark {
-  --background-color: var(--dark-color);
-  --text-color: var(--light-color);
+  --background-color: var(--background-dark-color);
+  --primary-color: var(--primary-dark-color);
+  --secondary-color: var(--secondary-dark-color);
   --font-weight: 500;
   --image: url('../night.jpg');
 }
@@ -73,7 +78,7 @@ body.dark img {
   -webkit-filter: brightness(0.8) contrast(1.2);
 }
 
-section {
+.dark section {
   filter: brightness(0.8) contrast(0.7);
 }
 
