@@ -1,7 +1,7 @@
 import { CategoryRoute } from './dataServices/CategoryDataService';
 import { CoursesRoutes } from './dataServices/CoursesDataService';
 import { UserRoutes } from './dataServices/UserDataService';
-
+import { InstructorRoutes } from './dataServices/InstructorDataService';
 import { AdminRoutes } from './dataServices/AdminDataService';
 /**
  * HTTP methods
@@ -27,13 +27,18 @@ export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
   typeof CoursesRoutes['GET']
 >];
 
+export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
+  typeof InstructorRoutes['GET']
+>];
+
 /**
  * All GET routes that are available for the  data service
  */
 export type GETRoutesType =
   | UserRoutesType<'GET'>
   | CategoryRouteType
-  | CoursesRoutesType;
+  | CoursesRoutesType
+  | InstructorRouteType;
 /**
  * All POST routes that are available for the  data service
  */

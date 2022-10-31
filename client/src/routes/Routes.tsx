@@ -30,10 +30,6 @@ const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
   () => import('@pages/Admin/AddCorporateTrainee')
 );
-
-const LazyCourseInstructorCard = lazy(
-  () => import('@pages/instructorDashboard/InstructorCourseCard')
-);
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -53,7 +49,10 @@ function AllRoutes() {
         <Route element={<LazyCourses />} path='courses' />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
-        <Route element={<LazyInstructorDashboard />} path='/home/instructor' />
+        <Route
+          element={<LazyInstructorDashboard />}
+          path='/home/instructor/:instructorid'
+        />
         <Route element={<AdminRoutes />} path='/admin'>
           <Route element={<LazyAddInstructor />} path='addinstructor' />
           <Route element={<LazyAddAdmin />} path='addadmin' />
@@ -64,7 +63,7 @@ function AllRoutes() {
         </Route>
 
         <Route element={<InstructorRoutes />} path='/instructor'>
-          <Route element={<LazyCourseInstructorCard />} path='' />
+          <Route element={<LazyInstructorDashboard />} path='' />
           <Route element={<LazyAddCourse />} path='/instructor/addCourse' />
         </Route>
       </Route>
