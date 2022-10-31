@@ -4,7 +4,7 @@ import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './AddAdmin.module.scss';
@@ -12,8 +12,15 @@ import styles from './AddAdmin.module.scss';
 import TextArea from './TextArea';
 
 import Button from '@components/buttons/button/Button';
+import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
+import { toastOptions } from '@/components/toast/options';
+import usePostQuery from '@/hooks/usePostQuery';
+import { toast } from 'react-toastify';
 
 export default function AddInstructor() {
+
+  const { mutateAsync : create, isError, data } = usePostQuery();
+
   const validate = Yup.object({
     firstName: Yup.string()
       .min(2, 'First Name must at least 2 charactres')
@@ -46,13 +53,42 @@ export default function AddInstructor() {
         confirmPassword: ''
       }}
       validationSchema={validate}
-      onSubmit={function (values: {
-        email: string;
-        password: string;
-        confirmPassword: string;
-      }) {
-        console.log(values);
-      }}
+      onSubmit={
+        async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
+        {
+          const AdminRoute = Object.assign({}, AdminRoutes.POST.createInstructor);
+          AdminRoute.payload = {
+            email: {
+              address: values.email
+            },
+            password: values.password,
+            username : values.username,
+            name : values.firstName + values.lastName,
+            address: {
+              city: '',
+              country: ''
+            },
+            role:'Instructor'
+          };
+
+          try{ 
+            await toast.promise(create(AdminRoute),
+            {
+            pending:'Pending',
+            success:'Instructor Added Successfuly',
+            
+          }, toastOptions)
+          actions.resetForm();
+        } //AxiosResponse
+          catch(err)
+          {
+            toast.error(err.response.data.message, toastOptions);
+          }
+        
+
+          //('Internal Server Error', toastOptions);
+        } 
+    }
     >
       {function (formik) {
         return (
@@ -63,7 +99,7 @@ export default function AddInstructor() {
               </div>
               <div className={`row ${styles.clearfix || ''}`}>
                 <div className=''>
-                  <form action='www.google.com'>
+                  <Form>
                     <div className={styles.input_field}>
                       {' '}
                       <span>
@@ -128,14 +164,7 @@ export default function AddInstructor() {
                       />
                     </div>
                     <input className='button' type='submit' />
-                    <Button
-                      backgroundColor={'primary-bg'}
-                      isDisabled={formik.isValid}
-                      label={'Submit'}
-                      name={''}
-                      type={'submit'}
-                    />
-                  </form>
+                  </Form>
                 </div>
               </div>
             </div>

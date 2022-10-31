@@ -31,12 +31,6 @@ import Toogle from '@/components/toogle/Toogle';
 
 export default function AddAdmin() {
 
-  const [toogle, setToogle] = useState<{ [key: string]: boolean }>({
-    corporateTrainer: false,
-    admin: false,
-    instructor: false
-  });
-
 
   const { mutateAsync : create, isError, data } = usePostQuery();
     
@@ -118,7 +112,6 @@ export default function AddAdmin() {
                 return(
                   <>
         <div className={styles.form_wrapper}>
-        <Toogle setToogle={setToogle} toogle={toogle} />
   <div className={styles.form_container}>
     <div className={styles.title_container}>
       <h2>Register a new Admin</h2>
@@ -146,7 +139,6 @@ export default function AddAdmin() {
           </div>
           <input className = "button" type="submit"  />
         </Form>
-        <Button backgroundColor={'primary-bg'} isDisabled={formik.isValid} label={'Submit'} name={''} type={'submit'} />
       </div>
     </div>
     
