@@ -4,26 +4,9 @@ import { CourseCardProps } from '../../pages/landing/types';
 
 import styles from './courseCard.module.scss';
 
-import CourseRating from '@/pages/course/CourseRating';
-import { formatCurrency } from '@/utils/currency';
+import Price from './Price';
 
-function Price(props: CourseCardProps) {
-  if (props.originalPrice) {
-    return (
-      <div className={styles['fnt-md-b']}>
-        {formatCurrency(props.price, props.currency)}{' '}
-        <small className={`${styles['original-price'] ?? ''}`}>
-          {formatCurrency(props.originalPrice, props.currency)}
-        </small>
-      </div>
-    );
-  }
-  return (
-    <div className={styles['fnt-md-b']}>
-      {formatCurrency(props.price, props.currency)}
-    </div>
-  );
-}
+import CourseRating from '@/pages/course/CourseRating';
 
 function CourseCard(props: CourseCardProps) {
   const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;

@@ -1,6 +1,6 @@
 import { Rating, type ICourse, type Price } from '@interfaces/course.interface';
 
-function getOriginalPrice(price: Price): number | undefined {
+export function getOriginalPrice(price: Price): number | undefined {
   if (!price.discounts?.length) {
     return undefined;
   }

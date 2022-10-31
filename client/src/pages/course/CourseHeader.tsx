@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 
+import { getOriginalPrice } from '../landing/types';
+
 import styles from './course-header.module.scss';
 
 import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
+import Price from '@/components/course/Price';
 
 function CourseHeader(props: ICourse) {
   return (
@@ -39,6 +42,20 @@ function CourseHeader(props: ICourse) {
         Duration: &nbsp;
         {props.duration}h
       </div>
+      <Price
+        currency={props.price.currency}
+        id={props._id}
+        image={''}
+        instructors={[]}
+        originalPrice={getOriginalPrice(props.price)}
+        price={props.price.currentValue}
+        rating={{
+          averageRating: 0,
+          reviews: []
+        }}
+        title={''}
+        totalHours={0}
+      />
     </div>
   );
 }
