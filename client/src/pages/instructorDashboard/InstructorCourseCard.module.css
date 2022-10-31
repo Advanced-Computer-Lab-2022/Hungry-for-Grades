@@ -42,3 +42,9 @@
   line-height: 1.4;
   font-size: 0.8rem;
 }
+
+@media screen and (min-width: 768px) {
+  .border_div {
+    border: 0 !important;
+  }
+}
