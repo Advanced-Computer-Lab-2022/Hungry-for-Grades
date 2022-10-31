@@ -1,22 +1,25 @@
 import styles from './price.module.scss';
 
 import { formatCurrency } from '@/utils/currency';
-import { CourseCardProps } from '@/pages/landing/types';
+import { getOriginalPrice } from '@/pages/landing/types';
+import { IPrice } from '@/interfaces/course.interface';
 
-function Price(props: CourseCardProps) {
-  if (props.originalPrice) {
+function Price(props: IPrice) {
+  const originalPrice = getOriginalPrice(props)
+
+  if (originalPrice) {
     return (
       <div className={styles['fnt-md-b']}>
-        {formatCurrency(props.price, props.currency)}{' '}
+        {formatCurrency(props.currentValue, props.currency)}{' '}
         <small className={`${styles['original-price'] ?? ''}`}>
-          {formatCurrency(props.originalPrice, props.currency)}
+          {formatCurrency(originalPrice, props.currency)}
         </small>
       </div>
     );
   }
   return (
     <div className={styles['fnt-md-b']}>
-      {formatCurrency(props.price, props.currency)}
+      {formatCurrency(props.currentValue, props.currency)}
     </div>
   );
 }

@@ -2,10 +2,10 @@ import {
   Instructor,
   Rating,
   type ICourse,
-  type Price
+  type IPrice
 } from '@interfaces/course.interface';
 
-export function getOriginalPrice(price: Price): number | undefined {
+export function getOriginalPrice(price: IPrice): number | undefined {
   if (!price.discounts?.length) {
     return undefined;
   }
@@ -24,11 +24,11 @@ export type CourseCardProps = {
   title: string;
   instructor: Instructor | Instructor[];
   image: string;
-  price: number;
+  price: IPrice;
   originalPrice?: number;
   currency: string;
   rating: Rating;
-  totalHours: number;
+  duration: number;
   description: string;
   outline: string[];
 };
@@ -39,11 +39,11 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     title: course.title,
     instructor: course._instructor,
     image: course.thumbnail,
-    price: course.price.currentValue,
+    price: course.price,
     originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
     rating: course.rating,
-    totalHours: course.duration,
+    duration: course.duration,
     description: course.description,
     outline: course.outline
   };

@@ -25,7 +25,7 @@ interface IBaseCourse {
   language: string;
   level: Level;
   previewVideoURL: string;
-  price: Price;
+  price: IPrice;
   subcategory: string[];
   thumbnail: string;
   title: string;
@@ -51,7 +51,7 @@ export type CourseDiscount = {
   startDate: Date;
 };
 
-export type Price = {
+export type IPrice = {
   currency: string;
   currentValue: number;
   discounts: Array<CourseDiscount>;

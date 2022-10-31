@@ -9,11 +9,13 @@ import CourseCardOverlay from './CourseCardOverlay';
 
 import styles from './courseCard.module.scss';
 
-import Price from './Price';
 
 import Instructors from './Instructor';
 
+import Price from './Price';
+
 import CourseRating from '@/pages/course/CourseRating';
+import { formatDuration } from '@/utils/duration';
 
 function CourseCard(props: CourseCardProps) {
   const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
@@ -73,11 +75,11 @@ function CourseCard(props: CourseCardProps) {
             </div>
             <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
               <strong>
-                Duration: {props.totalHours} hr{props.totalHours > 1 ? 's' : ''}
+                Duration: {formatDuration(props.duration)}
               </strong>
             </div>
             <CourseRating {...props.rating} />
-            <Price {...props} />
+            <Price {...props.price} />
           </div>
         </article>
       </OverlayTrigger>

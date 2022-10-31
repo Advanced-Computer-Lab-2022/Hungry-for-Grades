@@ -11,6 +11,7 @@ import './accordion.scss';
 // import styles from './course-content.module.scss';
 
 import { type ICourse } from '@/interfaces/course.interface';
+import { formatDuration } from '@/utils/duration';
 function CourseContent(props: ICourse) {
   return (
     <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
@@ -19,11 +20,10 @@ function CourseContent(props: ICourse) {
         {props.sections.length} sections &nbsp;• &nbsp;
         {props.sections.reduce((s, l) => s + l.lessons.length, 0)} lessons&nbsp;
         • &nbsp;
-        {props.sections.reduce(
+        {formatDuration(props.sections.reduce(
           (s, l) => s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
           0
-        )}{' '}
-        mins
+        ))}
       </p>
       <Accordion allowZeroExpanded>
         {props.sections.map(sec => (

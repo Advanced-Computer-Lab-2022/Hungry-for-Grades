@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
 
-import { getOriginalPrice } from '../landing/types';
-
 import styles from './course-header.module.scss';
 
 import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
-import Price from '@/components/course/Price';
 import Instructors from '@/components/course/Instructor';
+import Price from '@/components/course/Price';
+import { formatDuration } from '@/utils/duration';
 
 function CourseHeader(props: ICourse) {
   return (
@@ -41,21 +40,10 @@ function CourseHeader(props: ICourse) {
       </div>
       <div className={`text-light`}>
         Duration: &nbsp;
-        {props.duration}h
+        {formatDuration(props.duration)}
       </div>
       <Price
-        currency={props.price.currency}
-        id={props._id}
-        image={''}
-        instructor={[]}
-        originalPrice={getOriginalPrice(props.price)}
-        price={props.price.currentValue}
-        rating={{
-          averageRating: 0,
-          reviews: []
-        }}
-        title={''}
-        totalHours={0}
+        {...props.price}
       />
     </div>
   );
