@@ -14,12 +14,47 @@ import SelectField from '@/components/form/SelectField';
 import { Level } from '@/enums/level.enum';
 import ArrayErrorMessage from '@/components/form/ArrayErrorMessage';
 import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
-import {
-  CourseDiscount,
-  ICourseExercise,
-  ICourseLesson,
-  ICourseSection
-} from '@/interfaces/course.interface';
+import { CourseDiscount } from '@/interfaces/course.interface';
+
+let nextId = 1;
+function getUniqueId() {
+  return `id-${nextId++}`;
+}
+
+type LessonFormValues = {
+  uid: string;
+  description: string;
+  duration: string;
+  title: string;
+  videoURL: string;
+};
+
+type AnswerFormValues = {
+  uid: string;
+  value: string;
+};
+
+type ExerciseFormValues = {
+  title: string;
+  questions: {
+    answer: string;
+    options: AnswerFormValues[];
+    question: string;
+  }[];
+};
+
+type SectionFormValues = {
+  uid: string;
+  description: string;
+  lessons: LessonFormValues[];
+  exercises: ExerciseFormValues[];
+  title: string;
+};
+
+type OutlineFormValues = {
+  uid: string;
+  value: string;
+};
 
 type CourseFormValues = {
   title: string;
@@ -27,8 +62,10 @@ type CourseFormValues = {
   language: string;
   level: string;
   price: string;
-  outline: string[];
-  sections: ICourseSection[];
+  previewVideoURL: string;
+  thumbnail: string;
+  outline: OutlineFormValues[];
+  sections: SectionFormValues[];
 };
 
 const languages = [
@@ -66,12 +103,29 @@ const courseSchema = object().shape({
       }
     )
     .label('Price'),
+  previewVideoURL: string()
+    .required()
+    .url()
+    .min(4)
+    .max(100)
+    .label('Preview Video Url'),
+  thumbnail: string()
+    .required()
+    .url()
+    .min(4)
+    .max(100)
+    .label('Thumbnail Image Url'),
   outline: array()
     .required()
     .min(1)
     .max(1000)
     .label('Course Outline')
-    .of(string().required().min(4).max(500).label('Outline Item')),
+    .of(
+      object().shape({
+        uid: string(),
+        value: string().required().min(4).max(500).label('Outline Item')
+      })
+    ),
   sections: array()
     .required()
     .min(1)
@@ -79,6 +133,7 @@ const courseSchema = object().shape({
     .label('Sections')
     .of(
       object().shape({
+        uid: string(),
         title: string().required().min(4).max(100).label('Title'),
         description: string().required().min(4).max(1000).label('Description'),
         lessons: array()
@@ -88,6 +143,7 @@ const courseSchema = object().shape({
           .label('Lessons')
           .of(
             object().shape({
+              uid: string(),
               title: string().required().min(4).max(100).label('Title'),
               videoURL: string()
                 .required()
@@ -123,14 +179,32 @@ async function submitCourse(
     category: 'Web Development',
     captions: [] as string[],
     subcategory: [] as string[],
+    outline: values.outline.map(o => o.value),
+    sections: values.sections.map(s => ({
+      title: s.title,
+      description: s.description,
+      exercises: s.exercises.map(e => ({
+        title: e.title,
+        numberOfQuestions: e.questions.length,
+        questions: e.questions.map(q => ({
+          question: q.question,
+          options: q.options.map(o => o.value),
+          answer: q.answer
+        }))
+      })),
+      lessons: s.lessons.map(l => ({
+        duration: parseInt(l.duration, 10),
+        videoURL: l.videoURL,
+        title: l.title,
+        description: l.description
+      }))
+    })),
     price: {
       currentValue: parseFloat(values.price),
       currency: 'CAD',
       discounts: [] as CourseDiscount[]
     },
     keywords: [] as string[],
-    previewVideoURL: 'https://www.youtube.com/watch?v=17DC_atNmkQ',
-    thumbnail: 'https://img-c.udemycdn.com/course/750x422/394676_ce3d_5.jpg',
     duration: values.sections.reduce(
       (sum, sec) =>
         sum +
@@ -154,15 +228,14 @@ function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
         <div className='my-2'>
           <h3 className='text-dark'>Outline</h3>
           <ArrayErrorMessage {...props} name='outline' />
-          {props.values.outline.map((_, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <div key={index} className='row'>
+          {props.values.outline.map((item, index) => (
+            <div key={item.uid} className='row'>
               <div className='col-11'>
                 <TextField
                   formik={props as FormikProps<unknown>}
-                  id={`outline.${index}`}
+                  id={`outline.${index}.value`}
                   label={`Item #${index + 1}`}
-                  name={`outline.${index}`}
+                  name={`outline.${index}.value`}
                 />
               </div>
               <div className='col-1 pt-4 px-0'>
@@ -180,7 +253,7 @@ function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
             <button
               className='btn btn-secondary btn-sm'
               type='button'
-              onClick={() => push('')}
+              onClick={() => push({ uid: getUniqueId(), value: '' })}
             >
               Add new outline
             </button>
@@ -204,10 +277,10 @@ function LessonsForm(
             name={`sections.${props.sectionIndex}.lessons`}
           />
           {props.values.sections[props.sectionIndex]?.lessons.map(
-            (_, index) => (
+            (lesson, index) => (
+              
               <div
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
+                key={lesson.uid}
                 className='row rounded-1 border border-secondary my-2 py-2'
               >
                 <h6 className='col-11 text-dark'>Lesson #{index + 1}</h6>
@@ -261,6 +334,7 @@ function LessonsForm(
               type='button'
               onClick={() =>
                 push({
+                  uid: getUniqueId(),
                   title: '',
                   description: '',
                   videoURL: '',
@@ -285,10 +359,9 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
           <h3 className='text-dark'>Sections</h3>
           <ArrayErrorMessage {...props} name='sections' />
 
-          {props.values.sections.map((_, index) => (
+          {props.values.sections.map((section, index) => (
             <div
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
+              key={section.uid}
               className='row rounded-1 border border-secondary my-2 py-2'
             >
               <h5 className='col-11 text-dark'>Section #{index + 1}</h5>
@@ -326,10 +399,11 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
               type='button'
               onClick={() =>
                 push({
+                  uid: getUniqueId(),
                   title: '',
                   description: '',
-                  lessons: [] as ICourseLesson[],
-                  exercises: [] as ICourseExercise[]
+                  lessons: [] as LessonFormValues[],
+                  exercises: [] as ExerciseFormValues[]
                 })
               }
             >
@@ -354,8 +428,10 @@ function CourseForm() {
           language: '',
           level: '',
           price: '',
-          outline: [] as string[],
-          sections: [] as ICourseSection[]
+          thumbnail: '',
+          previewVideoURL: '',
+          outline: [] as OutlineFormValues[],
+          sections: [] as SectionFormValues[]
         }}
         validationSchema={courseSchema}
         // eslint-disable-next-line react/jsx-no-bind
@@ -385,6 +461,12 @@ function CourseForm() {
                   {...getTextFieldProps(props, courseSchema, 'price')}
                 />
               </div>
+              <TextField
+                {...getTextFieldProps(props, courseSchema, 'previewVideoURL')}
+              />
+              <TextField
+                {...getTextFieldProps(props, courseSchema, 'thumbnail')}
+              />
               <CourseOutlineForm {...props} />
               <SectionsForm {...props} />
               <div className='form-group text-center m-3'>
