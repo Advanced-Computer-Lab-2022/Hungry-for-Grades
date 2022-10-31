@@ -8,14 +8,11 @@ import { Form, Formik } from 'formik';
 
 import { toast } from 'react-toastify';
 
-import { useState } from 'react';
-
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
 
-import Button from '@components/buttons/button/Button';
 
 import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 
@@ -23,16 +20,10 @@ import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 
-import Toogle from '@/components/toogle/Toogle';
 
 export default function AddAdmin() {
-  const [toogle, setToogle] = useState<{ [key: string]: boolean }>({
-    corporateTrainer: false,
-    admin: false,
-    instructor: false
-  });
 
-  const { mutateAsync: create } = usePostQuery();
+  const { mutateAsync : create } = usePostQuery();
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -115,101 +106,47 @@ export default function AddAdmin() {
         //('Internal Server Error', toastOptions);
       }}
     >
-      {function (formik) {
-        return (
-          <>
-            <div className={styles.form_wrapper}>
-              <Toogle setToogle={setToogle} toogle={toogle} />
-              <div className={styles.form_container}>
-                <div className={styles.title_container}>
-                  <h2>Register a new Admin</h2>
-                </div>
-                <div className={`row ${styles.clearfix || ''}`}>
-                  <div className=''>
-                    <Form>
-                      <div className={styles.input_field}>
-                        {' '}
-                        <span>
-                          <RiAccountCircleFill />
-                        </span>
-                        <TextArea
-                          name='firstName'
-                          placeholder='First Name'
-                          type='text'
-                        />
-                      </div>
-                      <div className={styles.input_field}>
-                        {' '}
-                        <span>
-                          <RiAccountCircleFill />
-                        </span>
-                        <TextArea
-                          name='lastName'
-                          placeholder='Last Name'
-                          type='text'
-                        />
-                      </div>
-                      <div className={styles.input_field}>
-                        {' '}
-                        <span>
-                          <RiAccountCircleFill />
-                        </span>
-                        <TextArea
-                          name='username'
-                          placeholder='User Name'
-                          type='text'
-                        />
-                      </div>
-                      <div className={styles.input_field}>
-                        {' '}
-                        <span>
-                          <FaEnvelope />
-                        </span>
-                        <TextArea
-                          name='email'
-                          placeholder='Email'
-                          type='email'
-                        />
-                      </div>
-                      <div className={styles.input_field}>
-                        <span>
-                          {' '}
-                          <FaLock />{' '}
-                        </span>
-                        <TextArea
-                          name='password'
-                          placeholder='Password'
-                          type='password'
-                        />
-                      </div>
-                      <div className={styles.input_field}>
-                        {' '}
-                        <span>
-                          {' '}
-                          <FaLock />{' '}
-                        </span>
-                        <TextArea
-                          name='confirmPassword'
-                          placeholder='Re-type Password'
-                          type='password'
-                        />
-                      </div>
-                      <input className='button' type='submit' />
-                    </Form>
-                    <Button
-                      backgroundColor={'primary-bg'}
-                      isDisabled={formik.isValid}
-                      label={'Submit'}
-                      name={''}
-                      type={'submit'}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      }}
+        {
+            function(formik){
+                return(
+                  <>
+        <div className={styles.form_wrapper}>
+  <div className={styles.form_container}>
+    <div className={styles.title_container}>
+      <h2>Register a new Admin</h2>
+    </div>
+    <div className={`row ${styles.clearfix||''}`}>
+      <div className="">
+        <Form >
+          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
+            <TextArea name="firstName" placeholder="First Name" type="text" />
+          </div> 
+          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
+            <TextArea name="lastName" placeholder="Last Name" type="text" />
+          </div>  
+          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
+            <TextArea name="username" placeholder="User Name" type="text" />
+          </div>  
+          <div className={styles.input_field}> <span><FaEnvelope /></span>
+            <TextArea name="email" placeholder="Email" type="email" />
+          </div>
+          <div className={styles.input_field}><span> <FaLock /> </span>
+            <TextArea name="password" placeholder="Password" type="password" />
+          </div>
+          <div className={styles.input_field}> <span> <FaLock /> </span>
+            <TextArea name="confirmPassword" placeholder="Re-type Password" type="password" />
+          </div>
+          <input className = "button" type="submit"  />
+        </Form>
+      </div>
+    </div>
+    
+  </div>
+</div>
+</>
+           );
+                }
+}
     </Formik>
   );
 }

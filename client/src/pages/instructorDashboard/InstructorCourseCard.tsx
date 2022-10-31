@@ -5,7 +5,7 @@ function InstructorCourseCard() {
     <div>
       <div
         className='row border border-primary mx-auto'
-        style={{ height: '8rem', maxWidth: '90vw' }}
+        style={{ height: '8rem', maxWidth: '76vw' }}
       >
         <div
           className='col-4 d-flex align-center my-auto'
