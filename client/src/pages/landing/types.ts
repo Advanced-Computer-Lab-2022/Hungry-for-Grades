@@ -1,4 +1,9 @@
-import { Rating, type ICourse, type Price } from '@interfaces/course.interface';
+import {
+  Instructor,
+  Rating,
+  type ICourse,
+  type Price
+} from '@interfaces/course.interface';
 
 export function getOriginalPrice(price: Price): number | undefined {
   if (!price.discounts?.length) {
@@ -17,9 +22,7 @@ export function getOriginalPrice(price: Price): number | undefined {
 export type CourseCardProps = {
   id: string;
   title: string;
-  instructors: {
-    name: string;
-  }[];
+  instructor: Instructor | Instructor[];
   image: string;
   price: number;
   originalPrice?: number;
@@ -32,9 +35,7 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
   return {
     id: course._id,
     title: course.title,
-    instructors: course._instructor._user.map(u => ({
-      name: u.name
-    })),
+    instructor: course._instructor,
     image: course.thumbnail,
     price: course.price.currentValue,
     originalPrice: getOriginalPrice(course.price),

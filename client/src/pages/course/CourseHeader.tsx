@@ -8,6 +8,7 @@ import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
 import Price from '@/components/course/Price';
+import Instructors from '@/components/course/Instructor';
 
 function CourseHeader(props: ICourse) {
   return (
@@ -36,7 +37,7 @@ function CourseHeader(props: ICourse) {
       <CourseRating {...props.rating} />
       <div className={`text-light`}>
         Created by: &nbsp;
-        {/* {props._instructor._user.map(instructor => instructor.name).join(', ')} */}
+        <Instructors instructor={props._instructor} />
       </div>
       <div className={`text-light`}>
         Duration: &nbsp;
@@ -46,7 +47,7 @@ function CourseHeader(props: ICourse) {
         currency={props.price.currency}
         id={props._id}
         image={''}
-        instructors={[]}
+        instructor={[]}
         originalPrice={getOriginalPrice(props.price)}
         price={props.price.currentValue}
         rating={{

@@ -6,6 +6,8 @@ import styles from './courseCard.module.scss';
 
 import Price from './Price';
 
+import Instructors from './Instructor';
+
 import CourseRating from '@/pages/course/CourseRating';
 
 function CourseCard(props: CourseCardProps) {
@@ -44,13 +46,14 @@ function CourseCard(props: CourseCardProps) {
               {props.title}
             </h4>
           </Link>
-          <Link to={`/instructor/${props.id}`}>
-            <div
-              className={`${styles.course__card__instructor ?? ''} text-break`}
-            >
-              {props.instructors.map(instructor => instructor.name).join(', ')}
-            </div>
-          </Link>
+          <div
+            className={`${styles.course__card__instructor ?? ''} text-break`}
+          >
+            <Instructors
+              instructor={props.instructor}
+              linkClassName='text-dark'
+            />
+          </div>
           <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
             <strong>
               Duration: {props.totalHours} hr{props.totalHours > 1 ? 's' : ''}

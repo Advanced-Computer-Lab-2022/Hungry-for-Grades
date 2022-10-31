@@ -40,7 +40,7 @@ export interface IAddCourseRequest extends IBaseCourse {
 
 export interface ICourse extends IBaseCourse {
   _id: string;
-  _instructor: Instructor;
+  _instructor: Instructor | Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
 }
@@ -68,7 +68,7 @@ export type Rating = {
 };
 
 export type Instructor = {
-  _user: IUser[];
+  _user: IUser[] | IUser;
 };
 
 export type CourseLesson = {
