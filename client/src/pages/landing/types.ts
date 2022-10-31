@@ -29,6 +29,8 @@ export type CourseCardProps = {
   currency: string;
   rating: Rating;
   totalHours: number;
+  description: string;
+  outline: string[];
 };
 
 export function mapCourseToCardProps(course: ICourse): CourseCardProps {
@@ -41,6 +43,8 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
     rating: course.rating,
-    totalHours: course.duration
+    totalHours: course.duration,
+    description: course.description,
+    outline: course.outline
   };
 }
