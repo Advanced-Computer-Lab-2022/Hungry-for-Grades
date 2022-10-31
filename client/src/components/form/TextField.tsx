@@ -10,7 +10,7 @@ function TextField(props: TextFieldProps) {
     fieldClassName += error ? ' is-invalid' : ' is-valid';
   }
   return (
-    <div className='form-group'>
+    <div className='form-group my-1'>
       <label className='form-label' htmlFor={props.name}>
         {props.label}
       </label>

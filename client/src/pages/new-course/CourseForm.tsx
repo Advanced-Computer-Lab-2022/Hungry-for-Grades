@@ -167,7 +167,7 @@ function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
               </div>
               <div className='col-1 pt-4 px-0'>
                 <button
-                  className='btn btn-danger btn-sm my-2'
+                  className='btn btn-danger mt-2'
                   type='button'
                   onClick={() => remove(index)}
                 >
@@ -178,7 +178,7 @@ function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
           ))}
           <div className='my-1'>
             <button
-              className='btn btn-success btn-sm'
+              className='btn btn-secondary btn-sm'
               type='button'
               onClick={() => push('')}
             >
@@ -213,7 +213,7 @@ function LessonsForm(
                 <h6 className='col-11 text-dark'>Lesson #{index + 1}</h6>
                 <div className='col-1 px-0 text-end pe-2'>
                   <button
-                    className='btn btn-danger btn-sm'
+                    className='btn btn-danger'
                     type='button'
                     onClick={() => remove(index)}
                   >
@@ -257,7 +257,7 @@ function LessonsForm(
           )}
           <div className='my-1'>
             <button
-              className='btn btn-success btn-sm'
+              className='btn btn-secondary btn-sm'
               type='button'
               onClick={() =>
                 push({
@@ -294,7 +294,7 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
               <h5 className='col-11 text-dark'>Section #{index + 1}</h5>
               <div className='col-1 px-0 text-end pe-2'>
                 <button
-                  className='btn btn-danger btn-sm'
+                  className='btn btn-danger'
                   type='button'
                   onClick={() => remove(index)}
                 >
@@ -322,7 +322,7 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
           ))}
           <div className='my-1'>
             <button
-              className='btn btn-success btn-sm'
+              className='btn btn-secondary btn-sm'
               type='button'
               onClick={() =>
                 push({
