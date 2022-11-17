@@ -9,25 +9,34 @@ import axios from 'axios';
 import { EXCHANGE_BASE_URL } from '@/Config';
 
 // Converts from input currency to the currency of the chosen country
-export async function getCurrentPrice(price: Price, countryCode: string): Promise<Price> {
-  let discountedPrice = price.currentValue;
-  try {
-    discountedPrice = getPriceAfterDiscount(price);
+// export async function getCurrentPrice(price: Price, countryCode: string): Promise<Price> {
+//   let discountedPrice = price.currentValue;
+//   try {
+//     discountedPrice = getPriceAfterDiscount(price);
 
-    // No need to convert if the currency is same
-    if (countryCode === 'US') return { ...price, currentValue: discountedPrice };
+//     // No need to convert if the currency is same
+//     if (countryCode === 'US') return { ...price, currentValue: discountedPrice };
 
-    const outputCurrency = getCurrencyFromCountry(countryCode);
-    const convertedPrice = await convertCurrency(price.currency, outputCurrency, discountedPrice);
+//     const outputCurrency = getCurrencyFromCountry(countryCode);
+//     const convertedPrice = await convertCurrency(price.currency, outputCurrency, discountedPrice);
 
-    return { ...price, currency: outputCurrency, currentValue: convertedPrice };
-  } catch (error) {
-    price.currentValue = discountedPrice ?? price.currentValue;
-    price.currency = 'USD';
+//     return { ...price, currency: outputCurrency, currentValue: convertedPrice };
+//   } catch (error) {
+//     price.currentValue = discountedPrice ?? price.currentValue;
+//     price.currency = 'USD';
 
-    return price;
-  }
-}
+//     return price;
+//   }
+// }
+
+// export async function convertCurrency(fromCurrency: string, toCurrency: string, amount: number): Promise<number> {
+//   if (fromCurrency === toCurrency) return amount;
+
+//   const response = await axios.get(`${EXCHANGE_BASE_URL}/${fromCurrency}/${toCurrency}/${amount}`);
+//   const convertedPrice: number = response.data.conversion_result;
+
+//   return convertedPrice;
+// }
 
 function getPriceAfterDiscount(price: Price) {
   const discountAvailable = price.discounts.filter(discount => {
@@ -41,21 +50,44 @@ function getPriceAfterDiscount(price: Price) {
   return Math.round(result * 100) / 100; // round to 2 decimal places
 }
 
-export async function convertCurrency(fromCurrency: string, toCurrency: string, amount: number): Promise<number> {
-  if (fromCurrency === toCurrency) return amount;
-
-  const response = await axios.get(`${EXCHANGE_BASE_URL}/${fromCurrency}/${toCurrency}/${amount}`);
-  const convertedPrice: number = response.data.conversion_result;
-
-  return convertedPrice;
-}
-
 export function getCurrencyFromCountry(countryCode: string): string {
   return CountryToCurrency.getParamByISO(countryCode, 'currency');
 }
 
+export async function getConversionRate(country: string, toUSD = false): Promise<number> {
+  // toUSD is set when we want to convert from the currency of the country to USD
+  const inputCurrency = getCurrencyFromCountry(country);
+  let currencyConverter;
+  if (toUSD) {
+    currencyConverter = new CC({ from: inputCurrency, to: 'USD' });
+  } else {
+    currencyConverter = new CC({ from: 'USD', to: inputCurrency });
+  }
+  const rates = await currencyConverter.rates();
+  return rates;
+}
+
+// Gets price after discount and after currency conversion
+export async function getCurrentPrice(price: Price, conversionRate: number, countryCode: string): Promise<Price> {
+  let discountedPrice = price.currentValue;
+  try {
+    discountedPrice = getPriceAfterDiscount(price);
+
+    const toCurrency = getCurrencyFromCountry(countryCode);
+    let convertedPrice = discountedPrice * conversionRate;
+    convertedPrice = Math.round(convertedPrice * 100) / 100; // round to 2 decimal places
+
+    return { ...price, currency: toCurrency, currentValue: convertedPrice };
+  } catch (error) {
+    price.currentValue = discountedPrice ?? price.currentValue;
+    price.currency = 'USD';
+
+    return price;
+  }
+}
+
 // Adds default values to the course filters object sent in query params
-export function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
+export async function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
   // Filter out empty params
   for (const param in courseFilters) {
     if (courseFilters[param] === null || courseFilters[param] === '') {
@@ -67,8 +99,14 @@ export function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
 
   // Parse Numbers sent in query
   for (const key in filters) {
-    if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
+    if (!isNaN(parseFloat(filters[key as string]))) filters[key as string] = parseFloat(filters[key as string]);
   }
+
+  // Convert prices to USD
+  const conversionRate = await getConversionRate(filters.country, true);
+  filters.priceLow = conversionRate * filters.priceLow;
+  filters.priceHigh = conversionRate * filters.priceHigh;
+
   return filters;
 }
 
@@ -90,9 +128,9 @@ export function generateCoursesFilterQuery(filters: CourseFilters) {
   if (level != undefined) filterQuery['level'] = { $eq: level };
   if (subcategory != undefined) filterQuery['subcategory'] = { $eq: subcategory };
 
+  filterQuery['rating.averageRating'] = { $gte: filters.rating };
   filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
-  // Handles Paid or Free courses only
-  // Discount should be applied & currency converted if price ranges are specified
+
   filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh };
 
   return filterQuery;

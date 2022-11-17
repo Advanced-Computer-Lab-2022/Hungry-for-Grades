@@ -16,8 +16,8 @@ export interface IInstructor {
 }
 
 export interface ITeachedCourse {
-  _course: Types.ObjectId;
-  earning: Number;
+  _course: Course;
+  earning: number;
 }
 
 type BankAccount = {
