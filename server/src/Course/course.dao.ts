@@ -8,9 +8,9 @@ import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
 import { CourseFilters, Category } from '@Course/course.types';
 import {
-  convertCurrency,
   generateCoursesFilterQuery,
   generateCoursesSortQuery,
+  getConversionRate,
   getCurrencyFromCountry,
   getCurrentPrice,
 } from '@Course/course.common';
@@ -25,6 +25,8 @@ class CourseService {
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
+    // Get conversion rate to the desired currency based on input currency
+    const conversionRate = await getConversionRate(country);
     const filterQuery = generateCoursesFilterQuery(filters);
 
     const aggregateQuery: any[] = [
@@ -73,7 +75,6 @@ class CourseService {
     try {
       queryResult = await courseModel.aggregate(aggregateQuery);
     } catch (error) {
-      //console.log(error.message);
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
 
@@ -82,7 +83,7 @@ class CourseService {
 
     // Get price after discount then change it to the needed currency
     for (const course of paginatedCourses) {
-      const newPrice: Price = await getCurrentPrice(course.price, country);
+      const newPrice: Price = await getCurrentPrice(course.price, conversionRate, country);
       course.price = newPrice;
     }
 
@@ -140,6 +141,9 @@ class CourseService {
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
+    // Get conversion rate to the desired currency based on input currency
+    const conversionRate = await getConversionRate(country);
+
     const filterQuery = generateCoursesFilterQuery(filters);
     filterQuery['title'] = { $options: 'i', $regex: searchTerm };
 
@@ -158,11 +162,12 @@ class CourseService {
     const totalPages = Math.ceil(courses.length / pageLimit);
     const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
-    // Get price after discount then change it to the needed currency
-    //  for (const course of paginatedCourses) {
-    //   const newPrice: Price = await getCurrentPrice(course.price, country);
-    //   course.price.currentValue =newPrice;
-    // }
+    //Get price after discount then change it to the needed currency
+    for (const _teachedCourses of paginatedCourses) {
+      const newPrice: Price = await getCurrentPrice(_teachedCourses._course.price, conversionRate, country);
+      _teachedCourses._course.price = newPrice;
+      _teachedCourses.earning = _teachedCourses.earning * conversionRate;
+    }
 
     return {
       data: paginatedCourses,
@@ -205,7 +210,9 @@ class CourseService {
       })
       .slice(0, REVIEWS_LIMIT);
 
-    const newPrice = await getCurrentPrice(course.price, country);
+    // Get conversion rate to the desired currency based on input currency
+    const conversionRate = await getConversionRate(country);
+    const newPrice = await getCurrentPrice(course.price, conversionRate, country);
     course.price = newPrice;
 
     return course;
@@ -218,10 +225,11 @@ class CourseService {
     const _instructor = [new mongoose.Types.ObjectId(courseData.instructorID)];
     delete courseData.instructorID;
 
-    // Convert course price to USD when saving
+    // Convert course price to USD before saving
     const inputCurrency = getCurrencyFromCountry(country);
-    const newPrice = await convertCurrency(inputCurrency, 'USD', courseData.price.currentValue);
-    courseData.price.currentValue = newPrice;
+    const conversionRate = await getConversionRate(country, true);
+    const newPrice = courseData.price.currentValue * conversionRate;
+    courseData.price = { ...courseData.price, currency: inputCurrency, currentValue: newPrice };
 
     const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
 

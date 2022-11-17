@@ -17,7 +17,7 @@ class CourseController {
   public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
     try {
       const requestFilters: CourseFilters = req.query;
-      const newFilters = addDefaultValuesToCourseFilters(requestFilters);
+      const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
 
       const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getAllCourses(newFilters);
 
@@ -48,7 +48,7 @@ class CourseController {
   ) => {
     try {
       const requestFilters: CourseFilters = req.query;
-      const newFilters = addDefaultValuesToCourseFilters(requestFilters);
+      const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
 
       const coursesPaginatedResponse: PaginatedData<ITeachedCourse> = await this.courseService.getCoursesTaughtByInstructor(
         req.params.instructorId,
