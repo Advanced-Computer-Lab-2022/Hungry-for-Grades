@@ -8,9 +8,9 @@ import styles from './MainPageSection1.module.css';
 export default function MainPageSection1() {
   return (
     <div style={{ backgroundColor: '#F9F7F7' }}>
-      <Container className='bg-light' >
+      <Container className='bg-light'>
         <Row>
-          <Col 
+          <Col
             lg='6'
             md='6'
             style={{ marginTop: 'auto', marginBottom: 'auto' }}

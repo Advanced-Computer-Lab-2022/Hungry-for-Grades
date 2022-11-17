@@ -19,11 +19,8 @@ import { toastOptions } from '@/components/toast/options';
 
 import usePostQuery from '@/hooks/usePostQuery';
 
-
 export default function AddInstructor() {
-
-  const { mutateAsync : create, isError, data } = usePostQuery();
-
+  const { mutateAsync: create } = usePostQuery();
   const validate = Yup.object({
     firstName: Yup.string()
       .min(2, 'First Name must at least 2 charactres')
@@ -56,47 +53,57 @@ export default function AddInstructor() {
         confirmPassword: ''
       }}
       validationSchema={validate}
-      onSubmit={
-        async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
-        {
-          const AdminRoute = Object.assign({}, AdminRoutes.POST.createInstructor);
-          AdminRoute.payload = {
-            email: {
-              address: values.email
-            },
-            password: values.password,
-            username : values.username,
-            name : values.firstName + values.lastName,
-            address: {
-              city: '',
-              country: ''
-            },
-            role:'Instructor'
-          };
+      onSubmit={async function (
+        values: {
+          firstName: string;
+          lastName: string;
+          username: string;
+          email: string;
+          password: string;
+          confirmPassword: string;
+        },
+        actions
+      ) {
+        const AdminRoute = Object.assign({}, AdminRoutes.POST.createInstructor);
+        AdminRoute.payload = {
+          email: {
+            address: values.email
+          },
+          password: values.password,
+          username: values.username,
+          name: values.firstName + values.lastName,
+          address: {
+            city: '',
+            country: ''
+          },
+          role: 'Instructor'
+        };
 
-          try{ 
-            await toast.promise(create(AdminRoute),
+        try {
+          await toast.promise(
+            create(AdminRoute),
             {
-            pending:'Pending',
-            success:'Instructor Added Successfuly',
-            
-          }, toastOptions)
+              pending: 'Pending',
+              success: 'Instructor Added Successfuly'
+            },
+            toastOptions
+          );
           actions.resetForm();
-        } //AxiosResponse
-          catch(err)
-          {
-            toast.error(err.response.data.message, toastOptions);
-          }
-        
+        } catch (err) {
+          //AxiosResponse
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+          toast.error(err.response.data.message, toastOptions);
+        }
 
-          //('Internal Server Error', toastOptions);
-        } 
-    }
+        //('Internal Server Error', toastOptions);
+      }}
     >
-      {function (formik) {
+      {function () {
+        //it had formik here as param
+        //line 1-6 was having calssName of form.container
         return (
           <div className={styles.form_wrapper}>
-            <div className={styles.form_container}>
+            <div>
               <div className={styles.title_container}>
                 <h2>Register an Instructor</h2>
               </div>

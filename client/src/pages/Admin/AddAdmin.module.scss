@@ -59,6 +59,7 @@ body {
     label {
         font-size: 12px;
     }
+	/*
 	.row {
 		margin: 10px -15px;
 		>div {
@@ -70,6 +71,7 @@ body {
 		width: 50%;
 		float: left;
 	}
+	*/
 	.input_field {
 		position: relative;
 		margin-bottom: 20px;       //Here i add the Spacing between the Textfields with eachOther
@@ -90,6 +92,7 @@ body {
 			}
 		}
 	}
+	/*
 	.textarea_field {
 		>span {
 			>i {
@@ -97,6 +100,7 @@ body {
 			}
 		}
 	}
+	*/
 	input {
     &[type="text"], &[type="email"], &[type="password"] {
       width: 100%;
@@ -154,13 +158,18 @@ body {
     }
   }
 }
+
+/*
 .form_container {
 	.row {
 		.col_half.last {
 			border-left: 1px solid $grey;
 		}
 	}
-}
+	
+}*/
+
+/*
 .checkbox_option{
     label{
         margin-right: 1em;
@@ -212,6 +221,8 @@ body {
     }
   }
 }
+*/
+/*
 .radio_option {
   label {
       margin-right: 1em;
@@ -239,7 +250,8 @@ body {
       border-color: $black;
     }
   }
-}
+}*/
+/*
 .select_option {
   position: relative;
   width: 100%;
@@ -268,6 +280,8 @@ body {
     }
   }
 }
+*/
+/*
 .select_arrow {
   position: absolute;
   top: calc(50% - 4px);
@@ -279,12 +293,17 @@ body {
   border-style: solid;
   border-color: #7b7b7b transparent transparent transparent;
 }
+*/
 
+/*
 .select_option select {
   &:hover + .select_arrow, &:focus + .select_arrow {
     border-top-color: $black;
   }
 }
+*/
+
+/*
 .credit {
 	position: relative;
 	z-index: 1;
@@ -295,6 +314,7 @@ body {
 		color: darken($formColor,7%);
 	}
 }
+*/
 @-webkit-keyframes check {
   0% { height: 0; width: 0; }
   25% { height: 0; width: 7px; }
@@ -340,18 +360,25 @@ body {
 	100% { -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); opacity: 1; }
 }
 @media (max-width: 600px) {
+	/*
 	.form_wrapper {
+		
 		.col_half {
 			width: 100%;
 			float: none;
 		}
+		
 	}
+	*/
+	/*
 	.bottom_row {
 		.col_half {
 			width: 50%;
 			float: left;
 		}
 	}
+	*/
+	/*
 	.form_container {
 		.row {
 			.col_half.last {
@@ -359,11 +386,15 @@ body {
 			}
 		}
 	}
+	*/
+	/*
 	.remember_me {
 		padding-bottom: 20px;
 	}
+	*/
 }
 
+/*
 .switch-field {
 	display: flex;
 	margin-bottom: 36px;
@@ -408,3 +439,4 @@ body {
 .switchfield label:last-of-type {
 	border-radius: 0 4px 4px 0;
 }
+*/

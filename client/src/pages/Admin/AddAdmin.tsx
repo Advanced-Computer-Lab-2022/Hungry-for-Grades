@@ -13,17 +13,14 @@ import styles from './AddAdmin.module.scss';
 
 import TextArea from './TextArea';
 
-
 import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 
 import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 
-
 export default function AddAdmin() {
-
-  const { mutateAsync : create } = usePostQuery();
+  const { mutateAsync: create } = usePostQuery();
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -106,47 +103,95 @@ export default function AddAdmin() {
         //('Internal Server Error', toastOptions);
       }}
     >
-        {
-            function(formik){
-                return(
-                  <>
-        <div className={styles.form_wrapper}>
-  <div className={styles.form_container}>
-    <div className={styles.title_container}>
-      <h2>Register a new Admin</h2>
-    </div>
-    <div className={`row ${styles.clearfix||''}`}>
-      <div className="">
-        <Form >
-          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
-            <TextArea name="firstName" placeholder="First Name" type="text" />
-          </div> 
-          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
-            <TextArea name="lastName" placeholder="Last Name" type="text" />
-          </div>  
-          <div className={styles.input_field}> <span><RiAccountCircleFill /></span>
-            <TextArea name="username" placeholder="User Name" type="text" />
-          </div>  
-          <div className={styles.input_field}> <span><FaEnvelope /></span>
-            <TextArea name="email" placeholder="Email" type="email" />
-          </div>
-          <div className={styles.input_field}><span> <FaLock /> </span>
-            <TextArea name="password" placeholder="Password" type="password" />
-          </div>
-          <div className={styles.input_field}> <span> <FaLock /> </span>
-            <TextArea name="confirmPassword" placeholder="Re-type Password" type="password" />
-          </div>
-          <input className = "button" type="submit"  />
-        </Form>
-      </div>
-    </div>
-    
-  </div>
-</div>
-</>
-           );
-                }
-}
+      {function () {
+        //this had formik as parameter but removed for eslint
+        //line 112 was of className styles = form.container
+        return (
+          <>
+            <div className={styles.form_wrapper}>
+              <div>
+                <div className={styles.title_container}>
+                  <h2>Register a new Admin</h2>
+                </div>
+                <div className={`row ${styles.clearfix || ''}`}>
+                  <div className=''>
+                    <Form>
+                      <div className={styles.input_field}>
+                        {' '}
+                        <span>
+                          <RiAccountCircleFill />
+                        </span>
+                        <TextArea
+                          name='firstName'
+                          placeholder='First Name'
+                          type='text'
+                        />
+                      </div>
+                      <div className={styles.input_field}>
+                        {' '}
+                        <span>
+                          <RiAccountCircleFill />
+                        </span>
+                        <TextArea
+                          name='lastName'
+                          placeholder='Last Name'
+                          type='text'
+                        />
+                      </div>
+                      <div className={styles.input_field}>
+                        {' '}
+                        <span>
+                          <RiAccountCircleFill />
+                        </span>
+                        <TextArea
+                          name='username'
+                          placeholder='User Name'
+                          type='text'
+                        />
+                      </div>
+                      <div className={styles.input_field}>
+                        {' '}
+                        <span>
+                          <FaEnvelope />
+                        </span>
+                        <TextArea
+                          name='email'
+                          placeholder='Email'
+                          type='email'
+                        />
+                      </div>
+                      <div className={styles.input_field}>
+                        <span>
+                          {' '}
+                          <FaLock />{' '}
+                        </span>
+                        <TextArea
+                          name='password'
+                          placeholder='Password'
+                          type='password'
+                        />
+                      </div>
+                      <div className={styles.input_field}>
+                        {' '}
+                        <span>
+                          {' '}
+                          <FaLock />{' '}
+                        </span>
+                        <TextArea
+                          name='confirmPassword'
+                          placeholder='Re-type Password'
+                          type='password'
+                        />
+                      </div>
+                      <input className='button' type='submit' />
+                    </Form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      }}
     </Formik>
   );
 }

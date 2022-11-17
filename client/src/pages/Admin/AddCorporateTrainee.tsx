@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 
 import { Formik, Form } from 'formik';
 
-// eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
 
 import styles from './AddAdmin.module.scss';
@@ -20,8 +19,7 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 
 export default function AddCorporateTrainee() {
-
-  const { mutateAsync : create, isError, data } = usePostQuery();
+  const { mutateAsync: create } = usePostQuery(); //here it was having isError and data but were never called
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -55,48 +53,60 @@ export default function AddCorporateTrainee() {
         confirmPassword: ''
       }}
       validationSchema={validate}
-      onSubmit={
-        async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
-        {
-          const AdminRoute = Object.assign({}, AdminRoutes.POST.createCorporateTrainee);
-          AdminRoute.payload = {
-            email: {
-              address: values.email
-            },
-            password: values.password,
-            username : values.username,
-            name : values.firstName + values.lastName,
-            address: {
-              city: '',
-              country: ''
-            },
-            role:'Trainee'
-          };
+      onSubmit={async function (
+        values: {
+          firstName: string;
+          lastName: string;
+          username: string;
+          email: string;
+          password: string;
+          confirmPassword: string;
+        },
+        actions
+      ) {
+        const AdminRoute = Object.assign(
+          {},
+          AdminRoutes.POST.createCorporateTrainee
+        );
+        AdminRoute.payload = {
+          email: {
+            address: values.email
+          },
+          password: values.password,
+          username: values.username,
+          name: values.firstName + values.lastName,
+          address: {
+            city: '',
+            country: ''
+          },
+          role: 'Trainee'
+        };
 
-      
-          try{ 
-            await toast.promise(create(AdminRoute),
+        try {
+          await toast.promise(
+            create(AdminRoute),
             {
-            pending:'Pending',
-            success:'Corporate Trainee Added Successfuly',
-            
-          }, toastOptions)
+              pending: 'Pending',
+              success: 'Corporate Trainee Added Successfuly'
+            },
+            toastOptions
+          );
           actions.resetForm();
-        } //AxiosResponse
-          catch(err)
-          {
-            toast.error(err.response.data.message, toastOptions);
-          }
-        
+        } catch (err) {
+          //AxiosResponse
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+          toast.error(err.response.data.message, toastOptions);
+        }
 
-          //('Internal Server Error', toastOptions);
-        } 
-    }
+        //('Internal Server Error', toastOptions);
+      }}
     >
-      {function (formik) {
+      {function () {
+        //formik was here as param
+        //line 108 it was className styles.form_container
         return (
           <div className={styles.form_wrapper}>
-            <div className={styles.form_container}>
+            <div>
               <div className={styles.title_container}>
                 <h2>Register a Corporate Trainee</h2>
               </div>

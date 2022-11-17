@@ -278,7 +278,6 @@ function LessonsForm(
           />
           {props.values.sections[props.sectionIndex]?.lessons.map(
             (lesson, index) => (
-              
               <div
                 key={lesson.uid}
                 className='row rounded-1 border border-secondary my-2 py-2'

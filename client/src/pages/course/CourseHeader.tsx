@@ -42,9 +42,7 @@ function CourseHeader(props: ICourse) {
         Duration: &nbsp;
         {formatDuration(props.duration)}
       </div>
-      <Price
-        {...props.price}
-      />
+      <Price {...props.price} />
     </div>
   );
 }

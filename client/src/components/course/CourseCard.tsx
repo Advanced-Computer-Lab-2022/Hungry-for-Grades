@@ -9,7 +9,6 @@ import CourseCardOverlay from './CourseCardOverlay';
 
 import styles from './courseCard.module.scss';
 
-
 import Instructors from './Instructor';
 
 import Price from './Price';
@@ -74,9 +73,7 @@ function CourseCard(props: CourseCardProps) {
               />
             </div>
             <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-              <strong>
-                Duration: {formatDuration(props.duration)}
-              </strong>
+              <strong>Duration: {formatDuration(props.duration)}</strong>
             </div>
             <CourseRating {...props.rating} />
             <Price {...props.price} />

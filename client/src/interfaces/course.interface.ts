@@ -4,6 +4,8 @@ import { IUser } from '@/interfaces/user.interface';
 
 import { Level } from '@/enums/level.enum';
 
+//import { PaginatedResponse } from './response.interface';
+
 interface ICourseFilters extends PaginatedRequest {
   category?: string;
   country?: string;
@@ -88,7 +90,7 @@ export type ICourseExercise = {
   title: string;
   numberOfQuestions: number;
   questions: ICourseQuestion[];
-}
+};
 
 export type ICourseSection = {
   description: string;
