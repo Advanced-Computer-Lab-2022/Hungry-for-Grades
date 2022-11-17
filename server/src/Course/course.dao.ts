@@ -72,7 +72,8 @@ class CourseService {
     let queryResult: Course[] = [];
     try {
       queryResult = await courseModel.aggregate(aggregateQuery);
-    } catch {
+    } catch (error) {
+      //console.log(error.message);
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
 
@@ -245,11 +246,10 @@ class CourseService {
     const deletedCourse: Course = await courseModel.findByIdAndDelete(courseId);
     if (!deletedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-
     //Delete course from instructor's teached courses
     await instructorModel.updateOne(
       { _teachedCourses: { $elemMatch: { _course: deletedCourse._id } } },
-      { $pull: { _teachedCourses: { _course: deletedCourse._id } } }
+      { $pull: { _teachedCourses: { _course: deletedCourse._id } } },
     );
     return deletedCourse;
   };

@@ -67,7 +67,7 @@ export function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
 
   // Parse Numbers sent in query
   for (const key in filters) {
-    if (!isNaN(parseInt(filters[key as string]))) filters[key as string] = parseInt(filters[key as string]);
+    if (!isNaN(parseFloat(filters[key as string]))) filters[key as string] = parseFloat(filters[key as string]);
   }
   return filters;
 }
@@ -90,8 +90,9 @@ export function generateCoursesFilterQuery(filters: CourseFilters) {
   if (level != undefined) filterQuery['level'] = { $eq: level };
   if (subcategory != undefined) filterQuery['subcategory'] = { $eq: subcategory };
 
+  filterQuery['rating.averageRating'] = { $gte: filters.rating };
   filterQuery['duration'] = { $gte: filters.durationLow, $lte: filters.durationHigh };
-  // Handles Paid or Free courses only
+
   // Discount should be applied & currency converted if price ranges are specified
   filterQuery['price.currentValue'] = { $gte: filters.priceLow, $lte: filters.priceHigh };
 

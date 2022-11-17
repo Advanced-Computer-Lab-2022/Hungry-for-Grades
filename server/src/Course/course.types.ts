@@ -7,9 +7,11 @@ export interface CourseFilters extends PaginatedRequest {
   durationLow: number;
   level: Level;
   priceHigh: number;
-  priceLow: number; // Price handled as Free or Paid
+  priceLow: number;
+  rating: number;
   searchTerm: string;
-  sortBy: number; // 0 for Most Purchased, 1 for Most Rated, -1 don't sort
+  sortBy: number;
+  // 0 for Most Purchased, 1 for Most Rated, -1 don't sort
   subcategory: string;
 }
 
@@ -23,6 +25,7 @@ export const CourseFiltersDefault: CourseFilters = {
   page: 1,
   priceHigh: 1e5,
   priceLow: 0,
+  rating: 0,
   searchTerm: '',
   sortBy: -1,
   subcategory: undefined,
