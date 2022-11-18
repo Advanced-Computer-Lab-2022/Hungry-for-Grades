@@ -91,3 +91,8 @@ export type Discount = {
   percentage: number;
   startDate: Date;
 };
+
+export type Category = {
+  name: string;
+  subcategories: string[];
+};
