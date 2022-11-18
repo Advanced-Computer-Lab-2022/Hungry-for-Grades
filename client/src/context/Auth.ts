@@ -9,7 +9,7 @@ const Auth = ({ allowedRoles }) => {
 
   return allowedRoles.find((role) => auth.role.includes(role)) ? (
     <Outlet />
-  ) : auth?.name ? (
+  ) : auth?._id ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />
   ) : (
     <Navigate to="/register" state={{ from: location }} replace />

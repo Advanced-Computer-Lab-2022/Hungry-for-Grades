@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
-function PublicRoutes() {
+function AuthRoutes() {
   return (
     <Suspense fallback={<Loader />}>
       <Outlet />
@@ -11,4 +11,4 @@ function PublicRoutes() {
   );
 }
 
-export default PublicRoutes;
+export default AuthRoutes;

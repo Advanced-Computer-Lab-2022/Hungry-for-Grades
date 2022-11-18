@@ -14,8 +14,14 @@ function PaidFreeFilter(props: SearchSectionProps) {
         name={'paid'}
         required={false}
         onChange={function handleChange(e) {
+          const minValue =
+            e.target.checked && selectedFilters.free
+              ? selectedFilters.min
+              : e.target.checked
+              ? 1
+              : selectedFilters.min;
           setSelectedFilters(prev => {
-            return { ...prev, paid: e.target.checked };
+            return { ...prev, paid: e.target.checked, min: minValue };
           });
         }}
       />
@@ -28,8 +34,27 @@ function PaidFreeFilter(props: SearchSectionProps) {
         name={'free checkbox'}
         required={false}
         onChange={function handleChange(e) {
+          const minValue =
+            e.target.checked && selectedFilters.paid
+              ? selectedFilters.min
+              : e.target.checked
+              ? 0
+              : selectedFilters.min;
+
+          const maxValue =
+            e.target.checked && selectedFilters.paid
+              ? selectedFilters.max
+              : e.target.checked
+              ? 0
+              : selectedFilters.max;
+
           setSelectedFilters(prev => {
-            return { ...prev, free: e.target.checked };
+            return {
+              ...prev,
+              free: e.target.checked,
+              min: minValue,
+              max: maxValue
+            };
           });
         }}
       />

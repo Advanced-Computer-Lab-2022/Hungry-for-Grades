@@ -79,13 +79,17 @@ function SearchSection(props: SearchSectionProps) {
                 name='min'
                 value={selectedFilters.min}
                 onChangeFunc={function (event: ChangeEvent): void {
+                  const correctValue =
+                    parseInt(event.target.value) < selectedFilters.max
+                      ? parseInt(event.target.value)
+                      : selectedFilters.max;
+
                   const value =
                     selectedFilters.free && selectedFilters.paid
-                      ? event.target.value
-                      : selectedFilters.paid &&
-                        parseInt(event.target.value) === 0
+                      ? correctValue
+                      : selectedFilters.paid && correctValue === 0
                       ? 1
-                      : parseInt(event.target.value);
+                      : correctValue;
                   setSelectedFilters(prev => {
                     return { ...prev, [event.target.name]: value };
                   });
@@ -113,12 +117,18 @@ function SearchSection(props: SearchSectionProps) {
                 value={selectedFilters.max}
                 onChangeFunc={function (event: ChangeEvent): void {
                   setSelectedFilters(prev => {
+                    const correctValue =
+                      parseInt(event.target.value) > selectedFilters.min
+                        ? parseInt(event.target.value)
+                        : selectedFilters.max;
+
                     const value =
                       selectedFilters.free && selectedFilters.paid
-                        ? parseInt(event.target.value)
+                        ? correctValue
                         : selectedFilters.free
                         ? 0
-                        : parseInt(event.target.value);
+                        : correctValue;
+
                     return { ...prev, [event.target.name]: value };
                   });
                 }}
