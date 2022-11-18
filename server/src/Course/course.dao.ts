@@ -15,10 +15,11 @@ import {
   getCurrentPrice,
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
-import userModel from '@/User/user.model';
+import userModel from '@/User/user.schema';
 import { CategoryDTO, CourseDTO } from './course.dto';
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
+import traineeModel from '@/Trainee/trainee.model';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<Course>> => {
@@ -40,15 +41,6 @@ class CourseService {
           localField: '_instructor',
         },
       },
-      {
-        $lookup: {
-          as: '_instructor._user',
-          foreignField: '_id',
-          from: 'users',
-          localField: '_instructor._user',
-          pipeline: [{ $project: { name: 1 } }],
-        },
-      },
       { $project: { 'rating.reviews': 0 } },
       {
         $match: {
@@ -60,7 +52,7 @@ class CourseService {
               },
             },
             {
-              '_instructor._user': {
+              _instructor: {
                 $elemMatch: { name: { $options: 'i', $regex: searchTerm } },
               },
             },
@@ -170,15 +162,9 @@ class CourseService {
       .populate({
         model: instructorModel,
         path: '_instructor',
-        populate: {
-          model: userModel,
-          path: '_user',
-          select: { name: 1, profileImage: 1 },
-        },
-        select: { _user: 1, address: 1, 'rating.averageRating': 1 },
       })
       .populate({
-        model: userModel,
+        model: traineeModel,
         path: 'rating.reviews._user',
         select: { name: 1, profileImage: 1 },
       });
@@ -260,26 +246,26 @@ class CourseService {
     return categoryList;
   };
 
-  public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
-    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
-    if (!mongoose.Types.ObjectId.isValid(userReview._user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-    if (!(await userModel.findById(userReview._user))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
+  //   public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
+  //     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+  //     if (!mongoose.Types.ObjectId.isValid(userReview._user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+  //     if (!(await userModel.findById(userReview._user))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
 
-    const course = await courseModel.findById(courseId);
-    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+  //     const course = await courseModel.findById(courseId);
+  //     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-    course.rating.reviews.push(userReview);
-    const totalReviews = course.rating.reviews.length;
-    const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
-    course.rating.averageRating = Math.round(newRating * 100) / 100;
+  //     course.rating.reviews.push(userReview);
+  //     const totalReviews = course.rating.reviews.length;
+  //     const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
+  //     course.rating.averageRating = Math.round(newRating * 100) / 100;
 
-    course.save();
+  //     course.save();
 
-    return {
-      averageRating: course.rating.averageRating,
-      reviews: course.rating.reviews.slice(-1),
-    };
-  };
+  //     return {
+  //       averageRating: course.rating.averageRating,
+  //       reviews: course.rating.reviews.slice(-1),
+  //     };
+  //   };
+  // }
 }
-
 export default CourseService;

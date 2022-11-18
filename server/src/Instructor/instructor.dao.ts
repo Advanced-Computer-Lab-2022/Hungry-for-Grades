@@ -1,11 +1,10 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import instructorModel from '@/Instructor/instructor.model';
-import { CreateUserDto } from '@/User/user.dto';
-import { IUser } from '@/User/user.interface';
-import userModel from '@/User/user.model';
+
+import userModel from '@/User/user.schema';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { IInstructor } from '@Instructor/instructor.interface';
-import { hash } from 'bcrypt';
+
 import mongoose from 'mongoose';
 import { isEmpty } from '../Utils/util';
 import { CreateInstructorDTO } from './instructor.dto';

@@ -7,7 +7,6 @@ import { Course } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
-import { Types } from 'mongoose';
 import { ITeachedCourse } from '@/Instructor/instructor.interface';
 import { CategoryDTO, CourseDTO } from './course.dto';
 
@@ -133,20 +132,21 @@ class CourseController {
     }
   };
 
-  public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
-    try {
-      const userReview: Review = req.body;
-      const courseId: string = req.params.id;
+  //   public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+  //     try {
+  //       const userReview: Review = req.body;
+  //       const courseId: string = req.params.id;
 
-      const courseRating = await this.courseService.addRating(courseId, userReview);
-      res.status(201).json({
-        data: courseRating,
-        message: 'Completed Successfully',
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //       const courseRating = await this.courseService.addRating(courseId, userReview);
+  //       res.status(201).json({
+  //         data: courseRating,
+  //         message: 'Completed Successfully',
+  //         success: true,
+  //       });
+  //     } catch (error) {
+  //       next(error);
+  //     }
+  //   };
+  // }
 }
 export default CourseController;
