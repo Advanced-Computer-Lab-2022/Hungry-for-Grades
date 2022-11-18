@@ -13,6 +13,9 @@ export function useSeletedFilters() {
     sortBy: 0,
     durationLow: 0,
     durationHigh: 12,
-    country: 'CA'
+    country: 'CA',
+    rating: 0,
+    min: 0,
+    max: 1000
   });
 }

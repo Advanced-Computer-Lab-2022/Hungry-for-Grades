@@ -1,0 +1,118 @@
+.left-image-decor {
+    background-image: url(..//left-bg-decor.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 100%;
+    display: inline-block;
+    height: 110%;
+    margin-top: -200px;
+}
+
+#about {
+    padding: 100px 0px;
+    position: relative;
+    z-index: 9;
+}
+
+@media (max-width: 992px) {
+    .features-item {
+        margin-bottom: 45px;
+    }
+}
+
+.features-item {
+    position: relative;
+    border-radius: 5px;
+    padding: 60px 30px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.features-item h2 {
+    z-index: 9;
+    position: absolute;
+    top: 15px;
+    left: 45px;
+    font-size: 100px;
+    font-weight: 600;
+    color: #fdefe9;
+}
+
+.features-item img {
+    z-index: 10;
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 40px;
+}
+
+.features-item h4 {
+    margin-top: 0px;
+    font-size: 22px;
+    color: #1e1e1e;
+    margin-bottom: 25px;
+}
+
+.features-item .main-button {
+    margin-top: 35px;
+    display: inline-block;
+}
+
+a.main-button-slider {
+    font-size: 14px;
+    border-radius: 25px;
+    padding: 15px 25px;
+    background-color: #fba70b;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+a.main-button-slider:hover {
+    background-color: #f1556a;
+}
+
+a.main-button {
+    font-size: 14px;
+    border-radius: 25px;
+    padding: 15px 25px;
+    background-color: #f4813f;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+a.main-button:hover {
+    background-color: #f1556a;
+}
+
+button.main-button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 25px;
+    padding: 15px 25px;
+    background-color: #f4813f;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 1px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+button.main-button:hover {
+    background-color: #f1556a;
+}

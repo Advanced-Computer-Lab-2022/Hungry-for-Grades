@@ -1,11 +1,9 @@
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './button.module.scss';
 import { type ButtonProps } from './types';
-
-import { customComparator } from '@/utils/comparator';
 
 function Button(props: ButtonProps) {
   const id = props.id || uuidv4();
@@ -20,7 +18,7 @@ function Button(props: ButtonProps) {
       id={id}
       name={props.name}
       type={props.type === 'submit' ? 'submit' : 'button'}
-      onBlur={props.onBlurFunc}
+      onBlur={props.onBlurFunc ?? undefined}
       onClick={async event => {
         try {
           event.preventDefault();
@@ -59,6 +57,7 @@ function Button(props: ButtonProps) {
         }
       }}
     >
+      {props.children}
       {isLoading && !isSuccess && (
         <>
           <span
@@ -84,4 +83,4 @@ function Button(props: ButtonProps) {
   );
 }
 
-export default memo(Button, customComparator);
+export default Button;
