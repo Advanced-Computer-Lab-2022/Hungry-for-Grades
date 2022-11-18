@@ -88,3 +88,8 @@ export type CategoryDTO = {
   label: string;
   subcategory: { label: string }[];
 };
+
+export type GetAllCoursesDTO = {
+  courses: Course[];
+  priceMax: number;
+};

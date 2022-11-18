@@ -27,19 +27,15 @@ class CourseController {
     }
   };
 
-  // get instructor courses for instructor dashboard
-  // public getInstructorCourses = async (req: Request<{instructorId:string}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
-  //   try {
-  //     const requestFilters: CourseFilters = req.query;
-  //     const newFilters = addDefaultValuesToCourseFilters(requestFilters);
-
-  //     const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getCoursesTaughtByInstructor(req.params.instructorId,newFilters);
-
-  //     res.json({ ...coursesPaginatedResponse, success:true, message:"Completed Successfully" });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  // get max course price
+  public getMaxCoursePrice = async (req: Request, res: Response<HttpResponse<number>>, next: NextFunction) => {
+    try {
+      const maxPrice = await this.courseService.getMaxPrice((req.query.country as string) ?? 'US');
+      res.json({ data: maxPrice, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getInstructorCourses = async (
     req: Request<{ instructorId: string }, {}, {}, CourseFilters>,

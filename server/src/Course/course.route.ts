@@ -17,6 +17,7 @@ class CoursesRoute implements Routes {
     this.router.get('', this.courseController.getAllCourses);
     this.router.post('/', validationMiddleware(CourseDTO, 'body'), this.courseController.createCourse);
     this.router.get('/category', this.courseController.getAllCategories);
+    this.router.get('/price/max', this.courseController.getMaxCoursePrice);
     this.router.post('/rating/:id', this.courseController.addRating);
     this.router.get('/instructor/:instructorId', this.courseController.getInstructorCourses);
     this.router.get('/:id', this.courseController.getCourseById);

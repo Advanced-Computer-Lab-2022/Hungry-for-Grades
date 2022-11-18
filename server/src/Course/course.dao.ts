@@ -98,41 +98,20 @@ class CourseService {
     };
   };
 
-  // public async getCoursesTaughtByInstructor(instructorId:string,filters: CourseFilters): Promise<PaginatedData<Course>> {
-  //   if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
-  //   if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
-
-  //   const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
-  //   const pageLimit: number = limit;
-  //   const toBeSkipped = (page - 1) * pageLimit;
-
-  //   const filterQuery = generateCoursesFilterQuery(filters);
-
-  //   filterQuery['_instructor'] = instructorId;
-  //   filterQuery['title'] = { $regex: searchTerm, $options: 'i' };
-
-  //   // console.log(filterQuery);
-  //   const sortQuery: any = generateCoursesSortQuery(sortBy);
-  //   // console.log(sortQuery);
-
-  //   const courses: Course[] = await courseModel.find(filterQuery,{'rating.reviews':0}).sort(sortQuery);
-
-  //   const totalPages = Math.ceil(courses.length / pageLimit);
-  //   const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
-
-  //    // Get price after discount then change it to the needed currency
-  //    for (const course of paginatedCourses) {
-  //     const newPrice: Price = await getCurrentPrice(course.price, country);
-  //     course.price =newPrice;
-  //   }
-
-  //   return {
-  //     data: paginatedCourses,
-  //     page,
-  //     pageSize: paginatedCourses.length,
-  //     totalPages,
-  //   };
-  // }
+  // get max price across all courses
+  public async getMaxPrice(country: string): Promise<number> {
+    const queryResult = await courseModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          maxPrice: { $max: '$price.currentValue' },
+        },
+      },
+    ]);
+    const conversionRate = await getConversionRate(country);
+    const maxPrice = queryResult[0].maxPrice * conversionRate;
+    return maxPrice;
+  }
 
   public async getCoursesTaughtByInstructor(instructorId: string, filters: CourseFilters): Promise<PaginatedData<ITeachedCourse>> {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
