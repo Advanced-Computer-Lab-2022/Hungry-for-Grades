@@ -1,12 +1,11 @@
-import { FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 
-// eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
 
 import styles from './AddAdmin.module.scss';
@@ -20,7 +19,7 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 
 export default function AddCorporateTrainee() {
-  const { mutateAsync: create, isError, data } = usePostQuery();
+  const { mutateAsync: create } = usePostQuery(); //here it was having isError and data but were never called
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -95,16 +94,19 @@ export default function AddCorporateTrainee() {
           actions.resetForm();
         } catch (err) {
           //AxiosResponse
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           toast.error(err.response.data.message, toastOptions);
         }
 
         //('Internal Server Error', toastOptions);
       }}
     >
-      {function (formik) {
+      {function () {
+        //formik was here as param
+        //line 108 it was className styles.form_container
         return (
           <div className={styles.form_wrapper}>
-            <div className={styles.form_container}>
+            <div>
               <div className={styles.title_container}>
                 <h2>Register a Corporate Trainee</h2>
               </div>

@@ -103,11 +103,13 @@ export default function AddAdmin() {
         //('Internal Server Error', toastOptions);
       }}
     >
-      {function (formik) {
+      {function () {
+        //this had formik as parameter but removed for eslint
+        //line 112 was of className styles = form.container
         return (
           <>
             <div className={styles.form_wrapper}>
-              <div className={styles.form_container}>
+              <div>
                 <div className={styles.title_container}>
                   <h2>Register a new Admin</h2>
                 </div>

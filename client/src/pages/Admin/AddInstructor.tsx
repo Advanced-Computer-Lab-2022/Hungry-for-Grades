@@ -1,10 +1,10 @@
-import { FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
@@ -20,8 +20,7 @@ import { toastOptions } from '@/components/toast/options';
 import usePostQuery from '@/hooks/usePostQuery';
 
 export default function AddInstructor() {
-  const { mutateAsync: create, isError, data } = usePostQuery();
-
+  const { mutateAsync: create } = usePostQuery();
   const validate = Yup.object({
     firstName: Yup.string()
       .min(2, 'First Name must at least 2 charactres')
@@ -92,16 +91,19 @@ export default function AddInstructor() {
           actions.resetForm();
         } catch (err) {
           //AxiosResponse
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           toast.error(err.response.data.message, toastOptions);
         }
 
         //('Internal Server Error', toastOptions);
       }}
     >
-      {function (formik) {
+      {function () {
+        //it had formik here as param
+        //line 1-6 was having calssName of form.container
         return (
           <div className={styles.form_wrapper}>
-            <div className={styles.form_container}>
+            <div>
               <div className={styles.title_container}>
                 <h2>Register an Instructor</h2>
               </div>

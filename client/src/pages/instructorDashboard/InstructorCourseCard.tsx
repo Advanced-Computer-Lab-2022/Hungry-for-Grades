@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import styles from './InstructorCourseCard.module.css';
 
+import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
+
 import { formatCurrency } from '@/utils/currency';
 
-function InstructorCourseCard(props: any) {
-  const data = props?.props?._course ?? '';
-  const earned = props?.props?.earning ?? '';
+// eslint-disable-next-line sonarjs/cognitive-complexity
+function InstructorCourseCard(
+  props: typeof InstructorRoutes.GET.getCourses.response.data[0]
+) {
+  const data = props?._course ?? '';
+  const earned = props.earning;
   const photo = data?.thumbnail ?? '';
   const title = data?.title ?? '';
   const price = data?.price ?? '';
   const enrolled = data?.numberOfEnrolledTrainees ?? '';
   const rating = data?.rating?.averageRating ?? '';
-  if (!props.props._course.price) return <></>;
+  if (!props._course.price) return <></>;
   return (
     <div>
       <div
@@ -79,14 +84,13 @@ function InstructorCourseCard(props: any) {
             </div>
           </div>
         </div>
-
-        <hr className={`d-md-block d-none ${styles.hr || ''}`} />
         <div
           className={`col d-flex align-center px-0 border-top border-bottom border-primary ${
             styles.border_div || ''
           }`}
           style={{ height: '8rem' }}
         >
+          <hr className={`d-md-block d-none ${styles.hr || ''}`} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div className={styles.partOne}>Course rating</div>
