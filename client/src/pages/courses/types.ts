@@ -10,4 +10,7 @@ export type SelectFiltersType = {
   country: string;
   durationLow: number;
   durationHigh: number;
+  rating: number;
+  min: number;
+  max: number;
 };

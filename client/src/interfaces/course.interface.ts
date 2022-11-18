@@ -88,7 +88,7 @@ export type ICourseExercise = {
   title: string;
   numberOfQuestions: number;
   questions: ICourseQuestion[];
-}
+};
 
 export type ICourseSection = {
   description: string;

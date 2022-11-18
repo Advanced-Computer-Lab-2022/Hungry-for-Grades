@@ -36,15 +36,19 @@ async function searchRequest(
 	&category=${filters.category}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
-	&priceLow=${filters.paid && filters.free ? 0 : filters.paid ? 1 : 0}
-	${filters.paid && filters.free ? '' : filters.free ? '&priceHigh=0' : ''}
+	&priceLow=${
+    filters.paid && filters.free ? filters.min : filters.paid ? 1 : filters.min
+  }
+	&priceHigh=${
+    filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
+  }
 	&sortBy=${filters.sortBy}
-	&durationLow=${filters.durationLow}
-	&durationHigh=${filters.durationHigh}
+	&durationLow=${(filters.durationLow ?? 0) * 60 * 24 * 30}
+	&durationHigh=${filters.durationHigh * 60 * 24 * 30}
 	&country=${filters.country}
 	&limit=${12}
 	&page=${page}`;
-  //alert(getCoursesSearchFilter.params);
+  //alert(getCoursesSearchFilter.query);
   return getRequest(getCoursesSearchFilter);
 }
 

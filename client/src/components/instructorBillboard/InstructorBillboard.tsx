@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import styles from './InstructorBillboard.module.css';
+import styles from './InstructorBillboard.module.scss';
 
 function InstructorBillboard() {
   return (

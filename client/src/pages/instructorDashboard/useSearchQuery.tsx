@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { type SelectFiltersType } from './types';
+
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 import { getRequest } from '@/services/axios/http-verbs';
-
-import { type SelectFiltersType } from './types';
 
 const id = '63545df5507c24fc734f65ee';
 

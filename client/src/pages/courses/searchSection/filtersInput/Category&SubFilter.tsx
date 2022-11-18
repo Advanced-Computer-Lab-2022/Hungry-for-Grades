@@ -13,7 +13,7 @@ function CategoryFilter(props: SearchSectionProps) {
     return <div>error</div>;
   }
   return (
-    <div className='d-flex flex-column justify-content-between w-100 gap-4'>
+    <>
       <div className='input-group w-100'>
         <label className='form-label' htmlFor='select-category'>
           Category
@@ -66,7 +66,7 @@ function CategoryFilter(props: SearchSectionProps) {
           }}
         />
       </div>
-    </div>
+    </>
   );
 }
 

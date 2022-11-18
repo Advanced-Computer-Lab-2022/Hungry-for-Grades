@@ -1,0 +1,31 @@
+.rating {
+    & div {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        button {
+            color: #c7c7c7;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            &:focus,
+            &:hover {
+                outline: none;
+                border: none;
+            }
+            & svg {
+                color: #c7c7c7;
+                cursor: pointer;
+            }
+            & svg:hover {
+                color: rgb(225, 190, 0);
+            }
+            & svg:hover~svg {
+                color: #c7c7c7;
+            }
+            .clickedstar {
+                color: rgb(212, 180, 0);
+            }
+        }
+    }
+}

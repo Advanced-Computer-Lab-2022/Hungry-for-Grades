@@ -20,8 +20,7 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 
 export default function AddCorporateTrainee() {
-
-  const { mutateAsync : create, isError, data } = usePostQuery();
+  const { mutateAsync: create, isError, data } = usePostQuery();
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -55,43 +54,52 @@ export default function AddCorporateTrainee() {
         confirmPassword: ''
       }}
       validationSchema={validate}
-      onSubmit={
-        async function (values: {firstName:string, lastName:string, username:string, email: string; password: string; confirmPassword: string;}, actions)
-        {
-          const AdminRoute = Object.assign({}, AdminRoutes.POST.createCorporateTrainee);
-          AdminRoute.payload = {
-            email: {
-              address: values.email
-            },
-            password: values.password,
-            username : values.username,
-            name : values.firstName + values.lastName,
-            address: {
-              city: '',
-              country: ''
-            },
-            role:'Trainee'
-          };
+      onSubmit={async function (
+        values: {
+          firstName: string;
+          lastName: string;
+          username: string;
+          email: string;
+          password: string;
+          confirmPassword: string;
+        },
+        actions
+      ) {
+        const AdminRoute = Object.assign(
+          {},
+          AdminRoutes.POST.createCorporateTrainee
+        );
+        AdminRoute.payload = {
+          email: {
+            address: values.email
+          },
+          password: values.password,
+          username: values.username,
+          name: values.firstName + values.lastName,
+          address: {
+            city: '',
+            country: ''
+          },
+          role: 'Trainee'
+        };
 
-      
-          try{ 
-            await toast.promise(create(AdminRoute),
+        try {
+          await toast.promise(
+            create(AdminRoute),
             {
-            pending:'Pending',
-            success:'Corporate Trainee Added Successfuly',
-            
-          }, toastOptions)
+              pending: 'Pending',
+              success: 'Corporate Trainee Added Successfuly'
+            },
+            toastOptions
+          );
           actions.resetForm();
-        } //AxiosResponse
-          catch(err)
-          {
-            toast.error(err.response.data.message, toastOptions);
-          }
-        
+        } catch (err) {
+          //AxiosResponse
+          toast.error(err.response.data.message, toastOptions);
+        }
 
-          //('Internal Server Error', toastOptions);
-        } 
-    }
+        //('Internal Server Error', toastOptions);
+      }}
     >
       {function (formik) {
         return (

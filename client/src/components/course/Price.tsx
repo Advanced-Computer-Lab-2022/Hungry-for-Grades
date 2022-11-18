@@ -5,7 +5,7 @@ import { getOriginalPrice } from '@/pages/landing/types';
 import { IPrice } from '@/interfaces/course.interface';
 
 function Price(props: IPrice) {
-  const originalPrice = getOriginalPrice(props)
+  const originalPrice = getOriginalPrice(props);
 
   if (originalPrice) {
     return (
