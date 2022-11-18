@@ -20,6 +20,7 @@ export function getOriginalPrice(price: IPrice): number | undefined {
 }
 
 export type CourseCardProps = {
+  previewVideoURL: string;
   id: string;
   title: string;
   instructor: Instructor | Instructor[];
@@ -45,6 +46,7 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     rating: course.rating,
     duration: course.duration,
     description: course.description,
-    outline: course.outline
+    outline: course.outline,
+    previewVideoURL: course.previewVideoURL
   };
 }

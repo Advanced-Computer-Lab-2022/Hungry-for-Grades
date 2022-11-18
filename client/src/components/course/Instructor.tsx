@@ -27,7 +27,11 @@ function Instructors(props: InstructorsProps) {
     <span>
       {users.map((user, index) => (
         <span key={user._id}>
-          <Link className={props.linkClassName} to={`/instructor/${user._id}`}>
+          <Link
+            className={props.linkClassName}
+            title={user.name}
+            to={`/instructor/${user._id}`}
+          >
             {user.name}
           </Link>
           {index < users.length - 1 ? `, ` : ``}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import LocalStorage from '@/services/localStorage/LocalStorage';
+
 function getStorageValue(key: string, defaultValue: string): string {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem(key);
-    if (saved === null) localStorage.setItem(key, defaultValue);
+    const saved = LocalStorage.get(key);
+    if (saved === null) LocalStorage.set(key, defaultValue);
     return saved !== null ? String(saved) : defaultValue;
   }
   return defaultValue;
@@ -13,14 +15,12 @@ function useLocalStorage(
   key: string,
   defaultValue: string
 ): [string, (newValue: string) => void] {
-  const STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
-
   const [value, setValue] = useState(() => {
-    return getStorageValue(STORAGE_KEYS_PREFIX + key, defaultValue);
+    return getStorageValue(key, defaultValue);
   });
 
   function setItem(newValue: string) {
-    localStorage.setItem(STORAGE_KEYS_PREFIX + key, newValue);
+    localStorage.setItem(key, newValue);
     setValue(newValue);
     window.location.reload();
   }

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
@@ -17,6 +18,8 @@ import './login.scss';
 function Login() {
   const { mutateAsync: login, isError, data } = usePostQuery();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from: string = location?.state?.from?.pathname || '/home';
   const formik = useFormik<LoginProps>({
     enableReinitialize: true,
     initialValues: {
@@ -55,11 +58,12 @@ function Login() {
     };
     const response = await login(loginRoute);
     if (response) {
-      navigate('/aadmin');
+      navigate(from, { replace: true });
+
       return true;
     }
     return false;
-  }, [navigate, formik, login]);
+  }, [navigate, formik, login, from]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
