@@ -1,21 +1,24 @@
+
 class LocalStorage {
-  storage: Storage;
+	storage: Storage;
 
-  constructor() {
-    this.storage = window.localStorage;
-  }
+	STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
 
-  get(key: string): string | null {
-    return this.storage.getItem(key);
-  }
+	constructor() {
+		this.storage = window.localStorage;
+	}
 
-  set(key: string, value: string) {
-    this.storage.setItem(key, value);
-  }
+	get(key: string): string | null {
+		return this.storage.getItem(this.STORAGE_KEYS_PREFIX + key);
+	}
 
-  remove(key: string) {
-    this.storage.removeItem(key);
-  }
+	set(key: string, value: string) {
+		this.storage.setItem(this.STORAGE_KEYS_PREFIX + key, value);
+	}
+
+	remove(key: string) {
+		this.storage.removeItem(this.STORAGE_KEYS_PREFIX + key);
+	}
 }
 
 export default new LocalStorage();

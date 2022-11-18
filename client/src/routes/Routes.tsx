@@ -27,10 +27,10 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructorDashboard/InstructorDashboard')
 );
-const LazyAddInstructor = lazy(() => import('@pages/Admin/AddInstructor'));
-const LazyAddAdmin = lazy(() => import('@pages/Admin/AddAdmin'));
+const LazyAddInstructor = lazy(() => import('@/pages/admin/AddInstructor'));
+const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
-  () => import('@pages/Admin/AddCorporateTrainee')
+  () => import('@/pages/admin/AddCorporateTrainee')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
