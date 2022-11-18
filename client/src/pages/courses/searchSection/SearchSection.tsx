@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { AiOutlineFilter } from 'react-icons/ai';
 
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
 import styles from './SearchSection.module.scss';
 
@@ -11,7 +11,13 @@ import DurationFilter from './filtersInput/DurationFilter';
 import LevelFilter from './filtersInput/LevelFilter';
 import PaidFreeFilter from './filtersInput/Paid&FreeFilter';
 import SortFilter from './filtersInput/SortFilter';
+
 import { type SearchSectionProps } from './types';
+
+import Range from '@components/inputs/range/Range';
+
+import { ChangeEvent } from '@/components/common.types';
+import ControlledStarsRating from '@/components/starsRating/ControlledStarsRating';
 
 function SearchSection(props: SearchSectionProps) {
   const id = uuid();
@@ -61,11 +67,64 @@ function SearchSection(props: SearchSectionProps) {
               styles.filters ?? ''
             }`}
           >
-            <CategoryFilter
-              selectedFilters={selectedFilters}
-              setSelectedFilters={setSelectedFilters}
-            />
-            <div className='d-flex flex-column gap-4 w-100'>
+            <div className='d-flex flex-column gap-4 w-33 '>
+              <CategoryFilter
+                selectedFilters={selectedFilters}
+                setSelectedFilters={setSelectedFilters}
+              />
+              <Range
+                label='Min Price'
+                max={100}
+                min={0}
+                name='min'
+                value={selectedFilters.min}
+                onChangeFunc={function (event: ChangeEvent): void {
+                  const value =
+                    selectedFilters.free && selectedFilters.paid
+                      ? event.target.value
+                      : selectedFilters.paid &&
+                        parseInt(event.target.value) === 0
+                      ? 1
+                      : parseInt(event.target.value);
+                  setSelectedFilters(prev => {
+                    return { ...prev, [event.target.name]: value };
+                  });
+                }}
+              />
+            </div>
+            <div className='d-flex flex-column gap-4 w-33'>
+              <SortFilter
+                selectedFilters={selectedFilters}
+                setSelectedFilters={setSelectedFilters}
+              />
+              <ControlledStarsRating
+                rating={selectedFilters.rating}
+                setRating={function (value: SetStateAction<number>): void {
+                  setSelectedFilters(prev => {
+                    return { ...prev, rating: value };
+                  });
+                }}
+              />
+              <Range
+                label='Max Price'
+                max={100}
+                min={0}
+                name='max'
+                value={selectedFilters.max}
+                onChangeFunc={function (event: ChangeEvent): void {
+                  setSelectedFilters(prev => {
+                    const value =
+                      selectedFilters.free && selectedFilters.paid
+                        ? parseInt(event.target.value)
+                        : selectedFilters.free
+                        ? 0
+                        : parseInt(event.target.value);
+                    return { ...prev, [event.target.name]: value };
+                  });
+                }}
+              />
+            </div>
+            <div className='d-flex flex-column gap-4 w-33'>
               <LevelFilter
                 selectedFilters={selectedFilters}
                 setSelectedFilters={setSelectedFilters}
@@ -74,12 +133,7 @@ function SearchSection(props: SearchSectionProps) {
                 selectedFilters={selectedFilters}
                 setSelectedFilters={setSelectedFilters}
               />
-            </div>
-            <div className='d-flex flex-column gap-4 w-100'>
-              <SortFilter
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
-              />
+
               <PaidFreeFilter
                 selectedFilters={selectedFilters}
                 setSelectedFilters={setSelectedFilters}

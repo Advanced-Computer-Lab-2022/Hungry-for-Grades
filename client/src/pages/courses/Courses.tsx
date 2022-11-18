@@ -30,11 +30,13 @@ function SearchCourses() {
           {data && (
             <>
               <CoursesSection {...data.data} />
-              <Pagination
-                activePage={activePage}
-                pages={data?.data?.totalPages as number}
-                setActivePage={setActivePage}
-              />
+              {data?.data?.length > 11 && (
+                <Pagination
+                  activePage={activePage}
+                  pages={data?.data?.totalPages as number}
+                  setActivePage={setActivePage}
+                />
+              )}
             </>
           )}
           {error && <div>Error: </div>}

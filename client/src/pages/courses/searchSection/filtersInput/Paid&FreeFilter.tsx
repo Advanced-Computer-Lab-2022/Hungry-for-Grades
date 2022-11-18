@@ -4,7 +4,7 @@ import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 function PaidFreeFilter(props: SearchSectionProps) {
   const { setSelectedFilters, selectedFilters } = props;
   return (
-    <div className='w-10'>
+    <div className='w-20 d-flex flex-column gap-1 pt-2 my-0'>
       <CheckBoxInput
         checked={selectedFilters.paid}
         className={''}

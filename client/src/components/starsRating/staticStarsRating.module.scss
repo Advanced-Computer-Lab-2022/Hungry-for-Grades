@@ -1,0 +1,26 @@
+.rating {
+    button {
+        color: #c7c7c7;
+        cursor: pointer;
+        outline: none;
+        border: none;
+    }
+    div {
+        width: 100px;
+        display: flex;
+        flex-direction: row;
+    }
+    & svg {
+        color: #c7c7c7;
+        cursor: pointer;
+    }
+    & div {
+        width: 120px;
+    }
+    & div:hover svg {
+        color: rgb(212, 180, 0);
+    }
+    & svg:hover~svg {
+        color: #c7c7c7;
+    }
+}

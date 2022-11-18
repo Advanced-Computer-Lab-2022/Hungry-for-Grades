@@ -1,10 +1,10 @@
-import { FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 import { RiAccountCircleFill } from 'react-icons/ri';
 
 import * as Yup from 'yup';
 
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
