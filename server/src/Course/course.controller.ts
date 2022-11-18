@@ -9,7 +9,7 @@ import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
 import { Types } from 'mongoose';
 import { ITeachedCourse } from '@/Instructor/instructor.interface';
-import { CourseDTO } from './course.dto';
+import { CategoryDTO, CourseDTO } from './course.dto';
 
 class CourseController {
   public courseService = new courseService();
@@ -124,7 +124,7 @@ class CourseController {
     }
   };
 
-  public getAllCategories = async (req: Request, res: Response<HttpResponse<Category[]>>, next: NextFunction) => {
+  public getAllCategories = async (req: Request, res: Response<HttpResponse<CategoryDTO[]>>, next: NextFunction) => {
     try {
       const categoryList = await this.courseService.getAllCategories();
       res.json({

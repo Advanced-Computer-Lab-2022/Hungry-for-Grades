@@ -16,8 +16,9 @@ import {
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.model';
-import { CourseDTO } from './course.dto';
+import { CategoryDTO, CourseDTO } from './course.dto';
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
+import categories from '@Course/category.json';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<Course>> => {
@@ -262,21 +263,21 @@ class CourseService {
     return deletedCourse;
   };
 
-  public getAllCategories = async (): Promise<Category[]> => {
-    let categoryList: Category[] = [];
-    await courseModel.aggregate(
-      [
-        { $unwind: '$subcategory' },
-        { $group: { _id: { cat: '$category', subcat: '$subcategory' } } },
-        { $group: { _id: '$_id.cat', subcat: { $push: { label: '$_id.subcat' } } } },
-        { $project: { _id: 0, label: '$_id', subcategory: '$subcat' } },
-      ],
-      (err: any, result: Category[]) => {
-        if (err) throw new HttpException(500, 'Internal error occured while fetching from database');
-        categoryList = result;
-      },
-    );
+  public getAllCategories = async (): Promise<CategoryDTO[]> => {
+    const categoryList: CategoryDTO[] = [];
 
+    for (const category of categories) {
+      const categoryDTO: CategoryDTO = {
+        label: category.name,
+        subcategory: [],
+      };
+      const subcategoryList = [];
+      for (const subcat of category.subcategory) {
+        subcategoryList.push({ label: subcat });
+      }
+      categoryDTO['subcategory'] = subcategoryList;
+      categoryList.push(categoryDTO);
+    }
     return categoryList;
   };
 

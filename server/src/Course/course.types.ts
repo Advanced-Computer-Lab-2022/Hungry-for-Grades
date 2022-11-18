@@ -33,5 +33,5 @@ export const CourseFiltersDefault: CourseFilters = {
 
 export type Category = {
   name: string;
-  subcat: string[];
+  subcategory: string[];
 };
