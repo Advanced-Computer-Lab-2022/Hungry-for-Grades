@@ -3,7 +3,6 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
-
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
