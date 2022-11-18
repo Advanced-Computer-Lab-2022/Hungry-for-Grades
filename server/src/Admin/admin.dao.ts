@@ -2,17 +2,16 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
-import userService from '@/User/users.dao';
 import AuthService from '@/Authentication/auth.dao';
 import { IUser } from '@/User/user.interface';
 import { Role } from '@/User/user.enum';
 import InstructorService from '@/Instructor/instructor.dao';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
-import mongoose from 'mongoose';
 import { IInstructor } from '@/Instructor/instructor.interface';
 import { CreateTraineeDTO } from '@/Trainee/trainee.dto';
 import TraineeService from '@/Trainee/trainee.dao';
-import { Trainee } from '@/Trainee/trainee.interface';
+import { ITrainee } from '@/Trainee/trainee.interface';
+import { IAdmin } from './admin.interface';
 
 class AdminService {
   public authService = new AuthService();
@@ -20,12 +19,11 @@ class AdminService {
   public traineeService = new TraineeService();
 
   //create admin service
-  public createAdmin = async (adminData: CreateUserDto): Promise<IUser> => {
+  public createAdmin = async (adminData: CreateUserDto): Promise<IAdmin> => {
     if (isEmpty(adminData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Admin data is empty');
     if (adminData.role != Role.ADMIN) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is not admin');
 
-    const createdUser = this.authService.signup(adminData);
-
+    const createdUser = this.authService.signup(adminData, Role.ADMIN);
     return createdUser;
   };
 
@@ -34,21 +32,20 @@ class AdminService {
     if (isEmpty(instructorData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor data is empty');
     if (instructorData.role != Role.INSTRUCTOR) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is not instructor');
 
-    const createdUser = await this.authService.signup(instructorData);
-    const createdInstructor = await this.instructorService.createInstructor({ ...instructorData, _user: createdUser._id });
+    instructorData = { ...instructorData, rating: { averageRating: 0, reviews: [] } };
+    const createdInstructor = await this.authService.signup(instructorData, Role.INSTRUCTOR);
 
     return createdInstructor;
   };
 
   //create new trainee
-  public createCorporateTrainee = async (traineeData: CreateTraineeDTO): Promise<Trainee> => {
+  public createCorporateTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
     if (traineeData.role != Role.TRAINEE) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is not trainee');
 
-    const createdUser = await this.authService.signup(traineeData);
-    const createdCorporateTrainee = await this.traineeService.createCorporateTrainee({ ...traineeData, _user: createdUser._id });
+    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
 
-    return createdCorporateTrainee;
+    return createdTrainee;
   };
 }
 

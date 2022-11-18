@@ -13,7 +13,7 @@ class AuthController {
     try {
       logger.info('signUp');
       const userData: CreateUserDto = req.body;
-      const signUpUserData: IUser = await this.authService.signup(userData);
+      const signUpUserData: IUser = await this.authService.signup(userData, userData.role);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
@@ -41,20 +41,20 @@ class AuthController {
     }
   };
 
-  public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    try {
-      const userData: IUser = req.user;
-      const logOutUserData: IUser = await this.authService.logout(userData);
+  //   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  //     try {
+  //       const userData: IUser = req.user;
+  //       const logOutUserData: IUser = await this.authService.logout(userData);
 
-      res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(HttpStatusCodes.OK).json({
-        data: logOutUserData,
-        message: 'logout',
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //       res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
+  //       res.status(HttpStatusCodes.OK).json({
+  //         data: logOutUserData,
+  //         message: 'logout',
+  //       });
+  //     } catch (error) {
+  //       next(error);
+  //     }
+  //   };
+  // }
 }
-
 export default AuthController;
