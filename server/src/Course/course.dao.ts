@@ -39,6 +39,7 @@ class CourseService {
           foreignField: '_id',
           from: 'instructors',
           localField: '_instructor',
+          pipeline: [{ $project: { name: 1, profileImage: 1 } }],
         },
       },
       { $project: { 'rating.reviews': 0 } },

@@ -32,5 +32,5 @@ type SocialMedia = {
   github: string;
   linkedin: string;
   personalWebsite: string;
-  twitter: string;
+  youtube: string;
 };
