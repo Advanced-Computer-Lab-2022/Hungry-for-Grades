@@ -13,9 +13,6 @@ import { sign } from 'jsonwebtoken';
 import { Role } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
-import { ITrainee } from '@/Trainee/trainee.interface';
-import { IInstructor } from '@/Instructor/instructor.interface';
-import { IAdmin } from '@/Admin/admin.interface';
 
 class AuthService {
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
@@ -41,7 +38,6 @@ class AuthService {
     const userWithUsername: IUser = await userModel.findOne({
       username: userData.username,
     });
-
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
     const hashedPassword = await hash(userData.password, 10);

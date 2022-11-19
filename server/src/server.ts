@@ -11,7 +11,7 @@ import InstructorsRoute from '@Instructor/instructor.route';
 
 validateEnv();
 
-const app = new App([new InstructorsRoute(), new AuthRoute(), new AdminRoute(), new CoursesRoute()]);
+const app = new App([new AuthRoute(), new AdminRoute(), new CoursesRoute(), new InstructorsRoute()]);
 
 (async function connectToDatabase() {
   connect(dbConnection.url, dbConnection.options)
