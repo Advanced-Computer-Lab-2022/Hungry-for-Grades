@@ -8,6 +8,7 @@ export interface PaginatedData<T> {
   page: number;
   pageSize: number;
   totalPages: number;
+  totalResults: number;
 }
 
 export interface PaginatedResponse<T> extends PaginatedData<T> {

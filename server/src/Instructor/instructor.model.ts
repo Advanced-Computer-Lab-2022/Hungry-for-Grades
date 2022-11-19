@@ -72,7 +72,7 @@ const instructorSchema = new Schema<IInstructor>({
     },
     reviews: [
       {
-        _user: {
+        _trainee: {
           ref: 'Trainee',
           type: Schema.Types.ObjectId,
         },

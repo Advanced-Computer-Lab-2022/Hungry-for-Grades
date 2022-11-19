@@ -72,7 +72,8 @@ class CourseService {
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
 
-    const totalPages = Math.ceil(queryResult.length / pageLimit);
+    const totalCourses = queryResult.length;
+    const totalPages = Math.ceil(totalCourses / pageLimit);
     const paginatedCourses = queryResult.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     // Get price after discount then change it to the needed currency
@@ -81,13 +82,12 @@ class CourseService {
       course.price = newPrice;
     }
 
-    const pageSize = paginatedCourses.length;
-
     return {
       data: paginatedCourses,
       page,
-      pageSize,
+      pageSize: paginatedCourses.length,
       totalPages,
+      totalResults: totalCourses,
     };
   };
 
@@ -110,7 +110,7 @@ class CourseService {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
     if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
+    const { page, limit, searchTerm, sortBy, country } = filters;
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
@@ -132,7 +132,8 @@ class CourseService {
     //Remove nulls returned from mismatches when joining
     const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
 
-    const totalPages = Math.ceil(courses.length / pageLimit);
+    const totalCourses = courses.length;
+    const totalPages = Math.ceil(totalCourses / pageLimit);
     const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     //Get price after discount then change it to the needed currency
@@ -147,6 +148,7 @@ class CourseService {
       page,
       pageSize: paginatedCourses.length,
       totalPages,
+      totalResults: totalCourses,
     };
   }
 
@@ -247,26 +249,32 @@ class CourseService {
     return categoryList;
   };
 
-  //   public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
-  //     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
-  //     if (!mongoose.Types.ObjectId.isValid(userReview._user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-  //     if (!(await userModel.findById(userReview._user))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
+  public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-  //     const course = await courseModel.findById(courseId);
-  //     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    const traineeInfo = userReview._trainee;
+    if (!mongoose.Types.ObjectId.isValid(traineeInfo._id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+    if (!(await traineeModel.findById(traineeInfo._id))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
 
-  //     course.rating.reviews.push(userReview);
-  //     const totalReviews = course.rating.reviews.length;
-  //     const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
-  //     course.rating.averageRating = Math.round(newRating * 100) / 100;
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-  //     course.save();
+    course.rating.reviews.push(userReview);
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews.push(userReview);
 
-  //     return {
-  //       averageRating: course.rating.averageRating,
-  //       reviews: course.rating.reviews.slice(-1),
-  //     };
-  //   };
-  // }
+    await course.save();
+
+    //Get Trainee Info
+    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
+
+    return {
+      averageRating: course.rating.averageRating,
+      reviews: [userReview],
+    };
+  };
 }
+
 export default CourseService;

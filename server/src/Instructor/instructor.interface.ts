@@ -27,7 +27,7 @@ type BankAccount = {
   swiftCode: string;
 };
 
-type SocialMedia = {
+export type SocialMedia = {
   facebook: string;
   github: string;
   linkedin: string;
