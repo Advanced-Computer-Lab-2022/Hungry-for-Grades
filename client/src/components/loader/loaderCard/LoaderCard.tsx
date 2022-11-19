@@ -4,7 +4,11 @@ function LoaderCard() {
   const logo = import.meta.env.VITE_APP_LOGO_URL;
 
   return (
-    <article className='my-4 card rounded bg-light shadow'>
+    <article
+      className={`my-4 card rounded  shadow ${styles.conic ?? ''} ${
+        styles.conicDemo??''
+      }`}
+    >
       <div className='p-5 mx-auto'>
         <img
           alt='logo'

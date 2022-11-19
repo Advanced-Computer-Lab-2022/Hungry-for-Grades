@@ -1,8 +1,8 @@
-import { IsAlpha, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmptyObject, IsObject, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmptyObject, IsObject, IsOptional, IsString, MinLength } from 'class-validator';
 
 import { Gender, Role } from '@/User/user.enum';
+import { Address, IUser } from '@User/user.interface';
 import { Types } from 'mongoose';
-import { IUser, Address } from '@User/user.interface';
 
 export class CreateUserDto implements IUser {
   @IsOptional()

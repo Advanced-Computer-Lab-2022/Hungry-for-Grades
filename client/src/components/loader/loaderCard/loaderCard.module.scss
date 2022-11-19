@@ -1,28 +1,85 @@
+.conic {
+    position: relative;
+    z-index: 0;
+    margin: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 2rem;
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        left: 6px;
+        top: 6px;
+        width: calc(100% - 12px);
+        height: calc(100% - 12px);
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        z-index: -2;
+        left: -50%;
+        top: -50%;
+        width: 200%;
+        height: 200%;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-image: conic-gradient(transparent, rgba(200, 200, 200, 0.4), transparent 30%);
+        animation: rotate 4s linear infinite;
+        -webkit-animation: rotate 4s linear infinite;
+    }
+}
+
+.conicDemo::after {
+    animation: opacityChange 5s infinite linear;
+    -webkit-animation: opacityChange 5s infinite linear;
+}
+
+@keyframes opacityChange {
+    50% {
+        opacity: .5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
 .urls__blink {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .blink {
-  text-align: center;
-  background-color: #888;
-  color: #888;
-  animation: lds-ring 1.5s infinite;
-  -webkit-animation: blinking 1.5s infinite;
+    text-align: center;
+    background-color: #888;
+    color: #888;
+    animation: lds-ring 1.5s infinite;
+    -webkit-animation: blinking 1.5s infinite;
 }
 
 @keyframes blinking {
-  0% {
-    opacity: 0.2;
-  }
-  24% {
-    opacity: 0.3;
-  }
-  56% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.6;
-  }
+    0% {
+        opacity: 0.2;
+    }
+    24% {
+        opacity: 0.3;
+    }
+    56% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.6;
+    }
 }

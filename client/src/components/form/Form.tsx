@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import styles from './form.module.css';
+import styles from './form.module.scss';
 import { type FormProps } from './types';
 function Form(props: FormProps) {
   const id = props.id || uuidv4();

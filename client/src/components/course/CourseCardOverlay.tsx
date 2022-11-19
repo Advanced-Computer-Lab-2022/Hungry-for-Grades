@@ -8,7 +8,7 @@ function CourseCardOverlay(props: CourseCardProps) {
       <h4>{props.title}</h4>
       <img
         alt={props.title}
-        className={`card-img-top img-fluid `}
+        className={`card-img-top rounded img-fluid `}
         src={props.image && props.image.length > 0 ? props.image : COMPANY_LOGO}
         onError={e => {
           e.currentTarget.src = COMPANY_LOGO;
