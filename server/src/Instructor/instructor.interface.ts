@@ -1,11 +1,9 @@
 import { Rating } from '@/Common/Types/common.types';
 import { Course } from '@/Course/course.interface';
-import { Types } from 'mongoose';
+import { IUser } from '@/User/user.interface';
 
-export interface IInstructor {
-  _id: Types.ObjectId;
+export interface IInstructor extends IUser {
   _teachedCourses: ITeachedCourse[];
-  _user: Types.ObjectId;
   balance: number;
   bankAccount: BankAccount;
   biography: string;
