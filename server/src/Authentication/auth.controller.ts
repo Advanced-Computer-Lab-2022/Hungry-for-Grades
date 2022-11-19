@@ -24,7 +24,7 @@ class AuthController {
     }
   };
 
-  public logIn = async (req: Request, res: Response, next: NextFunction) => {
+  async logIn(req: Request, res: Response, next: NextFunction) {
     try {
       logger.info('login');
       const userData: UserLoginDTO = req.body;
@@ -39,7 +39,7 @@ class AuthController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {

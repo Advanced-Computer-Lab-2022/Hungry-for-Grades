@@ -6,7 +6,7 @@ function LoaderCard() {
   return (
     <article
       className={`my-4 card rounded  shadow ${styles.conic ?? ''} ${
-        styles.conicDemo??''
+        styles.conicDemo ?? ''
       }`}
     >
       <div className='p-5 mx-auto'>
