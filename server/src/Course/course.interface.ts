@@ -1,3 +1,4 @@
+import { IInstructor } from '@/Instructor/instructor.interface';
 import { Rating } from '@Common/Types/common.types';
 import { Types } from 'mongoose';
 
@@ -8,9 +9,8 @@ export enum Level {
 }
 
 export interface Course {
-  _corporate?: Types.ObjectId[];
   _id: Types.ObjectId;
-  _instructor: Types.ObjectId[];
+  _instructor: IInstructor[];
   announcements: Announcement[];
   captions: string[];
   category: string;
@@ -90,4 +90,9 @@ export type Discount = {
   endDate: Date;
   percentage: number;
   startDate: Date;
+};
+
+export type Category = {
+  name: string;
+  subcategories: string[];
 };

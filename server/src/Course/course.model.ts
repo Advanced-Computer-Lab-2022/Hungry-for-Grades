@@ -2,6 +2,7 @@ import { Course, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
+//balabizo
 const courseSchema = new Schema<Course>(
   {
     _instructor: [
@@ -91,8 +92,8 @@ const courseSchema = new Schema<Course>(
       },
       reviews: [
         {
-          _user: {
-            ref: 'User',
+          _trainee: {
+            ref: 'Trainee',
             type: Schema.Types.ObjectId,
           },
           comment: String,
@@ -178,18 +179,6 @@ courseSchema.pre('save', function (next) {
     next(error);
   }
 });
-
-// courseSchema.post('save', function(err, doc, next) {
-//   if (err.name === 'ValidationError') {
-//     for (let field in err.errors) {
-//       console.log(field);
-//       console.log(err.errors[field].message);
-//       next(err);
-//   }
-//   } else {
-//     next(err);
-//   }
-// });
 
 const courseModel = model<Course & Document>('Course', courseSchema);
 export default courseModel;

@@ -6,14 +6,15 @@ import { IUser } from '@/User/user.interface';
 import { IInstructor } from '@/Instructor/instructor.interface';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
 import { CreateTraineeDTO } from '@/Trainee/trainee.dto';
-import { Trainee } from '@/Trainee/trainee.interface';
+import { ITrainee } from '@/Trainee/trainee.interface';
+import { IAdmin } from './admin.interface';
 class AdminController {
   public adminService = new adminService();
 
   public createAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const adminData: CreateUserDto = req.body;
-      const createdAdmin: IUser = await this.adminService.createAdmin(adminData);
+      const createdAdmin: IAdmin = await this.adminService.createAdmin(adminData);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: createdAdmin,
@@ -43,7 +44,7 @@ class AdminController {
   public createCorporateTrainee = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const traineeData: CreateTraineeDTO = req.body;
-      const createdTrainee: Trainee = await this.adminService.createCorporateTrainee(traineeData);
+      const createdTrainee: ITrainee = await this.adminService.createCorporateTrainee(traineeData);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: createdTrainee,

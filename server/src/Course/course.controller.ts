@@ -7,9 +7,8 @@ import { Course } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
-import { Types } from 'mongoose';
 import { ITeachedCourse } from '@/Instructor/instructor.interface';
-import { CourseDTO } from './course.dto';
+import { CategoryDTO, CourseDTO } from './course.dto';
 
 class CourseController {
   public courseService = new courseService();
@@ -27,19 +26,15 @@ class CourseController {
     }
   };
 
-  // get instructor courses for instructor dashboard
-  // public getInstructorCourses = async (req: Request<{instructorId:string}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
-  //   try {
-  //     const requestFilters: CourseFilters = req.query;
-  //     const newFilters = addDefaultValuesToCourseFilters(requestFilters);
-
-  //     const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getCoursesTaughtByInstructor(req.params.instructorId,newFilters);
-
-  //     res.json({ ...coursesPaginatedResponse, success:true, message:"Completed Successfully" });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  // get max course price
+  public getMaxCoursePrice = async (req: Request, res: Response<HttpResponse<number>>, next: NextFunction) => {
+    try {
+      const maxPrice = await this.courseService.getMaxPrice((req.query.country as string) ?? 'US');
+      res.json({ data: maxPrice, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public getInstructorCourses = async (
     req: Request<{ instructorId: string }, {}, {}, CourseFilters>,
@@ -124,7 +119,7 @@ class CourseController {
     }
   };
 
-  public getAllCategories = async (req: Request, res: Response<HttpResponse<Category[]>>, next: NextFunction) => {
+  public getAllCategories = async (req: Request, res: Response<HttpResponse<CategoryDTO[]>>, next: NextFunction) => {
     try {
       const categoryList = await this.courseService.getAllCategories();
       res.json({
@@ -137,20 +132,21 @@ class CourseController {
     }
   };
 
-  public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
-    try {
-      const userReview: Review = req.body;
-      const courseId: string = req.params.id;
+  //   public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+  //     try {
+  //       const userReview: Review = req.body;
+  //       const courseId: string = req.params.id;
 
-      const courseRating = await this.courseService.addRating(courseId, userReview);
-      res.status(201).json({
-        data: courseRating,
-        message: 'Completed Successfully',
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
+  //       const courseRating = await this.courseService.addRating(courseId, userReview);
+  //       res.status(201).json({
+  //         data: courseRating,
+  //         message: 'Completed Successfully',
+  //         success: true,
+  //       });
+  //     } catch (error) {
+  //       next(error);
+  //     }
+  //   };
+  // }
 }
 export default CourseController;

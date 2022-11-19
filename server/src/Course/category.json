@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Web Development",
+    "subcategory": ["Frontend", "Backend", "Full Stack"]
+  },
+  {
+    "name": "Mobile Development",
+    "subcategory": ["Android", "IOS", "React Native"]
+  },
+  {
+    "name": "Data Science",
+    "subcategory": ["Machine Learning", "Data Analysis", "Data Visualization"]
+  },
+  {
+    "name": "Cloud Computing",
+    "subcategory": ["AWS", "Azure", "GCP"]
+  },
+  {
+    "name": "UI/UX Design",
+    "subcategory": ["Figma", "Adobe XD", "Sketch"]
+  },
+  {
+    "name": "Digital Marketing",
+    "subcategory": ["SEO", "SMO", "PPC"]
+  },
+  {
+    "name": "Programming Languages",
+    "subcategory": ["Python", "Java", "C++"]
+  },
+  {
+    "name": "Database",
+    "subcategory": ["MySQL", "MongoDB", "PostgreSQL"]
+  },
+  {
+    "name": "Operating System",
+    "subcategory": ["Windows", "Linux", "MacOS"]
+  },
+  {
+    "name": "Software Testing",
+    "subcategory": ["Manual Testing", "Automation Testing", "Selenium"]
+  },
+  {
+    "name": "Business",
+    "subcategory": ["Entrepreneurship", "Leadership", "Management"]
+  },
+  {
+    "name": "Personal Development",
+    "subcategory": ["Communication", "Time Management", "Self Development"]
+  }
+]

@@ -1,10 +1,9 @@
+import { IUser } from '@/User/user.interface';
 import { Types } from 'mongoose';
 
-export interface Trainee {
+export interface ITrainee extends IUser {
   _cart?: Cart;
   _enrolledCourses?: EnrolledCourse[];
-  _id: Types.ObjectId;
-  _user: Types.ObjectId;
   _wishlist?: WishList;
   balance: number;
   creditCards: CreditCard[];

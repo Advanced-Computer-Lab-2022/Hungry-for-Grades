@@ -1,14 +1,14 @@
 import { Suspense } from 'react';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
-
-import Cookie from '../services/cookie/Cookie';
 
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-function Auth() {
+import { UseIsAuthenticated } from '@store/authStore';
+
+/* function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,11 +23,14 @@ function Auth() {
 
     return false;
   }
-}
+} */
 
 function PrivateRoutes() {
-  if (!Auth()) {
-    return <Navigate to='/login' />;
+  const useIsAuthenticated = UseIsAuthenticated();
+  const location = useLocation();
+
+  if (useIsAuthenticated) {
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
   } else {
     return (
       <Suspense fallback={<Loader />}>

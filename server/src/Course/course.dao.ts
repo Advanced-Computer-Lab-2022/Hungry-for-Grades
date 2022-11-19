@@ -15,9 +15,11 @@ import {
   getCurrentPrice,
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
-import userModel from '@/User/user.model';
-import { CourseDTO } from './course.dto';
+import userModel from '@/User/user.schema';
+import { CategoryDTO, CourseDTO } from './course.dto';
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
+import categories from '@Course/category.json';
+import traineeModel from '@/Trainee/trainee.model';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<Course>> => {
@@ -37,15 +39,7 @@ class CourseService {
           foreignField: '_id',
           from: 'instructors',
           localField: '_instructor',
-        },
-      },
-      {
-        $lookup: {
-          as: '_instructor._user',
-          foreignField: '_id',
-          from: 'users',
-          localField: '_instructor._user',
-          pipeline: [{ $project: { name: 1 } }],
+          pipeline: [{ $project: { name: 1, profileImage: 1 } }],
         },
       },
       { $project: { 'rating.reviews': 0 } },
@@ -59,7 +53,7 @@ class CourseService {
               },
             },
             {
-              '_instructor._user': {
+              _instructor: {
                 $elemMatch: { name: { $options: 'i', $regex: searchTerm } },
               },
             },
@@ -78,7 +72,8 @@ class CourseService {
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
 
-    const totalPages = Math.ceil(queryResult.length / pageLimit);
+    const totalCourses = queryResult.length;
+    const totalPages = Math.ceil(totalCourses / pageLimit);
     const paginatedCourses = queryResult.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     // Get price after discount then change it to the needed currency
@@ -87,57 +82,35 @@ class CourseService {
       course.price = newPrice;
     }
 
-    const pageSize = paginatedCourses.length;
-
     return {
       data: paginatedCourses,
       page,
-      pageSize,
+      pageSize: paginatedCourses.length,
       totalPages,
+      totalResults: totalCourses,
     };
   };
 
-  // public async getCoursesTaughtByInstructor(instructorId:string,filters: CourseFilters): Promise<PaginatedData<Course>> {
-  //   if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
-  //   if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
-
-  //   const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
-  //   const pageLimit: number = limit;
-  //   const toBeSkipped = (page - 1) * pageLimit;
-
-  //   const filterQuery = generateCoursesFilterQuery(filters);
-
-  //   filterQuery['_instructor'] = instructorId;
-  //   filterQuery['title'] = { $regex: searchTerm, $options: 'i' };
-
-  //   // console.log(filterQuery);
-  //   const sortQuery: any = generateCoursesSortQuery(sortBy);
-  //   // console.log(sortQuery);
-
-  //   const courses: Course[] = await courseModel.find(filterQuery,{'rating.reviews':0}).sort(sortQuery);
-
-  //   const totalPages = Math.ceil(courses.length / pageLimit);
-  //   const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
-
-  //    // Get price after discount then change it to the needed currency
-  //    for (const course of paginatedCourses) {
-  //     const newPrice: Price = await getCurrentPrice(course.price, country);
-  //     course.price =newPrice;
-  //   }
-
-  //   return {
-  //     data: paginatedCourses,
-  //     page,
-  //     pageSize: paginatedCourses.length,
-  //     totalPages,
-  //   };
-  // }
+  // get max price across all courses
+  public async getMaxPrice(country: string): Promise<number> {
+    const queryResult = await courseModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          maxPrice: { $max: '$price.currentValue' },
+        },
+      },
+    ]);
+    const conversionRate = await getConversionRate(country);
+    const maxPrice = queryResult[0].maxPrice * conversionRate;
+    return maxPrice;
+  }
 
   public async getCoursesTaughtByInstructor(instructorId: string, filters: CourseFilters): Promise<PaginatedData<ITeachedCourse>> {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is empty');
     if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    const { page, limit, searchTerm, category, subcategory, level, sortBy, country } = filters;
+    const { page, limit, searchTerm, sortBy, country } = filters;
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
 
@@ -159,7 +132,8 @@ class CourseService {
     //Remove nulls returned from mismatches when joining
     const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
 
-    const totalPages = Math.ceil(courses.length / pageLimit);
+    const totalCourses = courses.length;
+    const totalPages = Math.ceil(totalCourses / pageLimit);
     const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     //Get price after discount then change it to the needed currency
@@ -174,6 +148,7 @@ class CourseService {
       page,
       pageSize: paginatedCourses.length,
       totalPages,
+      totalResults: totalCourses,
     };
   }
 
@@ -190,15 +165,9 @@ class CourseService {
       .populate({
         model: instructorModel,
         path: '_instructor',
-        populate: {
-          model: userModel,
-          path: '_user',
-          select: { name: 1, profileImage: 1 },
-        },
-        select: { _user: 1, address: 1, 'rating.averageRating': 1 },
       })
       .populate({
-        model: userModel,
+        model: traineeModel,
         path: 'rating.reviews._user',
         select: { name: 1, profileImage: 1 },
       });
@@ -262,28 +231,30 @@ class CourseService {
     return deletedCourse;
   };
 
-  public getAllCategories = async (): Promise<Category[]> => {
-    let categoryList: Category[] = [];
-    await courseModel.aggregate(
-      [
-        { $unwind: '$subcategory' },
-        { $group: { _id: { cat: '$category', subcat: '$subcategory' } } },
-        { $group: { _id: '$_id.cat', subcat: { $push: { label: '$_id.subcat' } } } },
-        { $project: { _id: 0, label: '$_id', subcategory: '$subcat' } },
-      ],
-      (err: any, result: Category[]) => {
-        if (err) throw new HttpException(500, 'Internal error occured while fetching from database');
-        categoryList = result;
-      },
-    );
+  public getAllCategories = async (): Promise<CategoryDTO[]> => {
+    const categoryList: CategoryDTO[] = [];
 
+    for (const category of categories) {
+      const categoryDTO: CategoryDTO = {
+        label: category.name,
+        subcategory: [],
+      };
+      const subcategoryList = [];
+      for (const subcat of category.subcategory) {
+        subcategoryList.push({ label: subcat });
+      }
+      categoryDTO['subcategory'] = subcategoryList;
+      categoryList.push(categoryDTO);
+    }
     return categoryList;
   };
 
   public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
-    if (!mongoose.Types.ObjectId.isValid(userReview._user)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-    if (!(await userModel.findById(userReview._user))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
+
+    const traineeInfo = userReview._trainee;
+    if (!mongoose.Types.ObjectId.isValid(traineeInfo._id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+    if (!(await traineeModel.findById(traineeInfo._id))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
@@ -292,12 +263,16 @@ class CourseService {
     const totalReviews = course.rating.reviews.length;
     const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
     course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews.push(userReview);
 
-    course.save();
+    await course.save();
+
+    //Get Trainee Info
+    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
 
     return {
       averageRating: course.rating.averageRating,
-      reviews: course.rating.reviews.slice(-1),
+      reviews: [userReview],
     };
   };
 }
