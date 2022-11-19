@@ -1,0 +1,27 @@
+.course_section
+{
+    width: 100%;
+    margin-right: auto;
+    //margin-left: auto;
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+    position: relative;
+    margin-top: 0.5rem;
+    max-width: 60.2rem;
+    padding-bottom: 2.8rem;
+    position: relative;
+    display: block;
+    h2{
+        padding-bottom: 2rem;
+        font-family: udemy sans,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.05rem;
+    }
+}
+
+.course_wrapper
+{
+    display: flex;
+    flex-wrap: wrap;
+}

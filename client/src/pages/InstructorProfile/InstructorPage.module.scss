@@ -7,10 +7,10 @@
     padding-left: 2.4rem;
     position: relative;
     margin-top: 4.8rem;
-    max-width: 80.2rem;
-    div{
-        display: block;
-    }
+    max-width: 70.2rem;
+    /*div{
+        //display: block;
+    }*/
 }
 
 .hero
@@ -93,38 +93,17 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    max-width: 54rem;
+    max-width: 42rem;
     font-weight: 350;
     font-size: 1.4rem;
     line-height: 2rem;
 }
 
-.course_section
+.social_wrapper
 {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 2.4rem;
-    padding-left: 2.4rem;
-    position: relative;
-    margin-top: 0.5rem;
-    max-width: 80.2rem;
-    padding-bottom: 2.8rem;
-    position: relative;
-    display: block;
-    h2{
-        padding-bottom: 2rem;
-        font-family: udemy sans,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
-        font-size: 1.4rem;
-        font-weight: 700;
-        letter-spacing: 0.05rem;
-    }
-
-}
-
-.course_wrapper
-{
-    display: flex;
-    flex-wrap: wrap;
+    padding-bottom: 4rem;
+    position: absolute;
+    right: 6rem;
+    top:16rem;
 }
 
