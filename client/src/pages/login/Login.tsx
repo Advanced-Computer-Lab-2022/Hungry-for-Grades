@@ -7,7 +7,9 @@ import { useCallback } from 'react';
 
 import { LoginProps } from './types';
 
-import { UserRoutes } from '@services/axios/dataServices/UserDataService';
+import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
+
+
 
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
@@ -49,7 +51,7 @@ function Login() {
 
   const handleSubmit = useCallback(async () => {
     const { email, password } = (await formik.submitForm()) as LoginProps;
-    const loginRoute = Object.assign({}, UserRoutes.POST.login);
+    const loginRoute = Object.assign({}, AuthRoutes.POST.login);
     loginRoute.payload = {
       email: {
         address: email

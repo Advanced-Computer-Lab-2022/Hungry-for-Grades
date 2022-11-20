@@ -6,6 +6,8 @@ import { type IAuth, type IToken } from '@interfaces/token.interface';
 import { Role } from '@enums/role.enum';
 
 import LocalStorage from '@services/localStorage/LocalStorage';
+import { getRequest } from '@/services/axios/http-verbs';
+import { AuthRoutes } from '@/services/axios/dataServices/AuthDataService';
 
 const INTIAL_TOKEN: IToken = {
   accessToken: '',
@@ -23,18 +25,21 @@ export const useAuthStore = create<
     persist(
       set => ({
         token: (LocalStorage.get('token') as IToken) ?? INTIAL_TOKEN,
-        isAuthenticated: (LocalStorage.get('token') )
-          ? true
-          : false,
+        isAuthenticated: LocalStorage.get('token') ? true : false,
         updateToken: token => {
           set({ token, isAuthenticated: true });
         },
         removeToken: () => {
           set({ token: INTIAL_TOKEN, isAuthenticated: false });
+        },
+        refresh: async () => {
+          const dataService = Object.assign({}, AuthRoutes.GET.refresh);
+          const response = await getRequest(dataService);
+          set({ token: response.data });
         }
       }),
       {
-        name: (STORAGE_KEYS_PREFIX + 'AUTH').toUpperCase(),
+        name: (STORAGE_KEYS_PREFIX + 'token').toUpperCase(),
         getStorage: () => localStorage
       }
     )
