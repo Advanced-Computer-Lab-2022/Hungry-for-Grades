@@ -4,6 +4,7 @@ import { Formik, Form, FieldArray, FormikProps } from 'formik';
 import { toast } from 'react-toastify';
 
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { BsFillTrashFill } from 'react-icons/bs';
 
 import TextField from '@/components/form/TextField';
 import {
@@ -244,7 +245,7 @@ function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
                   type='button'
                   onClick={() => remove(index)}
                 >
-                  X
+                  <BsFillTrashFill />
                 </button>
               </div>
             </div>

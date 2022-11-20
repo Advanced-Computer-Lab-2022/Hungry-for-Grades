@@ -55,14 +55,13 @@ function UserForm({
       age: Yup.number()
         .min(18, 'Age is Too Young!')
         .max(100, 'Age is Too Long!')
-        .required('Age is Required')
-
-      /*     phone: Yup.string()
+        .required('Age is Required'),
+      phone: Yup.string()
         .min(10, 'Phone is Too Short!')
         .max(10, 'Phone is Too Long!')
-        .required('Phone is Required') */
+        .required('Phone is Required')
     }),
-    onSubmit: (values, actions) => {
+    onSubmit: (_, actions) => {
       //  alert(JSON.stringify(values, null, 2));
       actions.setSubmitting(true);
     }
@@ -76,8 +75,8 @@ function UserForm({
       phone: true
     });
     formik.handleSubmit();
-    if (scrollToErrors(formik.errors) || formik.values.lastName === '') {
-      // alert(' errors');
+    if (scrollToErrors(formik.errors)) {
+      alert(' errors');
       event.stopPropagation();
       return;
     }
@@ -143,12 +142,11 @@ function UserForm({
       </div>
       <div className='d-flex flex-row justify-content-end my-4'>
         <Button
-          isDisabled={false}
-          isLoading={false}
-          isSuccess={false}
+          isDisabled
+          backgroundColor={'primary-bg'}
           label={'Next'}
           name={'next'}
-          type='button'
+          type={'button'}
           // eslint-disable-next-line @typescript-eslint/no-shadow, react/jsx-no-bind
           onClickFunc={handleSubmit}
         />

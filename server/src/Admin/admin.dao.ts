@@ -3,7 +3,6 @@ import { CreateUserDto } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import AuthService from '@/Authentication/auth.dao';
-import { IUser } from '@/User/user.interface';
 import { Role } from '@/User/user.enum';
 import InstructorService from '@/Instructor/instructor.dao';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';

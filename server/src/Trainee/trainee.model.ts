@@ -1,9 +1,7 @@
 import { requiredString } from '@Common/Models/common';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import { Document, model, Schema } from 'mongoose';
-import userSchema from '@/User/user.schema';
-import bcrypt from 'bcrypt';
-import { IUser } from '@/User/user.interface';
+import { hash, genSalt } from 'bcrypt';
 import { Gender } from '@/User/user.enum';
 import Email from '@/User/user.schema';
 
@@ -83,12 +81,14 @@ const traineeSchema = new Schema<ITrainee>(
   },
 );
 
-traineeSchema.pre('save', function (next) {
+traineeSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+  const salt = await genSalt();
+
   this.lastLogin = new Date();
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = await hash(this.password, salt);
   next();
 });
 
