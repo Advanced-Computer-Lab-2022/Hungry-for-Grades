@@ -46,7 +46,7 @@ adminSchema.pre('save', async function (next) {
   }
   const salt = await genSalt();
 
-  this.lastLogin = new Date();
+  // this.lastLogin = new Date();
   this.password = await hash(this.password, salt);
   next();
 });

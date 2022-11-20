@@ -4,7 +4,7 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
-import { EnrolledCourse, ITrainee } from './trainee.interface';
+import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -111,6 +111,95 @@ class TraineeController {
 
       const paginatedEnrolledCourses: PaginatedData<EnrolledCourse> = await this.traineeService.getTraineeEnrolledCourses(traineeId, page, pageLimit);
       res.status(HttpStatusCodes.CREATED).json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add to cart controller
+  public addCourseToCart = async (req: Request, res: Response<HttpResponse<Cart>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const courses: Cart = await this.traineeService.addToCart(traineeId, courseId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public addCourseToWishlist = async (req: Request, res: Response<HttpResponse<Wishlist>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const courses: Wishlist = await this.traineeService.addToWishlist(traineeId, courseId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // remove from cart controller
+  public removeCourseFromCart = async (req: Request, res: Response<HttpResponse<Cart>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const course: Cart = await this.traineeService.removeFromCart(traineeId, courseId);
+      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Removed from cart Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public removeCourseFromWishlist = async (req: Request, res: Response<HttpResponse<Wishlist>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const course: Wishlist = await this.traineeService.removeFromWishlist(traineeId, courseId);
+      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Removed from cart Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get cart controller
+  public getCart = async (req: Request, res: Response<HttpResponse<Cart>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courses: Cart = await this.traineeService.getCart(traineeId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getWishlist = async (req: Request, res: Response<HttpResponse<Cart>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courses: Cart = await this.traineeService.getWishlist(traineeId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //empty cart controller
+  public emptyCart = async (req: Request, res: Response<HttpResponse<Cart>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courses: Cart = await this.traineeService.emptyCart(traineeId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //empty wishlist
+  public emptyWishlist = async (req: Request, res: Response<HttpResponse<Wishlist>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courses: Wishlist = await this.traineeService.emptyWishlist(traineeId);
+      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

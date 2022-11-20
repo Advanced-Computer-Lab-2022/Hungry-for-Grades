@@ -6,17 +6,17 @@ import { Types } from 'mongoose';
 export interface ITrainee extends IUser {
   _cart?: Cart;
   _enrolledCourses?: EnrolledCourse[];
-  _wishlist?: WishList;
+  _wishlist?: Wishlist;
   balance: number;
   creditCards: CreditCard[];
   preferredSkills: string[];
 }
 
-type Cart = {
-  _course: Types.ObjectId[];
+export type Cart = {
+  _course: ICourse[];
 };
-type WishList = {
-  _course: Types.ObjectId[];
+export type Wishlist = {
+  _course: ICourse[];
 };
 
 export type EnrolledCourse = {

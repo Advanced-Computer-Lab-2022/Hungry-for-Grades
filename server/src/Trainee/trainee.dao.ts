@@ -4,7 +4,7 @@ import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import { CreateTraineeDTO } from './trainee.dto';
-import { EnrolledCourse, ITrainee } from './trainee.interface';
+import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -145,6 +145,97 @@ class TraineeService {
     await trainee.save();
 
     return course;
+  };
+
+  // add to cart
+  public addToCart = async (traineeId: string, courseId: string): Promise<Cart> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
+
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _cart: courseId } }, { new: true });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    return trainee._cart;
+  };
+  // add to wishlist
+  public addToWishlist = async (traineeId: string, courseId: string): Promise<Wishlist> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
+
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _wishlist: courseId } }, { new: true });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._wishlist;
+  };
+
+  //remove from cart
+  public removeFromCart = async (traineeId: string, courseId: string): Promise<Cart> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
+
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $pull: { _cart: courseId } }, { new: true });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._cart;
+  };
+
+  public removeFromWishlist = async (traineeId: string, courseId: string): Promise<Wishlist> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
+
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $pull: { _wishlist: courseId } }, { new: true });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._wishlist;
+  };
+
+  public getCart = async (traineeId: string): Promise<Cart> => {
+    const trainee = await traineeModel.findById(traineeId).populate({
+      path: '_cart',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: 'rating.averageRating price title description category subcategory thumbnail',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._cart;
+  };
+
+  public getWishlist = async (traineeId: string): Promise<Wishlist> => {
+    const trainee = await traineeModel.findById(traineeId).populate({
+      path: '_wishlist',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: 'rating.averageRating price title description category subcategory thumbnail',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._wishlist;
+  };
+
+  // empty wishlist
+  public emptyWishlist = async (traineeId: string): Promise<Wishlist> => {
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $set: { _wishlist: [] } });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._wishlist;
+  };
+
+  //empty cart
+  public emptyCart = async (traineeId: string): Promise<Cart> => {
+    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $set: { _cart: [] } });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee._cart;
   };
 }
 export default TraineeService;
