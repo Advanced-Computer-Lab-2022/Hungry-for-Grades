@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { Course } from '@Course/course.interface';
+import { ICourse } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -13,12 +13,12 @@ import { CategoryDTO, CourseDTO } from './course.dto';
 class CourseController {
   public courseService = new courseService();
 
-  public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<Course>>, next: NextFunction) => {
+  public getAllCourses = async (req: Request<{}, {}, {}, CourseFilters>, res: Response<PaginatedResponse<ICourse>>, next: NextFunction) => {
     try {
       const requestFilters: CourseFilters = req.query;
       const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
 
-      const coursesPaginatedResponse: PaginatedData<Course> = await this.courseService.getAllCourses(newFilters);
+      const coursesPaginatedResponse: PaginatedData<ICourse> = await this.courseService.getAllCourses(newFilters);
 
       res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
@@ -56,11 +56,11 @@ class CourseController {
     }
   };
 
-  public getCourseById = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
+  public getCourseById = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
       const country: string = req.query.country as string;
-      const courseData: Course = await this.courseService.getCourseById(courseId, country);
+      const courseData: ICourse = await this.courseService.getCourseById(courseId, country);
 
       res.json({
         data: courseData,
@@ -72,11 +72,11 @@ class CourseController {
     }
   };
 
-  public createCourse = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
+  public createCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const courseData: CourseDTO = req.body;
       const country = (req.query.country as string) ?? 'US';
-      const createdCourse: Course = await this.courseService.createCourse(courseData, country);
+      const createdCourse: ICourse = await this.courseService.createCourse(courseData, country);
 
       res.status(201).json({
         data: createdCourse,
@@ -88,11 +88,11 @@ class CourseController {
     }
   };
 
-  public updateCourse = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
+  public updateCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const courseData: Course = req.body;
-      const updatedCourse: Course = await this.courseService.updateCourse(courseId, courseData);
+      const courseData: ICourse = req.body;
+      const updatedCourse: ICourse = await this.courseService.updateCourse(courseId, courseData);
 
       res.json({
         data: updatedCourse,
@@ -104,10 +104,10 @@ class CourseController {
     }
   };
 
-  public deleteCourse = async (req: Request, res: Response<HttpResponse<Course>>, next: NextFunction) => {
+  public deleteCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const userId: string = req.params.id;
-      const deleteUserData: Course = await this.courseService.deleteCourse(userId);
+      const deleteUserData: ICourse = await this.courseService.deleteCourse(userId);
 
       res.status(HttpStatusCodes.ACCEPTED).json({
         data: deleteUserData,

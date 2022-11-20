@@ -8,7 +8,7 @@ export enum Level {
   INTERMEDIATE = 'Intermediate',
 }
 
-export interface Course {
+export interface ICourse {
   _id: Types.ObjectId;
   _instructor: IInstructor[];
   announcements: Announcement[];
