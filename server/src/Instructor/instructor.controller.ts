@@ -1,71 +1,39 @@
-import instructorService from '@/Instructor/instructor.dao';
-import { HttpResponse } from '@/Utils/HttpResponse';
-import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { RequestWithUser } from '@Authentication/auth.interface';
-import { IInstructor } from '@Instructor/instructor.interface';
-import { IUser } from '@User/user.interface';
-import { NextFunction, Response } from 'express';
+import InstructorService from '@Instructor/instructor.dao';
+import { HttpResponse } from '@Utils/HttpResponse';
+import { IInstructor, SocialMedia } from '@Instructor/instructor.interface';
+import { NextFunction, Request, Response } from 'express';
+import { Rating, Review } from '@/Common/Types/common.types';
+import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
+import { ReadableStreamBYOBRequest } from 'stream/web';
 
 class InstructorController {
-  public instructorService = new instructorService();
+  public instructorService = new InstructorService();
 
-  public async getInfo(req: RequestWithUser, res: Response<HttpResponse<IUser & IInstructor>>, next: NextFunction) {
+  public getInstructorbyId = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
     try {
-      const _user = `${req.user._id}` as string;
-      const instructor = await this.instructorService.findInstructorByUserId(_user);
-      const instructorUser = {
-        ...instructor,
-        ...req.user,
-      };
-      res.status(HttpStatusCodes.OK).json({
-        data: instructorUser,
-        message: `found instructor`,
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /*   public getUserById = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const findOneUserData: IUser = await this.instructorService.findUserById(userId);
+      const instructorID: string = req.params.instructorID as string;
+      const instructorData: IInstructor = await this.instructorService.findInstructorById(instructorID);
 
       res.json({
-        data: findOneUserData,
-        message: 'find one user by id',
+        data: instructorData,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {
       next(error);
     }
   };
-
-  public createUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
+  // add social media controller
+  public addSocialMedia = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
-      const createUserData: IUser = await this.instructorService.createUser(userData);
+      const instructorID: string = req.params.instructorID as string;
+      const socialMedia: SocialMedia = req.body as SocialMedia;
 
-      res.status(201).json({
-        data: createUserData,
-        message: 'created user successfully with email ',
-        success: true,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public updateUser = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
-    try {
-      const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
-      const updateUserData: IUser = await this.instructorService.updateUser(userId, userData);
+      const updatedInstructor: IInstructor = await this.instructorService.addSocialMedia(instructorID, socialMedia);
 
       res.json({
-        data: updateUserData,
-        message: 'updated user successfully',
+        data: updatedInstructor,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {
@@ -73,20 +41,47 @@ class InstructorController {
     }
   };
 
-  public deleteInstructor = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
+  //add rating controller
+  public addReview = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
     try {
-      const userId: string = req.params.id;
-      const deleteUserData: IUser = await this.instructorService.deleteUser(userId);
+      const instructorID: string = req.params.instructorID as string;
+      const userReview: Review = req.body;
 
-      res.status(HttpStatusCodes.ACCEPTED).json({
-        data: deleteUserData,
-        message: 'deleted user successfully',
+      const instructorRating: Rating = await this.instructorService.addReviewToInstructor(instructorID, userReview);
+
+      res.json({
+        data: instructorRating,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {
       next(error);
     }
-  }; */
+  };
+
+  //get all instructor reviews controller
+  public getInstructorReviews = async (req: Request, res: Response<PaginatedResponse<Review>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      let page = 1;
+      let pageLimit = 5;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const instructorReviewsPaginatedResponse: PaginatedData<Review> = await this.instructorService.getInstructorReviews(
+        instructorID,
+        page,
+        pageLimit,
+      );
+
+      res.json({
+        ...instructorReviewsPaginatedResponse,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
-
 export default InstructorController;

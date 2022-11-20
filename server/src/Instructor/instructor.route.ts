@@ -1,10 +1,8 @@
 import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
 import InstructorController from '@Instructor/instructor.controller';
-import { Role } from '@/User/user.enum';
-import roleMiddleware from '@/Middlewares/role.middleware';
+import InstructorService from './instructor.dao';
 
-import authMiddleware from '@/Middlewares/auth.middleware';
 class InstructorsRoute implements Routes {
   public path = '/instructor';
   public router = Router();
@@ -15,12 +13,10 @@ class InstructorsRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get('/instructor/profile', authMiddleware, roleMiddleware([Role.INSTRUCTOR]), this.instructorController.getInfo);
-    /*  this.router.get('/:id', this.InstructorController.getUserById);
-    this.router.post('', validationMiddleware(CreateUserDto, 'body'), this.usersController.createUser);
-    this.router.put('/:id', validationMiddleware(CreateUserDto, 'body', true), this.usersController.updateUser);
-    this.router.delete('/:id', this.usersController.deleteUser);
- */
+    this.router.get('/:instructorID', this.instructorController.getInstructorbyId);
+    this.router.post('/socialMedia/:instructorID', this.instructorController.addSocialMedia);
+    this.router.post('/rating/:instructorID', this.instructorController.addReview);
+    this.router.get('/rating/:instructorID', this.instructorController.getInstructorReviews);
   }
 }
 

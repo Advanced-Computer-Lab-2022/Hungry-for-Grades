@@ -1,3 +1,4 @@
+import { ITrainee } from '@/Trainee/trainee.interface';
 import { IUser } from '@/User/user.interface';
 
 export type Rating = {
@@ -5,8 +6,9 @@ export type Rating = {
   reviews: Review[];
 };
 export type Review = {
-  _user: IUser;
+  _trainee: ITrainee;
   comment: string;
   createdAt: Date;
+  heading: string;
   rating: number;
 };

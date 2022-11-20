@@ -14,9 +14,8 @@ import { compare } from 'bcrypt';
 import { Role } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
-import { IInstructor } from '@/Instructor/instructor.interface';
 import { IAdmin } from '@/Admin/admin.interface';
-import { logger } from '@/Utils/logger';
+import { IInstructor } from '@/Instructor/instructor.interface';
 
 class AuthService {
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
@@ -31,7 +30,6 @@ class AuthService {
     const userWithUsername: IUser = await userModel.findOne({
       username: userData.username,
     });
-
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
     const createUserData = await userModel.create({
@@ -65,7 +63,6 @@ class AuthService {
     }
     if (!userModel) {
       findAdmin = await adminModel.findOne(query);
-      logger.info(findAdmin);
       userModel = findAdmin ? adminModel : null;
       role = findAdmin ? Role.ADMIN : null;
     }
@@ -76,7 +73,6 @@ class AuthService {
 
     // check Password Hashing
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
-    logger.info(isPasswordMatching);
 
     if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.CONFLICT, 'Password is invalid. Please try again');
 
@@ -98,7 +94,6 @@ class AuthService {
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {
     if (isEmpty(tokenPayload)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Token is empty');
     const { role, _id } = tokenPayload;
-    logger.info(role);
     const userModel = findUserModelByRole(role);
     if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is Wrong');
     const findUser = await userModel
