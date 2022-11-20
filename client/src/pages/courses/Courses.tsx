@@ -30,7 +30,7 @@ function SearchCourses() {
           {data && (
             <>
               <CoursesSection {...data.data} />
-              {data?.data?.length > 11 && (
+              {data?.data?.totalPages > 0 && (
                 <Pagination
                   activePage={activePage}
                   pages={data?.data?.totalPages as number}

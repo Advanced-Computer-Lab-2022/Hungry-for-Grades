@@ -1,0 +1,90 @@
+
+.review_section{
+    padding : 1.6rem 0 2.4rem;
+    border-bottom: 1.5px solid #d1d7dc;
+    display : block;
+    font-family: udemy sans,sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+    font-weight: 400;
+    line-height: 1.4;
+    font-size: 1.6rem;
+    max-width: 45rem;
+}
+
+.review_itself
+{
+    display : flex;
+    flex-direction: row;
+}
+
+.review_img
+{
+    width: 4rem;
+    height: 4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    object-fit : cover;
+}
+
+.reviewer_name
+{
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .15rem;
+
+}
+
+.name{
+    font-family: udemy sans,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+    font-weight: 700;
+    line-height: 1.2rem;
+    letter-spacing: -.02rem;
+    font-size: 1rem;
+}
+
+.rating_date_container
+{
+    color: #6a6f73;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.reviewer_country
+{
+    color: #6a6f73;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+/*
+  size in pixels number
+  rating as props number
+  //5 starts only
+
+*/
+:root{
+    --star-size: 24px;
+    --star-color: rgba(55, 56, 56, 0.067);
+    --star-background: #e59819;
+  }
+  
+  .Stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+    
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: Times; // make sure ★ appears correctly
+    line-height: 1;
+    color:#e59819;
+    
+    &::before {
+      content: '★★★★★';
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
