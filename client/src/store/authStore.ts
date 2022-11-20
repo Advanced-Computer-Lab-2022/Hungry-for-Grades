@@ -23,7 +23,7 @@ export const useAuthStore = create<
     persist(
       set => ({
         token: (LocalStorage.get('token') as IToken) ?? INTIAL_TOKEN,
-        isAuthenticated: (LocalStorage.get('token') as IToken | null)
+        isAuthenticated: (LocalStorage.get('token') )
           ? true
           : false,
         updateToken: token => {

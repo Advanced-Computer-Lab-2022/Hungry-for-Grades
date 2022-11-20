@@ -6,12 +6,12 @@ import { UseIsAuthenticated } from '@store/authStore';
 
 import { Role } from '@enums/role.enum';
 
-export default function InstructorRoutes() {
+export default function TraineeRoutes() {
   //const token = UseToken();
   const location = useLocation();
   const useIsAuthenticated = UseIsAuthenticated();
 
-  return 'instructor' === Role.INSTRUCTOR ? (
+  return 'trainee' === Role.TRAINEE ? (
     <>
       <InstructorDash />
       <Outlet />
