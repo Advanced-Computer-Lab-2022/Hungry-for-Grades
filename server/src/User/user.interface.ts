@@ -17,7 +17,7 @@ export interface IUser extends Document {
   password: string;
   phone: string;
   profileImage: string;
-  role: Role;
+  // role: Role;
   username: string;
 }
 

@@ -240,7 +240,8 @@ class CourseService {
     return categoryList;
   };
 
-  public addRating = async (courseId: string, userReview: Review): Promise<Rating> => {
+  public addReviewToCourse = async (courseId: string, userReview: Review): Promise<Rating> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const traineeInfo = userReview._trainee;
@@ -250,7 +251,6 @@ class CourseService {
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-    course.rating.reviews.push(userReview);
     const totalReviews = course.rating.reviews.length;
     const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
     course.rating.averageRating = Math.round(newRating * 100) / 100;
@@ -259,13 +259,47 @@ class CourseService {
     await course.save();
 
     //Get Trainee Info
-    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
+    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name address profileImage');
 
     return {
       averageRating: course.rating.averageRating,
       reviews: [userReview],
     };
   };
+
+  // get all course reviews paginated
+  public async getCourseReviews(courseID: string, page: number, pageLimit: number): Promise<PaginatedData<Review>> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID).populate({
+      path: 'rating.reviews._trainee',
+      select: 'name address profileImage',
+    });
+
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const toBeSkipped = (page - 1) * pageLimit;
+
+    const courseReviews = course.rating.reviews;
+
+    // sort course reviews by createdAt descendingly
+    courseReviews.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+
+    const totalReviews = courseReviews.length;
+    const totalPages = Math.ceil(totalReviews / pageLimit);
+    const paginatedReviews = courseReviews.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+    return {
+      data: paginatedReviews,
+      page,
+      pageSize: paginatedReviews.length,
+      totalPages,
+      totalResults: totalReviews,
+    };
+  }
 }
 
 export default CourseService;

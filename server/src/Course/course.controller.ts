@@ -132,21 +132,42 @@ class CourseController {
     }
   };
 
-  //   public addRating = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
-  //     try {
-  //       const userReview: Review = req.body;
-  //       const courseId: string = req.params.id;
+  //add review to course controller
+  public addReviewToCourse = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const userReview: Review = req.body;
 
-  //       const courseRating = await this.courseService.addRating(courseId, userReview);
-  //       res.status(201).json({
-  //         data: courseRating,
-  //         message: 'Completed Successfully',
-  //         success: true,
-  //       });
-  //     } catch (error) {
-  //       next(error);
-  //     }
-  //   };
-  // }
+      const courseRating: Rating = await this.courseService.addReviewToCourse(courseId, userReview);
+
+      res.json({
+        data: courseRating,
+        message: 'Review Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public getCourseReviews = async (req: Request, res: Response<PaginatedResponse<Review>>, next: NextFunction) => {
+    try {
+      const courseId: string = req.params.courseId as string;
+      let page = 1;
+      let pageLimit = 5;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const courseReviewsPaginatedResponse: PaginatedData<Review> = await this.courseService.getCourseReviews(courseId, page, pageLimit);
+
+      res.json({
+        ...courseReviewsPaginatedResponse,
+        message: 'Review Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default CourseController;
