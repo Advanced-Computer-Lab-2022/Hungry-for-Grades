@@ -6,12 +6,9 @@ import { BiWorld } from 'react-icons/bi';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { useState } from 'react';
-
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
-
 
 import ReviewSection from './ReviewSection';
 
@@ -19,10 +16,8 @@ import ReviewList from './ReviewList';
 
 import Loader from '@components/loader/loaderpage/Loader';
 
-import ReviewContainer from '@components/reviewHolder/ReviewContainer';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 import { getRequest } from '@/services/axios/http-verbs';
-
 
 async function getInstructor(id: string) {
   const Inst = InstructorRoutes.GET.getInstructor;
@@ -112,9 +107,9 @@ export default function InstructorPage(props: { text: string }) {
           <div className={styles.data}>{Instructor.biography}</div>
         </div>
       </div>
-      <CourseList text={instructorId} />
+      <CourseList namme={Instructor?.name} text={instructorId} />
       <ReviewSection />
-      <div>
+      <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
         <ReviewList text={instructorId} />
       </div>

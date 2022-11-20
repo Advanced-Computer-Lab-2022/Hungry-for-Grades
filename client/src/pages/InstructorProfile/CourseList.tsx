@@ -30,7 +30,7 @@ async function getCourses(country: string, currentPage: number, id: string) {
   return getRequest(Courses);
 }
 
-export default function CourseList(props: { text: string }) {
+export default function CourseList(props: { text: string; namme: string }) {
   const instructorId = props.text;
 
   const [activePage, setActivePage] = useState<number>(1);
@@ -56,8 +56,13 @@ export default function CourseList(props: { text: string }) {
 
   const toShow = (list?.data).map(
     (course: typeof InstructorRoutes.GET.getCourses.response.data[0]) => {
-      console.log(course._course.price.currency);
-      return <CourseCard key={course?._course._id} {...course} />;
+      return (
+        <CourseCard
+          key={course?._course._id}
+          course={course}
+          instructorName={props.namme}
+        />
+      );
     }
   );
 
@@ -66,7 +71,7 @@ export default function CourseList(props: { text: string }) {
       <h2>Instructor Courses({toShow.length})</h2>
       <div className={styles.course_wrapper} />
       {toShow}
-      {data?.data?.totalPages > 0 && (
+      {data?.data?.totalPages > 1 && (
         <Pagination
           activePage={activePage}
           pages={data?.data?.totalPages as number}

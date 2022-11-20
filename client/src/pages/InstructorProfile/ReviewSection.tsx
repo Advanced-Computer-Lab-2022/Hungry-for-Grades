@@ -1,7 +1,6 @@
 import { SetStateAction, useState } from 'react';
 
 import { MdCheckCircle } from 'react-icons/md';
-import { boolean } from 'yup';
 
 import styles from './ReviewSectior.module.scss';
 

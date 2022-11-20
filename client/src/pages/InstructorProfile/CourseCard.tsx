@@ -4,6 +4,8 @@ import styles from './CourseCard.module.scss';
 
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
+import StaticStarsRating from '@components/starsRating/StaticStarsRating';
+
 function getOriginalPrice(
   price: number,
   discounts: object[]
@@ -21,44 +23,50 @@ function getOriginalPrice(
   return (price / (100 - discount.percentage)) * 100;
 }
 
-export default function CourseCard(
-  props: typeof InstructorRoutes.GET.getCourses.response.data[0]
-) {
-  const list = props._course.captions.map(language => {
+export default function CourseCard(props: {
+  course: typeof InstructorRoutes.GET.getCourses.response.data[0];
+  instructorName: string;
+}) {
+  const list = props.course._course.captions.map(language => {
     return (
       <>
         <span key={language}> {language} </span>{' '}
       </>
     );
   });
+  const toGo = '/course/:' + props.course._course._id.toString();
   const old = getOriginalPrice(
-    props._course.price.currentValue,
-    props._course.price.discounts
+    props.course._course.price.currentValue,
+    props.course._course.price.discounts
   );
   //console.log(props._course.price.currency);
   return (
     <div className={styles.course_wrapper}>
-      <img
-        alt='Course'
-        src={props?._course.thumbnail}
-        style={{
-          paddingBottom: '1rem',
-          width: '100%',
-          height: '12rem',
-          objectFit: 'fill'
-        }}
-      />
-      <h3
-        style={{
-          marginBottom: '0.4rem',
-          fontWeight: '700',
-          fontSize: '1.3rem'
-        }}
-      >
-        {props?._course.title}
-      </h3>
+      <a href={toGo}>
+        <img
+          alt='Course'
+          src={props?.course._course.thumbnail}
+          style={{
+            paddingBottom: '1rem',
+            width: '100%',
+            height: '12rem',
+            objectFit: 'fill'
+          }}
+        />
+      </a>
+      <a href={toGo} style={{ color: '#1c1d1f' }}>
+        <h3
+          style={{
+            marginBottom: '0.4rem',
+            fontWeight: '700',
+            fontSize: '1.3rem'
+          }}
+        >
+          {props?.course._course.title}
+        </h3>
+      </a>
       <div style={{ fontSize: '0.8rem', fontWeight: '700', color: '#6a6f73' }}>
-        {props._course.category}
+        {props.course._course.category}
       </div>
       <div
         style={{
@@ -73,23 +81,17 @@ export default function CourseCard(
       </div>
       <div style={{ fontSize: '1rem', fontWeight: '400' }}>
         {' '}
-        {props?._course._instructor}{' '}
+        {props.instructorName}{' '}
       </div>
 
-      <div
-        className={styles.Stars}
-        style={
-          {
-            '--rating': props._course.rating.averageRating
-          } as React.CSSProperties
-        }
-      >
-        {' '}
-        {props._course.rating.averageRating}
-      </div>
+      <StaticStarsRating
+        comment={props.course._course.rating.averageRating.toString()}
+        rating={props.course._course.rating.averageRating}
+      />
       <div style={{ fontSize: '1rem', fontWeight: '700' }}>
         {' '}
-        {props?._course?.price?.currency} {props?._course.price.currentValue}{' '}
+        {props?.course._course?.price?.currency}{' '}
+        {props?.course._course.price.currentValue}{' '}
         {old != undefined && (
           <span
             style={{
@@ -99,7 +101,7 @@ export default function CourseCard(
             }}
           >
             {' '}
-            {props?._course?.price?.currency} {old}{' '}
+            {props?.course._course?.price?.currency} {old}{' '}
           </span>
         )}
       </div>

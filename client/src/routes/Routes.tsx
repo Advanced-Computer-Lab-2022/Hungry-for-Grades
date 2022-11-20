@@ -47,7 +47,7 @@ function AllRoutes() {
       </Route>
 
       <Route
-        element={<InstructorPage text={'6378ad4457e8162bf66696a6'} />}
+        element={<InstructorPage text={'637962792c3f71696ca3473c'} />}
         path='hussein'
       />
 

@@ -1,26 +1,23 @@
-.rating {
-    button {
-        color: #c7c7c7;
-        cursor: pointer;
-        outline: none;
-        border: none;
+:root{
+    --star-size: 10px;
+    --star-color: rgba(55, 56, 56, 0.067);
+    --star-background: #e59819;
+  }
+  
+  .Stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+    
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: Times; // make sure ★ appears correctly
+    line-height: 1;
+    color:#e59819;
+    
+    &::before {
+      content: '★★★★★';
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    div {
-        width: 100px;
-        display: flex;
-        flex-direction: row;
-    }
-    & svg {
-        color: #c7c7c7;
-        cursor: pointer;
-    }
-    & div {
-        width: 120px;
-    }
-    & div:hover svg {
-        color: rgb(212, 180, 0);
-    }
-    & svg:hover~svg {
-        color: #c7c7c7;
-    }
-}
+  }

@@ -8,23 +8,27 @@ import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataSe
 import { getRequest } from '@/services/axios/http-verbs';
 import Loader from '@/components/loader/loaderpage/Loader';
 import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
+import Pagination from '@/components/pagination/Pagination';
 
-async function getReviews(id: string) {
+async function getReviews(id: string, activePage: number) {
   const Inst = InstructorRoutes.GET.getReviews;
 
   Inst.params = id;
+
+  Inst.query = `page=${activePage}
+  &limit=${4}`;
 
   return getRequest(Inst);
 }
 
 export default function ReviewList(props: { text: string }) {
-  //const[reviewPage, setReviewPage] = useState(1);
+  const [reviewPage, setReviewPage] = useState<number>(1);
 
   const instructorId = props.text;
 
   const { isLoading, data } = useQuery(
-    ['getReviewsNow'],
-    () => getReviews(instructorId),
+    ['getReviewsNow', reviewPage],
+    () => getReviews(instructorId, reviewPage),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -48,6 +52,7 @@ export default function ReviewList(props: { text: string }) {
         <ReviewContainer
           key={course._id}
           comment={course.comment}
+          country={course._trainee.address.country}
           createdAt={course.createdAt}
           img={course._trainee.profileImage}
           name={course._trainee.name}
@@ -57,5 +62,16 @@ export default function ReviewList(props: { text: string }) {
     }
   );
 
-  return <div>{toShow}</div>;
+  return (
+    <>
+      <div>{toShow}</div>
+      {t1.totalPages > 1 && (
+        <Pagination
+          activePage={reviewPage}
+          pages={t1.totalPages}
+          setActivePage={setReviewPage}
+        />
+      )}
+    </>
+  );
 }

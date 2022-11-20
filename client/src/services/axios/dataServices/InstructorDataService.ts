@@ -148,6 +148,10 @@ export const InstructorRoutes = {
         data: [
           {
             _trainee: {
+              address: {
+                city: '',
+                country: ''
+              },
               _id: '',
               name: '',
               profileImage: ''
