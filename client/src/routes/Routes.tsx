@@ -16,6 +16,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
 
+import InstructorPage from '@pages/InstructorProfile/InstructorPage';
+
 const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
@@ -43,6 +45,11 @@ function AllRoutes() {
         <Route element={<div />} path='/home' />
         <Route element={<LazyUserProfile />} path='/profile/:userId' />
       </Route>
+
+      <Route
+        element={<InstructorPage text={'6378ad4457e8162bf66696a6'} />}
+        path='hussein'
+      />
 
       <Route element={<PublicRoutes />}>
         <Route element={<LazyLanding />} path='/' />

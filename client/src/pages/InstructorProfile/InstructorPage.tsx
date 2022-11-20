@@ -1,42 +1,106 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import {AiFillLinkedin, AiFillTwitterCircle, AiFillYoutube} from 'react-icons/ai';
+import { AiFillLinkedin, AiFillGithub, AiFillYoutube } from 'react-icons/ai';
+
+import { BiWorld } from 'react-icons/bi';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { useState } from 'react';
 
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
 
 
-import  ReviewContainer  from '@components/reviewHolder/ReviewContainer';
-
 import ReviewSection from './ReviewSection';
 
+import ReviewList from './ReviewList';
 
-export default function InstructorPage() {
-  //const instructorId = '635d21f7f1f00520bae45867';
+import Loader from '@components/loader/loaderpage/Loader';
+
+import ReviewContainer from '@components/reviewHolder/ReviewContainer';
+import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { getRequest } from '@/services/axios/http-verbs';
+
+
+async function getInstructor(id: string) {
+  const Inst = InstructorRoutes.GET.getInstructor;
+
+  Inst.params = id;
+
+  return getRequest(Inst);
+}
+
+export default function InstructorPage(props: { text: string }) {
+  const instructorId = props.text;
+
+  const { isLoading, data } = useQuery(
+    ['getInstructorNow'],
+    () => getInstructor(instructorId),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000 // 1 second
+    }
+  );
+
+  const Instructor = data?.data?.data;
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className={styles.page}>
       <div className={styles.hero}>
         <div>
-        <img
-          alt='Instructor'
-          className={styles.instructor_img}
-          src='https://www.muscleandfitness.com/wp-content/uploads/2017/06/The-Rock-Dwayne-Johnson-Cable-Crossover-Promo.jpg?w=800&quality=82&strip=all'
-        />
-        <div className={styles.social_wrapper}>
-            <a href = "https://youtube.com"> <AiFillLinkedin style = {{fontSize:'2rem'}}/> </a>
-            <a href = "https:/facebook.com"> <AiFillTwitterCircle style = {{fontSize:'2rem'}}/> </a>
-            <a href = "https://insstagram" > <AiFillYoutube style = {{fontSize:'2rem', color:'red'}}/> </a>
-        </div>
+          <img
+            alt='Instructor'
+            className={styles.instructor_img}
+            src={Instructor?.profileImage}
+          />
+          <div className={styles.social_wrapper}>
+            {Instructor?.socialMedia.linkedin.length > 0 && (
+              <a href={Instructor.socialMedia.linkedin}>
+                {' '}
+                <AiFillLinkedin style={{ fontSize: '2rem' }} />{' '}
+              </a>
+            )}
+            {Instructor?.socialMedia.github.length > 0 && (
+              <a href={Instructor.socialMedia.github}>
+                {' '}
+                <AiFillGithub
+                  style={{ fontSize: '2rem', color: '#112D4E' }}
+                />{' '}
+              </a>
+            )}
+            {Instructor?.socialMedia.youtube.length > 0 && (
+              <a href={Instructor.socialMedia.youtube}>
+                {' '}
+                <AiFillYoutube
+                  style={{ fontSize: '2rem', color: 'red' }}
+                />{' '}
+              </a>
+            )}
+            {Instructor?.socialMedia.personalWebsite.length > 0 && (
+              <a href={Instructor.socialMedia.personalWebsite}>
+                {' '}
+                <BiWorld style={{ fontSize: '2rem', color: 'grey' }} />{' '}
+              </a>
+            )}
+          </div>
         </div>
         <div className={styles.hero1}>
           <div className={styles.title}>Instructor</div>
-          <h1>The Rock</h1>
-          <h2>Wrestling Instructor</h2>
-          <div style = {{display:'flex'}}>
-          <div style={{marginRight:'1.5rem'}}>
+          <h1>{Instructor.name}</h1>
+          <h2>{Instructor.speciality}</h2>
+          <h3 style={{ fontWeight: '700', fontSize: '1.2rem', color: 'grey' }}>
+            {Instructor.title}
+          </h3>
+          <div style={{ display: 'flex' }}>
+            <div style={{ marginRight: '1.5rem' }}>
               <div className={styles.property}>Rating</div>
-              <div className={styles.value}>3.3</div>
+              <div className={styles.value}>
+                {Instructor.rating.averageRating}
+              </div>
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
@@ -45,33 +109,14 @@ export default function InstructorPage() {
           </div>
 
           <h2>About me</h2>
-          <div className={styles.data}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus earum
-            illo a expedita error ducimus ipsum autem? Dignissimos provident
-            quaerat deserunt animi incidunt. Vero quo voluptatem possimus natus
-            numquam minima. Lorem ipsum dolor sit, amet consectetur adipisicing
-            elit. Perspiciatis accusamus error suscipit, impedit illo,
-            perferendis sapiente iste temporibus eligendi veritatis nemo vero
-            laboriosam sunt ipsum labore voluptas officiis minus maxime! Lorem
-            ipsum dolor sit, amet consectetur adipisicing elit. Veniam nobis
-            debitis laudantium hic, eaque accusamus qui quam. Impedit eos
-            incidunt eveniet amet, asperiores aut, adipisci modi molestias,
-            eligendi nam temporibus! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Ex eaque at voluptatibus ipsa adipisci, quas
-            distinctio consequatur odit assumenda. Amet, quasi quam modi eum ad
-            cupiditate quidem dolorum adipisci natus?
-          </div>
+          <div className={styles.data}>{Instructor.biography}</div>
         </div>
       </div>
-      <CourseList />
+      <CourseList text={instructorId} />
       <ReviewSection />
       <div>
-        <h2 style= {{fontWeight:'700', fontSize:'1.6rem'}}>Reviews</h2>
-      <ReviewContainer />
-      <ReviewContainer />
-      <ReviewContainer />
-      <ReviewContainer />
-      <ReviewContainer />
+        <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
+        <ReviewList text={instructorId} />
       </div>
     </div>
   );

@@ -102,6 +102,69 @@ export const InstructorRoutes = {
         message: '',
         success: false
       }
+    },
+    getInstructor: {
+      URL: '/instructor' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {
+        data: {
+          rating: { averageRating: 0 },
+          _id: '',
+          active: false,
+          biography: '',
+          email: {
+            address: '',
+            isValidated: false,
+            _id: ''
+          },
+          name: '',
+          profileImage: '',
+          socialMedia: {
+            facebook: '',
+            github: '',
+            linkedin: '',
+            personalWebsite: '',
+            youtube: '',
+            _id: ''
+          },
+          speciality: '',
+          title: '',
+          username: '',
+          lastLogin: '',
+          __v: 0
+        },
+        message: '',
+        success: ''
+      }
+    },
+    getReviews: {
+      URL: '/instructor/rating' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {
+        data: [
+          {
+            _trainee: {
+              _id: '',
+              name: '',
+              profileImage: ''
+            },
+            comment: '',
+            createdAt: '2022-10-27T19:43:02.000Z',
+            rating: 1,
+            _id: ''
+          }
+        ],
+        page: 1,
+        pageSize: 5,
+        totalPages: 2,
+        totalResults: 7,
+        message: '',
+        success: true
+      }
     }
   }
 };

@@ -13,7 +13,6 @@ export default function InstructorRoutes() {
 
   return token.role === Role.INSTRUCTOR ? (
     <>
-      <InstrctorPage />
       <InstructorDash />
       <Outlet />
     </>
