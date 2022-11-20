@@ -1,7 +1,8 @@
 import { Routes } from '@Common/Interfaces/routes.interface';
 import authMiddleware from '@/Middlewares/auth.middleware';
 import validationMiddleware from '@/Middlewares/validation.middleware';
-import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
+import limiterMiddleware from '@/Middlewares/rateLimiter.middleware';
+import { UserLoginDTO } from '@/User/user.dto';
 import AuthController from '@Authentication/auth.controller';
 import { Router } from 'express';
 
@@ -15,9 +16,9 @@ class AuthRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post('/signup', validationMiddleware(CreateUserDto, 'body'), this.authController.signUp);
-    this.router.post('/login', validationMiddleware(UserLoginDTO, 'body'), this.authController.logIn);
-    //this.router.post('/logout', authMiddleware, this.authController.logOut);
+    this.router.post('/login', limiterMiddleware, validationMiddleware(UserLoginDTO, 'body'), this.authController.logIn);
+    this.router.post('/auth/logout', authMiddleware, this.authController.logOut);
+    this.router.get('/auth/refresh', this.authController.refresh);
   }
 }
 

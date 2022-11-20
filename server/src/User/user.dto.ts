@@ -50,8 +50,10 @@ export class CreateUserDto implements IUser {
 }
 
 export class UserLoginDTO {
-  @IsEmail()
-  public emailAddress: string;
+  @IsObject()
+  public email: { address: string };
+  @IsString()
   public username: string;
+  @IsString()
   public password: string;
 }

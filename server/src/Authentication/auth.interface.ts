@@ -1,14 +1,6 @@
 import { IUser } from '@User/user.interface';
 import { Request } from 'express';
-import { Types } from 'mongoose';
-export interface TokenPayload {
-  _id: Types.ObjectId;
-}
-
-export interface TokenData {
-  expiresIn: number;
-  token: string;
-}
+import { type ITokenService } from '@Token/token.interface';
 
 export interface RequestWithUser extends Request {
   user: IUser;
@@ -21,5 +13,5 @@ export interface ICookie {
     maxAge: number;
     secure?: boolean;
   };
-  value: string;
+  value: ITokenService;
 }

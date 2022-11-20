@@ -1,7 +1,6 @@
 import { IInstructor, ITeachedCourse } from '@Instructor/instructor.interface';
 import { Document, model, Schema } from 'mongoose';
-import userSchema from '@/User/user.schema';
-import bcrypt from 'bcrypt';
+import { genSalt, hash } from 'bcrypt';
 import Email from '@/User/user.schema';
 import { Gender } from '@/User/user.enum';
 import { requiredString } from '@/Common/Models/common';
@@ -107,12 +106,14 @@ const instructorSchema = new Schema<IInstructor>({
   },
 });
 
-instructorSchema.pre('save', function (next) {
+instructorSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+  const salt = await genSalt();
+
   this.lastLogin = new Date();
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = await hash(this.password, salt);
   next();
 });
 
