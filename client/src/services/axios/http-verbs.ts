@@ -2,11 +2,11 @@ import { type AxiosResponse } from 'axios';
 
 import http from './http-common';
 import {
-  type DELETERoutesType,
+  //type DELETERoutesType,
   type GETRoutesType,
-  type PATCHRoutesType,
-  type POSTRoutesType,
-  type PUTRoutesType
+  // type PATCHRoutesType,
+  type POSTRoutesType
+  //type PUTRoutesType
 } from './types';
 
 /**
@@ -41,43 +41,46 @@ export async function postRequest(request: POSTRoutesType) {
     { ...request.payload }
   );
 }
+/*
 /**
  * PATCH request
  * @param request - request object
  * @returns a promise with the response from the server
  */
-export async function patchRequest(request: PATCHRoutesType) {
+/* export async function patchRequest(request: PATCHRoutesType) {
   return http.patch<typeof request.response>(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`,
     request.payload
   );
-}
+} */
 
 /**
  * DELETE request
  * @param request - request object
  * @returns a promise with the response from the server
  */
-export async function deleteRequest(request: DELETERoutesType) {
+/* export async function deleteRequest(request: DELETERoutesType) {
   return http.delete<typeof request.response>(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`
   );
-}
+} */
 
 /**
  * PUT request
  * @param request - request object
  * @returns a promise with the response from the server
  */
+/*
 export async function putRequest(request: PUTRoutesType) {
   return http.put<typeof request.response>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
+    `${request?.URL}${request?.params ? '/' + request?.params : ''}${
+      request?.query ? '?' + request?.query : ''
     }`,
-    request.payload
+    request?.payload
   );
 }
+ */

@@ -1,8 +1,9 @@
 import { CategoryRoute } from './dataServices/CategoryDataService';
 import { CoursesRoutes } from './dataServices/CoursesDataService';
-import { UserRoutes } from './dataServices/UserDataService';
 import { InstructorRoutes } from './dataServices/InstructorDataService';
 import { AdminRoutes } from './dataServices/AdminDataService';
+
+import { AuthRoutes } from './dataServices/AuthDataService';
 /**
  * HTTP methods
  */
@@ -12,8 +13,8 @@ export type VERBS = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * and are used to define the routes for the user data service
  * @param  verb - The HTTP verb to use for the request
  */
-export type UserRoutesType<VERB extends VERBS> =
-  typeof UserRoutes[VERB][keyof Partial<typeof UserRoutes[VERB]>];
+export type AuthRoutesType<T extends 'GET' | 'POST'> =
+  typeof AuthRoutes[T][keyof Partial<typeof AuthRoutes[T]>];
 
 export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
   typeof CategoryRoute['GET']
@@ -35,17 +36,17 @@ export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
  * All GET routes that are available for the  data service
  */
 export type GETRoutesType =
-  | UserRoutesType<'GET'>
   | CategoryRouteType
   | CoursesRoutesType
-  | InstructorRouteType;
+  | InstructorRouteType
+  | AuthRoutesType<'GET'>;
 /**
  * All POST routes that are available for the  data service
  */
-export type POSTRoutesType = UserRoutesType<'POST'> | AdminRoutesType;
+export type POSTRoutesType = AdminRoutesType | AuthRoutesType<'POST'>;
 /**
  * All PUT routes that are available for the  data service
  */
-export type PUTRoutesType = UserRoutesType<'PUT'>;
-export type PATCHRoutesType = UserRoutesType<'PATCH'>;
-export type DELETERoutesType = UserRoutesType<'DELETE'>;
+export type PUTRoutesType = null;
+export type PATCHRoutesType = null;
+export type DELETERoutesType = null;

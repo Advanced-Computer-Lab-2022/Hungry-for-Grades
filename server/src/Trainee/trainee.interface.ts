@@ -1,4 +1,6 @@
+import { ICourse } from '@/Course/course.interface';
 import { IUser } from '@/User/user.interface';
+import { LargeNumberLike } from 'crypto';
 import { Types } from 'mongoose';
 
 export interface ITrainee extends IUser {
@@ -17,12 +19,14 @@ type WishList = {
   _course: Types.ObjectId[];
 };
 
-type EnrolledCourse = {
-  _course: Types.ObjectId;
+export type EnrolledCourse = {
+  _course: ICourse;
   dateOfEnrollment: Date;
-  notes: Note[];
-  reminder: Reminder;
-  subscribedNotification: boolean;
+  examGrade?: number;
+  notes?: Note[];
+  progress?: number;
+  reminder?: Reminder;
+  subscribedNotification?: boolean;
 };
 
 type Reminder = {

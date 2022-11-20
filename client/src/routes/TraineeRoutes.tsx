@@ -1,17 +1,19 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import AdminDash from '@/pages/admin/AdminDash';
-import { Role } from '@/enums/role.enum';
-import { UseIsAuthenticated } from '@/store/authStore';
+import InstructorDash from '@components/Instructor/InstructorMainSection';
 
-export default function AdminRoutes() {
+import { UseIsAuthenticated } from '@store/authStore';
+
+import { Role } from '@enums/role.enum';
+
+export default function TraineeRoutes() {
   //const token = UseToken();
   const location = useLocation();
   const useIsAuthenticated = UseIsAuthenticated();
 
-  return 'admin' === Role.ADMIN ? (
+  return 'trainee' === Role.TRAINEE ? (
     <>
-      <AdminDash />
+      <InstructorDash />
       <Outlet />
     </>
   ) : useIsAuthenticated ? (

@@ -1,4 +1,4 @@
-import { Level, Coupon, Announcement, Question, FrequentlyAskedQuestion, Price, Section, Course } from '@Course/course.interface';
+import { Level, Coupon, Announcement, Question, FrequentlyAskedQuestion, Price, Section, ICourse } from '@Course/course.interface';
 import mongoose from 'mongoose';
 
 import { IsArray, IsDate, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsString, IsUrl, ValidateNested } from 'class-validator';
@@ -90,6 +90,6 @@ export type CategoryDTO = {
 };
 
 export type GetAllCoursesDTO = {
-  courses: Course[];
+  courses: ICourse[];
   priceMax: number;
 };

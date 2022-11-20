@@ -2,14 +2,15 @@ import { Role } from '@enums/role.enum';
 
 export interface IAuth {
   isAuthenticated: boolean;
-  token: Token;
-  updateToken: (token: Token) => void;
+  token: IToken;
+  updateToken: (token: IToken) => void;
   removeToken: () => void;
+  refresh: () => void;
 }
 
-export type Token = {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
+export type IToken = {
+  accessToken: string;
+  expiresIn: number;
+  refreshToken: string;
   role: Role;
 };

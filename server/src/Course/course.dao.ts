@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { Course, Price } from '@Course/course.interface';
+import { ICourse, Price } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -22,7 +22,7 @@ import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
 
 class CourseService {
-  public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<Course>> => {
+  public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
     const { page, limit, searchTerm, sortBy, country } = filters;
     const pageLimit: number = limit;
     const toBeSkipped = (page - 1) * pageLimit;
@@ -60,12 +60,21 @@ class CourseService {
           ],
         },
       },
+      {
+        $project: {
+          __v: 0,
+          announcements: 0,
+          exam: 0,
+          keywords: 0,
+          sections: 0,
+        },
+      },
     ];
 
     const sortQuery: any = generateCoursesSortQuery(sortBy);
     if (Object.keys(sortQuery).length != 0) aggregateQuery.push({ $sort: sortQuery });
 
-    let queryResult: Course[] = [];
+    let queryResult: ICourse[] = [];
     try {
       queryResult = await courseModel.aggregate(aggregateQuery);
     } catch (error) {
@@ -125,7 +134,7 @@ class CourseService {
       match: filterQuery,
       model: courseModel,
       path: '_teachedCourses._course',
-      select: '-rating.reviews',
+      select: '-rating.reviews -announcements -exam -sections',
       sort: sortQuery,
     });
 
@@ -153,13 +162,13 @@ class CourseService {
   }
 
   //get course by id aggregate
-  public async getCourseById(courseId: string, country: string): Promise<Course> {
+  public async getCourseById(courseId: string, country: string): Promise<ICourse> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     country = country || 'United States';
 
-    const course: Course = await courseModel
+    const course: ICourse = await courseModel
       .findById(courseId)
       .populate({
         model: instructorModel,
@@ -178,7 +187,7 @@ class CourseService {
     return course;
   }
 
-  public async createCourse(courseData: CourseDTO, country: string): Promise<Course> {
+  public async createCourse(courseData: CourseDTO, country: string): Promise<ICourse> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Data is empty');
     if (!(await instructorModel.findById(courseData.instructorID))) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
@@ -191,7 +200,7 @@ class CourseService {
     const newPrice = courseData.price.currentValue * conversionRate;
     courseData.price = { ...courseData.price, currency: inputCurrency, currentValue: newPrice };
 
-    const createdCourse: Course = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
+    const createdCourse: ICourse = await courseModel.create({ ...courseData, _instructor, rating: { averageRating: 0, reviews: [] } });
 
     // Link Instructor to Course
     await instructorModel.findByIdAndUpdate(_instructor[0], { $push: { _teachedCourses: { _course: createdCourse._id } } });
@@ -199,19 +208,19 @@ class CourseService {
     return createdCourse;
   }
 
-  public async updateCourse(courseId: string, courseData: Course): Promise<Course> {
+  public async updateCourse(courseId: string, courseData: ICourse): Promise<ICourse> {
     if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course data is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    const updatedCourse: Course = await courseModel.findByIdAndUpdate(courseId, { courseData: courseData });
+    const updatedCourse: ICourse = await courseModel.findByIdAndUpdate(courseId, { courseData: courseData });
     if (!updatedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
     return updatedCourse;
   }
 
-  public deleteCourse = async (courseId: string): Promise<Course> => {
+  public deleteCourse = async (courseId: string): Promise<ICourse> => {
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
-    const deletedCourse: Course = await courseModel.findByIdAndDelete(courseId);
+    const deletedCourse: ICourse = await courseModel.findByIdAndDelete(courseId);
     if (!deletedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
     //Delete course from instructor's teached courses
