@@ -38,9 +38,9 @@ export class CreateUserDto implements IUser {
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   public password: string;
 
-  @IsString()
-  @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
-  public role: Role;
+  // @IsString()
+  // @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
+  // public role: Role;
 
   @IsString()
   public name: string;

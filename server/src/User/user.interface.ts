@@ -15,7 +15,7 @@ export interface IUser {
   password: string;
   phone: string;
   profileImage: string;
-  role: Role;
+  // role: Role;
   username: string;
 }
 

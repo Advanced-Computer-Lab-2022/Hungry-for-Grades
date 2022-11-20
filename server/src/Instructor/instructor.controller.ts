@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Rating, Review } from '@/Common/Types/common.types';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import { ReadableStreamBYOBRequest } from 'stream/web';
+import { CreateInstructorDTO } from './instructor.dto';
 
 class InstructorController {
   public instructorService = new InstructorService();
@@ -42,7 +43,7 @@ class InstructorController {
   };
 
   //add rating controller
-  public addReview = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+  public addReviewToInstructor = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
     try {
       const instructorID: string = req.params.instructorID as string;
       const userReview: Review = req.body;
@@ -76,6 +77,24 @@ class InstructorController {
 
       res.json({
         ...instructorReviewsPaginatedResponse,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //edit instructor profile controller
+  public updateInstructorProfile = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const instructorData: CreateInstructorDTO = req.body;
+
+      const updatedInstructor: IInstructor = await this.instructorService.updateInstructor(instructorID, instructorData);
+
+      res.json({
+        data: updatedInstructor,
         message: 'Completed Successfully',
         success: true,
       });

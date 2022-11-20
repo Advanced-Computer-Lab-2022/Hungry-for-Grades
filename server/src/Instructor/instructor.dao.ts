@@ -45,8 +45,8 @@ class InstructorService {
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
     const traineeInfo = userReview._trainee;
-    if (!(await traineeModel.findById(traineeInfo._id))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
     if (!mongoose.Types.ObjectId.isValid(traineeInfo._id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!(await traineeModel.findById(traineeInfo._id))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     const instructor = await instructorModel.findById(instructorID);
     if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
@@ -99,6 +99,17 @@ class InstructorService {
       totalPages,
       totalResults: totalReviews,
     };
+  }
+
+  //update instructor profile
+  public async updateInstructor(instructorId: string, instructorData: CreateInstructorDTO): Promise<IInstructor> {
+    if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const updatedInstructor = await instructorModel.findByIdAndUpdate(instructorId, instructorData, { new: true });
+    if (!updatedInstructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    return updatedInstructor;
   }
 }
 export default InstructorService;
