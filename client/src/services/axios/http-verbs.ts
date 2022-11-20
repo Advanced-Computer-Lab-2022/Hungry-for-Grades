@@ -4,8 +4,8 @@ import http from './http-common';
 import {
   //type DELETERoutesType,
   type GETRoutesType,
- // type PATCHRoutesType,
-  type POSTRoutesType,
+  // type PATCHRoutesType,
+  type POSTRoutesType
   //type PUTRoutesType
 } from './types';
 

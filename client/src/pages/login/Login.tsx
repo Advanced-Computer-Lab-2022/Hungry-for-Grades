@@ -9,8 +9,6 @@ import { LoginProps } from './types';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 
-
-
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
