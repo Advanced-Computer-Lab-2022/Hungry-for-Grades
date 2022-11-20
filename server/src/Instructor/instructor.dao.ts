@@ -59,7 +59,7 @@ class InstructorService {
     await instructor.save();
 
     //Get Trainee Info
-    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
+    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name address profileImage');
 
     return {
       averageRating: instructor.rating.averageRating,
@@ -72,16 +72,21 @@ class InstructorService {
     if (isEmpty(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    //join trainee and instructor collections to get reviews using populate
     const instructor = await instructorModel.findById(instructorID).populate({
       path: 'rating.reviews._trainee',
-      select: 'name country profileImage',
+      select: 'name address profileImage',
     });
+
     if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
 
     const toBeSkipped = (page - 1) * pageLimit;
 
     const instructorReviews = instructor.rating.reviews;
+
+    // sort instructor reviews by createdAt descendingly
+    instructorReviews.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
 
     const totalReviews = instructorReviews.length;
     const totalPages = Math.ceil(totalReviews / pageLimit);

@@ -5,6 +5,7 @@ import Email from '@/User/user.schema';
 import { Gender } from '@/User/user.enum';
 import { requiredString } from '@/Common/Models/common';
 
+//hamada
 const instructorSchema = new Schema<IInstructor>({
   _teachedCourses: [
     {

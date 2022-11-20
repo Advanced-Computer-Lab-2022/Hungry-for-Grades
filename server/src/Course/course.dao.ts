@@ -157,7 +157,6 @@ class CourseService {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    const REVIEWS_LIMIT = 5;
     country = country || 'United States';
 
     const course: Course = await courseModel
@@ -165,19 +164,11 @@ class CourseService {
       .populate({
         model: instructorModel,
         path: '_instructor',
+        //exclude reviews from instructor
+        select: '-rating.reviews -password -_teachedCourses',
       })
-      .populate({
-        model: traineeModel,
-        path: 'rating.reviews._user',
-        select: { name: 1, profileImage: 1 },
-      });
-
+      .select('-_instructor.rating.reviews');
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Course doesn't exist");
-    course.rating.reviews
-      .sort((a, b) => {
-        return b.createdAt.getTime() - a.createdAt.getTime();
-      })
-      .slice(0, REVIEWS_LIMIT);
 
     // Get conversion rate to the desired currency based on input currency
     const conversionRate = await getConversionRate(country);
