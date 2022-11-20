@@ -21,11 +21,10 @@ const INITIAL_DATA: SignupData = {
   gender: Gender.MALE,
   age: 0,
   phone: '',
-  address: '',
-  city: '',
-  state: '',
-  zip: '',
-  email: '',
+  country: '',
+  email: {
+    address: ''
+  },
   password: ''
 };
 

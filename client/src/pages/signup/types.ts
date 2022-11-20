@@ -7,6 +7,7 @@ export type UserFormProps = {
   age: number;
   phone: string;
   gender: Gender;
+  country: string;
 };
 export type ButtonDirectionProps = {
   firstName: string;
@@ -19,14 +20,14 @@ export type ButtonDirectionProps = {
 
 export type AddressFormProps = {
   key?: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
 };
+
 export type AccountFormProps = {
   key?: string;
-  email: string;
+  email: {
+    address: string;
+  };
+  username: string;
   password: string;
 };
 

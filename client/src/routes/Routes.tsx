@@ -73,7 +73,7 @@ function AllRoutes() {
 
       <Route element={<AuthRoutes />} path='/auth'>
         <Route element={<LazyLogin />} path='login' />
-        <Route element={<LazySignup />} path='register' />
+        <Route element={<LazySignup />} path='signup' />
       </Route>
 
       {/*  <Route element={<Error404 />} path="/*" /> */}
