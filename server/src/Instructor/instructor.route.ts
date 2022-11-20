@@ -14,10 +14,10 @@ class InstructorsRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get('/:instructorID', this.instructorController.getInstructorbyId);
+    this.router.patch('/:instructorID', this.instructorController.updateInstructorProfile);
     this.router.post('/socialMedia/:instructorID', this.instructorController.addSocialMedia);
     this.router.post('/rating/:instructorID', this.instructorController.addReviewToInstructor);
     this.router.get('/rating/:instructorID', this.instructorController.getInstructorReviews);
-    this.router.patch('/edit/:instructorID', this.instructorController.updateInstructorProfile);
   }
 }
 

@@ -1,5 +1,5 @@
 import { Rating } from '@/Common/Types/common.types';
-import { Course } from '@/Course/course.interface';
+import { ICourse } from '@/Course/course.interface';
 import { IUser } from '@/User/user.interface';
 
 export interface IInstructor extends IUser {
@@ -14,7 +14,7 @@ export interface IInstructor extends IUser {
 }
 
 export interface ITeachedCourse {
-  _course: Course;
+  _course: ICourse;
   earning: number;
 }
 

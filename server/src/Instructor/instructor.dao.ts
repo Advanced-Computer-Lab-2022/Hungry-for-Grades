@@ -57,7 +57,6 @@ class InstructorService {
     instructor.rating.reviews.push(userReview);
 
     await instructor.save();
-
     //Get Trainee Info
     userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name address profileImage');
 
@@ -106,8 +105,11 @@ class InstructorService {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');
     if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    const updatedInstructor = await instructorModel.findByIdAndUpdate(instructorId, instructorData, { new: true });
+    const updatedInstructor = await instructorModel.findById(instructorId);
     if (!updatedInstructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    updatedInstructor.set(instructorData);
+    await updatedInstructor.save();
 
     return updatedInstructor;
   }

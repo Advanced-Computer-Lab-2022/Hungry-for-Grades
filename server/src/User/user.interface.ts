@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import { Gender, Role } from './user.enum';
 import { Document } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IUser {
   _id: Types.ObjectId;
   active: boolean;
   address: Address;
