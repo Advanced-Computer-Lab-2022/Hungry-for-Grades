@@ -1,11 +1,13 @@
+import { HttpException } from '@/Exceptions/HttpException';
+import { verifyRefreshToken } from '@/Token/token.util';
 import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
-import { RequestWithUser } from '@Authentication/auth.interface';
-import { IUser } from '@User/user.interface';
+import { type IUser } from '@User/user.interface';
 import { NextFunction, Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { type RequestWithTokenPayload } from './auth.interface';
 class AuthController {
   public authService = new AuthService();
 
@@ -31,13 +33,13 @@ class AuthController {
     try {
       logger.info('login');
       const userData: UserLoginDTO = req.body;
-      const { cookie, findUser } = await this.authService.login(userData);
+      const { cookie, findUser, accessToken } = await this.authService.login(userData);
       logger.info('after authService');
 
       //res.setHeader('Set-Cookie', [cookie]);
       res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
-        data: findUser,
+        data: { accessToken, user: findUser },
         message: 'login',
       });
     } catch (error) {
@@ -48,13 +50,21 @@ class AuthController {
   // @desc logout
   // @route POST /auth/logout
   // @access Public - just to clear cookie if exists
-  public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public logOut = async (request: RequestWithTokenPayload, response: Response, next: NextFunction) => {
     try {
-      const userData: IUser = req.user;
-      const logOutUserData: IUser = await this.authService.logout(userData);
+      const { cookies } = request;
+      if (!cookies || !cookies.Authorization) {
+        return response.status(HttpStatusCodes.NO_CONTENT);
+      }
 
-      res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(HttpStatusCodes.OK).json({
+      const logOutUserData: IUser = await this.authService.logout(request.tokenPayload);
+      response.clearCookie('Authorization', {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: false,
+      });
+
+      response.status(HttpStatusCodes.OK).json({
         data: logOutUserData,
         message: 'logout',
       });
@@ -68,13 +78,15 @@ class AuthController {
   // @access Public - because acess token has expired
   public refresh = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { authorization } = req.cookies;
-      let refreshUserData: IUser;
-      /* = await this.authService.refresh(authorization);
-       */
+      const { cookies } = req;
+      if (!cookies || !cookies?.Authorization) throw new HttpException(HttpStatusCodes.UNAUTHORIZED, "There's No Authorization Cookies");
+
+      const refreshToken = cookies.Authorization ?? cookies.authorization;
+      const accessToken = verifyRefreshToken(refreshToken);
+
       res.status(HttpStatusCodes.OK).json({
-        data: refreshUserData,
-        message: 'refresh',
+        data: { accessToken },
+        message: 'refreshed refresh token',
       });
     } catch (error) {
       next(error);

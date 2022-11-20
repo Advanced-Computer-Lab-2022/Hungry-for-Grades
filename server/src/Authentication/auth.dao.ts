@@ -3,9 +3,10 @@ import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
 import { type ICookie } from '@Authentication/auth.interface';
-import { type ITokenService, type ITokenPayload } from '@Token/token.interface';
+import { type ITokenPayload } from '@Token/token.interface';
 import { generateTokens } from '@Token/token.util';
 import { IUser } from '@/User/user.interface';
+import { findUserModelByRole } from '@/User/user.util';
 
 import traineeModel from '@/Trainee/trainee.model';
 import { compare } from 'bcrypt';
@@ -21,7 +22,7 @@ class AuthService {
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
-    const userModel = this.findUserModelByRole(role);
+    const userModel = findUserModelByRole(role);
     const userWithEmail: IUser = await userModel.findOne({
       'email.address': userData.email.address,
     });
@@ -41,6 +42,7 @@ class AuthService {
   }
 
   public async login(userData: UserLoginDTO): Promise<{
+    accessToken: string;
     cookie: ICookie;
     findUser: IUser;
   }> {
@@ -81,26 +83,24 @@ class AuthService {
     // activate user
     await userModel.updateOne({ _id: findUser._id }, { $set: { active: true, lastLogin: new Date() } });
 
-    // create token
+    // generate token
     const TokenPayload = {
       _id: findUser._id,
       role,
     };
     const { accessToken, refreshToken } = await generateTokens(TokenPayload);
 
-    const tokenData = {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    };
-    const cookie = this.createCookie(tokenData);
+    const cookie = this.createCookie(refreshToken);
 
-    return { cookie, findUser };
+    return { accessToken, cookie, findUser };
   }
 
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {
     if (isEmpty(tokenPayload)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Token is empty');
     const { role, _id } = tokenPayload;
-    const userModel = this.findUserModelByRole(role);
+    logger.info(role);
+    const userModel = findUserModelByRole(role);
+    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is Wrong');
     const findUser = await userModel
       .findOneAndUpdate(
         { _id: _id },
@@ -118,23 +118,17 @@ class AuthService {
     return findUser;
   }
 
-  public createCookie(tokenData: ITokenService): ICookie {
-    return { name: 'Authorization', options: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 }, value: tokenData };
-  }
-  public findUserModelByRole(role: Role) {
-    let userModel;
-    switch (role) {
-      case Role.TRAINEE:
-        userModel = traineeModel;
-        break;
-      case Role.INSTRUCTOR:
-        userModel = instructorModel;
-        break;
-      case Role.ADMIN:
-        userModel = adminModel;
-        break;
-    }
-    return userModel;
+  public createCookie(refreshToken: string): ICookie {
+    return {
+      name: 'Authorization',
+      options: {
+        httpOnly: true, // only accessible by a web server
+        maxAge: 1000 * 60 * 60 * 24 * 7, // expires in 1 week
+        sameSite: 'none', // cross-site cookie
+        secure: false, //https
+      },
+      value: refreshToken,
+    };
   }
 }
 

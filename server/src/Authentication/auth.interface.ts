@@ -1,9 +1,14 @@
-import { IUser } from '@User/user.interface';
+import { IInstructor } from '@/Instructor/instructor.interface';
+import { IAdmin } from '@/Admin/admin.interface';
+import { ITrainee } from '@/Trainee/trainee.interface';
+import { ITokenPayload } from './../Token/token.interface';
 import { Request } from 'express';
-import { type ITokenService } from '@Token/token.interface';
 
-export interface RequestWithUser extends Request {
-  user: IUser;
+export interface RequestWithTokenPayload extends Request {
+  tokenPayload: ITokenPayload;
+}
+export interface RequestWithTokenPayloadAndUser extends RequestWithTokenPayload {
+  user: ITrainee | IAdmin | IInstructor;
 }
 
 export interface ICookie {
@@ -11,7 +16,8 @@ export interface ICookie {
   options: {
     httpOnly: boolean;
     maxAge: number;
+    sameSite?: boolean | 'lax' | 'strict' | 'none' | undefined;
     secure?: boolean;
   };
-  value: ITokenService;
+  value: string;
 }

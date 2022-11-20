@@ -1,41 +1,48 @@
+import { userModel } from '@/User/user.schema';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import jwt from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import UserToken from './token.model';
 import { type ITokenPayload, ITokenService } from './token.interface';
+import { ACCESS_TOKEN_PRIVATE_KEY, REFRESH_TOKEN_PRIVATE_KEY } from '@/Config/index';
+import { findUserModelByRole } from '@/User/user.util';
 
 export const generateTokens = async (tokenPayload: ITokenPayload): Promise<ITokenService> => {
   try {
-    const payload = { _id: tokenPayload._id, roles: tokenPayload.role };
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_PRIVATE_KEY, { expiresIn: '14m' });
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_PRIVATE_KEY, { expiresIn: '30d' });
+    const accessToken = sign(tokenPayload, ACCESS_TOKEN_PRIVATE_KEY, { expiresIn: '14m' });
+    const refreshToken = sign(tokenPayload, REFRESH_TOKEN_PRIVATE_KEY, { expiresIn: '30d' });
 
     const userToken = await UserToken.findOne({ userId: tokenPayload._id });
 
     if (userToken) await userToken.remove();
-
+    // we save refresh token into the Database
     await new UserToken({ token: refreshToken, userId: tokenPayload._id }).save();
-    return Promise.resolve({ accessToken, refreshToken });
+    return { accessToken, refreshToken };
   } catch (err) {
     if (err) throw new HttpException(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Cant Generate Token');
   }
 };
 
-export const verifyRefreshToken = refreshToken => {
-  const privateKey = process.env.REFRESH_TOKEN_PRIVATE_KEY;
+export const verifyRefreshToken = (refreshToken: string) => {
+  const privateKey = REFRESH_TOKEN_PRIVATE_KEY;
 
-  return new Promise(resolve => {
-    UserToken.findOne({ token: refreshToken }, (err, doc) => {
-      if (!doc) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid refresh token');
-      jwt.verify(refreshToken, privateKey, (err, tokenDetails) => {
-        if (err) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid refresh token');
+  const findUser = UserToken.findOne({ token: refreshToken });
+  if (!findUser) throw new HttpException(HttpStatusCodes.FORBIDDEN, 'FORBIDDEN : Invalid Refresh Token');
 
-        resolve({
-          error: false,
-          message: 'Valid refresh token',
-          tokenDetails,
-        });
-      });
-    });
+  return verify(refreshToken, privateKey, (err, tokenDetails) => {
+    if (err) throw new HttpException(HttpStatusCodes.FORBIDDEN, 'FORBIDDEN : Invalid Refresh Token');
+    const { _id, role } = tokenDetails as ITokenPayload;
+    const userModel = findUserModelByRole(role);
+    const findUser = userModel.findOne({ _id });
+    if (!findUser) throw new HttpException(HttpStatusCodes.FORBIDDEN, 'FORBIDDEN : Invalid Refresh Token');
+    const accessToken = sign(
+      {
+        _id,
+        role,
+      },
+      ACCESS_TOKEN_PRIVATE_KEY,
+      { expiresIn: '14m' },
+    );
+    return accessToken;
   });
 };
