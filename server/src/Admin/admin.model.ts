@@ -1,7 +1,6 @@
-import userSchema from '@/User/user.schema';
-import mongoose, { Document, model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { IAdmin } from './admin.interface';
-import bcrypt from 'bcrypt';
+import { genSalt, hash } from 'bcrypt';
 import { requiredString } from '@/Common/Models/common';
 import { Gender } from '@/User/user.enum';
 import Email from '@/User/user.schema';
@@ -41,14 +40,16 @@ const adminSchema = new Schema<IAdmin>({
   },
 });
 
-adminSchema.pre('save', function (next) {
+adminSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
+  const salt = await genSalt();
+
   this.lastLogin = new Date();
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = await hash(this.password, salt);
   next();
 });
 
-const adminModel = model<IAdmin & Document>('Admin', adminSchema);
+const adminModel = model<IAdmin>('Admin', adminSchema);
 export default adminModel;

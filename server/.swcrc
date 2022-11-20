@@ -27,6 +27,7 @@
       "@Trainee/*":["./Trainee/*"],
       "@Instructor/*":["./Instructor/*"],
       "@Admin/*":["./Admin/*"],
+      "@Token/*":["./Token/*"],
       "@Course/*":["./Course/*"],
       "@NewsLetter/*":["./NewsLetter/*"],
       "@Common/*":["./Common/*"],

@@ -143,7 +143,7 @@ function Login() {
         </div>
       </section>
       <div className='w-75 img__container'>
-        <img alt='t' src={'/login.jpg'} />
+        <img alt='login-red-page' src={'/login.jpg'} />
         <div />
       </div>
     </div>

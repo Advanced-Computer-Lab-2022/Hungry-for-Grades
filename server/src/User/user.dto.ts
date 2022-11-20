@@ -1,8 +1,8 @@
-import { IsAlpha, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmptyObject, IsObject, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmptyObject, IsObject, IsOptional, IsString, MinLength } from 'class-validator';
 
 import { Gender, Role } from '@/User/user.enum';
+import { Address, IUser } from '@User/user.interface';
 import { Types } from 'mongoose';
-import { IUser, Address } from '@User/user.interface';
 
 export class CreateUserDto implements IUser {
   @IsOptional()
@@ -38,9 +38,9 @@ export class CreateUserDto implements IUser {
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   public password: string;
 
-  @IsString()
-  @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
-  public role: Role;
+  // @IsString()
+  // @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
+  // public role: Role;
 
   @IsString()
   public name: string;
@@ -50,8 +50,10 @@ export class CreateUserDto implements IUser {
 }
 
 export class UserLoginDTO {
-  @IsEmail()
-  public emailAddress: string;
+  @IsObject()
+  public email: { address: string };
+  @IsString()
   public username: string;
+  @IsString()
   public password: string;
 }

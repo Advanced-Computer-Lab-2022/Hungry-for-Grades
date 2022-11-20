@@ -19,6 +19,7 @@
       "@/*": ["*"],
       "@Admin/*": ["./Admin/*"],
       "@Authentication/*": ["./Authentication/*"],
+      "@Token/*": ["./Token/*"],
       "@Common/*": ["./Common/*"],
       "@Config": ["./Config"],
       "@Course/*": ["./Course/*"],

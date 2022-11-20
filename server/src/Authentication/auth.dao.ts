@@ -1,35 +1,27 @@
-import { SECRET_KEY } from '@/Config';
 import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { ICookie, TokenData, TokenPayload } from '@Authentication/auth.interface';
+import { type ICookie } from '@Authentication/auth.interface';
+import { type ITokenPayload } from '@Token/token.interface';
+import { generateTokens } from '@Token/token.util';
 import { IUser } from '@/User/user.interface';
+import { findUserModelByRole } from '@/User/user.util';
 
 import traineeModel from '@/Trainee/trainee.model';
-import { compare, hash } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
+import { compare } from 'bcrypt';
 
 import { Role } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
+import { IAdmin } from '@/Admin/admin.interface';
+import { IInstructor } from '@/Instructor/instructor.interface';
 
 class AuthService {
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
-    let userModel;
-    switch (role) {
-      case Role.TRAINEE:
-        userModel = traineeModel;
-        break;
-      case Role.INSTRUCTOR:
-        userModel = instructorModel;
-        break;
-      case Role.ADMIN:
-        userModel = adminModel;
-        break;
-    }
+    const userModel = findUserModelByRole(role);
     const userWithEmail: IUser = await userModel.findOne({
       'email.address': userData.email.address,
     });
@@ -40,81 +32,98 @@ class AuthService {
     });
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
-    const hashedPassword = await hash(userData.password, 10);
     const createUserData = await userModel.create({
       ...userData,
-      password: hashedPassword,
     });
 
     return createUserData;
   }
 
   public async login(userData: UserLoginDTO): Promise<{
+    accessToken: string;
     cookie: ICookie;
     findUser: IUser;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
-    let userModel;
-    const findTrainee: IUser = await traineeModel.findOne({
-      $or: [{ 'email.address': userData.emailAddress }, { username: userData.username }],
-    });
-    if (findTrainee) userModel = traineeModel;
+    let userModel: typeof traineeModel | typeof instructorModel | typeof adminModel, findInstructor: IInstructor, findAdmin: IAdmin;
+    let role: Role;
+    const query = {
+      $or: [{ 'email.address': userData.email.address }, { username: userData.username }],
+    };
 
-    const findInstructor: IUser = await instructorModel.findOne({
-      $or: [{ 'email.address': userData.emailAddress }, { username: userData.username }],
-    });
-    if (findInstructor) userModel = instructorModel;
+    const findTrainee = await traineeModel.findOne(query);
+    userModel = findTrainee ? traineeModel : null;
+    role = findTrainee ? Role.TRAINEE : null;
 
-    const findAdmin: IUser = await adminModel.findOne({
-      $or: [{ 'email.address': userData.emailAddress }, { username: userData.username }],
-    });
-    if (findAdmin) userModel = adminModel;
+    if (!userModel) {
+      findInstructor = await instructorModel.findOne(query);
+      userModel = findInstructor ? instructorModel : null;
+      role = findInstructor ? Role.INSTRUCTOR : null;
+    }
+    if (!userModel) {
+      findAdmin = await adminModel.findOne(query);
+      userModel = findAdmin ? adminModel : null;
+      role = findAdmin ? Role.ADMIN : null;
+    }
 
-    if (!findTrainee && !findInstructor && !findAdmin)
-      throw new HttpException(HttpStatusCodes.CONFLICT, `Email or Username doesn't exist. Please try again`);
+    if (!userModel) throw new HttpException(HttpStatusCodes.CONFLICT, "Email or Username doesn't exist. Please Sign Up First");
 
     const findUser = findTrainee ?? findInstructor ?? findAdmin;
+
+    // check Password Hashing
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
+
     if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.CONFLICT, 'Password is invalid. Please try again');
 
+    // activate user
     await userModel.updateOne({ _id: findUser._id }, { $set: { active: true, lastLogin: new Date() } });
-    const tokenData = this.createToken(findUser);
-    const cookie = this.createCookie(tokenData);
 
-    return { cookie, findUser };
+    // generate token
+    const TokenPayload = {
+      _id: findUser._id,
+      role,
+    };
+    const { accessToken, refreshToken } = await generateTokens(TokenPayload);
+
+    const cookie = this.createCookie(refreshToken);
+
+    return { accessToken, cookie, findUser };
   }
 
-  // public async logout(userData: IUser): Promise<IUser> {
-  //   if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
+  public async logout(tokenPayload: ITokenPayload): Promise<IUser> {
+    if (isEmpty(tokenPayload)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Token is empty');
+    const { role, _id } = tokenPayload;
+    const userModel = findUserModelByRole(role);
+    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is Wrong');
+    const findUser = await userModel
+      .findOneAndUpdate(
+        { _id: _id },
+        {
+          $set: {
+            active: false,
+          },
+        },
+        { new: true },
+      )
+      .lean();
 
-  //   // Get role from token to know which model to use and logout user accordingly
-  //   const findUser: IUser = await this.users.findOne({
-  //     email: userData.email,
-  //     password: userData.password,
-  //   });
-  //   if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `this email ${userData.email.address} was not found`);
+    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `this id ${_id} was not found`);
 
-  //   await this.users.updateOne({ _id: findUser._id }, { $set: { active: false, lastLogin: new Date() } });
+    return findUser;
+  }
 
-  //   return findUser;
-  // }
-
-  public createToken(user: IUser): TokenData {
-    const dataStoredInToken: TokenPayload = {
-      _id: user._id,
-    };
-    const secretKey: string = SECRET_KEY;
-    const expiresIn: number = 1000 * 60 * 60 * 24 * 30; // a month
-
+  public createCookie(refreshToken: string): ICookie {
     return {
-      expiresIn,
-      token: sign(dataStoredInToken, secretKey, { expiresIn }),
+      name: 'Authorization',
+      options: {
+        httpOnly: true, // only accessible by a web server
+        maxAge: 1000 * 60 * 60 * 24 * 7, // expires in 1 week
+        sameSite: 'none', // cross-site cookie
+        secure: false, //https
+      },
+      value: refreshToken,
     };
-  }
-
-  public createCookie(tokenData: TokenData): ICookie {
-    return { name: 'Authorization', options: { httpOnly: true, maxAge: tokenData.expiresIn }, value: tokenData.token };
   }
 }
 

@@ -1,10 +1,12 @@
+import { Gender } from '@/enums/gender.enum';
+
 export type UserFormProps = {
   key?: string;
   firstName: string;
   lastName: string;
   age: number;
   phone: string;
-  gender: 'Male' | 'Female';
+  gender: Gender;
 };
 export type ButtonDirectionProps = {
   firstName: string;
