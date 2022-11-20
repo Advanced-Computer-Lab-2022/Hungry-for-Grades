@@ -15,6 +15,10 @@ const traineeSchema = new Schema<ITrainee>(
           type: Schema.Types.ObjectId,
         },
         dateOfEnrollment: Date,
+        examGrade: {
+          default: 0,
+          type: Number,
+        },
         notes: [
           {
             content: String,
@@ -22,6 +26,10 @@ const traineeSchema = new Schema<ITrainee>(
             title: String,
           },
         ],
+        progress: {
+          default: 0,
+          type: Number,
+        },
       },
     ],
     _wishlist: [{ ref: 'Course', type: Schema.Types.ObjectId }],

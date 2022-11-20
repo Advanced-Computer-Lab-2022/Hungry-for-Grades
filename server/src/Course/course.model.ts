@@ -1,9 +1,9 @@
-import { Course, Level } from '@Course/course.interface';
+import { ICourse, Level } from '@Course/course.interface';
 import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 
 //balabizo
-const courseSchema = new Schema<Course>(
+const courseSchema = new Schema<ICourse>(
   {
     _instructor: [
       {
@@ -180,5 +180,5 @@ courseSchema.pre('save', function (next) {
   }
 });
 
-const courseModel = model<Course & Document>('Course', courseSchema);
+const courseModel = model<ICourse & Document>('Course', courseSchema);
 export default courseModel;
