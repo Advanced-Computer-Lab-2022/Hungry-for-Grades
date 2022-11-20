@@ -4,7 +4,10 @@ import { devtools } from 'zustand/middleware';
 
 import { type ICartStore } from '@interfaces/cart.interface';
 
-export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
+export const useWishListStore = create<
+  ICartStore,
+  [['zustand/devtools', never]]
+>(
   devtools(set => ({
     cart: [],
     addCourse: course => {
@@ -40,10 +43,16 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
   }))
 );
 
-export const UseCart = () => useCartStore(state => state.cart);
-export const UseCartTotalCost = () => useCartStore(state => state.totalCost);
-export const UseCartTotalItems = () => useCartStore(state => state.totalItems);
-export const AddCourse = () => useCartStore(state => state.addCourse);
-export const RemoveCourse = () => useCartStore(state => state.removeCourse);
-export const SetCart = () => useCartStore(state => state.setCart);
-export const ClearCart = () => useCartStore(state => state.clearCart);
+export const UseWishList = () => useWishListStore(state => state.cart);
+export const UseWishListTotalCost = () =>
+  useWishListStore(state => state.totalCost);
+export const UseWishListTotalItems = () =>
+  useWishListStore(state => state.totalItems);
+export const UseWishListAddCourse = () =>
+  useWishListStore(state => state.addCourse);
+export const UseWishListRemoveCourse = () =>
+  useWishListStore(state => state.removeCourse);
+export const UseWishListSetCart = () =>
+  useWishListStore(state => state.setCart);
+export const UseWishListClearCart = () =>
+  useWishListStore(state => state.clearCart);
