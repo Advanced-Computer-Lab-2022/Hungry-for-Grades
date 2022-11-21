@@ -1,6 +1,6 @@
 import { PaginatedRequest } from './request.interface';
 
-import { IUser } from '@/interfaces/user.interface';
+import { Address } from '@/interfaces/user.interface';
 
 import { Level } from '@/enums/level.enum';
 
@@ -42,7 +42,7 @@ export interface IAddCourseRequest extends IBaseCourse {
 
 export interface ICourse extends IBaseCourse {
   _id: string;
-  _instructor: Instructor | Instructor[];
+  _instructor: Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
 }
@@ -69,8 +69,41 @@ export type Rating = {
   reviews: Review[];
 };
 
+export type Email = {
+  address: string;
+  isValidated: boolean;
+  _id: string;
+};
+
+export type SocialMedia = {
+  facebook: string;
+  github: string;
+  linkin: string;
+  personalWebsite: string;
+  youtube: string;
+  _id: string;
+};
+
 export type Instructor = {
-  _user: IUser[] | IUser;
+  _id: string;
+  name: string;
+  profileImage: string;
+  address: Address;
+  email: Email;
+  biography: string;
+  balance: number;
+  active: boolean;
+  bankAccount: {
+    _id: string;
+  };
+  socialMedia: SocialMedia;
+  speciality: string;
+  title: string;
+  username: string;
+  phone: string;
+  gender: string;
+  __v: string;
+  lastLogin: string;
 };
 
 export type ICourseLesson = {

@@ -14,7 +14,7 @@ function Button(props: ButtonProps) {
       className={`btn ${props.className ?? styles.button ?? ''} ${
         styles[props.backgroundColor] ?? ''
       } }`}
-      disabled={!props.isDisabled || isLoading}
+      disabled={props.isDisabled}
       id={id}
       name={props.name}
       type={props.type === 'submit' ? 'submit' : 'button'}
