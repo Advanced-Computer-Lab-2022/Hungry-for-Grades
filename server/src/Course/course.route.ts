@@ -25,6 +25,18 @@ class CoursesRoute implements Routes {
     this.router.get('/rating/:courseId', this.courseController.getCourseReviews);
     this.router.get('/instructor/:instructorId', this.courseController.getInstructorCourses);
 
+    //FAQ
+    this.router.get('/:courseId/faq', this.courseController.getAllFaqs);
+    this.router.post('/:courseId/faq', this.courseController.addFaqToCourse);
+    this.router.delete('/:courseId/faq/:faqId', this.courseController.deleteFaq);
+    this.router.put('/:courseId/faq/:faqId', this.courseController.updateFaq);
+
+    //Anouncement
+    this.router.get('/:courseId/announcement', this.courseController.getAllAnnouncements);
+    this.router.post('/:courseId/announcement', this.courseController.addAnnouncementToCourse);
+    this.router.delete('/:courseId/announcement/:announcementId', this.courseController.deleteAnnouncement);
+    this.router.put('/:courseId/announcement/:announcementId', this.courseController.updateAnnouncement);
+
     this.router.get('/:id', this.courseController.getCourseById);
     this.router.put('/:id', this.courseController.updateCourse);
     this.router.delete('/:id', this.courseController.deleteCourse);
