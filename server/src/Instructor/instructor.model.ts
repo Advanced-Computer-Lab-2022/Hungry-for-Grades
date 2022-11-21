@@ -111,8 +111,6 @@ instructorSchema.pre('save', async function (next) {
     return next();
   }
   const salt = await genSalt();
-
-  this.lastLogin = new Date();
   this.password = await hash(this.password, salt);
   next();
 });

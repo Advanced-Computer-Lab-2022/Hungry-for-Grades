@@ -23,7 +23,7 @@ export const CourseFiltersDefault: CourseFilters = {
   level: undefined,
   limit: 12,
   page: 1,
-  priceHigh: 1e5,
+  priceHigh: 1e18,
   priceLow: 0,
   rating: 0,
   searchTerm: '',
