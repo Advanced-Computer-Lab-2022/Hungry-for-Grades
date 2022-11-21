@@ -1,10 +1,9 @@
 @import 'index.css';
-
 $dark: #520e0e;
-$light: #FFFFFF;
-$primary: #780505;
-$secondary: #D14545;
-
+$light: #fff;
+$primary: #A00407;
+$secondary: #d37070;
+$grey: #aaa;
 $tooltip-bg: $secondary;
 $tooltip-max-width: 20rem;
 $tooltip-opacity: 1;
@@ -16,10 +15,8 @@ primary --> second blue
 secondary --> samawy fate7 gedan
 */
 
-
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/react-toastify/scss/main";
-
 body {
     min-height: 100vh;
     #root {

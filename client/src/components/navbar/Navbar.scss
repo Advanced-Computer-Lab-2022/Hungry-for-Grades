@@ -1,4 +1,5 @@
 .navbar {
+    border-bottom: 1px solid var(--grey);
     .flag__select {
         outline: none;
         border: none;
@@ -27,7 +28,7 @@
         }
         li:hover {
             background-color: var(--secondary-background-color);
-            color: var(--secondary-color);
+            color: var(--primary-background-light-color);
         }
         li:active,
         li:focus {

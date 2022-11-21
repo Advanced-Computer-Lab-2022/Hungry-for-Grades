@@ -48,8 +48,6 @@ async function searchRequest(
 	&page=${page}
 	&searchTerm=${filters.searchTerm.trim()}
 	`.trim();
-  alert(getCoursesSearchFilter.query);
-  alert(filters.country);
   return getRequest(getCoursesSearchFilter);
 }
 
