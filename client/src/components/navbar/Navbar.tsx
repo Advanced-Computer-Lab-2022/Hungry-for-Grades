@@ -10,9 +10,13 @@ import UserDropdown from './userDropDown/UserDropdown';
 
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
+import SearchBar from '@pages/landing/searchBar/SearchBar';
+
 import './Navbar.scss';
 
 function NavbarComponent() {
+  //The Line of the first NAV part i changed className to '' from me-auto and put smaller margin right to take the searchbar inside it
+  //I added the SearchBar component (Changed by Hussein Ebrahim)
   const country = UseCountry();
   const updateCountry = UpdateCountry();
   const user = null;
@@ -24,7 +28,7 @@ function NavbarComponent() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='me-auto'>
+          <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
               className={({ isActive }) =>
                 isActive ? 'nav-link active' : 'nav-link'
@@ -51,6 +55,7 @@ function NavbarComponent() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
+          <SearchBar />
           <Nav className='ml-auto'>
             <Nav.Link>
               <ReactFlagsSelect
