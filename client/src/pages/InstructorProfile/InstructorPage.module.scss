@@ -1,0 +1,109 @@
+.page
+{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+    position: relative;
+    margin-top: 4.8rem;
+    max-width: 70.2rem;
+    /*div{
+        //display: block;
+    }*/
+}
+
+.hero
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: 1.2rem;
+    color: #1c1d1f;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+    position: relative;
+    display: block;
+    h1{
+        font-family: SuisseWorks,Georgia,Times,times new roman,serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+        display: block;
+        margin-block-start: 0em;
+        margin-block-end: 0.5em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        letter-spacing: -0.02rem;
+        font-weight: 700;
+    }
+    h2{
+        display: block;
+        margin-block-start: 0.83em;
+        margin-block-end: 0.83em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-family: udemy sans,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+}
+
+.hero1{
+    padding-bottom: 2.4rem;
+}
+
+.instructor_img
+{
+    border-radius: 50%;
+    object-fit: cover;
+    width:15rem;
+    height:15rem;
+    right:2.4rem;
+    vertical-align: middle;
+    position: absolute;
+    top: 0;
+}
+
+.title
+{
+    color : #6a6f73;
+    text-transform: uppercase;
+    letter-spacing: 0rem;
+    font-weight: 640;
+}
+
+.property
+{
+    color: #6a6f73;
+    margin-bottom: 0.2rem;
+    font-size: 1.15rem;
+    font-weight: 750;
+}
+
+.value{
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: -0.1rem;
+}
+
+.data
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 42rem;
+    font-weight: 350;
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+.social_wrapper
+{
+    padding-bottom: 4rem;
+    position: absolute;
+    right: 6rem;
+    top:16rem;
+}
+

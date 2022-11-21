@@ -55,7 +55,7 @@ export async function getCurrentPrice(price: Price, conversionRate: number, coun
 export async function addDefaultValuesToCourseFilters(courseFilters: CourseFilters) {
   // Filter out empty params
   for (const param in courseFilters) {
-    if (courseFilters[param] === null || courseFilters[param] === '') {
+    if (courseFilters[param] === null || (`${courseFilters[param]}` as string).trim() === '') {
       delete courseFilters[param];
     }
   }

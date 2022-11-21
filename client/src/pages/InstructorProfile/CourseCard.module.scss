@@ -1,0 +1,18 @@
+
+
+:root{
+  --star-size: 20px;
+  --star-color: rgba(55, 56, 56, 0.067);
+  --star-background: #e59819;
+}
+
+
+.course_wrapper{
+    display: inline-block;
+    max-width: 22rem;
+    min-width: 16rem;
+    align-items: flex-start;
+    position:relative;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+}
