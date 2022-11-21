@@ -36,7 +36,7 @@ function CourseHeader(props: ICourse) {
       <CourseRating {...props.rating} />
       <div className={`text-light`}>
         Created by: &nbsp;
-        <Instructors instructor={props._instructor} />
+        <Instructors instructors={props._instructor} />
       </div>
       <div className={`text-light`}>
         Duration: &nbsp;

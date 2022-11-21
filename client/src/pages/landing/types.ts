@@ -23,7 +23,7 @@ export type CourseCardProps = {
   previewVideoURL: string;
   id: string;
   title: string;
-  instructor: Instructor | Instructor[];
+  instructor: Instructor[];
   image: string;
   price: IPrice;
   originalPrice?: number;
