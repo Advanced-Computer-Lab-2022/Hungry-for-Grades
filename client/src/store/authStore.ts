@@ -6,8 +6,6 @@ import { type IAuth, type IToken } from '@interfaces/token.interface';
 import { Role } from '@enums/role.enum';
 
 import LocalStorage from '@services/localStorage/LocalStorage';
-import { getRequest } from '@/services/axios/http-verbs';
-import { AuthRoutes } from '@/services/axios/dataServices/AuthDataService';
 
 const INTIAL_TOKEN: IToken = {
   accessToken: '',
@@ -23,19 +21,23 @@ export const useAuthStore = create<
 >(
   devtools(
     persist(
-      set => ({
+      (set, get) => ({
         token: (LocalStorage.get('token') as IToken) ?? INTIAL_TOKEN,
-        isAuthenticated: LocalStorage.get('token') ? true : false,
-        updateToken: token => {
+        isAuthenticated: false,
+        setToken: token => {
           set({ token, isAuthenticated: true });
+        },
+        updateAccessToken: accessToken => {
+          set({
+            token: {
+              ...get().token,
+              accessToken: accessToken
+            },
+            isAuthenticated: true
+          });
         },
         removeToken: () => {
           set({ token: INTIAL_TOKEN, isAuthenticated: false });
-        },
-        refresh: async () => {
-          const dataService = Object.assign({}, AuthRoutes.GET.refresh);
-          const response = await getRequest(dataService);
-          set({ token: response.data });
         }
       }),
       {
@@ -46,8 +48,11 @@ export const useAuthStore = create<
   )
 );
 
-export const UseToken = () => useAuthStore(state => state.token);
-export const UseIsAuthenticated = () =>
+export const UseAuthStoreToken = () => useAuthStore(state => state.token);
+export const UseAuthStoreIsAuthenticated = () =>
   useAuthStore(state => state.isAuthenticated);
-export const UpdateToken = () => useAuthStore(state => state.updateToken);
-export const RemoveToken = () => useAuthStore(state => state.removeToken);
+export const UseAuthStoreSetToken = () => useAuthStore(state => state.setToken);
+export const UseAuthStoreUpdateAccessToken = () =>
+  useAuthStore(state => state.updateAccessToken);
+export const UseAuthStoreRemoveToken = () =>
+  useAuthStore(state => state.removeToken);

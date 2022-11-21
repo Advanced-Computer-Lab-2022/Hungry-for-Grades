@@ -2,21 +2,20 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import InstructorDash from '@components/Instructor/InstructorMainSection';
 
-import { UseIsAuthenticated } from '@store/authStore';
+import { UseAuthStoreIsAuthenticated } from '@store/authStore';
 
 import { Role } from '@enums/role.enum';
 
 export default function TraineeRoutes() {
-  //const token = UseToken();
   const location = useLocation();
-  const useIsAuthenticated = UseIsAuthenticated();
+  const useAuthStoreIsAuthenticated = UseAuthStoreIsAuthenticated();
 
-  return 'trainee' === Role.TRAINEE ? (
+  return 'trainee' === Role.TRAINEE && useAuthStoreIsAuthenticated ? (
     <>
       <InstructorDash />
       <Outlet />
     </>
-  ) : useIsAuthenticated ? (
+  ) : useAuthStoreIsAuthenticated ? (
     <Navigate replace state={{ from: location }} to='/unauthorized' />
   ) : (
     <Navigate replace state={{ from: location }} to='/auth/signup' />

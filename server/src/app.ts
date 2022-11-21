@@ -21,6 +21,7 @@ class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+  public allowedOrigins = ['http://localhost:8000'];
 
   constructor(routes: Routes[]) {
     this.app = express();
@@ -69,7 +70,14 @@ class App {
     this.app.use(
       cors({
         credentials: CREDENTIALS,
-        origin: ORIGIN,
+        optionsSuccessStatus: 200,
+        origin: (origin, callback) => {
+          if (this.allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
       }),
     );
 

@@ -5,10 +5,6 @@ import { postRequest } from '@services/axios/http-verbs';
 function usePostQuery() {
   return useMutation(postRequest, {
     cacheTime: 0,
-    onError: error => {
-      console.log(error);
-      return error;
-    },
     onSuccess: data => {
       console.log(data);
       return data;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   AxiosError,
   AxiosInstance,
@@ -69,29 +68,29 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 
 const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
   /*   const unParsedToken = localStorage.getItem('token');
-  if (
-    error.response &&
-    unParsedToken &&
-    error.response.status === 401 &&
-    error.response.data
-    //error.response.data?.error !== null &&
-    //error.response.data?.message === 'jwt expired'
-  ) {
-    const { REFRESH_TOKEN } = JSON.parse(unParsedToken) as TokenType;
+	if (
+		error.response &&
+		unParsedToken &&
+		error.response.status === 401 &&
+		error.response.data
+		//error.response.data?.error !== null &&
+		//error.response.data?.message === 'jwt expired'
+	) {
+		const { REFRESH_TOKEN } = JSON.parse(unParsedToken) as TokenType;
 
-    try {
-      const rs = await axios.post(`${APP_BASE_API_URL}/auth/refresh`, {
-        REFRESH_TOKEN: REFRESH_TOKEN
-      });
+		try {
+			const rs = await axios.post(`${APP_BASE_API_URL}/auth/refresh`, {
+				REFRESH_TOKEN: REFRESH_TOKEN
+			});
 
-      const { token }: { token: string } = rs.data as { token: string };
+			const { token }: { token: string } = rs.data as { token: string };
 
-      localStorage.setItem('token', JSON.stringify(token));
-      //localStorage.setItem('user', JSON.stringify(user));
-    } catch (_error) {
-      return Promise.reject(_error);
-    }
-  } */
+			localStorage.setItem('token', JSON.stringify(token));
+			//localStorage.setItem('user', JSON.stringify(user));
+		} catch (_error) {
+			return Promise.reject(_error);
+		}
+	} */
 
   return Promise.reject(error);
 };

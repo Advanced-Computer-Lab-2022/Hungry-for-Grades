@@ -3,9 +3,7 @@ import { Role } from '@enums/role.enum';
 
 interface IUser {
   _id: string;
-  active: boolean;
   address: Address;
-  createdAt: Date;
   email: {
     address: string;
     isValidated: boolean;
@@ -18,8 +16,6 @@ interface IUser {
   profileImage: string;
   role: Role;
   username: string;
-  updatedAt: string;
-  __v: number;
 }
 export type Address = {
   city: string;

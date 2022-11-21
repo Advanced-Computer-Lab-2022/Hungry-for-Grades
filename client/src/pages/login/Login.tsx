@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -7,16 +8,22 @@ import { useCallback } from 'react';
 
 import { LoginProps } from './types';
 
-import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
+import { UseSetUser } from '@/store/userStore';
 
+import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
+import { UseAuthStoreSetToken } from '@store/authStore';
+
 import './login.scss';
 
 function Login() {
-  const { mutateAsync: login, isError, data } = usePostQuery();
+  const { mutateAsync: login, isError, error } = usePostQuery();
+  const useSetUser = UseSetUser();
+  const useAuthStoreSetToken = UseAuthStoreSetToken();
+
   const navigate = useNavigate();
   const location = useLocation();
   const from: string = location?.state?.from?.pathname || '/home';
@@ -48,22 +55,33 @@ function Login() {
   }, [navigate]);
 
   const handleSubmit = useCallback(async () => {
-    const { email, password } = (await formik.submitForm()) as LoginProps;
-    const loginRoute = Object.assign({}, AuthRoutes.POST.login);
-    loginRoute.payload = {
-      email: {
-        address: email
-      },
-      password
-    };
-    const response = await login(loginRoute);
-    if (response) {
-      navigate(from, { replace: true });
+    try {
+      const { email, password } = (await formik.submitForm()) as LoginProps;
+      const loginRoute = Object.assign({}, AuthRoutes.POST.login);
+      loginRoute.payload = {
+        email: {
+          address: email
+        },
+        password
+      };
+      const response = await login(loginRoute);
+      if (response && response.status === 200) {
+        useSetUser(response?.data?.data?.user);
+        useAuthStoreSetToken(response?.data?.data?.token);
 
-      return true;
+        console.log(response?.data?.data?.user);
+        console.log(response?.data?.data?.token);
+        navigate(from, { replace: true });
+
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.log(axiosError.response?.data?.message);
+
+      console.log(err);
     }
-    return false;
-  }, [navigate, formik, login, from]);
+  }, [formik, login, useSetUser, useAuthStoreSetToken, navigate, from]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
@@ -120,10 +138,15 @@ function Login() {
             title='Login'
             onResetFunc={formik.handleReset}
           >
+            {isError && (
+              <div className='alert alert-danger' role='alert'>
+                {error?.response?.data?.message}
+              </div>
+            )}
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
-                isDisabled={formik.isValid}
+                isDisabled={!formik.isValid || !formik.dirty}
                 label='Login'
                 name='login'
                 type='button'
@@ -136,10 +159,8 @@ function Login() {
                 </Link>
               </span>
             </div>
-
             <div />
           </Form>
-          {isError && <div>{data}</div>}
         </div>
       </section>
       <div className='w-75 img__container'>
