@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { v4 as uuidv4 } from 'uuid';
 
 import { useState } from 'react';
 
 import AccountForm from './AccountForm';
-import AddressForm from './AddressForm';
 import { type SignupData, type UpdateSignupData } from './types';
 import UserForm from './UserForm';
 
 import useMultistepForm from '@hooks/useMultistepForm';
 
 import { Gender } from '@/enums/gender.enum';
-import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import ProgressSteps from '@components/progress/ProgressSteps';
 import './signup.scss';
@@ -19,13 +18,14 @@ const INITIAL_DATA: SignupData = {
   firstName: '',
   lastName: '',
   gender: Gender.MALE,
-  age: 0,
+  birthDate: '',
   phone: '',
   country: '',
-  email: {
-    address: ''
-  },
-  password: ''
+  email: '',
+  password: '',
+  confirmPassword: '',
+  terms: false,
+  username: ''
 };
 
 function Signup() {
@@ -47,7 +47,6 @@ function Signup() {
     step,
     title,
     subtitle,
-    isFirstStep,
     isLastStep,
     next,
     prev
@@ -55,12 +54,20 @@ function Signup() {
     [
       // eslint-disable-next-line react/jsx-no-bind
       <UserForm key={uuidv4()} {...data} updateData={updateData} />,
-      <AddressForm key={uuidv4()} {...data} />,
-      <AccountForm key={uuidv4()} {...data} />
+      <AccountForm
+        key={uuidv4()}
+        {...data}
+        prev={previous}
+        updateData={updateData}
+      />
     ],
-    ['User Form', 'Address Form', 'Account Form'],
-    ['Give us your info', 'Where do you live?', 'Create an account']
+    ['User Form', 'Account Form'],
+    ['Give us your info', 'Create an account']
   );
+
+  function previous() {
+    prev();
+  }
 
   function handleSubmit() {
     // Do something with the data
@@ -80,11 +87,16 @@ function Signup() {
       </div>
       <section className={`container `}>
         <div className={`form__container `}>
-          <ProgressSteps
-            currentStepIndex={currentStepIndex}
-            steps={['User Form ', 'Address Form', 'A']}
-          />
-          <hr />
+          <div className='container'>
+            <ProgressSteps
+              currentStepIndex={currentStepIndex}
+              steps={['User Form ', 'Address Form', 'A']}
+            />
+            <hr />
+            <div className='text-muted'>
+              Step {currentStepIndex + 1}/{steps.length}
+            </div>
+          </div>
           <Form
             ariaLabel={''}
             disabled={false}
@@ -97,27 +109,9 @@ function Signup() {
             title={title}
           >
             {step}
-            {currentStepIndex + 1}/{steps.length}
-            {!isFirstStep && (
-              <Button
-                backgroundColor={'default-bg'}
-                isDisabled={isFirstStep}
-                label={'Back'}
-                name={'back'}
-                type={'button'}
-                onClickFunc={prev}
-              />
-            )}
-            {
-              <Button
-                backgroundColor={'default-bg'}
-                isDisabled={isLastStep}
-                label={isLastStep ? 'Submit' : 'Next'}
-                name={'next'}
-                type={'button'}
-                onClickFunc={next}
-              />
-            }
+            <button className={`btn btn-primary btn-block`} type='submit'>
+              ss
+            </button>
           </Form>
         </div>
       </section>
