@@ -16,7 +16,7 @@ export const useCountryStore = create<
       set => ({
         country: LocalStorage.get('country') ?? 'US',
         updateCountry: country => {
-					alert('country: ' + country);
+          alert('country: ' + country);
           set({ country });
         }
       }),

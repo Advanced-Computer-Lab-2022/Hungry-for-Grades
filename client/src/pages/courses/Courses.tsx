@@ -17,8 +17,8 @@ function SearchCourses() {
 
   const { data, isLoading, error, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
-		console.log('data');
-		console.log(data);
+  console.log('data');
+  console.log(data);
   return (
     <section className={styles.courses__page}>
       <SearchSection
