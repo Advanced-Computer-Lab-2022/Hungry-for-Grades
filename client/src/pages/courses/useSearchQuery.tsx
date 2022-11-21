@@ -31,24 +31,22 @@ async function searchRequest(
   oldFilters = filters;
 
   const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
-  getCoursesSearchFilter.query = `
-	searchTerm=${filters.searchTerm}
-	&category=${filters.category}
+  getCoursesSearchFilter.query =
+	`category=${(filters.category).trim()}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
-	&priceLow=${
-    filters.paid && filters.free ? filters.min : filters.paid ? 1 : filters.min
-  }
-	&priceHigh=${
-    filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
-  }
+	&priceLow=${filters.paid && filters.free ? filters.min : filters.paid ? 1 : filters.min}
+	&priceHigh=${filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max}
 	&sortBy=${filters.sortBy}
 	&durationLow=${(filters.durationLow ?? 0) * 60 * 24 * 30}
 	&durationHigh=${filters.durationHigh * 60 * 24 * 30}
-	&country=${filters.country}
+	&country=${filters.country.trim()}
 	&limit=${12}
-	&page=${page}`;
-  //alert(getCoursesSearchFilter.query);
+	&page=${page}
+	&searchTerm=${(filters.searchTerm).trim()}
+	`.trim();
+  alert(getCoursesSearchFilter.query);
+	alert(filters.country);
   return getRequest(getCoursesSearchFilter);
 }
 

@@ -17,6 +17,8 @@ function SearchCourses() {
 
   const { data, isLoading, error, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
+		console.log('data');
+		console.log(data);
   return (
     <section className={styles.courses__page}>
       <SearchSection
@@ -29,8 +31,8 @@ function SearchCourses() {
           {error && <div>error</div>}
           {data && (
             <>
-              <CoursesSection {...data.data} />
-              {data?.data?.totalPages > 0 && (
+              <CoursesSection {...data?.data} />
+              {data?.data?.totalResults > 0 && (
                 <Pagination
                   activePage={activePage}
                   pages={data?.data?.totalPages as number}
