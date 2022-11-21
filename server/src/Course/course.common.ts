@@ -1,3 +1,4 @@
+import { logger } from '@/Utils/logger';
 import { Price } from '@Course/course.interface';
 import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
@@ -21,15 +22,21 @@ export function getCurrencyFromCountry(countryCode: string): string {
 
 export async function getConversionRate(country: string, toUSD = false): Promise<number> {
   // toUSD is set when we want to convert from the currency of the country to USD
-  const inputCurrency = getCurrencyFromCountry(country);
-  let currencyConverter;
-  if (toUSD) {
-    currencyConverter = new CC({ from: inputCurrency, to: 'USD' });
-  } else {
-    currencyConverter = new CC({ from: 'USD', to: inputCurrency });
+  try {
+    const inputCurrency = getCurrencyFromCountry(country);
+    let currencyConverter;
+    if (toUSD) {
+      currencyConverter = new CC({ from: inputCurrency, to: 'USD' });
+    } else {
+      currencyConverter = new CC({ from: 'USD', to: inputCurrency });
+    }
+    const rates = await currencyConverter.rates();
+    //console.log(rates, country, toUSD);
+    return rates;
+  } catch (err) {
+    logger.error(err.message);
+    return 1;
   }
-  const rates = await currencyConverter.rates();
-  return rates;
 }
 
 // Gets price after discount and after currency conversion

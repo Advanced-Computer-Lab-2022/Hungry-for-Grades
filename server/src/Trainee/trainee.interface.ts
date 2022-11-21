@@ -4,9 +4,9 @@ import { LargeNumberLike } from 'crypto';
 import { Types } from 'mongoose';
 
 export interface ITrainee extends IUser {
-  _cart?: Cart;
+  _cart?: ICourse[];
   _enrolledCourses?: EnrolledCourse[];
-  _wishlist?: Wishlist;
+  _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
   preferredSkills: string[];

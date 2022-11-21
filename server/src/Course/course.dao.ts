@@ -121,12 +121,13 @@ class CourseService {
     filterQuery['title'] = { $options: 'i', $regex: searchTerm };
 
     const sortQuery: any = generateCoursesSortQuery(sortBy);
+
     const instructor: IInstructor = await instructorModel.findById(instructorId).populate({
       match: filterQuery,
       model: courseModel,
       path: '_teachedCourses._course',
       select: '-rating.reviews',
-      sort: sortQuery,
+      //sort: sortQuery,
     });
 
     //Remove nulls returned from mismatches when joining

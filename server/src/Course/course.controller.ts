@@ -59,7 +59,7 @@ class CourseController {
   public getCourseById = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const country: string = req.query.country as string;
+      const country: string = (req.query.country as string) ?? 'US';
       const courseData: ICourse = await this.courseService.getCourseById(courseId, country);
 
       res.json({
