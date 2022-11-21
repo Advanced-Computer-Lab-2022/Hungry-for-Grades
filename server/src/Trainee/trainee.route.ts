@@ -15,7 +15,21 @@ class TraineeRoute implements Routes {
     this.router.post('/', this.traineeController.createTrainee);
     this.router.get('/email', this.traineeController.getTraineeByEmail);
     this.router.get('/username', this.traineeController.getTraineeByUsername);
+
+    this.router.get('/:traineeId/cart', this.traineeController.getCart);
+    this.router.get('/:traineeId/wishlist', this.traineeController.getWishlist);
+
+    this.router.delete('/:traineeId/cart', this.traineeController.emptyCart);
+    this.router.delete('/:traineeId/wishlist', this.traineeController.emptyWishlist);
+
     this.router.get('/:traineeId/courses', this.traineeController.getTraineeCourses);
+
+    this.router.post('/:traineeId/cart/:courseId', this.traineeController.addCourseToCart);
+    this.router.post('/:traineeId/wishlist/:courseId', this.traineeController.addCourseToWishlist);
+
+    this.router.delete('/:traineeId/cart/:courseId', this.traineeController.removeCourseFromCart);
+    this.router.delete('/:traineeId/wishlist/:courseId', this.traineeController.removeCourseFromWishlist);
+
     this.router.post('/:traineeId/enroll/:courseId', this.traineeController.enrollTraineeInCourse);
     this.router.delete('/:traineeId/unroll/:courseId', this.traineeController.unrollTraineeInCourse);
     this.router.get('/:traineeId', this.traineeController.getTraineeById);

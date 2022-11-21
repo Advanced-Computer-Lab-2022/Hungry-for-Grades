@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { ICourse } from '@Course/course.interface';
+import { ICourse, Question } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -59,7 +59,7 @@ class CourseController {
   public getCourseById = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction) => {
     try {
       const courseId: string = req.params.id;
-      const country: string = req.query.country as string;
+      const country: string = (req.query.country as string) ?? 'US';
       const courseData: ICourse = await this.courseService.getCourseById(courseId, country);
 
       res.json({
@@ -163,6 +163,41 @@ class CourseController {
       res.json({
         ...courseReviewsPaginatedResponse,
         message: 'Review Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //create exam controller
+  public createExam = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const examData: Question[] = req.body;
+
+      const createdExam = await this.courseService.createExam(courseId, examData);
+
+      res.json({
+        data: createdExam,
+        message: 'Exam Created Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get exam controller
+  public getCourseExam = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+
+      const exam = await this.courseService.getCourseExam(courseId);
+
+      res.json({
+        data: exam,
+        message: 'Exam Fetched Successfully',
         success: true,
       });
     } catch (error) {

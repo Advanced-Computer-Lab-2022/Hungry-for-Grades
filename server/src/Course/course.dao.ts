@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { ICourse, Price } from '@Course/course.interface';
+import { ICourse, Price, Question } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -130,12 +130,13 @@ class CourseService {
     filterQuery['title'] = { $options: 'i', $regex: searchTerm };
 
     const sortQuery: any = generateCoursesSortQuery(sortBy);
+
     const instructor: IInstructor = await instructorModel.findById(instructorId).populate({
       match: filterQuery,
       model: courseModel,
       path: '_teachedCourses._course',
       select: '-rating.reviews -announcements -exam -sections',
-      sort: sortQuery,
+      //  sort: sortQuery,
     });
 
     //Remove nulls returned from mismatches when joining
@@ -309,6 +310,29 @@ class CourseService {
       totalResults: totalReviews,
     };
   }
-}
 
+  //create exam for course
+  public createExam = async (courseId: string, examData: Question[]): Promise<Question[]> => {
+    if (isEmpty(examData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exam data is empty');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+
+    course.exam = examData;
+    await course.save();
+
+    return examData;
+  };
+
+  //get exam for course
+  public getCourseExam = async (courseId: string): Promise<Question[]> => {
+    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+
+    return course.exam;
+  };
+}
 export default CourseService;
