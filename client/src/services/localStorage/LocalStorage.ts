@@ -18,8 +18,7 @@ class LocalStorage {
 
   set<T>(key: string, value: string | T) {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
-    const valueToStore =
-      typeof value === 'string' ? value : JSON.stringify(value);
+    const valueToStore = JSON.stringify(value);
     this.storage.setItem(key, valueToStore);
   }
 
