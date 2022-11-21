@@ -10,7 +10,7 @@ class LocalStorage {
   get<T>(key: string): T | string | null {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
     const value = this.storage.getItem(key);
-    if (value) {
+    if (value && (value.includes('{') || value.includes('['))) {
       return JSON.parse(value) as T;
     }
     return value;
@@ -18,8 +18,7 @@ class LocalStorage {
 
   set<T>(key: string, value: string | T) {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
-    const valueToStore =
-      typeof value === 'string' ? value : JSON.stringify(value);
+    const valueToStore = JSON.stringify(value);
     this.storage.setItem(key, valueToStore);
   }
 

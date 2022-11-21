@@ -25,7 +25,7 @@ export default function InstructorMainSection() {
           >
             Instructor Dashboard
           </span>
-          <Link to='/instructor/addCourse'>
+          <Link to='/instructor/add-course'>
             <button
               style={{
                 backgroundColor: '#F9F7F7',

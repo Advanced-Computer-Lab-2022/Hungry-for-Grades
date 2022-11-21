@@ -6,10 +6,10 @@
   --primary-dark-color: #111;
   --secondary-dark-color: #777;
   --background-dark-color: #0b090a;
-  --primary-light-color: #112d4e;
-  --secondary-light-color: #3f72af;
-  --primary-background-light-color: #f9f7f7;
-  --secondary-background-light-color: #dbe2ef;
+  --primary-light-color: #520e0e;
+  --secondary-light-color: #780505;
+  --primary-background-light-color: #ffffff;
+  --secondary-background-light-color: #d14545;
   /*My Variables */
   /* for background */
   --primary-background-color: var(--primary-background-light-color);

@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+
 import './pagination.scss';
 import { type PaginationProps } from './types';
 
@@ -29,7 +31,7 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
           activePage !== 1 && setActivePage((page: number) => page - 1)
         }
       >
-        {'<'}
+        <GrFormPrevious />
       </div>
       {getPages()} {/* We will handle this method in the next step */}
       <div
@@ -39,7 +41,7 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
           activePage !== pages && setActivePage((page: number) => page + 1)
         }
       >
-        {'>'}{' '}
+        <GrFormNext />
       </div>
     </div>
   );
