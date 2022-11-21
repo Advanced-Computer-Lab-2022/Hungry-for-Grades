@@ -17,7 +17,7 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const user = null;
   return (
-    <Navbar bg='secondary' className='navbar' expand='lg'>
+    <Navbar bg='light' className='navbar' expand='lg' fixed='top'>
       <Container>
         <Navbar.Brand>
           <Link to='/'>CanCham</Link>

@@ -20,7 +20,6 @@ import { ChangeEvent } from '@/components/common.types';
 import ControlledStarsRating from '@/components/starsRating/ControlledStarsRating';
 
 function SearchSection(props: SearchSectionProps) {
-  const id = uuid();
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -28,13 +27,13 @@ function SearchSection(props: SearchSectionProps) {
     <section className={styles.searchSection__container}>
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
         <div className='container my-3 mb-5'>
-          <h1 className={`${styles.heading ?? ''}`}>Search for Courses</h1>
+          <h1 className={`${styles.heading ?? ''} mt-5`}>Search for Courses</h1>
           <h2 className={`${styles.subheading ?? ''}`}>subheading</h2>
         </div>
-        <div className={`fluid-container ${styles.searchFilters ?? ''}`}>
+        <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
           <div
             className='container p-5 d-flex flex-row justify-content-between'
-            id={id}
+            id={uuid()}
           >
             <div className='input-group '>
               <input
