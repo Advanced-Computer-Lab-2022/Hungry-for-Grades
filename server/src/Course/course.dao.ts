@@ -60,6 +60,15 @@ class CourseService {
           ],
         },
       },
+      {
+        $project: {
+          __v: 0,
+          announcements: 0,
+          exam: 0,
+          keywords: 0,
+          sections: 0,
+        },
+      },
     ];
 
     const sortQuery: any = generateCoursesSortQuery(sortBy);
@@ -126,8 +135,8 @@ class CourseService {
       match: filterQuery,
       model: courseModel,
       path: '_teachedCourses._course',
-      select: '-rating.reviews',
-      //sort: sortQuery,
+      select: '-rating.reviews -announcements -exam -sections',
+      //  sort: sortQuery,
     });
 
     //Remove nulls returned from mismatches when joining

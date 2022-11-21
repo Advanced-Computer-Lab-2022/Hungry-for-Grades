@@ -8,11 +8,11 @@ export function useSeletedFilters() {
     subCategory: '',
     searchTerm: '',
     priceLow: 0,
-    priceHigh: 10000,
+    priceHigh: 100,
     level: '',
     sortBy: 1,
     durationLow: 0,
-    durationHigh: 12,
+    durationHigh: 100,
     country: 'CA'
   });
 }

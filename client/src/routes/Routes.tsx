@@ -16,6 +16,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
 
+import InstructorPage from '@pages/InstructorProfile/InstructorPage';
+
 const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
@@ -44,6 +46,11 @@ function AllRoutes() {
         <Route element={<LazyUserProfile />} path='/profile/:userId' />
       </Route>
 
+      <Route
+        element={<InstructorPage text={'637962792c3f71696ca3473c'} />}
+        path='hussein'
+      />
+
       <Route element={<PublicRoutes />}>
         <Route element={<LazyLanding />} path='/' />
       </Route>
@@ -67,13 +74,13 @@ function AllRoutes() {
 
         <Route element={<InstructorRoutes />} path='/instructor'>
           <Route element={<LazyInstructorDashboard />} path='' />
-          <Route element={<LazyAddCourse />} path='/instructor/add-course' />
+          <Route element={<LazyAddCourse />} path='add-course' />
         </Route>
       </Route>
 
       <Route element={<AuthRoutes />} path='/auth'>
         <Route element={<LazyLogin />} path='login' />
-        <Route element={<LazySignup />} path='register' />
+        <Route element={<LazySignup />} path='signup' />
       </Route>
 
       {/*  <Route element={<Error404 />} path="/*" /> */}
