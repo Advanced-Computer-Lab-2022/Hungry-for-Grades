@@ -1,27 +1,13 @@
 
-import axios from 'axios';
-
-import {
-  HttpResponse,
-  PaginatedResponse
-} from '@interfaces/response.interface';
-
-
-import {
-    ICourse
-} from '@interfaces/course.interface';
-
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 export const StudentRoutes = {
     GET: {
         getMyCourses : 
         {
-            URL : '/trainee/' as const,
+            URL : '' ,
             params : '',
             query : '',
-            payload :'',
+            payload : '',
             response : {
                 data : [
                     {
@@ -69,20 +55,4 @@ export const StudentRoutes = {
     }
   };
 
-  export async function getMyCourses(
-  ): Promise<PaginatedResponse<ICourse>> {
-    const res = await axios.get<PaginatedResponse<ICourse>>(
-      `${APP_BASE_API_URL}/student`,
-      {
-        params: ''
-      }
-    );
-    if (res.statusText !== 'OK') {
-      throw new Error(`server returned response status ${res.statusText}`);
-    }
-    if (!res.data.success) {
-      throw new Error(`server returned error ${res.data.message}`);
-    }
-    return res.data;
-  }
   
