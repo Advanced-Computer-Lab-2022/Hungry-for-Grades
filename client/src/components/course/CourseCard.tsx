@@ -114,7 +114,7 @@ function CourseCard(props: CourseCardProps) {
               className={`${styles.course__card__instructor ?? ''} text-break`}
             >
               <Instructors
-                instructor={props.instructor}
+                instructors={props.instructor}
                 linkClassName='text-dark'
               />
             </div>
