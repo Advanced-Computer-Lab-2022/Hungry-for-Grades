@@ -6,14 +6,14 @@ import TestmonialSection from './testmonialSection/TestmonialSection';
 
 import FeatureSection from './featureSection/FeatureSection';
 
-import MainPageSection1 from '@components/HomeSection/MainPageSection1';
+import MainSection from './MainSection';
 
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
 
 function Landing() {
   return (
     <>
-      <MainPageSection1 />
+      <MainSection />
       <FeatureSection />
       <InstructorBillboard />
       <section>

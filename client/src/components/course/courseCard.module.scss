@@ -1,8 +1,10 @@
 .course__card {
     height: calc(100% - 5rem);
+    //width:80%; //Hussein Ebrahim
+    //height:width; //Hussein Ebrahim
     .course__title {
         font-weight: 700 !important;
-        font-size: 1.4rem !important; //it was 1.9rem
+        font-size: 1.2rem !important; //it was 1.9rem (Hussein Ebrahim)
         height: fit-content;
     }
     .course__card__body {
