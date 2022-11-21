@@ -1,5 +1,12 @@
 import { string, object, number, array } from 'yup';
-import { Formik, Form, FieldArray, FormikProps } from 'formik';
+import {
+  Formik,
+  Form,
+  FieldArray,
+  FormikProps,
+  useFormikContext,
+  FormikHelpers
+} from 'formik';
 
 import { toast } from 'react-toastify';
 
@@ -16,11 +23,21 @@ import { Level } from '@/enums/level.enum';
 import ArrayErrorMessage from '@/components/form/ArrayErrorMessage';
 import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
 import { CourseDiscount } from '@/interfaces/course.interface';
+import ProgressSteps from '@/components/progress/ProgressSteps';
+import useMultistepForm from '@/hooks/useMultistepForm';
 
 let nextId = 1;
 function getUniqueId() {
   return `id-${nextId++}`;
 }
+
+const stepTitles = ['Course Info', 'Course Outline', 'Course Sections'];
+
+const stepDescriptions = [
+  'Information about your course',
+  'Topics covered in your course',
+  'Chapters and lessons in your course'
+];
 
 type LessonFormValues = {
   uid: string;
@@ -57,7 +74,7 @@ type OutlineFormValues = {
   value: string;
 };
 
-type CourseFormValues = {
+type CourseInfoFormValues = {
   title: string;
   description: string;
   language: string;
@@ -65,6 +82,10 @@ type CourseFormValues = {
   price: string;
   previewVideoURL: string;
   thumbnail: string;
+};
+
+type CourseFormValues = {
+  info: CourseInfoFormValues;
   outline: OutlineFormValues[];
   sections: SectionFormValues[];
 };
@@ -80,7 +101,7 @@ const languages = [
 
 const levels = Object.values(Level);
 
-const courseSchema = object().shape({
+const infoSchema = object().shape({
   title: string().required().min(4).max(100).label('Title'),
   description: string().required().min(20).max(500).label('Description'),
   language: string().required().oneOf(languages).label('Language'),
@@ -115,58 +136,78 @@ const courseSchema = object().shape({
     .url()
     .min(4)
     .max(100)
-    .label('Thumbnail Image Url'),
-  outline: array()
-    .required()
-    .min(1)
-    .max(1000)
-    .label('Course Outline')
-    .of(
-      object().shape({
-        uid: string(),
-        value: string().required().min(4).max(500).label('Outline Item')
-      })
-    ),
-  sections: array()
-    .required()
-    .min(1)
-    .max(1000)
-    .label('Sections')
-    .of(
-      object().shape({
-        uid: string(),
-        title: string().required().min(4).max(100).label('Title'),
-        description: string().required().min(4).max(1000).label('Description'),
-        lessons: array()
-          .required()
-          .min(1)
-          .max(100)
-          .label('Lessons')
-          .of(
-            object().shape({
-              uid: string(),
-              title: string().required().min(4).max(100).label('Title'),
-              videoURL: string()
-                .required()
-                .url()
-                .min(4)
-                .max(100)
-                .label('Video Url'),
-              duration: number()
-                .required()
-                .min(1)
-                .max(1000)
-                .label('Duration in Minutes')
-                .integer()
-            })
-          )
-      })
-    )
+    .label('Thumbnail Image Url')
 });
+
+const outlineSchema = array()
+  .required()
+  .min(1)
+  .max(1000)
+  .label('Course Outline')
+  .of(
+    object().shape({
+      uid: string(),
+      value: string().required().min(4).max(500).label('Outline Item')
+    })
+  );
+
+const sectionSchema = array()
+  .required()
+  .min(1)
+  .max(1000)
+  .label('Sections')
+  .of(
+    object().shape({
+      uid: string(),
+      title: string().required().min(4).max(100).label('Title'),
+      description: string().required().min(4).max(1000).label('Description'),
+      lessons: array()
+        .required()
+        .min(1)
+        .max(100)
+        .label('Lessons')
+        .of(
+          object().shape({
+            uid: string(),
+            title: string().required().min(4).max(100).label('Title'),
+            videoURL: string()
+              .required()
+              .url()
+              .min(4)
+              .max(100)
+              .label('Video Url'),
+            duration: number()
+              .required()
+              .min(1)
+              .max(1000)
+              .label('Duration in Minutes')
+              .integer()
+          })
+        )
+    })
+  );
+
+const courseSchema = object().shape({
+  info: infoSchema,
+  outline: outlineSchema,
+  sections: sectionSchema
+});
+
+const schemas = [
+  object().shape({
+    info: infoSchema
+  }),
+  object().shape({
+    outline: outlineSchema
+  }),
+  object().shape({
+    sections: sectionSchema
+  })
+];
 
 // TODO: later
 function getCurrentUserID() {
-  return '63545df5507c24fc734f65ee';
+  return '6379620f2c3f71696ca34735';
 }
 
 async function submitCourse(
@@ -174,9 +215,9 @@ async function submitCourse(
   navigate: NavigateFunction
 ) {
   const result = await createCourse({
-    ...values,
+    ...values.info,
     instructorID: getCurrentUserID(),
-    level: values.level as Level,
+    level: values.info.level as Level,
     category: 'Web Development',
     captions: [] as string[],
     subcategory: [] as string[],
@@ -201,7 +242,7 @@ async function submitCourse(
       }))
     })),
     price: {
-      currentValue: parseFloat(values.price),
+      currentValue: parseFloat(values.info.price),
       currency: 'CAD',
       discounts: [] as CourseDiscount[]
     },
@@ -222,18 +263,18 @@ async function submitCourse(
   }
 }
 
-function CourseOutlineForm(props: FormikProps<CourseFormValues>) {
+function CourseOutlineForm() {
+  const formikProps = useFormikContext<CourseFormValues>();
   return (
     <FieldArray name='outline'>
       {({ remove, push }) => (
         <div className='my-2'>
-          <h3 className='text-dark'>Outline</h3>
-          <ArrayErrorMessage {...props} name='outline' />
-          {props.values.outline.map((item, index) => (
+          <ArrayErrorMessage {...formikProps} name='outline' />
+          {formikProps.values.outline.map((item, index) => (
             <div key={item.uid} className='row'>
               <div className='col-11'>
                 <TextField
-                  formik={props as FormikProps<unknown>}
+                  formik={formikProps as FormikProps<unknown>}
                   id={`outline.${index}.value`}
                   label={`Item #${index + 1}`}
                   name={`outline.${index}.value`}
@@ -290,7 +331,7 @@ function LessonsForm(
                     type='button'
                     onClick={() => remove(index)}
                   >
-                    X
+                    <BsFillTrashFill />
                   </button>
                 </div>
                 <div className='col-12'>
@@ -351,15 +392,15 @@ function LessonsForm(
   );
 }
 
-function SectionsForm(props: FormikProps<CourseFormValues>) {
+function SectionsForm() {
+  const formikProps = useFormikContext<CourseFormValues>();
   return (
     <FieldArray name='sections'>
       {({ remove, push }) => (
         <div className='my-2'>
-          <h3 className='text-dark'>Sections</h3>
-          <ArrayErrorMessage {...props} name='sections' />
+          <ArrayErrorMessage {...formikProps} name='sections' />
 
-          {props.values.sections.map((section, index) => (
+          {formikProps.values.sections.map((section, index) => (
             <div
               key={section.uid}
               className='row rounded-1 border border-secondary my-2 py-2'
@@ -371,12 +412,12 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
                   type='button'
                   onClick={() => remove(index)}
                 >
-                  X
+                  <BsFillTrashFill />
                 </button>
               </div>
               <div className='col-12'>
                 <TextField
-                  formik={props as FormikProps<unknown>}
+                  formik={formikProps as FormikProps<unknown>}
                   id={`sections.${index}.title`}
                   label={`Title`}
                   name={`sections.${index}.title`}
@@ -384,13 +425,13 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
               </div>
               <div className='col-12'>
                 <TextField
-                  formik={props as FormikProps<unknown>}
+                  formik={formikProps as FormikProps<unknown>}
                   id={`sections.${index}.description`}
                   label={`Description`}
                   name={`sections.${index}.description`}
                 />
               </div>
-              <LessonsForm {...props} sectionIndex={index} />
+              <LessonsForm {...formikProps} sectionIndex={index} />
             </div>
           ))}
           <div className='my-1'>
@@ -416,71 +457,148 @@ function SectionsForm(props: FormikProps<CourseFormValues>) {
   );
 }
 
+function CourseInfo() {
+  const formikProps = useFormikContext<CourseFormValues>();
+  return (
+    <>
+      <TextField
+        {...getTextFieldProps(formikProps, courseSchema, 'info.title')}
+      />
+      <TextField
+        {...getTextFieldProps(formikProps, courseSchema, 'info.description')}
+      />
+      <div className='row'>
+        <div className='col-12 col-md-4'>
+          <SelectField
+            {...getTextFieldProps(formikProps, courseSchema, 'info.language')}
+            options={stringArrayToOptions(languages)}
+          />
+        </div>
+        <div className='col-12 col-md-4'>
+          <SelectField
+            {...getTextFieldProps(formikProps, courseSchema, 'info.level')}
+            options={stringArrayToOptions(levels)}
+          />
+        </div>
+        <div className='col-12 col-md-4'>
+          <TextField
+            {...getTextFieldProps(formikProps, courseSchema, 'info.price')}
+          />
+        </div>
+        <TextField
+          {...getTextFieldProps(
+            formikProps,
+            courseSchema,
+            'info.previewVideoURL'
+          )}
+        />
+        <TextField
+          {...getTextFieldProps(formikProps, courseSchema, 'info.thumbnail')}
+        />
+      </div>
+    </>
+  );
+}
+
 function CourseForm() {
   const navigate = useNavigate();
+  const {
+    currentStepIndex,
+    steps,
+    step,
+    title,
+    subtitle,
+    isLastStep,
+    next,
+    prev
+  } = useMultistepForm(
+    [
+      <CourseInfo key='CourseInfo' />,
+      <CourseOutlineForm key='CourseOutlineForm' />,
+      <SectionsForm key='SectionsForm' />
+    ],
+    stepTitles,
+    stepDescriptions
+  );
+  const handleSubmit = async (
+    values: CourseFormValues,
+    actions: FormikHelpers<CourseFormValues>
+  ) => {
+    if (isLastStep) {
+      await submitCourse(values, navigate);
+    } else {
+      actions.setTouched({});
+      actions.setSubmitting(false);
+      next();
+    }
+  };
   return (
     <div className='container'>
       <h1 className='text-center text-dark mt-2'>Create Course</h1>
       <Formik
         initialValues={{
-          title: '',
-          description: '',
-          language: '',
-          level: '',
-          price: '',
-          thumbnail: '',
-          previewVideoURL: '',
+          info: {
+            title: '',
+            description: '',
+            language: '',
+            level: '',
+            price: '',
+            thumbnail: '',
+            previewVideoURL: ''
+          },
           outline: [] as OutlineFormValues[],
           sections: [] as SectionFormValues[]
         }}
-        validationSchema={courseSchema}
+        // eslint-disable-next-line security/detect-object-injection
+        validationSchema={schemas[currentStepIndex]}
         // eslint-disable-next-line react/jsx-no-bind
-        onSubmit={values => submitCourse(values, navigate)}
+        onSubmit={handleSubmit}
       >
-        {props => (
-          <Form className='form-horizontal small'>
-            <TextField {...getTextFieldProps(props, courseSchema, 'title')} />
-            <TextField
-              {...getTextFieldProps(props, courseSchema, 'description')}
-            />
-            <div className='row'>
-              <div className='col-12 col-md-4'>
-                <SelectField
-                  {...getTextFieldProps(props, courseSchema, 'language')}
-                  options={stringArrayToOptions(languages)}
-                />
-              </div>
-              <div className='col-12 col-md-4'>
-                <SelectField
-                  {...getTextFieldProps(props, courseSchema, 'level')}
-                  options={stringArrayToOptions(levels)}
-                />
-              </div>
-              <div className='col-12 col-md-4'>
-                <TextField
-                  {...getTextFieldProps(props, courseSchema, 'price')}
-                />
-              </div>
-              <TextField
-                {...getTextFieldProps(props, courseSchema, 'previewVideoURL')}
+        {props => {
+          return (
+            <Form className='form-horizontal small'>
+              <ProgressSteps
+                currentStepIndex={currentStepIndex}
+                steps={stepTitles}
               />
-              <TextField
-                {...getTextFieldProps(props, courseSchema, 'thumbnail')}
-              />
-              <CourseOutlineForm {...props} />
-              <SectionsForm {...props} />
-              <div className='form-group text-center m-3'>
-                <button
-                  className='btn btn-primary'
-                  disabled={props.isSubmitting}
-                  type='submit'
-                >
-                  Submit
-                </button>
+              <div className='border border-primary p-3 rounded'>
+                <div className='float-end'>
+                  <strong className='text-dark'>
+                    {currentStepIndex + 1}/{steps.length}
+                  </strong>
+                </div>
+                <h3 className='text-dark'>{title}</h3>
+                <h5 className='text-dark'>{subtitle}</h5>
+                {step}
+                <div className='form-group text-end my-3'>
+                  {currentStepIndex > 0 && (
+                    <button
+                      className='btn btn-secondary mx-2'
+                      type='button'
+                      onClick={prev}
+                    >
+                      Prev
+                    </button>
+                  )}
+                  {isLastStep && (
+                    <button
+                      className='btn btn-primary'
+                      disabled={props.isSubmitting}
+                      type='submit'
+                    >
+                      Submit
+                    </button>
+                  )}
+                  {!isLastStep && (
+                    <button className='btn btn-primary' type='submit'>
+                      Next
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

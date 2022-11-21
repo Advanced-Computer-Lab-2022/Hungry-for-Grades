@@ -47,15 +47,15 @@ export type SelectFieldProps = {
 export function getTextFieldProps<T>(
   formik: FormikProps<T>,
   schema: BaseSchema,
-  key: keyof T,
+  key: string,
   label?: string
 ): TextFieldProps {
-  label = label ?? (reach(schema, key as string) as BaseSchema).spec.label;
+  label = label ?? (reach(schema, key) as BaseSchema).spec.label;
   return {
     label: label as string,
     formik: formik as FormikProps<unknown>,
-    name: key as string,
-    id: key as string
+    name: key,
+    id: key
   };
 }
 
