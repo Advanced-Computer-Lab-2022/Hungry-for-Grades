@@ -3,4 +3,5 @@ export type TestmonialCardProps = {
   name: string;
   review: string;
   jobTitle: string;
+  img: string;
 };

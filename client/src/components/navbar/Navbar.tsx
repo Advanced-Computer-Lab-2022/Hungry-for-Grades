@@ -17,7 +17,7 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const user = null;
   return (
-    <Navbar bg='secondary' className='navbar' expand='lg'>
+    <Navbar bg='light' className='navbar' expand='lg' fixed='top'>
       <Container>
         <Navbar.Brand>
           <Link to='/'>CanCham</Link>
@@ -67,7 +67,7 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <NavLink className='auth_btn nav-link' to='/auth/register'>
+                <NavLink className='auth_btn nav-link' to='/auth/signup'>
                   <span className='signup__btn'>Sign Up</span>
                 </NavLink>
                 <NavLink className='auth_btn nav-link' to='/auth/login'>
