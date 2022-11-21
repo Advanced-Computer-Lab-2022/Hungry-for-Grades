@@ -10,7 +10,7 @@ class LocalStorage {
   get<T>(key: string): T | string | null {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
     const value = this.storage.getItem(key);
-    if (value) {
+    if (value && (value.includes('{') || value.includes('['))) {
       return JSON.parse(value) as T;
     }
     return value;

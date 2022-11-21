@@ -2,7 +2,6 @@ import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
 import TestmonialCard from './TestmonialCard';
 
-import Button from '@/components/buttons/button/Button';
 import useMultistepForm from '@/hooks/useMultistepForm';
 import './testmonial.scss';
 function TestmonialSection() {
@@ -10,6 +9,7 @@ function TestmonialSection() {
     [
       <TestmonialCard
         key={1}
+        img='1'
         jobTitle={'Web Developer'}
         name={'Jack'}
         rating={0}
@@ -19,7 +19,8 @@ function TestmonialSection() {
       />,
       <TestmonialCard
         key={2}
-        jobTitle={''}
+        img='2'
+        jobTitle='Finance assistant'
         name={'mike'}
         rating={0}
         review={
@@ -28,7 +29,8 @@ function TestmonialSection() {
       />,
       <TestmonialCard
         key={3}
-        jobTitle={''}
+        img='3'
+        jobTitle={'Engineer'}
         name={'mike'}
         rating={0}
         review={
@@ -58,35 +60,28 @@ function TestmonialSection() {
             </div>
           </div>
           <div className='col-lg-10 col-md-12 col-sm-12'>{step}</div>
-          <div className='col-2'>
-            {!isFirstStep && (
-              <span className='testmonial-btn-prev'>
-                <Button
-                  isDisabled
-                  backgroundColor={'primary-bg'}
-                  label={''}
-                  name={'back'}
-                  type={'button'}
-                  onClickFunc={prev}
-                >
-                  <GrFormPrevious />
-                </Button>
-              </span>
-            )}
-            {!isLastStep && (
-              <span className='testmonial-btn-next'>
-                <Button
-                  isDisabled
-                  backgroundColor={'primary-bg'}
-                  label={''}
-                  name={'next'}
-                  type={'button'}
-                  onClickFunc={next}
-                >
-                  <GrFormNext />
-                </Button>
-              </span>
-            )}
+          <div className='d-flex justify-content-end'>
+            <span className='testmonial-btn-prev'>
+              <button
+                className='btn btn-secondary btn-lg'
+                disabled={isFirstStep}
+                type='button'
+                onClick={prev}
+              >
+                <GrFormPrevious />
+              </button>
+            </span>
+            <span className='testmonial-btn-next'>
+              <button
+                className='btn btn-primary btn-lg'
+                disabled={isLastStep}
+                name={'next'}
+                type={'button'}
+                onClick={next}
+              >
+                <GrFormNext />
+              </button>
+            </span>
           </div>
         </div>
       </div>
