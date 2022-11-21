@@ -10,7 +10,16 @@ function TestmonialCard(props: TestmonialCardProps) {
         <i>
           <img
             alt='Second Author'
-            src='assets/images/testimonial-author-1.png'
+            loading='lazy'
+            src={`/testimonial${props.img}.jpeg`}
+            style={{
+              width: '4.9rem',
+              height: '4.8rem',
+              objectFit: 'cover',
+              borderRadius: '100%',
+              textAlign: 'left',
+              marginLeft: '-1rem'
+            }}
           />
         </i>
       </div>
