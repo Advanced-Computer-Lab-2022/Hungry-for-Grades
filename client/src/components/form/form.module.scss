@@ -1,18 +1,19 @@
 form {
-  width: 100%;
+    margin-top: 0;
+    width: 100%;
 }
 
 .title {
-  font-size: 2rem;
-  text-align: inherit;
-  font-weight: 500;
-  color: var(--primary-dark-color);
+    font-size: 2rem;
+    text-align: inherit;
+    font-weight: 500;
+    color: var(--primary-dark-color);
 }
 
 .subtitle {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin-bottom: 1rem;
-  text-align: inherit;
-  color: var(--secondary-dark-color);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    text-align: inherit;
+    color: var(--secondary-dark-color);
 }

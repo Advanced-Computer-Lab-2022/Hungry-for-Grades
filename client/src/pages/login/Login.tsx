@@ -44,7 +44,7 @@ function Login() {
   });
 
   const navigateToSignup = useCallback(() => {
-    navigate('/signup');
+    navigate('/auth/signup');
   }, [navigate]);
 
   const handleSubmit = useCallback(async () => {
