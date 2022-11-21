@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { ICourse, Price, Question } from '@Course/course.interface';
+import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -16,7 +16,7 @@ import {
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.schema';
-import { CategoryDTO, CourseDTO } from './course.dto';
+import { CategoryDTO, CourseDTO, FrequentlyAskedQuestionDTO } from './course.dto';
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
@@ -334,5 +334,137 @@ class CourseService {
 
     return course.exam;
   };
+
+  //add frequently asked question
+  public addFAQ = async (courseId: string, faqData: FrequentlyAskedQuestion): Promise<FrequentlyAskedQuestion[]> => {
+    if (isEmpty(faqData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'FAQ data is empty');
+
+    const course = await courseModel.findById(courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+
+    course.frequentlyAskedQuestions.push(faqData);
+    await course.save();
+    return course.frequentlyAskedQuestions;
+  };
+
+  // get all frequently asked questions
+  public async getAllFAQs(courseID: string): Promise<FrequentlyAskedQuestion[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    return course.frequentlyAskedQuestions;
+  }
+
+  // update frequently asked question
+  public async updateFAQ(courseID: string, faqID: string, faqData: FrequentlyAskedQuestion): Promise<FrequentlyAskedQuestion[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(faqID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'FAQ id is empty');
+    if (!mongoose.Types.ObjectId.isValid(faqID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'FAQ Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if faq exists
+    const faq = course.frequentlyAskedQuestions.find(faq => faq._id.toString() == faqID);
+    if (!faq) throw new HttpException(HttpStatusCodes.CONFLICT, "FAQ doesn't exist");
+
+    faq.question = faqData.question;
+    faq.answer = faqData.answer;
+
+    await course.save();
+    return course.frequentlyAskedQuestions;
+  }
+
+  // delete frequently asked question
+
+  public async deleteFAQ(courseID: string, faqID: string): Promise<FrequentlyAskedQuestion[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(faqID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'FAQ id is empty');
+    if (!mongoose.Types.ObjectId.isValid(faqID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'FAQ Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // remove faq from course
+    course.frequentlyAskedQuestions = course.frequentlyAskedQuestions.filter(faq => faq._id.toString() != faqID);
+
+    await course.save();
+    return course.frequentlyAskedQuestions;
+  }
+
+  // add course announcement
+  public async addAnnouncement(courseID: string, announcementData: Announcement): Promise<Announcement[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(announcementData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Announcement data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    course.announcements.push(announcementData);
+    await course.save();
+    return course.announcements;
+  }
+
+  // get all course announcements
+  public async getAllAnnouncements(courseID: string): Promise<Announcement[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    return course.announcements;
+  }
+
+  //update course announcement
+  public async updateAnnouncement(courseID: string, announcementID: string, announcementData: Announcement): Promise<Announcement[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(announcementID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Announcement id is empty');
+    if (!mongoose.Types.ObjectId.isValid(announcementID))
+      throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Announcement Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if announcement exists
+    const announcement = course.announcements.find(announcement => announcement._id.toString() == announcementID);
+    if (!announcement) throw new HttpException(HttpStatusCodes.CONFLICT, "Announcement doesn't exist");
+
+    announcement.title = announcementData.title;
+    announcement.description = announcementData.description;
+
+    await course.save();
+    return course.announcements;
+  }
+
+  // delete course announcement
+  public async deleteAnnouncement(courseID: string, announcementID: string): Promise<Announcement[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(announcementID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Announcement id is empty');
+    if (!mongoose.Types.ObjectId.isValid(announcementID))
+      throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Announcement Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // remove announcement from course
+    course.announcements = course.announcements.filter(announcement => announcement._id.toString() != announcementID);
+
+    await course.save();
+    return course.announcements;
+  }
 }
 export default CourseService;

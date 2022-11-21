@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { ICourse, Question } from '@Course/course.interface';
+import { Announcement, FrequentlyAskedQuestion, ICourse, Question } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -198,6 +198,146 @@ class CourseController {
       res.json({
         data: exam,
         message: 'Exam Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add faq controller
+  public addFaqToCourse = async (req: Request, res: Response<HttpResponse<FrequentlyAskedQuestion[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const faqData: FrequentlyAskedQuestion = req.body;
+
+      const updatedCourse = await this.courseService.addFAQ(courseId, faqData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Faq Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get all faqs controller
+  public getAllFaqs = async (req: Request, res: Response<HttpResponse<FrequentlyAskedQuestion[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+
+      const faqs = await this.courseService.getAllFAQs(courseId);
+
+      res.json({
+        data: faqs,
+        message: 'Faq Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update faq controller
+  public updateFaq = async (req: Request, res: Response<HttpResponse<FrequentlyAskedQuestion[]>>, next: NextFunction) => {
+    try {
+      const { courseId, faqId } = req.params;
+      const faqData: FrequentlyAskedQuestion = req.body;
+
+      const updatedCourse = await this.courseService.updateFAQ(courseId, faqId, faqData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Faq Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete faq controller
+  public deleteFaq = async (req: Request, res: Response<HttpResponse<FrequentlyAskedQuestion[]>>, next: NextFunction) => {
+    try {
+      const { courseId, faqId } = req.params;
+
+      const updatedCourse = await this.courseService.deleteFAQ(courseId, faqId);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Faq Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add announcement controller
+  public addAnnouncementToCourse = async (req: Request, res: Response<HttpResponse<Announcement[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const announcementData: Announcement = req.body;
+
+      const updatedCourse = await this.courseService.addAnnouncement(courseId, announcementData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Announcement Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get all announcements controller
+  public getAllAnnouncements = async (req: Request, res: Response<HttpResponse<Announcement[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+
+      const announcements = await this.courseService.getAllAnnouncements(courseId);
+
+      res.json({
+        data: announcements,
+        message: 'Announcements Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update announcement controller
+  public updateAnnouncement = async (req: Request, res: Response<HttpResponse<Announcement[]>>, next: NextFunction) => {
+    try {
+      const { courseId, announcementId } = req.params;
+      const announcementData: Announcement = req.body;
+
+      const updatedCourse = await this.courseService.updateAnnouncement(courseId, announcementId, announcementData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Announcement Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete announcement controller
+  public deleteAnnouncement = async (req: Request, res: Response<HttpResponse<Announcement[]>>, next: NextFunction) => {
+    try {
+      const { courseId, announcementId } = req.params;
+
+      const updatedCourse = await this.courseService.deleteAnnouncement(courseId, announcementId);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Announcement Deleted Successfully',
         success: true,
       });
     } catch (error) {

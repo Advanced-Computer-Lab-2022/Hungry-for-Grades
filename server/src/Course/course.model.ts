@@ -44,7 +44,10 @@ const courseSchema = new Schema<ICourse>(
       {
         answer: String,
         question: String,
-        votes: Number,
+        votes: {
+          default: 0,
+          type: Number,
+        },
       },
     ],
     keywords: [
@@ -112,7 +115,6 @@ const courseSchema = new Schema<ICourse>(
         description: String,
         exercises: [
           {
-            numberOfQuestions: Number,
             questions: [
               {
                 answer: String,
@@ -167,12 +169,14 @@ courseSchema.pre('save', function (next) {
       });
     });
 
-    // check price.discount is below 100 and above 0
-    this.price.discounts.forEach(discount => {
-      if (discount.percentage > 100 || discount.percentage < 0) {
-        throw new Error('Discount percentage is not valid');
-      }
-    });
+    if (this.isModified('price')) {
+      // check price.discount is below 100 and above 0
+      this.price.discounts.forEach(discount => {
+        if (discount.percentage > 100 || discount.percentage < 0) {
+          throw new Error('Discount percentage is not valid');
+        }
+      });
+    }
 
     next();
   } catch (error) {

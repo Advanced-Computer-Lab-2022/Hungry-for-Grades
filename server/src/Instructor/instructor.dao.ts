@@ -1,4 +1,5 @@
 import { Rating, Review } from '@/Common/Types/common.types';
+import { FrequentlyAskedQuestionDTO } from '@/Course/course.dto';
 import { HttpException } from '@/Exceptions/HttpException';
 import instructorModel from '@/Instructor/instructor.model';
 import traineeModel from '@/Trainee/trainee.model';
