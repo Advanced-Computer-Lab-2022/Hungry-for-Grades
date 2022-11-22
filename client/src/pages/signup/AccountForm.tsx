@@ -161,7 +161,7 @@ function AccountForm({
       </div>
       <div className='d-flex flex-row justify-content-end my-3'>
         <Button
-          backgroundColor={'primary-bg'}
+          backgroundColor={'secondary-bg'}
           isDisabled={false}
           label={'back'}
           name={'back'}
@@ -170,7 +170,7 @@ function AccountForm({
         />
         <Button
           backgroundColor={'primary-bg'}
-          isDisabled={!formik.isValid}
+          isDisabled={!formik.isValid || !formik.dirty}
           label={'next'}
           name={'next'}
           type={'button'}

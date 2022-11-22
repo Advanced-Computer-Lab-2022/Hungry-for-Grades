@@ -272,7 +272,8 @@ function UserForm({
             formik.values.lastName === '' ||
             formik.values.birthDate === '' ||
             formik.values.phone === '' ||
-            formik.values.country === ''
+            formik.values.country === '' ||
+            !formik.dirty
           }
           label={'next'}
           name={'next'}
