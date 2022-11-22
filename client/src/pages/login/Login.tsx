@@ -21,6 +21,7 @@ import { UseAuthStoreSetToken } from '@store/authStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
   const { mutateAsync: login, isError, error } = usePostQuery();
@@ -96,6 +97,11 @@ function Login() {
     <div className='login d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
+          <Link to='/'>
+            <div className='form__container__logo'>
+              <img alt='logo' src={COMPANY_LOGO} />
+            </div>
+          </Link>
           <Form
             ariaLabel={'Login Form'}
             disabled={false}
@@ -173,14 +179,10 @@ function Login() {
             )}
             {isError && !error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
-								Please report this Problem through this
-								<Link
-									className='alert-link'
-									to='/report'
-								>
-									Link
-								</Link>
-
+                Please report this Problem through this
+                <Link className='alert-link' to='/report'>
+                  Link
+                </Link>
               </div>
             )}
             <div className='d-flex flex-column justify-content-between'>

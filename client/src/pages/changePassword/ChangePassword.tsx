@@ -6,32 +6,35 @@ import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
-import { type ForgotPasswordProps } from './types';
+import { type ChangePasswordProps } from './types';
 
-import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
-
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
-function ForgotPassword() {
+function ChangePassword() {
   const { isError, error } = usePostQuery();
   const navigate = useNavigate();
-  const formik = useFormik<ForgotPasswordProps>({
+  const formik = useFormik<ChangePasswordProps>({
     enableReinitialize: true,
     initialValues: {
-      email: ''
+      newPassword: '',
+      confirmPassword: ''
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid Email address')
-        .min(6, 'Email address is Too Short!')
-        .max(50, 'Email address is Too Long!')
-        .required('Email address is Required')
+      newPassword: Yup.string()
+        .min(6, 'New Password is Too Short!')
+        .max(50, 'New Password is Too Long!')
+        .required('New Password is Required'),
+      confirmPassword: Yup.string()
+        .min(6, 'Confirm Password is Too Short!')
+        .max(50, 'Confirm Password is Too Long!')
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Confirm Password is Required')
     }),
     onSubmit: function submit(values, actions) {
       actions.resetForm();
@@ -43,24 +46,26 @@ function ForgotPassword() {
     navigate('/auth/signup');
   }, [navigate]);
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback( () => {
     try {
-      const { email } = (await formik.submitForm()) as ForgotPasswordProps;
+      /*    const { confirmPassword, newPassword } =
+        (await formik.submitForm()) as ChangePasswordProps;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
           address: email
         }
-      };
+      }; */
 
-      return false;
+      return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
-  }, [formik]);
+  }, []);
 
   return (
-    <div className='forgotPassword d-flex flex-row justify-content-between'>
+    <div className='changePassword d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
           <Link to='/'>
@@ -69,26 +74,49 @@ function ForgotPassword() {
             </div>
           </Link>
           <Form
-            ariaLabel={'Forgot Password Form'}
+            ariaLabel={'Change Password Form'}
             disabled={false}
             encType={'application/x-www-form-urlencoded'}
-            id='forgotPasswordForm'
+            id='changePasswordForm'
             inputs={[
               <Input
                 key='password-2'
                 correctMessage={''}
-                errorMessage={formik.errors.email as string}
+                errorMessage={formik.errors.newPassword as string}
                 hint={''}
                 isError={
-                  formik.touched.email && formik.errors.email ? true : null
+                  formik.touched.newPassword && formik.errors.newPassword
+                    ? true
+                    : null
                 }
                 isTop={false}
-                label={'Email'}
-                name={'email'}
-                placeholder='Email'
+                label={'New Password'}
+                name={'newPassword'}
+                placeholder='New Password'
                 size={0}
-                type='email'
-                value={formik.values.email}
+                type='password'
+                value={formik.values.newPassword}
+                onBlurFunc={formik.handleBlur}
+                onChangeFunc={formik.handleChange}
+              />,
+              <Input
+                key='password-2'
+                correctMessage={''}
+                errorMessage={formik.errors.confirmPassword as string}
+                hint={''}
+                isError={
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                    ? true
+                    : null
+                }
+                isTop={false}
+                label={'Confirm Password'}
+                name={'confirmPassword'}
+                placeholder='Confirm Password'
+                size={0}
+                type='password'
+                value={formik.values.confirmPassword}
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
               />
@@ -96,8 +124,8 @@ function ForgotPassword() {
             isError={false}
             isLoading={false}
             method={'post'}
-            subtitle='Enter your email address to reset your password'
-            title='Forgot Password'
+            subtitle='Enter your new password'
+            title='Change Password'
             onResetFunc={formik.handleReset}
           >
             {isError && error?.response?.data?.message && (
@@ -117,8 +145,8 @@ function ForgotPassword() {
               <Button
                 backgroundColor='primary-bg'
                 isDisabled={!formik.isValid || !formik.dirty}
-                label='Forgot Password'
-                name='forgotPassword'
+                label='Change Password'
+                name='changePassword'
                 type='button'
                 onClickFunc={handleSubmit}
               />
@@ -141,4 +169,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ChangePassword;

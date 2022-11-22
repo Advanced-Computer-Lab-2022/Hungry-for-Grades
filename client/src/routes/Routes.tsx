@@ -23,6 +23,9 @@ import StudentPage from '@/pages/studentPage/StudentPage';
 const LazyForgotPassword = lazy(
   () => import('@/pages/forgotPassword/ForgotPassword')
 );
+const LazyChangePassword = lazy(
+  () => import('@/pages/changePassword/ChangePassword')
+);
 
 const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
@@ -76,6 +79,7 @@ function AllRoutes() {
         <Route element={<LazyLogin />} path='login' />
         <Route element={<LazySignup />} path='signup' />
         <Route element={<LazyForgotPassword />} path='forgot-password' />
+        <Route element={<LazyChangePassword />} path='change-password' />
       </Route>
 
       <Route element={<ProtectedRoutes />}>
