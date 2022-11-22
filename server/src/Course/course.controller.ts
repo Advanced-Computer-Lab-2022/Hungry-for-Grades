@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { Announcement, FrequentlyAskedQuestion, ICourse, Question } from '@Course/course.interface';
+import { Announcement, Discount, FrequentlyAskedQuestion, ICourse, Question } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -338,6 +338,76 @@ class CourseController {
       res.json({
         data: updatedCourse,
         message: 'Announcement Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //add discount to course controller
+  public addDiscountToCourse = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const discountData: Discount = req.body;
+
+      const updatedCourse = await this.courseService.addDiscount(courseId, discountData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Discount Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get all discounts controller
+  public getCourseDiscount = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+
+      const discounts = await this.courseService.getCourseDiscount(courseId);
+
+      res.json({
+        data: discounts,
+        message: 'Discounts Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update discount controller
+  public updateDiscount = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
+    try {
+      const { courseId, discountId } = req.params;
+      const discountData: Discount = req.body;
+
+      const updatedCourse = await this.courseService.updateDiscount(courseId, discountId, discountData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Discount Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete discount controller
+  public deleteDiscount = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
+    try {
+      const { courseId, discountId } = req.params;
+
+      const updatedCourse = await this.courseService.deleteDiscount(courseId, discountId);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Discount Deleted Successfully',
         success: true,
       });
     } catch (error) {
