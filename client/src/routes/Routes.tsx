@@ -86,7 +86,7 @@ function AllRoutes() {
           <Route element={<LazyAddAdmin />} path='add-admin' />
           <Route
             element={<LazyAddCorporateTrainee />}
-            path='addcorporatetrainee'
+            path='add-corporatetrainee'
           />
         </Route>
       </Route>
