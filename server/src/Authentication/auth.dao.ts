@@ -33,6 +33,7 @@ class AuthService {
     });
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
+    userData.email.isValidated = true;
     const createUserData = await userModel.create({
       ...userData,
     });
@@ -90,8 +91,8 @@ class AuthService {
 
     const cookie = this.createCookie(refreshToken);
 
-    delete findUser._doc.password;
-    findUser._doc.role = role;
+    delete findUser.password;
+    findUser.role = role;
 
     return { accessToken, cookie, findUser, refreshToken };
   }

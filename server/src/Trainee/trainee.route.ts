@@ -16,6 +16,9 @@ class TraineeRoute implements Routes {
     this.router.get('/email', this.traineeController.getTraineeByEmail);
     this.router.get('/username', this.traineeController.getTraineeByUsername);
 
+    //Verify Email
+    this.router.post('/verify', this.traineeController.sendVerificationEmail);
+
     this.router.get('/:traineeId/cart', this.traineeController.getCart);
     this.router.get('/:traineeId/wishlist', this.traineeController.getWishlist);
 

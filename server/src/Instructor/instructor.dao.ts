@@ -59,7 +59,7 @@ class InstructorService {
 
     await instructor.save();
     //Get Trainee Info
-    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name address profileImage');
+    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
 
     return {
       averageRating: instructor.rating.averageRating,
@@ -74,7 +74,7 @@ class InstructorService {
 
     const instructor = await instructorModel.findById(instructorID).populate({
       path: 'rating.reviews._trainee',
-      select: 'name address profileImage',
+      select: 'name country profileImage',
     });
 
     if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
