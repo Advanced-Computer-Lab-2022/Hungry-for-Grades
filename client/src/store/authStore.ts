@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 
-import { type IAuth, type IToken } from '@interfaces/token.interface';
+import { type IAuthStore, type IToken } from '@interfaces/token.interface';
 
 import { Role } from '@enums/role.enum';
 
@@ -16,28 +16,26 @@ const INTIAL_TOKEN: IToken = {
 const STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
 
 export const useAuthStore = create<
-  IAuth,
-  [['zustand/devtools', never], ['zustand/persist', IAuth]]
+  IAuthStore,
+  [['zustand/devtools', never], ['zustand/persist', IAuthStore]]
 >(
   devtools(
     persist(
       (set, get) => ({
         token: (LocalStorage.get('token') as IToken) ?? INTIAL_TOKEN,
-        isAuthenticated: false,
         setToken: token => {
-          set({ token, isAuthenticated: true });
+          set({ token });
         },
         updateAccessToken: accessToken => {
           set({
             token: {
               ...get().token,
               accessToken: accessToken
-            },
-            isAuthenticated: true
+            }
           });
         },
         removeToken: () => {
-          set({ token: INTIAL_TOKEN, isAuthenticated: false });
+          set({ token: INTIAL_TOKEN });
         }
       }),
       {
@@ -49,8 +47,7 @@ export const useAuthStore = create<
 );
 
 export const UseAuthStoreToken = () => useAuthStore(state => state.token);
-export const UseAuthStoreIsAuthenticated = () =>
-  useAuthStore(state => state.isAuthenticated);
+
 export const UseAuthStoreSetToken = () => useAuthStore(state => state.setToken);
 export const UseAuthStoreUpdateAccessToken = () =>
   useAuthStore(state => state.updateAccessToken);

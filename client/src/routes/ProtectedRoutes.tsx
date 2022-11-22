@@ -6,7 +6,7 @@ import Loader from '../components/loader/loaderpage/Loader';
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-import { UseAuthStoreIsAuthenticated } from '@store/authStore';
+import { UseUserIsAuthenticated } from '@store/userStore';
 import useRefreshToken from '@/hooks/useRefreshToken';
 
 /*
@@ -28,8 +28,8 @@ function Auth() {
 }
 */
 
-function PrivateRoutes() {
-  const useAuthStoreIsAuthenticated = UseAuthStoreIsAuthenticated();
+function ProtectedRoutes() {
+  const useUserIsAuthenticated = UseUserIsAuthenticated();
   const location = useLocation();
   const refresh = useRefreshToken();
 
@@ -37,7 +37,7 @@ function PrivateRoutes() {
     // const access = refresh();
   }, [refresh]);
 
-  if (!useAuthStoreIsAuthenticated) {
+  if (!useUserIsAuthenticated) {
     return <Navigate replace state={{ from: location }} to='/auth/login' />;
   } else {
     return (
@@ -50,4 +50,4 @@ function PrivateRoutes() {
   }
 }
 
-export default PrivateRoutes;
+export default ProtectedRoutes;

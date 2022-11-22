@@ -8,6 +8,8 @@ import { useCallback } from 'react';
 
 import { LoginProps } from './types';
 
+import { Role } from '@/enums/role.enum';
+
 import { UseSetUser } from '@/store/userStore';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
@@ -26,7 +28,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from: string = location?.state?.from?.pathname || '/home';
+  const from: string = location?.state?.from?.pathname || '';
   const formik = useFormik<LoginProps>({
     enableReinitialize: true,
     initialValues: {
@@ -66,19 +68,24 @@ function Login() {
       };
       const response = await login(loginRoute);
       if (response && response.status === 200) {
-        useSetUser(response?.data?.data?.user);
-        useAuthStoreSetToken(response?.data?.data?.token);
+        const { token, user } = response?.data?.data;
+        useSetUser(user);
+        useAuthStoreSetToken(token);
 
-        console.log(response?.data?.data?.user);
-        console.log(response?.data?.data?.token);
-        navigate(from, { replace: true });
+        console.log(user);
+        console.log(token);
+        if (from) {
+          navigate(from.toLocaleLowerCase());
+        } else {
+          navigate(`/${user.role as Role}/home`.toLocaleLowerCase(), {
+            replace: true
+          });
+        }
 
         return true;
       }
       return false;
     } catch (err) {
-      console.log(axiosError.response?.data?.message);
-
       console.log(err);
     }
   }, [formik, login, useSetUser, useAuthStoreSetToken, navigate, from]);
