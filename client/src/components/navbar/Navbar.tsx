@@ -21,7 +21,7 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const user = UseUser();
   return (
-    <Navbar bg='light' className='navbar' expand='lg' fixed='top'>
+    <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
       <Container>
         <Navbar.Brand>
           <Link to='/'>CanCham</Link>

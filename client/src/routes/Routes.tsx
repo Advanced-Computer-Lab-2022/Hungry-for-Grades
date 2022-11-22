@@ -2,8 +2,8 @@ import { lazy } from 'react';
 
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
-import Error404 from '../error/Error404'
-*/
+ */
+import Error from '@components/error/page/Error';
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
@@ -56,10 +56,6 @@ function AllRoutes() {
       </Route>
 
       <Route element={<PublicRoutes />}>
-        <Route element={<LazyLanding />} path='/' />
-      </Route>
-
-      <Route element={<PublicRoutes />}>
         <Route element={<LazyCourses />} path='courses' />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
@@ -93,7 +89,11 @@ function AllRoutes() {
           />
         </Route>
       </Route>
-      {/*  <Route element={<Error404 />} path="/*" /> */}
+
+      <Route element={<PublicRoutes />}>
+        <Route element={<LazyLanding />} path='/' />
+        <Route element={<Error type={404} />} path='/*' />
+      </Route>
     </Routes>
   );
 }

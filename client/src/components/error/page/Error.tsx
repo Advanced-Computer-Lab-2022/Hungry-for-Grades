@@ -1,14 +1,14 @@
 import { BiErrorCircle } from 'react-icons/bi';
 import { FiSettings } from 'react-icons/fi';
 
-import styles from './error.module.css';
+import styles from './error.module.scss';
 
 type ErrorProps = {
   type: number;
 };
 function Error({ type }: ErrorProps) {
   return (
-    <div className={styles['error-container']}>
+    <div className={`${styles['error-container'] ?? ''} container`}>
       {type === 404 && (
         <>
           <BiErrorCircle className={styles.icon} />
