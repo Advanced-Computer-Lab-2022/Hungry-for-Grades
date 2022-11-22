@@ -6,6 +6,8 @@ import styles from './StudentPage.module.scss';
 
 import MyCourses from './MyCourses';
 
+import Cart from './myCart/Cart';
+
 export default function StudentPage() {
   const [myArray, setMyArray] = useState([1, 0, 0]);
 
@@ -70,7 +72,7 @@ export default function StudentPage() {
         </div>
       </div>
       {myArray.at(0) == 1 && <MyCourses />}
-      {myArray.at(1) == 1 && <span>Helllo</span>}
+      {myArray.at(1) == 1 && <Cart />}
       {myArray.at(2) == 1 && <span>Yasser</span>}
     </div>
   );
