@@ -42,41 +42,8 @@ inset 5px 5px 20px rgba($bg-03,
     }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-ul,
-li,
-button,
-a,
-i,
-input,
-body {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border: 0;
-    -webkit-tap-highlight-color: transparent;
-    text-decoration: none;
-    color: inherit;
-    &:focus {
-        outline: 0;
-    }
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    height: auto;
-    font-family: $font-01;
-    background: $bg-01;
-}
-
 .wrapper {
+    background: $bg-01;
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;

@@ -17,7 +17,10 @@ import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-import { UseAuthStoreSetToken } from '@store/authStore';
+import {
+  UseAuthStoreSetToken,
+  UseAuthStoreRemoveToken
+} from '@store/authStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
@@ -27,6 +30,7 @@ function Login() {
   const { mutateAsync: login, isError, error } = usePostQuery();
   const useSetUser = UseSetUser();
   const useAuthStoreSetToken = UseAuthStoreSetToken();
+  const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -73,7 +77,11 @@ function Login() {
       if (response && response.status === 200) {
         const { token, user } = response?.data?.data;
         useSetUser(user);
-        useAuthStoreSetToken(token);
+        if (formik.values.rememberMe) {
+          useAuthStoreSetToken(token);
+        } else {
+          useAuthStoreRemoveToken();
+        }
 
         console.log(user);
         console.log(token);
@@ -90,8 +98,17 @@ function Login() {
       return false;
     } catch (err) {
       console.log(err);
+      return false;
     }
-  }, [formik, login, useSetUser, useAuthStoreSetToken, navigate, from]);
+  }, [
+    formik,
+    login,
+    useSetUser,
+    from,
+    useAuthStoreSetToken,
+    useAuthStoreRemoveToken,
+    navigate
+  ]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
