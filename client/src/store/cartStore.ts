@@ -8,7 +8,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
   devtools(set => ({
     cart: [],
     addCourse: course => {
-			//api post request to add to
+      //api post request to add to
       set(state => {
         const cart = [...state.cart];
         const index = cart.findIndex(item => item._id === course._id);
@@ -22,7 +22,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
       });
     },
     removeCourse: _id => {
-			// api delete request to remove from cart
+      // api delete request to remove from cart
 
       set(state => {
         const cart = [...state.cart.filter(item => item._id !== _id)];
@@ -47,6 +47,7 @@ export const UseCart = () => useCartStore(state => state.cart);
 export const UseCartTotalCost = () => useCartStore(state => state.totalCost);
 export const UseCartTotalItems = () => useCartStore(state => state.totalItems);
 export const UseCartAddCourse = () => useCartStore(state => state.addCourse);
-export const UseCartRemoveCourse = () => useCartStore(state => state.removeCourse);
+export const UseCartRemoveCourse = () =>
+  useCartStore(state => state.removeCourse);
 export const UseCartSetCart = () => useCartStore(state => state.setCart);
 export const UseCartClearCart = () => useCartStore(state => state.clearCart);

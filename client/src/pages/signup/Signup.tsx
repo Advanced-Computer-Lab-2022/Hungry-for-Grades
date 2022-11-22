@@ -89,10 +89,7 @@ function Signup() {
       <section className={`container `}>
         <div className={`form__container `}>
           <div className='container'>
-            <ProgressSteps
-              currentStepIndex={currentStepIndex}
-              steps={titles}
-            />
+            <ProgressSteps currentStepIndex={currentStepIndex} steps={titles} />
             <hr />
             <div className='text-muted'>
               Step {currentStepIndex + 1}/{steps.length}
