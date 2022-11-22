@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import {  useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -150,20 +150,16 @@ function Login() {
           >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
-                checked={
-									formik.values.rememberMe
-								}
+                checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
-                isChecked={
-									formik.values.rememberMe
-								}
+                isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'
                 required={false}
                 value={formik.values.rememberMe}
                 onChange={async function handleChange(e) {
-									await formik.setFieldValue('rememberMe', e.target.checked);
+                  await formik.setFieldValue('rememberMe', e.target.checked);
                 }}
               />
               <Link className='forgot-password' to='/auth/forgot-password'>
