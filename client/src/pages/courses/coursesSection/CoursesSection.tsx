@@ -27,7 +27,7 @@ function CoursesSection(props: { data: ICourse[] }) {
           console.log(mapCourseToCard.id + ' Hussein');
           return (
             <div key={course._id} className='col-12 col-md-6 col-lg-4'>
-              <CourseCard percent = {-1} pprops = {mapCourseToCard} />
+              <CourseCard percent={-1} pprops={mapCourseToCard} />
             </div>
           );
         })

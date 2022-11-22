@@ -48,7 +48,7 @@ function CourseCardPreview({
   );
 }
 
-function CourseCard(x : {pprops: CourseCardProps, percent:number}) {
+function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
   const props = x.pprops;
   //alert(x.percent);
   console.log(props.id);
@@ -128,8 +128,8 @@ function CourseCard(x : {pprops: CourseCardProps, percent:number}) {
               <strong>Duration: {formatDuration(props.duration)}</strong>
             </div>
             <CourseRating {...props.rating} />
-            {(x.percent == -1) && <Price {...props.price} />}
-            {x.percent != -1 && <ProgressBar completed={x.percent}/>}
+            {x.percent == -1 && <Price {...props.price} />}
+            {x.percent != -1 && <ProgressBar completed={x.percent} />}
           </div>
         </article>
       </OverlayTrigger>
