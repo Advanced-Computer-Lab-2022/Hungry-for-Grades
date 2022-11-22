@@ -46,7 +46,7 @@ function ChangePassword() {
     navigate('/auth/signup');
   }, [navigate]);
 
-  const handleSubmit = useCallback( () => {
+  const handleSubmit = useCallback(() => {
     try {
       /*    const { confirmPassword, newPassword } =
         (await formik.submitForm()) as ChangePasswordProps;
