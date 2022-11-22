@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import {  useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -17,15 +17,20 @@ import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-import { UseAuthStoreSetToken } from '@store/authStore';
+import {
+  UseAuthStoreSetToken,
+  UseAuthStoreRemoveToken
+} from '@store/authStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
   const { mutateAsync: login, isError, error } = usePostQuery();
   const useSetUser = UseSetUser();
   const useAuthStoreSetToken = UseAuthStoreSetToken();
+  const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -72,7 +77,11 @@ function Login() {
       if (response && response.status === 200) {
         const { token, user } = response?.data?.data;
         useSetUser(user);
-        useAuthStoreSetToken(token);
+        if (formik.values.rememberMe) {
+          useAuthStoreSetToken(token);
+        } else {
+          useAuthStoreRemoveToken();
+        }
 
         console.log(user);
         console.log(token);
@@ -89,13 +98,27 @@ function Login() {
       return false;
     } catch (err) {
       console.log(err);
+      return false;
     }
-  }, [formik, login, useSetUser, useAuthStoreSetToken, navigate, from]);
+  }, [
+    formik,
+    login,
+    useSetUser,
+    from,
+    useAuthStoreSetToken,
+    useAuthStoreRemoveToken,
+    navigate
+  ]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
+          <Link to='/'>
+            <div className='form__container__logo'>
+              <img alt='logo' src={COMPANY_LOGO} />
+            </div>
+          </Link>
           <Form
             ariaLabel={'Login Form'}
             disabled={false}
@@ -150,29 +173,33 @@ function Login() {
           >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
-                checked={
-									formik.values.rememberMe
-								}
+                checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
-                isChecked={
-									formik.values.rememberMe
-								}
+                isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'
                 required={false}
                 value={formik.values.rememberMe}
                 onChange={async function handleChange(e) {
-									await formik.setFieldValue('rememberMe', e.target.checked);
+                  await formik.setFieldValue('rememberMe', e.target.checked);
                 }}
               />
               <Link className='forgot-password' to='/auth/forgot-password'>
                 Forgot Password?
               </Link>
             </span>
-            {isError && (
+            {isError && error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
                 {error?.response?.data?.message}
+              </div>
+            )}
+            {isError && !error?.response?.data?.message && (
+              <div className='alert alert-danger' role='alert'>
+                Please report this Problem through this
+                <Link className='alert-link' to='/report'>
+                  Link
+                </Link>
               </div>
             )}
             <div className='d-flex flex-column justify-content-between'>

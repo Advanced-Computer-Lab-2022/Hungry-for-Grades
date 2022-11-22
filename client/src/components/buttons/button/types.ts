@@ -25,7 +25,7 @@ export type ButtonProps = {
   variant?: 'primary' | 'secondary';
   onClickFunc?: (
     event: ButtonEvent
-  ) => boolean | Promise<boolean> | void | Promise<void>;
+  ) => boolean | Promise<boolean> | void | Promise<void> | undefined;
   onMouseOutFunc?: (event: ButtonEvent) => void;
   onSubmitFunc?: (
     event: FormEvent

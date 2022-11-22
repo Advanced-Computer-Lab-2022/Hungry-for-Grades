@@ -2,19 +2,20 @@ import { lazy } from 'react';
 
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
-import Error404 from '../error/Error404'
-*/
+ */
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
 
-import InstructorRoutes from './InstructorRoutes';
+// import InstructorRoutes from './InstructorRoutes';
 
 import AuthRoutes from './AuthRoutes';
 
 import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
+
+import Error from '@/components/error/page/Error';
 
 import StudentPage from '@/pages/studentPage/StudentPage';
 
@@ -23,8 +24,11 @@ import StudentPage from '@/pages/studentPage/StudentPage';
 const LazyForgotPassword = lazy(
   () => import('@/pages/forgotPassword/ForgotPassword')
 );
+const LazyChangePassword = lazy(
+  () => import('@/pages/changePassword/ChangePassword')
+);
 
-const LazyAddCourse = lazy(() => import('@/pages/new-course/CourseForm'));
+const LazyAddCourse = lazy(() => import('@/pages/course-form/CourseForm'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
 const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
@@ -53,10 +57,6 @@ function AllRoutes() {
       </Route>
 
       <Route element={<PublicRoutes />}>
-        <Route element={<LazyLanding />} path='/' />
-      </Route>
-
-      <Route element={<PublicRoutes />}>
         <Route element={<LazyCourses />} path='courses' />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
@@ -65,17 +65,18 @@ function AllRoutes() {
           element={<LazyInstructorDashboard />}
           path='/home/instructor/:instructorid'
         />
-
-        <Route element={<InstructorRoutes />} path='/instructor'>
-          <Route element={<LazyInstructorDashboard />} path='' />
-          <Route element={<LazyAddCourse />} path='add-course' />
-        </Route>
+        <Route element={<LazyInstructorDashboard />} path='/instructor' />
+        <Route element={<LazyAddCourse />} path='/instructor/add-course' />
+        {/* <Route element={<InstructorRoutes />} path='/instructor'>
+          
+        </Route> */}
       </Route>
 
       <Route element={<AuthRoutes />} path='/auth'>
         <Route element={<LazyLogin />} path='login' />
         <Route element={<LazySignup />} path='signup' />
         <Route element={<LazyForgotPassword />} path='forgot-password' />
+        <Route element={<LazyChangePassword />} path='change-password' />
       </Route>
 
       <Route element={<ProtectedRoutes />}>
@@ -85,11 +86,15 @@ function AllRoutes() {
           <Route element={<LazyAddAdmin />} path='add-admin' />
           <Route
             element={<LazyAddCorporateTrainee />}
-            path='addcorporatetrainee'
+            path='add-corporatetrainee'
           />
         </Route>
       </Route>
-      {/*  <Route element={<Error404 />} path="/*" /> */}
+
+      <Route element={<PublicRoutes />}>
+        <Route element={<LazyLanding />} path='/' />
+        <Route element={<Error type={404} />} path='/*' />
+      </Route>
     </Routes>
   );
 }

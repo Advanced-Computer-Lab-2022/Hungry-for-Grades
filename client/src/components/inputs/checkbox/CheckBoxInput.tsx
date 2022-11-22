@@ -7,14 +7,12 @@ function CheckBoxInput(props: CheckBoxInputProps) {
       <div className='form-check'>
         <input
           checked={props.checked}
-					className={`form-check-input ${props.className}`}
-          defaultChecked={props.checked}
-					id={uuidv4()}
+          className={`form-check-input ${props.className}`}
+          id={uuidv4()}
           required={props.required}
-          style={{ display:'inset' }}
+          style={{ display: 'inset' }}
           type='checkbox'
-					value={'true'}
-
+          value={'true'}
           onChange={props.onChange}
         />
         <label className='form-check-label py-1' htmlFor='invalidCheck'>
