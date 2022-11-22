@@ -1,5 +1,5 @@
 export type CheckBoxInputProps = {
-	id: string;
+  id: string;
   // data
   className: string;
   name: string;

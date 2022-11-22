@@ -1,4 +1,4 @@
-const Terms=   `
+const Terms = `
 These Terms and Conditions (“Terms”) govern your access to and
 use of the website located at www.example.com (the “Site”) and
 the services, features, content or applications offered by
@@ -70,6 +70,5 @@ third-party content or third-party software. If there is a
 conflict between these Terms and the additional terms, the
 additional terms will control for that conflict.
 `;
-
 
 export default Terms;

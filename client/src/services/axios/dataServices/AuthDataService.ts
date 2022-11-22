@@ -23,20 +23,19 @@ export const AuthRoutes = {
         }
       }
     }
-
   },
   POST: {
-		verifyEmail: {
+    verifyEmail: {
       URL: '/trainee/verify' as const,
       params: '',
       query: '',
       payload: {
-				email: '',
-				username:'',
-			},
+        email: '',
+        username: ''
+      },
       response: {
         data: {
-          code: '',
+          code: ''
         }
       }
     },

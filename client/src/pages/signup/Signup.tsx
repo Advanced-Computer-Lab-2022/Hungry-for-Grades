@@ -94,7 +94,7 @@ function Signup() {
         address: data.email
       }
     };
-  await mutateAsync(signup);
+    await mutateAsync(signup);
 
     console.log('data');
     console.log(data);

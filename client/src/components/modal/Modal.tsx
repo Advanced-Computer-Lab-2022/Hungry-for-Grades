@@ -21,7 +21,7 @@ function Modal(props: ModalProps) {
     closeText,
     onDelete,
     onDone,
-		children
+    children
   } = props;
 
   return createPortal(
@@ -49,7 +49,7 @@ function Modal(props: ModalProps) {
           </div>
           <div className='modal-body'>
             {body}
-						{children}
+            {children}
             {form}
             <div className='m-auto'>{loader}</div>
           </div>
