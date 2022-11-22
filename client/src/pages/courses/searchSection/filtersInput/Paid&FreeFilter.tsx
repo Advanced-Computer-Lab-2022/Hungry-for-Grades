@@ -13,6 +13,7 @@ function PaidFreeFilter(props: SearchSectionProps) {
         label='Paid'
         name={'paid'}
         required={false}
+        value={false}
         onChange={function handleChange(e) {
           const minValue =
             e.target.checked && selectedFilters.free
@@ -33,6 +34,7 @@ function PaidFreeFilter(props: SearchSectionProps) {
         label='Free'
         name={'free checkbox'}
         required={false}
+        value={false}
         onChange={function handleChange(e) {
           const minValue =
             e.target.checked && selectedFilters.paid

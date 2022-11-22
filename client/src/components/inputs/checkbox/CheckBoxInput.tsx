@@ -3,16 +3,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { CheckBoxInputProps } from './types';
 function CheckBoxInput(props: CheckBoxInputProps) {
   return (
-    <div className='col-2'>
+    <div className='d-flex flex-raw'>
       <div className='form-check'>
         <input
-          className={'form-check-input'}
-          id={uuidv4()}
+          checked={props.checked}
+					className={`form-check-input ${props.className}`}
+          defaultChecked={props.checked}
+					id={uuidv4()}
           required={props.required}
+          style={{ display:'inset' }}
           type='checkbox'
+					value={'true'}
+
           onChange={props.onChange}
         />
-        <label className='form-check-label' htmlFor='invalidCheck'>
+        <label className='form-check-label py-1' htmlFor='invalidCheck'>
           {props.label}
         </label>
         <small className='invalid-feedback'>{props.errorMessage}</small>
