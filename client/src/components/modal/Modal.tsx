@@ -20,7 +20,8 @@ function Modal(props: ModalProps) {
     isClose,
     closeText,
     onDelete,
-    onDone
+    onDone,
+		children
   } = props;
 
   return createPortal(
@@ -28,7 +29,7 @@ function Modal(props: ModalProps) {
       aria-hidden='true'
       aria-labelledby='exampleModalCenterTitle'
       className='modal fade modal-lg'
-      id={`modal${id}`}
+      id={`${id}`}
     >
       <div
         className='modal-dialog modal-dialog-centered modal-dialog-scrollable'
@@ -42,12 +43,13 @@ function Modal(props: ModalProps) {
               aria-label='Close'
               className='btn-close'
               data-bs-dismiss='modal'
-              data-bs-target={`classNamemodal${id}`}
+              data-bs-target={`${id}`}
               type='button'
             />
           </div>
           <div className='modal-body'>
             {body}
+						{children}
             {form}
             <div className='m-auto'>{loader}</div>
           </div>

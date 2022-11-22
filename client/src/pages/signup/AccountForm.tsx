@@ -3,23 +3,26 @@ import * as Yup from 'yup';
 
 import { type AccountFormProps, type UpdateSignupData } from './types';
 
+import Terms from './Terms&Conditions';
+
 import Input from '@components/inputs/input/Input';
 import Button from '@/components/buttons/button/Button';
+import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+import Modal from '@components/modal/Modal';
 function AccountForm({
   email,
   password,
-  confirmPassword,
   terms,
   updateData,
   prev
 }: AccountFormProps & { updateData: (data: UpdateSignupData) => void } & {
   prev: () => void;
 }) {
-  const formik = useFormik<AccountFormProps>({
+  const formik = useFormik<AccountFormProps & { confirmPassword: string }>({
     initialValues: {
       email: email,
       password: password,
-      confirmPassword: confirmPassword,
+      confirmPassword: '',
       terms: terms,
       username: ''
     },
@@ -159,23 +162,78 @@ function AccountForm({
           onChangeFunc={formik.handleChange}
         />
       </div>
-      <div className='d-flex flex-row justify-content-end my-3'>
-        <Button
-          backgroundColor={'secondary-bg'}
-          isDisabled={false}
-          label={'back'}
-          name={'back'}
-          type={'button'}
-          onClickFunc={prev}
-        />
-        <Button
-          backgroundColor={'primary-bg'}
-          isDisabled={!formik.isValid || !formik.dirty}
-          label={'next'}
-          name={'next'}
-          type={'button'}
-          onClickFunc={handleSubmit}
-        />
+      <div className='d-flex flex-row justify-content-between'>
+        <a
+          className='text-primary'
+          data-bs-target={`#modalTerms`}
+          data-bs-toggle='modal'
+          href='/'
+          type='button'
+        >
+          <CheckBoxInput
+            checked={formik.values.terms}
+            className={''}
+            errorMessage={''}
+            id={'terms'}
+            isChecked={formik.values.terms}
+            label={'I agree to the Terms and Conditions'}
+            name='rememberMe'
+            required={false}
+            value={formik.values.terms}
+          />
+        </a>
+        <Modal
+          isDelete
+          isDone
+          isFooter
+          closeText={''}
+          deleteText={'Reject'}
+          doneText={'Accept'}
+          header='Terms and Conditions'
+          id={'modalTerms'}
+          isClose={false}
+          onDelete={async function onDelete() {
+            await formik.setValues({
+              ...formik.values,
+              terms: false
+            });
+          }}
+          onDone={async function onDone() {
+            await formik.setValues({
+              ...formik.values,
+              terms: true
+            });
+          }}
+        >
+          <div className='row'>
+            <div className='col-12'>{Terms}</div>
+          </div>
+        </Modal>
+        <div className='d-flex flex-row justify-content-end'>
+          <Button
+            backgroundColor={'secondary-bg'}
+            isDisabled={false}
+            label={'back'}
+            name={'back'}
+            type={'button'}
+            onClickFunc={prev}
+          />
+          <Button
+            backgroundColor={'primary-bg'}
+            isDisabled={
+              !formik.isValid ||
+              formik.values.username === '' ||
+              formik.values.password === '' ||
+              formik.values.confirmPassword === '' ||
+              formik.values.email === '' ||
+              formik.values.terms === false
+            }
+            label={'next'}
+            name={'next'}
+            type={'button'}
+            onClickFunc={handleSubmit}
+          />
+        </div>
       </div>
     </div>
   );

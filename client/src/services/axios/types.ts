@@ -4,7 +4,8 @@ import { InstructorRoutes } from './dataServices/InstructorDataService';
 import { AdminRoutes } from './dataServices/AdminDataService';
 
 import { AuthRoutes } from './dataServices/AuthDataService';
-import { StudentRoutes } from './dataServices/StudentDataService';
+import { TraineeRoutes } from './dataServices/TraineeDataService';
+
 /**
  * HTTP methods
  */
@@ -15,41 +16,42 @@ export type VERBS = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * @param  verb - The HTTP verb to use for the request
  */
 export type AuthRoutesType<T extends 'GET' | 'POST'> =
-  typeof AuthRoutes[T][keyof Partial<typeof AuthRoutes[T]>];
+	typeof AuthRoutes[T][keyof Partial<typeof AuthRoutes[T]>];
 
 export type CategoryRouteType = typeof CategoryRoute['GET'][keyof Partial<
-  typeof CategoryRoute['GET']
+	typeof CategoryRoute['GET']
 >];
 
 export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
-  typeof AdminRoutes['POST']
+	typeof AdminRoutes['POST']
 >];
 
 export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
-  typeof CoursesRoutes['GET']
+	typeof CoursesRoutes['GET']
 >];
 
 export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
-  typeof InstructorRoutes['GET']
+	typeof InstructorRoutes['GET']
 >];
 
-export type StudentRouteType = typeof StudentRoutes['GET'][keyof Partial<
-  typeof StudentRoutes['GET']
+export type TraineeRouteType<T extends 'GET' | 'POST'> = typeof TraineeRoutes[T][keyof Partial<
+	typeof TraineeRoutes[T]
 >];
 
 /**
  * All GET routes that are available for the  data service
  */
 export type GETRoutesType =
-  | CategoryRouteType
-  | CoursesRoutesType
-  | InstructorRouteType
-  | AuthRoutesType<'GET'>
-  | StudentRouteType;
+	| CategoryRouteType
+	| CoursesRoutesType
+	| InstructorRouteType
+	| AuthRoutesType<'GET'>
+	| TraineeRouteType<'GET'>;
 /**
  * All POST routes that are available for the  data service
  */
-export type POSTRoutesType = AdminRoutesType | AuthRoutesType<'POST'>;
+export type POSTRoutesType = AdminRoutesType | AuthRoutesType<'POST'> | TraineeRouteType<'POST'>;
+
 /**
  * All PUT routes that are available for the  data service
  */

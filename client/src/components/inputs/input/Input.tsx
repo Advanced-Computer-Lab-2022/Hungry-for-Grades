@@ -25,13 +25,15 @@ function Input(props: InputProps) {
               : ''
           } `}
           id={id + `-${props.name}`}
+          max={props.max}
+          min={props.min}
           name={props.name}
           placeholder={props.placeholder}
           size={props.size}
           type={props.type}
           value={props.value}
-          onBlur={props.onBlurFunc}
-          onChange={props.onChangeFunc}
+					onBlur={props.onBlurFunc}
+					onChange={props.onChangeFunc}
         />
 
         <div className='invalid-feedback px-3' id={id}>

@@ -7,7 +7,7 @@ import { mapCourseToCardProps } from '../landing/types';
 
 //import styles from './MyCourses.module.scss';
 
-import { StudentRoutes } from '@/services/axios/dataServices/StudentDataService';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 import { getRequest } from '@/services/axios/http-verbs';
 import { ICourse } from '@/interfaces/course.interface';
@@ -17,7 +17,7 @@ import CourseCard from '@components/course/CourseCard';
 import Pagination from '@/components/pagination/Pagination';
 
 async function getCourses(activePage: number) {
-  const Courses = StudentRoutes.GET.getMyCourses;
+  const Courses = TraineeRoutes.GET.getMyCourses;
 
   Courses.URL = 'trainee/637969352c3f71696ca34759/courses';
 
@@ -43,7 +43,7 @@ export default function MyCourses() {
 
   console.log(data?.data?.totalPages);
 
-  const incoming: typeof StudentRoutes.GET.getMyCourses.response.data =
+  const incoming: typeof TraineeRoutes.GET.getMyCourses.response.data =
     data?.data?.data;
 
   //console.log(incoming);

@@ -20,8 +20,6 @@
             margin: auto 0 auto auto !important;
             input {
                 margin: 0.5rem;
-                background: var(--background--color) !important;
-                color: var(--background--color) !important;
                 &:focus {
                     border-bottom: 1px solid var(--primary-color) !important;
                     outline: none;
@@ -74,7 +72,7 @@
     /* MEDIA QUERIES  Small */
     @media screen and (max-width: 600px) {
         max-height: 400vh;
-        height: 160vh;
+        height: 170vh;
         .container {
             width: var(--container-width-ms);
         }

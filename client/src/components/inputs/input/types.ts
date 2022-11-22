@@ -25,6 +25,8 @@ export type InputProps = {
   isError: boolean | null;
   isTop: boolean;
   size: number;
+	min?: number;
+	max?: number;
   onChangeFunc: (event: ChangeEvent) => void; // for value change
   onBlurFunc?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onFocusFunc?: (event: React.FocusEvent<HTMLInputElement>) => void;
