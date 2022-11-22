@@ -8,7 +8,6 @@ function CheckBoxInput(props: CheckBoxInputProps) {
         <input
           checked={props.checked}
           className={`form-check-input ${props.className}`}
-          defaultChecked={props.checked}
           id={uuidv4()}
           required={props.required}
           style={{ display: 'inset' }}

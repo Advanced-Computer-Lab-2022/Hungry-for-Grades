@@ -166,9 +166,21 @@ function Login() {
                 Forgot Password?
               </Link>
             </span>
-            {isError && (
+            {isError && error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
                 {error?.response?.data?.message}
+              </div>
+            )}
+            {isError && !error?.response?.data?.message && (
+              <div className='alert alert-danger' role='alert'>
+								Please report this Problem through this
+								<Link
+									className='alert-link'
+									to='/report'
+								>
+									Link
+								</Link>
+
               </div>
             )}
             <div className='d-flex flex-column justify-content-between'>
