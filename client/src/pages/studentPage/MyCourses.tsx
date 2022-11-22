@@ -61,6 +61,7 @@ export default function MyCourses() {
   const toShow = incoming.map(course => {
     const tt: ICourse = course._course;
     const courseCardP = mapCourseToCardProps(tt);
+    console.log(course);
     return (
       <div key={course._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard key={course._id}  percent = {course?.progress} pprops = {courseCardP}/>
