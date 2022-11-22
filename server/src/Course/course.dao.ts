@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question } from '@Course/course.interface';
+import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question, Discount } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -465,6 +465,80 @@ class CourseService {
 
     await course.save();
     return course.announcements;
+  }
+
+  // add discount to course
+  public async addDiscount(courseID: string, discountData: Discount): Promise<Discount[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(discountData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Discount data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //course.discounts=[]
+    course.price.discounts.push(discountData);
+    await course.save();
+
+    return course.price.discounts;
+  }
+
+  // get all course discounts
+  public async getCourseDiscount(courseID: string): Promise<Discount[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const discountAvailable = course.price.discounts.filter(discount => {
+      return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
+    });
+
+    return discountAvailable;
+  }
+
+  //update course discount
+  public async updateDiscount(courseID: string, discountID: string, discountData: Discount): Promise<Discount[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(discountID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Discount id is empty');
+    if (!mongoose.Types.ObjectId.isValid(discountID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Discount Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if discount exists
+    const discount = course.price.discounts.find(discount => discount._id.toString() == discountID);
+    if (!discount) throw new HttpException(HttpStatusCodes.CONFLICT, "Discount doesn't exist");
+
+    //update discount
+    discount.startDate = discountData.startDate;
+    discount.endDate = discountData.endDate;
+    discount.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+
+    await course.save();
+    return course.price.discounts;
+  }
+
+  // delete course discount
+  public async deleteDiscount(courseID: string, discountID: string): Promise<Discount[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(discountID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Discount id is empty');
+    if (!mongoose.Types.ObjectId.isValid(discountID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Discount Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // remove discount from course
+    course.price.discounts = course.price.discounts.filter(discount => discount._id.toString() != discountID);
+
+    await course.save();
+    return course.price.discounts;
   }
 }
 export default CourseService;
