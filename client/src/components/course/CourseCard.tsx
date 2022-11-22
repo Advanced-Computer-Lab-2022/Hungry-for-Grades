@@ -17,6 +17,9 @@ import Price from './Price';
 
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
+
+import ProgressBar from '@/pages/studentPage/progressBar/ProgressBar';
+
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function CourseCardPreview({
@@ -45,7 +48,10 @@ function CourseCardPreview({
   );
 }
 
-function CourseCard(props: CourseCardProps) {
+function CourseCard(x : {pprops: CourseCardProps, percent:number}) {
+  const props = x.pprops;
+  //alert(x.percent);
+  console.log(props.id);
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>
@@ -122,7 +128,8 @@ function CourseCard(props: CourseCardProps) {
               <strong>Duration: {formatDuration(props.duration)}</strong>
             </div>
             <CourseRating {...props.rating} />
-            <Price {...props.price} />
+            {(x.percent == -1) && <Price {...props.price} />}
+            {x.percent != -1 && <ProgressBar completed={x.percent}/>}
           </div>
         </article>
       </OverlayTrigger>

@@ -24,9 +24,10 @@ function CoursesSection(props: { data: ICourse[] }) {
       ) : (
         props?.data?.map((course: ICourse) => {
           const mapCourseToCard = mapCourseToCardProps(course);
+          console.log(mapCourseToCard.id + ' Hussein');
           return (
             <div key={course._id} className='col-12 col-md-6 col-lg-4'>
-              <CourseCard {...mapCourseToCard} />
+              <CourseCard percent = {-1} pprops = {mapCourseToCard} />
             </div>
           );
         })
