@@ -7,6 +7,7 @@ export type CheckBoxInputProps = {
   errorMessage: string | 'You must agree before submitting.';
   checked: boolean;
   required: boolean;
+  value: boolean;
   // functions
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };

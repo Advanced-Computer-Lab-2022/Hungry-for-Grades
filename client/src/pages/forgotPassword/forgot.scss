@@ -7,7 +7,7 @@
     height: 100vh;
     overflow: hidden;
     .form__container {
-        #loginForm {
+        form {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -18,6 +18,8 @@
             text-align: left;
             input {
                 margin: 0.5rem;
+                background: var(--background--color) !important;
+                color: var(--background--color) !important;
                 &:focus {
                     border-bottom: 1px solid var(--primary-color) !important;
                     outline: none;
