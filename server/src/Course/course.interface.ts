@@ -35,12 +35,14 @@ export interface ICourse {
 }
 
 export type FrequentlyAskedQuestion = {
+  _id: Types.ObjectId;
   answer: string;
   question: string;
   votes: number;
 };
 
 export type Announcement = {
+  _id: Types.ObjectId;
   createdAt: Date;
   description: string;
   title: string;
@@ -52,8 +54,7 @@ export type Price = {
   discounts: Discount[];
 };
 
-export type Excercise = {
-  numberOfQuestions: number;
+export type Exercise = {
   questions: Question[];
   title: string;
 };
@@ -66,13 +67,15 @@ export type Question = {
 };
 
 export type Section = {
+  _id: Types.ObjectId;
   description: string;
-  exercises: Excercise[];
+  exercises: Exercise[];
   lessons: Lesson[];
   title: string;
 };
 
 export type Lesson = {
+  _id: Types.ObjectId;
   description: string;
   duration: number;
   title: string;

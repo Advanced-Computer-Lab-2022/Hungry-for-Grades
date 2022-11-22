@@ -2,7 +2,6 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import adminService from '@Admin/admin.dao';
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@/User/user.dto';
-import { IUser } from '@/User/user.interface';
 import { IInstructor } from '@/Instructor/instructor.interface';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
 import { CreateTraineeDTO } from '@/Trainee/trainee.dto';

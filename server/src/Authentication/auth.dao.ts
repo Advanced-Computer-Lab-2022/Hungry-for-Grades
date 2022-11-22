@@ -1,3 +1,4 @@
+import { logger } from '@/Utils/logger';
 import { HttpException } from '@/Exceptions/HttpException';
 import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
@@ -43,6 +44,7 @@ class AuthService {
     accessToken: string;
     cookie: ICookie;
     findUser: IUser;
+    refreshToken: string;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
@@ -52,17 +54,17 @@ class AuthService {
       $or: [{ 'email.address': userData.email.address }, { username: userData.username }],
     };
 
-    const findTrainee = await traineeModel.findOne(query);
+    const findTrainee = await traineeModel.findOne(query).select('-active');
     userModel = findTrainee ? traineeModel : null;
     role = findTrainee ? Role.TRAINEE : null;
 
     if (!userModel) {
-      findInstructor = await instructorModel.findOne(query);
+      findInstructor = await instructorModel.findOne(query).select('-active');
       userModel = findInstructor ? instructorModel : null;
       role = findInstructor ? Role.INSTRUCTOR : null;
     }
     if (!userModel) {
-      findAdmin = await adminModel.findOne(query);
+      findAdmin = await adminModel.findOne(query).select('-active');
       userModel = findAdmin ? adminModel : null;
       role = findAdmin ? Role.ADMIN : null;
     }
@@ -88,7 +90,10 @@ class AuthService {
 
     const cookie = this.createCookie(refreshToken);
 
-    return { accessToken, cookie, findUser };
+    delete findUser._doc.password;
+    findUser._doc.role = role;
+
+    return { accessToken, cookie, findUser, refreshToken };
   }
 
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {

@@ -1,12 +1,12 @@
 import { Types } from 'mongoose';
 import { Gender, Role } from './user.enum';
-import { Document } from 'mongoose';
 
 export interface IUser {
   _id: Types.ObjectId;
   active: boolean;
-  address: Address;
+  country: string;
   createdAt: Date;
+  dateOfBirth: Date;
   email: {
     address: string;
     isValidated: Boolean;
@@ -17,11 +17,6 @@ export interface IUser {
   password: string;
   phone: string;
   profileImage: string;
-  // role: Role;
+  role?: Role;
   username: string;
 }
-
-export type Address = {
-  city: string;
-  country: string;
-};

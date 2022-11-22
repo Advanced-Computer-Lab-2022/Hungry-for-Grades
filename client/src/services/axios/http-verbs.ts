@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type AxiosResponse } from 'axios';
 
-import http from './http-common';
+import { http, httpProtected } from './http-common';
 import {
   //type DELETERoutesType,
   type GETRoutesType,
@@ -15,13 +16,18 @@ import {
  * @returns a promise - with the response from the server
  */
 export async function getRequest(
-  request: GETRoutesType
-): Promise<AxiosResponse> {
-  return http.get<typeof request.response>(
+  request: GETRoutesType,
+  isProtected?: boolean,
+  options?: {
+    withCredentials: boolean;
+  }
+): Promise<AxiosResponse<typeof request.response>> {
+  const httpInstance = isProtected ? httpProtected : http;
+  return httpInstance.get<typeof request.response>(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`,
-    request.payload
+    options
   );
 }
 
@@ -30,15 +36,20 @@ export async function getRequest(
  * @param request - request object
  * @returns a promise with the response from the server
  */
-export async function postRequest(request: POSTRoutesType) {
-  return http.post<
+export async function postRequest(
+  request: POSTRoutesType,
+  isProtected?: boolean
+) {
+  const httpInstance = isProtected ? httpProtected : http;
+  return httpInstance.post<
     typeof request.response,
     AxiosResponse<typeof request.response>
   >(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`,
-    { ...request.payload }
+    { ...request?.payload },
+    { ...request?.options }
   );
 }
 /*
@@ -48,12 +59,12 @@ export async function postRequest(request: POSTRoutesType) {
  * @returns a promise with the response from the server
  */
 /* export async function patchRequest(request: PATCHRoutesType) {
-  return http.patch<typeof request.response>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
-    }`,
-    request.payload
-  );
+	return http.patch<typeof request.response>(
+		`${request.URL}${request.params ? '/' + request.params : ''}${
+			request.query ? '?' + request.query : ''
+		}`,
+		request.payload
+	);
 } */
 
 /**
@@ -62,11 +73,11 @@ export async function postRequest(request: POSTRoutesType) {
  * @returns a promise with the response from the server
  */
 /* export async function deleteRequest(request: DELETERoutesType) {
-  return http.delete<typeof request.response>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
-    }`
-  );
+	return http.delete<typeof request.response>(
+		`${request.URL}${request.params ? '/' + request.params : ''}${
+			request.query ? '?' + request.query : ''
+		}`
+	);
 } */
 
 /**
@@ -76,11 +87,11 @@ export async function postRequest(request: POSTRoutesType) {
  */
 /*
 export async function putRequest(request: PUTRoutesType) {
-  return http.put<typeof request.response>(
-    `${request?.URL}${request?.params ? '/' + request?.params : ''}${
-      request?.query ? '?' + request?.query : ''
-    }`,
-    request?.payload
-  );
+	return http.put<typeof request.response>(
+		`${request?.URL}${request?.params ? '/' + request?.params : ''}${
+			request?.query ? '?' + request?.query : ''
+		}`,
+		request?.payload
+	);
 }
  */

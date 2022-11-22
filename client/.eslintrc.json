@@ -79,6 +79,7 @@
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/no-empty-function": "error",
+		"@typescript-eslint/no-unsafe-member-access":"off",
     "tsdoc/syntax": "warn",
     "xss/no-mixed-html": 0,
     "react/react-in-jsx-scope": 0,

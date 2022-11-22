@@ -11,7 +11,7 @@ import UserDropdown from './userDropDown/UserDropdown';
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@pages/landing/searchBar/SearchBar';
-
+import { UseUser } from '@store/userStore';
 import './Navbar.scss';
 
 function NavbarComponent() {
@@ -19,7 +19,7 @@ function NavbarComponent() {
   //I added the SearchBar component (Changed by Hussein Ebrahim)
   const country = UseCountry();
   const updateCountry = UpdateCountry();
-  const user = null;
+  const user = UseUser();
   return (
     <Navbar bg='light' className='navbar' expand='lg' fixed='top'>
       <Container>

@@ -37,14 +37,12 @@ const traineeSchema = new Schema<ITrainee>(
       default: true,
       type: Boolean,
     },
-    address: {
-      city: String,
-      country: String,
-    },
+
     balance: {
       default: 0,
       type: Number,
     },
+    country: requiredString,
     creditCards: [
       {
         cardHolderName: requiredString,
@@ -53,6 +51,11 @@ const traineeSchema = new Schema<ITrainee>(
         expirationDate: Date,
       },
     ],
+    dateOfBirth: {
+      required: true,
+      trim: true,
+      type: Date,
+    },
     email: {
       required: true,
       type: Email,
@@ -66,8 +69,8 @@ const traineeSchema = new Schema<ITrainee>(
     },
     name: requiredString,
     password: { ...requiredString, minlength: 8 },
-    phone: String,
 
+    phone: String,
     preferredSkills: [
       {
         type: String,
@@ -86,6 +89,7 @@ const traineeSchema = new Schema<ITrainee>(
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 

@@ -32,15 +32,13 @@ class AuthController {
   // @access Public
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.info('login');
       const userData: UserLoginDTO = req.body;
-      const { cookie, findUser, accessToken } = await this.authService.login(userData);
-      logger.info('after authService');
+      const { cookie, findUser, accessToken, refreshToken } = await this.authService.login(userData);
 
       //res.setHeader('Set-Cookie', [cookie]);
       res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
-        data: { accessToken, user: findUser },
+        data: { token: { accessToken, expiryToken: cookie.options.maxAge, refreshToken }, user: findUser },
         message: 'login',
       });
     } catch (error) {
