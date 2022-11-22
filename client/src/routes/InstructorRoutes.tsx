@@ -19,6 +19,6 @@ export default function InstructorRoutes() {
   ) : useUserIsAuthenticated ? (
     <Navigate replace state={{ from: location }} to='/unauthorized' />
   ) : (
-    <Navigate replace state={{ from: location }} to='/auth/signup' />
+    <Navigate replace state={{ from: location }} to='/auth/login' />
   );
 }

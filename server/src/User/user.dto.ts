@@ -12,8 +12,8 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { Gender, Role } from '@/User/user.enum';
-import { Address, IUser } from '@User/user.interface';
+import { Gender } from '@/User/user.enum';
+import { IUser } from '@User/user.interface';
 import { Types } from 'mongoose';
 
 export class CreateUserDto implements IUser {
@@ -27,9 +27,9 @@ export class CreateUserDto implements IUser {
   @IsOptional()
   public active: boolean;
 
-  @IsObject()
-  @IsOptional()
-  public address: Address;
+  // @IsObject()
+  // @IsOptional()
+  // public address: Address;
 
   @IsDate()
   @IsOptional()
@@ -53,6 +53,10 @@ export class CreateUserDto implements IUser {
   // @IsString()
   // @IsEnum(Role, { message: 'Choose from: Admin, Trainee or Instructor' })
   // public role: Role;
+  public country: string;
+
+  @IsDate()
+  public dateOfBirth: Date;
 
   @IsString()
   public name: string;

@@ -27,6 +27,7 @@ const INITIAL_DATA: SignupData = {
   terms: false,
   username: ''
 };
+const titles = ['User Form', 'Account Form'];
 
 function Signup() {
   const [data, setData] = useState<SignupData>(INITIAL_DATA);
@@ -61,7 +62,7 @@ function Signup() {
         updateData={updateData}
       />
     ],
-    ['User Form', 'Account Form'],
+    titles,
     ['Give us your info', 'Create an account']
   );
 
@@ -88,10 +89,7 @@ function Signup() {
       <section className={`container `}>
         <div className={`form__container `}>
           <div className='container'>
-            <ProgressSteps
-              currentStepIndex={currentStepIndex}
-              steps={['User Form ', 'Address Form', 'A']}
-            />
+            <ProgressSteps currentStepIndex={currentStepIndex} steps={titles} />
             <hr />
             <div className='text-muted'>
               Step {currentStepIndex + 1}/{steps.length}
@@ -109,9 +107,6 @@ function Signup() {
             title={title}
           >
             {step}
-            <button className={`btn btn-primary btn-block`} type='submit'>
-              ss
-            </button>
           </Form>
         </div>
       </section>
