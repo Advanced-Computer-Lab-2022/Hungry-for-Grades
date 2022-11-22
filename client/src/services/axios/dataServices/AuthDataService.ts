@@ -17,12 +17,10 @@ export const AuthRoutes = {
       query: '',
       payload: {},
       response: {
-        data: [
-          {
-            label: '',
-            subcategory: [{ label: '' }]
-          }
-        ]
+        data: {
+          accessToken: '',
+          refreshToken: ''
+        }
       }
     }
   },
@@ -32,6 +30,9 @@ export const AuthRoutes = {
       params: '',
       query: '',
       payload: {},
+      options: {
+        withCredentials: true
+      },
       response: {
         data: {
           accessToken: '',
@@ -57,6 +58,9 @@ export const AuthRoutes = {
       params: '',
       query: '',
       payload: {},
+      options: {
+        withCredentials: true
+      },
       response: {
         data: {
           accessToken: ''

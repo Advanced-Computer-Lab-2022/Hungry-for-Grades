@@ -4,10 +4,12 @@ export const AdminRoutes = {
       URL: '/admin' as const,
       params: '' as const,
       query: '' as const,
+      options: {},
       payload: {
         email: {
           address: ''
         },
+
         password: '',
         username: '',
         name: '',
@@ -27,6 +29,8 @@ export const AdminRoutes = {
       URL: '/admin/instructor' as const,
       params: '' as const,
       query: '' as const,
+      options: {},
+
       payload: {
         email: {
           address: ''
@@ -50,6 +54,8 @@ export const AdminRoutes = {
       URL: '/admin/corporateTrainee' as const,
       params: '' as const,
       query: '' as const,
+      options: {},
+
       payload: {
         email: {
           address: ''

@@ -1,13 +1,11 @@
 import create from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 
-import { type IAuth, type IToken } from '@interfaces/token.interface';
+import { type IAuthStore, type IToken } from '@interfaces/token.interface';
 
 import { Role } from '@enums/role.enum';
 
 import LocalStorage from '@services/localStorage/LocalStorage';
-import { getRequest } from '@/services/axios/http-verbs';
-import { AuthRoutes } from '@/services/axios/dataServices/AuthDataService';
 
 const INTIAL_TOKEN: IToken = {
   accessToken: '',
@@ -18,24 +16,26 @@ const INTIAL_TOKEN: IToken = {
 const STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
 
 export const useAuthStore = create<
-  IAuth,
-  [['zustand/devtools', never], ['zustand/persist', IAuth]]
+  IAuthStore,
+  [['zustand/devtools', never], ['zustand/persist', IAuthStore]]
 >(
   devtools(
     persist(
-      set => ({
+      (set, get) => ({
         token: (LocalStorage.get('token') as IToken) ?? INTIAL_TOKEN,
-        isAuthenticated: LocalStorage.get('token') ? true : false,
-        updateToken: token => {
-          set({ token, isAuthenticated: true });
+        setToken: token => {
+          set({ token });
+        },
+        updateAccessToken: accessToken => {
+          set({
+            token: {
+              ...get().token,
+              accessToken: accessToken
+            }
+          });
         },
         removeToken: () => {
-          set({ token: INTIAL_TOKEN, isAuthenticated: false });
-        },
-        refresh: async () => {
-          const dataService = Object.assign({}, AuthRoutes.GET.refresh);
-          const response = await getRequest(dataService);
-          set({ token: response.data });
+          set({ token: INTIAL_TOKEN });
         }
       }),
       {
@@ -46,8 +46,10 @@ export const useAuthStore = create<
   )
 );
 
-export const UseToken = () => useAuthStore(state => state.token);
-export const UseIsAuthenticated = () =>
-  useAuthStore(state => state.isAuthenticated);
-export const UpdateToken = () => useAuthStore(state => state.updateToken);
-export const RemoveToken = () => useAuthStore(state => state.removeToken);
+export const UseAuthStoreToken = () => useAuthStore(state => state.token);
+
+export const UseAuthStoreSetToken = () => useAuthStore(state => state.setToken);
+export const UseAuthStoreUpdateAccessToken = () =>
+  useAuthStore(state => state.updateAccessToken);
+export const UseAuthStoreRemoveToken = () =>
+  useAuthStore(state => state.removeToken);

@@ -1,6 +1,5 @@
 import { ICourse } from '@/Course/course.interface';
 import { IUser } from '@/User/user.interface';
-import { LargeNumberLike } from 'crypto';
 import { Types } from 'mongoose';
 
 export interface ITrainee extends IUser {

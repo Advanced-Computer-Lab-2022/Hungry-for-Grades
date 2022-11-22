@@ -144,6 +144,7 @@ const courseSchema = new Schema<ICourse>(
     timestamps: true,
     toJSON: { getters: true, virtuals: true },
     toObject: { getters: true, virtuals: true },
+    versionKey: false,
   },
 );
 

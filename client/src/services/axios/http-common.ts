@@ -4,10 +4,18 @@ import { setupInterceptorsTo } from './http-interceptors';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
-const http = setupInterceptorsTo(
+const http = axios.create({
+  baseURL: `${APP_BASE_API_URL}`,
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8'
+  }
+});
+
+const httpProtected = setupInterceptorsTo(
   axios.create({
     baseURL: `${APP_BASE_API_URL}`,
-    withCredentials: false,
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
@@ -19,5 +27,4 @@ async function getCSRFToken() {
   http.defaults.headers.post['X-CSRF-Token'] = response?.data?.CSRFToken;
 }
 
-export { getCSRFToken };
-export default http;
+export { getCSRFToken, httpProtected, http };

@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
@@ -6,9 +6,11 @@ import Loader from '../components/loader/loaderpage/Loader';
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-import { UseIsAuthenticated } from '@store/authStore';
+import { UseUserIsAuthenticated } from '@store/userStore';
+import useRefreshToken from '@/hooks/useRefreshToken';
 
-/* function Auth() {
+/*
+function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,13 +25,19 @@ import { UseIsAuthenticated } from '@store/authStore';
 
     return false;
   }
-} */
+}
+*/
 
-function PrivateRoutes() {
-  const useIsAuthenticated = UseIsAuthenticated();
+function ProtectedRoutes() {
+  const useUserIsAuthenticated = UseUserIsAuthenticated();
   const location = useLocation();
+  const refresh = useRefreshToken();
 
-  if (useIsAuthenticated) {
+  useEffect(() => {
+    // const access = refresh();
+  }, [refresh]);
+
+  if (!useUserIsAuthenticated) {
     return <Navigate replace state={{ from: location }} to='/auth/login' />;
   } else {
     return (
@@ -42,4 +50,4 @@ function PrivateRoutes() {
   }
 }
 
-export default PrivateRoutes;
+export default ProtectedRoutes;

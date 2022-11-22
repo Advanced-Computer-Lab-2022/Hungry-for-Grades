@@ -4,6 +4,7 @@ export default function MainSection() {
   return (
     <>
       <div
+        className='fluid-container'
         style={{
           marginTop: '5.5rem',
           width: '100%',
@@ -13,7 +14,8 @@ export default function MainSection() {
       >
         <img
           alt='CanCham'
-          className={styles.img_item}
+          className={`${styles.img_item ?? ''} img-fluid `}
+          loading='lazy'
           src='https://learning.linkedin.com/content/dam/me/business/en-us/amp/learning-solutions/images/lls-homepage-2021/bg/01-dsk-b02-v01.jpg/jcr:content/renditions/01-dsk-b02-v01-2x.jpg'
         />
       </div>

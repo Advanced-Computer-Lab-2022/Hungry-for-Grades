@@ -61,14 +61,6 @@ function AllRoutes() {
           element={<LazyInstructorDashboard />}
           path='/home/instructor/:instructorid'
         />
-        <Route element={<AdminRoutes />} path='/admin'>
-          <Route element={<LazyAddInstructor />} path='addinstructor' />
-          <Route element={<LazyAddAdmin />} path='addadmin' />
-          <Route
-            element={<LazyAddCorporateTrainee />}
-            path='addcorporatetrainee'
-          />
-        </Route>
 
         <Route element={<InstructorRoutes />} path='/instructor'>
           <Route element={<LazyInstructorDashboard />} path='' />
@@ -81,6 +73,17 @@ function AllRoutes() {
         <Route element={<LazySignup />} path='signup' />
       </Route>
 
+      <Route element={<ProtectedRoutes />}>
+        <Route element={<AdminRoutes />} path='admin'>
+          <Route element={<div />} path='home' />
+          <Route element={<LazyAddInstructor />} path='add-instructor' />
+          <Route element={<LazyAddAdmin />} path='add-admin' />
+          <Route
+            element={<LazyAddCorporateTrainee />}
+            path='addcorporatetrainee'
+          />
+        </Route>
+      </Route>
       {/*  <Route element={<Error404 />} path="/*" /> */}
     </Routes>
   );
