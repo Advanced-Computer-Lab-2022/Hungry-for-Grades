@@ -7,6 +7,7 @@ function Header() {
   const title = import.meta.env.VITE_APP_TITLE_NAME;
   const description = import.meta.env.VITE_APP_DESCRIPTION;
   const keywords = import.meta.env.VITE_APP_KEYWORDS;
+  const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
   return (
     <HelmetProvider context={helmetContext}>
@@ -15,6 +16,8 @@ function Header() {
         <meta content={author} name='author' />
         <meta content='#000000' name='theme-color' />
         <meta content={keywords} name='keywords' />
+        <link href={COMPANY_LOGO} rel='icon' type='image/x-icon' />
+
         <title>{title}</title>
       </Helmet>
     </HelmetProvider>
