@@ -28,7 +28,8 @@ const LazyChangePassword = lazy(
   () => import('@/pages/changePassword/ChangePassword')
 );
 
-const LazyAddCourse = lazy(() => import('@/pages/course-form/CourseForm'));
+const LazyAddCourse = lazy(() => import('@/pages/course-form/AddCourse'));
+const LazyEditCourse = lazy(() => import('@/pages/course-form/EditCourse'));
 const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
 const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
@@ -67,6 +68,10 @@ function AllRoutes() {
         />
         <Route element={<LazyInstructorDashboard />} path='/instructor' />
         <Route element={<LazyAddCourse />} path='/instructor/add-course' />
+        <Route
+          element={<LazyEditCourse />}
+          path='/instructor/edit-course/:courseid'
+        />
         {/* <Route element={<InstructorRoutes />} path='/instructor'>
           
         </Route> */}

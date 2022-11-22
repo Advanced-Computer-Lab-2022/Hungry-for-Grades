@@ -1,14 +1,10 @@
 import { object } from 'yup';
 import { Formik, Form, FormikHelpers } from 'formik';
 
-import { toast } from 'react-toastify';
-
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-
 import {
+  CourseFormProps,
   CourseFormValues,
-  OutlineFormValues,
-  SectionFormValues
+  CourseSubmitAction
 } from './course-form-types';
 
 import { infoSchema, outlineSchema, sectionSchema } from './course-schemas';
@@ -20,8 +16,10 @@ import { CourseOutlineForm } from './CourseOutlineForm';
 import { SectionsForm } from './SectionsForm';
 
 import { Level } from '@/enums/level.enum';
-import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
-import { CourseDiscount } from '@/interfaces/course.interface';
+import {
+  CourseDiscount,
+  IAddCourseRequest
+} from '@/interfaces/course.interface';
 import ProgressSteps from '@/components/progress/ProgressSteps';
 import useMultistepForm from '@/hooks/useMultistepForm';
 
@@ -52,9 +50,9 @@ function getCurrentUserID() {
 
 async function submitCourse(
   values: CourseFormValues,
-  navigate: NavigateFunction
+  submitAction: CourseSubmitAction
 ) {
-  const result = await createCourse({
+  const course: IAddCourseRequest = {
     ...values.info,
     instructorID: getCurrentUserID(),
     level: values.info.level as Level,
@@ -96,15 +94,12 @@ async function submitCourse(
         ),
       0
     )
-  });
-  if (result) {
-    toast('Course was added successfully.');
-    navigate(`/course/${result._id}`);
-  }
+  };
+
+  await submitAction(course);
 }
 
-function CourseForm() {
-  const navigate = useNavigate();
+function CourseForm(props: CourseFormProps) {
   const {
     currentStepIndex,
     steps,
@@ -128,7 +123,7 @@ function CourseForm() {
     actions: FormikHelpers<CourseFormValues>
   ) => {
     if (isLastStep) {
-      await submitCourse(values, navigate);
+      await submitCourse(values, props.submitAction);
     } else {
       actions.setTouched({});
       actions.setSubmitting(false);
@@ -137,27 +132,17 @@ function CourseForm() {
   };
   return (
     <div className='container'>
-      <h1 className='text-center text-dark mt-2'>Create Course</h1>
+      <h1 className='text-center text-dark mt-2'>
+        {props.isUpdating ? 'Edit' : 'Create'} Course
+      </h1>
       <Formik
-        initialValues={{
-          info: {
-            title: '',
-            description: '',
-            language: '',
-            level: '',
-            price: '',
-            thumbnail: '',
-            previewVideoURL: ''
-          },
-          outline: [] as OutlineFormValues[],
-          sections: [] as SectionFormValues[]
-        }}
+        initialValues={props.initialValues}
         // eslint-disable-next-line security/detect-object-injection
         validationSchema={schemas[currentStepIndex]}
         // eslint-disable-next-line react/jsx-no-bind
         onSubmit={handleSubmit}
       >
-        {props => {
+        {formikProps => {
           return (
             <Form className='form-horizontal small'>
               <ProgressSteps
@@ -186,7 +171,7 @@ function CourseForm() {
                   {isLastStep && (
                     <button
                       className='btn btn-primary'
-                      disabled={props.isSubmitting}
+                      disabled={formikProps.isSubmitting}
                       type='submit'
                     >
                       Submit

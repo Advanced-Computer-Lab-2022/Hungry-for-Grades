@@ -30,13 +30,13 @@ export const infoSchema = object().shape({
     .required()
     .url()
     .min(4)
-    .max(100)
+    .max(160)
     .label('Preview Video Url'),
   thumbnail: string()
     .required()
     .url()
     .min(4)
-    .max(100)
+    .max(160)
     .label('Thumbnail Image Url')
 });
 
@@ -61,7 +61,7 @@ export const lessonSchema = array()
     object().shape({
       uid: string(),
       title: string().required().min(4).max(100).label('Title'),
-      videoURL: string().required().url().min(4).max(100).label('Video Url'),
+      videoURL: string().required().url().min(4).max(160).label('Video Url'),
       duration: number()
         .required()
         .min(1)
