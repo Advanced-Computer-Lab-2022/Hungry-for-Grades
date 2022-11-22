@@ -3,7 +3,6 @@ import { lazy } from 'react';
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
  */
-import Error from '@components/error/page/Error';
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
@@ -15,6 +14,8 @@ import AuthRoutes from './AuthRoutes';
 import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
+
+import Error from '@/components/error/page/Error';
 
 import StudentPage from '@/pages/studentPage/StudentPage';
 
