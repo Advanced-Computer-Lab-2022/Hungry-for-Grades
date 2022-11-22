@@ -284,7 +284,7 @@ class CourseService {
 
     const course = await courseModel.findById(courseID).populate({
       path: 'rating.reviews._trainee',
-      select: 'name address profileImage',
+      select: 'name country profileImage',
     });
 
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
@@ -477,7 +477,7 @@ class CourseService {
     const course = await courseModel.findById(courseID);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-    //course.discounts=[]
+    discountData.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
     course.price.discounts.push(discountData);
     await course.save();
 

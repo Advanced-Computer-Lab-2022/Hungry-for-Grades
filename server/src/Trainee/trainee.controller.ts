@@ -212,5 +212,16 @@ class TraineeController {
       next(error);
     }
   };
+
+  // send verification email
+  public sendVerificationEmail = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+    try {
+      const { email, username } = req.body;
+      const verificationCode: Number = await this.traineeService.sendVerificationEmail(email, username);
+      res.status(HttpStatusCodes.CREATED).json({ data: verificationCode, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default TraineeController;
