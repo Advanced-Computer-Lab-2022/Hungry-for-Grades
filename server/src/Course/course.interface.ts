@@ -90,6 +90,7 @@ export type Coupon = {
 };
 
 export type Discount = {
+  _id: Types.ObjectId;
   endDate: Date;
   percentage: number;
   startDate: Date;

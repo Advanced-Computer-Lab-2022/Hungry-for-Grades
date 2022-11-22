@@ -6,7 +6,6 @@ export default function MainSection() {
       <div
         className='fluid-container'
         style={{
-          marginTop: '5.5rem',
           width: '100%',
           height: '32rem',
           background: '#EFF0F6'

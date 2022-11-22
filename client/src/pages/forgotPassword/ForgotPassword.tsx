@@ -1,57 +1,37 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useFormik } from 'formik';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
-import { LoginProps } from './types';
-
-import { Role } from '@/enums/role.enum';
-
-import { UseSetUser } from '@/store/userStore';
+import { type ForgotPasswordProps } from './types';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-import {
-  UseAuthStoreSetToken,
-  UseAuthStoreRemoveToken
-} from '@store/authStore';
 
-import './login.scss';
-import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+import '../login/login.scss';
+
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
-function Login() {
-  const { mutateAsync: login, isError, error } = usePostQuery();
-  const useSetUser = UseSetUser();
-  const useAuthStoreSetToken = UseAuthStoreSetToken();
-  const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
-
+function ForgotPassword() {
+  const { isError, error } = usePostQuery();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from: string = location?.state?.from?.pathname || '';
-  const formik = useFormik<LoginProps>({
+  const formik = useFormik<ForgotPasswordProps>({
     enableReinitialize: true,
     initialValues: {
-      email: '',
-      password: '',
-      rememberMe: false
+      email: ''
     },
     validationSchema: Yup.object({
       email: Yup.string()
         .email('Invalid Email address')
         .min(6, 'Email address is Too Short!')
         .max(50, 'Email address is Too Long!')
-        .required('Email address is Required'),
-      password: Yup.string()
-        .min(6, 'Password Too Short!')
-        .max(50, 'Password Too Long!')
-        .required('Password is Required')
+        .required('Email address is Required')
     }),
     onSubmit: function submit(values, actions) {
       actions.resetForm();
@@ -65,53 +45,22 @@ function Login() {
 
   const handleSubmit = useCallback(async () => {
     try {
-      const { email, password } = (await formik.submitForm()) as LoginProps;
+      const { email } = (await formik.submitForm()) as ForgotPasswordProps;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
           address: email
-        },
-        password
+        }
       };
-      const response = await login(loginRoute);
-      if (response && response.status === 200) {
-        const { token, user } = response?.data?.data;
-        useSetUser(user);
-        if (formik.values.rememberMe) {
-          useAuthStoreSetToken(token);
-        } else {
-          useAuthStoreRemoveToken();
-        }
 
-        console.log(user);
-        console.log(token);
-        if (from) {
-          navigate(from.toLocaleLowerCase());
-        } else {
-          navigate(`/${user.role as Role}/home`.toLocaleLowerCase(), {
-            replace: true
-          });
-        }
-
-        return true;
-      }
       return false;
     } catch (err) {
       console.log(err);
-      return false;
     }
-  }, [
-    formik,
-    login,
-    useSetUser,
-    from,
-    useAuthStoreSetToken,
-    useAuthStoreRemoveToken,
-    navigate
-  ]);
+  }, [formik]);
 
   return (
-    <div className='login d-flex flex-row justify-content-between'>
+    <div className='forgotPassword d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
           <Link to='/'>
@@ -120,13 +69,13 @@ function Login() {
             </div>
           </Link>
           <Form
-            ariaLabel={'Login Form'}
+            ariaLabel={'Forgot Password Form'}
             disabled={false}
             encType={'application/x-www-form-urlencoded'}
-            id={'loginForm'}
+            id='forgotPasswordForm'
             inputs={[
               <Input
-                key='email-1'
+                key='password-2'
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
@@ -142,53 +91,15 @@ function Login() {
                 value={formik.values.email}
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
-              />,
-              <Input
-                key={'password-1'}
-                correctMessage={''}
-                errorMessage={formik.errors.password as string}
-                hint={''}
-                isError={
-                  formik.touched.password && formik.errors.password
-                    ? true
-                    : null
-                }
-                isTop={false}
-                label={'Password'}
-                name={'password'}
-                placeholder='Password'
-                size={0}
-                type='password'
-                value={formik.values.password}
-                onBlurFunc={formik.handleBlur}
-                onChangeFunc={formik.handleChange}
               />
             ]}
             isError={false}
             isLoading={false}
             method={'post'}
-            subtitle='Login to your account'
-            title='Login'
+            subtitle='Enter your email address to reset your password'
+            title='Forgot Password'
             onResetFunc={formik.handleReset}
           >
-            <span className='d-flex flex-row justify-content-between'>
-              <CheckBoxInput
-                checked={formik.values.rememberMe}
-                className={''}
-                errorMessage={''}
-                isChecked={formik.values.rememberMe}
-                label='Remember Me'
-                name='rememberMe'
-                required={false}
-                value={formik.values.rememberMe}
-                onChange={async function handleChange(e) {
-                  await formik.setFieldValue('rememberMe', e.target.checked);
-                }}
-              />
-              <Link className='forgot-password' to='/auth/forgot-password'>
-                Forgot Password?
-              </Link>
-            </span>
             {isError && error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
                 {error?.response?.data?.message}
@@ -206,8 +117,8 @@ function Login() {
               <Button
                 backgroundColor='primary-bg'
                 isDisabled={!formik.isValid || !formik.dirty}
-                label='Login'
-                name='login'
+                label='Forgot Password'
+                name='forgotPassword'
                 type='button'
                 onClickFunc={handleSubmit}
               />
@@ -230,4 +141,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;
