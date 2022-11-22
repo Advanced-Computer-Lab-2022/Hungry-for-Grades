@@ -17,7 +17,7 @@ import Input from '@components/inputs/input/Input';
 import './forgot.scss';
 
 function ForgotPassword() {
-  const {  isError, error } = usePostQuery();
+  const { isError, error } = usePostQuery();
   const navigate = useNavigate();
   const formik = useFormik<ForgotPasswordProps>({
     enableReinitialize: true,
