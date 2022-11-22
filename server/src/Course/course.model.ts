@@ -11,23 +11,29 @@ const courseSchema = new Schema<ICourse>(
         type: Schema.Types.ObjectId,
       },
     ],
-    announcements: [
-      {
-        createdAt: Date,
-        description: String,
-        title: String,
-      },
-    ],
+    announcements: {
+      default: [],
+      type: [
+        {
+          createdAt: Date,
+          description: String,
+          title: String,
+        },
+      ],
+    },
     captions: [requiredString],
     category: requiredString,
-    coupouns: [
-      {
-        code: String,
-        count: Number,
-        discount: Number,
-        expiryDate: Date,
-      },
-    ],
+    coupouns: {
+      defaut: [],
+      type: [
+        {
+          code: String,
+          count: Number,
+          discount: Number,
+          expiryDate: Date,
+        },
+      ],
+    },
     description: requiredString,
     duration: {
       required: true,
@@ -40,16 +46,19 @@ const courseSchema = new Schema<ICourse>(
         question: String,
       },
     ],
-    frequentlyAskedQuestions: [
-      {
-        answer: String,
-        question: String,
-        votes: {
-          default: 0,
-          type: Number,
+    frequentlyAskedQuestions: {
+      default: [],
+      type: [
+        {
+          answer: String,
+          question: String,
+          votes: {
+            default: 0,
+            type: Number,
+          },
         },
-      },
-    ],
+      ],
+    },
     keywords: [
       {
         type: String,
@@ -78,13 +87,16 @@ const courseSchema = new Schema<ICourse>(
         type: Number,
         // get: getPrice,
       },
-      discounts: [
-        {
-          endDate: Date,
-          percentage: Number,
-          startDate: Date,
-        },
-      ],
+      discounts: {
+        default: [],
+        type: [
+          {
+            endDate: Date,
+            percentage: Number,
+            startDate: Date,
+          },
+        ],
+      },
     },
     rating: {
       averageRating: {
