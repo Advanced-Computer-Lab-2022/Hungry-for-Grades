@@ -36,6 +36,6 @@
     "prefer-destructuring": "error",
     "sort-keys-fix/sort-keys-fix": "error",
     "xss/no-location-href-assign": "error",
-    "xss/no-mixed-html": "error"
+    "xss/no-mixed-html": "off"
   }
 }

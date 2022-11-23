@@ -62,6 +62,7 @@ function AllRoutes() {
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
         <Route element={<StudentPage />} path='hussein' />
+
         <Route
           element={<LazyInstructorDashboard />}
           path='/home/instructor/:instructorid'

@@ -12,9 +12,12 @@ class TraineeRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post('/', this.traineeController.createTrainee);
+    this.router.post('/signup', this.traineeController.createTrainee);
     this.router.get('/email', this.traineeController.getTraineeByEmail);
     this.router.get('/username', this.traineeController.getTraineeByUsername);
+
+    //Verify Email
+    this.router.post('/verify', this.traineeController.sendVerificationEmail);
 
     this.router.get('/:traineeId/cart', this.traineeController.getCart);
     this.router.get('/:traineeId/wishlist', this.traineeController.getWishlist);
