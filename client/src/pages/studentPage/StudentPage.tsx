@@ -14,7 +14,7 @@ export default function StudentPage() {
   return (
     <div>
       <div className={styles.hero}>
-        <div style={{ marginLeft: '15%', marginTop: '6%' }}>
+        <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
           <div className={styles.mylearning}>My learning</div>
           <div className={styles.list}>
             <div style={{ marginRight: '3.2rem' }}>

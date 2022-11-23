@@ -2,7 +2,7 @@ import CartList from './CartList';
 
 export default function Cart() {
   return (
-    <div className={styles.container}>
+    <div>
       <CartList />
     </div>
   );

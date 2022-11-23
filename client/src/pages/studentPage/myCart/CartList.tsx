@@ -6,11 +6,14 @@ import CartCard from './CartCard';
 import { StudentRoutes } from '@/services/axios/dataServices/StudentDataService';
 
 import { getRequest } from '@/services/axios/http-verbs';
+import { UseCountry } from '@/store/countryStore';
 
-async function getCart() {
+async function getCart(country: string) {
   const Courses = StudentRoutes.GET.getMyCart;
 
   Courses.URL = '/trainee/637969352c3f71696ca34759/cart';
+
+  Courses.query = `country=${country}`;
 
   return getRequest(Courses);
 }
@@ -33,10 +36,16 @@ function getOriginalPrice(
 }
 
 export default function CartList() {
-  const { isLoading, data } = useQuery(['ASJLHFXYZZ'], () => getCart(), {
-    cacheTime: 1000 * 60 * 60 * 24,
-    retryDelay: 1000 // 1 second
-  });
+  const con = UseCountry();
+
+  const { isLoading, data } = useQuery(
+    ['ASJLHFXYZZ', con],
+    () => getCart(con),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000 // 1 second
+    }
+  );
 
   if (isLoading) {
     return <div>Ana Hena Ma5lst4</div>;
@@ -89,7 +98,7 @@ export default function CartList() {
         width: '90%'
       }}
     >
-      <div style={{ marginTop: '3rem', marginLeft: '15%', width: '70%' }}>
+      <div style={{ marginTop: '3rem', marginLeft: '15%', width: '60%' }}>
         <div
           style={{
             marginBottom: '2.5rem',
@@ -141,7 +150,7 @@ export default function CartList() {
         )}
         <button
           style={{
-            width: '190%',
+            width: '20rem',
             height: '3rem',
             border: 'none',
             backgroundColor: '#a00407',
