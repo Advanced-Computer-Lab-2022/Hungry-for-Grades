@@ -1,73 +1,69 @@
-import { Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useState } from 'react';
 
 import styles from './InstructorMainSection.module.css';
 
 export default function InstructorMainSection() {
-  return (
-    <div style={{ width: '100%', backgroundColor: '#112D4E' }}>
-      <div
-        className='container-lg px-0'
-        style={{
-          width: '100%',
-          backgroundColor: '#112D4E',
-          alignItems: 'center'
-        }}
-      >
-        <br />
-        <br />
-        <div
-          className='d-flex justify-content-between'
-          style={{ alignItems: 'center' }}
-        >
-          <span
-            style={{ color: '#F9F7F7', fontSize: '1.7rem', fontWeight: '350' }}
-          >
-            Instructor Dashboard
-          </span>
-          <Link to='/instructor/add-course'>
-            <button
-              style={{
-                backgroundColor: '#F9F7F7',
-                color: '#3F72AF',
-                borderColor: '#3F72AF',
-                borderWidth: '1.5px',
-                width: 'auto'
-              }}
-              type='button'
-            >
-              Create new Course
-            </button>
-          </Link>
-        </div>
-        <br />
+  const [myArray, setMyArray] = useState([1, 0, 0]);
 
-        <Nav defaultActiveKey='/home' variant='pills'>
-          <Nav.Item>
-            <Nav.Link href='/home'>
-              <span className={styles.dashhero}>Courses </span>
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey='/Instructor/Performance'>
-              <span className={styles.dashhero}>Performance </span>{' '}
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey='/Instructor/Q&A'>
-              {' '}
-              <span className={styles.dashhero}>Q&A </span>{' '}
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              className={styles.dashhero}
-              eventKey='/Instructor/Assignments'
+  return (
+    <div className={styles.hero}>
+      <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
+        <div className={styles.mylearning}>Instructor Dashboard</div>
+        <div className={styles.list}>
+          <div style={{ marginRight: '3.2rem' }}>
+            <div
+              className={styles.listitem}
+              onClick={() => setMyArray([1, 0, 0])}
             >
-              <span className={styles.dashhero}>Assignments </span>
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
+              My Courses
+            </div>
+            {myArray.at(0) == 1 && (
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#d1d7dc',
+                  height: '0.4rem'
+                }}
+              />
+            )}
+          </div>
+          <div style={{ marginRight: '3.2rem' }}>
+            <div
+              className={styles.listitem}
+              onClick={() => setMyArray([0, 1, 0])}
+            >
+              Rating and Reviews
+            </div>
+            {myArray.at(1) == 1 && (
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#d1d7dc',
+                  height: '0.4rem'
+                }}
+              />
+            )}
+          </div>
+          <div style={{ marginRight: '3.2rem' }}>
+            <div
+              className={styles.listitem}
+              onClick={() => setMyArray([0, 0, 1])}
+            >
+              Q&A
+            </div>
+            {myArray.at(2) == 1 && (
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#d1d7dc',
+                  height: '0.4rem'
+                }}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

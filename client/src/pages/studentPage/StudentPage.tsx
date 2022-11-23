@@ -6,13 +6,15 @@ import styles from './StudentPage.module.scss';
 
 import MyCourses from './MyCourses';
 
+import Cart from './myCart/Cart';
+
 export default function StudentPage() {
   const [myArray, setMyArray] = useState([1, 0, 0]);
 
   return (
     <div>
       <div className={styles.hero}>
-        <div style={{ marginLeft: '15%', marginTop: '6%' }}>
+        <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
           <div className={styles.mylearning}>My learning</div>
           <div className={styles.list}>
             <div style={{ marginRight: '3.2rem' }}>
@@ -70,7 +72,7 @@ export default function StudentPage() {
         </div>
       </div>
       {myArray.at(0) == 1 && <MyCourses />}
-      {myArray.at(1) == 1 && <span>Helllo</span>}
+      {myArray.at(1) == 1 && <Cart />}
       {myArray.at(2) == 1 && <span>Yasser</span>}
     </div>
   );
