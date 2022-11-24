@@ -2,7 +2,10 @@ import { AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 
 import '@components/courseCard/course-card.module.scss';
-import { UseCartStoreTotalCost, UseCartStoreTotalItems } from '@store/cartStore';
+import {
+  UseCartStoreTotalCost,
+  UseCartStoreTotalItems
+} from '@store/cartStore';
 import {
   UseWishListTotalCost,
   UseWishListTotalItems

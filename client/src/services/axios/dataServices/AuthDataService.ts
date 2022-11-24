@@ -26,7 +26,7 @@ export const AuthRoutes = {
   },
   POST: {
     verifyEmail: {
-      URL: '/trainee/verify' as const,
+      URL: '/verify-email' as const,
       params: '',
       query: '',
       payload: {
