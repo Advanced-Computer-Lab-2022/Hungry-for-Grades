@@ -54,6 +54,38 @@ class AdminController {
       next(error);
     }
   };
+
+  // get admin by email
+  public getAdminByEmail = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const adminEmail: string = req.query.email as string;
+      const admin: IAdmin = await this.adminService.getAdminByEmail(adminEmail);
+
+      res.status(HttpStatusCodes.OK).json({
+        data: admin,
+        message: 'Admin retrieved successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get admin by username
+  public getAdminByUsername = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const adminUsername: string = req.query.username as string;
+      const admin: IAdmin = await this.adminService.getAdminByUsername(adminUsername);
+
+      res.status(HttpStatusCodes.OK).json({
+        data: admin,
+        message: 'Admin retrieved successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default AdminController;

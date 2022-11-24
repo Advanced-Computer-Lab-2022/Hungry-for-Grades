@@ -17,8 +17,16 @@ import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
 import { IAdmin } from '@/Admin/admin.interface';
 import { IInstructor } from '@/Instructor/instructor.interface';
+import TraineeService from '@/Trainee/trainee.dao';
+import InstructorService from '@/Instructor/instructor.dao';
+import AdminService from '@/Admin/admin.dao';
+import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 
 class AuthService {
+  //traineeService=new TraineeService();
+  instructorService = new InstructorService();
+  // adminService=new AdminService();
+
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
@@ -131,6 +139,31 @@ class AuthService {
       value: refreshToken,
     };
   }
+
+  //forget pass
+  public sendResetPasswordEmail = async (userEmail: string): Promise<void> => {
+    const trainee = await new TraineeService().getTraineeByEmail(userEmail);
+    const instructor = await new InstructorService().getInstructorByEmail(userEmail);
+    const admin = await new AdminService().getAdminByEmail(userEmail);
+    const user = trainee ?? instructor ?? admin;
+    if (!user) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email does not belong to a user');
+
+    const username = user.name;
+
+    //send email
+    sendResetPasswordEmail(userEmail, username);
+  };
+
+  public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
+    //generate a 6 digit code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    //send email
+    sendVerificationEmail(email, username, verificationCode);
+
+    // save code
+    return verificationCode;
+  };
 }
 
 export default AuthService;

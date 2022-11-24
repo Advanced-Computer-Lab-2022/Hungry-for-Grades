@@ -2,6 +2,7 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
 import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
 import { Role } from '@/User/user.enum';
+import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
@@ -87,6 +88,28 @@ class AuthController {
         data: { accessToken },
         message: 'refreshed refresh token',
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //forget password controller
+  public forgetPassword = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+    try {
+      const { email } = req.body;
+      await this.authService.sendResetPasswordEmail(email);
+      res.status(HttpStatusCodes.CREATED).json({ data: null, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // send verification email
+  public sendVerificationEmail = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+    try {
+      const { email, username } = req.body;
+      const verificationCode: Number = await this.authService.sendVerificationEmail(email, username);
+      res.status(HttpStatusCodes.CREATED).json({ data: verificationCode, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

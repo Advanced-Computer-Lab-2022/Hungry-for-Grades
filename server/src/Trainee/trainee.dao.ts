@@ -13,7 +13,7 @@ import courseModel from '@/Course/course.model';
 import { ICourse } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice } from '@Course/course.common';
 import { sendEmail } from '@/Common/Email Service/nodemailer.service';
-import { sendVerificationEmail } from '@/Common/Email Service/email.template';
+import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 
 class TraineeService {
   public authService = new AuthService();
@@ -264,18 +264,6 @@ class TraineeService {
     const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $set: { _cart: [] } });
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
     return trainee._cart;
-  };
-
-  //verify email
-  public sendVerificationEmail = async (traineeEmail: string, username: string): Promise<Number> => {
-    //generate a 6 digit code
-    const verificationCode = Math.floor(100000 + Math.random() * 900000);
-
-    //send email
-    sendVerificationEmail(traineeEmail, username, verificationCode);
-
-    // save code
-    return verificationCode;
   };
 }
 export default TraineeService;
