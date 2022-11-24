@@ -10,6 +10,10 @@ import {
   //type PUTRoutesType
 } from './types';
 
+type Options = {
+  withCredentials: boolean;
+};
+
 /**
  * GET request
  * @param request - request object
@@ -18,9 +22,7 @@ import {
 export async function getRequest(
   request: GETRoutesType,
   isProtected?: boolean,
-  options?: {
-    withCredentials: boolean;
-  }
+  options?: Options
 ): Promise<AxiosResponse<typeof request.response>> {
   const httpInstance = isProtected ? httpProtected : http;
   return httpInstance.get<typeof request.response>(
@@ -38,7 +40,8 @@ export async function getRequest(
  */
 export async function postRequest(
   request: POSTRoutesType,
-  isProtected?: boolean
+  isProtected?: boolean,
+  options?: Options
 ) {
   const httpInstance = isProtected ? httpProtected : http;
   return httpInstance.post<
@@ -49,7 +52,7 @@ export async function postRequest(
       request.query ? '?' + request.query : ''
     }`,
     { ...request?.payload },
-    { ...request?.options }
+    { ...options }
   );
 }
 /*

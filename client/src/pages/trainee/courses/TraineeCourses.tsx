@@ -1,15 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { useQuery } from '@tanstack/react-query';
 
-import { useState } from 'react';
-
-import { mapCourseToCardProps } from '../landing/types';
+import { mapCourseToCardProps } from '../../landing/types';
 
 //import styles from './MyCourses.module.scss';
-
-import { StudentRoutes } from '@/services/axios/dataServices/StudentDataService';
-
-import { getRequest } from '@/services/axios/http-verbs';
+import useCoursesQuery from './useCoursesQuery';
 
 import { ICourse } from '@/interfaces/course.interface';
 
@@ -19,34 +14,14 @@ import Pagination from '@/components/pagination/Pagination';
 
 import LoaderCards from '@components/loader/loaderCard/LoaderCards';
 
-async function getCourses(activePage: number) {
-  const Courses = StudentRoutes.GET.getMyCourses;
-
-  Courses.URL = 'trainee/637969352c3f71696ca34759/courses';
-
-  Courses.query = `page=${activePage}
-  &limit=${6}`;
-
-  return getRequest(Courses);
-}
-
 export default function MyCourses() {
-  const [activePage, setActivePage] = useState<number>(1);
-
-  const { isLoading, data } = useQuery(
-    ['ASJLHF', activePage],
-    () => getCourses(activePage),
-    {
-      cacheTime: 1000 * 60 * 60 * 24,
-      retryDelay: 1000 // 1 second
-    }
-  );
+  const { data, isLoading, activePage, setActivePage } = useCoursesQuery();
 
   if (isLoading) return <LoaderCards numberOfCards={3} />;
 
   console.log(data?.data?.totalPages);
 
-  const incoming: typeof StudentRoutes.GET.getMyCourses.response.data =
+  const incoming: typeof TraineeRoutes.GET.getMyCourses.response.data =
     data?.data?.data;
 
   //console.log(incoming);
@@ -55,7 +30,7 @@ export default function MyCourses() {
 
   //console.log(course);
 
-  const toShow = incoming.map(course => {
+  const toShow = incoming?.map(course => {
     const tt: ICourse = course._course;
     const courseCardP = mapCourseToCardProps(tt);
     console.log(course);

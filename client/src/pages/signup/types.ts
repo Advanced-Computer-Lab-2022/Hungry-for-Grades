@@ -18,21 +18,22 @@ export type ButtonDirectionProps = {
   prev: () => void;
 };
 
-export type AddressFormProps = {
-  key?: string;
-};
-
 export type AccountFormProps = {
   key?: string;
   email: string;
   username: string;
   password: string;
-  confirmPassword: string;
   terms: boolean;
 };
 
-export type SignupData = UserFormProps & AddressFormProps & AccountFormProps;
-export type UpdateSignupData =
-  | UserFormProps
-  | AddressFormProps
-  | AccountFormProps;
+export type ConfirmEmailProps = {
+  key?: string;
+  prev: () => void;
+  handleSubmit: () => Promise<void>;
+  email: string;
+  firstName: string;
+  lastName: string;
+};
+
+export type SignupData = UserFormProps & AccountFormProps;
+export type UpdateSignupData = UserFormProps | AccountFormProps;

@@ -3,9 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import AccountForm from './AccountForm';
 import { type SignupData, type UpdateSignupData } from './types';
 import UserForm from './UserForm';
+
+import ConfirmEmail from './ConfirmEmail';
 
 import useMultistepForm from '@hooks/useMultistepForm';
 
@@ -13,6 +17,10 @@ import { Gender } from '@/enums/gender.enum';
 import Form from '@components/form/Form';
 import ProgressSteps from '@components/progress/ProgressSteps';
 import './signup.scss';
+import usePostQuery from '@/hooks/usePostQuery';
+import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
+
+const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 const INITIAL_DATA: SignupData = {
   firstName: '',
@@ -23,14 +31,14 @@ const INITIAL_DATA: SignupData = {
   country: '',
   email: '',
   password: '',
-  confirmPassword: '',
   terms: false,
   username: ''
 };
-const titles = ['User Form', 'Account Form'];
+const titles = ['User Form', 'Account Form', 'Confirm Email'];
 
 function Signup() {
   const [data, setData] = useState<SignupData>(INITIAL_DATA);
+  const { mutateAsync } = usePostQuery();
 
   function updateData(newData: UpdateSignupData) {
     setData(prev => {
@@ -39,7 +47,7 @@ function Signup() {
     console.log('newData');
     console.log(newData);
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    handleSubmit();
+    next();
   }
 
   const {
@@ -60,22 +68,37 @@ function Signup() {
         {...data}
         prev={previous}
         updateData={updateData}
+      />,
+      <ConfirmEmail
+        key={uuidv4()}
+        email={data.email}
+        firstName={data.firstName}
+        handleSubmit={handleSubmit}
+        lastName={data.lastName}
+        prev={previous}
       />
     ],
     titles,
-    ['Give us your info', 'Create an account']
+    ['Give us your info', 'Create an account', 'Verify Your Email']
   );
 
   function previous() {
     prev();
   }
 
-  function handleSubmit() {
-    // Do something with the data
+  async function handleSubmit() {
+    const signup = Object.assign({}, TraineeRoutes.POST.signup);
+    signup.payload = {
+      ...data,
+      email: {
+        address: data.email
+      }
+    };
+    await mutateAsync(signup);
+
     console.log('data');
     console.log(data);
     if (isLastStep) {
-      // submit form
     } else {
       next();
     }
@@ -89,7 +112,25 @@ function Signup() {
       <section className={`container `}>
         <div className={`form__container `}>
           <div className='container'>
-            <ProgressSteps currentStepIndex={currentStepIndex} steps={titles} />
+            <div className='d-flex flex-column flex-lg-row justify-content-between m-0 p-0'>
+              <Link className='p-0 m-0' to='/'>
+                <img
+                  alt='logo'
+                  loading='lazy'
+                  src={COMPANY_LOGO}
+                  style={{
+                    width: '14rem',
+                    height: '15vh',
+                    objectFit: 'contain'
+                  }}
+                />
+              </Link>
+
+              <ProgressSteps
+                currentStepIndex={currentStepIndex}
+                steps={titles}
+              />
+            </div>
             <hr />
             <div className='text-muted'>
               Step {currentStepIndex + 1}/{steps.length}

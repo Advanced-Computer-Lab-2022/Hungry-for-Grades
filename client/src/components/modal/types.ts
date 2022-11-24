@@ -1,3 +1,5 @@
+import { ButtonEvent } from '../common.types';
+
 export type ModalProps = {
   // slots
   header?: React.ReactNode;
@@ -17,7 +19,13 @@ export type ModalProps = {
   isClose: boolean;
   closeText: string;
   // functions
-  onDelete: () => void;
-  onDone: () => void;
-  onClose: () => void;
+  onDelete?: (
+    event: ButtonEvent
+  ) => boolean | Promise<boolean> | void | Promise<void> | undefined;
+  onDone?: (
+    event: ButtonEvent
+  ) => boolean | Promise<boolean> | void | Promise<void> | undefined;
+  onClose?: (
+    event: ButtonEvent
+  ) => boolean | Promise<boolean> | void | Promise<void> | undefined;
 };
