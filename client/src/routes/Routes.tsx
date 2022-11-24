@@ -124,7 +124,10 @@ function AllRoutes() {
         <Route element={<LazyLogin />} path='login' />
         <Route element={<LazySignup />} path='signup' />
         <Route element={<LazyForgotPassword />} path='forgot-password' />
-        <Route element={<LazyChangePassword />} path='change-password/:userId' />
+        <Route
+          element={<LazyChangePassword />}
+          path='change-password/:userId'
+        />
       </Route>
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>

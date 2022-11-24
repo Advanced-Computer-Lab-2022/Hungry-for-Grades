@@ -95,14 +95,14 @@ export const AuthRoutes = {
         }
       }
     },
-		changePassword: {
+    changePassword: {
       URL: '/change-password' as const,
       params: '',
       query: '',
       payload: {
         _id: '',
-				newPassword: '',
-				role:''
+        newPassword: '',
+        role: ''
       },
       options: {
         withCredentials: true

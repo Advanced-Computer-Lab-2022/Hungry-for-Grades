@@ -45,7 +45,7 @@ function ChangePassword() {
 
       changePasswordRoute.payload = {
         role: searchParams.get('role') as string,
-        '_id': userId as string,
+        _id: userId as string,
         newPassword
       };
 
@@ -68,7 +68,7 @@ function ChangePassword() {
           <Form
             ariaLabel={'Change Password Form'}
             className='middle'
-						disabled={false}
+            disabled={false}
             encType={'application/x-www-form-urlencoded'}
             id='changePasswordForm'
             inputs={[
