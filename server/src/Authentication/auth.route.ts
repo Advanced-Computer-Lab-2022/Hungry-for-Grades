@@ -22,6 +22,7 @@ class AuthRoute implements Routes {
     this.router.post('/forget', this.authController.forgetPassword);
     //Verify Email
     this.router.post('/verify', limiterMiddleware, this.authController.sendVerificationEmail);
+    this.router.post('/change-password', limiterMiddleware, this.authController.changePassword);
   }
 }
 

@@ -94,6 +94,24 @@ export const AuthRoutes = {
           accessToken: ''
         }
       }
+    },
+		changePassword: {
+      URL: '/change-password' as const,
+      params: '',
+      query: '',
+      payload: {
+        _id: '',
+				newPassword: '',
+				role:''
+      },
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: ''
+        }
+      }
     }
   }
 };

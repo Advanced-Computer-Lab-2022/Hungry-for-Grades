@@ -21,7 +21,7 @@ import TraineeService from '@/Trainee/trainee.dao';
 import InstructorService from '@/Instructor/instructor.dao';
 import AdminService from '@/Admin/admin.dao';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
-
+import { Types } from 'mongoose';
 class AuthService {
   //traineeService=new TraineeService();
   instructorService = new InstructorService();
@@ -127,17 +127,28 @@ class AuthService {
     return findUser;
   }
 
-  public createCookie(refreshToken: string): ICookie {
-    return {
-      name: 'Authorization',
-      options: {
-        httpOnly: true, // only accessible by a web server
-        maxAge: 1000 * 60 * 60 * 24 * 7, // expires in 1 week
-        sameSite: 'none', // cross-site cookie
-        secure: false, //https
-      },
-      value: refreshToken,
-    };
+  // change any user password
+  public async changePassword(_id: string, role: Role, newPassword: string): Promise<IUser> {
+    if (!Types.ObjectId.isValid(_id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Id is an invalid Object Id');
+
+    const userModel = findUserModelByRole(role);
+    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is Wrong');
+
+    const findUser = await userModel
+      .findOneAndUpdate(
+        { _id: _id },
+        {
+          $set: {
+            password: newPassword,
+          },
+        },
+        { new: true },
+      )
+      .lean();
+    logger.info(findUser);
+    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `this id ${_id} was not found`);
+
+    return findUser;
   }
 
   //forget pass
@@ -171,6 +182,20 @@ class AuthService {
     // save code
     return verificationCode;
   };
+
+  // creates a cookie
+  public createCookie(refreshToken: string): ICookie {
+    return {
+      name: 'Authorization',
+      options: {
+        httpOnly: true, // only accessible by a web server
+        maxAge: 1000 * 60 * 60 * 24 * 7, // expires in 1 week
+        sameSite: 'none', // cross-site cookie
+        secure: false, //https
+      },
+      value: refreshToken,
+    };
+  }
 }
 
 export default AuthService;
