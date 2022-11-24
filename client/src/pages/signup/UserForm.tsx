@@ -81,13 +81,15 @@ function UserForm({
         .matches(/^[a-zA-Z]+$/, 'First Name must be only letters')
         .max(50, 'Last Name Too Long!')
         .required('Last Name is Required'),
-      birthDate: Yup.string().required('Birth Of Date is Required'),
+      birthDate: Yup.date()
+        .min(new Date(1900, 1, 1), 'Birth Date is Too Old!')
+        .max(new Date(), 'Birth Date is Wrong')
+        .required('Birth Date is Required'),
       phone: Yup.string().required('Phone is Required'),
       country: Yup.string()
     }),
     onSubmit: (_, actions) => {
       actions.setSubmitting(true);
-      alert('submit');
     }
   });
 

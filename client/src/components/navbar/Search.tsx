@@ -2,7 +2,6 @@ import './Search.scss';
 
 import { BiSearchAlt } from 'react-icons/bi';
 function Search() {
-
   return (
     <div className='content'>
       <div className='search'>

@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 
-import styles from './InstructorMainSection.module.css';
+import styles from './InstructorMainSection.module.scss';
 
 export default function InstructorMainSection() {
   const [myArray, setMyArray] = useState([1, 0, 0]);

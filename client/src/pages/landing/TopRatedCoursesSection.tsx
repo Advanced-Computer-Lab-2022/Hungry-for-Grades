@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { mapCourseToCardProps } from './types';
 
-import CourseCard from '@/components/course/CourseCard';
+import CourseCard from '@/components/courseCard/CourseCard';
 
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { getTopRatedCourses } from '@/services/axios/dataServices/CoursesDataService';

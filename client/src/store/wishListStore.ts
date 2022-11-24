@@ -8,7 +8,7 @@ export const useWishListStore = create<
   ICartStore,
   [['zustand/devtools', never]]
 >(
-  devtools(set => ({
+  devtools((set, get) => ({
     cart: [],
     addCourse: course => {
       set(state => {
@@ -38,12 +38,17 @@ export const useWishListStore = create<
     clearCart: () => {
       set({ cart: [] });
     },
+    inCart: _id => {
+      return get().cart.find(item => item._id === _id) !== undefined;
+    },
     totalCost: 0,
     totalItems: 0
   }))
 );
 
 export const UseWishList = () => useWishListStore(state => state.cart);
+export const UseWishListInCart = () => useWishListStore(state => state.inCart);
+
 export const UseWishListTotalCost = () =>
   useWishListStore(state => state.totalCost);
 export const UseWishListTotalItems = () =>

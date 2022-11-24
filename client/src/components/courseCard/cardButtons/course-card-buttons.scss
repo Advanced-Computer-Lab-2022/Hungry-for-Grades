@@ -1,0 +1,17 @@
+button {
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: var(--primary-color)
+}
+
+.icon {
+    cursor: pointer;
+    color: var(--primary-color);
+    margin-left: 0.5rem;
+    &:hover {
+        color: var(--secondary-color);
+        fill: var(--secondary-color);
+    }
+}

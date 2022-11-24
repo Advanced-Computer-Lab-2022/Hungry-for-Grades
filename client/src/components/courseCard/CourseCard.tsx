@@ -15,12 +15,12 @@ import Instructors from './Instructor';
 
 import Price from './Price';
 
+import CourseCardButtons from './cardButtons/CourseCardButtons';
+
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
 
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
-
-import CourseCardButtons from './cardButtons/CourseCardButtons';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -137,7 +137,7 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
                 {x.percent != -1 && <ProgressBar completed={x.percent} />}
               </div>
               <div>
-                <CourseCardButtons />
+                <CourseCardButtons _id={props.id} />
               </div>
             </div>
           </div>
