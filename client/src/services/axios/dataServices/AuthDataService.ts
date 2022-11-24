@@ -10,74 +10,90 @@
  * const response = await getRequest(dataService);
  */
 export const AuthRoutes = {
-	GET: {
-		refresh: {
-			URL: '/refresh' as const,
-			params: '',
-			query: '',
-			payload: {},
-			response: {
-				data: {
-					accessToken: '',
-					refreshToken: ''
-				}
-			}
-		}
-	},
-	POST: {
-		verifyEmail: {
-			URL: '/verify' as const,
-			params: '',
-			query: '',
-			payload: {
-				email: '',
-				username: ''
-			},
-			response: {
-				data: ''
-			}
-		},
-		login: {
-			URL: '/login' as const,
-			params: '',
-			query: '',
-			payload: {},
-			options: {
-				withCredentials: true
-			},
-			response: {
-				data: {
-					accessToken: '',
-					user: {
-						_id: '',
-						active: false,
-						email: {
-							address: '',
-							isValidated: false
-						},
-						name: '',
-						password: '',
-						profileImage: '',
-						username: '',
-						lastLogin: '',
-						__v: 0
-					}
-				}
-			}
-		},
-		logout: {
-			URL: '/auth/logout' as const,
-			params: '',
-			query: '',
-			payload: {},
-			options: {
-				withCredentials: true
-			},
-			response: {
-				data: {
-					accessToken: ''
-				}
-			}
-		}
-	}
+  GET: {
+    refresh: {
+      URL: '/refresh' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {
+        data: {
+          accessToken: '',
+          refreshToken: ''
+        }
+      }
+    }
+  },
+  POST: {
+    verifyEmail: {
+      URL: '/verify' as const,
+      params: '',
+      query: '',
+      payload: {
+        email: '',
+        username: ''
+      },
+      response: {
+        data: ''
+      }
+    },
+    login: {
+      URL: '/login' as const,
+      params: '',
+      query: '',
+      payload: {},
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: '',
+          user: {
+            _id: '',
+            active: false,
+            email: {
+              address: '',
+              isValidated: false
+            },
+            name: '',
+            password: '',
+            profileImage: '',
+            username: '',
+            lastLogin: '',
+            __v: 0
+          }
+        }
+      }
+    },
+    logout: {
+      URL: '/auth/logout' as const,
+      params: '',
+      query: '',
+      payload: {},
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: ''
+        }
+      }
+    },
+    forgetPassword: {
+      URL: '/forget' as const,
+      params: '',
+      query: '',
+      payload: {
+        email: ''
+      },
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: ''
+        }
+      }
+    }
+  }
 };

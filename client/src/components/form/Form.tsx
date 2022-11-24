@@ -19,7 +19,13 @@ function Form(props: FormProps) {
       onSubmit={props.onSubmitFunc ?? undefined}
     >
       <h4 className={styles.title}>{props.title}</h4>
-      <h6 className={styles.subtitle}>{props.subtitle}</h6>
+      <h6
+        className={`${styles?.subtitle ?? ''} ${
+          props.className === 'middle' ? styles?.middle ?? '' : ''
+        }`}
+      >
+        {props.subtitle}
+      </h6>
       <fieldset
         disabled={props.isLoading || props.disabled}
         id='isloading'
