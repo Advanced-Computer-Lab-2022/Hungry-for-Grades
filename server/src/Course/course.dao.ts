@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question, Discount } from '@Course/course.interface';
+import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question, Discount, Section } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -539,6 +539,76 @@ class CourseService {
 
     await course.save();
     return course.price.discounts;
+  }
+
+  // get all course sections
+  public async getAllCourseSections(courseID: string): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    return course.sections;
+  }
+
+  // add section to course
+  public async addSection(courseID: string, sectionData: Section): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    course.sections.push(sectionData);
+    await course.save();
+
+    return course.sections;
+  }
+
+  // delete section from course
+  public async deleteSection(courseID: string, sectionID: string): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section id is empty');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // remove section from course
+    course.sections = course.sections.filter(section => section._id.toString() != sectionID);
+
+    await course.save();
+    return course.sections;
+  }
+
+  // update course section
+  public async updateSection(courseID: string, sectionID: string, sectionData: Section): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section id is empty');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    if (isEmpty(sectionData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if section exists
+    const section = course.sections.find(section => section._id.toString() == sectionID);
+    if (!section) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    //update section
+    section.title = sectionData.title;
+    section.description = sectionData.description;
+
+    await course.save();
+    return course.sections;
   }
 }
 export default CourseService;
