@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { Announcement, Discount, FrequentlyAskedQuestion, ICourse, Question } from '@Course/course.interface';
+import { Announcement, Discount, FrequentlyAskedQuestion, ICourse, Question, Section } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -408,6 +408,73 @@ class CourseController {
       res.json({
         data: updatedCourse,
         message: 'Discount Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get all sections controller
+  public getAllSections = async (req: Request, res: Response<HttpResponse<Section[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+
+      const sections = await this.courseService.getAllCourseSections(courseId);
+
+      res.json({
+        data: sections,
+        message: 'Sections Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // add section controller
+  public addSectionToCourse = async (req: Request, res: Response<HttpResponse<Section[]>>, next: NextFunction) => {
+    try {
+      const { courseId } = req.params;
+      const sectionData: Section = req.body;
+
+      const updatedCourse = await this.courseService.addSection(courseId, sectionData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Section Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // delete section controller
+  public deleteSection = async (req: Request, res: Response<HttpResponse<Section[]>>, next: NextFunction) => {
+    try {
+      const { courseId, sectionId } = req.params;
+
+      const updatedCourse = await this.courseService.deleteSection(courseId, sectionId);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Section Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // update section controller
+  public updateSection = async (req: Request, res: Response<HttpResponse<Section[]>>, next: NextFunction) => {
+    try {
+      const { courseId, sectionId } = req.params;
+      const sectionData: Section = req.body;
+
+      const updatedCourse = await this.courseService.updateSection(courseId, sectionId, sectionData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Section Updated Successfully',
         success: true,
       });
     } catch (error) {

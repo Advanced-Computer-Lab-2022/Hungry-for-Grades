@@ -41,7 +41,7 @@ class AuthService {
     });
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
-    userData.email.isValidated = true;
+    userData.email.isVerified = true;
     const createUserData = await userModel.create({
       ...userData,
     });
@@ -142,6 +142,7 @@ class AuthService {
 
   //forget pass
   public sendResetPasswordEmail = async (userEmail: string): Promise<void> => {
+    userEmail = userEmail.toLowerCase();
     const trainee = await new TraineeService().getTraineeByEmail(userEmail);
     const instructor = await new InstructorService().getInstructorByEmail(userEmail);
     const admin = await new AdminService().getAdminByEmail(userEmail);
@@ -149,12 +150,18 @@ class AuthService {
     if (!user) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email does not belong to a user');
 
     const username = user.name;
+    const userId = user._id.toString();
+
+    let role: Role = Role.TRAINEE;
+    if (instructor) role = Role.INSTRUCTOR;
+    if (admin) role = Role.ADMIN;
 
     //send email
-    sendResetPasswordEmail(userEmail, username);
+    sendResetPasswordEmail(userEmail, username, userId, role);
   };
 
   public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
+    email = email.toLowerCase();
     //generate a 6 digit code
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
