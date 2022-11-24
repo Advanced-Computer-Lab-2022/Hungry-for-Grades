@@ -16,6 +16,8 @@ class AdminRoute implements Routes {
     this.router.post('/', this.adminController.createAdmin);
     this.router.post('/instructor', this.adminController.createInstructor);
     this.router.post('/corporateTrainee', this.adminController.createCorporateTrainee);
+    this.router.get('/email', this.adminController.getAdminByEmail);
+    this.router.get('/username', this.adminController.getAdminByUsername);
   }
 }
 

@@ -102,5 +102,37 @@ class InstructorController {
       next(error);
     }
   };
+
+  // get instructor by email
+  public getInstructorByEmail = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      const instructorEmail: string = req.query.email as string;
+      const instructorData: IInstructor = await this.instructorService.getInstructorByEmail(instructorEmail);
+
+      res.json({
+        data: instructorData,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get instructor by username
+  public getInstructorByUsername = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      const instructorUsername: string = req.query.username as string;
+      const instructorData: IInstructor = await this.instructorService.getInstructorByUsername(instructorUsername);
+
+      res.json({
+        data: instructorData,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default InstructorController;

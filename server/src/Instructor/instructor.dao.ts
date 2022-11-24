@@ -114,5 +114,20 @@ class InstructorService {
 
     return updatedInstructor;
   }
+
+  public getInstructorByEmail = async (instructorEmail: string): Promise<IInstructor> => {
+    if (isEmpty(instructorEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
+
+    const instructor: IInstructor = await instructorModel.findOne({ 'email.address': instructorEmail }).select('-password');
+    return instructor;
+  };
+
+  // get instructor by username
+  public getInstructorByUsername = async (instructorUsername: string): Promise<IInstructor> => {
+    if (isEmpty(instructorUsername)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Username is empty');
+
+    const instructor: IInstructor = await instructorModel.findOne({ username: instructorUsername }).select('-password');
+    return instructor;
+  };
 }
 export default InstructorService;

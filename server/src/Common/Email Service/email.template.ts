@@ -4,13 +4,14 @@ import { EmailType } from './email.enum';
 import fs from 'fs';
 import { sendEmail } from './nodemailer.service';
 import sanitizeHtml from 'sanitize-html';
+import { COMPANY_FACEBOOK, COMPANY_INSTAGRAM, COMPANY_TWITTER, COMPANY_LOGO, COMPANY_LINKEDIN, CLIENT_URL } from '@/Config';
 
 export function sendVerificationEmail(traineeEmail: string, username: string, code: number) {
-  const emailBody = prepareVerifyEmailHTML(username, code);
+  const emailBody = getVerifyEmailHTML(username, code);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Verification Email');
 }
 
-function prepareVerifyEmailHTML(username: string, code: number): string {
+function getVerifyEmailHTML(username: string, code: number): string {
   const filePath = path.join(__dirname, '/templates/VerifyEmail.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
@@ -22,16 +23,29 @@ function prepareVerifyEmailHTML(username: string, code: number): string {
   return htmlToSend;
 }
 
-export function prepareForgetPasswordHTML(): string {
+export function sendResetPasswordEmail(traineeEmail: string, username: string) {
+  const emailBody = getForgetPasswordHTML(username);
+  sendEmail(traineeEmail, emailBody, 'CanCham Support - Password Reset');
+}
+
+export function getForgetPasswordHTML(username: string): string {
   const filePath = path.join(__dirname, '/templates/ForgetPassword.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
-  const replacements = {};
+  const replacements = {
+    facebook: COMPANY_FACEBOOK,
+    instagram: COMPANY_INSTAGRAM,
+    linkedin: COMPANY_LINKEDIN,
+    logo: COMPANY_LOGO,
+    redirectURL: CLIENT_URL,
+    twitter: COMPANY_TWITTER,
+    username,
+  };
   const htmlToSend = template(replacements);
   return htmlToSend;
 }
 
-export function prepareDiscountHTML(): string {
+export function getDiscountHTML(): string {
   const filePath = path.join(__dirname, '/templates/Discount.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
