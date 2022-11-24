@@ -24,12 +24,12 @@ function getVerifyEmailHTML(username: string, code: number): string {
   return htmlToSend;
 }
 
-export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string,role:Role) {
+export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: Role) {
   const emailBody = getForgetPasswordHTML(username, userId, role);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Password Reset');
 }
 
-export function getForgetPasswordHTML(username: string, userId: string, role:Role): string {
+export function getForgetPasswordHTML(username: string, userId: string, role: Role): string {
   const filePath = path.join(__dirname, '/templates/ForgetPassword.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
