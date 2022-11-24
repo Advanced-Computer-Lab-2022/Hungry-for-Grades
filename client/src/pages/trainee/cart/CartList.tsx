@@ -3,13 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import CartCard from './CartCard';
 
-import { StudentRoutes } from '@/services/axios/dataServices/StudentDataService';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 import { getRequest } from '@/services/axios/http-verbs';
 import { UseCountry } from '@/store/countryStore';
 
 async function getCart(country: string) {
-  const Courses = StudentRoutes.GET.getMyCart;
+  const Courses = TraineeRoutes.GET.getMyCart;
 
   Courses.URL = '/trainee/637969352c3f71696ca34759/cart';
 
@@ -27,7 +27,7 @@ function getOriginalPrice(
   }
   const now = new Date();
   const discount = discounts.find(
-    d => new Date(d.startDate) <= now && new Date(d.endDate) > now
+    d => new Date(d?.startDate) <= now && new Date(d?.endDate) > now
   );
   if (!discount) {
     return undefined;
@@ -51,7 +51,7 @@ export default function CartList() {
     return <div>Ana Hena Ma5lst4</div>;
   }
 
-  const cart: typeof StudentRoutes.GET.getMyCart.response.data =
+  const cart: typeof TraineeRoutes.GET.getMyCart.response.data =
     data?.data?.data;
 
   let total = 0,
@@ -60,7 +60,7 @@ export default function CartList() {
   let currency = '';
 
   const toShow = cart.map(
-    (course: typeof StudentRoutes.GET.getMyCart.response.data[0]) => {
+    (course: typeof TraineeRoutes.GET.getMyCart.response.data[0]) => {
       const oldd = getOriginalPrice(
         course.price.currentValue,
         course.price.discounts

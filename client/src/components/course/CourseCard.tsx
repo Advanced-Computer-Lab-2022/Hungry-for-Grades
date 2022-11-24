@@ -18,7 +18,7 @@ import Price from './Price';
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
 
-import ProgressBar from '@/pages/studentPage/progressBar/ProgressBar';
+import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 

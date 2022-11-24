@@ -1,4 +1,4 @@
-import styles from './CartCard.module.scss';
+import styles from './cart-card.module.scss';
 
 import CourseRating from '@pages/course/CourseRating';
 

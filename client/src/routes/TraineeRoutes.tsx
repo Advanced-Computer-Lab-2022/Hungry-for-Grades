@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import InstructorDash from '@components/Instructor/InstructorMainSection';
+import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
 
 import { UseUserIsAuthenticated } from '@store/userStore';
 
@@ -10,9 +10,9 @@ export default function TraineeRoutes() {
   const location = useLocation();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
 
-  return 'trainee' === Role.TRAINEE && useUserIsAuthenticated ? (
+  return 'trainee' === Role.TRAINEE ? (
     <>
-      <InstructorDash />
+      <TraineeDashboard />
       <Outlet />
     </>
   ) : useUserIsAuthenticated ? (
