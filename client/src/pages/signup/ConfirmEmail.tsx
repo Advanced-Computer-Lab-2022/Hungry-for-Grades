@@ -22,7 +22,7 @@ function ConfirmEmail({
   email
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
-  let verifiedCode;
+  let verifiedCode: string;
   const { mutateAsync, isError, isSuccess } = usePostQuery();
 
   const getVerifiedCode = async () => {
@@ -31,11 +31,17 @@ function ConfirmEmail({
       email,
       username: `${firstName} ${lastName}`
     };
-    const d = await mutateAsync(verifyEmail);
+    const { data } = await mutateAsync(verifyEmail);
 
-    console.log('d');
-    return d;
+    console.log('data');
+    return data;
   };
+  async function submit() {
+    if (verifiedCode === code.join('')) {
+      await handleSubmit();
+    } else {
+    }
+  }
 
   useEffect(() => {
     getVerifiedCode()
@@ -43,6 +49,8 @@ function ConfirmEmail({
         console.log('response');
         console.log(response);
         verifiedCode = response.data;
+        console.log('verifiedCode');
+        console.log(verifiedCode);
       })
       .catch(() => {
         console.log('error');
