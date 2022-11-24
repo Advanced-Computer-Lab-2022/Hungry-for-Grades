@@ -40,6 +40,7 @@ class TraineeService {
 
   public getTraineeByEmail = async (traineeEmail: string): Promise<ITrainee> => {
     if (isEmpty(traineeEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
+
     const trainee: ITrainee = await traineeModel.findOne({ 'email.address': traineeEmail }).select('-password');
     return trainee;
   };

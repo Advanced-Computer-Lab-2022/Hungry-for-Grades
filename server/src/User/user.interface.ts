@@ -9,7 +9,7 @@ export interface IUser {
   dateOfBirth: Date;
   email: {
     address: string;
-    isValidated: Boolean;
+    isVerified: Boolean;
   };
   gender: Gender;
   lastLogin: Date;
