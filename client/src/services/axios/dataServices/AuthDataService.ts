@@ -26,7 +26,7 @@ export const AuthRoutes = {
   },
   POST: {
     verifyEmail: {
-      URL: '/trainee/verify' as const,
+      URL: '/verify' as const,
       params: '',
       query: '',
       payload: {
@@ -34,9 +34,7 @@ export const AuthRoutes = {
         username: ''
       },
       response: {
-        data: {
-          code: ''
-        }
+        data: ''
       }
     },
     login: {
@@ -72,6 +70,40 @@ export const AuthRoutes = {
       params: '',
       query: '',
       payload: {},
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: ''
+        }
+      }
+    },
+    forgetPassword: {
+      URL: '/forget' as const,
+      params: '',
+      query: '',
+      payload: {
+        email: ''
+      },
+      options: {
+        withCredentials: true
+      },
+      response: {
+        data: {
+          accessToken: ''
+        }
+      }
+    },
+    changePassword: {
+      URL: '/change-password' as const,
+      params: '',
+      query: '',
+      payload: {
+        _id: '',
+        newPassword: '',
+        role: ''
+      },
       options: {
         withCredentials: true
       },

@@ -88,10 +88,12 @@ function Signup() {
 
   async function handleSubmit() {
     const signup = Object.assign({}, TraineeRoutes.POST.signup);
+    const address = data.email;
+    delete data?.email;
     signup.payload = {
       ...data,
       email: {
-        address: data.email
+        address
       }
     };
     await mutateAsync(signup);

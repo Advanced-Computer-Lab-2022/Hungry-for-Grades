@@ -57,30 +57,11 @@
     display: inline-block;
 }
 
-a.main-button-slider {
-    font-size: 14px;
-    border-radius: 25px;
-    padding: 15px 25px;
-    background-color: #fba70b;
-    text-transform: uppercase;
-    color: #fff;
-    font-weight: 600;
-    letter-spacing: 1px;
-    -webkit-transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-
-a.main-button-slider:hover {
-    background-color: #f1556a;
-}
-
 a.main-button {
     font-size: 14px;
     border-radius: 25px;
     padding: 15px 25px;
-    background-color: #f4813f;
+    background-color: var(--secondary-color);
     text-transform: uppercase;
     color: #fff;
     font-weight: 600;
@@ -92,27 +73,6 @@ a.main-button {
 }
 
 a.main-button:hover {
-    background-color: #f1556a;
-}
-
-button.main-button {
-    outline: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 25px;
-    padding: 15px 25px;
-    background-color: #f4813f;
-    text-transform: uppercase;
-    color: #fff;
-    font-weight: 600;
-    letter-spacing: 1px;
-    -webkit-transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-
-button.main-button:hover {
-    background-color: #f1556a;
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
 }

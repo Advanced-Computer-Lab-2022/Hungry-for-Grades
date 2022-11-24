@@ -114,5 +114,16 @@ class AuthController {
       next(error);
     }
   };
+
+  // Change Password
+  public changePassword = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
+    try {
+      const { _id, role, newPassword } = req.body;
+      const user = await this.authService.changePassword(_id, role, newPassword);
+      res.status(HttpStatusCodes.CREATED).json({ data: user, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default AuthController;

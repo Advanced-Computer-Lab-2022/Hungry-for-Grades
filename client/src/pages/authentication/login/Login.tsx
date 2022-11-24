@@ -121,6 +121,7 @@ function Login() {
           </Link>
           <Form
             ariaLabel={'Login Form'}
+            className={'middle'}
             disabled={false}
             encType={'application/x-www-form-urlencoded'}
             id={'loginForm'}
@@ -176,6 +177,7 @@ function Login() {
                 checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
+                id='rememberMe'
                 isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'

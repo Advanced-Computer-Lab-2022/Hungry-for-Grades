@@ -31,13 +31,13 @@ const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
 /**
  * Authentication Pages
  */
-const LazySignup = lazy(() => import('@/pages/signup/Signup'));
-const LazyLogin = lazy(() => import('@/pages/login/Login'));
+const LazySignup = lazy(() => import('@/pages/authentication/signup/Signup'));
+const LazyLogin = lazy(() => import('@/pages/authentication/login/Login'));
 const LazyForgotPassword = lazy(
-  () => import('@/pages/forgotPassword/ForgotPassword')
+  () => import('@/pages/authentication/forgotPassword/ForgotPassword')
 );
 const LazyChangePassword = lazy(
-  () => import('@/pages/changePassword/ChangePassword')
+  () => import('@/pages/authentication/changePassword/ChangePassword')
 );
 /**
  * User Pages
@@ -46,7 +46,7 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
-const LazyTraineeNote = lazy(() => import('@/pages/note/Note'));
+const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/Note'));
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
@@ -124,7 +124,10 @@ function AllRoutes() {
         <Route element={<LazyLogin />} path='login' />
         <Route element={<LazySignup />} path='signup' />
         <Route element={<LazyForgotPassword />} path='forgot-password' />
-        <Route element={<LazyChangePassword />} path='change-password' />
+        <Route
+          element={<LazyChangePassword />}
+          path='change-password/:userId'
+        />
       </Route>
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>

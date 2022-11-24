@@ -8,17 +8,19 @@ import { Link, NavLink } from 'react-router-dom';
 
 import UserDropdown from './userDropDown/UserDropdown';
 
+import WishCartButtons from './WishCartButtons';
+
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@pages/landing/searchBar/SearchBar';
-import { UseUser } from '@store/userStore';
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
+import { Role } from '@enums/role.enum';
 import './Navbar.scss';
 
 function NavbarComponent() {
-  //The Line of the first NAV part i changed className to '' from me-auto and put smaller margin right to take the searchbar inside it
-  //I added the SearchBar component (Changed by Hussein Ebrahim)
   const country = UseCountry();
   const updateCountry = UpdateCountry();
+  const userIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
   return (
     <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
@@ -66,8 +68,9 @@ function NavbarComponent() {
                 onSelect={code => updateCountry(code)}
               />
             </Nav.Link>
-            {user ? (
+            {user && userIsAuthenticated ? (
               <Nav.Link>
+                {user.role === Role.TRAINEE && <WishCartButtons />}
                 <UserDropdown />
               </Nav.Link>
             ) : (

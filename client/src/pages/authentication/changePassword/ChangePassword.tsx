@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import {
+  Link,
+  useNavigate,
+  useSearchParams,
+  useParams
+} from 'react-router-dom';
 
 import { useCallback } from 'react';
+
+import useValidation from './useValidation';
 
 import { type ChangePasswordProps } from './types';
 
@@ -12,57 +17,44 @@ import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
+import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 
 import '../login/login.scss';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ChangePassword() {
+  const [searchParams] = useSearchParams();
+  const { userId } = useParams();
+
   const { isError, error } = usePostQuery();
   const navigate = useNavigate();
-  const formik = useFormik<ChangePasswordProps>({
-    enableReinitialize: true,
-    initialValues: {
-      newPassword: '',
-      confirmPassword: ''
-    },
-    validationSchema: Yup.object({
-      newPassword: Yup.string()
-        .min(6, 'New Password is Too Short!')
-        .max(50, 'New Password is Too Long!')
-        .required('New Password is Required'),
-      confirmPassword: Yup.string()
-        .min(6, 'Confirm Password is Too Short!')
-        .max(50, 'Confirm Password is Too Long!')
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Confirm Password is Required')
-    }),
-    onSubmit: function submit(values, actions) {
-      actions.resetForm();
-      return Promise.resolve(values);
-    }
-  });
+  const { formik } = useValidation();
 
   const navigateToSignup = useCallback(() => {
     navigate('/auth/signup');
   }, [navigate]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     try {
-      /*    const { confirmPassword, newPassword } =
+      const { newPassword } =
         (await formik.submitForm()) as ChangePasswordProps;
-      const loginRoute = Object.assign({}, AuthRoutes.POST.login);
-      loginRoute.payload = {
-        email: {
-          address: email
-        }
-      }; */
+      const changePasswordRoute = Object.assign(
+        {},
+        AuthRoutes.POST.changePassword
+      );
+
+      changePasswordRoute.payload = {
+        role: searchParams.get('role') as string,
+        _id: userId as string,
+        newPassword
+      };
 
       return true;
     } catch (err) {
       console.log(err);
       return false;
     }
-  }, []);
+  }, [formik, searchParams, userId]);
 
   return (
     <div className='changePassword d-flex flex-row justify-content-between'>
@@ -75,14 +67,15 @@ function ChangePassword() {
           </Link>
           <Form
             ariaLabel={'Change Password Form'}
+            className='middle'
             disabled={false}
             encType={'application/x-www-form-urlencoded'}
             id='changePasswordForm'
             inputs={[
               <Input
-                key='password-2'
+                key={`password-1`}
                 correctMessage={''}
-                errorMessage={formik.errors.newPassword as string}
+                errorMessage={formik?.errors?.newPassword as string}
                 hint={''}
                 isError={
                   formik.touched.newPassword && formik.errors.newPassword
@@ -100,7 +93,7 @@ function ChangePassword() {
                 onChangeFunc={formik.handleChange}
               />,
               <Input
-                key='password-2'
+                key={`password-2`}
                 correctMessage={''}
                 errorMessage={formik.errors.confirmPassword as string}
                 hint={''}
@@ -128,9 +121,9 @@ function ChangePassword() {
             title='Change Password'
             onResetFunc={formik.handleReset}
           >
-            {isError && error?.response?.data?.message && (
+            {isError && (error?.response?.data?.message as string) && (
               <div className='alert alert-danger' role='alert'>
-                {error?.response?.data?.message}
+                {error?.response?.data?.message as string}
               </div>
             )}
             {isError && !error?.response?.data?.message && (

@@ -1,8 +1,6 @@
 export interface ICart {
   _id: string;
-  title: string;
   price: number;
-  image: string;
 }
 
 export interface ICartStore {
@@ -11,6 +9,7 @@ export interface ICartStore {
   removeCourse: (_id: string) => void;
   setCart: (cart: ICart[]) => void;
   clearCart: () => void;
+  inCart: (_id: string) => boolean;
   totalCost: number;
   totalItems: number;
 }

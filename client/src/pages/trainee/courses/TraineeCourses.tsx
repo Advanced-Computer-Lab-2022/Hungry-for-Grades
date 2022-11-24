@@ -8,7 +8,7 @@ import useCoursesQuery from './useCoursesQuery';
 
 import { ICourse } from '@/interfaces/course.interface';
 
-import CourseCard from '@components/course/CourseCard';
+import CourseCard from '@/components/courseCard/CourseCard';
 
 import Pagination from '@/components/pagination/Pagination';
 

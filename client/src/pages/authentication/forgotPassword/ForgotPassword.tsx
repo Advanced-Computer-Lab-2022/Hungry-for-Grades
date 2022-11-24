@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
 import { type ForgotPasswordProps } from './types';
+
+import useValidation from './useValidation';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
@@ -19,25 +19,9 @@ import '../login/login.scss';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ForgotPassword() {
-  const { isError, error } = usePostQuery();
+  const { isError, error, mutateAsync } = usePostQuery();
+  const { formik } = useValidation();
   const navigate = useNavigate();
-  const formik = useFormik<ForgotPasswordProps>({
-    enableReinitialize: true,
-    initialValues: {
-      email: ''
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid Email address')
-        .min(6, 'Email address is Too Short!')
-        .max(50, 'Email address is Too Long!')
-        .required('Email address is Required')
-    }),
-    onSubmit: function submit(values, actions) {
-      actions.resetForm();
-      return Promise.resolve(values);
-    }
-  });
 
   const navigateToSignup = useCallback(() => {
     navigate('/auth/signup');
@@ -46,18 +30,21 @@ function ForgotPassword() {
   const handleSubmit = useCallback(async () => {
     try {
       const { email } = (await formik.submitForm()) as ForgotPasswordProps;
-      const loginRoute = Object.assign({}, AuthRoutes.POST.login);
-      loginRoute.payload = {
-        email: {
-          address: email
-        }
+      const forgetPasswordRoute = Object.assign(
+        {},
+        AuthRoutes.POST.forgetPassword
+      );
+      forgetPasswordRoute.payload = {
+        email
       };
-
-      return false;
+      await mutateAsync(forgetPasswordRoute);
+      console.log('success');
+      return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
-  }, [formik]);
+  }, [formik, mutateAsync]);
 
   return (
     <div className='forgotPassword d-flex flex-row justify-content-between'>
@@ -70,6 +57,7 @@ function ForgotPassword() {
           </Link>
           <Form
             ariaLabel={'Forgot Password Form'}
+            className='middle'
             disabled={false}
             encType={'application/x-www-form-urlencoded'}
             id='forgotPasswordForm'

@@ -9,11 +9,13 @@ import { CourseCardProps } from '../../pages/landing/types';
 
 import CourseCardOverlay from './CourseCardOverlay';
 
-import styles from './courseCard.module.scss';
+import styles from './course-card.module.scss';
 
 import Instructors from './Instructor';
 
 import Price from './Price';
+
+import CourseCardButtons from './cardButtons/CourseCardButtons';
 
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
@@ -50,7 +52,7 @@ function CourseCardPreview({
 
 function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
   const props = x.pprops;
-  //alert(x.percent);
+  const [onMouse, setOnMouse] = useState(false);
   console.log(props.id);
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
@@ -59,7 +61,6 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
       </Tooltip>
     );
   }
-  const [onMouse, setOnMouse] = useState(false);
 
   return (
     <>
@@ -116,20 +117,29 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
                 {props.title}
               </h4>
             </Link>
-            <div
-              className={`${styles.course__card__instructor ?? ''} text-break`}
-            >
-              <Instructors
-                instructors={props.instructor}
-                linkClassName='text-dark'
-              />
+            <div className='d-flex flex-row justify-content-between'>
+              <div>
+                <div
+                  className={`${
+                    styles.course__card__instructor ?? ''
+                  } text-break`}
+                >
+                  <Instructors
+                    instructors={props.instructor}
+                    linkClassName='text-dark'
+                  />
+                </div>
+                <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
+                  <strong>Duration: {formatDuration(props.duration)}</strong>
+                </div>
+                <CourseRating {...props.rating} />
+                {x.percent == -1 && <Price {...props.price} />}
+                {x.percent != -1 && <ProgressBar completed={x.percent} />}
+              </div>
+              <div>
+                <CourseCardButtons _id={props.id} />
+              </div>
             </div>
-            <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-              <strong>Duration: {formatDuration(props.duration)}</strong>
-            </div>
-            <CourseRating {...props.rating} />
-            {x.percent == -1 && <Price {...props.price} />}
-            {x.percent != -1 && <ProgressBar completed={x.percent} />}
           </div>
         </article>
       </OverlayTrigger>

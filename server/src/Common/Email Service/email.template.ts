@@ -38,7 +38,7 @@ export function getForgetPasswordHTML(username: string, userId: string, role: Ro
     instagram: COMPANY_INSTAGRAM,
     linkedin: COMPANY_LINKEDIN,
     logo: COMPANY_LOGO,
-    redirectURL: `${CLIENT_URL}/${userId}?role=${role}`,
+    redirectURL: `${CLIENT_URL}auth/change-password/${userId}?role=${role}`,
     twitter: COMPANY_TWITTER,
     username,
   };
