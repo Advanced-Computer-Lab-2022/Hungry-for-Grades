@@ -2,7 +2,7 @@ import { AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 
 import '@components/courseCard/course-card.module.scss';
-import { UseCartTotalCost, UseCartTotalItems } from '@store/cartStore';
+import { UseCartStoreTotalCost, UseCartStoreTotalItems } from '@store/cartStore';
 import {
   UseWishListTotalCost,
   UseWishListTotalItems
@@ -22,8 +22,8 @@ function smallNumber(number: number) {
 }
 
 function CourseCardButtons() {
-  const cartCount = UseCartTotalItems();
-  const cartCost = UseCartTotalCost();
+  const cartCount = UseCartStoreTotalItems();
+  const cartCost = UseCartStoreTotalCost();
   const wishListCount = UseWishListTotalItems();
   const wishListCost = UseWishListTotalCost();
   return (
