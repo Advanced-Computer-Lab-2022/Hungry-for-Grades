@@ -129,28 +129,92 @@ class CourseService {
     const filterQuery = generateCoursesFilterQuery(filters);
     filterQuery['title'] = { $options: 'i', $regex: searchTerm };
 
-    const sortQuery: any = generateCoursesSortQuery(sortBy);
+    // const populateQuery:any={
+    //   match: filterQuery,
+    //   model: courseModel,
+    //   path: '_teachedCourses._course',
+    //   select: '-rating.reviews -announcements -exam -sections',
+    // };
 
-    const instructor: IInstructor = await instructorModel.findById(instructorId).populate({
-      match: filterQuery,
-      model: courseModel,
-      path: '_teachedCourses._course',
-      select: '-rating.reviews -announcements -exam -sections',
-      //  sort: sortQuery,
-    });
+    //const instructor: IInstructor = await instructorModel.findById(instructorId).populate(populateQuery).exec();
 
     //Remove nulls returned from mismatches when joining
-    const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
+    //const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
 
-    const totalCourses = courses.length;
+    // for (const _teachedCourses of paginatedCourses) {
+    //   const newPrice: Price = await getCurrentPrice(_teachedCourses._course.price, conversionRate, country);
+    //   _teachedCourses._course.price = newPrice;
+    //   _teachedCourses.earning = _teachedCourses.earning * conversionRate;
+    // }
+
+    const pipelineQuery: any = [
+      { $match: { $and: [filterQuery] } },
+      {
+        $project: {
+          category: 1,
+          description: 1,
+          duration: 1,
+          langauge: 1,
+          level: 1,
+          numberOfEnrolledTrainees: 1,
+          previewVideoURL: 1,
+          price: 1,
+          'rating.averageRating': 1,
+          subcategory: 1,
+          thumbnail: 1,
+          title: 1,
+        },
+      },
+    ];
+
+    let queryResult: any = [];
+    const aggregateQuery: any = [
+      { $match: { _id: new mongoose.Types.ObjectId(instructorId) } },
+      { $project: { _teachedCourses: 1 } },
+      { $unwind: '$_teachedCourses' },
+      {
+        $lookup: {
+          as: '_teachedCourses._course',
+          foreignField: '_id',
+          from: 'courses',
+          localField: '_teachedCourses._course',
+          pipeline: pipelineQuery,
+        },
+      },
+      { $unwind: '$_teachedCourses._course' },
+      { $sort: { '_teachedCourses._course.numberOfEnrolledTrainees': -1 } },
+    ];
+
+    const sortQuery: any = generateCoursesSortQuery(sortBy);
+    if (Object.keys(sortQuery).length != 0) {
+      const sortQuery: any = {};
+      if (sortBy == 0) sortQuery['_teachedCourses._course.numberOfEnrolledTrainees'] = -1;
+      else if (sortBy == 1) sortQuery['_teachedCourses._course.rating.averageRating'] = -1;
+      aggregateQuery.push({ $sort: sortQuery });
+    }
+
+    // group by
+    aggregateQuery.push({ $group: { _id: '$_id', _teachedCourses: { $push: '$_teachedCourses' } } });
+
+    try {
+      queryResult = await instructorModel.aggregate(aggregateQuery);
+    } catch (error) {
+      throw new HttpException(500, 'Internal error occured while fetching from database');
+    }
+
+    const teachedCourses: ITeachedCourse[] = queryResult[0]?._teachedCourses ?? [];
+
+    const totalCourses = teachedCourses.length;
     const totalPages = Math.ceil(totalCourses / pageLimit);
-    const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
+    const paginatedCourses = teachedCourses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     //Get price after discount then change it to the needed currency
-    for (const _teachedCourses of paginatedCourses) {
-      const newPrice: Price = await getCurrentPrice(_teachedCourses._course.price, conversionRate, country);
-      _teachedCourses._course.price = newPrice;
-      _teachedCourses.earning = _teachedCourses.earning * conversionRate;
+    for (const teachedCourse of paginatedCourses) {
+      const course = teachedCourse._course;
+
+      const newPrice: Price = await getCurrentPrice(course.price, conversionRate, country);
+      course.price = newPrice;
+      teachedCourse.earning = teachedCourse.earning * conversionRate;
     }
 
     return {
