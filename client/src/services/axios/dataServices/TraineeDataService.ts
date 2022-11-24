@@ -48,6 +48,47 @@ export const TraineeRoutes = {
           }
         ]
       }
+    },
+    getMyCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: [
+          {
+            price: {
+              currency: '',
+              currentValue: 0,
+              discounts: []
+            },
+            rating: {
+              averageRating: 0,
+              reviews: []
+            },
+            _id: '',
+            _instructor: [
+              {
+                rating: {
+                  averageRating: 0,
+                  reviews: []
+                },
+                _id: '',
+                name: '',
+                profileImage: '',
+                speciality: '',
+                title: ''
+              }
+            ],
+            category: '',
+            description: '',
+            subcategory: [''],
+            thumbnail: '',
+            title: '',
+            id: ''
+          }
+        ]
+      }
     }
   },
   POST: {
