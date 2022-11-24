@@ -16,7 +16,6 @@ import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
 
-
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ForgotPassword() {

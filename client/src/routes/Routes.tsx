@@ -31,13 +31,13 @@ const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
 /**
  * Authentication Pages
  */
-const LazySignup = lazy(() => import('@/pages/signup/Signup'));
-const LazyLogin = lazy(() => import('@/pages/login/Login'));
+const LazySignup = lazy(() => import('@/pages/authentication/signup/Signup'));
+const LazyLogin = lazy(() => import('@/pages/authentication/login/Login'));
 const LazyForgotPassword = lazy(
-  () => import('@/pages/forgotPassword/ForgotPassword')
+  () => import('@/pages/authentication/forgotPassword/ForgotPassword')
 );
 const LazyChangePassword = lazy(
-  () => import('@/pages/changePassword/ChangePassword')
+  () => import('@/pages/authentication/changePassword/ChangePassword')
 );
 /**
  * User Pages

@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 import { type ForgotPasswordProps } from './types';
 
-function useValidation(){
+function useValidation() {
   const formik = useFormik<ForgotPasswordProps>({
     enableReinitialize: true,
     initialValues: {
@@ -24,6 +24,6 @@ function useValidation(){
   return {
     formik
   };
-};
+}
 
 export default useValidation;
