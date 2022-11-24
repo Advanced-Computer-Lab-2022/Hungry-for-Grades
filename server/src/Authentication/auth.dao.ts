@@ -150,10 +150,16 @@ class AuthService {
     if (!user) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email does not belong to a user');
 
     const username = user.name;
-    const userId= user._id.toString();
+    const userId = user._id.toString();
+
+    let role:Role=Role.TRAINEE;
+    if (instructor) role = Role.INSTRUCTOR;
+    if (admin) role = Role.ADMIN;
+
+
 
     //send email
-    sendResetPasswordEmail(userEmail, username, userId);
+    sendResetPasswordEmail(userEmail, username, userId, role);
   };
 
   public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
