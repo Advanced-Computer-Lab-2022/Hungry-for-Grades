@@ -5,6 +5,7 @@ import fs from 'fs';
 import { sendEmail } from './nodemailer.service';
 import sanitizeHtml from 'sanitize-html';
 import { COMPANY_FACEBOOK, COMPANY_INSTAGRAM, COMPANY_TWITTER, COMPANY_LOGO, COMPANY_LINKEDIN, CLIENT_URL } from '@/Config';
+import { Role } from '@/User/user.enum';
 
 export function sendVerificationEmail(traineeEmail: string, username: string, code: number) {
   const emailBody = getVerifyEmailHTML(username, code);
@@ -23,12 +24,12 @@ function getVerifyEmailHTML(username: string, code: number): string {
   return htmlToSend;
 }
 
-export function sendResetPasswordEmail(traineeEmail: string, username: string, userId:string) {
-  const emailBody = getForgetPasswordHTML(username, userId);
+export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: Role) {
+  const emailBody = getForgetPasswordHTML(username, userId, role);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Password Reset');
 }
 
-export function getForgetPasswordHTML(username: string, userId:string): string {
+export function getForgetPasswordHTML(username: string, userId: string, role: Role): string {
   const filePath = path.join(__dirname, '/templates/ForgetPassword.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
@@ -37,7 +38,7 @@ export function getForgetPasswordHTML(username: string, userId:string): string {
     instagram: COMPANY_INSTAGRAM,
     linkedin: COMPANY_LINKEDIN,
     logo: COMPANY_LOGO,
-    redirectURL: CLIENT_URL+'/'+userId,
+    redirectURL: `${CLIENT_URL}/${userId}?role=${role}`,
     twitter: COMPANY_TWITTER,
     username,
   };
