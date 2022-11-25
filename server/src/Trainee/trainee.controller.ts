@@ -4,6 +4,7 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
+import { CartDTO, WishlistDTO } from './trainee.dto';
 import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
 
 class TraineeController {
@@ -167,25 +168,35 @@ class TraineeController {
   };
 
   // get cart controller
-  public getCart = async (req: Request, res: Response<HttpResponse<ICourse[]>>, next: NextFunction): Promise<void> => {
+  public getCart = async (req: Request, res: Response<PaginatedResponse<ICourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const country = (req.query.country as string) ?? 'US';
 
-      const courses: ICourse[] = await this.traineeService.getCart(traineeId, country);
-      res.json({ data: courses, message: 'Completed Successfully', success: true });
+      let page = 1;
+      let pageLimit = 8;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const coursesPaginatedResponse: CartDTO = await this.traineeService.getCart(traineeId, country, page, pageLimit);
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
 
-  public getWishlist = async (req: Request, res: Response<HttpResponse<ICourse[]>>, next: NextFunction): Promise<void> => {
+  public getWishlist = async (req: Request, res: Response<PaginatedResponse<ICourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const country = (req.query.country as string) ?? 'US';
 
-      const courses: ICourse[] = await this.traineeService.getWishlist(traineeId, country);
-      res.json({ data: courses, message: 'Completed Successfully', success: true });
+      let page = 1;
+      let pageLimit = 8;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const coursesPaginatedResponse: WishlistDTO = await this.traineeService.getWishlist(traineeId, country, page, pageLimit);
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
