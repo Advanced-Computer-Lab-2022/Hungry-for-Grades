@@ -21,6 +21,7 @@ import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
 import { ITrainee } from '@/Trainee/trainee.interface';
+import TraineeService from '@/Trainee/trainee.dao';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -228,7 +229,7 @@ class CourseService {
   }
 
   //get course by id aggregate
-  public async getCourseById(courseId: string, country: string): Promise<ICourse> {
+  public async getCourseById(courseId: string, country = 'US'): Promise<ICourse> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
@@ -760,25 +761,24 @@ class CourseService {
     return lesson;
   }
   // get lesson by id
-  //   public async getLesson(courseID: string, lessonID: string, userID:string): Promise<Lesson> {
-  //     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
-  //     if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<Lesson> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
 
-  //     const course = await courseModel.findById(courseID);
-  //     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-  //     //get total number of lessons
-  //     const totalLessonsCount = course.sections.reduce((acc, section) => acc + section.lessons.length, 0);
+    const { sections } = course;
+    let lesson: Lesson;
+    //check if lesson exists across all course sections
+    for (const section of sections) lesson ||= section.lessons.find(lesson => lesson._id.toString() == lessonID);
+    if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
 
-  //     //add to visited lessons for trainee (only if trainee is enrolled in it)
-  //     const trainee=await traineeModel.findOneAndUpdate({
-  //       _id: userID,
-  //       _enrolledCourses: { $elemMatch: { _course: courseID } },
-  //     }, { $addToSet: { _visitedLessons: lessonID } }, { new: true });
+    const traineeService = new TraineeService();
+    await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID);
 
-  //     // get matching enrolled course
-  //     const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseID);
-
-  // }
+    return lesson;
+  }
 }
 export default CourseService;

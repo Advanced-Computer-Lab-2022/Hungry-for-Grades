@@ -14,9 +14,11 @@ import { ICourse, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
 import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
+import CourseService from '@/Course/course.dao';
 
 class TraineeService {
   public authService = new AuthService();
+  public courseService = new CourseService();
   //create trainee service
   public createCorporateTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
     // User should be created before corporate trainee
@@ -357,6 +359,34 @@ class TraineeService {
     const trainee: ITrainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
     return trainee?.balance ?? 0;
+  };
+
+  // Updates trainee's progress in a course only if trainee is enrolled in that course
+  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<void> => {
+    const course = await this.courseService.getCourseById(courseId);
+
+    //get total number of lessons in course
+    const totalLessonsCount = course.sections.reduce((acc, section) => acc + section.lessons.length, 0);
+
+    //add to visited lessons for trainee (only if trainee is enrolled in it)
+    const trainee = await traineeModel.findById(userId);
+
+    // Do nothing if trainee does not exist
+    if (!trainee) return;
+
+    // get matching enrolled course
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) return;
+
+    // add lesson to visited lessons if it is not already there
+    const lessonObjectId = new mongoose.Types.ObjectId(lessonId);
+    if (!enrolledCourse._visitedLessons.includes(lessonObjectId)) enrolledCourse._visitedLessons.push(lessonObjectId);
+
+    // Update Progress for Student in enrolled course
+    enrolledCourse.progress = (enrolledCourse._visitedLessons.length / totalLessonsCount) * 100;
+    enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
+
+    await trainee.save();
   };
 }
 export default TraineeService;

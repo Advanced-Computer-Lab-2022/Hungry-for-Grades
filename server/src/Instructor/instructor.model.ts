@@ -40,9 +40,8 @@ const instructorSchema = new Schema<IInstructor>(
       },
     },
     biography: String,
-    country: requiredString,
+    country: String,
     dateOfBirth: {
-      required: true,
       trim: true,
       type: Date,
     },

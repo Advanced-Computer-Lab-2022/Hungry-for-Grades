@@ -48,7 +48,7 @@ const traineeSchema = new Schema<ITrainee>(
       default: 0,
       type: Number,
     },
-    country: requiredString,
+    country: String,
     creditCards: [
       {
         cardHolderName: requiredString,
@@ -58,7 +58,6 @@ const traineeSchema = new Schema<ITrainee>(
       },
     ],
     dateOfBirth: {
-      required: true,
       trim: true,
       type: Date,
     },

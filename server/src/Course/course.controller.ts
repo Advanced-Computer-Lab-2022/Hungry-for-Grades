@@ -549,5 +549,22 @@ class CourseController {
       next(error);
     }
   };
+
+  // get lesson by id controller
+  public getLessonById = async (req: Request, res: Response<HttpResponse<Lesson>>, next: NextFunction) => {
+    try {
+      const { userId, courseId, lessonId } = req.params;
+
+      const lesson = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
+
+      res.json({
+        data: lesson,
+        message: 'Lesson Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default CourseController;
