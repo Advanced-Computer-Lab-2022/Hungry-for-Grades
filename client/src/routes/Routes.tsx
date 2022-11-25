@@ -60,6 +60,7 @@ const LazyTraineeCourses = lazy(
  */
 const LazyAddCourse = lazy(() => import('@/pages/course-form/AddCourse'));
 const LazyEditCourse = lazy(() => import('@/pages/course-form/EditCourse'));
+const LazyInstructorProfileToShow = lazy(() => import('@pages/InstructorProfile/InstructorPage'));
 
 /**
  * Admin Pages
@@ -98,6 +99,7 @@ function AllRoutes() {
         <Route element={<InstructorRoutes />} path='instructor'>
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route element = {<LazyInstructorProfileToShow />} path = 'instructor/:instructorId' />
         </Route>
         {/* <Route element={<InstructorRoutes />} path='/instructor'>
 

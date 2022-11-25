@@ -6,6 +6,8 @@ import { BiWorld } from 'react-icons/bi';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { useParams } from 'react-router-dom';
+
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
@@ -17,6 +19,7 @@ import ReviewList from './ReviewList';
 import Loader from '@components/loader/loaderpage/Loader';
 
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+
 import { getRequest } from '@/services/axios/http-verbs';
 
 async function getInstructor(id: string) {
@@ -27,12 +30,12 @@ async function getInstructor(id: string) {
   return getRequest(Inst);
 }
 
-export default function InstructorPage(props: { text: string }) {
-  const instructorId = props.text;
+export default function InstructorPage() {
+  const { instructorId} = useParams();
 
   const { isLoading, data } = useQuery(
     ['getInstructorNow'],
-    () => getInstructor(instructorId),
+    () => getInstructor(instructorId as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
