@@ -226,21 +226,16 @@ class TraineeController {
     }
   };
 
-  // get all trainee's enrolled courses
-  // public getAllEnrolledCourses = async (req: Request, res: Response<PaginatedResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
-  //   try {
-  //     const traineeId = req.params.traineeId as string;
+  // get last viewed course controller
+  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
 
-  //     let page = 1;
-  //     let pageLimit = 12;
-  //     if (req.query.page) page = parseInt(req.query.page as string);
-  //     if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
-
-  //     const paginatedEnrolledCourses: PaginatedData<EnrolledCourse> = await this.traineeService.getTraineeEnrolledCourses(traineeId, page, pageLimit);
-  //     res.status(HttpStatusCodes.CREATED).json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+      const course: ICourse = await this.traineeService.getLastViewedCourse(traineeId);
+      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default TraineeController;

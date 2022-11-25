@@ -32,7 +32,7 @@ const adminSchema = new Schema<IAdmin>(
     password: { ...requiredString, minlength: 8 },
     phone: String,
     profileImage: {
-      default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
+      default: 'https://i.stack.imgur.com/l60Hf.png',
       type: String,
     },
     username: {

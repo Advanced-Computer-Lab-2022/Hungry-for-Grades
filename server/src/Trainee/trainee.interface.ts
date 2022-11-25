@@ -5,6 +5,7 @@ import { Types } from 'mongoose';
 export interface ITrainee extends IUser {
   _cart?: ICourse[];
   _enrolledCourses?: EnrolledCourse[];
+  _lastViewedCourse?: ICourse;
   _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
