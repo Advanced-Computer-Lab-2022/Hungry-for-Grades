@@ -31,6 +31,7 @@ function Search() {
             type='submit'
           >
             <BiSearchAlt className='search__icon' />
+            su
           </button>
         </form>
       </div>

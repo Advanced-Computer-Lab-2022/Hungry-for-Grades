@@ -24,9 +24,11 @@ import Error from '@/components/error/page/Error';
 /**
  * Guest Pages
  */
-const LazyLanding = lazy(() => import('@/pages/landing/Landing'));
+const LazyLanding = lazy(() => import('@/pages/guest/landing/Landing'));
 const LazyCourse = lazy(() => import('@/pages/course/Course'));
-const LazyCourses = lazy(() => import('@/pages/courses/Courses'));
+const LazySearchCourses = lazy(
+  () => import('@/pages/guest/searchCourses/Courses')
+);
 
 /**
  * Authentication Pages
@@ -46,10 +48,15 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
+/* const LazyTraineeNoteForm = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteForm')
+); */
 const LazyTraineeNoteForm = lazy(
   () => import('@/pages/trainee/note/TraineeNoteForm')
 );
-const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
+const LazyTraineeNoteList = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteList')
+);
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
@@ -87,12 +94,15 @@ function AllRoutes() {
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
-          <Route element={<LazyTraineeNote />} path='notes' />
-          <Route element={<LazyTraineeNoteForm />} path='notes/form' />
+          <Route path='notes'>
+            <Route index element={<LazyTraineeNoteList />} />
+            <Route element={<LazyTraineeNoteForm />} path='form' />
+          </Route>
+          {/*
           <Route path='notes:noteId'>
             <Route index element={<LazyTraineeNote />} />
             <Route element={<LazyTraineeNote />} path='edit' />
-          </Route>
+          </Route> */}
           <Route element={<LazyTraineeCart />} path='cart' />
           <Route element={<LazyTraineeWishlist />} path='wishlist' />
           <Route element={<LazyTraineeCourses />} path='courses' />
@@ -135,7 +145,7 @@ function AllRoutes() {
       </Route>
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>
-        <Route element={<LazyCourses />} path='courses' />
+        <Route element={<LazySearchCourses />} path='courses' />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyLanding />} path='/' />
         <Route element={<Error type={404} />} path='/*' />

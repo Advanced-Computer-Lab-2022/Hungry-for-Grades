@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,6 +12,14 @@ import { getRequest } from '@services/axios/http-verbs';
 import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
 
+/* function toSearchParams(searchQuery: string) {
+  const searchParams = {};
+  searchQuery.split('&').forEach(item => {
+    const [key, value] = item.split('=');
+    searchParams[key] = `${value}`.trim();
+  });
+  return searchParams;
+} */
 let oldFilters: SelectFiltersType;
 
 async function searchRequest(
@@ -25,13 +34,17 @@ async function searchRequest(
     setActivePage(1);
     page = 1;
   }
+
   if (window) {
     window.scrollTo(0, 100);
   }
   oldFilters = filters;
 
-  const getCoursesSearchFilter = CoursesRoutes.GET.getCoursesSearchFilter;
-  getCoursesSearchFilter.query = `category=${filters.category.trim()}
+  const getCoursesSearchFilter = Object.assign(
+    {},
+    CoursesRoutes.GET.getCoursesSearchFilter
+  );
+  const searchQuery = `category=${filters.category.trim()}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
 	&priceLow=${
@@ -48,11 +61,23 @@ async function searchRequest(
 	&page=${page}
 	&searchTerm=${filters.searchTerm.trim()}
 	`.trim();
+  getCoursesSearchFilter.query = searchQuery;
+  //	const [searchParams] = useSearchParams();
+
+  //	alert(getCoursesSearchFilter.query);
+  /*   const searchQuery = toString(filters);
+
+	console.log('searchQuery');
+	console.log(searchQuery);
+  //navigateSearch('/courses', searchQuery);
+ */
+
   return getRequest(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {
   const [activePage, setActivePage] = useState<number>(1);
+
   const country = UseCountry();
 
   return {

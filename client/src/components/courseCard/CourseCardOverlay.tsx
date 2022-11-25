@@ -1,4 +1,4 @@
-import { CourseCardProps } from '@/pages/landing/types';
+import { CourseCardProps } from '@/pages/guest/landing/types';
 
 function CourseCardOverlay(props: CourseCardProps) {
   const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;

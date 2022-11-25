@@ -1,7 +1,7 @@
 import styles from './price.module.scss';
 
 import { formatCurrency } from '@/utils/currency';
-import { getOriginalPrice } from '@/pages/landing/types';
+import { getOriginalPrice } from '@/pages/guest/landing/types';
 import { IPrice } from '@/interfaces/course.interface';
 
 function Price(props: IPrice) {

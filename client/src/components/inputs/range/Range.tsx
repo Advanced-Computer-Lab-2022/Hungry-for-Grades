@@ -2,6 +2,8 @@ import styles from './range.module.scss';
 
 import { type RangeProps } from './types';
 
+import toSmallNumber from '@utils/toSmallNumber';
+
 function Range(props: RangeProps) {
   const { value, label, min, max, step, onChangeFunc, name } = props;
   return (
@@ -17,7 +19,7 @@ function Range(props: RangeProps) {
         value={value}
         onChange={onChangeFunc}
       />
-      <label htmlFor='range'>{value}</label>
+      <label htmlFor='range'>{toSmallNumber(value)}</label>
     </div>
   );
 }
