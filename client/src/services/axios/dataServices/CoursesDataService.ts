@@ -155,3 +155,33 @@ export async function createCourse(
   }
   return res.data?.data;
 }
+
+export async function updateCourse(
+  course: IAddCourseRequest,
+  courseId: string
+): Promise<ICourse> {
+  const res = await axios.put<HttpResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`,
+    course
+  );
+  if (res.statusText !== 'Updated') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function deleteCourse(courseId: string): Promise<ICourse> {
+  const res = await axios.delete<HttpResponse<ICourse>>(
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`
+  );
+  if (res.statusText !== 'Deleted') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}

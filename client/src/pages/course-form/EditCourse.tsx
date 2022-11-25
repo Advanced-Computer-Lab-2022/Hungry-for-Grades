@@ -17,8 +17,8 @@ import CourseForm from './CourseForm';
 
 import { UseCountry } from '@/store/countryStore';
 import {
-  createCourse,
-  getCourseByID
+  getCourseByID,
+  updateCourse
 } from '@/services/axios/dataServices/CoursesDataService';
 
 import { IAddCourseRequest } from '@/interfaces/course.interface';
@@ -26,6 +26,7 @@ import { IAddCourseRequest } from '@/interfaces/course.interface';
 function EditCourse() {
   const country = UseCountry();
   const { courseid } = useParams();
+
   const { isError, isLoading, data } = useQuery(
     ['courseByID', courseid, country],
     () => getCourseByID(courseid, country)
@@ -33,13 +34,13 @@ function EditCourse() {
   const navigate = useNavigate();
   const submitAction = useMemo(
     () => async (course: IAddCourseRequest) => {
-      const result = await createCourse(course);
+      const result = await updateCourse(course, courseid as string);
       if (result) {
         toast('Course was updated successfully.');
         navigate(`/course/${result._id}`);
       }
     },
-    [navigate]
+    [navigate, courseid]
   );
   if (isError) {
     return (
