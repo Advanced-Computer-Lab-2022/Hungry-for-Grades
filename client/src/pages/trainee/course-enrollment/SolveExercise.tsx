@@ -165,11 +165,7 @@ function SolveExercise(props: ICourseExercise) {
                 Prev
               </button>
             )}
-            {isLastStep && (
-              <button className='btn btn-primary' type='submit'>
-                Submit
-              </button>
-            )}
+
             {questions[currentStepIndex]?.selectedOption &&
               questions[currentStepIndex]?.answerStatus !==
                 AnswerStatus.Correct && (
@@ -189,7 +185,9 @@ function SolveExercise(props: ICourseExercise) {
                   type='button'
                   onClick={next}
                 >
-                  Next
+                  {currentStepIndex === questions.length - 1
+                    ? 'See result'
+                    : 'Next'}
                 </button>
               )}
           </div>
