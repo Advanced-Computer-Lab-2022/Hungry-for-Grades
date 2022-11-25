@@ -14,6 +14,7 @@ export type ButtonProps = {
   backgroundColor:
     | 'primary-bg'
     | 'secondary-bg'
+    | 'primary-bg-outline'
     | 'danger-bg'
     | 'warning-bg'
     | 'success-bg'

@@ -131,7 +131,7 @@ export default function CartList() {
         <div
           style={{ fontSize: '1.5rem', fontWeight: '700', marginTop: '1rem' }}
         >
-          {total}
+          {total} &nbsp;
           {currency}
         </div>
         {totalOld > total && (
@@ -144,7 +144,7 @@ export default function CartList() {
               marginTop: '1rem'
             }}
           >
-            {totalOld}
+            {totalOld} &nbsp;
             {currency}
           </div>
         )}

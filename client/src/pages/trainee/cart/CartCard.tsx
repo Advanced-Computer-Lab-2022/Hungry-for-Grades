@@ -40,7 +40,7 @@ export default function CartCard(props: {
       <div className={styles.pricing}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
-            {props.price}
+            {props.price} &nbsp;
             {props.currency}
           </div>
           {props.old != undefined && (
@@ -52,7 +52,7 @@ export default function CartCard(props: {
                 fontSize: '1.1rem'
               }}
             >
-              {props.old}
+              {props.old} &nbsp;
               {props.currency}
             </div>
           )}

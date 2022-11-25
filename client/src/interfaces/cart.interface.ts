@@ -4,7 +4,7 @@ export interface ICart {
 }
 
 export interface ICartStore {
-  cart: ICart[];
+  cart: Set<ICart>;
   addCourse: (course: ICart) => void;
   removeCourse: (_id: string) => void;
   setCart: (cart: ICart[]) => void;

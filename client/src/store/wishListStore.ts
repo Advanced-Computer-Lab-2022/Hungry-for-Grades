@@ -2,44 +2,49 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { type ICartStore } from '@interfaces/cart.interface';
+import { type ICartStore, type ICart } from '@interfaces/cart.interface';
 
 export const useWishListStore = create<
   ICartStore,
   [['zustand/devtools', never]]
 >(
   devtools((set, get) => ({
-    cart: [],
+    cart: new Set<ICart>([]),
     addCourse: course => {
+      //Post axios
       set(state => {
-        const cart = [...state.cart];
-        const index = cart.findIndex(item => item._id === course._id);
-        if (cart && index === -1) {
-          cart.push(course);
-        }
-        const totalCost = cart.reduce((acc, item) => acc + item.price, 0);
-        const totalItems = cart.length;
-
+        const cart = new Set<ICart>([...state.cart, course]);
+        const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
+        const totalItems = [...cart].length;
         return { cart, totalCost, totalItems };
       });
     },
     removeCourse: _id => {
+      //Delete axios
       set(state => {
-        const cart = [...state.cart.filter(item => item._id !== _id)];
-
-        const totalCost = cart.reduce((acc, item) => acc + item.price, 0);
-        const totalItems = cart.length;
+        const cart = new Set<ICart>(
+          [...state.cart].filter(item => item._id !== _id)
+        );
+        const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
+        const totalItems = [...cart].length;
         return { cart, totalCost, totalItems };
       });
     },
-    setCart: cart => {
-      set({ cart });
+    setCart: newCart => {
+      //Get Req
+      // cart = GetRequest
+      const cart = new Set<ICart>(newCart);
+      const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
+      const totalItems = [...cart].length;
+
+      set({ cart, totalCost, totalItems });
     },
     clearCart: () => {
-      set({ cart: [] });
+      //here we do empty car for axios
+      set({ cart: new Set<ICart>([]) });
     },
     inCart: _id => {
-      return get().cart.find(item => item._id === _id) !== undefined;
+      return [...get().cart].find(item => item._id === _id) !== undefined;
     },
     totalCost: 0,
     totalItems: 0
