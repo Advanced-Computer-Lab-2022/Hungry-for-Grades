@@ -49,6 +49,12 @@ class CoursesRoute implements Routes {
     this.router.delete('/:courseId/section/:sectionId', this.courseController.deleteSection);
     this.router.patch('/:courseId/section/:sectionId', this.courseController.updateSection);
 
+    // Lesson
+    this.router.get('/:courseId/section/:sectionId/lesson', this.courseController.getAllLessons);
+    this.router.post('/:courseId/section/:sectionId/lesson', this.courseController.addLessonToSection);
+    this.router.delete('/:courseId/lesson/:lessonId', this.courseController.deleteLesson);
+    this.router.patch('/:courseId/lesson/:lessonId', this.courseController.updateLesson);
+
     this.router.get('/:id', this.courseController.getCourseById);
     this.router.put('/:id', this.courseController.updateCourse);
     this.router.delete('/:id', this.courseController.deleteCourse);

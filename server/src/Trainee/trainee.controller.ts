@@ -47,7 +47,7 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.updateTrainee(traineeId, req.body);
-      res.status(HttpStatusCodes.CREATED).json({ data: trainee, message: 'Updated Successfully', success: true });
+      res.json({ data: trainee, message: 'Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -81,7 +81,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const course: ICourse = await this.traineeService.enrollTrainee(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Enrolled Successfully', success: true });
+      res.json({ data: course, message: 'Enrolled Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -93,7 +93,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const course: ICourse = await this.traineeService.unrollTrainee(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Unrolled Successfully', success: true });
+      res.json({ data: course, message: 'Unrolled Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -110,7 +110,7 @@ class TraineeController {
       if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
 
       const paginatedEnrolledCourses: PaginatedData<EnrolledCourse> = await this.traineeService.getTraineeEnrolledCourses(traineeId, page, pageLimit);
-      res.status(HttpStatusCodes.CREATED).json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
+      res.json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -122,7 +122,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToCart(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -133,7 +133,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToWishlist(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -147,7 +147,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const course: ICourse[] = await this.traineeService.removeFromCart(traineeId, courseId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: course, message: 'Removed from cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -160,7 +160,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.removeFromWishlist(traineeId, courseId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: courses, message: 'Removed from cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -173,7 +173,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.getCart(traineeId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -185,7 +185,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.getWishlist(traineeId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -196,7 +196,7 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const courses: ICourse[] = await this.traineeService.emptyCart(traineeId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -207,7 +207,7 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const courses: ICourse[] = await this.traineeService.emptyWishlist(traineeId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -220,27 +220,34 @@ class TraineeController {
       const courseId = req.params.courseId as string;
 
       const enrolledCourse: EnrolledCourse = await this.traineeService.getEnrolledCourseById(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: enrolledCourse, message: 'Completed Successfully', success: true });
+      res.json({ data: enrolledCourse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
 
-  // get all trainee's enrolled courses
-  // public getAllEnrolledCourses = async (req: Request, res: Response<PaginatedResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
-  //   try {
-  //     const traineeId = req.params.traineeId as string;
+  // get last viewed course controller
+  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
 
-  //     let page = 1;
-  //     let pageLimit = 12;
-  //     if (req.query.page) page = parseInt(req.query.page as string);
-  //     if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+      const course: ICourse = await this.traineeService.getLastViewedCourse(traineeId);
+      res.json({ data: course, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-  //     const paginatedEnrolledCourses: PaginatedData<EnrolledCourse> = await this.traineeService.getTraineeEnrolledCourses(traineeId, page, pageLimit);
-  //     res.status(HttpStatusCodes.CREATED).json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+  // get trainee balance controller
+  public getBalance = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+
+      const balance = await this.traineeService.getTraineeBalance(traineeId);
+      res.json({ data: balance, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default TraineeController;

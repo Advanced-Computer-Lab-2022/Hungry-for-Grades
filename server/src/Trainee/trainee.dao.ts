@@ -26,6 +26,7 @@ class TraineeService {
     return createdCorporateTrainee;
   };
 
+  //sign up individual trainee service
   public createIndividualTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
@@ -93,6 +94,7 @@ class TraineeService {
     });
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee not found');
 
+    // date of completion null or undefined means not certified
     const traineeEnrolledCourses = trainee._enrolledCourses;
 
     const toBeSkipped = (page - 1) * pageLimit;
@@ -283,33 +285,27 @@ class TraineeService {
     return trainee._cart;
   };
 
-  // get all trainee's enrolled courses paginated
-  // public getEnrolledCourses = async (traineeId: string, page: number, pageLimit: number): Promise<PaginatedData<EnrolledCourse>> => {
-  //   const trainee = await traineeModel.findById(traineeId).populate({
-  //     path: '_enrolledCourses._course',
-  //     // populate: {
-  //     //   path: '_instructor',
-  //     //   select: 'name rating.averageRating profileImage title speciality',
-  //     // },
-  //     //select: 'rating.averageRating price title description _instructor category subcategory thumbnail',
-  //   });
-  //   if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+  // get last viewed course
+  public getLastViewedCourse = async (traineeId: string): Promise<ICourse> => {
+    const trainee = await traineeModel.findById(traineeId).populate({
+      path: '_lastViewedCourse',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: 'rating.averageRating price title description category subcategory thumbnail',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
-  //   const enrolledCourses= trainee._enrolledCourses;
-  //   const toBeSkipped= (page-1)*pageLimit;
+    return trainee?._lastViewedCourse ?? null;
+  };
 
-  //   const totalCourses = enrolledCourses.length;
-  //   const totalPages = Math.ceil(totalCourses / pageLimit);
-  //   const paginatedCourses = enrolledCourses.slice(toBeSkipped, toBeSkipped + pageLimit);
+  public getTraineeBalance = async (traineeId: string): Promise<number> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
 
-  //   return {
-  //     data: paginatedCourses,
-  //     page,
-  //     pageSize: paginatedCourses.length,
-  //     totalPages,
-  //     totalResults: totalCourses,
-  //   };
-
-  // }
+    const trainee: ITrainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee?.balance ?? 0;
+  };
 }
 export default TraineeService;
