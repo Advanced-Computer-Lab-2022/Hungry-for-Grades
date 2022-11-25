@@ -20,6 +20,7 @@ import { CategoryDTO, CourseDTO, FrequentlyAskedQuestionDTO } from './course.dto
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
+import { ITrainee } from '@/Trainee/trainee.interface';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -758,5 +759,26 @@ class CourseService {
     await course.save();
     return lesson;
   }
+  // get lesson by id
+  //   public async getLesson(courseID: string, lessonID: string, userID:string): Promise<Lesson> {
+  //     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+  //     if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+
+  //     const course = await courseModel.findById(courseID);
+  //     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+  //     //get total number of lessons
+  //     const totalLessonsCount = course.sections.reduce((acc, section) => acc + section.lessons.length, 0);
+
+  //     //add to visited lessons for trainee (only if trainee is enrolled in it)
+  //     const trainee=await traineeModel.findOneAndUpdate({
+  //       _id: userID,
+  //       _enrolledCourses: { $elemMatch: { _course: courseID } },
+  //     }, { $addToSet: { _visitedLessons: lessonID } }, { new: true });
+
+  //     // get matching enrolled course
+  //     const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseID);
+
+  // }
 }
 export default CourseService;
