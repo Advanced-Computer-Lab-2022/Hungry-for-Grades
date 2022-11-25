@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 
+import LocalStorage from '@/services/localStorage/LocalStorage';
 function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
 	const [value, setValue] = useState<T>(() => {
-		const jsonValue = localStorage.getItem(key);
+		const jsonValue = LocalStorage.get<T>(key);
 		if (jsonValue == null) {
 			if (typeof initialValue === 'function') {
 				return (initialValue as () => T)();
 			} else {
-				return initialValue;
+				return initialValue ;
 			}
 		} else {
-			return JSON.parse(jsonValue);
+			return jsonValue as T;
 		}
 	});
 
 	useEffect(() => {
-		localStorage.setItem(key, JSON.stringify(value));
+		LocalStorage.set(key, JSON.stringify(value));
 	}, [value, key]);
 
 	return [value, setValue] as [T, typeof setValue];

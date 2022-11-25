@@ -5,7 +5,6 @@ import { Tooltip } from 'react-bootstrap';
 
 import { useState } from 'react';
 
-
 import CourseCardOverlay from './CourseCardOverlay';
 
 import styles from './course-card.module.scss';
