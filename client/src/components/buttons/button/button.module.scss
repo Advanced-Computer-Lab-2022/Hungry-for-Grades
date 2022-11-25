@@ -59,7 +59,7 @@
     border: 1px solid var(--primary-color);
 }
 
-.secondary-bg {
+.primary-bg-outline {
     background-color: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
@@ -70,14 +70,14 @@
     -o-transition: all 0.25s ease-in-out;
 }
 
-.secondary-bg:hover {
+.primary-bg-outline:hover {
     background-color: var(--secondary-color);
     color: white;
     filter: contrast(1.5);
     -webkit-filter: contrast(1.5);
 }
 
-.secondary-bg:disabled {
+.primary-bg-outline:disabled {
     background-color: var(--background-color);
     color: var(--primary-color);
     border: 1px solid var(--primary-color);

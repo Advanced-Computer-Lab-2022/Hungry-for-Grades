@@ -46,7 +46,7 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
-const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/Note'));
+const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
