@@ -10,7 +10,7 @@ import { IUser } from '@/User/user.interface';
 import { findUserModelByRole } from '@/User/user.util';
 
 import traineeModel from '@/Trainee/trainee.model';
-import { compare } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcrypt';
 
 import { Role } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
@@ -21,7 +21,7 @@ import TraineeService from '@/Trainee/trainee.dao';
 import InstructorService from '@/Instructor/instructor.dao';
 import AdminService from '@/Admin/admin.dao';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 class AuthService {
   //traineeService=new TraineeService();
   instructorService = new InstructorService();
@@ -128,15 +128,18 @@ class AuthService {
   }
 
   // change any user password
-  public async changePassword(_id: string, role: Role, newPassword: string): Promise<IUser> {
-    if (!Types.ObjectId.isValid(_id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Id is an invalid Object Id');
+  public async changePassword(userId: string, role: Role, newPassword: string): Promise<IUser> {
+    if (!Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid ObjectId');
 
     const userModel = findUserModelByRole(role);
-    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role is Wrong');
+    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role does not exist');
+
+    const salt = await genSalt();
+    newPassword = await hash(newPassword, salt);
 
     const findUser = await userModel
       .findOneAndUpdate(
-        { _id: _id },
+        { _id: userId },
         {
           $set: {
             password: newPassword,
@@ -145,9 +148,7 @@ class AuthService {
         { new: true },
       )
       .lean();
-    logger.info(findUser);
-    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `this id ${_id} was not found`);
-
+    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `User Id doesn't exist`);
     return findUser;
   }
 

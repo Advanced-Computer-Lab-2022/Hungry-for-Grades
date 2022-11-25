@@ -22,16 +22,18 @@ class TraineeRoute implements Routes {
     this.router.delete('/:traineeId/cart', this.traineeController.emptyCart);
     this.router.delete('/:traineeId/wishlist', this.traineeController.emptyWishlist);
 
-    this.router.get('/:traineeId/courses', this.traineeController.getTraineeCourses);
-
     this.router.post('/:traineeId/cart/:courseId', this.traineeController.addCourseToCart);
     this.router.post('/:traineeId/wishlist/:courseId', this.traineeController.addCourseToWishlist);
 
     this.router.delete('/:traineeId/cart/:courseId', this.traineeController.removeCourseFromCart);
     this.router.delete('/:traineeId/wishlist/:courseId', this.traineeController.removeCourseFromWishlist);
 
+    //Enrolled Courses
+    this.router.get('/:traineeId/courses', this.traineeController.getTraineeCourses);
+    this.router.get('/:traineeId/course/:courseId', this.traineeController.getEnrolledCourseById);
     this.router.post('/:traineeId/enroll/:courseId', this.traineeController.enrollTraineeInCourse);
     this.router.delete('/:traineeId/unroll/:courseId', this.traineeController.unrollTraineeInCourse);
+
     this.router.get('/:traineeId', this.traineeController.getTraineeById);
     this.router.patch('/:traineeId', this.traineeController.updateTrainee);
     this.router.delete('/:traineeId', this.traineeController.deleteTrainee);
