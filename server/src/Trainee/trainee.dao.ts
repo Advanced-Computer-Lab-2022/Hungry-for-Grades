@@ -85,7 +85,6 @@ class TraineeService {
 
     const trainee: ITrainee = await traineeModel.findById(traineeId).populate({
       path: '_enrolledCourses._course',
-      //join with instructor
       populate: {
         path: '_instructor',
         select: 'rating.AverageRating name profileImage',
@@ -110,6 +109,23 @@ class TraineeService {
       totalResults: totalCourses,
     };
   };
+
+  // get enrolled course info
+  public getEnrolledCourseById = async (traineeId: string, courseId: string): Promise<EnrolledCourse> => {
+    const trainee = await traineeModel.find({ '_enrolledCourses._course': courseId, _id: traineeId }).populate({
+      match: { _id: courseId },
+      path: '_enrolledCourses._course',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: '-rating.reviews -announcements -captions -coupouns  -outline -exam',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    // returns null if trainee is not enrolled in the course
+    return trainee[0]?._enrolledCourses[0] ?? null;
+  };
+
   // enroll trainee in a course
   public enrollTrainee = async (traineeId: string, courseId: string): Promise<ICourse> => {
     if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is invalid');
@@ -266,5 +282,34 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
     return trainee._cart;
   };
+
+  // get all trainee's enrolled courses paginated
+  // public getEnrolledCourses = async (traineeId: string, page: number, pageLimit: number): Promise<PaginatedData<EnrolledCourse>> => {
+  //   const trainee = await traineeModel.findById(traineeId).populate({
+  //     path: '_enrolledCourses._course',
+  //     // populate: {
+  //     //   path: '_instructor',
+  //     //   select: 'name rating.averageRating profileImage title speciality',
+  //     // },
+  //     //select: 'rating.averageRating price title description _instructor category subcategory thumbnail',
+  //   });
+  //   if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+  //   const enrolledCourses= trainee._enrolledCourses;
+  //   const toBeSkipped= (page-1)*pageLimit;
+
+  //   const totalCourses = enrolledCourses.length;
+  //   const totalPages = Math.ceil(totalCourses / pageLimit);
+  //   const paginatedCourses = enrolledCourses.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+  //   return {
+  //     data: paginatedCourses,
+  //     page,
+  //     pageSize: paginatedCourses.length,
+  //     totalPages,
+  //     totalResults: totalCourses,
+  //   };
+
+  // }
 }
 export default TraineeService;

@@ -20,11 +20,12 @@ export type Wishlist = {
 
 export type EnrolledCourse = {
   _course: ICourse;
+  dateOfCompletion?: Date;
   dateOfEnrollment: Date;
   examGrade?: number;
   notes?: Note[];
   progress?: number;
-  reminder?: Reminder;
+  reminder?: Reminder; // null or undefined signifies incomplete (not certified yet)
   subscribedNotification?: boolean;
 };
 

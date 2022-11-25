@@ -14,6 +14,7 @@ const traineeSchema = new Schema<ITrainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
+        dateOfCompletion: Date,
         dateOfEnrollment: Date,
         examGrade: {
           default: 0,
