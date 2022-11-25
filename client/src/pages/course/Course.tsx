@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
+import Content from '../trainee/course-enrollment/Content';
+
 import CourseContent from './CourseContent';
 import CourseOverview from './CourseOverview';
 import CourseHeader from './CourseHeader';
@@ -42,6 +44,7 @@ function Course() {
       <section>
         <CourseContent {...data} />
       </section>
+      <Content {...data} />
     </div>
   );
 }
