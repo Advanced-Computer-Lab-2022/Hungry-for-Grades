@@ -38,6 +38,11 @@
     "write": "onchange './src/**/*.ts' './src/**/*.tsx' -- npm run lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@iconify/react": "^4.0.0",
+    "@mui/icons-material": "^5.10.15",
+    "@mui/material": "^5.10.15",
     "@tanstack/react-query": "^4.9.0",
     "@tanstack/react-query-devtools": "^4.9.0",
     "@types/jsonwebtoken": "^8.5.9",

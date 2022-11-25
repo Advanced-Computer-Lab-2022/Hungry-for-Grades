@@ -9,7 +9,7 @@ import { UseTraineeNoteStoreDeleteTag } from '@store/noteStore';
 export function Note() {
   const note = useNote();
   const navigate = useNavigate();
-	const deleteTag = UseTraineeNoteStoreDeleteTag();
+  const deleteTag = UseTraineeNoteStoreDeleteTag();
 
   return (
     <Container className='my-3'>

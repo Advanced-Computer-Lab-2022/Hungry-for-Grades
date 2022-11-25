@@ -4,7 +4,7 @@ import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
 
-function getPriceAfterDiscount(price: Price) {
+export function getPriceAfterDiscount(price: Price) {
   const discountAvailable = price.discounts.filter(discount => {
     return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
   });

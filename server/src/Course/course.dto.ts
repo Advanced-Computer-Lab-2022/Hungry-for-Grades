@@ -2,6 +2,7 @@ import { Level, Coupon, Announcement, Question, FrequentlyAskedQuestion, Price, 
 import mongoose from 'mongoose';
 
 import { IsArray, IsDate, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { PaginatedData } from '@/Utils/PaginationResponse';
 
 export class FrequentlyAskedQuestionDTO {
   answer: string;
