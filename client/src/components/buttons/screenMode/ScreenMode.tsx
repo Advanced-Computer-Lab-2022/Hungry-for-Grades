@@ -1,6 +1,7 @@
-import useLocalStorage from '../../../hooks/useLocalStorage';
-
 import styles from './screenMode.module.css';
+
+import useLocalStorage from '@hooks/useLocalStorage';
+
 function ScreenMode() {
   const lightTheme = 'light';
   const darkTheme = 'dark';

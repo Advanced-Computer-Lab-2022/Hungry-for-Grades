@@ -46,6 +46,9 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
+const LazyTraineeNoteForm = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteForm')
+);
 const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
@@ -85,6 +88,7 @@ function AllRoutes() {
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route element={<LazyTraineeNote />} path='notes' />
+          <Route element={<LazyTraineeNoteForm />} path='notes/form' />
           <Route path='notes:noteId'>
             <Route index element={<LazyTraineeNote />} />
             <Route element={<LazyTraineeNote />} path='edit' />

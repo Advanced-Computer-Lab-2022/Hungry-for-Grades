@@ -5,7 +5,6 @@ import { Tooltip } from 'react-bootstrap';
 
 import { useState } from 'react';
 
-import { CourseCardProps } from '../../pages/landing/types';
 
 import CourseCardOverlay from './CourseCardOverlay';
 
@@ -16,6 +15,8 @@ import Instructors from './Instructor';
 import Price from './Price';
 
 import CourseCardButtons from './cardButtons/CourseCardButtons';
+
+import { CourseCardProps } from '@pages/landing/types';
 
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
