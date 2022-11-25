@@ -1,23 +1,38 @@
 import './Search.scss';
 
 import { BiSearchAlt } from 'react-icons/bi';
+import { FormEvent, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 function Search() {
+  const [, setSearchParams] = useSearchParams();
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const value = searchRef?.current?.value || '';
+    console.log(value);
+    setSearchParams(['search', value]);
+  };
+
   return (
     <div className='content'>
       <div className='search'>
-        <input
-          aria-label='search'
-          className='search__input'
-          placeholder='enter your search'
-          type='text'
-        />
-        <button
-          aria-label='submit search'
-          className='search__submit'
-          type='button'
-        >
-          <BiSearchAlt className='search__icon' />
-        </button>
+        <form onSubmit={handleSearch}>
+          <input
+            ref={searchRef}
+            aria-label='search'
+            className='search__input'
+            placeholder='Search for course'
+            type='text'
+          />
+          <button
+            aria-label='submit search'
+            className='search__submit'
+            type='submit'
+          >
+            <BiSearchAlt className='search__icon' />
+          </button>
+        </form>
       </div>
     </div>
   );

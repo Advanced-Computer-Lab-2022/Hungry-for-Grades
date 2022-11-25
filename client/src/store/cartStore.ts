@@ -12,7 +12,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
       set(state => {
         const cart = new Set<ICart>([...state.cart, course]);
         const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
-        const totalItems = [...cart].length;
+        const totalItems = cart.size;
         return { cart, totalCost, totalItems };
       });
     },
@@ -23,7 +23,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
           [...state.cart].filter(item => item._id !== _id)
         );
         const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
-        const totalItems = [...cart].length;
+        const totalItems = cart.size;
         return { cart, totalCost, totalItems };
       });
     },
@@ -32,7 +32,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
       // cart = GetRequest
       const cart = new Set<ICart>(newCart);
       const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
-      const totalItems = [...cart].length;
+      const totalItems = cart.size;
 
       set({ cart, totalCost, totalItems });
     },

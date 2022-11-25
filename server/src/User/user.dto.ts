@@ -61,7 +61,7 @@ export class CreateUserDto implements IUser {
   @IsString()
   public name: string;
 
-  @IsPhoneNumber('EG')
+  @IsPhoneNumber()
   public phone: string;
 }
 

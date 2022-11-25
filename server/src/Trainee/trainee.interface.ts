@@ -5,6 +5,7 @@ import { Types } from 'mongoose';
 export interface ITrainee extends IUser {
   _cart?: ICourse[];
   _enrolledCourses?: EnrolledCourse[];
+  _lastViewedCourse?: ICourse;
   _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
@@ -20,11 +21,12 @@ export type Wishlist = {
 
 export type EnrolledCourse = {
   _course: ICourse;
+  dateOfCompletion?: Date;
   dateOfEnrollment: Date;
   examGrade?: number;
   notes?: Note[];
   progress?: number;
-  reminder?: Reminder;
+  reminder?: Reminder; // null or undefined signifies incomplete (not certified yet)
   subscribedNotification?: boolean;
 };
 

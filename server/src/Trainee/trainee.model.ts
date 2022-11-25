@@ -14,6 +14,7 @@ const traineeSchema = new Schema<ITrainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
+        dateOfCompletion: Date,
         dateOfEnrollment: Date,
         examGrade: {
           default: 0,
@@ -32,12 +33,16 @@ const traineeSchema = new Schema<ITrainee>(
         },
       },
     ],
+    _lastViewedCourse: {
+      ref: 'Course',
+      type: Schema.Types.ObjectId,
+    },
     _wishlist: [{ ref: 'Course', type: Schema.Types.ObjectId }],
+
     active: {
       default: true,
       type: Boolean,
     },
-
     balance: {
       default: 0,
       type: Number,
@@ -68,8 +73,8 @@ const traineeSchema = new Schema<ITrainee>(
       type: Date,
     },
     name: requiredString,
-    password: { ...requiredString, minlength: 8 },
 
+    password: { ...requiredString, minlength: 8 },
     phone: String,
     preferredSkills: [
       {
@@ -77,7 +82,7 @@ const traineeSchema = new Schema<ITrainee>(
       },
     ],
     profileImage: {
-      default: 'https://res.cloudinary.com/dzcmadjl1/image/upload/v1593641365/avatars/avatar-1_tkzq9r.png',
+      default: 'https://i.stack.imgur.com/l60Hf.png',
       type: String,
     },
     username: {
