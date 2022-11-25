@@ -299,5 +299,13 @@ class TraineeService {
 
     return trainee?._lastViewedCourse ?? null;
   };
+
+  public getTraineeBalance = async (traineeId: string): Promise<number> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee: ITrainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    return trainee?.balance ?? 0;
+  };
 }
 export default TraineeService;

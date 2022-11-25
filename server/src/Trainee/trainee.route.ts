@@ -35,6 +35,8 @@ class TraineeRoute implements Routes {
     this.router.delete('/:traineeId/unroll/:courseId', this.traineeController.unrollTraineeInCourse);
     this.router.get('/:traineeId/last-viewed-course', this.traineeController.getLastViewedCourse);
 
+    this.router.get('/:traineeId/balance', this.traineeController.getBalance);
+
     this.router.get('/:traineeId', this.traineeController.getTraineeById);
     this.router.patch('/:traineeId', this.traineeController.updateTrainee);
     this.router.delete('/:traineeId', this.traineeController.deleteTrainee);
