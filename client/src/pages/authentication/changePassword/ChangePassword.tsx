@@ -73,7 +73,7 @@ function ChangePassword() {
             id='changePasswordForm'
             inputs={[
               <Input
-                key={`password-1`}
+                key={`password-132143243242`}
                 correctMessage={''}
                 errorMessage={formik?.errors?.newPassword as string}
                 hint={''}
@@ -93,7 +93,7 @@ function ChangePassword() {
                 onChangeFunc={formik.handleChange}
               />,
               <Input
-                key={`password-2`}
+                key={`password-2231321321`}
                 correctMessage={''}
                 errorMessage={formik.errors.confirmPassword as string}
                 hint={''}
