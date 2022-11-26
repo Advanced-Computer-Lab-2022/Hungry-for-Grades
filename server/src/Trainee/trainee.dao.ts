@@ -350,9 +350,10 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     const lastViewedCourse = trainee._lastViewedCourse;
+    if (!lastViewedCourse) return null;
 
     const traineeData = await traineeModel.findById(traineeId).populate({
-      match: { _id: lastViewedCourse.toString() },
+      match: { _id: lastViewedCourse?.toString() },
       path: '_enrolledCourses._course',
       select: 'title description category subcategory thumbnail',
     });
@@ -471,6 +472,35 @@ class TraineeService {
       };
 
       enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+    }
+    await trainee.save();
+  };
+
+  // submit exam for trainee
+  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    const exam = await this.courseService.getCourseExam(courseId);
+    //check exam correct answers against student exam answers
+    let correctAnswersCount = 0;
+    for (let i = 0; i < examAnswers.length; i++) {
+      if (examAnswers[i] == exam[i].answer) {
+        correctAnswersCount++;
+      }
+    }
+
+    const examGrade = (correctAnswersCount / exam.length) * 100;
+    enrolledCourse.examGrade = examGrade;
+    if (examGrade >= 50) {
+      // Only Certify if at least 50%
+      enrolledCourse.dateOfCompletion = new Date();
+      // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
   };

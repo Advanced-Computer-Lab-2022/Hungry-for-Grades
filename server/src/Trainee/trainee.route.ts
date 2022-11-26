@@ -36,6 +36,7 @@ class TraineeRoute implements Routes {
     this.router.get('/:traineeId/last-viewed-course', this.traineeController.getLastViewedCourse);
     this.router.get('/:traineeId/course/:courseId/exercise/:exerciseId', this.traineeController.getSubmittedQuestions);
     this.router.post('/:traineeId/course/:courseId/exercise/:exerciseId/question/:questionId', this.traineeController.addSubmittedQuestion);
+    this.router.post('/:traineeId/courses/:courseId/exam/submit', this.traineeController.submitExam);
 
     this.router.get('/:traineeId/balance', this.traineeController.getBalance);
 
