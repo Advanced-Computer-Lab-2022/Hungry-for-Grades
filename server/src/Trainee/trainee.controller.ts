@@ -4,8 +4,9 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 import { CartDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
+import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -238,12 +239,12 @@ class TraineeController {
   };
 
   // get last viewed course controller
-  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<ICourse>>, next: NextFunction): Promise<void> => {
+  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
 
-      const course: ICourse = await this.traineeService.getLastViewedCourse(traineeId);
-      res.json({ data: course, message: 'Completed Successfully', success: true });
+      const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
+      res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -256,6 +257,38 @@ class TraineeController {
 
       const balance = await this.traineeService.getTraineeBalance(traineeId);
       res.json({ data: balance, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainees submitted questions controller
+  public getSubmittedQuestions = async (req: Request, res: Response<HttpResponse<SubmittedQuestion[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const exerciseId = req.params.exerciseId as string;
+
+      const submittedQuestions = await this.traineeService.getTraineeSubmittedQuestionsInCourse(traineeId, courseId, exerciseId);
+      res.json({ data: submittedQuestions, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add trainee submitted question controller
+  public addSubmittedQuestion = async (req: Request, res: Response<HttpResponse<SubmittedQuestion>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const exerciseId = req.params.exerciseId as string;
+      const questionId = req.params.questionId as string;
+
+      const { answer } = req.body;
+
+      await this.traineeService.addorUpdateTraineeSubmittedQuestion(traineeId, courseId, exerciseId, questionId, answer);
+
+      res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
