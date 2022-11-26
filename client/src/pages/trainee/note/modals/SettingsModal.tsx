@@ -1,4 +1,4 @@
-import {  Modal, Stack, Form  } from 'react-bootstrap';
+import { Modal, Stack, Form } from 'react-bootstrap';
 
 type SettingsModalProps = {
   show: boolean;
