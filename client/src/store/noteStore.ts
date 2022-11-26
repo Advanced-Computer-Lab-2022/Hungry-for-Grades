@@ -43,7 +43,9 @@ export const useTraineeNoteStore = create<
             ...note,
             id: uuidv4()
           };
-          const newNotes = [...Array.from(notes), newNote];
+          console.log('tags', note.tags);
+
+          const newNotes = [...notes, newNote];
           set({ notes: newNotes });
           console.log('Note created successfully');
           console.log(newNotes);
@@ -65,9 +67,22 @@ export const useTraineeNoteStore = create<
           set({ notes: newNotes });
         },
         deleteTag: (id: string) => {
-          const { tags } = get();
+          const { tags, notes } = get();
           const newTags = [...tags].filter(tag => tag.id !== id);
-          set({ tags: newTags });
+          const newNotes = [...notes].map(note => {
+            if (note.tags) {
+              const updatedTags = note.tags.filter(tag => tag.id !== id);
+              return {
+                ...note,
+                tags: updatedTags
+              };
+            }
+            return {
+              ...note
+            };
+          });
+
+          set({ tags: newTags, notes: newNotes });
         },
         updateNote: (note: Partial<INote>) => {
           const { notes } = get();

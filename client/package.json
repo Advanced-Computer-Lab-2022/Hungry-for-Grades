@@ -68,6 +68,7 @@
     "react-select": "^5.5.7",
     "react-star-ratings": "^2.3.0",
     "react-toastify": "^9.0.8",
+    "remark-gfm": "^3.0.1",
     "saas": "^1.0.0",
     "socket.io-client": "^4.5.3",
     "storybook": "^6.5.12",

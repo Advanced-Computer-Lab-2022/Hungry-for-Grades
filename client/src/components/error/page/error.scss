@@ -48,7 +48,9 @@ inset 5px 5px 20px rgba($bg-03,
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 100vh;
+    margin-bottom: 0;
+    padding-bottom: 0;
     overflow: hidden;
     .container {
         margin: 0 auto;
