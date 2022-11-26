@@ -23,7 +23,7 @@ function TopRatedCourses() {
       </div>
     );
   } else if (isError) {
-    return <div>Error</div>;
+    return <></>;
   } else if (coursesMapped) {
     return (
       <section className='container'>

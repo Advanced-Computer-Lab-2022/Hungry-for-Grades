@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { toast } from 'react-toastify';
+
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './button.module.scss';
 import { type ButtonProps } from './types';
+
+import { toastOptions } from '@components/toast/options';
 
 function Button(props: ButtonProps) {
   const id = props.id || uuidv4();
@@ -29,8 +33,14 @@ function Button(props: ButtonProps) {
             if (flag !== undefined) {
               setIsSuccess(flag);
             }
+            if (props.correctMessage && props.correctMessage !== '') {
+              toast.error(props.correctMessage, toastOptions);
+            }
           }
         } catch (error) {
+          if (props.errorMessage && props.errorMessage !== '') {
+            toast.error(props.errorMessage, toastOptions);
+          }
         } finally {
           setIsLoading(false);
           setIsSuccess(false);

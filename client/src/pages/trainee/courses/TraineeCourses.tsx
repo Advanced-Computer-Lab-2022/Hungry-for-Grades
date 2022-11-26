@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { mapCourseToCardProps } from '../../landing/types';
+import { mapCourseToCardProps } from '../../guest/landing/types';
 
 //import styles from './MyCourses.module.scss';
 import useCoursesQuery from './useCoursesQuery';

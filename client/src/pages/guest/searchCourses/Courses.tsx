@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import styles from './courses.module.scss';
 
-import { useSeletedFilters } from './useSelectedFilters';
+import useSeletedFilters from './useSelectedFilters';
 
 import SearchSection from './searchSection/SearchSection';
 
@@ -9,12 +9,16 @@ import useSearchQuery from './useSearchQuery';
 
 import CoursesSection from './coursesSection/CoursesSection';
 
+import { SelectFiltersType } from './types';
+
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import Pagination from '@/components/pagination/Pagination';
 
 function SearchCourses() {
-  const [selectedFilters, setSelectedFilters] = useSeletedFilters();
-
+  const [selectedFilters, setSelectedFilters] = useSeletedFilters() as [
+    SelectFiltersType,
+    React.Dispatch<React.SetStateAction<SelectFiltersType>>
+  ];
   const { data, isLoading, error, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
   console.log('data');

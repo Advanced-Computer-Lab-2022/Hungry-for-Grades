@@ -6,7 +6,7 @@ import TestmonialSection from './testmonialSection/TestmonialSection';
 
 import FeatureSection from './featureSection/FeatureSection';
 
-import MainSection from './MainSection';
+import MainSection from './mainSection/MainSection';
 
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
 

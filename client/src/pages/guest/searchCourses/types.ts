@@ -2,7 +2,7 @@ import { Level } from '@enums/level.enum';
 export type SelectFiltersType = {
   category: string;
   subCategory: string;
-  searchTerm: '';
+  searchTerm: string;
   paid: boolean;
   free: boolean;
   level: Level | '';
