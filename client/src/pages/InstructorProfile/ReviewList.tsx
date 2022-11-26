@@ -52,7 +52,7 @@ export default function ReviewList(props: { text: string }) {
         <ReviewContainer
           key={course._id}
           comment={course.comment}
-          country={course._trainee.address.country}
+          country={course._trainee.country}
           createdAt={course.createdAt}
           img={course._trainee.profileImage}
           name={course._trainee.name}

@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useQuery } from '@tanstack/react-query';
 
+import { useState } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
 import CartCard from './CartCard';
 
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 import { getRequest } from '@/services/axios/http-verbs';
+
 import { UseCountry } from '@/store/countryStore';
 
 async function getCart(country: string) {
@@ -38,8 +43,12 @@ function getOriginalPrice(
 export default function CartList() {
   const con = UseCountry();
 
+  const [whenDeleteCourse, setWhenDeleteCourse] = useState(0);
+
+  const location = useLocation();
+
   const { isLoading, data } = useQuery(
-    ['ASJLHFXYZZ', con],
+    ['ASJLHFXYZZ', con, whenDeleteCourse, location],
     () => getCart(con),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -47,8 +56,12 @@ export default function CartList() {
     }
   );
 
+  function updateNum() {
+    setWhenDeleteCourse(whenDeleteCourse + 1);
+  }
+
   if (isLoading) {
-    return <div>Ana Hena Ma5lst4</div>;
+    return <>Loading </>;
   }
 
   const cart: typeof TraineeRoutes.GET.getMyCart.response.data =
@@ -77,8 +90,10 @@ export default function CartList() {
             category={course.category}
             currency={course.price.currency}
             discount={course.price.discounts}
+            id={course._id}
             img={course.thumbnail}
             old={oldd}
+            passedFunction={updateNum}
             price={course.price.currentValue}
             rating={course.rating.averageRating}
             subcategory={course.subcategory.at(0)}

@@ -89,6 +89,54 @@ export const TraineeRoutes = {
           }
         ]
       }
+    },
+    getMyWishlist: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: [
+          {
+            price: {
+              currency: '',
+              currentValue: 0,
+              discounts: [
+                {
+                  endData: '',
+                  percentage: 0,
+                  startDate: '',
+                  _id: ''
+                }
+              ]
+            },
+            rating: {
+              averageRating: 0,
+              reviews: []
+            },
+            _id: '',
+            _instructor: [
+              {
+                rating: {
+                  averageRating: 0,
+                  reviews: []
+                },
+                _id: '',
+                name: '',
+                profileImage: '',
+                speciality: '',
+                title: ''
+              }
+            ],
+            category: '',
+            description: '',
+            subcategory: [''],
+            thumbnail: '',
+            title: '',
+            id: ''
+          }
+        ]
+      }
     }
   },
   POST: {
@@ -114,6 +162,30 @@ export const TraineeRoutes = {
           accessToken: '',
           refreshToken: ''
         }
+      }
+    },
+    addToWishlist: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: [],
+        message: '',
+        success: false
+      }
+    }
+  },
+  DELETE: {
+    removeFromCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: '',
+        message: '',
+        success: ''
       }
     }
   }

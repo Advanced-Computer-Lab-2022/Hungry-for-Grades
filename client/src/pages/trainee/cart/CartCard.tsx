@@ -1,10 +1,37 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { useQuery } from '@tanstack/react-query';
+
 import styles from './cart-card.module.scss';
 
 import CourseRating from '@pages/course/CourseRating';
 
 import { Rating } from '@/interfaces/course.interface';
 
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+
+import { deleteRequest, postRequest } from '@/services/axios/http-verbs';
+
+import { UseCartStoreRemoveCourse } from '@/store/cartStore';
+
+function remove(courseId: string) {
+  const Courses = TraineeRoutes.DELETE.removeFromCart;
+
+  Courses.URL = `/trainee/637969352c3f71696ca34759/cart/${courseId}`;
+
+  return deleteRequest(Courses);
+}
+
+function move(courseId: string) {
+  const Courses = TraineeRoutes.POST.addToWishlist;
+
+  Courses.URL = `/trainee/637969352c3f71696ca34759/wishlist/${courseId}`;
+
+  return postRequest(Courses);
+}
+
 export default function CartCard(props: {
+  passedFunction(): unknown;
   title: string;
   rating: number;
   category: string;
@@ -14,8 +41,43 @@ export default function CartCard(props: {
   currency: string;
   img: string;
   old: number;
+  id: string;
 }) {
   const rating: Rating = { averageRating: props.rating, reviews: [] };
+
+  const removeFromCart = UseCartStoreRemoveCourse();
+
+  const { refetch } = useQuery(['ASJLHFXYZZZY'], () => remove(props.id), {
+    cacheTime: 1000 * 60 * 60 * 24,
+    retryDelay: 1000, // 1 second
+    enabled: false
+  });
+
+  const { refetch: moveToWishListRefetch } = useQuery(
+    ['ASJLHFXYZZZYX'],
+    () => move(props.id),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000, // 1 second
+      enabled: false
+    }
+  );
+
+  async function handleRemoveCart() {
+    await refetch();
+
+    removeFromCart(props.id);
+
+    props.passedFunction();
+  }
+
+  async function handleMoveToWishList() {
+    await refetch();
+
+    await moveToWishListRefetch();
+
+    props.passedFunction();
+  }
 
   return (
     <div className={styles.container}>
@@ -33,8 +95,8 @@ export default function CartCard(props: {
           <span>{props.subcategory}</span>
         </div>
         <div className={styles.actions}>
-          <span>Remove</span>
-          <span>Move to Whishlist</span>
+          <span onClick={handleRemoveCart}>Remove</span>
+          <span onClick={handleMoveToWishList}>Move to Whishlist</span>
         </div>
       </div>
       <div className={styles.pricing}>

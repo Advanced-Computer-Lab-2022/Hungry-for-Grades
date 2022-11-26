@@ -20,7 +20,8 @@ const useCoursesQuery = () => {
   return {
     ...useQuery(['traine-courses', activePage], () => getCourses(activePage), {
       cacheTime: 1000 * 60 * 60 * 24,
-      retryDelay: 1000 // 1 second
+      retryDelay: 1000,
+      enabled: true // 1 second
     }),
     activePage,
     setActivePage

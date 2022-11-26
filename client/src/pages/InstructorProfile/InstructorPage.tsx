@@ -31,11 +31,13 @@ async function getInstructor(id: string) {
 }
 
 export default function InstructorPage() {
-  const { instructorId} = useParams();
+  const { instructorId } = useParams();
+
+  console.log(instructorId);
 
   const { isLoading, data } = useQuery(
     ['getInstructorNow'],
-    () => getInstructor(instructorId as string),
+    () => getInstructor(instructorId),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
