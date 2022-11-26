@@ -239,12 +239,12 @@ class TraineeController {
   };
 
   // get last viewed course controller
-  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<ICourse | Types.ObjectId>>, next: NextFunction): Promise<void> => {
+  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
 
-      const course = await this.traineeService.getLastViewedCourse(traineeId);
-      res.json({ data: course, message: 'Completed Successfully', success: true });
+      const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
+      res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

@@ -343,18 +343,23 @@ class TraineeService {
   };
 
   // get last viewed course
-  public getLastViewedCourse = async (traineeId: string): Promise<ICourse | Types.ObjectId> => {
-    const trainee = await traineeModel.findById(traineeId).populate({
-      path: '_lastViewedCourse',
-      populate: {
-        path: '_instructor',
-        select: 'name rating.averageRating profileImage title speciality',
-      },
-      select: 'rating.averageRating price title description category subcategory thumbnail',
-    });
+  public getLastViewedCourse = async (traineeId: string): Promise<EnrolledCourse> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is invalid');
+
+    const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
-    return trainee?._lastViewedCourse ?? null;
+    const lastViewedCourse = trainee._lastViewedCourse;
+
+    const traineeData = await traineeModel.findById(traineeId).populate({
+      match: { _id: lastViewedCourse.toString() },
+      path: '_enrolledCourses._course',
+      select: 'title description category subcategory thumbnail',
+    });
+
+    // get matching course
+    const lastViewedEnrolledCourse = traineeData._enrolledCourses.filter(enrolledCourse => enrolledCourse._course != null);
+    return lastViewedEnrolledCourse[0] ?? null;
   };
 
   public getTraineeBalance = async (traineeId: string): Promise<number> => {
