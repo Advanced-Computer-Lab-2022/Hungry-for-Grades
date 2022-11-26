@@ -23,7 +23,7 @@ function Footer() {
   const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
   return (
-    <div className='container-fluid bg-dark mt-5 mb-0'>
+    <div className='container-fluid bg-dark'>
       <footer className='text-center  text-lg-start text-white'>
         <section className='d-flex justify-content-between p-4 bg-primary'>
           <div className='me-5'>

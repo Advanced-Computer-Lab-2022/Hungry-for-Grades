@@ -6,7 +6,6 @@ import {
   Col,
   Container,
   Form,
-  Modal,
   Row,
   Stack
 } from 'react-bootstrap';
@@ -15,24 +14,19 @@ import ReactSelect from 'react-select';
 
 import styles from './note-list.module.scss';
 
+import EditTagsModal from './modals/EditTagsModal';
+import SettingsModal from './modals/SettingsModal';
+
 import { type ITag } from '@interfaces/note.interface';
 
 import {
   UseTraineeNoteStoreTags,
-  UseTraineeNoteStoreNotes,
-  UseTraineeNoteStoreDeleteTag,
-  UseTraineeNoteStoreUpdateTag
+  UseTraineeNoteStoreNotes
 } from '@store/noteStore';
 type SimplifiedNote = {
   tags: ITag[];
   title: string;
   id: string;
-};
-
-type EditTagsModalProps = {
-  show: boolean;
-  availableTags: ITag[];
-  handleClose: () => void;
 };
 
 function NoteCard({ id, title, tags }: SimplifiedNote) {
@@ -67,57 +61,10 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
   );
 }
 
-function EditTagsModal({
-  availableTags,
-  handleClose,
-  show
-}: EditTagsModalProps) {
-  const onUpdateTag = UseTraineeNoteStoreUpdateTag();
-  const onDeleteTag = UseTraineeNoteStoreDeleteTag();
-  return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Edit Tags</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Stack gap={2}>
-            {availableTags?.map(tag => (
-              <Row key={tag.id}>
-                <Col>
-                  <Form.Control
-                    type='text'
-                    value={tag.label}
-                    onChange={function onChage(e) {
-                      onUpdateTag({ id: tag.id, label: e.target.value });
-                    }}
-                  />
-                </Col>
-                <Col xs='auto'>
-                  <Button
-                    variant='outline-danger'
-                    onClick={function onClick() {
-                      onDeleteTag(tag.id);
-                    }}
-                  >
-                    &times;
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-          </Stack>
-        </Form>
-      </Modal.Body>
-    </Modal>
-  );
-}
-
 function NoteList() {
   const notes = UseTraineeNoteStoreNotes();
   const availableTags = UseTraineeNoteStoreTags();
-  console.log(notes);
-  console.log('availableTags');
-  console.log(availableTags);
+  const [showSettings, setShowSettings] = useState(false);
 
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
   const [title, setTitle] = useState('');
@@ -154,6 +101,15 @@ function NoteList() {
               }}
             >
               Edit Tags
+            </Button>
+
+            <Button
+              variant='outline-secondary'
+              onClick={function open() {
+                setShowSettings(true);
+              }}
+            >
+              Settings
             </Button>
           </Stack>
         </Col>
@@ -212,6 +168,12 @@ function NoteList() {
           setEditTagsModalIsOpen(false);
         }}
         show={editTagsModalIsOpen}
+      />
+      <SettingsModal
+        show={showSettings}
+        onClose={function close() {
+          setShowSettings(false);
+        }}
       />
     </Container>
   );
