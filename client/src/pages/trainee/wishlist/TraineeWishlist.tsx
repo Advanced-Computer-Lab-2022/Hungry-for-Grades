@@ -5,11 +5,11 @@ import useWishQuery from './UseWishQuery';
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { ICourse } from '@/interfaces/course.interface';
-import { mapCourseToCardProps } from '@/pages/landing/types';
+import { mapCourseToCardProps } from '@/pages/guest/landing/types';
 import CourseCard from '@/components/courseCard/CourseCard';
 import Pagination from '@/components/pagination/Pagination';
 
-function TraineeWishlist() {
+export default function TraineeWishlist() {
   const location = useLocation();
 
   const { data, isLoading, activePage, setActivePage } = useWishQuery(
@@ -56,4 +56,4 @@ function TraineeWishlist() {
   );
 }
 
-export default TraineeWishlist;
+
