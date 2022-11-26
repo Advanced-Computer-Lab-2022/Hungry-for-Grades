@@ -129,5 +129,14 @@ class InstructorService {
     const instructor: IInstructor = await instructorModel.findOne({ username: instructorUsername }).select('-password');
     return instructor;
   };
+
+  // get instructor's balance
+  public getInstructorBalance = async (instructorId: string): Promise<number> => {
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor: IInstructor = await instructorModel.findById(instructorId);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
+    return instructor?.balance ?? 0;
+  };
 }
 export default InstructorService;

@@ -12,7 +12,7 @@ import WishCartButtons from './WishCartButtons';
 
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
-import SearchBar from '@pages/landing/searchBar/SearchBar';
+import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
 import './Navbar.scss';

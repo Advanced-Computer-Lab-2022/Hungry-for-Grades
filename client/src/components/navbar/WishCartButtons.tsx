@@ -11,18 +11,7 @@ import {
   UseWishListTotalItems
 } from '@store/wishListStore';
 
-function smallNumber(number: number) {
-  if (number > 9999) {
-    return '+' + (number / 1000).toFixed(0) + 'k';
-  }
-  if (number > 999) {
-    return '999+';
-  }
-  if (number < 10) {
-    return `${number}`;
-  }
-  return number;
-}
+import toSmallNumber from '@utils/toSmallNumber';
 
 function CourseCardButtons() {
   const cartCount = UseCartStoreTotalItems();
@@ -43,7 +32,7 @@ function CourseCardButtons() {
               )}
               {cartCost > 0 && (
                 <span className='position-absolute top-5 end-100 translate-middle badge rounded-pill'>
-                  +{smallNumber(cartCost)}
+                  +{toSmallNumber(cartCost)}
                 </span>
               )}
             </p>
@@ -58,7 +47,7 @@ function CourseCardButtons() {
               )}{' '}
               {wishListCost > 0 && (
                 <span className='position-absolute top-5 start-100 translate-middle badge rounded-pill'>
-                  +{smallNumber(wishListCost)}
+                  +{toSmallNumber(wishListCost)}
                 </span>
               )}
             </p>

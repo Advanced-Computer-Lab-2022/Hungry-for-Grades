@@ -15,7 +15,7 @@ import Price from './Price';
 
 import CourseCardButtons from './cardButtons/CourseCardButtons';
 
-import { CourseCardProps } from '@pages/landing/types';
+import { CourseCardProps } from '@/pages/guest/landing/types';
 
 import CourseRating from '@/pages/course/CourseRating';
 import { formatDuration } from '@/utils/duration';

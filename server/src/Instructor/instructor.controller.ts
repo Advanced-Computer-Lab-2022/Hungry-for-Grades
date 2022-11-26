@@ -134,5 +134,21 @@ class InstructorController {
       next(error);
     }
   };
+
+  // get instructor balance controller
+  public getInstructorBalance = async (req: Request, res: Response<HttpResponse<number>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const instructorBalance: number = await this.instructorService.getInstructorBalance(instructorID);
+
+      res.json({
+        data: instructorBalance,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default InstructorController;

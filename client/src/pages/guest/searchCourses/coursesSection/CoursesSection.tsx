@@ -1,5 +1,5 @@
 import CourseCard from '@/components/courseCard/CourseCard';
-import { mapCourseToCardProps } from '@/pages/landing/types';
+import { mapCourseToCardProps } from '@/pages/guest/landing/types';
 import { ICourse } from '@interfaces/course.interface';
 
 function CoursesSection(props: { data: ICourse[] }) {

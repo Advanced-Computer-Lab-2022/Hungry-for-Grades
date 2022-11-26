@@ -1,10 +1,11 @@
-import { ICourse } from '@/Course/course.interface';
+import { ICourse, Lesson } from '@/Course/course.interface';
 import { IUser } from '@/User/user.interface';
 import { Types } from 'mongoose';
 
 export interface ITrainee extends IUser {
   _cart?: ICourse[];
   _enrolledCourses?: EnrolledCourse[];
+  _lastViewedCourse?: ICourse;
   _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
@@ -20,12 +21,14 @@ export type Wishlist = {
 
 export type EnrolledCourse = {
   _course: ICourse;
+  _visitedLessons?: Lesson[];
   dateOfCompletion?: Date;
+  // null or undefined signifies incomplete (not certified yet)
   dateOfEnrollment: Date;
   examGrade?: number;
   notes?: Note[];
   progress?: number;
-  reminder?: Reminder; // null or undefined signifies incomplete (not certified yet)
+  reminder?: Reminder;
   subscribedNotification?: boolean;
 };
 
