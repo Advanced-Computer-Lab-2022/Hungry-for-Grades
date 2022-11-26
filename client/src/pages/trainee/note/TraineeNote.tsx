@@ -1,6 +1,6 @@
 import { Badge, Button, Col, Container, Row, Stack } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-
+import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 
 import { useNote } from './useNoteLayout';
@@ -46,7 +46,7 @@ export function Note() {
           </Stack>
         </Col>
       </Row>
-      <ReactMarkdown>{note.markdown}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.markdown}</ReactMarkdown>
     </Container>
   );
 }
