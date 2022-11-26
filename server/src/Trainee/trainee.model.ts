@@ -14,6 +14,13 @@ const traineeSchema = new Schema<ITrainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
+        _submittedQuestions: [
+          {
+            _id: false,
+            _questionId: Schema.Types.ObjectId,
+            submittedAnswer: String,
+          },
+        ],
         _visitedLessons: [{ ref: 'Lesson', type: Schema.Types.ObjectId }],
         dateOfCompletion: Date,
         dateOfEnrollment: Date,

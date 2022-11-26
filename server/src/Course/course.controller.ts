@@ -3,7 +3,7 @@ import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import courseService from '@Course/course.dao';
-import { Announcement, Discount, FrequentlyAskedQuestion, ICourse, Lesson, Question, Section } from '@Course/course.interface';
+import { Announcement, Discount, Exercise, FrequentlyAskedQuestion, ICourse, Lesson, Question, Section } from '@Course/course.interface';
 import { Category, CourseFilters, CourseFiltersDefault } from '@Course/course.types';
 import { NextFunction, Request, Response } from 'express';
 import { addDefaultValuesToCourseFilters } from '@Course/course.common';
@@ -431,6 +431,23 @@ class CourseController {
       next(error);
     }
   };
+  // get section by id controller
+  public getSectionById = async (req: Request, res: Response<HttpResponse<Section>>, next: NextFunction) => {
+    try {
+      const { courseId, sectionId } = req.params;
+
+      const section = await this.courseService.getSectionById(courseId, sectionId);
+
+      res.json({
+        data: section,
+        message: 'Section Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   // add section controller
   public addSectionToCourse = async (req: Request, res: Response<HttpResponse<Section[]>>, next: NextFunction) => {
     try {
@@ -560,6 +577,111 @@ class CourseController {
       res.json({
         data: lesson,
         message: 'Lesson Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get exercise by id controller
+  public getExerciseById = async (req: Request, res: Response<HttpResponse<Exercise>>, next: NextFunction) => {
+    try {
+      const { courseId, exerciseId } = req.params;
+
+      const exercise = await this.courseService.getExerciseById(courseId, exerciseId);
+
+      res.json({
+        data: exercise,
+        message: 'Exercise Fetched Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add question to exercise controller
+  public addQuestionToExercise = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
+    try {
+      const { courseId, exerciseId } = req.params;
+      const questionData: Question = req.body;
+
+      const exerciseQuestions: Question[] = await this.courseService.addQuestion(courseId, exerciseId, questionData);
+
+      res.json({
+        data: exerciseQuestions,
+        message: 'Question Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //delete question controller
+  public deleteQuestion = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
+    try {
+      const { courseId, exerciseId, questionId } = req.params;
+
+      const exerciseQuestions: Question[] = await this.courseService.deleteQuestion(courseId, exerciseId, questionId);
+
+      res.json({
+        data: exerciseQuestions,
+        message: 'Question Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add exercise to section controller
+  public addExerciseToSection = async (req: Request, res: Response<HttpResponse<Exercise[]>>, next: NextFunction) => {
+    try {
+      const { courseId, sectionId } = req.params;
+      const exerciseData: Exercise = req.body;
+
+      const updatedCourse = await this.courseService.addExercise(courseId, sectionId, exerciseData);
+
+      res.json({
+        data: updatedCourse,
+        message: 'Exercise Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete exercise from section controller
+  public deleteExercise = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const { courseId, sectionId, exerciseId } = req.params;
+
+      await this.courseService.deleteExercise(courseId, sectionId, exerciseId);
+
+      res.json({
+        data: null,
+        message: 'Exercise Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //update question controller
+  public updateQuestion = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const { courseId, exerciseId, questionId } = req.params;
+      const questionData: Question = req.body;
+
+      await this.courseService.updateQuestion(courseId, exerciseId, questionId, questionData);
+
+      res.json({
+        data: null,
+        message: 'Question Updated Successfully',
         success: true,
       });
     } catch (error) {

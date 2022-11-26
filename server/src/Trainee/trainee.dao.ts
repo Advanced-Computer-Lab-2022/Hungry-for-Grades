@@ -4,11 +4,11 @@ import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import { CartDTO, CreateTraineeDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
+import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import courseModel from '@/Course/course.model';
 import { ICourse, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
@@ -126,6 +126,10 @@ class TraineeService {
       select: '-rating.reviews -announcements -captions -coupouns  -outline -exam',
     });
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    // Adjust Last Visited Course
+    await this.markLastVisitedCourse(traineeId, courseId);
+
     // returns null if trainee is not enrolled in the course
     return trainee[0]?._enrolledCourses[0] ?? null;
   };
@@ -142,7 +146,7 @@ class TraineeService {
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
     course.numberOfEnrolledTrainees++;
-    trainee._enrolledCourses.push({ _course: course, dateOfEnrollment: new Date() });
+    trainee._enrolledCourses.push({ _course: course, _submittedQuestions: [], dateOfEnrollment: new Date() });
 
     await course.save();
     await trainee.save();
@@ -339,7 +343,7 @@ class TraineeService {
   };
 
   // get last viewed course
-  public getLastViewedCourse = async (traineeId: string): Promise<ICourse> => {
+  public getLastViewedCourse = async (traineeId: string): Promise<ICourse | Types.ObjectId> => {
     const trainee = await traineeModel.findById(traineeId).populate({
       path: '_lastViewedCourse',
       populate: {
@@ -386,6 +390,83 @@ class TraineeService {
     enrolledCourse.progress = (enrolledCourse._visitedLessons.length / totalLessonsCount) * 100;
     enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
 
+    await trainee.save();
+  };
+
+  public markLastVisitedCourse = async (traineeId: string, courseId: string): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) return;
+
+    const course = await this.courseService.getCourseById(courseId);
+    if (!course) return;
+
+    trainee._lastViewedCourse = new mongoose.Types.ObjectId(courseId);
+
+    await trainee.save();
+  };
+
+  // get trainee's submitted questions along with their answers in an exercise
+  public getTraineeSubmittedQuestionsInCourse = async (traineeId: string, courseId: string, exerciseId: string): Promise<SubmittedQuestion[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    const exercise = await this.courseService.getExerciseById(courseId, exerciseId);
+
+    // get exercise question Ids
+    const exerciseQuestionIds = exercise.questions.map(question => question._id.toString());
+
+    // get submitted questions for this exercise
+    const submittedQuestions = enrolledCourse._submittedQuestions.filter(submittedQuestion =>
+      exerciseQuestionIds.includes(submittedQuestion._questionId.toString()),
+    );
+
+    return submittedQuestions;
+  };
+
+  // add trainee's submitted question in an exercise
+  public addorUpdateTraineeSubmittedQuestion = async (
+    traineeId: string,
+    courseId: string,
+    exerciseId: string,
+    questionId: string,
+    answer: string,
+  ): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    const exercise = await this.courseService.getExerciseById(courseId, exerciseId);
+    if (!exercise) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise does not exist');
+
+    // check if question is in exercise
+    const question = exercise.questions.find(question => question._id.toString() == questionId);
+    if (!question) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Question does not exist in this exercise');
+
+    // check if question is already submitted
+    const submittedQuestion = enrolledCourse._submittedQuestions.find(submittedQuestion => submittedQuestion._questionId.toString() == questionId);
+    if (submittedQuestion) {
+      // update answer
+      submittedQuestion.submittedAnswer = answer;
+    } else {
+      // add submitted question
+      const newSubmittedQuestion: SubmittedQuestion = {
+        _questionId: new mongoose.Types.ObjectId(questionId),
+        submittedAnswer: answer,
+      };
+
+      enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+    }
     await trainee.save();
   };
 }
