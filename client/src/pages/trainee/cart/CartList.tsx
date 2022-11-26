@@ -12,13 +12,14 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 import { getRequest } from '@/services/axios/http-verbs';
 
 import { UseCountry } from '@/store/countryStore';
+import Pagination from '@/components/pagination/Pagination';
 
-async function getCart(country: string) {
+async function getCart(country: string, activePage: number) {
   const Courses = TraineeRoutes.GET.getMyCart;
 
   Courses.URL = '/trainee/637969352c3f71696ca34759/cart';
 
-  Courses.query = `country=${country}`;
+  Courses.query = `country=${country}&limit=${4}&page=${activePage}`;
 
   return getRequest(Courses);
 }
@@ -41,6 +42,8 @@ function getOriginalPrice(
 }
 
 export default function CartList() {
+  const [activePage, setActivePage] = useState(1);
+
   const con = UseCountry();
 
   const [whenDeleteCourse, setWhenDeleteCourse] = useState(0);
@@ -48,8 +51,8 @@ export default function CartList() {
   const location = useLocation();
 
   const { isLoading, data } = useQuery(
-    ['ASJLHFXYZZ', con, whenDeleteCourse, location],
-    () => getCart(con),
+    ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
+    () => getCart(con, activePage),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -60,15 +63,16 @@ export default function CartList() {
     setWhenDeleteCourse(whenDeleteCourse + 1);
   }
 
+  function updateActiveOnDelete() {
+    if (activePage > 1) setActivePage(activePage - 1);
+  }
+
   if (isLoading) {
     return <>Loading </>;
   }
 
   const cart: typeof TraineeRoutes.GET.getMyCart.response.data =
     data?.data?.data;
-
-  let total = 0,
-    totalOld = 0;
 
   let currency = '';
 
@@ -79,10 +83,6 @@ export default function CartList() {
         course.price.discounts
       );
       currency = course.price.currency;
-      if (oldd != undefined) totalOld += oldd;
-      else totalOld += course.price.currentValue;
-      total += course.price.currentValue;
-
       return (
         <>
           <CartCard
@@ -94,6 +94,7 @@ export default function CartList() {
             img={course.thumbnail}
             old={oldd}
             passedFunction={updateNum}
+            passedFunction2={updateActiveOnDelete}
             price={course.price.currentValue}
             rating={course.rating.averageRating}
             subcategory={course.subcategory.at(0)}
@@ -129,6 +130,15 @@ export default function CartList() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
           {toShow}
         </div>
+        {data?.data?.totalPages > 1 && (
+          <div style={{ marginLeft: 'auto' }}>
+            <Pagination
+              activePage={activePage}
+              pages={data?.data?.totalPages as number}
+              setActivePage={setActivePage}
+            />
+          </div>
+        )}
       </div>
 
       <div
@@ -146,23 +156,9 @@ export default function CartList() {
         <div
           style={{ fontSize: '1.5rem', fontWeight: '700', marginTop: '1rem' }}
         >
-          {total} &nbsp;
+          {data?.data?.totalCost} &nbsp;
           {currency}
         </div>
-        {totalOld > total && (
-          <div
-            style={{
-              fontSize: '1.2rem',
-              fontWeight: '600',
-              color: 'rgb(127, 132, 135)',
-              textDecoration: 'line-through',
-              marginTop: '1rem'
-            }}
-          >
-            {totalOld} &nbsp;
-            {currency}
-          </div>
-        )}
         <button
           style={{
             width: '20rem',

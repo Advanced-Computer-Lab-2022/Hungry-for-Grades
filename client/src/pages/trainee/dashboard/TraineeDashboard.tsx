@@ -7,7 +7,10 @@ import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 
+import LastStudy from '@pages/trainee/lastStudeiedCourse/LastStudy';
+
 import styles from './trainee-dashboard.module.scss';
+
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
     styles.listitem ?? ''
@@ -24,6 +27,7 @@ const navLinks = {
 };
 function TraineeDashboard() {
   return (
+    <>
     <div>
       <div className={styles.hero}>
         <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
@@ -44,6 +48,8 @@ function TraineeDashboard() {
         </div>
       </div>
     </div>
+    <LastStudy />
+    </>
   );
 }
 export default TraineeDashboard;

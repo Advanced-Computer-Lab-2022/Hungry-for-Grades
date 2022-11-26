@@ -13,6 +13,7 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 import { deleteRequest, postRequest } from '@/services/axios/http-verbs';
 
 import { UseCartStoreRemoveCourse } from '@/store/cartStore';
+import { POSTRoutesType } from '@/services/axios/types';
 
 function remove(courseId: string) {
   const Courses = TraineeRoutes.DELETE.removeFromCart;
@@ -23,11 +24,13 @@ function remove(courseId: string) {
 }
 
 function move(courseId: string) {
+
   const Courses = TraineeRoutes.POST.addToWishlist;
 
   Courses.URL = `/trainee/637969352c3f71696ca34759/wishlist/${courseId}`;
 
-  return postRequest(Courses);
+  return postRequest(Courses as POSTRoutesType);
+  
 }
 
 export default function CartCard(props: {
@@ -42,6 +45,7 @@ export default function CartCard(props: {
   img: string;
   old: number;
   id: string;
+  passedFunction2(): unknown;
 }) {
   const rating: Rating = { averageRating: props.rating, reviews: [] };
 
@@ -69,6 +73,8 @@ export default function CartCard(props: {
     removeFromCart(props.id);
 
     props.passedFunction();
+
+    props.passedFunction2();
   }
 
   async function handleMoveToWishList() {
@@ -77,6 +83,8 @@ export default function CartCard(props: {
     await moveToWishListRefetch();
 
     props.passedFunction();
+
+    props.passedFunction2();
   }
 
   return (
