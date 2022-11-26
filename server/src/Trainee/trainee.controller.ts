@@ -293,5 +293,20 @@ class TraineeController {
       next(error);
     }
   };
+
+  //submit exam controller
+  public submitExam = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const examAnswers: string[] = req.body;
+
+      await this.traineeService.submitExam(traineeId, courseId, examAnswers);
+      res.json({ data: null, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default TraineeController;

@@ -14,6 +14,7 @@ const traineeSchema = new Schema<ITrainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
+        _id: false,
         _submittedQuestions: [
           {
             _id: false,
