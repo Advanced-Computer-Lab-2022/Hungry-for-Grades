@@ -69,10 +69,11 @@ function CourseView() {
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <div className='col col-md-8'>
+        <div className='col col-md-9'>
           <LeftView {...leftProps} />
+          {/* omar sherif ali*/}
         </div>
-        <div className='col col-md-4'>
+        <div className='col col-md-3'>
           <Content {...data} />
         </div>
       </div>

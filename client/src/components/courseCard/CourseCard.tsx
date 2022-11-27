@@ -137,7 +137,10 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
                 {x.percent != -1 && <ProgressBar completed={x.percent} />}
               </div>
               <div>
-                <CourseCardButtons _id={props.id} />
+                <CourseCardButtons
+                  _id={props.id}
+                  price={props.price.currentValue}
+                />
               </div>
             </div>
           </div>
