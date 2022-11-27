@@ -1,16 +1,40 @@
 import InstructorCourseCard from './InstructorCourseCard';
 
-import { InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
+import useSearchQuery from './useSearchQuery';
 
-function InstructorCoursesSection(
-  props: typeof InstructorRoutes.GET.getCourses.response
-) {
-  const data = props?.data;
-  const list = data?.map(course => (
-    <InstructorCourseCard key={course._course.id} {...course} />
-  ));
-  console.log(data);
-  return <>{list}</>;
+import { useSeletedFilters } from './useSelectedFilters';
+
+import SearchSection from './searchSection/SearchSection';
+
+import Pagination from '@/components/pagination/Pagination';
+
+function InstructorCoursesSection() {
+  const [selectedFilters, setSelectedFilters] = useSeletedFilters();
+  const { isLoading, isError, data, error, activePage, setActivePage } =
+    useSearchQuery(selectedFilters);
+  const verifiedData = data?.data;
+  console.log(verifiedData);
+  if (isError) return <div>{error?.message}</div>;
+  return (
+    <>
+      <SearchSection
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
+      {!isLoading && (
+        <>
+          {verifiedData?.data.map(course => (
+            <InstructorCourseCard key={course._course.id} {...course} />
+          ))}
+          <Pagination
+            activePage={activePage}
+            pages={verifiedData?.totalPages}
+            setActivePage={setActivePage}
+          />
+        </>
+      )}
+    </>
+  );
 }
 
 export default InstructorCoursesSection;

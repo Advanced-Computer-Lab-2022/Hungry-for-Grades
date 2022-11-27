@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
-/*
 function SearchSection(props) {
-
-  const  [selectedFilters, setSelectedFilters] = props;
+  const { setSelectedFilters, selectedFilters } = props;
 
   return (
     <div className='container px-0 my-3'>
@@ -27,4 +22,3 @@ function SearchSection(props) {
 }
 
 export default SearchSection;
-*/

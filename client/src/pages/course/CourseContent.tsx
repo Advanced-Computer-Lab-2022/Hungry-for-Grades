@@ -14,6 +14,7 @@ import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
 
 function CourseContent(props: ICourse) {
+  console.log(props);
   return (
     <div className={`p-5 text-dark bg-light border rounded-3 m-3`}>
       <h3>Course content</h3>

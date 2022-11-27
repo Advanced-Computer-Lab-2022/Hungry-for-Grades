@@ -75,7 +75,6 @@ const LazySolveExam = lazy(
 const LazyViewCourse = lazy(
   () => import('@/pages/trainee/course-enrollment/CourseView')
 );
-
 /**
  * Instructor Pages
  */
@@ -84,7 +83,12 @@ const LazyEditCourse = lazy(() => import('@/pages/course-form/EditCourse'));
 const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
-
+const LazyInstructorCoursesSection = lazy(
+  () => import('@/pages/instructorDashboard/InstructorCoursesSection')
+);
+const LazyCertificate = lazy(
+  () => import('@/pages/certificate/CertificateGenerator')
+);
 /**
  * Admin Pages
  */
@@ -96,6 +100,7 @@ const LazyAddCorporateTrainee = lazy(
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
+// I commented  <Route element={<StudentPage />} path='hussein' /> because it was causing an error
 
 function AllRoutes() {
   return (
@@ -139,6 +144,16 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
+        </Route>
+        <Route element={<LazyCourse />} path='course/:courseid' />
+        <Route element={<LazyCourse />} path='/course' />
+        <Route element={<LazyCertificate />} path='/certificate' />
+
+        {/* Instructor Routes*/}
+        <Route element={<InstructorRoutes />} path='instructor'>
+          <Route element={<LazyAddCourse />} path='add-course' />
+          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route element={<LazyInstructorCoursesSection />} path='' />
         </Route>
         {/* <Route element={<InstructorRoutes />} path='/instructor'>
 

@@ -1,7 +1,7 @@
 export const InstructorRoutes = {
   GET: {
     getCourses: {
-      URL: '/courses/instructor' as const,
+      URL: '/courses/instructor',
       params: '',
       query: '',
       payload: {},
