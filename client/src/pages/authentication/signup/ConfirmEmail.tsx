@@ -65,7 +65,14 @@ function ConfirmEmail({
       {isSuccess && (
         <div className='alert alert-info'>
           We sent you a code to your
-          <a className='link-info text-dark' href='https://mail.google.com/mail'> email address</a>. Please enter it here.
+          <a
+            className='link-info text-dark'
+            href='https://mail.google.com/mail'
+          >
+            {' '}
+            email address
+          </a>
+          . Please enter it here.
         </div>
       )}
       <small className='text-muted'>
@@ -124,9 +131,7 @@ function ConfirmEmail({
       {wrongMessage !== '' && (
         <div className='alert alert-danger mt-3'>Invalid Code !</div>
       )}
-      {isError && (
-     <ErrorMessage/>
-      )}
+      {isError && <ErrorMessage />}
 
       <div className='d-flex flex-row justify-content-end my-3'>
         <Button
@@ -144,7 +149,6 @@ function ConfirmEmail({
           name={'submit'}
           type={'button'}
           onClickFunc={submit}
-
         />
       </div>
     </div>

@@ -3,7 +3,7 @@ export type InputProps = {
   id?: string;
   className?: string;
   label: string;
-	pattern?:string;
+  pattern?: string;
   type:
     | 'time'
     | 'email'

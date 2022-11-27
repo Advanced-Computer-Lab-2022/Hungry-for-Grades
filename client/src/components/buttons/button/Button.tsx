@@ -52,7 +52,6 @@ function Button(props: ButtonProps) {
           if (props.onSubmitFunc) {
             setIsLoading(prev => !prev);
             await props.onSubmitFunc?.(event);
-
           }
         } catch (error) {
         } finally {
@@ -61,7 +60,7 @@ function Button(props: ButtonProps) {
       }}
     >
       {props.children}
-      {isLoading  && (
+      {isLoading && (
         <>
           <span
             aria-hidden='true'
@@ -71,7 +70,7 @@ function Button(props: ButtonProps) {
           Loading...
         </>
       )}
-      {!isLoading  && props.label}
+      {!isLoading && props.label}
     </button>
   );
 }
