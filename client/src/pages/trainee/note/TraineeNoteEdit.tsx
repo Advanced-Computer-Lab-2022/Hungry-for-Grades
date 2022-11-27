@@ -14,8 +14,8 @@ function EditNote() {
         courseName={note.courseName}
         lessonId={note.lessonId}
         markdown={note.markdown}
-		tags={note.tags}
-		title={note.title}
+        tags={note.tags}
+        title={note.title}
       />
     </>
   );

@@ -45,21 +45,19 @@ function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
         >
           <span className='fs-5'>{title}</span>
 
-          {courseName && (
-            <span className='fs-6'>
-              {
-                <Badge className='text-truncate bg-secondary'>
-                  {courseName}
-                </Badge>
-              }
-            </span>
-          )}
+
           {tags.length > 0 && (
             <Stack
               className='justify-content-center flex-wrap'
               direction='horizontal'
               gap={1}
             >
+							   {courseName && (
+                <Badge bg='secondary' className='text-white text-truncate'>
+                  {courseName}
+                </Badge>
+
+          )}
               {tags?.map(tag => (
                 <Badge key={tag.id} className='text-truncate'>
                   {tag.label}
@@ -118,7 +116,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
-            <Link to='/trainee/notes/form'>
+            <Link to={`/trainee/notes/form?courseName=${courseName ?? ''}&lessonId=${lessonId ?? ''}`}>
               <Button variant='primary'>Create</Button>
             </Link>
             <Button
@@ -180,7 +178,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
               />
             </Form.Group>
           </Col>
-          <Col>
+          <Col className='col-12 col-md-6 col-lg-4'>
             <Form.Group controlId='courses'>
               <Form.Label>Courses</Form.Label>
               <ReactSelect
@@ -191,13 +189,13 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
                   }) ?? []
                 }
                 value={
-                  courseNames?.map(course => {
+                  selectedCourseNames?.map(course => {
                     return { label: course, value: course };
                   }) ?? []
                 }
-                onChange={function onChange(courses) {
-                  setSelectedCourseNames(
-                    courses?.map(course => {
+                onChange={function onChange(coursesSelect) {
+                  setSelectedCourseNames(()=>
+                    coursesSelect?.map(course => {
                       return course.value;
                     })
                   );
@@ -225,7 +223,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
               role='alert'
             >
               No notes found,
-              <Link to='/trainee/notes/form'>
+              <Link to={`/trainee/notes/form?courseName=${courseName ?? ''}&lessonId=${lessonId ?? ''}`}>
                 <span className='alert-link'> Create Note</span>
               </Link>
             </div>

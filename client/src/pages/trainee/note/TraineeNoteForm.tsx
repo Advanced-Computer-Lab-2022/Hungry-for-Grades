@@ -17,7 +17,7 @@ function TraineeNoteForm({
   tags = [],
   markdown = ''
 }: Partial<INoteData>) {
-	const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const createNote = UseTraineeNoteStoreCreateNote();
   const createTag = UseTraineeNoteStoreCreateTag();
   const availableTags = Array.from(UseTraineeNoteStoreTags());
