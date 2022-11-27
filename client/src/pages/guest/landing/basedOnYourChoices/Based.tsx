@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import { mapCourseToCardProps } from '../types';
 
-import styles from './based.module.scss';
 
 import useQueryBased from './UseQueryBased';
 
@@ -59,20 +58,17 @@ export default function Based() {
     const courseCardP = mapCourseToCardProps(tt);
     console.log(courseCardP);
     return (
-      <div
-        key={tt._id}
-        className={'col-12 col-md-6 col-lg-4'}
-        style={{ maxWidth: '27rem' }}
-      >
+      <div key={tt._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard key={tt._id} percent={-1} pprops={courseCardP} />
       </div>
     );
   });
 
   return (
-    <div style={{ marginLeft: '12%' }}>
-      <div className={styles.word}>Based on your Choices</div>
-      <div className={styles.container}>{toShow}</div>
+    <section className='container'>
+      <h2 className='text-dark text-left mb-2'>Based on your Recent Choices</h2>
+
+      <div className='row'>{toShow}</div>
       {data?.data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
@@ -82,6 +78,6 @@ export default function Based() {
           />
         </div>
       )}
-    </div>
+    </section>
   );
 }
