@@ -8,12 +8,14 @@ function EditNote() {
   return (
     <>
       <Container>
-	  <h2 className='text-dark text-left mb-2'>Edit Note</h2>
+        <h2 className='text-dark text-left mb-2'>Edit Note</h2>
       </Container>
       <TraineeNoteForm
+        courseName={note.courseName}
+        lessonId={note.lessonId}
         markdown={note.markdown}
-        tags={note.tags}
-        title={note.title}
+		tags={note.tags}
+		title={note.title}
       />
     </>
   );

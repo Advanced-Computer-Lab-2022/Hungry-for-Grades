@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CreatableReactSelect from 'react-select/creatable';
 
 import { type INoteData, type ITag } from '@interfaces/note.interface';
@@ -13,10 +13,11 @@ import {
 function TraineeNoteForm({
   title = '',
   courseName = '',
-	lessonId='',
+  lessonId = '',
   tags = [],
   markdown = ''
 }: Partial<INoteData>) {
+	const [searchParams] = useSearchParams();
   const createNote = UseTraineeNoteStoreCreateNote();
   const createTag = UseTraineeNoteStoreCreateTag();
   const availableTags = Array.from(UseTraineeNoteStoreTags());
@@ -35,8 +36,8 @@ function TraineeNoteForm({
         title,
         markdown,
         tags: selectedTags,
-				courseName,
-				lessonId
+        courseName: searchParams.get('courseName') || courseName,
+        lessonId: searchParams.get('lessonId') || lessonId
       };
 
       createNote(note);
@@ -91,7 +92,7 @@ function TraineeNoteForm({
               ref={markdownRef}
               required
               as='textarea'
-							defaultValue={markdown}
+              defaultValue={markdown}
               rows={15}
             />
           </Form.Group>

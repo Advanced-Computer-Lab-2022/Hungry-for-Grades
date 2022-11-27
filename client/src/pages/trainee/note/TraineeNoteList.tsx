@@ -112,7 +112,9 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
     <Container className='my-3'>
       <Row className='align-items-center mb-4'>
         <Col>
-          <h2 className='text-dark text-left mb-2 text-truncate'>{courseName?'Course ': ''} Notes</h2>
+          <h2 className='text-dark text-left mb-2 text-truncate'>
+            {courseName ? 'Course ' : ''} Notes
+          </h2>
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
@@ -206,7 +208,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
         </Row>
       </Form>
       <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
-        {filteredNotes.map(note => (
+        {filteredNotes?.map(note => (
           <Col key={note.id}>
             <NoteCard
               courseName={note.courseName}
@@ -216,6 +218,19 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
             />
           </Col>
         ))}
+        {filteredNotes?.length === 0 && (
+          <div className='container mt-5'>
+            <div
+              className='alert alert-danger d-flex justify-content-center'
+              role='alert'
+            >
+              No notes found,
+              <Link to='/trainee/notes/form'>
+                <span className='alert-link'> Create Note</span>
+              </Link>
+            </div>
+          </div>
+        )}
       </Row>
       <EditTagsModal
         availableTags={availableTags}

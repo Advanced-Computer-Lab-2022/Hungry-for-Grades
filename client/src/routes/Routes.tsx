@@ -19,7 +19,7 @@ import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
 import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
-import {NoteLayout} from '@pages/trainee/note/NoteLayout'
+import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -50,13 +50,21 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
-const LazyTraineeLastStudied = lazy(() => import('@/pages/trainee/lastStudiedCourse/LastStudied'));
+const LazyTraineeLastStudied = lazy(
+  () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
+);
 
 // notes
-const LazyTraineeNote = lazy(  () => import('@/pages/trainee/note/TraineeNote'));
-const LazyTraineeNoteEdit = lazy(  () => import('@/pages/trainee/note/TraineeNoteEdit'));
-const LazyTraineeNoteForm = lazy(() => import('@/pages/trainee/note/TraineeNoteForm'));
-const LazyTraineeNoteList = lazy(() => import('@/pages/trainee/note/TraineeNoteList'));
+const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
+const LazyTraineeNoteEdit = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteEdit')
+);
+const LazyTraineeNoteForm = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteForm')
+);
+const LazyTraineeNoteList = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteList')
+);
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
@@ -116,10 +124,10 @@ function AllRoutes() {
               <Route index element={<LazyTraineeNoteList />} />
               <Route element={<LazyTraineeNoteForm />} path='form' />
 
-          <Route element={<NoteLayout/>} path=':id'>
-            <Route index element={<LazyTraineeNote />} />
-            <Route element={<LazyTraineeNoteEdit />} path='edit' />
-          </Route>
+              <Route element={<NoteLayout />} path=':id'>
+                <Route index element={<LazyTraineeNote />} />
+                <Route element={<LazyTraineeNoteEdit />} path='edit' />
+              </Route>
             </Route>
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />

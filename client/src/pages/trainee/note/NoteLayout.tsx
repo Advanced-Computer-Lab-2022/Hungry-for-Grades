@@ -6,10 +6,7 @@ import {
 } from 'react-router-dom';
 
 import { type INote } from '@interfaces/note.interface';
-import {
-UseTraineeNoteStoreNoteSearchById
-}
-from '@store/noteStore'
+import { UseTraineeNoteStoreNoteSearchById } from '@store/noteStore';
 
 export function NoteLayout() {
   const { id } = useParams();

@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import { useNote } from './NoteLayout';
 
 import { UseTraineeNoteStoreDeleteTag } from '@store/noteStore';
- function Note() {
+function Note() {
   const note = useNote();
   const navigate = useNavigate();
   const deleteTag = UseTraineeNoteStoreDeleteTag();

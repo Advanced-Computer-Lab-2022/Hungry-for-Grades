@@ -43,7 +43,7 @@ export default function LastStudy() {
           <div className={styles.cnt}>Continue now</div>
         </div>
       </div>
-      <TraineeNoteList courseName={course?._course?.title}  />
+      <TraineeNoteList courseName={course?._course?.title} />
     </div>
   );
 }
