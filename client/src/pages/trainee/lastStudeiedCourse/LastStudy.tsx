@@ -22,7 +22,7 @@ export default function LastStudy() {
       <img
         alt='lastCourse'
         className={styles.image_holder}
-        src={course.thumbnail}
+        src={course._course.thumbnail}
       />
       <div
         style={{
@@ -33,10 +33,10 @@ export default function LastStudy() {
           gap: '1.5rem'
         }}
       >
-        <span className={styles.txt}> {course.title}</span>
+        <span className={styles.txt}> {course._course.title}</span>
         <div style={{ width: '70%' }}>
           {' '}
-          <ProgressBar completed={60} />{' '}
+          <ProgressBar completed={course.progress} />{' '}
         </div>
         <div className={styles.cnt}>Continue now</div>
       </div>
