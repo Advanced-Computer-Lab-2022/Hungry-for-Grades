@@ -11,6 +11,8 @@ import CourseHeader from './CourseHeader';
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 
+import { useCacheStoreSetData } from '@/store/cacheStore';
+
 function Course() {
   const country = UseCountry();
   const { courseid } = useParams();
@@ -18,6 +20,11 @@ function Course() {
     ['courseByID', courseid, country],
     () => getCourseByID(courseid, country)
   );
+
+  console.log(data);
+
+  const upd = useCacheStoreSetData();
+
   if (isError) {
     return (
       <h1 className='text-danger text-center'>
@@ -33,6 +40,12 @@ function Course() {
   if (!data) {
     return <></>;
   }
+
+  const categ = data?.category;
+  const sub = data?.subcategory.at(0);
+
+  upd({ category: categ, subCategory: sub as string });
+
   return (
     <div className='container'>
       <CourseHeader {...data} />

@@ -8,6 +8,8 @@ import FeatureSection from './featureSection/FeatureSection';
 
 import MainSection from './mainSection/MainSection';
 
+import Based from './basedOnYourChoices/Based';
+
 import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
 
 function Landing() {
@@ -18,6 +20,7 @@ function Landing() {
       <InstructorBillboard />
       <section>
         <TopRatedCourses />
+        <Based />
       </section>
       <TopInstructorsSection />
 

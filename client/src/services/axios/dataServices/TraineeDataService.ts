@@ -138,45 +138,45 @@ export const TraineeRoutes = {
         ]
       }
     },
-    getLastViewed : {
-      URL :'',
-      params:'',
-      query:'',
-      payload:'',
-      response:{
-        data:{
-          price:{
-            currency:'',
-            currentValue:0,
-            discounts:[]
+    getLastViewed: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: {
+          price: {
+            currency: '',
+            currentValue: 0,
+            discounts: []
           },
-          rating:{
-            averagerating:0,
-            reviews:[]
+          rating: {
+            averagerating: 0,
+            reviews: []
           },
-          _id:'',
-          _instructor:[
+          _id: '',
+          _instructor: [
             {
-              rating:{
-                averageRating:0,
-                reviews:[]
+              rating: {
+                averageRating: 0,
+                reviews: []
               },
-              _id:'',
-              name:'',
-              profileImage:'',
-              speciality:'',
-              title:''
+              _id: '',
+              name: '',
+              profileImage: '',
+              speciality: '',
+              title: ''
             }
           ],
-          category:'',
-          description:'',
-          subcategory:[],
-          thubmnail:'',
-          title:'',
-          id:''
+          category: '',
+          description: '',
+          subcategory: [],
+          thubmnail: '',
+          title: '',
+          id: ''
         },
-        message:'',
-        success:true
+        message: '',
+        success: true
       }
     }
   },

@@ -36,4 +36,4 @@ export const useAuthStore = create<
 );
 
 export const UseCacheStoreData = () => useAuthStore(state => state.data);
-export const UseCacheStoreSetData = () => useAuthStore(state => state.setData);
+export const useCacheStoreSetData = () => useAuthStore(state => state.setData);

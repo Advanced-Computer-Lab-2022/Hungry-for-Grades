@@ -24,13 +24,11 @@ function remove(courseId: string) {
 }
 
 function move(courseId: string) {
-
   const Courses = TraineeRoutes.POST.addToWishlist;
 
   Courses.URL = `/trainee/637969352c3f71696ca34759/wishlist/${courseId}`;
 
   return postRequest(Courses as POSTRoutesType);
-  
 }
 
 export default function CartCard(props: {
