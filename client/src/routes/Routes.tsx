@@ -120,6 +120,8 @@ function AllRoutes() {
           />
           <Route element={<TraineeDashboard />}>
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
+            <Route element={<LazyUserProfile />} path='profile' />
+
             <Route path='notes'>
               <Route index element={<LazyTraineeNoteList />} />
               <Route element={<LazyTraineeNoteForm />} path='form' />
