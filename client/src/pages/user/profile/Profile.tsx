@@ -2,6 +2,7 @@ import Certificates from './Certificates';
 
 function Profile() {
   return (
+		<div className="container">
     <div className='row'>
       <div className='col-lg-4'>
         <div className='card mb-4'>
@@ -49,6 +50,7 @@ function Profile() {
         </div>
       </div>
     </div>
+		</div>
   );
 }
 

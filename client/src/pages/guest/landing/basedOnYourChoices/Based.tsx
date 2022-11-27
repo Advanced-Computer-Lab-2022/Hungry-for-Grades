@@ -15,7 +15,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { UseCountry } from '@/store/countryStore';
 
 export default function Based() {
-  const x = UseCacheStoreData();
+  const cachedData = UseCacheStoreData();
 
   const location = useLocation();
 
@@ -24,23 +24,23 @@ export default function Based() {
   const con = UseCountry();
 
   const { isLoading, data } = useQueryBased(
-    x.category,
-    x.subCategory,
+    cachedData.category,
+    cachedData.subCategory,
     activePage,
     con,
     location
   );
 
-  console.log(x.category);
+  console.log(cachedData.category);
 
-  console.log(x.subCategory);
+  console.log(cachedData.subCategory);
 
-  if (x.category == undefined) {
+  if (cachedData.category == undefined) {
     return <></>;
   }
 
   if (isLoading) {
-    return <LoaderCards numberOfCards={3} />;
+    return <div className='container'><LoaderCards numberOfCards={3} /></div>;
   }
 
   const list: typeof CoursesRoutes.GET.getCoursesSearchFilter.response.data =
@@ -53,12 +53,12 @@ export default function Based() {
   }
 
   const toShow = list?.map(course => {
-    const tt: ICourse = course;
-    const courseCardP = mapCourseToCardProps(tt);
+    const courseData: ICourse = course;
+    const courseCardP = mapCourseToCardProps(courseData);
     console.log(courseCardP);
     return (
-      <div key={tt._id} className={'col-12 col-md-6 col-lg-4'}>
-        <CourseCard key={tt._id} percent={-1} pprops={courseCardP} />
+      <div key={courseData._id} className={'col-12 col-md-6 col-lg-4'}>
+        <CourseCard key={courseData._id} percent={-1} pprops={courseCardP} />
       </div>
     );
   });

@@ -54,8 +54,8 @@ async function searchRequest(
     filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
   }
 	&sortBy=${filters.sortBy}
-	&durationLow=${(filters.durationLow ?? 0) * 60 * 24 * 30}
-	&durationHigh=${filters.durationHigh * 60 * 24 * 30}
+	&durationLow=${(filters.durationLow ?? 0) *24 * 30}
+	&durationHigh=${filters.durationHigh  * 24 * 30}
 	&country=${filters.country.trim()}
 	&limit=${12}
 	&page=${page}

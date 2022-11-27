@@ -105,7 +105,7 @@ function NoteList() {
     <Container className='my-3'>
       <Row className='align-items-center mb-4'>
         <Col>
-          <h1>Notes</h1>
+				<h2 className='text-dark text-left mb-2'>Notes</h2>
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
