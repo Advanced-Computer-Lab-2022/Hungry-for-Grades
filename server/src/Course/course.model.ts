@@ -196,45 +196,34 @@ courseSchema.pre('save', async function (next) {
     if (this.isModified('previewVideoURL')) {
       try {
         const videoId = getYoutubeVideoID(this.previewVideoURL);
-        const videoInfo=await yt.info(videoId);
+        const videoInfo = await yt.info(videoId);
         this.previewVideoURL = videoInfo.videoDetails.embed.iframeUrl;
-          }
-          catch(error)
-          {
-            throw new Error('Video URL is not valid a youtube URL');
-          }  
+      } catch (error) {
+        throw new Error('Video URL is not valid a youtube URL');
       }
+    }
 
-
-
-    
-    let totalCourseDurationInMins:number=0;
+    let totalCourseDurationInMins = 0;
     if (this.isModified('sections')) {
       for (let i = 0; i < this.sections.length; i++) {
-        for (let j=0; j < this.sections[i].lessons.length; j++) {
+        for (let j = 0; j < this.sections[i].lessons.length; j++) {
           try {
-          const lesson= this.sections[i].lessons[j];
-          const videoId = getYoutubeVideoID(lesson.videoURL);
-            
-          const videoInfo=await yt.info(videoId);
-          this.sections[i].lessons[j].duration= Math.floor(videoInfo.videoDetails.lengthSeconds/60); // convert to mins
-          this.sections[i].lessons[j].videoURL = videoInfo.videoDetails.embed.iframeUrl;
-          totalCourseDurationInMins+=this.sections[i].lessons[j].duration;
-            }
-            catch(error)
-            {
-              throw new Error('Video URL is not valid a youtube URL');
-            }  
+            const lesson = this.sections[i].lessons[j];
+            const videoId = getYoutubeVideoID(lesson.videoURL);
+
+            const videoInfo = await yt.info(videoId);
+            this.sections[i].lessons[j].duration = Math.floor(videoInfo.videoDetails.lengthSeconds / 60); // convert to mins
+            this.sections[i].lessons[j].videoURL = videoInfo.videoDetails.embed.iframeUrl;
+            totalCourseDurationInMins += this.sections[i].lessons[j].duration;
+          } catch (error) {
+            throw new Error('Video URL is not valid a youtube URL');
+          }
         }
       }
-      this.duration= Math.floor(totalCourseDurationInMins/60); // convert to hours
-      if (this.duration<1)
-        this.duration=1;
-      
-    
-    
+      this.duration = Math.floor(totalCourseDurationInMins / 60); // convert to hours
+      if (this.duration < 1) this.duration = 1;
     }
-     
+
     next();
   } catch (error) {
     next(error);
