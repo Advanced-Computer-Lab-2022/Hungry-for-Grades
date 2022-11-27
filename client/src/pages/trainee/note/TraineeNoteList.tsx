@@ -45,19 +45,17 @@ function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
         >
           <span className='fs-5'>{title}</span>
 
-
           {tags.length > 0 && (
             <Stack
               className='justify-content-center flex-wrap'
               direction='horizontal'
               gap={1}
             >
-							   {courseName && (
+              {courseName && (
                 <Badge bg='secondary' className='text-white text-truncate'>
                   {courseName}
                 </Badge>
-
-          )}
+              )}
               {tags?.map(tag => (
                 <Badge key={tag.id} className='text-truncate'>
                   {tag.label}
@@ -116,7 +114,11 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
-            <Link to={`/trainee/notes/form?courseName=${courseName ?? ''}&lessonId=${lessonId ?? ''}`}>
+            <Link
+              to={`/trainee/notes/form?courseName=${
+                courseName ?? ''
+              }&lessonId=${lessonId ?? ''}`}
+            >
               <Button variant='primary'>Create</Button>
             </Link>
             <Button
@@ -194,7 +196,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
                   }) ?? []
                 }
                 onChange={function onChange(coursesSelect) {
-                  setSelectedCourseNames(()=>
+                  setSelectedCourseNames(() =>
                     coursesSelect?.map(course => {
                       return course.value;
                     })
@@ -223,7 +225,11 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
               role='alert'
             >
               No notes found,
-              <Link to={`/trainee/notes/form?courseName=${courseName ?? ''}&lessonId=${lessonId ?? ''}`}>
+              <Link
+                to={`/trainee/notes/form?courseName=${
+                  courseName ?? ''
+                }&lessonId=${lessonId ?? ''}`}
+              >
                 <span className='alert-link'> Create Note</span>
               </Link>
             </div>

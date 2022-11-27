@@ -49,12 +49,10 @@ export const useTraineeNoteStore = create<
             ...note,
             id: uuidv4()
           };
-          console.log('tags', note.tags);
 
           const newNotes = [...notes, newNote];
           set({ notes: newNotes });
-          console.log('Note created successfully');
-          console.log(newNotes);
+
           return newNote;
         },
         createTag: (tagLabel: string) => {

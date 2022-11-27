@@ -18,7 +18,6 @@ import PublicRoutes from './PublicRoutes';
 import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
-import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
@@ -52,6 +51,9 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
  */
 const LazyTraineeLastStudied = lazy(
   () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
+);
+const LazyTraineeDashboard = lazy(
+  () => import('@pages/trainee/dashboard/TraineeDashboard')
 );
 
 // notes
@@ -116,7 +118,7 @@ function AllRoutes() {
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
-          <Route element={<TraineeDashboard />}>
+          <Route element={<LazyTraineeDashboard />}>
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
 

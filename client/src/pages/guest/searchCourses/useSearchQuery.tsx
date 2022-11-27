@@ -12,14 +12,6 @@ import { getRequest } from '@services/axios/http-verbs';
 import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
 
-/* function toSearchParams(searchQuery: string) {
-  const searchParams = {};
-  searchQuery.split('&').forEach(item => {
-    const [key, value] = item.split('=');
-    searchParams[key] = `${value}`.trim();
-  });
-  return searchParams;
-} */
 let oldFilters: SelectFiltersType;
 
 async function searchRequest(
@@ -57,7 +49,7 @@ async function searchRequest(
 	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
 	&durationHigh=${filters.durationHigh * 24 * 30}
 	&country=${filters.country.trim()}
-	&limit=${12}
+	&limit=${18}
 	&page=${page}
 	&searchTerm=${filters.searchTerm.trim()}
 	`.trim();

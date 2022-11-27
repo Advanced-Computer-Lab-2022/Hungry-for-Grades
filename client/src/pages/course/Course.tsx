@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
@@ -6,12 +7,12 @@ import CourseContent from './CourseContent';
 import CourseOverview from './CourseOverview';
 import CourseHeader from './CourseHeader';
 
-// import styles from './course.module.scss';
 
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 
-import { useCacheStoreSetData } from '@/store/cacheStore';
+import { UseCacheStoreSetData } from '@/store/cacheStore';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 function Course() {
   const country = UseCountry();
@@ -21,16 +22,10 @@ function Course() {
     () => getCourseByID(courseid, country)
   );
 
-  console.log(data);
-
-  const upd = useCacheStoreSetData();
+  const useCacheStoreSetData = UseCacheStoreSetData();
 
   if (isError) {
-    return (
-      <h1 className='text-danger text-center'>
-        An error has occurred while loading course information.
-      </h1>
-    );
+    return <ErrorMessage />;
   }
   if (isLoading) {
     return (
@@ -40,11 +35,14 @@ function Course() {
   if (!data) {
     return <></>;
   }
-
-  const categ = data?.category;
-  const sub = data?.subcategory.at(0);
-
-  upd({ category: categ, subCategory: sub as string });
+  const category = data?.category;
+  const subCategory = data?.subcategory.at(0);
+  if (category && subCategory) {
+    useCacheStoreSetData({
+      category: category,
+      subCategory: subCategory
+    });
+  }
 
   return (
     <div className='container'>

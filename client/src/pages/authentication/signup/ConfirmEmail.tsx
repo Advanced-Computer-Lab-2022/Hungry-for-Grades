@@ -34,7 +34,6 @@ function ConfirmEmail({
     };
     const { data } = await mutateAsync(verifyEmail);
 
-    console.log('data');
     return data;
   };
   async function submit() {

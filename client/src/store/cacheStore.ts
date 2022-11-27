@@ -12,7 +12,7 @@ interface ICacheStore<T> {
 
 const STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
 
-export const useAuthStore = create<
+export const useCacheStore = create<
   ICacheStore<DataType>,
   [['zustand/devtools', never], ['zustand/persist', ICacheStore<DataType>]]
 >(
@@ -35,5 +35,5 @@ export const useAuthStore = create<
   )
 );
 
-export const UseCacheStoreData = () => useAuthStore(state => state.data);
-export const useCacheStoreSetData = () => useAuthStore(state => state.setData);
+export const UseCacheStoreData = () => useCacheStore(state => state.data);
+export const UseCacheStoreSetData = () => useCacheStore(state => state.setData);

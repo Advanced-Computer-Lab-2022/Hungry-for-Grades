@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { mapCourseToCardProps } from '../types';
 
@@ -15,7 +15,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { UseCountry } from '@/store/countryStore';
 
 export default function Based() {
-  const cachedData = UseCacheStoreData();
+  const { category, subCategory } = UseCacheStoreData();
 
   const location = useLocation();
 
@@ -24,18 +24,14 @@ export default function Based() {
   const con = UseCountry();
 
   const { isLoading, data } = useQueryBased(
-    cachedData.category,
-    cachedData.subCategory,
+    category,
+    subCategory,
     activePage,
     con,
     location
   );
 
-  console.log(cachedData.category);
-
-  console.log(cachedData.subCategory);
-
-  if (cachedData.category == undefined) {
+  if (!category) {
     return <></>;
   }
 
@@ -59,7 +55,6 @@ export default function Based() {
   const toShow = list?.map(course => {
     const courseData: ICourse = course;
     const courseCardP = mapCourseToCardProps(courseData);
-    console.log(courseCardP);
     return (
       <div key={courseData._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard key={courseData._id} percent={-1} pprops={courseCardP} />
@@ -81,6 +76,11 @@ export default function Based() {
           />
         </div>
       )}
+      <p className='text-end'>
+        <Link to={`courses?category=${category}&subCategory=${subCategory}`}>
+          View all related courses
+        </Link>
+      </p>
     </section>
   );
 }

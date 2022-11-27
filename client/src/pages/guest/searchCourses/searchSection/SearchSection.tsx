@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 import { AiOutlineFilter } from 'react-icons/ai';
 
 import { SetStateAction, useState } from 'react';
@@ -31,10 +29,7 @@ function SearchSection(props: SearchSectionProps) {
           <h2 className={`${styles.subheading ?? ''}`}>subheading</h2>
         </div>
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
-          <div
-            className='container p-5 d-flex flex-row justify-content-between'
-            id={uuid()}
-          >
+          <div className='container p-5 d-flex flex-row justify-content-between'>
             <div className='input-group '>
               <input
                 aria-describedby='search-addon'

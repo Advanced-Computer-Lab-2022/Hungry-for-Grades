@@ -76,10 +76,7 @@ function TraineeNoteForm({
                     );
                   }}
                   onCreateOption={function onCreate(label) {
-                    alert(`Created tag ${label}`);
                     const newTag = createTag(label);
-                    alert('s');
-                    alert(`Created tag ${newTag.label}`);
                     setSelectedTags(prev => [...prev, newTag]);
                   }}
                 />
