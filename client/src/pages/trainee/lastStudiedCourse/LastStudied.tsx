@@ -20,8 +20,8 @@ export default function LastStudy() {
   const course: ICourse = data?.data?.data;
 
   return (
-    <div className={` container`}>
-      <div className={` ${styles.holder ?? ''} mb-5`}>
+    <section className='container mx-auto'>
+      <div className={`${styles.holder ?? ''} mb-5`}>
         <img
           alt={course?._course?.title}
           className={styles.image_holder}
@@ -44,6 +44,6 @@ export default function LastStudy() {
         </div>
       </div>
       <TraineeNoteList courseName={course?._course?.title} />
-    </div>
+    </section>
   );
 }

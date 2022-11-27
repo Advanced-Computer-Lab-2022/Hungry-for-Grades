@@ -91,8 +91,8 @@ const LazyInstructorProfileToShow = lazy(
 const LazyInstructorCoursesSection = lazy(
   () => import('@/pages/instructorDashboard/InstructorCoursesSection')
 );
-const LazyCertificate = lazy(
-  () => import('@/pages/certificate/CertificateGenerator')
+const LazyTraineeCertificate = lazy(
+  () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
 /**
  * Admin Pages
@@ -134,6 +134,8 @@ function AllRoutes() {
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route element={<LazyTraineeCourses />} path='courses' />
+            <Route element={<LazyTraineeCertificate />} path='certificate' />
+
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
             <Route element={<LazyViewCourse />} path='view-course/:courseid' />
             <Route
@@ -154,7 +156,6 @@ function AllRoutes() {
         </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
-        <Route element={<LazyCertificate />} path='/certificate' />
 
         {/* Instructor Routes*/}
         <Route element={<InstructorRoutes />} path='instructor'>

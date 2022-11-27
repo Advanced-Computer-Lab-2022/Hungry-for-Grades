@@ -5,38 +5,32 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import jsPDF from 'jspdf';
 
-import CourseRating from '../course/CourseRating';
+import CourseRating from '../../course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
 import useSearchQueryCourse from './useSearchQueryCourse';
 import useSearchQueryTrainee from './useSearchQueryTrainee';
 
 import { formatDuration } from '@/utils/duration';
+import ErrorMessage from '@components/error/message/ErrorMessage';
 
 export default function CertificateGenerator() {
-  const {
-    isLoading,
-    isError,
-    data: courseData,
-    error
-  } = useSearchQueryCourse();
+  const { isLoading, isError, data: courseData } = useSearchQueryCourse();
   const { isLoading: traineeIsLoading, data: traineeData } =
     useSearchQueryTrainee();
   const verifiedTraineeData = traineeData?.data?.data;
-  // console.log(verifiedTraineeData);
   const verifiedCourseData = courseData?.data?.data._course;
-  console.log(verifiedCourseData);
   const courseTitle = verifiedCourseData?.title;
   let date = courseData?.data?.data.dateOfCompletion;
   date = date?.split('T')[0];
   const instructorName = verifiedCourseData?._instructor[0]?.name;
 
-  if (isError) return <div>{error?.message}</div>;
+  if (isError) return <ErrorMessage />;
 
   const [imageURL, setImageURL] = useState('');
   const canvasRef = useRef(null);
   const img = useMemo(() => new Image(), []);
-  img.src = 'src/assets/Certificate.png';
+  img.src = '/Certificate.png';
 
   useEffect(() => {
     if (
@@ -46,7 +40,7 @@ export default function CertificateGenerator() {
       verifiedTraineeData
     ) {
       const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
+      const context = canvas?.getContext('2d');
       context.canvas.width = 770;
       context.canvas.height = 595;
       img.onload = () => {
@@ -102,7 +96,7 @@ export default function CertificateGenerator() {
         context.fillText(date, 190, 449);
         context.font = 'bold 14px open sans';
         context.fillText(instructorName, 473, 484);
-        setImageURL(canvas.toDataURL());
+        setImageURL(canvas?.toDataURL());
       };
     }
   }, [courseData]);
@@ -130,9 +124,9 @@ export default function CertificateGenerator() {
 
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div className='container-xxl mt-4'>
+    <div className='container mt-4'>
       <div className='row gx-5'>
-        <div className='col-md-8 border-end border-2 pt-3 pb-3'>
+        <div className='col-12 col-md-8 border-end border-2 pt-3 pb-3'>
           <div className='d-flex justify-content-center'>
             <img
               alt='Course Certificate'
@@ -142,15 +136,15 @@ export default function CertificateGenerator() {
             />
           </div>
         </div>
-        <div className='col-md-4 pt-3 pb-'>
-          <div>
+        <div className='col-sm-12 col-md-4 pt-3'>
+          <div className='container mx-auto'>
             <div className='h5'>Certificate Recipient:</div>
             <div className='d-flex flex-col'>
               <span className='py-1 me-2'>
                 <img
                   alt='Letter C'
                   className='rounded-circle border border-2'
-                  src='src/assets/C_logo.jpg'
+                  src='/C_logo.jpg'
                   style={{ width: '40px', height: '40px' }}
                 />
               </span>

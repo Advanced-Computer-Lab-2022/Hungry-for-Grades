@@ -31,7 +31,8 @@ function TraineeNoteForm({
     title = titleRef?.current?.value || '';
     markdown = markdownRef?.current?.value || '';
 
-    if (title && markdown && selectedTags && selectedTags.length > 0) {
+    if (title && markdown && selectedTags) {
+      alert(markdown);
       const note: INoteData = {
         title,
         markdown,

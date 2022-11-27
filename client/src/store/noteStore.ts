@@ -44,14 +44,17 @@ export const useTraineeNoteStore = create<
         notes: [],
         tags: [],
         createNote: (note: INoteData) => {
-          const { notes } = get();
+          const { notes, updateNote } = get();
           const newNote = {
             ...note,
             id: uuidv4()
           };
-
-          const newNotes = [...notes, newNote];
-          set({ notes: newNotes });
+          if (!notes.find(n => n.id === newNote.id)) {
+            const newNotes = [...notes, newNote];
+            set({ notes: newNotes });
+          } else {
+            updateNote(newNote);
+          }
 
           return newNote;
         },

@@ -2,14 +2,30 @@ import { Badge, Button, Col, Container, Row, Stack } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
+import jsPDF from 'jspdf';
+
+import { BsFillTrashFill } from 'react-icons/bs';
 
 import { useNote } from './NoteLayout';
 
-import { UseTraineeNoteStoreDeleteTag } from '@store/noteStore';
+import { UseTraineeNoteStoreDeleteNote } from '@store/noteStore';
+
+// download notes as a pdf
+function handleDownloadPDF(title: string, markdown: string) {
+  const pdf = new jsPDF({
+    orientation: 'landscape',
+    unit: 'cm',
+    format: [29.7, 21]
+  });
+  pdf.text(markdown, 1, 1);
+
+  pdf.save(`${title}.pdf`);
+}
+
 function Note() {
   const note = useNote();
   const navigate = useNavigate();
-  const deleteTag = UseTraineeNoteStoreDeleteTag();
+  const deleteNote = UseTraineeNoteStoreDeleteNote();
 
   return (
     <Container className='my-3'>
@@ -34,11 +50,20 @@ function Note() {
             <Button
               variant='outline-danger'
               onClick={function onDeleteTag() {
-                deleteTag(note.id);
+                deleteNote(note.id);
                 navigate('..');
               }}
             >
+              <BsFillTrashFill style={{ padding: '0 0 0.2rem' }} />
               Delete
+            </Button>
+            <Button
+              variant='outline-primary'
+              onClick={function onDownload() {
+                handleDownloadPDF(note.title, note.markdown);
+              }}
+            >
+              Download
             </Button>
             <Link to='..'>
               <Button variant='outline-secondary'>Back</Button>
