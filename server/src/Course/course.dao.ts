@@ -13,6 +13,7 @@ import {
   getConversionRate,
   getCurrencyFromCountry,
   getCurrentPrice,
+  getYoutubeVideoID,
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
 import userModel from '@/User/user.schema';
@@ -22,6 +23,8 @@ import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import TraineeService from '@/Trainee/trainee.dao';
+
+
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -767,7 +770,6 @@ class CourseService {
 
     // update lesson
     lesson.description = lessonData.description ?? lesson.description;
-    lesson.duration = lessonData.duration ?? lesson.duration;
     lesson.title = lessonData.title ?? lesson.title;
     lesson.videoURL = lessonData.videoURL ?? lesson.videoURL;
 

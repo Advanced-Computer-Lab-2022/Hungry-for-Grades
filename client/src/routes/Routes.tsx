@@ -18,6 +18,7 @@ import PublicRoutes from './PublicRoutes';
 import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
+import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -51,6 +52,10 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /* const LazyTraineeNoteForm = lazy(
   () => import('@/pages/trainee/note/TraineeNoteForm')
 ); */
+const LazyTraineeLastStudied = lazy(
+  () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
+);
+
 const LazyTraineeNoteForm = lazy(
   () => import('@/pages/trainee/note/TraineeNoteForm')
 );
@@ -108,24 +113,27 @@ function AllRoutes() {
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
-          <Route path='notes'>
-            <Route index element={<LazyTraineeNoteList />} />
-            <Route element={<LazyTraineeNoteForm />} path='form' />
-          </Route>
-          {/*
+          <Route element={<TraineeDashboard />}>
+            <Route element={<LazyTraineeLastStudied />} path='dashboard' />
+            <Route path='notes'>
+              <Route index element={<LazyTraineeNoteList />} />
+              <Route element={<LazyTraineeNoteForm />} path='form' />
+            </Route>
+            {/*
           <Route path='notes:noteId'>
             <Route index element={<LazyTraineeNote />} />
             <Route element={<LazyTraineeNote />} path='edit' />
           </Route> */}
-          <Route element={<LazyTraineeCart />} path='cart' />
-          <Route element={<LazyTraineeWishlist />} path='wishlist' />
-          <Route element={<LazyTraineeCourses />} path='courses' />
-          <Route element={<LazySolveExam />} path='exam/:courseid/' />
-          <Route element={<LazyViewCourse />} path='view-course/:courseid' />
-          <Route
-            element={<LazyViewCourse />}
-            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
-          />
+            <Route element={<LazyTraineeCart />} path='cart' />
+            <Route element={<LazyTraineeWishlist />} path='wishlist' />
+            <Route element={<LazyTraineeCourses />} path='courses' />
+            <Route element={<LazySolveExam />} path='exam/:courseid/' />
+            <Route element={<LazyViewCourse />} path='view-course/:courseid' />
+            <Route
+              element={<LazyViewCourse />}
+              path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+            />
+          </Route>
         </Route>
 
         {/* Instructor Routes*/}

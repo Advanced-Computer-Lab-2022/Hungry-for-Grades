@@ -19,6 +19,7 @@ type INoteStore = {
   ) => INote;
   updateNote: (note: Partial<INote>) => void;
   deleteNote: (id: string) => void;
+  getCourseNames: () => string[];
   searchNoteById: (id: string) => INote[];
   searchNoteByTitle: (name: string) => INote[];
   searchNoteByCourseName: (name: string) => INote[];
@@ -110,6 +111,12 @@ export const useTraineeNoteStore = create<
         searchNoteByCourseName: (name: string) => {
           const { notes } = get();
           return notes.filter(note => note.courseName === name);
+        },
+        getCourseNames: () => {
+          const { notes } = get();
+          return notes
+            .map(note => note.courseName)
+            .filter(course => course !== undefined) as string[];
         }
       }),
       {
@@ -141,5 +148,7 @@ export const UseTraineeNoteStoreNoteSearchById = () =>
 export const UseTraineeNoteStoreNoteSearchByTitle = () =>
   useTraineeNoteStore(state => state.searchNoteByTitle); //To search a Note by title
 
+export const UseTraineeNoteStoreGetCourseNames = () =>
+  useTraineeNoteStore(state => state.getCourseNames);
 export const UseTraineeNoteStoreNoteSearchByCourseName = () =>
   useTraineeNoteStore(state => state.searchNoteByCourseName); //To search a Note by Course Name

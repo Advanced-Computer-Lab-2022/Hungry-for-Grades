@@ -16,7 +16,12 @@ export default function TraineeWishlist() {
     location as unknown as Location
   );
 
-  if (isLoading) return <LoaderCards numberOfCards={3} />;
+  if (isLoading)
+    return (
+      <div className='container'>
+        <LoaderCards numberOfCards={3} />
+      </div>
+    );
 
   console.log(data?.data?.totalPages);
 
@@ -37,11 +42,8 @@ export default function TraineeWishlist() {
 
   return (
     <>
-      <div
-        className='container row'
-        style={{ marginLeft: '15%', marginTop: '2rem' }}
-      >
-        {toShow}
+      <div className='container'>
+        <div className='row'>{toShow}</div>
       </div>
       {data?.data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>

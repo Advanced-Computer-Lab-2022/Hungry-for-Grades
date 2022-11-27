@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 import { RiDashboardFill } from 'react-icons/ri';
 import { BsFillBookFill } from 'react-icons/bs';
@@ -8,8 +8,6 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 
 import styles from './trainee-dashboard.module.scss';
-
-import LastStudy from '@pages/trainee/lastStudeiedCourse/LastStudy';
 
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
@@ -48,7 +46,7 @@ function TraineeDashboard() {
           </div>
         </div>
       </div>
-      <LastStudy />
+      <Outlet />
     </>
   );
 }
