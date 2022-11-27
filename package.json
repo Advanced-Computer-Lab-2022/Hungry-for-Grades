@@ -29,8 +29,10 @@
     }
   },
   "dependencies": {
+    "@types/prop-types": "^15.7.5",
     "country-flag-icons": "^1.5.5",
-    "react-country-flag": "^3.0.2"
+    "react-country-flag": "^3.0.2",
+    "stripe": "^11.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

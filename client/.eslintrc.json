@@ -111,6 +111,9 @@
     "import/no-named-as-default-member": "error",
     "import/no-deprecated": "error",
     "import/no-mutable-exports": "error",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
     "import/no-unassigned-import": [
       "error",
       {

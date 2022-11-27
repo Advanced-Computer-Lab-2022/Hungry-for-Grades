@@ -8,10 +8,9 @@ export function useSeletedFilters() {
     subCategory: '',
     searchTerm: '',
     priceLow: 0,
-    priceHigh: 100,
+    priceHigh: 1000,
     level: '',
     sortBy: 1,
-    durationLow: 0,
     durationHigh: 100,
     country: 'CA'
   });

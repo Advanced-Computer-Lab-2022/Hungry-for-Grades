@@ -89,6 +89,148 @@ export const StudentRoutes = {
           }
         ]
       }
+    },
+    getEnrolledCourse: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: '',
+      response: {
+        data: [
+          {
+            _course: {
+              _id: '',
+              category: '',
+              description: '',
+              duration: 0,
+              level: '',
+              numberOfEnrolledTrainees: 0,
+              previewVideoURL: '',
+              price: {
+                currency: '',
+                currentValue: 0,
+                discounts: [
+                  {
+                    endDate: '',
+                    percentage: 0,
+                    startDate: '',
+                    _id: ''
+                  }
+                ]
+              },
+              rating: {
+                averageRating: 0
+              },
+              subcategory: [''],
+              thumbnail: '',
+              title: ''
+            },
+            earning: 0
+          },
+          {
+            _course: {
+              _id: '',
+              category: '',
+              description: '',
+              duration: 0,
+              level: '',
+              numberOfEnrolledTrainees: 0,
+              previewVideoURL: '',
+              price: {
+                currency: '',
+                currentValue: 0,
+                discounts: []
+              },
+              rating: {
+                averageRating: 0
+              },
+              subcategory: ['', ''],
+              thumbnail: '',
+              title: ''
+            },
+            earning: 0
+          }
+        ],
+        page: 0,
+        pageSize: 0,
+        totalPages: 0,
+        totalResults: 0,
+        message: '',
+        success: false
+      }
+    }
+  },
+  getTrainee: {
+    data: {
+      _id: '',
+      _cart: [''],
+      _wishlist: [''],
+      active: false,
+      balance: 0,
+      email: {
+        address: '',
+        _id: '',
+        isVerified: false
+      },
+      name: '',
+      preferredSkills: [],
+      profileImage: '',
+      username: '',
+      _enrolledCourses: [
+        {
+          _course: '',
+          dateOfEnrollment: '',
+          _id: '',
+          notes: [],
+          examGrade: 0,
+          progress: 0,
+          dateOfCompletion: '',
+          _visitedLessons: [],
+          _submittedQuestions: [
+            {
+              _questionId: '',
+              submittedAnswer: ''
+            }
+          ]
+        }
+      ],
+      creditCards: [],
+      createdAt: '',
+      updatedAt: '',
+      lastLogin: '',
+      phone: '',
+      gender: '',
+      __v: 0,
+      country: '',
+      _lastViewedCourse: ''
+    },
+    message: '',
+    success: false
+  },
+  POST: {
+    signup: {
+      URL: '/trainee/signup' as const,
+      params: '',
+      query: '',
+      payload: {
+        firstName: '',
+        lastName: '',
+        birthDate: '',
+        phone: '',
+        email: {
+          address: ''
+        },
+        username: '',
+        password: '',
+        gender: '',
+        country: ''
+      },
+      response: {
+        data: {
+          accessToken: '',
+          refreshToken: ''
+        }
+      }
     }
   }
 };
