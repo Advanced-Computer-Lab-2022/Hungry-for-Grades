@@ -1,6 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-
 import { UseUserIsAuthenticated } from '@store/userStore';
 
 import { Role } from '@enums/role.enum';

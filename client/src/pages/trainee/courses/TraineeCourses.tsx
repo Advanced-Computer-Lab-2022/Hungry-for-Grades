@@ -25,7 +25,6 @@ export default function MyCourses() {
       </div>
     );
 
-
   const incoming: typeof TraineeRoutes.GET.getMyCourses.response.data =
     data?.data?.data;
 
@@ -48,7 +47,6 @@ export default function MyCourses() {
       </div>
     );
   });
-
 
   return (
     <>

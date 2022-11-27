@@ -21,15 +21,17 @@ import { type ITag } from '@interfaces/note.interface';
 
 import {
   UseTraineeNoteStoreTags,
-  UseTraineeNoteStoreNotes
+  UseTraineeNoteStoreNotes,
+  UseTraineeNoteStoreGetCourseNames
 } from '@store/noteStore';
 type SimplifiedNote = {
   tags: ITag[];
   title: string;
   id: string;
+  courseName: string | undefined;
 };
 
-function NoteCard({ id, title, tags }: SimplifiedNote) {
+function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
   return (
     <Card
       as={Link}
@@ -42,6 +44,16 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
           gap={2}
         >
           <span className='fs-5'>{title}</span>
+
+          {courseName && (
+            <span className='fs-6'>
+              {
+                <Badge className='text-truncate bg-secondary'>
+                  {courseName}
+                </Badge>
+              }
+            </span>
+          )}
           {tags.length > 0 && (
             <Stack
               className='justify-content-center flex-wrap'
@@ -64,9 +76,11 @@ function NoteCard({ id, title, tags }: SimplifiedNote) {
 function NoteList() {
   const notes = UseTraineeNoteStoreNotes();
   const availableTags = UseTraineeNoteStoreTags();
+  const courseNames = UseTraineeNoteStoreGetCourseNames()();
   const [showSettings, setShowSettings] = useState(false);
 
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  const [selectedCourseNames, setSelectedCourseNames] = useState<string[]>([]);
   const [title, setTitle] = useState('');
   const [editTagsModalIsOpen, setEditTagsModalIsOpen] = useState(false);
 
@@ -78,10 +92,14 @@ function NoteList() {
         (selectedTags.length === 0 ||
           selectedTags.every(tag =>
             note.tags.some(noteTag => noteTag.id === tag.id)
+          )) &&
+        (selectedCourseNames.length === 0 ||
+          selectedCourseNames.every(
+            courseName => note.courseName === courseName
           ))
       );
     });
-  }, [title, selectedTags, notes]);
+  }, [notes, title, selectedTags, selectedCourseNames]);
 
   return (
     <Container className='my-3'>
@@ -153,12 +171,42 @@ function NoteList() {
               />
             </Form.Group>
           </Col>
+          <Col>
+            <Form.Group controlId='courses'>
+              <Form.Label>Courses</Form.Label>
+              <ReactSelect
+                isMulti
+                options={
+                  courseNames?.map(course => {
+                    return { label: course, value: course };
+                  }) ?? []
+                }
+                value={
+                  courseNames?.map(course => {
+                    return { label: course, value: course };
+                  }) ?? []
+                }
+                onChange={function onChange(courses) {
+                  setSelectedCourseNames(
+                    courses?.map(course => {
+                      return course.value;
+                    })
+                  );
+                }}
+              />
+            </Form.Group>
+          </Col>
         </Row>
       </Form>
       <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
         {filteredNotes.map(note => (
           <Col key={note.id}>
-            <NoteCard id={note.id} tags={note.tags} title={note.title} />
+            <NoteCard
+              courseName={note.courseName}
+              id={note.id}
+              tags={note.tags}
+              title={note.title}
+            />
           </Col>
         ))}
       </Row>
@@ -170,10 +218,10 @@ function NoteList() {
         show={editTagsModalIsOpen}
       />
       <SettingsModal
-        show={showSettings}
-        onClose={function close() {
+        handleClose={function close() {
           setShowSettings(false);
         }}
+        show={showSettings}
       />
     </Container>
   );
