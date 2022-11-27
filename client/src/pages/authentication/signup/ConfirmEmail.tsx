@@ -2,8 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 
-import { v4 as uuid } from 'uuid';
-
 import { Link } from 'react-router-dom';
 
 import { type ConfirmEmailProps } from './types';
@@ -13,6 +11,7 @@ import Input from '@/components/inputs/input/Input';
 import { ChangeEvent } from '@/components/common.types';
 import usePostQuery from '@/hooks/usePostQuery';
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 let verifiedCode: string;
 
 function ConfirmEmail({
@@ -65,7 +64,8 @@ function ConfirmEmail({
     <div className='row'>
       {isSuccess && (
         <div className='alert alert-info'>
-          We sent you a code to your email address. Please enter it here.
+          We sent you a code to your
+          <a className='link-info text-dark' href='https://mail.google.com/mail'> email address</a>. Please enter it here.
         </div>
       )}
       <small className='text-muted'>
@@ -91,7 +91,7 @@ function ConfirmEmail({
       </small>
       <div className='row'>
         {Array.from({ length: 6 }, (_, i) => i).map((_, index) => (
-          <div key={uuid()} className='col-sm-4 col-lg-2'>
+          <div key={`${index * 2}`} className='col-sm-4 col-lg-2'>
             <Input
               correctMessage={''}
               errorMessage={undefined}
@@ -104,12 +104,14 @@ function ConfirmEmail({
               name={`code${index}`}
               placeholder={''}
               size={0}
-              type={'number'}
+              type='number'
               value={`${code.at(index) ?? ''}`}
               onChangeFunc={function change(e: ChangeEvent) {
                 setCode([
                   ...code.slice(0, index),
-                  parseInt(e.target.value),
+                  parseInt(
+                    parseInt(e.target.value + '') > 9 ? '9' : e.target.value
+                  ),
                   ...code.slice(index + 1)
                 ]);
                 setWrongMessage('');
@@ -120,15 +122,10 @@ function ConfirmEmail({
       </div>
 
       {wrongMessage !== '' && (
-        <div className='alert alert-danger'>Invalid code !</div>
+        <div className='alert alert-danger mt-3'>Invalid Code !</div>
       )}
       {isError && (
-        <div className='alert alert-danger' role='alert'>
-          Please report this Problem through this&nbsp;
-          <Link className='alert-link' to='/report'>
-            Link
-          </Link>
-        </div>
+     <ErrorMessage/>
       )}
 
       <div className='d-flex flex-row justify-content-end my-3'>
@@ -147,6 +144,7 @@ function ConfirmEmail({
           name={'submit'}
           type={'button'}
           onClickFunc={submit}
+
         />
       </div>
     </div>

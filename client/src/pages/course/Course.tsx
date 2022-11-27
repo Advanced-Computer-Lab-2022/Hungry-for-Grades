@@ -7,7 +7,6 @@ import CourseContent from './CourseContent';
 import CourseOverview from './CourseOverview';
 import CourseHeader from './CourseHeader';
 
-
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 

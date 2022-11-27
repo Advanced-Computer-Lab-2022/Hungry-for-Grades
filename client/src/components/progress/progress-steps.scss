@@ -1,9 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,600);
-$blue: hsl(206, 72%, 68%);
-$green: hsl(120, 42%, 54%);
+$blue: var(--secondary-color);
+$green: var(--primary-color);
 $white: hsl(0, 0%, 100%);
-$grey: hsl(226, 10%, 55%);
-$disa: hsl(226, 15%, 83%);
+$grey: hsl(0, 1%, 55%);
+$disa: var(--secondary-color);
 #steps {
     width: fit-content;
     margin: 2rem 1rem;
@@ -15,9 +15,9 @@ $disa: hsl(226, 15%, 83%);
     background-color: $white;
     display: inline-block;
     border: 4px solid;
-    border-color: var(--primary-background-color);
+    border-color: $grey;
     border-radius: 50%;
-    color: $disa;
+    color: $grey;
     font-weight: 600;
     text-align: center;
     line-height: 35px;
@@ -41,16 +41,29 @@ $disa: hsl(226, 15%, 83%);
 }
 
 .step:nth-child(n+2):before {
-    width: 75px;
+    width: 103px;
     height: 3px;
     display: block;
     background-color: var(--secondary-background-color);
-    transform: translate(-95px, 21px);
+    transform: translate(-106px, 21px);
     content: '';
-    -webkit-transform: translate(-95px, 21px);
-    -moz-transform: translate(-95px, 21px);
-    -ms-transform: translate(-95px, 21px);
-    -o-transform: translate(-95px, 21px);
+    -webkit-transform: translate(-106px, 21px);
+    -moz-transform: translate(-106px, 21px);
+    -ms-transform: translate(-106px, 21px);
+    -o-transform: translate(-106px, 21px);
+}
+
+.step.undone:nth-child(n+2):before {
+    width: 103px;
+    height: 3px;
+    display: block;
+    background-color: $grey;
+    transform: translate(-106px, 21px);
+    content: '';
+    -webkit-transform: translate(-106px, 21px);
+    -moz-transform: translate(-106px, 21px);
+    -ms-transform: translate(-106px, 21px);
+    -o-transform: translate(-106px, 21px);
 }
 
 .step:after {
@@ -90,13 +103,20 @@ $disa: hsl(226, 15%, 83%);
     color: $white;
 }
 
+.step.done::after {
+    color: $green;
+}
+
 .step.done:before {
     background-color: $green;
 }
 
-
-/* .icon {
-    font-size: 2.9rem;
-    padding: 0rem .85rem 1.1rem 0.1rem;
-    text-align: center;
-} */
+.icon {
+    font-size: 1.5rem;
+    color: $white;
+    transform: translate(-.2rem, -.25rem);
+    -webkit-transform: translate(-.2rem, -.25rem);
+    -moz-transform: translate(-.2rem, -.25rem);
+    -ms-transform: translate(-.2rem, -.25rem);
+    -o-transform: translate(-.2rem, -.25rem);
+}

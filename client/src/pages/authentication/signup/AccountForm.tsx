@@ -211,12 +211,13 @@ function AccountForm({
         </Modal>
         <div className='d-flex flex-row justify-content-end'>
           <Button
-            backgroundColor={'secondary-bg'}
+            backgroundColor={'primary-bg-outline'}
             isDisabled={false}
             label={'back'}
             name={'back'}
             type={'button'}
             onClickFunc={prev}
+
           />
           <Button
             backgroundColor={'primary-bg'}
@@ -231,7 +232,7 @@ function AccountForm({
             label={'next'}
             name={'next'}
             type={'button'}
-            onClickFunc={handleSubmit}
+						onClickFunc={handleSubmit}
           />
         </div>
       </div>

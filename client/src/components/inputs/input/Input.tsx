@@ -17,7 +17,7 @@ function Input(props: InputProps) {
           aria-describedby={id}
           aria-label={`Your ${props.name}`}
           autoComplete='off'
-          className={`form-control  ${styles.input || ''} ${
+					className={`form-control  ${styles.input || ''} ${
             props.isError !== null
               ? props.isError
                 ? 'is-invalid error-border text-danger'
@@ -28,6 +28,7 @@ function Input(props: InputProps) {
           max={props.max}
           min={props.min}
           name={props.name}
+          pattern={props.pattern}
           placeholder={props.placeholder}
           size={props.size}
           type={props.type}
