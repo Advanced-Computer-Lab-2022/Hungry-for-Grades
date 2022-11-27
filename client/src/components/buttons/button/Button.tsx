@@ -12,7 +12,6 @@ import { toastOptions } from '@components/toast/options';
 function Button(props: ButtonProps) {
   const id = props.id || uuidv4();
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   return (
     <button
       className={`btn ${props.className ?? styles.button ?? ''} ${
@@ -29,21 +28,18 @@ function Button(props: ButtonProps) {
           event.stopPropagation();
           if (props.onClickFunc) {
             setIsLoading(prev => !prev);
-            const flag = await props.onClickFunc?.(event);
-            if (flag !== undefined) {
-              setIsSuccess(flag);
-            }
+            await props.onClickFunc?.(event);
+
             if (props.correctMessage && props.correctMessage !== '') {
-              toast.error(props.correctMessage, toastOptions);
+              toast.success(props.correctMessage, toastOptions);
             }
           }
         } catch (error) {
           if (props.errorMessage && props.errorMessage !== '') {
-            toast.error(props.errorMessage, toastOptions);
+            toast.error('Something unexpected occurred !', toastOptions);
           }
         } finally {
           setIsLoading(false);
-          setIsSuccess(false);
         }
       }}
       onFocus={props.onFocusFunc}
@@ -55,20 +51,16 @@ function Button(props: ButtonProps) {
           event.stopPropagation();
           if (props.onSubmitFunc) {
             setIsLoading(prev => !prev);
-            const flag = await props.onSubmitFunc?.(event);
-            if (flag !== undefined) {
-              setIsSuccess(flag);
-            }
+            await props.onSubmitFunc?.(event);
           }
         } catch (error) {
         } finally {
           setIsLoading(false);
-          setIsSuccess(false);
         }
       }}
     >
       {props.children}
-      {isLoading && !isSuccess && (
+      {isLoading && (
         <>
           <span
             aria-hidden='true'
@@ -78,17 +70,7 @@ function Button(props: ButtonProps) {
           Loading...
         </>
       )}
-      {!isLoading && !isSuccess && props.label}
-      {isSuccess && (
-        <>
-          <span
-            aria-hidden='true'
-            className='spinner-border spinner-border-sm'
-            role='status'
-          />{' '}
-          Success!
-        </>
-      )}
+      {!isLoading && props.label}
     </button>
   );
 }

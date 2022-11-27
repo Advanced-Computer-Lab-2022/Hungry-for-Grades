@@ -32,7 +32,6 @@ function getISO(countryy: string): string {
   }));
 
   for (let i = 0; i < arr.length; ++i) {
-    console.log(arr.at(i)?.label);
     if (arr.at(i)?.label == countryy) return arr.at(i)?.value as string;
   }
   return 'US';

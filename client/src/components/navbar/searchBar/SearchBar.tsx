@@ -15,7 +15,6 @@ export default function SearchBar() {
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const value = searchRef?.current?.value || '';
-    console.log(value);
     navigateSearch('/courses', { searchTerm: value });
   };
 

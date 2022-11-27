@@ -211,7 +211,7 @@ function AccountForm({
         </Modal>
         <div className='d-flex flex-row justify-content-end'>
           <Button
-            backgroundColor={'secondary-bg'}
+            backgroundColor={'primary-bg-outline'}
             isDisabled={false}
             label={'back'}
             name={'back'}

@@ -53,7 +53,6 @@ function CourseCardPreview({
 function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
   const props = x.pprops;
   const [onMouse, setOnMouse] = useState(false);
-  console.log(props.id);
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>

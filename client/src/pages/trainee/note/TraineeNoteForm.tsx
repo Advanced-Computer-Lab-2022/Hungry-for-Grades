@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CreatableReactSelect from 'react-select/creatable';
 
 import { type INoteData, type ITag } from '@interfaces/note.interface';
@@ -10,25 +10,35 @@ import {
   UseTraineeNoteStoreCreateTag
 } from '@store/noteStore';
 
-function NoteForm() {
+function TraineeNoteForm({
+  title = '',
+  courseName = '',
+  lessonId = '',
+  tags = [],
+  markdown = ''
+}: Partial<INoteData>) {
+  const [searchParams] = useSearchParams();
   const createNote = UseTraineeNoteStoreCreateNote();
   const createTag = UseTraineeNoteStoreCreateTag();
   const availableTags = Array.from(UseTraineeNoteStoreTags());
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<ITag[]>(tags);
   const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const title = titleRef?.current?.value || '';
-    const markdown = markdownRef?.current?.value || '';
+    title = titleRef?.current?.value || '';
+    markdown = markdownRef?.current?.value || '';
 
-    if (title && markdown && selectedTags && selectedTags.length > 0) {
+    if (title && markdown && selectedTags) {
+      alert(markdown);
       const note: INoteData = {
         title,
         markdown,
-        tags: selectedTags
+        tags: selectedTags,
+        courseName: searchParams.get('courseName') || courseName,
+        lessonId: searchParams.get('lessonId') || lessonId
       };
 
       createNote(note);
@@ -45,7 +55,7 @@ function NoteForm() {
             <Col>
               <Form.Group controlId='title'>
                 <Form.Label>Title</Form.Label>
-                <Form.Control ref={titleRef} required defaultValue={''} />
+                <Form.Control ref={titleRef} required defaultValue={title} />
               </Form.Group>
             </Col>
             <Col>
@@ -67,10 +77,7 @@ function NoteForm() {
                     );
                   }}
                   onCreateOption={function onCreate(label) {
-                    alert(`Created tag ${label}`);
                     const newTag = createTag(label);
-                    alert('s');
-                    alert(`Created tag ${newTag.label}`);
                     setSelectedTags(prev => [...prev, newTag]);
                   }}
                 />
@@ -83,7 +90,7 @@ function NoteForm() {
               ref={markdownRef}
               required
               as='textarea'
-              defaultValue=''
+              defaultValue={markdown}
               rows={15}
             />
           </Form.Group>
@@ -103,4 +110,4 @@ function NoteForm() {
   );
 }
 
-export default NoteForm;
+export default TraineeNoteForm;

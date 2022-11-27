@@ -5,7 +5,6 @@ function AddTask({}) {
   const [task, setTask] = useState('');
 
   const handleAddTodo = () => {
-    //👇🏻 Logs the task to the console
     console.log({ task });
     setTask('');
   };

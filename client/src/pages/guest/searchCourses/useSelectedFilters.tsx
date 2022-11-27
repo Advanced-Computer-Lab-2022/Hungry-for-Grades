@@ -26,6 +26,7 @@ export default function useSeletedFilters() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(searchParams.values().next());
     if (selectedFilters) {
       const params = new URLSearchParams();
       params.append('category', selectedFilters.category);

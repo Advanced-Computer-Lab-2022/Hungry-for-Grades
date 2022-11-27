@@ -28,6 +28,7 @@ function Input(props: InputProps) {
           max={props.max}
           min={props.min}
           name={props.name}
+          pattern={props.pattern}
           placeholder={props.placeholder}
           size={props.size}
           type={props.type}

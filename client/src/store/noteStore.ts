@@ -17,10 +17,15 @@ type INoteStore = {
     lessonId?: string,
     courseName?: string
   ) => INote;
+  getNotesByCourseNameAndLessonId: (
+    courseName?: string,
+    lessonId?: string
+  ) => INote[];
   updateNote: (note: Partial<INote>) => void;
   deleteNote: (id: string) => void;
   getCourseNames: () => string[];
-  searchNoteById: (id: string) => INote[];
+
+  searchNoteById: (id: string | undefined) => INote | null;
   searchNoteByTitle: (name: string) => INote[];
   searchNoteByCourseName: (name: string) => INote[];
   createTag: (tagLabel: string) => ITag;
@@ -39,17 +44,18 @@ export const useTraineeNoteStore = create<
         notes: [],
         tags: [],
         createNote: (note: INoteData) => {
-          const { notes } = get();
+          const { notes, updateNote } = get();
           const newNote = {
             ...note,
             id: uuidv4()
           };
-          console.log('tags', note.tags);
+          if (!notes.find(n => n.id === newNote.id)) {
+            const newNotes = [...notes, newNote];
+            set({ notes: newNotes });
+          } else {
+            updateNote(newNote);
+          }
 
-          const newNotes = [...notes, newNote];
-          set({ notes: newNotes });
-          console.log('Note created successfully');
-          console.log(newNotes);
           return newNote;
         },
         createTag: (tagLabel: string) => {
@@ -94,15 +100,34 @@ export const useTraineeNoteStore = create<
           set({ notes: newNotes });
         },
         updateTag: (tag: Partial<ITag>) => {
-          const { tags } = get();
+          const { tags, notes } = get();
           const newTags = [...tags].map(t =>
             t.id === tag.id ? { ...t, ...tag } : t
           );
-          set({ tags: newTags });
+          const newNotes = [...notes].map(note => {
+            if (note.tags) {
+              const updatedTags = note.tags.map(t =>
+                t.id === tag.id ? { ...t, ...tag } : t
+              );
+              return {
+                ...note,
+                tags: updatedTags
+              };
+            }
+            return {
+              ...note
+            };
+          });
+
+          set({ tags: newTags, notes: newNotes });
         },
-        searchNoteById: (id: string) => {
+        searchNoteById: id => {
+          if (!id) return null;
           const { notes } = get();
-          return notes.filter(note => note.id === id);
+          const newNotes = notes?.filter(note => note.id === id);
+          return newNotes && newNotes.length > 0
+            ? (newNotes[0] as INote)
+            : null;
         },
         searchNoteByTitle: (title: string) => {
           const { notes } = get();
@@ -117,6 +142,18 @@ export const useTraineeNoteStore = create<
           return notes
             .map(note => note.courseName)
             .filter(course => course !== undefined) as string[];
+        },
+        getNotesByCourseNameAndLessonId: (
+          courseName?: string,
+          lessonId?: string
+        ) => {
+          const { notes } = get();
+          return notes.filter(
+            note =>
+              (!courseName ||
+                (note.courseName && note.courseName === courseName)) &&
+              (!lessonId || (note.lessonId && note.lessonId === lessonId))
+          );
         }
       }),
       {
@@ -129,6 +166,9 @@ export const useTraineeNoteStore = create<
 
 export const UseTraineeNoteStoreNotes = () =>
   useTraineeNoteStore(state => state.notes); //To get the Notes
+
+export const UseTraineeNoteStoreNotesByCourseandLessonId = () =>
+  useTraineeNoteStore(state => state.getNotesByCourseNameAndLessonId); //To get the Notes By Course and Lesson
 export const UseTraineeNoteStoreTags = () =>
   useTraineeNoteStore(state => state.tags); //To get the Tags
 export const UseTraineeNoteStoreCreateNote = () =>

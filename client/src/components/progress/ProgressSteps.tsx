@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 import { TiTick } from 'react-icons/ti';
 import './progress-steps.scss';
 
@@ -11,9 +9,9 @@ function ProgressSteps(props: ProgressStepsProps) {
       {steps.map((step, index) => {
         return (
           <div
-            key={uuid()}
+            key={`index-${index * 11232 + 2}`}
             className={`step ${index === currentStepIndex ? 'active' : ''}
-			${index < currentStepIndex ? 'done' : ''}`}
+			${index < currentStepIndex ? 'done' : 'undone'}`}
             data-desc={step}
           >
             {index < currentStepIndex ? <TiTick className='icon' /> : index + 1}
