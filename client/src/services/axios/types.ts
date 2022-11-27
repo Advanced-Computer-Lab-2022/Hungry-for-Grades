@@ -34,7 +34,7 @@ export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
   typeof InstructorRoutes['GET']
 >];
 
-export type TraineeRouteType<T extends 'GET' | 'POST'> =
+export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];
 
 /**
@@ -55,8 +55,14 @@ export type POSTRoutesType =
   | TraineeRouteType<'POST'>;
 
 /**
+ * All Delete Requests
+ */
+
+export type DELETERoutesType = TraineeRouteType<'DELETE'>;
+
+/**
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = null;
 export type PATCHRoutesType = null;
-export type DELETERoutesType = null;
+//export type DELETERoutesType = null;

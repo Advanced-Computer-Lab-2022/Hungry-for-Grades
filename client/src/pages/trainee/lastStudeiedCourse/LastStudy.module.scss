@@ -1,0 +1,37 @@
+
+.holder
+{
+    display : flex;
+    margin-left: 15%;
+    margin-top:3rem;
+   
+}
+
+.image_holder
+{
+    width:17rem;
+    object-fit: cover;
+    height: 10rem;
+    margin-right: 2rem;
+
+}
+
+.txt
+{
+    font-family: udemy sans,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.cnt
+{
+    color:#A00407;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.cnt:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}

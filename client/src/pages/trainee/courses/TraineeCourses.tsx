@@ -13,6 +13,7 @@ import CourseCard from '@/components/courseCard/CourseCard';
 import Pagination from '@/components/pagination/Pagination';
 
 import LoaderCards from '@components/loader/loaderCard/LoaderCards';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 export default function MyCourses() {
   const { data, isLoading, activePage, setActivePage } = useCoursesQuery();
@@ -49,7 +50,10 @@ export default function MyCourses() {
 
   return (
     <>
-      <div className='container row' style={{ marginLeft: '15%' }}>
+      <div
+        className='container row'
+        style={{ marginLeft: '15%', marginTop: '2rem' }}
+      >
         {toShow}
       </div>
       {data?.data?.totalPages > 1 && (

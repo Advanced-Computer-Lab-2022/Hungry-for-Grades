@@ -3,6 +3,7 @@ import { type AxiosResponse } from 'axios';
 
 import { http, httpProtected } from './http-common';
 import {
+  DELETERoutesType,
   //type DELETERoutesType,
   type GETRoutesType,
   // type PATCHRoutesType,
@@ -75,13 +76,13 @@ export async function postRequest(
  * @param request - request object
  * @returns a promise with the response from the server
  */
-/* export async function deleteRequest(request: DELETERoutesType) {
-	return http.delete<typeof request.response>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${
-			request.query ? '?' + request.query : ''
-		}`
-	);
-} */
+export async function deleteRequest(request: DELETERoutesType) {
+  return http.delete<typeof request.response>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`
+  );
+}
 
 /**
  * PUT request

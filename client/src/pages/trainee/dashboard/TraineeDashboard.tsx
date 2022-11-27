@@ -8,6 +8,9 @@ import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 
 import styles from './trainee-dashboard.module.scss';
+
+import LastStudy from '@pages/trainee/lastStudeiedCourse/LastStudy';
+
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
     styles.listitem ?? ''
@@ -24,26 +27,29 @@ const navLinks = {
 };
 function TraineeDashboard() {
   return (
-    <div>
-      <div className={styles.hero}>
-        <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
-          <div className={styles.mylearning}>My learning</div>
-          <div className={styles.list}>
-            {Object.keys(navLinks).map((key: string) => (
-              <div key={key} style={{ marginRight: '3.2rem' }}>
-                <NavLink
-                  className={navIsActive}
-                  style={{ color: 'inherit' }}
-                  to={navLinks[key].path as string}
-                >
-                  <span className=''>{navLinks[key].icon}</span> &nbsp;{key}
-                </NavLink>
-              </div>
-            ))}
+    <>
+      <div>
+        <div className={styles.hero}>
+          <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
+            <div className={styles.mylearning}>My learning</div>
+            <div className={styles.list}>
+              {Object.keys(navLinks).map((key: string) => (
+                <div key={key} style={{ marginRight: '3.2rem' }}>
+                  <NavLink
+                    className={navIsActive}
+                    style={{ color: 'inherit' }}
+                    to={navLinks[key].path as string}
+                  >
+                    <span className=''>{navLinks[key].icon}</span> &nbsp;{key}
+                  </NavLink>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <LastStudy />
+    </>
   );
 }
 export default TraineeDashboard;
