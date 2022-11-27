@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { mapCourseToCardProps } from '../types';
 
 import styles from './based.module.scss';
@@ -17,6 +19,8 @@ import { UseCountry } from '@/store/countryStore';
 export default function Based() {
   const x = UseCacheStoreData();
 
+  const location = useLocation();
+
   const [activePage, setActivePage] = useState(1);
 
   const con = UseCountry();
@@ -25,7 +29,8 @@ export default function Based() {
     x.category,
     x.subCategory,
     activePage,
-    con
+    con,
+    location
   );
 
   console.log(x.category);
@@ -45,12 +50,20 @@ export default function Based() {
 
   console.log(list.length);
 
+  if (list.length == 0) {
+    return <></>;
+  }
+
   const toShow = list?.map(course => {
     const tt: ICourse = course;
     const courseCardP = mapCourseToCardProps(tt);
     console.log(courseCardP);
     return (
-      <div key={tt._id} className={'col-12 col-md-6 col-lg-4'}>
+      <div
+        key={tt._id}
+        className={'col-12 col-md-6 col-lg-4'}
+        style={{ maxWidth: '27rem' }}
+      >
         <CourseCard key={tt._id} percent={-1} pprops={courseCardP} />
       </div>
     );
