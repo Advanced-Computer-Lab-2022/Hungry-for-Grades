@@ -140,40 +140,41 @@ export default function CartList() {
           </div>
         )}
       </div>
-
-      <div
-        style={{
-          display: 'inline-block',
-          marginTop: '6rem',
-          marginLeft: '2rem'
-        }}
-      >
+      <div className='container d-flex flex-row justify-content-end'>
         <div
-          style={{ fontSize: '1.4rem', fontWeight: '500', color: '#a00407' }}
-        >
-          Total:
-        </div>
-        <div
-          style={{ fontSize: '1.5rem', fontWeight: '700', marginTop: '1rem' }}
-        >
-          {data?.data?.totalCost} &nbsp;
-          {currency}
-        </div>
-        <button
           style={{
-            width: '20rem',
-            height: '3rem',
-            border: 'none',
-            backgroundColor: '#a00407',
-            color: 'white',
-            fontWeight: '700',
-            fontSize: '0.9rem',
-            marginTop: '1rem'
+            marginTop: '6rem',
+            marginLeft: '2rem',
+            textAlign: 'left'
           }}
-          type='button'
         >
-          Checkout
-        </button>
+          <div
+            style={{ fontSize: '1.4rem', fontWeight: '500', color: '#a00407' }}
+          >
+            Total:
+          </div>
+          <div
+            style={{ fontSize: '1.5rem', fontWeight: '700', marginTop: '1rem' }}
+          >
+            {data?.data?.totalCost} &nbsp;
+            {currency}
+          </div>
+          <button
+            style={{
+              width: '20rem',
+              height: '3rem',
+              border: 'none',
+              backgroundColor: '#a00407',
+              color: 'white',
+              fontWeight: '700',
+              fontSize: '0.9rem',
+              marginTop: '1rem'
+            }}
+            type='button'
+          >
+            Checkout
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -18,9 +18,13 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 export default function MyCourses() {
   const { data, isLoading, activePage, setActivePage } = useCoursesQuery();
 
-  if (isLoading) return <LoaderCards numberOfCards={3} />;
+  if (isLoading)
+    return (
+      <div className='container'>
+        <LoaderCards numberOfCards={3} />
+      </div>
+    );
 
-  console.log(data?.data?.totalPages);
 
   const incoming: typeof TraineeRoutes.GET.getMyCourses.response.data =
     data?.data?.data;
@@ -34,7 +38,6 @@ export default function MyCourses() {
   const toShow = incoming?.map(course => {
     const tt: ICourse = course._course;
     const courseCardP = mapCourseToCardProps(tt);
-    console.log(course);
     return (
       <div key={course._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard
@@ -46,15 +49,11 @@ export default function MyCourses() {
     );
   });
 
-  //console.log(courseCardP);
 
   return (
     <>
-      <div
-        className='container row'
-        style={{ marginLeft: '15%', marginTop: '2rem' }}
-      >
-        {toShow}
+      <div className='container'>
+        <div className='row'>{toShow}</div>
       </div>
       {data?.data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>

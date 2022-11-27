@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import { mapCourseToCardProps } from '../types';
 
-
 import useQueryBased from './UseQueryBased';
 
 import { UseCacheStoreData } from '@/store/cacheStore';
