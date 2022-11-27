@@ -14,11 +14,14 @@ import '@/pages/course/accordion.scss';
 
 function Content(props: ICourse) {
   return (
-    <div className='m-3 p-5'>
+    <div className='my-3 py-5'>
       <div className={`text-dark border row`}>
         <h3 className='m-3'>Course content</h3>
       </div>
-      <div className={`text-dark row`}>
+      <div
+        className={`text-dark row`}
+        style={{ overflowY: 'scroll', overflowX: 'hidden' }}
+      >
         <Accordion allowZeroExpanded>
           {props.sections.map((sec, sectionIndex) => (
             <AccordionItem key={sec.title}>

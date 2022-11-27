@@ -118,6 +118,11 @@ function AllRoutes() {
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
+          <Route element={<LazyViewCourse />} path='view-course/:courseid' />
+          <Route
+            element={<LazyViewCourse />}
+            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+          />
           <Route element={<LazyTraineeDashboard />}>
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
@@ -137,11 +142,6 @@ function AllRoutes() {
             <Route element={<LazyTraineeCertificate />} path='certificate' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
-            <Route element={<LazyViewCourse />} path='view-course/:courseid' />
-            <Route
-              element={<LazyViewCourse />}
-              path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
-            />
           </Route>
         </Route>
 
