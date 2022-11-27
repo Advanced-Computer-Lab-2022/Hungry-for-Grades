@@ -8,7 +8,7 @@ const Email: Schema = new Schema(
       required: [true, " Email can't be left blank"],
       type: String,
     },
-    isValidated: {
+    isVerified: {
       default: false,
       type: Boolean,
     },

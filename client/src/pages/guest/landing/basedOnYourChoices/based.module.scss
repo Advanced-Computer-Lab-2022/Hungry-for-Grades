@@ -1,0 +1,14 @@
+
+.word
+{
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.container
+{
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+}

@@ -1,4 +1,5 @@
 export type CheckBoxInputProps = {
+  id: string;
   // data
   className: string;
   name: string;
@@ -9,5 +10,5 @@ export type CheckBoxInputProps = {
   required: boolean;
   value: boolean;
   // functions
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };

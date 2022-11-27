@@ -5,6 +5,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
+import path from 'path';
 import { version } from '../package.json';
 import swaggerFile from '../swagger.json';
 
@@ -83,10 +84,12 @@ class App {
 
     this.app.use(hpp());
     this.app.use(helmet());
+    this.app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+    this.app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
   }
 
   private initializeRoutes(routes: Routes[]) {

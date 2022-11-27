@@ -25,6 +25,8 @@ function Input(props: InputProps) {
               : ''
           } `}
           id={id + `-${props.name}`}
+          max={props.max}
+          min={props.min}
           name={props.name}
           placeholder={props.placeholder}
           size={props.size}

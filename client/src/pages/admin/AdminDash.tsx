@@ -6,7 +6,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import styles from './AdminDash.module.css';
 
-export default function AdminDash() {
+function AdminDashboard() {
   const location = useLocation();
 
   const [currentPath, setCurrentPath] = useState('');
@@ -80,3 +80,5 @@ export default function AdminDash() {
     </>
   );
 }
+
+export default AdminDashboard;

@@ -13,7 +13,10 @@ class LocalStorage {
     if (value && (value.includes('{') || value.includes('['))) {
       return JSON.parse(value) as T;
     }
-    return value;
+    if (value) {
+      return value;
+    }
+    return null;
   }
 
   set<T>(key: string, value: string | T) {

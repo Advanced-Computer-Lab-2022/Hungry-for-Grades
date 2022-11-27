@@ -5,8 +5,8 @@ import styles from './course-header.module.scss';
 import CourseRating from './CourseRating';
 
 import { type ICourse } from '@interfaces/course.interface';
-import Instructors from '@/components/course/Instructor';
-import Price from '@/components/course/Price';
+import Instructors from '@/components/courseCard/Instructor';
+import Price from '@/components/courseCard/Price';
 import { formatDuration } from '@/utils/duration';
 
 function CourseHeader(props: ICourse) {

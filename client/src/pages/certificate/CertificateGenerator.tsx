@@ -1,15 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import jsPDF from 'jspdf';
 
 import CourseRating from '../course/CourseRating';
 
-import { formatDuration } from '@/utils/duration';
-
 import styles from './certificate-generator.module.scss';
 import useSearchQueryCourse from './useSearchQueryCourse';
 import useSearchQueryTrainee from './useSearchQueryTrainee';
+
+import { formatDuration } from '@/utils/duration';
 
 export default function CertificateGenerator() {
   const {
@@ -33,7 +35,7 @@ export default function CertificateGenerator() {
 
   const [imageURL, setImageURL] = useState('');
   const canvasRef = useRef(null);
-  const img = new Image();
+  const img = useMemo(() => new Image(), []);
   img.src = 'src/assets/Certificate.png';
 
   useEffect(() => {
@@ -71,11 +73,11 @@ export default function CertificateGenerator() {
           context.fillText(courseTitle.slice(0, lastSpace), 80, 380);
           context.fillText(courseTitle.slice(lastSpace + 1), 80, 410);
         } else {
-          let number_of_lines = Math.ceil(courseTitle.length / 40);
+          const numberOfLines = Math.ceil(courseTitle.length / 40);
           console.log(spaceIndexes);
           let lastSpaceIndex = 0;
-          for (let i = 0; i < number_of_lines; i++) {
-            let spaceFlag = courseTitle[lastSpaceIndex] === ' ';
+          for (let i = 0; i < numberOfLines; i++) {
+            const spaceFlag = courseTitle[lastSpaceIndex] === ' ' ? 1 : 0;
 
             let spaceIndex = -1;
             for (let index = 0; index < spaceIndexes.length; index++) {
@@ -122,7 +124,7 @@ export default function CertificateGenerator() {
     return (
       <>
         <div>Loading...</div>
-        <canvas style={{ display: 'none' }} ref={canvasRef} />
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
       </>
     );
 
@@ -135,8 +137,8 @@ export default function CertificateGenerator() {
             <img
               alt='Course Certificate'
               className='img-responsive'
-              style={{ maxWidth: '65vw' }}
               src={imageURL}
+              style={{ maxWidth: '65vw' }}
             />
           </div>
         </div>

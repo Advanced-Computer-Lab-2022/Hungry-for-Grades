@@ -9,11 +9,14 @@ export type ButtonProps = {
   name: string;
   label: string;
   children?: React.ReactNode;
+  correctMessage?: string;
+  errorMessage?: string;
   className?: string;
   isDisabled: boolean;
   backgroundColor:
     | 'primary-bg'
     | 'secondary-bg'
+    | 'primary-bg-outline'
     | 'danger-bg'
     | 'warning-bg'
     | 'success-bg'

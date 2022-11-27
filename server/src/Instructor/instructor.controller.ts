@@ -102,5 +102,53 @@ class InstructorController {
       next(error);
     }
   };
+
+  // get instructor by email
+  public getInstructorByEmail = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      const instructorEmail: string = req.query.email as string;
+      const instructorData: IInstructor = await this.instructorService.getInstructorByEmail(instructorEmail);
+
+      res.json({
+        data: instructorData,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get instructor by username
+  public getInstructorByUsername = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      const instructorUsername: string = req.query.username as string;
+      const instructorData: IInstructor = await this.instructorService.getInstructorByUsername(instructorUsername);
+
+      res.json({
+        data: instructorData,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get instructor balance controller
+  public getInstructorBalance = async (req: Request, res: Response<HttpResponse<number>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const instructorBalance: number = await this.instructorService.getInstructorBalance(instructorID);
+
+      res.json({
+        data: instructorBalance,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default InstructorController;

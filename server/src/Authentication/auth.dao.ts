@@ -10,15 +10,23 @@ import { IUser } from '@/User/user.interface';
 import { findUserModelByRole } from '@/User/user.util';
 
 import traineeModel from '@/Trainee/trainee.model';
-import { compare } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcrypt';
 
 import { Role } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
 import { IAdmin } from '@/Admin/admin.interface';
 import { IInstructor } from '@/Instructor/instructor.interface';
-
+import TraineeService from '@/Trainee/trainee.dao';
+import InstructorService from '@/Instructor/instructor.dao';
+import AdminService from '@/Admin/admin.dao';
+import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
+import { Document, Types } from 'mongoose';
 class AuthService {
+  //traineeService=new TraineeService();
+  instructorService = new InstructorService();
+  // adminService=new AdminService();
+
   public async signup(userData: CreateUserDto, role: Role): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
@@ -33,7 +41,7 @@ class AuthService {
     });
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
-    userData.email.isValidated = true;
+    userData.email.isVerified = true;
     const createUserData = await userModel.create({
       ...userData,
     });
@@ -119,6 +127,64 @@ class AuthService {
     return findUser;
   }
 
+  // change any user password
+  public async changePassword(userId: string, role: Role, newPassword: string): Promise<IUser> {
+    if (!Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid ObjectId');
+
+    const userModel = findUserModelByRole(role);
+    if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role does not exist');
+
+    const salt = await genSalt();
+    newPassword = await hash(newPassword, salt);
+
+    const findUser = await userModel
+      .findOneAndUpdate(
+        { _id: userId },
+        {
+          $set: {
+            password: newPassword,
+          },
+        },
+        { new: true },
+      )
+      .lean();
+    if (!findUser) throw new HttpException(HttpStatusCodes.CONFLICT, `User Id doesn't exist`);
+    return findUser;
+  }
+
+  //forget pass
+  public sendResetPasswordEmail = async (userEmail: string): Promise<void> => {
+    userEmail = userEmail.toLowerCase();
+    const trainee = await new TraineeService().getTraineeByEmail(userEmail);
+    const instructor = await new InstructorService().getInstructorByEmail(userEmail);
+    const admin = await new AdminService().getAdminByEmail(userEmail);
+    const user = trainee ?? instructor ?? admin;
+    if (!user) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email does not belong to a user');
+
+    const username = user.name;
+    const userId = user._id.toString();
+
+    let role: Role = Role.TRAINEE;
+    if (instructor) role = Role.INSTRUCTOR;
+    if (admin) role = Role.ADMIN;
+
+    //send email
+    sendResetPasswordEmail(userEmail, username, userId, role);
+  };
+
+  public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
+    email = email.toLowerCase();
+    //generate a 6 digit code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    //send email
+    sendVerificationEmail(email, username, verificationCode);
+
+    // save code
+    return verificationCode;
+  };
+
+  // creates a cookie
   public createCookie(refreshToken: string): ICookie {
     return {
       name: 'Authorization',

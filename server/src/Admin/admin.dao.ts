@@ -4,13 +4,14 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import AuthService from '@/Authentication/auth.dao';
 import { Role } from '@/User/user.enum';
-import InstructorService from '@/Instructor/instructor.dao';
+import InstructorService from '@Instructor/instructor.dao';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
 import { IInstructor } from '@/Instructor/instructor.interface';
 import { CreateTraineeDTO } from '@/Trainee/trainee.dto';
-import TraineeService from '@/Trainee/trainee.dao';
+import TraineeService from '@Trainee/trainee.dao';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import { IAdmin } from './admin.interface';
+import adminModel from './admin.model';
 
 class AdminService {
   public authService = new AuthService();
@@ -42,6 +43,22 @@ class AdminService {
     const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
 
     return createdTrainee;
+  };
+
+  //get admin by email
+  public getAdminByEmail = async (adminEmail: string): Promise<IAdmin> => {
+    if (isEmpty(adminEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
+    const admin: IAdmin = await adminModel.findOne({ 'email.address': adminEmail }).select('-password');
+
+    return admin;
+  };
+
+  // get admin by username
+  public getAdminByUsername = async (adminUsername: string): Promise<IAdmin> => {
+    if (isEmpty(adminUsername)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Username is empty');
+
+    const admin: IAdmin = await adminModel.findOne({ username: adminUsername }).select('-password');
+    return admin;
   };
 }
 

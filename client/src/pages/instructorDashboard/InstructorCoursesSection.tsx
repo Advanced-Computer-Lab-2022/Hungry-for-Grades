@@ -4,8 +4,9 @@ import useSearchQuery from './useSearchQuery';
 
 import { useSeletedFilters } from './useSelectedFilters';
 
-import Pagination from '@/components/pagination/Pagination';
 import SearchSection from './searchSection/SearchSection';
+
+import Pagination from '@/components/pagination/Pagination';
 
 function InstructorCoursesSection() {
   const [selectedFilters, setSelectedFilters] = useSeletedFilters();

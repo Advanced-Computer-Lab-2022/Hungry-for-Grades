@@ -2,7 +2,7 @@ import { Rating, Review } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question, Discount } from '@Course/course.interface';
+import { Announcement, FrequentlyAskedQuestion, ICourse, Price, Question, Discount, Section, Lesson, Exercise } from '@Course/course.interface';
 import courseModel from '@Course/course.model';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Document, Types } from 'mongoose';
@@ -20,6 +20,8 @@ import { CategoryDTO, CourseDTO, FrequentlyAskedQuestionDTO } from './course.dto
 import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
+import { ITrainee } from '@/Trainee/trainee.interface';
+import TraineeService from '@/Trainee/trainee.dao';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -129,28 +131,92 @@ class CourseService {
     const filterQuery = generateCoursesFilterQuery(filters);
     filterQuery['title'] = { $options: 'i', $regex: searchTerm };
 
-    const sortQuery: any = generateCoursesSortQuery(sortBy);
+    // const populateQuery:any={
+    //   match: filterQuery,
+    //   model: courseModel,
+    //   path: '_teachedCourses._course',
+    //   select: '-rating.reviews -announcements -exam -sections',
+    // };
 
-    const instructor: IInstructor = await instructorModel.findById(instructorId).populate({
-      match: filterQuery,
-      model: courseModel,
-      path: '_teachedCourses._course',
-      select: '-rating.reviews -announcements -exam -sections',
-      //  sort: sortQuery,
-    });
+    //const instructor: IInstructor = await instructorModel.findById(instructorId).populate(populateQuery).exec();
 
     //Remove nulls returned from mismatches when joining
-    const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
+    //const courses: ITeachedCourse[] = instructor._teachedCourses.filter(course => course._course != null);
 
-    const totalCourses = courses.length;
+    // for (const _teachedCourses of paginatedCourses) {
+    //   const newPrice: Price = await getCurrentPrice(_teachedCourses._course.price, conversionRate, country);
+    //   _teachedCourses._course.price = newPrice;
+    //   _teachedCourses.earning = _teachedCourses.earning * conversionRate;
+    // }
+
+    const pipelineQuery: any = [
+      { $match: { $and: [filterQuery] } },
+      {
+        $project: {
+          category: 1,
+          description: 1,
+          duration: 1,
+          langauge: 1,
+          level: 1,
+          numberOfEnrolledTrainees: 1,
+          previewVideoURL: 1,
+          price: 1,
+          'rating.averageRating': 1,
+          subcategory: 1,
+          thumbnail: 1,
+          title: 1,
+        },
+      },
+    ];
+
+    let queryResult: any = [];
+    const aggregateQuery: any = [
+      { $match: { _id: new mongoose.Types.ObjectId(instructorId) } },
+      { $project: { _teachedCourses: 1 } },
+      { $unwind: '$_teachedCourses' },
+      {
+        $lookup: {
+          as: '_teachedCourses._course',
+          foreignField: '_id',
+          from: 'courses',
+          localField: '_teachedCourses._course',
+          pipeline: pipelineQuery,
+        },
+      },
+      { $unwind: '$_teachedCourses._course' },
+      { $sort: { '_teachedCourses._course.numberOfEnrolledTrainees': -1 } },
+    ];
+
+    const sortQuery: any = generateCoursesSortQuery(sortBy);
+    if (Object.keys(sortQuery).length != 0) {
+      const sortQuery: any = {};
+      if (sortBy == 0) sortQuery['_teachedCourses._course.numberOfEnrolledTrainees'] = -1;
+      else if (sortBy == 1) sortQuery['_teachedCourses._course.rating.averageRating'] = -1;
+      aggregateQuery.push({ $sort: sortQuery });
+    }
+
+    // group by
+    aggregateQuery.push({ $group: { _id: '$_id', _teachedCourses: { $push: '$_teachedCourses' } } });
+
+    try {
+      queryResult = await instructorModel.aggregate(aggregateQuery);
+    } catch (error) {
+      throw new HttpException(500, 'Internal error occured while fetching from database');
+    }
+
+    const teachedCourses: ITeachedCourse[] = queryResult[0]?._teachedCourses ?? [];
+
+    const totalCourses = teachedCourses.length;
     const totalPages = Math.ceil(totalCourses / pageLimit);
-    const paginatedCourses = courses.slice(toBeSkipped, toBeSkipped + pageLimit);
+    const paginatedCourses = teachedCourses.slice(toBeSkipped, toBeSkipped + pageLimit);
 
     //Get price after discount then change it to the needed currency
-    for (const _teachedCourses of paginatedCourses) {
-      const newPrice: Price = await getCurrentPrice(_teachedCourses._course.price, conversionRate, country);
-      _teachedCourses._course.price = newPrice;
-      _teachedCourses.earning = _teachedCourses.earning * conversionRate;
+    for (const teachedCourse of paginatedCourses) {
+      const course = teachedCourse._course;
+
+      const newPrice: Price = await getCurrentPrice(course.price, conversionRate, country);
+      course.price = newPrice;
+      teachedCourse.earning = teachedCourse.earning * conversionRate;
     }
 
     return {
@@ -163,7 +229,7 @@ class CourseService {
   }
 
   //get course by id aggregate
-  public async getCourseById(courseId: string, country: string): Promise<ICourse> {
+  public async getCourseById(courseId: string, country = 'US'): Promise<ICourse> {
     if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
@@ -539,6 +605,326 @@ class CourseService {
 
     await course.save();
     return course.price.discounts;
+  }
+
+  // get all course sections
+  public async getAllCourseSections(courseID: string): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    return course.sections;
+  }
+
+  // get section by Id controller
+  public async getSectionById(courseID: string, sectionID: string): Promise<Section> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const section = course.sections.find(section => section._id.toString() == sectionID);
+    if (!section) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    return section;
+  }
+
+  // add section to course
+  public async addSection(courseID: string, sectionData: Section): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    course.sections.push(sectionData);
+    await course.save();
+
+    return course.sections;
+  }
+
+  // delete section from course
+  public async deleteSection(courseID: string, sectionID: string): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section id is empty');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // remove section from course
+    course.sections = course.sections.filter(section => section._id.toString() != sectionID);
+
+    await course.save();
+    return course.sections;
+  }
+
+  // update course section
+  public async updateSection(courseID: string, sectionID: string, sectionData: Section): Promise<Section[]> {
+    if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    if (isEmpty(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section id is empty');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    if (isEmpty(sectionData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section data is empty');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if section exists
+    const section = course.sections.find(section => section._id.toString() == sectionID);
+    if (!section) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    //update section
+    section.title = sectionData.title;
+    section.description = sectionData.description;
+
+    await course.save();
+    return course.sections;
+  }
+
+  // get all section lessons
+  public async getAllSectionLessons(courseID: string, sectionID: string): Promise<Lesson[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if section exists
+    const section = course.sections.find(section => section._id.toString() == sectionID);
+    if (!section) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    return section.lessons;
+  }
+
+  // add lesson to section
+  public async addLesson(courseID: string, sectionID: string, lessonData: Lesson): Promise<Lesson[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    //check if section exists
+    const section = course.sections.find(section => section._id.toString() == sectionID);
+    if (!section) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    section.lessons.push(lessonData);
+    await course.save();
+
+    return section.lessons;
+  }
+  // delete lesson from section
+  public async deleteLesson(courseID: string, lessonID: string): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+
+    //remove lesson from section
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course or lesson doesn't exist");
+
+    const { sections } = course;
+    let lessonSection;
+    //check if lesson exists across all course sections
+    for (const section of sections) {
+      const courseSection = section.lessons.find(lesson => lesson._id.toString() == lessonID);
+      if (courseSection) {
+        lessonSection = section;
+        break;
+      }
+    }
+
+    if (!lessonSection) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
+
+    lessonSection.lessons = lessonSection.lessons.filter(lesson => lesson._id.toString() != lessonID);
+
+    await course.save();
+  }
+  // update lesson in section
+  public async updateLesson(courseID: string, lessonID: string, lessonData: Lesson): Promise<Lesson> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let lesson: Lesson;
+
+    //check if lesson exists across all course sections
+    for (const section of sections) lesson ||= section.lessons.find(lesson => lesson._id.toString() == lessonID);
+
+    if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
+
+    // update lesson
+    lesson.description = lessonData.description ?? lesson.description;
+    lesson.duration = lessonData.duration ?? lesson.duration;
+    lesson.title = lessonData.title ?? lesson.title;
+    lesson.videoURL = lessonData.videoURL ?? lesson.videoURL;
+
+    await course.save();
+    return lesson;
+  }
+  // get lesson by id
+  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<Lesson> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let lesson: Lesson;
+    //check if lesson exists across all course sections
+    for (const section of sections) lesson ||= section.lessons.find(lesson => lesson._id.toString() == lessonID);
+    if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
+
+    const traineeService = new TraineeService();
+    await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID);
+    await traineeService.markLastVisitedCourse(userID, courseID);
+
+    return lesson;
+  }
+
+  // get exercise by id
+  public async getExerciseById(courseID: string, exerciseID: string): Promise<Exercise> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(exerciseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let exercise: Exercise;
+    //check if exercise exists across all course sections
+    for (const section of sections) exercise ||= section.exercises.find(exercise => exercise._id.toString() == exerciseID);
+    if (!exercise) throw new HttpException(HttpStatusCodes.CONFLICT, "Exercise doesn't exist");
+
+    return exercise;
+  }
+
+  // add question to exercise
+  public async addQuestion(courseID: string, exerciseID: string, questionData: Question): Promise<Question[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(exerciseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let exercise: Exercise;
+    //check if exercise exists across all course sections
+    for (const section of sections) exercise ||= section.exercises.find(exercise => exercise._id.toString() == exerciseID);
+    if (!exercise) throw new HttpException(HttpStatusCodes.CONFLICT, "Exercise doesn't exist");
+
+    // add question
+    exercise.questions.push(questionData);
+
+    await course.save();
+    return exercise.questions;
+  }
+
+  // delete question from exercise
+  public async deleteQuestion(courseID: string, exerciseID: string, questionID: string): Promise<Question[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(exerciseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(questionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Question Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+
+    let exercise: Exercise;
+    //check if exercise exists across all course sections
+    for (const section of sections) exercise ||= section.exercises.find(exercise => exercise._id.toString() == exerciseID);
+    if (!exercise) throw new HttpException(HttpStatusCodes.CONFLICT, "Exercise doesn't exist");
+
+    // delete question
+    exercise.questions = exercise.questions.filter(question => question._id.toString() != questionID);
+
+    await course.save();
+    return exercise.questions;
+  }
+
+  // add exercise to section
+  public async addExercise(courseID: string, sectionID: string, exerciseData: Exercise): Promise<Exercise[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let courseSection: Section;
+    //check if section exists across all course sections
+    for (const section of sections) courseSection ||= sections.find(section => section._id.toString() == sectionID);
+    if (!courseSection) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    // add exercise
+    courseSection.exercises.push(exerciseData);
+
+    await course.save();
+    return courseSection.exercises;
+  }
+
+  // delete exercise from section
+  public async deleteExercise(courseID: string, sectionID: string, exerciseID: string): Promise<Exercise[]> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(sectionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Section Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(exerciseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let courseSection: Section;
+    //check if section exists across all course sections
+    for (const section of sections) courseSection ||= sections.find(section => section._id.toString() == sectionID);
+    if (!courseSection) throw new HttpException(HttpStatusCodes.CONFLICT, "Section doesn't exist");
+
+    // delete exercise
+    courseSection.exercises = courseSection.exercises.filter(exercise => exercise._id.toString() != exerciseID);
+
+    await course.save();
+    return courseSection.exercises;
+  }
+
+  // update question
+  public async updateQuestion(courseID: string, exerciseID: string, questionID: string, questionData: Question): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(exerciseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exercise Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(questionID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Question Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const { sections } = course;
+    let exercise: Exercise;
+    //check if exercise exists across all course sections
+    for (const section of sections) exercise ||= section.exercises.find(exercise => exercise._id.toString() == exerciseID);
+    if (!exercise) throw new HttpException(HttpStatusCodes.CONFLICT, "Exercise doesn't exist");
+
+    // find question
+    const questionToUpdate = exercise.questions.find(question => question._id.toString() == questionID);
+    if (!questionToUpdate) throw new HttpException(HttpStatusCodes.CONFLICT, "Question doesn't exist");
+
+    // update question
+    questionToUpdate.question = questionData.question;
+    questionToUpdate.answer = questionData.answer;
+    questionToUpdate.options = questionData.options;
+
+    await course.save();
   }
 }
 export default CourseService;

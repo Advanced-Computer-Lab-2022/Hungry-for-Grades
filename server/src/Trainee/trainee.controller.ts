@@ -4,7 +4,9 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
-import { Cart, EnrolledCourse, ITrainee, Wishlist } from './trainee.interface';
+import { Types } from 'mongoose';
+import { CartDTO, WishlistDTO } from './trainee.dto';
+import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -47,7 +49,7 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.updateTrainee(traineeId, req.body);
-      res.status(HttpStatusCodes.CREATED).json({ data: trainee, message: 'Updated Successfully', success: true });
+      res.json({ data: trainee, message: 'Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -81,7 +83,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const course: ICourse = await this.traineeService.enrollTrainee(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Enrolled Successfully', success: true });
+      res.json({ data: course, message: 'Enrolled Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -93,7 +95,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const course: ICourse = await this.traineeService.unrollTrainee(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Unrolled Successfully', success: true });
+      res.json({ data: course, message: 'Unrolled Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -110,7 +112,7 @@ class TraineeController {
       if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
 
       const paginatedEnrolledCourses: PaginatedData<EnrolledCourse> = await this.traineeService.getTraineeEnrolledCourses(traineeId, page, pageLimit);
-      res.status(HttpStatusCodes.CREATED).json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
+      res.json({ ...paginatedEnrolledCourses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -122,7 +124,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToCart(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -133,7 +135,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToWishlist(traineeId, courseId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -147,7 +149,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const course: ICourse[] = await this.traineeService.removeFromCart(traineeId, courseId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: course, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: course, message: 'Removed from cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -160,32 +162,42 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.removeFromWishlist(traineeId, courseId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: courses, message: 'Removed from cart Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
 
   // get cart controller
-  public getCart = async (req: Request, res: Response<HttpResponse<ICourse[]>>, next: NextFunction): Promise<void> => {
+  public getCart = async (req: Request, res: Response<PaginatedResponse<ICourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const country = (req.query.country as string) ?? 'US';
 
-      const courses: ICourse[] = await this.traineeService.getCart(traineeId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      let page = 1;
+      let pageLimit = 8;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const coursesPaginatedResponse: CartDTO = await this.traineeService.getCart(traineeId, country, page, pageLimit);
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
 
-  public getWishlist = async (req: Request, res: Response<HttpResponse<ICourse[]>>, next: NextFunction): Promise<void> => {
+  public getWishlist = async (req: Request, res: Response<PaginatedResponse<ICourse>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const country = (req.query.country as string) ?? 'US';
 
-      const courses: ICourse[] = await this.traineeService.getWishlist(traineeId, country);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      let page = 1;
+      let pageLimit = 8;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const coursesPaginatedResponse: WishlistDTO = await this.traineeService.getWishlist(traineeId, country, page, pageLimit);
+      res.json({ ...coursesPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -196,7 +208,7 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const courses: ICourse[] = await this.traineeService.emptyCart(traineeId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -207,18 +219,91 @@ class TraineeController {
     try {
       const traineeId = req.params.traineeId as string;
       const courses: ICourse[] = await this.traineeService.emptyWishlist(traineeId);
-      res.status(HttpStatusCodes.CREATED).json({ data: courses, message: 'Completed Successfully', success: true });
+      res.json({ data: courses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
 
-  // send verification email
-  public sendVerificationEmail = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+  // get enrolled course controller
+  public getEnrolledCourseById = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
     try {
-      const { email, username } = req.body;
-      const verificationCode: Number = await this.traineeService.sendVerificationEmail(email, username);
-      res.status(HttpStatusCodes.CREATED).json({ data: verificationCode, message: 'Completed Successfully', success: true });
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const enrolledCourse: EnrolledCourse = await this.traineeService.getEnrolledCourseById(traineeId, courseId);
+      res.json({ data: enrolledCourse, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get last viewed course controller
+  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+
+      const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
+      res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee balance controller
+  public getBalance = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+
+      const balance = await this.traineeService.getTraineeBalance(traineeId);
+      res.json({ data: balance, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainees submitted questions controller
+  public getSubmittedQuestions = async (req: Request, res: Response<HttpResponse<SubmittedQuestion[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const exerciseId = req.params.exerciseId as string;
+
+      const submittedQuestions = await this.traineeService.getTraineeSubmittedQuestionsInCourse(traineeId, courseId, exerciseId);
+      res.json({ data: submittedQuestions, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add trainee submitted question controller
+  public addSubmittedQuestion = async (req: Request, res: Response<HttpResponse<SubmittedQuestion>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+      const exerciseId = req.params.exerciseId as string;
+      const questionId = req.params.questionId as string;
+
+      const { answer } = req.body;
+
+      await this.traineeService.addorUpdateTraineeSubmittedQuestion(traineeId, courseId, exerciseId, questionId, answer);
+
+      res.json({ data: null, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  //submit exam controller
+  public submitExam = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const examAnswers: string[] = req.body;
+
+      await this.traineeService.submitExam(traineeId, courseId, examAnswers);
+      res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

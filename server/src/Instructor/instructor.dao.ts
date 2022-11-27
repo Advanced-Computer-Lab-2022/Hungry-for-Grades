@@ -114,5 +114,29 @@ class InstructorService {
 
     return updatedInstructor;
   }
+
+  public getInstructorByEmail = async (instructorEmail: string): Promise<IInstructor> => {
+    if (isEmpty(instructorEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
+
+    const instructor: IInstructor = await instructorModel.findOne({ 'email.address': instructorEmail }).select('-password');
+    return instructor;
+  };
+
+  // get instructor by username
+  public getInstructorByUsername = async (instructorUsername: string): Promise<IInstructor> => {
+    if (isEmpty(instructorUsername)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Username is empty');
+
+    const instructor: IInstructor = await instructorModel.findOne({ username: instructorUsername }).select('-password');
+    return instructor;
+  };
+
+  // get instructor's balance
+  public getInstructorBalance = async (instructorId: string): Promise<number> => {
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor: IInstructor = await instructorModel.findById(instructorId);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
+    return instructor?.balance ?? 0;
+  };
 }
 export default InstructorService;

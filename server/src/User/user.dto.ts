@@ -37,7 +37,7 @@ export class CreateUserDto implements IUser {
 
   @IsObject()
   @IsNotEmptyObject()
-  public email: { address: string; isValidated: boolean };
+  public email: { address: string; isVerified: boolean };
 
   @IsEnum(Gender, { message: 'Gender cannot be left empty. Please choose either Male or Female' })
   public gender: Gender;
@@ -61,7 +61,7 @@ export class CreateUserDto implements IUser {
   @IsString()
   public name: string;
 
-  @IsPhoneNumber('EG')
+  @IsPhoneNumber()
   public phone: string;
 }
 

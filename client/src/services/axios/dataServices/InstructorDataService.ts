@@ -133,6 +133,9 @@ export const InstructorRoutes = {
           title: '',
           username: '',
           lastLogin: '',
+          phone: '',
+          gender: '',
+          country: '',
           __v: 0
         },
         message: '',
@@ -148,10 +151,7 @@ export const InstructorRoutes = {
         data: [
           {
             _trainee: {
-              address: {
-                city: '',
-                country: ''
-              },
+              country: '',
               _id: '',
               name: '',
               profileImage: ''

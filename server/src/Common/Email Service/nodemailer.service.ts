@@ -1,8 +1,5 @@
 import { logger } from '@/Utils/logger';
 import { EMAIL_SERVICE, SENDER_MAIL, SENDER_PASSSWORD } from '@Config';
-import handlebars from 'handlebars';
-import path from 'path';
-import fs from 'fs';
 import nodemailer from 'nodemailer';
 
 export function sendEmail(receiverEmail: string, emailBody: string, emailSubject = 'CanCham Support') {

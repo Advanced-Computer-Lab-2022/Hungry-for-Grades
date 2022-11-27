@@ -7,7 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
 
-// import InstructorRoutes from './InstructorRoutes';
+import InstructorRoutes from './InstructorRoutes';
 
 import AuthRoutes from './AuthRoutes';
 
@@ -15,14 +15,28 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 import PublicRoutes from './PublicRoutes';
 
-import Error from '@/components/error/page/Error';
+import TraineeRoutes from './TraineeRoutes';
 
-import StudentPage from '@/pages/studentPage/StudentPage';
+import Error from '@/components/error/page/Error';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
+/**
+ * Guest Pages
+ */
+const LazyLanding = lazy(() => import('@/pages/guest/landing/Landing'));
+const LazyCourse = lazy(() => import('@/pages/course/Course'));
+const LazySearchCourses = lazy(
+  () => import('@/pages/guest/searchCourses/Courses')
+);
+
+/**
+ * Authentication Pages
+ */
+const LazySignup = lazy(() => import('@/pages/authentication/signup/Signup'));
+const LazyLogin = lazy(() => import('@/pages/authentication/login/Login'));
 const LazyForgotPassword = lazy(
-  () => import('@/pages/forgotPassword/ForgotPassword')
+  () => import('@/pages/authentication/forgotPassword/ForgotPassword')
 );
 const LazyChangePassword = lazy(
   () => import('@/pages/authentication/changePassword/ChangePassword')
@@ -34,10 +48,15 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
-// const LazyTraineeNoteForm = lazy(
-//   () => import('@/pages/trainee/note/TraineeNoteForm')
-// );
-const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
+/* const LazyTraineeNoteForm = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteForm')
+); */
+const LazyTraineeNoteForm = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteForm')
+);
+const LazyTraineeNoteList = lazy(
+  () => import('@/pages/trainee/note/TraineeNoteList')
+);
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
@@ -45,19 +64,29 @@ const LazyTraineeWishlist = lazy(
 const LazyTraineeCourses = lazy(
   () => import('@/pages/trainee/courses/TraineeCourses')
 );
-
+const LazySolveExam = lazy(
+  () => import('@/pages/trainee/course-enrollment/Exam')
+);
+const LazyViewCourse = lazy(
+  () => import('@/pages/trainee/course-enrollment/CourseView')
+);
+/**
+ * Instructor Pages
+ */
 const LazyAddCourse = lazy(() => import('@/pages/course-form/AddCourse'));
 const LazyEditCourse = lazy(() => import('@/pages/course-form/EditCourse'));
+const LazyInstructorProfileToShow = lazy(
+  () => import('@/pages/InstructorProfile/InstructorPage')
+);
 const LazyInstructorCoursesSection = lazy(
   () => import('@/pages/instructorDashboard/InstructorCoursesSection')
 );
 const LazyCertificate = lazy(
   () => import('@/pages/certificate/CertificateGenerator')
 );
-
-const LazyInstructorDashboard = lazy(
-  () => import('@/pages/instructorDashboard/InstructorDashboard')
-);
+/**
+ * Admin Pages
+ */
 const LazyAddInstructor = lazy(() => import('@/pages/admin/AddInstructor'));
 const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
@@ -77,7 +106,37 @@ function AllRoutes() {
       </Route>
 
       <Route element={<PublicRoutes />}>
-        <Route element={<LazyCourses />} path='courses' />
+        {/* Trainee Routes*/}
+        <Route element={<TraineeRoutes />} path='trainee'>
+          <Route path='notes'>
+            <Route index element={<LazyTraineeNoteList />} />
+            <Route element={<LazyTraineeNoteForm />} path='form' />
+          </Route>
+          {/*
+          <Route path='notes:noteId'>
+            <Route index element={<LazyTraineeNote />} />
+            <Route element={<LazyTraineeNote />} path='edit' />
+          </Route> */}
+          <Route element={<LazyTraineeCart />} path='cart' />
+          <Route element={<LazyTraineeWishlist />} path='wishlist' />
+          <Route element={<LazyTraineeCourses />} path='courses' />
+          <Route element={<LazySolveExam />} path='exam/:courseid/' />
+          <Route element={<LazyViewCourse />} path='view-course/:courseid' />
+          <Route
+            element={<LazyViewCourse />}
+            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+          />
+        </Route>
+
+        {/* Instructor Routes*/}
+        <Route element={<InstructorRoutes />} path='instructor'>
+          <Route element={<LazyAddCourse />} path='add-course' />
+          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route
+            element={<LazyInstructorProfileToShow />}
+            path=':instructorId'
+          />
+        </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
         <Route element={<LazyCertificate />} path='/certificate' />
@@ -89,18 +148,13 @@ function AllRoutes() {
           <Route element={<LazyInstructorCoursesSection />} path='' />
         </Route>
         {/* <Route element={<InstructorRoutes />} path='/instructor'>
-          
+
         </Route> */}
       </Route>
 
-      <Route element={<AuthRoutes />} path='/auth'>
-        <Route element={<LazyLogin />} path='login' />
-        <Route element={<LazySignup />} path='signup' />
-        <Route element={<LazyForgotPassword />} path='forgot-password' />
-        <Route element={<LazyChangePassword />} path='change-password' />
-      </Route>
-
+      {/* Authorized Routes */}
       <Route element={<ProtectedRoutes />}>
+        {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           <Route element={<div />} path='home' />
           <Route element={<LazyAddInstructor />} path='add-instructor' />
@@ -109,10 +163,24 @@ function AllRoutes() {
             element={<LazyAddCorporateTrainee />}
             path='add-corporatetrainee'
           />
+          <Route element={<LazyUserProfile />} path='profile' />
         </Route>
       </Route>
 
+      {/* Authentication Routes  */}
+      <Route element={<AuthRoutes />} path='/auth'>
+        <Route element={<LazyLogin />} path='login' />
+        <Route element={<LazySignup />} path='signup' />
+        <Route element={<LazyForgotPassword />} path='forgot-password' />
+        <Route
+          element={<LazyChangePassword />}
+          path='change-password/:userId'
+        />
+      </Route>
+      {/*Guest Routes */}
       <Route element={<PublicRoutes />}>
+        <Route element={<LazySearchCourses />} path='courses' />
+        <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyLanding />} path='/' />
         <Route element={<Error type={404} />} path='/*' />
       </Route>

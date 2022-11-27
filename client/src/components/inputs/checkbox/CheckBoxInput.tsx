@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { CheckBoxInputProps } from './types';
 function CheckBoxInput(props: CheckBoxInputProps) {
   return (
@@ -8,9 +6,8 @@ function CheckBoxInput(props: CheckBoxInputProps) {
         <input
           checked={props.checked}
           className={`form-check-input ${props.className}`}
-          id={uuidv4()}
+          id={props.id}
           required={props.required}
-          style={{ display: 'inset' }}
           type='checkbox'
           value={'true'}
           onChange={props.onChange}

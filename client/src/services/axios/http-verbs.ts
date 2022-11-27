@@ -1,14 +1,21 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { type AxiosResponse } from 'axios';
 
 import { http, httpProtected } from './http-common';
 import {
+  DELETERoutesType,
   //type DELETERoutesType,
   type GETRoutesType,
   // type PATCHRoutesType,
   type POSTRoutesType
   //type PUTRoutesType
 } from './types';
+
+type Options = {
+  withCredentials: boolean;
+};
 
 /**
  * GET request
@@ -18,9 +25,7 @@ import {
 export async function getRequest(
   request: GETRoutesType,
   isProtected?: boolean,
-  options?: {
-    withCredentials: boolean;
-  }
+  options?: Options
 ): Promise<AxiosResponse<typeof request.response>> {
   const httpInstance = isProtected ? httpProtected : http;
   return httpInstance.get<typeof request.response>(
@@ -38,7 +43,8 @@ export async function getRequest(
  */
 export async function postRequest(
   request: POSTRoutesType,
-  isProtected?: boolean
+  isProtected?: boolean,
+  options?: Options
 ) {
   const httpInstance = isProtected ? httpProtected : http;
   return httpInstance.post<
@@ -49,7 +55,7 @@ export async function postRequest(
       request.query ? '?' + request.query : ''
     }`,
     { ...request?.payload },
-    { ...request?.options }
+    { ...options }
   );
 }
 /*
@@ -72,13 +78,13 @@ export async function postRequest(
  * @param request - request object
  * @returns a promise with the response from the server
  */
-/* export async function deleteRequest(request: DELETERoutesType) {
-	return http.delete<typeof request.response>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${
-			request.query ? '?' + request.query : ''
-		}`
-	);
-} */
+export async function deleteRequest(request: DELETERoutesType) {
+  return http.delete<typeof request.response>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`
+  );
+}
 
 /**
  * PUT request
