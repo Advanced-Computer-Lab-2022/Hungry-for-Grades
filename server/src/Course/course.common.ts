@@ -108,7 +108,7 @@ export function generateCoursesFilterQuery(filters: CourseFilters) {
   return filterQuery;
 }
 
-export function getYoutubeVideoID(url:string):string{
+export function getYoutubeVideoID(url: string): string {
   const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   const match = url.match(regExp);
   if (match && match[2].length == 11) {
