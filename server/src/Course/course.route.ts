@@ -46,14 +46,24 @@ class CoursesRoute implements Routes {
     // Section
     this.router.get('/:courseId/section', this.courseController.getAllSections);
     this.router.post('/:courseId/section', this.courseController.addSectionToCourse);
+    this.router.get('/:courseId/section/:sectionId', this.courseController.getSectionById);
     this.router.delete('/:courseId/section/:sectionId', this.courseController.deleteSection);
     this.router.patch('/:courseId/section/:sectionId', this.courseController.updateSection);
 
     // Lesson
+    this.router.get('/:courseId/lesson/:lessonId/user/:userId', this.courseController.getLessonById);
     this.router.get('/:courseId/section/:sectionId/lesson', this.courseController.getAllLessons);
     this.router.post('/:courseId/section/:sectionId/lesson', this.courseController.addLessonToSection);
     this.router.delete('/:courseId/lesson/:lessonId', this.courseController.deleteLesson);
     this.router.patch('/:courseId/lesson/:lessonId', this.courseController.updateLesson);
+
+    // Exercise
+    this.router.get('/:courseId/exercise/:exerciseId', this.courseController.getExerciseById);
+    this.router.post('/:courseId/exercise/:exerciseId', this.courseController.addQuestionToExercise);
+    this.router.put('/:courseId/exercise/:exerciseId/question/:questionId', this.courseController.updateQuestion);
+    this.router.delete('/:courseId/exercise/:exerciseId/question/:questionId', this.courseController.deleteQuestion);
+    this.router.post('/:courseId/section/:sectionId/exercise', this.courseController.addExerciseToSection);
+    this.router.delete('/:courseId/section/:sectionId/exercise/:exerciseId', this.courseController.deleteExercise);
 
     this.router.get('/:id', this.courseController.getCourseById);
     this.router.put('/:id', this.courseController.updateCourse);

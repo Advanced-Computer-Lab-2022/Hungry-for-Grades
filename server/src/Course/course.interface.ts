@@ -55,6 +55,7 @@ export type Price = {
 };
 
 export type Exercise = {
+  _id: Types.ObjectId;
   questions: Question[];
   title: string;
 };

@@ -5,7 +5,7 @@ import { Types } from 'mongoose';
 export interface ITrainee extends IUser {
   _cart?: ICourse[];
   _enrolledCourses?: EnrolledCourse[];
-  _lastViewedCourse?: ICourse;
+  _lastViewedCourse?: ICourse | Types.ObjectId;
   _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
@@ -21,7 +21,8 @@ export type Wishlist = {
 
 export type EnrolledCourse = {
   _course: ICourse;
-  _visitedLessons?: Lesson[];
+  _submittedQuestions: SubmittedQuestion[];
+  _visitedLessons?: Types.ObjectId[];
   dateOfCompletion?: Date;
   // null or undefined signifies incomplete (not certified yet)
   dateOfEnrollment: Date;
@@ -51,4 +52,9 @@ type CreditCard = {
   cardNumber: string;
   cvv: string;
   expirationDate: Date;
+};
+
+export type SubmittedQuestion = {
+  _questionId: Types.ObjectId;
+  submittedAnswer: string;
 };

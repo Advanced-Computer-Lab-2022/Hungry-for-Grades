@@ -14,6 +14,14 @@ const traineeSchema = new Schema<ITrainee>(
           ref: 'Course',
           type: Schema.Types.ObjectId,
         },
+        _id: false,
+        _submittedQuestions: [
+          {
+            _id: false,
+            _questionId: Schema.Types.ObjectId,
+            submittedAnswer: String,
+          },
+        ],
         _visitedLessons: [{ ref: 'Lesson', type: Schema.Types.ObjectId }],
         dateOfCompletion: Date,
         dateOfEnrollment: Date,
@@ -48,7 +56,7 @@ const traineeSchema = new Schema<ITrainee>(
       default: 0,
       type: Number,
     },
-    country: requiredString,
+    country: String,
     creditCards: [
       {
         cardHolderName: requiredString,
@@ -58,7 +66,6 @@ const traineeSchema = new Schema<ITrainee>(
       },
     ],
     dateOfBirth: {
-      required: true,
       trim: true,
       type: Date,
     },

@@ -4,16 +4,14 @@ import { genSalt, hash } from 'bcrypt';
 import { requiredString } from '@/Common/Models/common';
 import { Gender } from '@/User/user.enum';
 import Email from '@/User/user.schema';
-
 const adminSchema = new Schema<IAdmin>(
   {
     active: {
       default: true,
       type: Boolean,
     },
-    country: requiredString,
+    country: String,
     dateOfBirth: {
-      required: true,
       trim: true,
       type: Date,
     },
