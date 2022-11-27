@@ -1,4 +1,4 @@
-import styles from './LastStudy.module.scss';
+import styles from './last-study.module.scss';
 
 import useLastStudiedQuery from './useLastStudied';
 

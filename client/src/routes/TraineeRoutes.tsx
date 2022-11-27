@@ -1,7 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
-
 import { UseUserIsAuthenticated } from '@store/userStore';
 
 import { Role } from '@enums/role.enum';
@@ -12,7 +10,6 @@ export default function TraineeRoutes() {
 
   return 'trainee' === Role.TRAINEE ? (
     <>
-      <TraineeDashboard />
       <Outlet />
     </>
   ) : useUserIsAuthenticated ? (

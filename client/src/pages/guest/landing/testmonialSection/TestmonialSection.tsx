@@ -43,7 +43,7 @@ function TestmonialSection() {
   );
 
   return (
-    <section className='section' id='testimonials'>
+    <section className='section mb-5' id='testimonials'>
       <div className='right-image-decor' />
       <div className='container'>
         <div className='row'>

@@ -18,10 +18,9 @@ function Landing() {
       <MainSection />
       <FeatureSection />
       <InstructorBillboard />
-      <section>
-        <TopRatedCourses />
-        <Based />
-      </section>
+      <TopRatedCourses />
+
+      <Based />
       <TopInstructorsSection />
 
       <TestmonialSection />
