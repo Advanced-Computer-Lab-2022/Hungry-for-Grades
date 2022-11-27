@@ -19,6 +19,7 @@ import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
 import TraineeDashboard from '@pages/trainee/dashboard/TraineeDashboard';
+import {NoteLayout} from '@pages/trainee/note/NoteLayout'
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -49,19 +50,13 @@ const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
 /**
  * Trainee Pages
  */
-/* const LazyTraineeNoteForm = lazy(
-  () => import('@/pages/trainee/note/TraineeNoteForm')
-); */
-const LazyTraineeLastStudied = lazy(
-  () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
-);
+const LazyTraineeLastStudied = lazy(() => import('@/pages/trainee/lastStudiedCourse/LastStudied'));
 
-const LazyTraineeNoteForm = lazy(
-  () => import('@/pages/trainee/note/TraineeNoteForm')
-);
-const LazyTraineeNoteList = lazy(
-  () => import('@/pages/trainee/note/TraineeNoteList')
-);
+// notes
+const LazyTraineeNote = lazy(  () => import('@/pages/trainee/note/TraineeNote'));
+const LazyTraineeNoteEdit = lazy(  () => import('@/pages/trainee/note/TraineeNoteEdit'));
+const LazyTraineeNoteForm = lazy(() => import('@/pages/trainee/note/TraineeNoteForm'));
+const LazyTraineeNoteList = lazy(() => import('@/pages/trainee/note/TraineeNoteList'));
 const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
@@ -120,12 +115,12 @@ function AllRoutes() {
             <Route path='notes'>
               <Route index element={<LazyTraineeNoteList />} />
               <Route element={<LazyTraineeNoteForm />} path='form' />
-            </Route>
-            {/*
-          <Route path='notes:noteId'>
+
+          <Route element={<NoteLayout/>} path=':id'>
             <Route index element={<LazyTraineeNote />} />
-            <Route element={<LazyTraineeNote />} path='edit' />
-          </Route> */}
+            <Route element={<LazyTraineeNoteEdit />} path='edit' />
+          </Route>
+            </Route>
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route element={<LazyTraineeCourses />} path='courses' />

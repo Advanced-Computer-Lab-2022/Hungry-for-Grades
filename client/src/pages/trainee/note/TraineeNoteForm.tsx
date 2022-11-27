@@ -10,25 +10,33 @@ import {
   UseTraineeNoteStoreCreateTag
 } from '@store/noteStore';
 
-function NoteForm() {
+function TraineeNoteForm({
+  title = '',
+  courseName = '',
+	lessonId='',
+  tags = [],
+  markdown = ''
+}: Partial<INoteData>) {
   const createNote = UseTraineeNoteStoreCreateNote();
   const createTag = UseTraineeNoteStoreCreateTag();
   const availableTags = Array.from(UseTraineeNoteStoreTags());
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<ITag[]>(tags);
   const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const title = titleRef?.current?.value || '';
-    const markdown = markdownRef?.current?.value || '';
+    title = titleRef?.current?.value || '';
+    markdown = markdownRef?.current?.value || '';
 
     if (title && markdown && selectedTags && selectedTags.length > 0) {
       const note: INoteData = {
         title,
         markdown,
-        tags: selectedTags
+        tags: selectedTags,
+				courseName,
+				lessonId
       };
 
       createNote(note);
@@ -45,7 +53,7 @@ function NoteForm() {
             <Col>
               <Form.Group controlId='title'>
                 <Form.Label>Title</Form.Label>
-                <Form.Control ref={titleRef} required defaultValue={''} />
+                <Form.Control ref={titleRef} required defaultValue={title} />
               </Form.Group>
             </Col>
             <Col>
@@ -83,7 +91,7 @@ function NoteForm() {
               ref={markdownRef}
               required
               as='textarea'
-              defaultValue=''
+							defaultValue={markdown}
               rows={15}
             />
           </Form.Group>
@@ -103,4 +111,4 @@ function NoteForm() {
   );
 }
 
-export default NoteForm;
+export default TraineeNoteForm;

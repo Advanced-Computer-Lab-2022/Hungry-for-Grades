@@ -21,8 +21,8 @@ import { type ITag } from '@interfaces/note.interface';
 
 import {
   UseTraineeNoteStoreTags,
-  UseTraineeNoteStoreNotes,
-  UseTraineeNoteStoreGetCourseNames
+  UseTraineeNoteStoreGetCourseNames,
+  UseTraineeNoteStoreNotesByCourseandLessonId
 } from '@store/noteStore';
 type SimplifiedNote = {
   tags: ITag[];
@@ -36,7 +36,7 @@ function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
     <Card
       as={Link}
       className={`h-100 text-reset text-decoration-none ${styles.card ?? ''}`}
-      to={`/${id}`}
+      to={`${id}`}
     >
       <Card.Body>
         <Stack
@@ -72,9 +72,16 @@ function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
     </Card>
   );
 }
+type NoteListProps = {
+  lessonId: string;
+  courseName: string;
+};
 
-function NoteList() {
-  const notes = UseTraineeNoteStoreNotes();
+function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
+  const notes = UseTraineeNoteStoreNotesByCourseandLessonId()(
+    courseName,
+    lessonId
+  );
   const availableTags = UseTraineeNoteStoreTags();
   const courseNames = UseTraineeNoteStoreGetCourseNames()();
   const [showSettings, setShowSettings] = useState(false);
@@ -95,7 +102,7 @@ function NoteList() {
           )) &&
         (selectedCourseNames.length === 0 ||
           selectedCourseNames.every(
-            courseName => note.courseName === courseName
+            currentCourseName => note.courseName === currentCourseName
           ))
       );
     });
@@ -105,7 +112,7 @@ function NoteList() {
     <Container className='my-3'>
       <Row className='align-items-center mb-4'>
         <Col>
-          <h2 className='text-dark text-left mb-2'>Notes</h2>
+          <h2 className='text-dark text-left mb-2 text-truncate'>{courseName?'Course ': ''} Notes</h2>
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
@@ -227,4 +234,4 @@ function NoteList() {
   );
 }
 
-export default NoteList;
+export default TraineeNoteList;

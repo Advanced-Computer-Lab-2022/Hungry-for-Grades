@@ -6,14 +6,14 @@ import {
 } from 'react-router-dom';
 
 import { type INote } from '@interfaces/note.interface';
+import {
+UseTraineeNoteStoreNoteSearchById
+}
+from '@store/noteStore'
 
-type NoteLayoutProps = {
-  notes: INote[];
-};
-
-export function NoteLayout({ notes }: NoteLayoutProps) {
+export function NoteLayout() {
   const { id } = useParams();
-  const note = notes.find(n => n.id === id);
+  const note = UseTraineeNoteStoreNoteSearchById()(id as string);
 
   if (note == null) return <Navigate replace to='/' />;
 

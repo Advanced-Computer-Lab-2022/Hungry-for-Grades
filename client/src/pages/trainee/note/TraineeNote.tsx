@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 
-import { useNote } from './useNoteLayout';
+import { useNote } from './NoteLayout';
 
 import { UseTraineeNoteStoreDeleteTag } from '@store/noteStore';
-export function Note() {
+ function Note() {
   const note = useNote();
   const navigate = useNavigate();
   const deleteTag = UseTraineeNoteStoreDeleteTag();
@@ -28,19 +28,19 @@ export function Note() {
         </Col>
         <Col xs='auto'>
           <Stack direction='horizontal' gap={2}>
-            <Link to={`/${note.id}/edit`}>
+            <Link to={`edit`}>
               <Button variant='primary'>Edit</Button>
             </Link>
             <Button
               variant='outline-danger'
               onClick={function onDeleteTag() {
                 deleteTag(note.id);
-                navigate('/');
+                navigate('..');
               }}
             >
               Delete
             </Button>
-            <Link to='/'>
+            <Link to='..'>
               <Button variant='outline-secondary'>Back</Button>
             </Link>
           </Stack>
@@ -50,3 +50,5 @@ export function Note() {
     </Container>
   );
 }
+
+export default Note;
