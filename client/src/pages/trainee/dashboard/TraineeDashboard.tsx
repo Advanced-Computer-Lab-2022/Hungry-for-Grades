@@ -2,7 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 import { RiDashboardFill } from 'react-icons/ri';
 import { BsFillBookFill } from 'react-icons/bs';
-import { AiFillHeart,AiFillCreditCard } from 'react-icons/ai';
+import { AiFillHeart, AiFillCreditCard } from 'react-icons/ai';
 import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';

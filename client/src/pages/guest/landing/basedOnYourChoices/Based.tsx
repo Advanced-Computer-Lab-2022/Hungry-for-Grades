@@ -40,7 +40,11 @@ export default function Based() {
   }
 
   if (isLoading) {
-    return <div className='container'><LoaderCards numberOfCards={3} /></div>;
+    return (
+      <div className='container'>
+        <LoaderCards numberOfCards={3} />
+      </div>
+    );
   }
 
   const list: typeof CoursesRoutes.GET.getCoursesSearchFilter.response.data =

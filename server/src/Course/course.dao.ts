@@ -24,8 +24,6 @@ import traineeModel from '@/Trainee/trainee.model';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import TraineeService from '@/Trainee/trainee.dao';
 
-
-
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
     const { page, limit, searchTerm, sortBy, country } = filters;
