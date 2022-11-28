@@ -12,6 +12,8 @@ import SortFilter from './filtersInput/SortFilter';
 
 import { type SearchSectionProps } from './types';
 
+import Dictaphone from '@components/dictaphone/Dictaphone';
+
 import Range from '@components/inputs/range/Range';
 
 import { ChangeEvent } from '@/components/common.types';
@@ -29,7 +31,7 @@ function SearchSection(props: SearchSectionProps) {
           <h2 className={`${styles.subheading ?? ''}`}>subheading</h2>
         </div>
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
-          <div className='container p-5 d-flex flex-row justify-content-between'>
+          <div className='container pb-5 pt-0 mx-auto pt-0 d-flex flex-row justify-content-between'>
             <div className='input-group '>
               <input
                 aria-describedby='search-addon'
@@ -47,12 +49,20 @@ function SearchSection(props: SearchSectionProps) {
               />
             </div>
             <button
-              className={styles.filter__icon}
+              className={`${styles.filter__icon ?? ''} mx-4 pb-3`}
               type='button'
               onClick={() => setIsFilterOpen(prev => !prev)}
             >
               <AiOutlineFilter />
             </button>
+            <Dictaphone
+              onChange={function onChange(value) {
+                //alert(value);
+                setSelectedFilters(prev => {
+                  return { ...prev, searchTerm: value };
+                });
+              }}
+            />
           </div>
           <div
             className={`${
