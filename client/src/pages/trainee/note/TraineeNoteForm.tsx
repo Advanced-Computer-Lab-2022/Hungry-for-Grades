@@ -3,10 +3,7 @@ import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import CreatableReactSelect from 'react-select/creatable';
 
-import {
-  type INote,
-  type ITag
-} from '@interfaces/note.interface';
+import { type INote, type ITag } from '@interfaces/note.interface';
 import {
   UseTraineeNoteStoreCreateNote,
   UseTraineeNoteStoreTags,
