@@ -6,12 +6,14 @@ import jsPDF from 'jspdf';
 
 import { BsFillTrashFill } from 'react-icons/bs';
 
+import { MdSaveAlt } from 'react-icons/md';
+
 import { useNote } from './NoteLayout';
 
 import { UseTraineeNoteStoreDeleteNote } from '@store/noteStore';
 
 // download notes as a pdf
-function handleDownloadPDF(title: string, markdown: string) {
+export function handleDownloadPDF(title: string, markdown: string) {
   const pdf = new jsPDF({
     orientation: 'landscape',
     unit: 'cm',
@@ -22,13 +24,22 @@ function handleDownloadPDF(title: string, markdown: string) {
   pdf.save(`${title}.pdf`);
 }
 
-function Note() {
+export default function Note() {
   const note = useNote();
   const navigate = useNavigate();
   const deleteNote = UseTraineeNoteStoreDeleteNote();
 
   return (
-    <Container className='my-3'>
+    <Container
+      className='my-3'
+      style={{
+        backgroundColor: '#fafafa',
+        filter: 'drop-shadow(0 0 0.1rem #eee)',
+        borderRadius: '0.25rem',
+        padding: '1.5rem',
+        boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)'
+      }}
+    >
       <Row className='align-items-center mb-4'>
         <Col>
           <h1>{note.title}</h1>
@@ -49,7 +60,7 @@ function Note() {
             </Link>
             <Button
               variant='outline-danger'
-              onClick={function onDeleteTag() {
+              onClick={function onDeleteNote() {
                 deleteNote(note.id);
                 navigate('..');
               }}
@@ -57,23 +68,41 @@ function Note() {
               <BsFillTrashFill style={{ padding: '0 0 0.2rem' }} />
               Delete
             </Button>
+
+            <Link to='..'>
+              <Button variant='outline-secondary'>Back</Button>
+            </Link>
             <Button
-              variant='outline-primary'
+              variant=''
               onClick={function onDownload() {
                 handleDownloadPDF(note.title, note.markdown);
               }}
             >
-              Download
+              <MdSaveAlt
+                style={{
+                  fontSize: '1.3rem',
+                  color: '#6c757d',
+                  padding: '0 0 0.1rem'
+                }}
+              />
             </Button>
-            <Link to='..'>
-              <Button variant='outline-secondary'>Back</Button>
-            </Link>
           </Stack>
         </Col>
       </Row>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.markdown}</ReactMarkdown>
+      <div
+        className='container'
+        style={{
+          backgroundColor: '#fefefe',
+          filter: 'drop-shadow(0 0 0.1rem #eee)',
+          borderRadius: '0.25rem',
+          padding: '1rem',
+          boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)'
+        }}
+      >
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {note.markdown}
+        </ReactMarkdown>
+      </div>
     </Container>
   );
 }
-
-export default Note;

@@ -1,12 +1,9 @@
 import { FormEvent, useRef, useState } from 'react';
 import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import CreatableReactSelect from 'react-select/creatable';
 
-import {
-  type INote,
-  type ITag
-} from '@interfaces/note.interface';
+import { INote, type INoteData, type ITag } from '@interfaces/note.interface';
 import {
   UseTraineeNoteStoreCreateNote,
   UseTraineeNoteStoreTags,
@@ -14,23 +11,26 @@ import {
   UseTraineeNoteStoreUpdateNote
 } from '@store/noteStore';
 
-function TraineeNoteForm({
+function NoteForm({
   title = '',
   courseName = '',
   lessonId = '',
   tags = [],
   id = '',
-  markdown = ''
-}: Partial<INote>) {
+  markdown = '',
+  onClose
+}: Partial<INote> & {
+  onClose: () => void;
+}) {
   const [searchParams] = useSearchParams();
-  const createNote = UseTraineeNoteStoreCreateNote();
   const updateNode = UseTraineeNoteStoreUpdateNote();
+
+  const createNote = UseTraineeNoteStoreCreateNote();
   const createTag = UseTraineeNoteStoreCreateTag();
   const availableTags = Array.from(UseTraineeNoteStoreTags());
   const titleRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<ITag[]>(tags);
-  const navigate = useNavigate();
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -38,13 +38,15 @@ function TraineeNoteForm({
     markdown = markdownRef?.current?.value || '';
 
     if (title && markdown && selectedTags) {
-      const note = {
+      alert(markdown);
+      const note: INoteData = {
         title,
         markdown,
         tags: selectedTags,
         courseName: searchParams.get('courseName') || courseName,
         lessonId: searchParams.get('lessonId') || lessonId
       };
+
       if (id === '') {
         createNote(note);
       } else {
@@ -54,8 +56,7 @@ function TraineeNoteForm({
         };
         updateNode(newNote);
       }
-
-      navigate('..');
+      onClose();
     }
   }
 
@@ -110,15 +111,14 @@ function TraineeNoteForm({
             <Button type='submit' variant='primary'>
               Save
             </Button>
-            <Link to='..'>
-              <Button type='button' variant='outline-secondary'>
-                Cancel
-              </Button>
-            </Link>
+            <Button type='button' variant='outline-secondary' onClick={onClose}>
+              Cancel
+            </Button>
           </Stack>
         </Stack>
       </Form>
     </Container>
   );
 }
-export default TraineeNoteForm;
+
+export default NoteForm;

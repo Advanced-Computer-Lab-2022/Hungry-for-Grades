@@ -1,21 +1,13 @@
 import { useMemo, useState } from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Stack
-} from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Stack } from 'react-bootstrap';
+import { AiFillSetting } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import ReactSelect from 'react-select';
 
-import styles from './note-list.module.scss';
-
 import EditTagsModal from './modals/EditTagsModal';
 import SettingsModal from './modals/SettingsModal';
+
+import NoteCard from './TraineeNoteCard';
 
 import { type ITag } from '@interfaces/note.interface';
 
@@ -24,50 +16,7 @@ import {
   UseTraineeNoteStoreGetCourseNames,
   UseTraineeNoteStoreNotesByCourseandLessonId
 } from '@store/noteStore';
-type SimplifiedNote = {
-  tags: ITag[];
-  title: string;
-  id: string;
-  courseName: string | undefined;
-};
 
-function NoteCard({ id, title, tags, courseName }: SimplifiedNote) {
-  return (
-    <Card
-      as={Link}
-      className={`h-100 text-reset text-decoration-none ${styles.card ?? ''}`}
-      to={`${id}`}
-    >
-      <Card.Body>
-        <Stack
-          className='align-items-center justify-content-center h-100'
-          gap={2}
-        >
-          <span className='fs-5'>{title}</span>
-
-          {tags.length > 0 && (
-            <Stack
-              className='justify-content-center flex-wrap'
-              direction='horizontal'
-              gap={1}
-            >
-              {courseName && (
-                <Badge bg='secondary' className='text-white text-truncate'>
-                  {courseName}
-                </Badge>
-              )}
-              {tags?.map(tag => (
-                <Badge key={tag.id} className='text-truncate'>
-                  {tag.label}
-                </Badge>
-              ))}
-            </Stack>
-          )}
-        </Stack>
-      </Card.Body>
-    </Card>
-  );
-}
 type NoteListProps = {
   lessonId: string;
   courseName: string;
@@ -131,12 +80,17 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
             </Button>
 
             <Button
-              variant='outline-secondary'
+              variant=''
               onClick={function open() {
                 setShowSettings(true);
               }}
             >
-              Settings
+              <AiFillSetting
+                style={{
+                  fontSize: '1.3rem',
+                  color: '#6c757d'
+                }}
+              />
             </Button>
           </Stack>
         </Col>
@@ -210,12 +164,14 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
       <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
         {filteredNotes?.map(note => (
           <Col key={note.id}>
-            <NoteCard
-              courseName={note.courseName}
-              id={note.id}
-              tags={note.tags}
-              title={note.title}
-            />
+            <Link to={`${note.id}`}>
+              <NoteCard
+                courseName={note.courseName}
+                id={note.id}
+                tags={note.tags}
+                title={note.title}
+              />
+            </Link>
           </Col>
         ))}
         {filteredNotes?.length === 0 && (
