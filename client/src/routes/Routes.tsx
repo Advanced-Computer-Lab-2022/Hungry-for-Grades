@@ -3,6 +3,7 @@ import { lazy } from 'react';
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
  */
+
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
@@ -19,6 +20,7 @@ import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -139,7 +141,11 @@ function AllRoutes() {
             </Route>
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
-            <Route element={<LazyTraineeCourses />} path='courses' />
+            <Route
+              element={<LazyTraineeCourses />}
+              errorElement={<ErrorMessage />}
+              path='courses'
+            />
             <Route element={<LazyTraineeCertificate />} path='certificate' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
