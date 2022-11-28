@@ -9,7 +9,7 @@ function SettingsModal({ handleClose, show }: SettingsModalProps) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Tags</Modal.Title>
+        <Modal.Title>Settings</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

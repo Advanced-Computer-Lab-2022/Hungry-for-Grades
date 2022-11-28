@@ -8,6 +8,8 @@ import Video from './Video';
 
 import SolveExercise from './SolveExercise';
 
+import DownView from './DownView';
+
 import { UseCountry } from '@/store/countryStore';
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { ICourse } from '@/interfaces/course.interface';
@@ -42,7 +44,7 @@ function CourseView() {
   const country = UseCountry();
   const { courseid, sectionNumber, itemNumber, itemType } = useParams();
   const { isError, isLoading, data } = useQuery(
-    ['courseByID', courseid, country],
+    ['getCourseByID', courseid, country],
     () => getCourseByID(courseid, country)
   );
   if (isError) {
@@ -58,6 +60,7 @@ function CourseView() {
   if (!data) {
     return <></>;
   }
+  console.log(data);
 
   const leftProps = {
     itemIndex: itemNumber ? parseInt(itemNumber, 10) : 0,
@@ -65,15 +68,38 @@ function CourseView() {
     course: data,
     itemType
   };
+  if (!data.sections[leftProps.sectionIndex]) {
+    return <h1 className='text-danger text-center'>Section not found</h1>;
+  }
+  if (
+    !data.sections[leftProps.sectionIndex].lessons[leftProps.itemIndex] &&
+    !data.sections[leftProps.sectionIndex].exercises[leftProps.itemIndex]
+  ) {
+    return <h1 className='text-danger text-center'>Item not found</h1>;
+  }
+  let lessonId = '';
+  if (itemType === 'exercise') {
+    lessonId =
+      data.sections[leftProps.sectionIndex].exercises[leftProps.itemIndex]._id;
+  } else {
+    lessonId =
+      data.sections[leftProps.sectionIndex].lessons[leftProps.itemIndex]._id;
+  }
 
   return (
     <div className='container-fluid'>
       <div className='row'>
-        <div className='col col-md-9'>
-          <LeftView {...leftProps} />
-          {/* omar sherif ali*/}
+        <div className='col-sm-12 col-md-9'>
+          <div className='d-flex flex-column'>
+            <div>
+              <LeftView {...leftProps} />
+            </div>
+            <div>
+              <DownView courseName={data?.title} lessonId={lessonId} />
+            </div>
+          </div>
         </div>
-        <div className='col col-md-3'>
+        <div className='col-sm-12 col-md-3'>
           <Content {...data} />
         </div>
       </div>

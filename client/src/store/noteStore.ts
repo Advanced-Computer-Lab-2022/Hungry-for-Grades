@@ -12,6 +12,9 @@ import {
 type INoteStore = {
   notes: INote[];
   tags: ITag[];
+  backgroundUrl: string;
+  setBackgroundUrl: (backgroundUrl: string) => void;
+
   createNote: (
     note: INoteData,
     lessonId?: string,
@@ -43,18 +46,15 @@ export const useTraineeNoteStore = create<
       (set, get) => ({
         notes: [],
         tags: [],
+        backgroundUrl: '',
         createNote: (note: INoteData) => {
-          const { notes, updateNote } = get();
+          const { notes } = get();
           const newNote = {
             ...note,
             id: uuidv4()
           };
-          if (!notes.find(n => n.id === newNote.id)) {
-            const newNotes = [...notes, newNote];
-            set({ notes: newNotes });
-          } else {
-            updateNote(newNote);
-          }
+          const newNotes = [...notes, newNote];
+          set({ notes: newNotes });
 
           return newNote;
         },
@@ -93,10 +93,11 @@ export const useTraineeNoteStore = create<
         },
         updateNote: (note: Partial<INote>) => {
           const { notes } = get();
+          console.log(note);
           const newNotes = [...notes].map(n =>
             n.id === note.id ? { ...n, ...note } : n
           );
-
+          console.log(newNotes);
           set({ notes: newNotes });
         },
         updateTag: (tag: Partial<ITag>) => {
@@ -141,7 +142,9 @@ export const useTraineeNoteStore = create<
           const { notes } = get();
           return notes
             .map(note => note.courseName)
-            .filter(course => course !== undefined) as string[];
+            .filter(
+              course => course !== undefined && course !== ''
+            ) as string[];
         },
         getNotesByCourseNameAndLessonId: (
           courseName?: string,
@@ -154,6 +157,9 @@ export const useTraineeNoteStore = create<
                 (note.courseName && note.courseName === courseName)) &&
               (!lessonId || (note.lessonId && note.lessonId === lessonId))
           );
+        },
+        setBackgroundUrl: (backgroundUrl: string) => {
+          set({ backgroundUrl });
         }
       }),
       {
@@ -192,3 +198,7 @@ export const UseTraineeNoteStoreGetCourseNames = () =>
   useTraineeNoteStore(state => state.getCourseNames);
 export const UseTraineeNoteStoreNoteSearchByCourseName = () =>
   useTraineeNoteStore(state => state.searchNoteByCourseName); //To search a Note by Course Name
+export const UseTraineeNoteStoreBackgroundUrl = () =>
+  useTraineeNoteStore(state => state.backgroundUrl); // To Background Url
+export const UseTraineeNoteStoreSetBackgroundUrl = () =>
+  useTraineeNoteStore(state => state.setBackgroundUrl); //To set Background Url

@@ -7,7 +7,7 @@ import {
 } from 'react-accessible-accordion';
 import { Link } from 'react-router-dom';
 
-import { ICourse } from '@/interfaces/course.interface';
+import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
 
 import '@/pages/course/accordion.scss';
@@ -19,8 +19,8 @@ function Content(props: ICourse) {
         <h3 className='m-3'>Course content</h3>
       </div>
       <div
-        className={`text-dark row`}
-        style={{ overflowY: 'scroll', overflowX: 'hidden' }}
+        className={`text-dark row h-100`}
+        style={{ overflowY: 'scroll', overflowX: 'hidden', height: '100%' }}
       >
         <Accordion allowZeroExpanded>
           {props.sections.map((sec, sectionIndex) => (

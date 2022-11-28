@@ -12,6 +12,7 @@ function EditNote() {
       </Container>
       <TraineeNoteForm
         courseName={note.courseName}
+        id={note.id}
         lessonId={note.lessonId}
         markdown={note.markdown}
         tags={note.tags}
