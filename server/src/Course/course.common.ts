@@ -5,8 +5,9 @@ import CountryToCurrency from 'iso-country-currency';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
 
 export function getPriceAfterDiscount(price: Price) {
+  const currentDate = new Date();
   const discountAvailable = price.discounts.filter(discount => {
-    return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
+    return currentDate >= discount.startDate && currentDate <= discount.endDate;
   });
   let result = 0;
   if (discountAvailable.length == 0)
