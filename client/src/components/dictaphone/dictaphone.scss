@@ -12,6 +12,7 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    color: var(--secondary-color);
 }
 
 .pulse-ring-right {
@@ -54,14 +55,91 @@
     }
 }
 
-.m-left {
-    margin-left: 300px;
-}
-
-.type2 {
-    background: #189BFF;
-}
-
-.type2 .pulse-ring {
+.micButton {
+    border: 0;
     background: transparent;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.listening {
+    color: var(--secondary-color);
+}
+
+.boxContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 14px;
+    --boxSize: 2px;
+    --gutter: 4px;
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
+}
+
+.box {
+    transform: scaleY(.4);
+    height: 100%;
+    width: var(--boxSize);
+    background: var(--secondary-color);
+    animation-duration: 1.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    border-radius: 8px;
+}
+
+.box1 {
+    animation-name: quiet;
+}
+
+.box2 {
+    animation-name: normal;
+}
+
+.box3 {
+    animation-name: quiet;
+}
+
+.box4 {
+    animation-name: loud;
+}
+
+.box5 {
+    animation-name: quiet;
+}
+
+@keyframes quiet {
+    25% {
+        transform: scaleY(.6);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(.8);
+    }
+}
+
+@keyframes normal {
+    25% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(.6);
+    }
+}
+
+@keyframes loud {
+    25% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(1.2);
+    }
 }

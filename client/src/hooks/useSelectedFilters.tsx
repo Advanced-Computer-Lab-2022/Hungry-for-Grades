@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-import { SelectFiltersType } from './types';
+import { SelectFiltersType } from '../pages/guest/searchCourses/types';
 
 import { Level } from '@/enums/level.enum';
 

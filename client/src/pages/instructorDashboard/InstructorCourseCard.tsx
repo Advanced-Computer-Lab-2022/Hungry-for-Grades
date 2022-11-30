@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import styles from './InstructorCourseCard.module.css';
+import styles from './InstructorCourseCard.module.scss';
 
 import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 
@@ -18,13 +18,13 @@ function InstructorCourseCard(
   const rating = data?.rating?.averageRating ?? '';
   if (!props._course.price) return <></>;
   return (
-    <div>
+    <div className='container'>
       <div
-        className='container-lg row border border-primary mx-auto px-0 my-3 d-flex flex-md-row flex-column'
+        className='rows d-flex flex-column border border-primary mx-auto px-0 my-3 d-flex flex-md-row flex-column'
         style={{ minHeight: '8rem' }}
       >
         <div
-          className={`col d-flex align-center border-top border-bottom border-primary ${
+          className={`col d-flex  align-center border-top border-bottom border-primary ${
             styles.border_div || ''
           }`}
           style={{ height: '8rem', paddingLeft: '0' }}
@@ -36,7 +36,7 @@ function InstructorCourseCard(
               src={photo}
               style={{
                 height: '8rem',
-                objectFit: 'cover'
+                objectFit: 'fill'
               }}
             />
           </div>
@@ -48,7 +48,8 @@ function InstructorCourseCard(
             <h6 className={styles.courseTitle}>{title}</h6>
             <div className='d-flex align-items-center justify-content-between'>
               <div
-                className={`bg-primary px-2 rounded-pill
+                className={`bg-primary px-2 rounded-pill text-white
+
                  ${styles.fnt_sm || ''}`}
               >
                 live

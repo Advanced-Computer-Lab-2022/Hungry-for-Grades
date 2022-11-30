@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { type SelectFiltersType } from './types';
+import { type SelectFiltersType } from '@/pages/guest/searchCourses/types';
 
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 import { getRequest } from '@/services/axios/http-verbs';
@@ -22,9 +22,6 @@ async function searchRequest(
   country: string
 ) {
   filters.country = country;
-  //Here there was a problem in the postman whenever you pass priceHigh server error
-  //So i removed it from the queries once it is done it have to be back
-  // &priceHigh=${filters.priceHigh}
 
   if (!customComparator<SelectFiltersType>(oldFilters, filters)) {
     setActivePage(1);
@@ -36,18 +33,28 @@ async function searchRequest(
   }
   oldFilters = filters;
 
-  const Courses = InstructorRoutes.GET.getCourses;
-  Courses.URL = `/courses/instructor/${id}`;
-  Courses.query = `priceLow=${filters.priceLow}
-  &priceHigh=${filters.priceHigh}
-	&category=${filters.category}
-	&durationHigh=${filters.durationHigh * 60 * 24 * 30}
-  &searchTerm=${filters.searchTerm}
-  &country=${filters.country}
-	&limit=${12}
-	&page=${page}`;
+  const getCoursesSearchFilter =Object.assign({}, InstructorRoutes.GET.getCourses) ;
+  getCoursesSearchFilter.URL = `/courses/instructor/${id}`;
+  const searchQuery = `category=${filters.category.trim()}
+	&subCategory=${filters.subCategory}
+	&level=${filters.level}
+	&priceLow=${
+    filters.paid && filters.free ? filters.min : filters.paid ? 1 : filters.min
+  }
+	&priceHigh=${
+    filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
+  }
+	&sortBy=${filters.sortBy}
+	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
+	&durationHigh=${filters.durationHigh * 24 * 30}
+	&country=${filters.country.trim()}
+	&limit=${18}
+	&page=${page}
+	&searchTerm=${filters.searchTerm.trim()}
+	`.trim();
+  getCoursesSearchFilter.query = searchQuery;
 
-  return getRequest(Courses);
+  return getRequest(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {
