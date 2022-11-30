@@ -1,5 +1,8 @@
 import { Level } from '@/enums/level.enum';
-import { IAddCourseRequest } from '@/interfaces/course.interface';
+import {
+  IAddCourseRequest,
+  ICourseQuestion
+} from '@/interfaces/course.interface';
 
 let nextId = 1;
 
@@ -73,10 +76,21 @@ export type CourseFormValues = {
   sections: SectionFormValues[];
 };
 
+export type ExamFormValues = {
+  questions: QuestionFormValues[];
+};
+
 export type CourseSubmitAction = (course: IAddCourseRequest) => Promise<void>;
+
+export type ExamSubmitAction = (exam: ICourseQuestion[]) => Promise<void>;
 
 export type CourseFormProps = {
   initialValues: CourseFormValues;
   isUpdating: boolean;
   submitAction: CourseSubmitAction;
+};
+
+export type ExamFormProps = {
+  initialValues: ExamFormValues;
+  submitAction: ExamSubmitAction;
 };
