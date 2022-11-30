@@ -544,26 +544,38 @@ class CourseService {
     const course = await courseModel.findById(courseID);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-    discountData.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+    if (discountData.percentage > 100 || discountData.percentage < 0)
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Discount percentage should be between 0 and 100');
+    if (discountData.endDate < discountData.startDate)
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'End date should be greater than or equal to start date');
+
     course.price.discounts.push(discountData);
     await course.save();
 
-    return course.price.discounts;
+    const discountsAvailable = course.price.discounts.filter(discount => {
+      return discount.endDate >= new Date();
+    });
+
+    return discountsAvailable;
   }
 
   // get all course discounts
-  public async getCourseDiscount(courseID: string): Promise<Discount[]> {
+  public async getAllCourseDiscounts(courseID: string): Promise<Discount[]> {
     if (isEmpty(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseID);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
-    const discountAvailable = course.price.discounts.filter(discount => {
-      return Date.now() >= discount.startDate.getTime() && Date.now() <= discount.endDate.getTime();
+    const discountsAvailable = course.price.discounts.filter(discount => {
+      return discount.endDate >= new Date();
     });
 
-    return discountAvailable;
+    // to remove expired discounts
+    // course.price.discounts= discountsAvailable;
+    // await course.save();
+
+    return discountsAvailable;
   }
 
   //update course discount
