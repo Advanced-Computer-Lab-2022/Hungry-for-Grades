@@ -52,7 +52,7 @@ export const outlineSchema = array()
     })
   );
 
-export const lessonSchema = array()
+export const lessonsSchema = array()
   .required()
   .min(1)
   .max(100)
@@ -71,7 +71,7 @@ export const lessonSchema = array()
     })
   );
 
-export const answerSchema = array()
+export const answerOptionsSchema = array()
   .required()
   .min(4)
   .max(4)
@@ -89,38 +89,35 @@ export const answerSchema = array()
     })
   );
 
-export const questionSchema = array()
+export const questionSchema = object().shape({
+  uid: string(),
+  question: string().required().min(10).max(500).label('Question'),
+  options: answerOptionsSchema,
+  answer: string()
+    .required()
+    .min(10)
+    .max(500)
+    .label('Answer')
+    .when('options', (options: AnswerFormValues[], schema: StringSchema) => {
+      return schema.test(
+        'valid-answer',
+        'Correct answer must be one of the question choices.',
+        a => {
+          if (!a || !options) {
+            return true;
+          }
+          return !!options.find(o => o.value === a);
+        }
+      );
+    })
+});
+
+export const questionsSchema = array()
   .required()
   .min(1)
   .max(15)
   .label('Questions')
-  .of(
-    object().shape({
-      uid: string(),
-      question: string().required().min(10).max(500).label('Question'),
-      options: answerSchema,
-      answer: string()
-        .required()
-        .min(10)
-        .max(500)
-        .label('Answer')
-        .when(
-          'options',
-          (options: AnswerFormValues[], schema: StringSchema) => {
-            return schema.test(
-              'valid-answer',
-              'Correct answer must be one of the question choices.',
-              a => {
-                if (!a || !options) {
-                  return true;
-                }
-                return !!options.find(o => o.value === a);
-              }
-            );
-          }
-        )
-    })
-  );
+  .of(questionSchema);
 
 export const exerciseSchema = array()
   .required()
@@ -131,7 +128,7 @@ export const exerciseSchema = array()
     object().shape({
       uid: string(),
       title: string().required().min(4).max(100).label('Title'),
-      questions: questionSchema
+      questions: questionsSchema
     })
   );
 
@@ -145,7 +142,7 @@ export const sectionSchema = array()
       uid: string(),
       title: string().required().min(4).max(100).label('Title'),
       description: string().required().min(4).max(1000).label('Description'),
-      lessons: lessonSchema,
+      lessons: lessonsSchema,
       exercises: exerciseSchema
     })
   );
