@@ -33,7 +33,10 @@ async function searchRequest(
   }
   oldFilters = filters;
 
-  const getCoursesSearchFilter =Object.assign({}, InstructorRoutes.GET.getCourses) ;
+  const getCoursesSearchFilter = Object.assign(
+    {},
+    InstructorRoutes.GET.getCourses
+  );
   getCoursesSearchFilter.URL = `/courses/instructor/${id}`;
   const searchQuery = `category=${filters.category.trim()}
 	&subCategory=${filters.subCategory}

@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
+import { Link } from 'react-router-dom';
+
+import { AiFillEdit } from 'react-icons/ai';
+
+import { BsFillTrashFill } from 'react-icons/bs';
+
 import styles from './InstructorCourseCard.module.scss';
 
-import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
-
 import { formatCurrency } from '@/utils/currency';
+import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function InstructorCourseCard(
@@ -18,15 +24,13 @@ function InstructorCourseCard(
   const rating = data?.rating?.averageRating ?? '';
   if (!props._course.price) return <></>;
   return (
-    <div className='container'>
+    <div className={`container ${styles.cardContainer ?? ''}`}>
       <div
-        className='rows d-flex flex-column border border-primary mx-auto px-0 my-3 d-flex flex-md-row flex-column'
+        className={`rows d-flex flex-column  mx-auto px-0 my-3 d-flex flex-md-row flex-column`}
         style={{ minHeight: '8rem' }}
       >
         <div
-          className={`col d-flex  align-center border-top border-bottom border-primary ${
-            styles.border_div || ''
-          }`}
+          className={`col d-flex  align-center ${styles.border_div || ''}`}
           style={{ height: '8rem', paddingLeft: '0' }}
         >
           <div>
@@ -91,8 +95,8 @@ function InstructorCourseCard(
           }`}
           style={{ height: '8rem' }}
         >
-          <hr className={`d-md-block d-none ${styles.hr || ''}`} />
-          <div className={`col ${styles.altCol || ''}`}>
+          <hr className={`d-md-block d-none  ${styles.hr || ''}`} />
+          <div className={`col  ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div className={styles.partOne}>Course rating</div>
               <div>
@@ -103,13 +107,29 @@ function InstructorCourseCard(
           <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
-              <div className={styles.partOne}>Unanswered questions</div>
+              <div
+                className={`${
+                  styles.partOne ?? ''
+                } d-flex justify-content-center`}
+              >
+                Unanswered questions
+              </div>
               <div>
                 <h4>2</h4>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div className={`${styles.cardButtons ?? ''}`}>
+        <Link className='btn btn-primary btn-lg' to={``}>
+          Edit
+          <AiFillEdit />
+        </Link>
+        <Link className='btn btn-secondary btn-lg' to={``}>
+          Delete
+          <BsFillTrashFill />
+        </Link>
       </div>
     </div>
   );

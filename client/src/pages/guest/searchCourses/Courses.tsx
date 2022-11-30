@@ -45,9 +45,7 @@ function SearchCourses() {
               )}
             </>
           )}
-          {error && (
-						 <ErrorMessage errorMessage={error?.message} />
-					)}
+          {error && <ErrorMessage errorMessage={error?.message} />}
         </div>
       </section>
     </section>

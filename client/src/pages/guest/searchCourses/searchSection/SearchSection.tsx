@@ -31,10 +31,12 @@ function SearchSection(props: SearchSectionProps & SearchTitleProps) {
   return (
     <section className={styles.searchSection__container}>
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
-        {props.subHeading && props.heading && (<div className='container my-3 mb-5'>
-          <h1 className={`${styles.heading ?? ''} mt-5`}>{props.heading}</h1>
-          <h2 className={`${styles.subheading ?? ''}`}>{props.subHeading}</h2>
-        </div>)}
+        {props.subHeading && props.heading && (
+          <div className='container my-3 mb-5'>
+            <h1 className={`${styles.heading ?? ''} mt-5`}>{props.heading}</h1>
+            <h2 className={`${styles.subheading ?? ''}`}>{props.subHeading}</h2>
+          </div>
+        )}
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
           <div className='container pb-5 pt-0 mx-auto pt-0 d-flex flex-row justify-content-between'>
             <div className='input-group '>

@@ -8,7 +8,7 @@ function CoursesSection(props: { data: ICourse[] }) {
   return (
     <div className='row container'>
       {props?.data?.length === 0 ? (
-       <NoResults/>
+        <NoResults />
       ) : (
         props?.data?.map((course: ICourse) => {
           const mapCourseToCard = mapCourseToCardProps(course);

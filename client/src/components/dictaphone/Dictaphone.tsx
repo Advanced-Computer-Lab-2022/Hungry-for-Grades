@@ -55,7 +55,6 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
             <div className='box box3' />
             <div className='box box4' />
             <div className='box box5' />
-
           </div>
         </div>
       )}

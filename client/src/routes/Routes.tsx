@@ -160,14 +160,12 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
-					     <Route element={<LazyAddCourse />} path='add-course' />
+          <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyInstructorCoursesSection />} path='' />
         </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
-
-
       </Route>
 
       {/* Authorized Routes */}
