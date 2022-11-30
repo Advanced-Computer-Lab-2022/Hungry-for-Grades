@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { AiFillEdit } from 'react-icons/ai';
 
-import { BsFillTrashFill,BsShareFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
 
 import styles from './InstructorCourseCard.module.scss';
 
@@ -122,7 +122,7 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-			<Link className='btn btn-primary btn-lg' to={``}>
+        <Link className='btn btn-primary btn-lg' to={``}>
           Share
           <BsShareFill />
         </Link>
