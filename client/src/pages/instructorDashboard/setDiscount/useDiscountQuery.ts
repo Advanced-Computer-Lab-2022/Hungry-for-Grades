@@ -1,7 +1,5 @@
 import usePostQuery from "@/hooks/usePostQuery";
 import { InstructorRoutes } from "@/services/axios/dataServices/InstructorDataService";
-import { postRequest } from "@/services/axios/http-verbs";
-import { useQuery } from "@tanstack/react-query";
 
 
 async function useDiscountQuery(endDate : string, percent : number)

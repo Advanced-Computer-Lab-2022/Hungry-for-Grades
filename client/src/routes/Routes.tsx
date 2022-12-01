@@ -20,7 +20,6 @@ import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
-import CourseDiscounts from '@/pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
@@ -104,6 +103,7 @@ const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
   () => import('@/pages/admin/AddCorporateTrainee')
 );
+const LazyDiscounts = lazy(() => import('@pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -162,7 +162,7 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
-          <Route element = {<CourseDiscounts />} path='hussein/:courseid' />
+          <Route element = {<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />

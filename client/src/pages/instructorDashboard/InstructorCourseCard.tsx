@@ -1,23 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Link } from 'react-router-dom';
-
 import { AiFillEdit } from 'react-icons/ai';
 
 import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
 
 import styles from './InstructorCourseCard.module.scss';
 
-import { formatCurrency } from '@/utils/currency';
 import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 
 import { formatCurrency } from '@/utils/currency';
 
-import Button from '@/components/buttons/button/Button';
-
-import DiscountModal from './setDiscount/DiscountModal';
-import { SetStateAction, useState } from 'react';
-import {  Link, useNavigate } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 
 function getOriginalPrice(
   price: number,
@@ -149,14 +142,13 @@ function InstructorCourseCard(
               </div>
             </div>
           </div>
-          <Link to={`/instructor/hussein/${props._course._id}`}><div style = {{width:'8rem', alignSelf:'center', fontSize:'0.2rem'}}>Discounts</div></Link> 
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-        <Link className='btn btn-primary btn-lg' to={``}>
+        <a className='btn btn-primary btn-lg' href={'https://www.linkedin.com/feed/'}>
           Share
           <BsShareFill />
-        </Link>
+        </a>
         <Link className='btn btn-primary btn-lg' to={``}>
           Edit
           <AiFillEdit />
@@ -165,6 +157,7 @@ function InstructorCourseCard(
           Delete
           <BsFillTrashFill />
         </Link>
+        <Link to={`/instructor/hussein/${props._course.title}/${props._course._id}`}><button className='btn btn-primary btn-lg'>Discounts</button></Link> 
       </div>
     </div>
   );

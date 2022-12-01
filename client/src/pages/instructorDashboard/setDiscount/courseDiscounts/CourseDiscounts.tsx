@@ -9,6 +9,7 @@ import DiscountCard from './DiscountCard';
 
 import useCourseDiscountsQuery from "./useCourseDiscountsQuery"
 
+
 function handleClick(setShow: { (value: SetStateAction<boolean>): void; (arg0: boolean): any; })
 {
   return setShow(true);
@@ -19,13 +20,22 @@ function closeModal(setShow: { (value: SetStateAction<boolean>): void; (arg0: bo
   setShow(false);
 }
 
+
+
 export default function CourseDiscounts() {
 
    const [show, setShow] = useState(false);
 
+   const [refresh, setRefresh] = useState(0);
+
     const id = useParams();
 
-    const {isLoading, data} = useCourseDiscountsQuery(id.courseid as string);
+    function updateData()
+    {
+      setRefresh(refresh + 1);
+    }
+
+    const {isLoading, data} = useCourseDiscountsQuery(id.courseid as string, refresh);
 
     if(isLoading)
     {
@@ -38,27 +48,27 @@ export default function CourseDiscounts() {
 
   if(list == undefined)
   {
-    return<div>Empty</div>
+    return <div>Empty</div>
   }
 
   const toShow = list.map((discount : typeof CoursesRoutes.GET.getDiscounts.response.data[0]) => {
 
-    return <DiscountCard key = {discount._id} startDate = {discount.startDate} endDate = {discount.endDate} percent = {discount.percentage} discountID = {discount._id} courseID = {id.courseid as string}/>
+    return <DiscountCard key = {discount._id} startDate = {discount.startDate} endDate = {discount.endDate} percent = {discount.percentage} discountID = {discount._id} courseID = {id.courseid as string} update={updateData} />
   })
 
   return (
     <>
     <div style={{marginLeft:'15%', marginTop:'2rem'}}>
         <div style = {{marginBottom:'2rem', fontSize:'1.8rem', fontWeight:'600', fontFamily:'udemy sans,sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol'}}>
-            Course's Discounts
+            {id.title} Discounts
         </div>
         <button style={{marginBottom:'2%', backgroundColor:'#A00407', color:'white'}} onClick={() => handleClick(setShow)}>Add new Discount</button>
-        <div>
+        <div style={{display:'flex', flexWrap:'wrap'}}>
           {toShow}
         </div>
 
     </div>
-    {show == true && <DiscountModal handleClose={() => closeModal(setShow)} id={id.courseid as string} updateFlag={''}  />}
+    {show == true && <DiscountModal handleClose={() => closeModal(setShow)} id={id.courseid as string} updateFlag={''} updateFunc = {updateData} />}
     </>
   )
 }
