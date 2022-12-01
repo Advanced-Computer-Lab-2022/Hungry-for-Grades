@@ -29,21 +29,50 @@ export default function InstructorCoursesAnalytics(
 ) {
   console.log(props.data);
   return (
-    <ResponsiveContainer height={300} width='100%'>
-      <LineChart data={props?.data} height={700} width={1020}>
-        <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='title' stroke='#111' tickFormatter={tickFormatter} />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line
-          activeDot={{ r: 8 }}
-          dataKey='Earnings'
-          stroke='#084f09'
-          type='monotone'
-        />
-        <Line dataKey='Trainees' stroke='#a00407' />
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <ResponsiveContainer height={300} width='100%'>
+        <LineChart data={props?.data} height={700} width={1020}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='title' stroke='#111' tickFormatter={tickFormatter} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line
+            activeDot={{ r: 8 }}
+            dataKey='Earnings'
+            stroke='#084f09'
+            type='monotone'
+          />
+          <Line dataKey='Trainees' stroke='#a00407' />
+        </LineChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer height={300} width='100%'>
+        <LineChart data={props?.data} height={700} width={1020}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='title' stroke='#111' tickFormatter={tickFormatter} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line
+            activeDot={{ r: 8 }}
+            dataKey='Earnings'
+            stroke='#084f09'
+            type='monotone'
+          />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <ResponsiveContainer height={300} width='100%'>
+        <LineChart data={props?.data} height={700} width={1020}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='title' stroke='#111' tickFormatter={tickFormatter} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+
+          <Line dataKey='Trainees' stroke='#a00407' />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
