@@ -4,27 +4,18 @@ import {
   AiFillHeart
 } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
+
 import { HiShoppingCart } from 'react-icons/hi';
 
+import { addtoCart, addtoWishList } from './buttons';
+
 import { UseUserIsAuthenticated } from '@store/userStore';
+
 import './course-card-buttons.scss';
 
-import { UseCartStoreAddCourse, UseCartStoreInCart } from '@store/cartStore';
-import { UseWishListInCart, UseWishListAddCourse } from '@store/wishListStore';
+import { UseCartStoreInCart } from '@store/cartStore';
+import { UseWishListInCart } from '@store/wishListStore';
 import { ICart } from '@/interfaces/cart.interface';
-
-function addtoWishList(course: ICart, isInCart: boolean) {
-  if (!isInCart) {
-    const addCourseToWishList = UseWishListAddCourse();
-    addCourseToWishList(course);
-  }
-}
-function addtoCart(course: ICart, isInWishList: boolean) {
-  if (!isInWishList) {
-    const addCourseToCart = UseCartStoreAddCourse();
-    addCourseToCart(course);
-  }
-}
 
 function CourseCardButtons(props: ICart) {
   const useUserIsAuthenticated = UseUserIsAuthenticated();

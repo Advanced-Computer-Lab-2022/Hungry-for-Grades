@@ -1,6 +1,13 @@
 import { PaginatedRequest } from './request.interface';
 
-import { Address } from '@/interfaces/user.interface';
+import {
+  Address,
+  CreditCard,
+  IUser,
+  Note,
+  Reminder,
+  SubmittedQuestion
+} from '@/interfaces/user.interface';
 
 import { Level } from '@/enums/level.enum';
 
@@ -59,7 +66,13 @@ export type IPrice = {
   discounts: Array<CourseDiscount>;
 };
 export type Review = {
-  userID: string;
+  trainee: ITrainee;
+  comment: string;
+  createdAt: Date;
+  rating: number;
+};
+export type ICourseReview = {
+  _traineeId: string;
   comment: string;
   createdAt: Date;
   rating: number;
@@ -107,6 +120,7 @@ export type Instructor = {
 };
 
 export type ICourseLesson = {
+  _id?: string;
   description: string;
   duration: number;
   title: string;
@@ -120,6 +134,7 @@ export type ICourseQuestion = {
 };
 
 export type ICourseExercise = {
+  _id?: string | undefined;
   title: string;
   numberOfQuestions: number;
   questions: ICourseQuestion[];
@@ -131,5 +146,29 @@ export type ICourseSection = {
   exercises: ICourseExercise[];
   title: string;
 };
+
+export type EnrolledCourse = {
+  _course: ICourse;
+  _submittedQuestions: SubmittedQuestion[];
+  _visitedLessons?: string[];
+  dateOfCompletion?: Date;
+  // null or undefined signifies incomplete (not certified yet)
+  dateOfEnrollment: Date;
+  examGrade?: number;
+  notes?: Note[];
+  progress?: number;
+  reminder?: Reminder;
+  subscribedNotification?: boolean;
+};
+
+export interface ITrainee extends IUser {
+  _cart?: ICourse[];
+  _enrolledCourses?: EnrolledCourse[];
+  _lastViewedCourse?: ICourse | string;
+  _wishlist?: ICourse[];
+  balance: number;
+  creditCards: CreditCard[];
+  preferredSkills: string[];
+}
 
 export { type ICourseFilters };
