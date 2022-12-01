@@ -12,16 +12,20 @@ import TraineeRoute from './Trainee/trainee.route';
 
 validateEnv();
 
-const app = new App([new AuthRoute(), new AdminRoute(), new CoursesRoute(), new InstructorsRoute(), new TraineeRoute()]);
+try {
+  const app = new App([new AuthRoute(), new AdminRoute(), new CoursesRoute(), new InstructorsRoute(), new TraineeRoute()]);
 
-(async function connectToDatabase() {
-  connect(dbConnection.url, dbConnection.options)
-    .then(() => app.listen())
-    .catch(err => logger.error(`Connection to database failed with error: ${err}`));
+  (async function connectToDatabase() {
+    connect(dbConnection.url, dbConnection.options)
+      .then(() => app.listen())
+      .catch(err => logger.error(`Connection to database failed with error: ${err}`));
 
-  connection.on('connecting', () => logger.info('database connecting'));
-  connection.on('connected', () => logger.info('database connected'));
-  connection.on('disconnecting', () => logger.info('database disconnecting'));
-  connection.on('disconnected', () => logger.info('database disconnected'));
-  connection.on('error', () => logger.error('database error'));
-})();
+    connection.on('connecting', () => logger.info('database connecting'));
+    connection.on('connected', () => logger.info('database connected'));
+    connection.on('disconnecting', () => logger.info('database disconnecting'));
+    connection.on('disconnected', () => logger.info('database disconnected'));
+    connection.on('error', () => logger.info('database error'));
+  })();
+} catch (err) {
+  logger.info(err);
+}

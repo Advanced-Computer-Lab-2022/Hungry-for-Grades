@@ -368,7 +368,7 @@ class CourseController {
     try {
       const { courseId } = req.params;
 
-      const discounts = await this.courseService.getCourseDiscount(courseId);
+      const discounts = await this.courseService.getAllCourseDiscounts(courseId);
 
       res.json({
         data: discounts,

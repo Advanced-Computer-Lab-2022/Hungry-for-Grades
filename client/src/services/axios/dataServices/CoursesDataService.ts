@@ -223,3 +223,23 @@ export async function getCourseExam(
   }
   return res.data?.data;
 }
+
+export async function createExam(
+  courseId: string | undefined,
+  examData: ICourseQuestion[]
+): Promise<ICourseQuestion[]> {
+  if (!courseId) {
+    return [];
+  }
+  const res = await axios.post<HttpResponse<ICourseQuestion[]>>(
+    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}/exam`,
+    examData
+  );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}

@@ -3,6 +3,7 @@ import { lazy } from 'react';
 //import Home from './pages/home/Home';
 /* import Nav from '../nav/Nav'
  */
+
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
@@ -20,6 +21,7 @@ import TraineeRoutes from './TraineeRoutes';
 import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 import CourseDiscounts from '@/pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -93,6 +95,7 @@ const LazyInstructorCoursesSection = lazy(
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
+const LazyAddExam = lazy(() => import('@/pages/course-form/AddExam'));
 /**
  * Admin Pages
  */
@@ -140,7 +143,11 @@ function AllRoutes() {
             </Route>
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
-            <Route element={<LazyTraineeCourses />} path='courses' />
+            <Route
+              element={<LazyTraineeCourses />}
+              errorElement={<ErrorMessage />}
+              path='courses'
+            />
             <Route element={<LazyTraineeCertificate />} path='certificate' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
@@ -156,19 +163,13 @@ function AllRoutes() {
             path=':instructorId'
           />
           <Route element = {<CourseDiscounts />} path='hussein/:courseid' />
+          <Route element={<LazyAddCourse />} path='add-course' />
+          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route element={<LazyAddExam />} path='create-exam/:courseid' />
+          <Route element={<LazyInstructorCoursesSection />} path='' />
         </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />
-
-        {/* Instructor Routes*/}
-        <Route element={<InstructorRoutes />} path='instructor'>
-          <Route element={<LazyAddCourse />} path='add-course' />
-          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
-          <Route element={<LazyInstructorCoursesSection />} path='' />
-        </Route>
-        {/* <Route element={<InstructorRoutes />} path='/instructor'>
-
-        </Route> */}
       </Route>
 
       {/* Authorized Routes */}

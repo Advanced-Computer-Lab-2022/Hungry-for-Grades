@@ -1,0 +1,145 @@
+.pulse-ring-left {
+    border: 0;
+    content: "";
+    border-left: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    animation: pulsate infinite 1.5s;
+    -webkit-animation: pulsate infinite 1.5s;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    color: var(--secondary-color);
+}
+
+.pulse-ring-right {
+    border: 0;
+    content: "";
+    border-right: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    animation: pulsate infinite 1.5s;
+    -webkit-animation: pulsate infinite 1.5s;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
+
+.icon {
+    font-size: 1.2rem;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        -webkit-transform: scale(1, 1);
+        padding: 0.01rem 0.01rem;
+        opacity: 1;
+    }
+    25% {
+        -webkit-transform: scale(1.01, 1.01);
+        padding: 0.11rem 0.11rem;
+    }
+    50% {
+        -webkit-transform: scale(1.03, 1.03);
+    }
+    75% {
+        -webkit-transform: scale(1.04, 1.04);
+    }
+    100% {
+        -webkit-transform: scale(1.05, 1.05);
+    }
+}
+
+.micButton {
+    border: 0;
+    background: transparent;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.listening {
+    color: var(--secondary-color);
+}
+
+.boxContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 14px;
+    --boxSize: 2px;
+    --gutter: 4px;
+    width: calc((var(--boxSize) + var(--gutter)) * 5);
+}
+
+.box {
+    transform: scaleY(.4);
+    height: 100%;
+    width: var(--boxSize);
+    background: var(--secondary-color);
+    animation-duration: 1.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    border-radius: 8px;
+}
+
+.box1 {
+    animation-name: quiet;
+}
+
+.box2 {
+    animation-name: normal;
+}
+
+.box3 {
+    animation-name: quiet;
+}
+
+.box4 {
+    animation-name: loud;
+}
+
+.box5 {
+    animation-name: quiet;
+}
+
+@keyframes quiet {
+    25% {
+        transform: scaleY(.6);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(.8);
+    }
+}
+
+@keyframes normal {
+    25% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(.6);
+    }
+}
+
+@keyframes loud {
+    25% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(.4);
+    }
+    75% {
+        transform: scaleY(1.2);
+    }
+}
