@@ -24,7 +24,7 @@ function InstructorCourseCard(
   const rating = data?.rating?.averageRating ?? '';
   if (!props._course.price) return <></>;
   return (
-    <div className={`container ${styles.cardContainer ?? ''}`}>
+    <div className={`${styles.cardContainer ?? ''}`}>
       <div
         className={`rows d-flex flex-column  mx-auto px-0 my-3 d-flex flex-md-row flex-column`}
         style={{ minHeight: '8rem' }}
