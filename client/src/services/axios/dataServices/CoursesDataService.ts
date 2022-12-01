@@ -86,7 +86,26 @@ export const CoursesRoutes = {
         success: true,
         totalPages: 1
       }
+    },
+    getDiscounts : {
+      URL:'',
+      params:'',
+      query:'',
+      payload:'',
+      response:{
+        data:[
+          {
+            endDate:'',
+            percentage:0,
+            startDate:'',
+            _id:''
+          }
+        ],
+        message:'',
+        success:true
+      }
     }
+
   }
 };
 

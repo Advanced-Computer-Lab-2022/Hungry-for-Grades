@@ -19,6 +19,7 @@ import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
+import CourseDiscounts from '@/pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -154,6 +155,7 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
+          <Route element = {<CourseDiscounts />} path='hussein/:courseid' />
         </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />

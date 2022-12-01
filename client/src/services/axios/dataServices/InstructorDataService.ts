@@ -170,5 +170,18 @@ export const InstructorRoutes = {
         success: true
       }
     }
+  },
+  POST : {
+    addDiscount : {
+      URL : '',
+      params: '',
+      query : '',
+      payload : {
+        startDate:'',
+        endDate : '',
+        percentage:0
+      },
+      response:''
+    }
   }
 };

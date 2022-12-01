@@ -5,6 +5,30 @@ import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDa
 
 import { formatCurrency } from '@/utils/currency';
 
+import Button from '@/components/buttons/button/Button';
+
+import DiscountModal from './setDiscount/DiscountModal';
+import { SetStateAction, useState } from 'react';
+import {  Link, useNavigate } from 'react-router-dom';
+
+function getOriginalPrice(
+  price: number,
+  discounts: object[]
+): number | undefined {
+  if (!discounts?.length) {
+    return undefined;
+  }
+  const now = new Date();
+  const discount = discounts.find(
+    d => new Date(d?.startDate) <= now && new Date(d?.endDate) > now
+  );
+  if (!discount) {
+    return undefined;
+  }
+  return (price / (100 - discount.percentage)) * 100;
+}
+
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function InstructorCourseCard(
   props: typeof InstructorRoutes.GET.getCourses.response.data[0]
@@ -16,6 +40,8 @@ function InstructorCourseCard(
   const price = data?.price ?? '';
   const enrolled = data?.numberOfEnrolledTrainees ?? '';
   const rating = data?.rating?.averageRating ?? '';
+  const discount = data?.price?.discounts;
+  const oldPrice = getOriginalPrice(price.currentValue, discount);
   if (!props._course.price) return <></>;
   return (
     <div>
@@ -54,6 +80,8 @@ function InstructorCourseCard(
                 live
               </div>
               <div className={styles.fnt_sm}>
+                <div style={{textDecoration:'line-through', display:'inline-block'}}>{formatCurrency(oldPrice, price.currency)}</div>
+                &nbsp;&nbsp;
                 {formatCurrency(price.currentValue, price.currency)}{' '}
               </div>
             </div>
@@ -108,10 +136,14 @@ function InstructorCourseCard(
               </div>
             </div>
           </div>
+          <Link to={`/instructor/hussein/${props._course._id}`}><div style = {{width:'8rem', alignSelf:'center', fontSize:'0.2rem'}}>Discounts</div></Link> 
         </div>
       </div>
+      
     </div>
   );
 }
 
 export default InstructorCourseCard;
+
+
