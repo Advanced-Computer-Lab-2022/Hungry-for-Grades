@@ -1,3 +1,5 @@
+import { HttpException } from '@/Exceptions/HttpException';
+import { isEmpty } from '@/Utils/util';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { logger } from '@/Utils/logger';
 import { sendEmail } from '@/Common/Email Service/nodemailer.service';
@@ -29,7 +31,8 @@ class NewsController {
     try {
       const { body, subject } = req.body;
       const requestFilters: INewsLetterFilters = req.query;
-
+      if (isEmpty(req.body) && body && subject)
+        throw new HttpException(400, 'Please provide the body and subject of the email to be sent to the users');
       const emails = await this.newsLetterService.getAllEmails(requestFilters);
 
       const emailPromises = emails.data.map(email => sendEmail(email.email, body, subject));

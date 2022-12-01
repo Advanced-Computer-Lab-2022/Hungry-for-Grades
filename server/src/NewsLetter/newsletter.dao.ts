@@ -3,7 +3,6 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import { type INewsLetterFilters } from './newsletter.types';
 import newsLetterModel from './newsletter.model';
-import { logger } from '@/Utils/logger';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 
 class NewsLetterService {
