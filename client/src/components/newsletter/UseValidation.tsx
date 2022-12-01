@@ -1,9 +1,8 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-
 function useValidation() {
-  const formik = useFormik<{email:string}>({
+  const formik = useFormik<{ email: string }>({
     enableReinitialize: true,
     initialValues: {
       email: ''
@@ -16,8 +15,7 @@ function useValidation() {
         .required('Email address is Required')
     }),
     onSubmit: function submit(values, actions) {
-
-		actions.resetForm();
+      actions.resetForm();
       return Promise.resolve(values);
     }
   });
