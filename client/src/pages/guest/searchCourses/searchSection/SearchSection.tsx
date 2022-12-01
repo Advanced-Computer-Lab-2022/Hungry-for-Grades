@@ -19,17 +19,24 @@ import Range from '@components/inputs/range/Range';
 import { ChangeEvent } from '@/components/common.types';
 import ControlledStarsRating from '@/components/starsRating/ControlledStarsRating';
 
-function SearchSection(props: SearchSectionProps) {
+type SearchTitleProps = {
+  heading: string;
+  subHeading: string;
+};
+
+function SearchSection(props: SearchSectionProps & SearchTitleProps) {
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (
     <section className={styles.searchSection__container}>
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
-        <div className='container my-3 mb-5'>
-          <h1 className={`${styles.heading ?? ''} mt-5`}>Search for Courses</h1>
-          <h2 className={`${styles.subheading ?? ''}`}>subheading</h2>
-        </div>
+        {props.subHeading && props.heading && (
+          <div className='container my-3 mb-5'>
+            <h1 className={`${styles.heading ?? ''} mt-5`}>{props.heading}</h1>
+            <h2 className={`${styles.subheading ?? ''}`}>{props.subHeading}</h2>
+          </div>
+        )}
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
           <div className='container pb-5 pt-0 mx-auto pt-0 d-flex flex-row justify-content-between'>
             <div className='input-group '>

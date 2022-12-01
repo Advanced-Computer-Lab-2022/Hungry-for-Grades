@@ -1,18 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import styles from './courses.module.scss';
 
-import useSeletedFilters from './useSelectedFilters';
-
 import SearchSection from './searchSection/SearchSection';
-
-import useSearchQuery from './useSearchQuery';
 
 import CoursesSection from './coursesSection/CoursesSection';
 
 import { SelectFiltersType } from './types';
 
+import useSearchQuery from '@/pages/guest/searchCourses/useSearchQuery';
+import useSeletedFilters from '@/hooks/useSelectedFilters';
+
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import Pagination from '@/components/pagination/Pagination';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 function SearchCourses() {
   const [selectedFilters, setSelectedFilters] = useSeletedFilters() as [
@@ -21,13 +20,14 @@ function SearchCourses() {
   ];
   const { data, isLoading, error, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
-  console.log('data');
-  console.log(data);
+
   return (
     <section className={styles.courses__page}>
       <SearchSection
+        heading='Search For Courses'
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
+        subHeading='Find the best courses for you'
       />
       <section className={styles.courses__section}>
         <div className='container'>
@@ -45,7 +45,7 @@ function SearchCourses() {
               )}
             </>
           )}
-          {error && <div>Error: </div>}
+          {error && <ErrorMessage errorMessage={error?.message} />}
         </div>
       </section>
     </section>

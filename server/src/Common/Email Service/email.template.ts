@@ -1,9 +1,7 @@
 import handlebars from 'handlebars';
 import path from 'path';
-import { EmailType } from './email.enum';
 import fs from 'fs';
 import { sendEmail } from './nodemailer.service';
-import sanitizeHtml from 'sanitize-html';
 import { COMPANY_FACEBOOK, COMPANY_INSTAGRAM, COMPANY_TWITTER, COMPANY_LOGO, COMPANY_LINKEDIN, CLIENT_URL } from '@/Config';
 import { Role } from '@/User/user.enum';
 

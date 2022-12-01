@@ -1,0 +1,19 @@
+.navButton {
+    outline: none;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}
+
+.navButton:hover {
+    color: var(--secondary-color);
+    border-bottom: 5px solid var(--primary-color);
+}
+
+.activeNavButton {
+    color: var(--secondary-color);
+    border-bottom: 5px solid var(--primary-color);
+}

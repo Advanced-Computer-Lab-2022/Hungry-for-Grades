@@ -161,20 +161,13 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
-        </Route>
-        <Route element={<LazyCourse />} path='course/:courseid' />
-        <Route element={<LazyCourse />} path='/course' />
-
-        {/* Instructor Routes*/}
-        <Route element={<InstructorRoutes />} path='instructor'>
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
           <Route element={<LazyInstructorCoursesSection />} path='' />
         </Route>
-        {/* <Route element={<InstructorRoutes />} path='/instructor'>
-
-        </Route> */}
+        <Route element={<LazyCourse />} path='course/:courseid' />
+        <Route element={<LazyCourse />} path='/course' />
       </Route>
 
       {/* Authorized Routes */}

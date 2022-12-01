@@ -23,6 +23,7 @@ import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import TraineeService from '@/Trainee/trainee.dao';
+import { logger } from '@/Utils/logger';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -198,7 +199,14 @@ class CourseService {
 
     // group by
     aggregateQuery.push({ $group: { _id: '$_id', _teachedCourses: { $push: '$_teachedCourses' } } });
+    //osa
+    // get total count
+    // aggregateQuery.push({ $project: { _teachedCourses: 1, count: { $size: '$_teachedCourses' } } });
+    // skip
+    //aggregateQuery.push({ $project: { _teachedCourses: { $slice: ['$_teachedCourses', toBeSkipped, pageLimit] }, count: 1 } });
 
+    //aggregateQuery.push({ $skip: toBeSkipped });
+    //  aggregateQuery.push({ $limit: pageLimit });
     try {
       queryResult = await instructorModel.aggregate(aggregateQuery);
     } catch (error) {
@@ -206,6 +214,8 @@ class CourseService {
     }
 
     const teachedCourses: ITeachedCourse[] = queryResult[0]?._teachedCourses ?? [];
+    //osa
+    logger.info(queryResult[0].count);
 
     const totalCourses = teachedCourses.length;
     const totalPages = Math.ceil(totalCourses / pageLimit);
