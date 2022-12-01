@@ -18,8 +18,8 @@ class NewsletterRoute implements Routes {
     this.router.post('/subscribe', this.newsController.subscribe);
     // Users unsubscribe to emails
     this.router.delete('/unsubscribe', this.newsController.unsubscribe);
-    // get User emails
-    this.router.get('/emails', this.newsController.getAllEmails);
+    // filter Subscribers
+    this.router.get('/subscribers', this.newsController.getAllEmails);
   }
 }
 

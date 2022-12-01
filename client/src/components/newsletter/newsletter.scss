@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700&display=swap');
+.subscribe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.subscribe__title {
+    font-weight: bold;
+    font-size: 26px;
+    margin-bottom: 18px;
+}
+
+.subscribe__copy {
+    max-width: 450px;
+    text-align: center;
+    margin-bottom: 53px;
+    line-height: 1.5;
+}
+
+.form {
+    margin-bottom: 25px;
+}
+
+.form__email {
+    padding: 20px 25px;
+    border-radius: 5px;
+    border: 1px solid #CAD3DB;
+    width: 400px;
+    font-size: 18px;
+    color: #0F121F;
+}
+
+.form__email:focus,
+.form__email:hover {
+    outline: 1px solid var(--primary-color);
+}
+
+.form__button {
+    background: var(--secondary-color);
+    padding: 10px;
+    border: none;
+    width: 200px;
+    height: 65px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: white;
+    box-shadow: 0 4px 20px rgba(255, 61, 61, 0.7);
+}
+
+.form__button:hover {
+    box-shadow: 0 10px 20px rgba(207, 31, 8, 0.7);
+}
+
+.form__button:disabled {
+    filter: brightness(0.7);
+    -webkit-filter: brightness(0.7);
+}

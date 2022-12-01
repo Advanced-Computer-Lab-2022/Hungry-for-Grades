@@ -7,6 +7,7 @@ import {
   FaTwitter,
   FaYoutube
 } from 'react-icons/fa';
+import Newsletter from '../newsletter/Newsletter';
 function Footer() {
   const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME;
   const COMPANY_ADDRESS = import.meta.env.VITE_COMPANY_ADDRESS;
@@ -93,6 +94,9 @@ function Footer() {
 
         <section className=''>
           <div className='container text-center text-md-start mt-5'>
+						<div className='d-flex justify-content-center'>
+							<Newsletter/>
+						</div>
             <div className='row mt-3'>
               <div className='col-md-3 col-lg-4 col-xl-3 mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold'>
@@ -122,6 +126,7 @@ function Footer() {
                   elit.
                 </p>
               </div>
+
 
               <div className='col-md-2 col-lg-2 col-xl-2 mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold'>Products</h6>
