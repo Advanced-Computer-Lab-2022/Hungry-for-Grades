@@ -5,6 +5,7 @@ import { AdminRoutes } from './dataServices/AdminDataService';
 
 import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
+import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
 /**
  * HTTP methods
@@ -37,6 +38,9 @@ export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
 export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];
 
+export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
+  typeof NewsLetterRoutes[T][keyof Partial<typeof NewsLetterRoutes[T]>];
+
 /**
  * All GET routes that are available for the  data service
  */
@@ -45,20 +49,24 @@ export type GETRoutesType =
   | CoursesRoutesType
   | InstructorRouteType
   | AuthRoutesType<'GET'>
-  | TraineeRouteType<'GET'>;
+  | TraineeRouteType<'GET'>
+  | NewsLetterRouteType<'GET'>;
 /**
  * All POST routes that are available for the  data service
  */
 export type POSTRoutesType =
   | AdminRoutesType
   | AuthRoutesType<'POST'>
-  | TraineeRouteType<'POST'>;
+  | TraineeRouteType<'POST'>
+  | NewsLetterRouteType<'POST'>;
 
 /**
  * All Delete Requests
  */
 
-export type DELETERoutesType = TraineeRouteType<'DELETE'>;
+export type DELETERoutesType =
+  | TraineeRouteType<'DELETE'>
+  | NewsLetterRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
