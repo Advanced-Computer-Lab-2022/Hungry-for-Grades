@@ -6,10 +6,10 @@ import newsLetterModel from './newsletter.model';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 
 class NewsLetterService {
-  public getAllEmails = async (filters: INewsLetterFilters): Promise<PaginatedData<INewsletter> | INewsletter[]> => {
+  public getAllEmails = async (filters: INewsLetterFilters): Promise<PaginatedData<INewsletter>> => {
     const { page = 1, limit = '12', email = '', role = '', sortBy = -1 } = filters;
     const pageLimit: number = parseInt(`${limit}`) ?? 12;
-    const toBeSkipped = (parseInt(page) - 1) * pageLimit ?? 0;
+    const toBeSkipped = (parseInt(`${page}`) - 1) * pageLimit ?? 0;
 
     const aggregateQuery: any[] = [
       {
@@ -23,7 +23,7 @@ class NewsLetterService {
         },
       },
       {
-        $sort: { email: parseInt(sortBy) },
+        $sort: { email: parseInt(`${sortBy}`) },
       },
       {
         $skip: toBeSkipped,
@@ -34,7 +34,7 @@ class NewsLetterService {
     ];
 
     let queryResult: INewsletter[];
-    let count: [{ count: number }] | undefined;
+    let count: { count: number }[] | undefined;
     try {
       queryResult = await newsLetterModel.aggregate(aggregateQuery);
       if (!queryResult) throw new HttpException(HttpStatusCodes.NOT_FOUND, `No NewsLetter found with the email: ${email} and role: ${role}`);
@@ -58,7 +58,7 @@ class NewsLetterService {
     return {
       data: queryResult,
       page: page,
-      pageSize: limit < totalEmails ? limit : totalEmails,
+      pageSize: parseInt(`${limit}`) < parseInt(`${totalEmails}`) ? parseInt(`${limit}`) : parseInt(`${totalEmails}`),
       totalPages: totalPages,
       totalResults: totalEmails,
     };
