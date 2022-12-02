@@ -45,7 +45,9 @@ const LazyChangePassword = lazy(
 /**
  * User Pages
  */
-const LazyUserProfile = lazy(() => import('@/pages/user/profile/Profile'));
+const LazyUserProfile = lazy(
+  () => import('@/pages/trainee/editProfile/Profile')
+);
 /**
  * Trainee Pages
  */
