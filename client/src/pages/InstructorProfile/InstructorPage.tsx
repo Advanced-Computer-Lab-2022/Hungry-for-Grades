@@ -37,7 +37,7 @@ export default function InstructorPage() {
 
   const { isLoading, data } = useQuery(
     ['getInstructorNow'],
-    () => getInstructor(instructorId),
+    () => getInstructor(instructorId  as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -116,7 +116,7 @@ export default function InstructorPage() {
       <ReviewSection />
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
-        <ReviewList text={instructorId} />
+        <ReviewList text={instructorId as string} />
       </div>
     </div>
   );

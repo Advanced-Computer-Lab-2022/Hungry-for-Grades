@@ -104,7 +104,7 @@ export const InstructorRoutes = {
       }
     },
     getInstructor: {
-      URL: '/instructor/',
+      URL: '/instructor',
       params: '',
       query: '',
       payload: {},

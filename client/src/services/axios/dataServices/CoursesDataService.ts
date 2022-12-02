@@ -108,6 +108,34 @@ export const CoursesRoutes = {
         message:'',
         success:true
       }
+    },
+    getCourseReviews : {
+      URL : '/courses/rating' as const,
+      params : '',
+      query : '',
+      payload : '',
+      response : {
+        data : [
+          {
+            _trainee : {
+              _id : '',
+              name : '',
+              profileImage : '',
+              country : ''
+            },
+            comment : '',
+            createdAt : '',
+            rating : 0,
+            _id : ''
+          }
+        ],
+        page : 0,
+        pageSize : 0,
+        totalPages : 0,
+        totalResults : 0,
+        message : '',
+        success : true
+      }
     }
 
   }

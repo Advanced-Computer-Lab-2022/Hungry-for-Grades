@@ -7,9 +7,9 @@ function getInstructor() {
     
   const Inst = InstructorRoutes.GET.getInstructor;
 
-  Inst.URL = '/instructor/6379620f2c3f71696ca34735'
+  //Inst.URL = '/instructor/6379620f2c3f71696ca34735'
 
-  //Inst.params = '6379620f2c3f71696ca34735';
+  Inst.params = '637962792c3f71696ca3473c';
 
   return getRequest(Inst);
 

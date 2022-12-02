@@ -54,7 +54,7 @@ export default function CourseList(props: { text: string; namme: string }) {
     return <LoaderCards numberOfCards={2} />;
   }
 
-  const toShow = (list?.data).map(
+  const toShow = list?.data?.map(
     (course: typeof InstructorRoutes.GET.getCourses.response.data[0]) => {
       return (
         <CourseCard

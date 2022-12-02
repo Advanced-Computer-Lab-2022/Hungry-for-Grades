@@ -11,7 +11,8 @@ export default function InstructorRoutes() {
   const location = useLocation();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
 
-  return 'instructor' === Role.INSTRUCTOR ? (
+  //'instructor' === Role.INSTRUCTOR 
+  return  true ? (
     <>
       <InstructorDash />
       <Outlet />

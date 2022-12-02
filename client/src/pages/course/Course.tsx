@@ -14,6 +14,7 @@ import { UseCountry } from '@/store/countryStore';
 
 import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import CourseReviewList from './CourseReviewList';
 
 function Course() {
   const country = UseCountry();
@@ -54,6 +55,9 @@ function Course() {
       </section>
       <section>
         <CourseContent {...data} />
+      </section>
+      <section>
+        <CourseReviewList />
       </section>
     </div>
   );
