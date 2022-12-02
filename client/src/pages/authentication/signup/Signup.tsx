@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { v4 as uuidv4 } from 'uuid';
 
 import { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import AccountForm from './AccountForm';
+import { toast } from 'react-toastify';
+
+import AccountForm from './accountForm/AccountForm';
 import { type SignupData, type UpdateSignupData } from './types';
-import UserForm from './UserForm';
+import UserForm from './userForm/UserForm';
 
 import ConfirmEmail from './ConfirmEmail';
 
@@ -19,6 +20,7 @@ import ProgressSteps from '@components/progress/ProgressSteps';
 import './signup.scss';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
+import { toastOptions } from '@/components/toast/options';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -39,7 +41,7 @@ const titles = ['User Form', 'Account Form', 'Confirm Email'];
 function Signup() {
   const [data, setData] = useState<SignupData>(INITIAL_DATA);
   const { mutateAsync } = usePostQuery();
-
+  const navigate = useNavigate();
   function updateData(newData: UpdateSignupData) {
     setData(prev => {
       return { ...prev, ...newData };
@@ -62,15 +64,15 @@ function Signup() {
   } = useMultistepForm(
     [
       // eslint-disable-next-line react/jsx-no-bind
-      <UserForm key={uuidv4()} {...data} updateData={updateData} />,
+      <UserForm key='sfodsfmapf88380' {...data} updateData={updateData} />,
       <AccountForm
-        key={uuidv4()}
+        key='asdasdasqwmeiom3o'
         {...data}
         prev={previous}
         updateData={updateData}
       />,
       <ConfirmEmail
-        key={uuidv4()}
+        key='asddmadmd3i029393284'
         email={data.email}
         firstName={data.firstName}
         handleSubmit={handleSubmit}
@@ -87,22 +89,48 @@ function Signup() {
   }
 
   async function handleSubmit() {
-    const signup = Object.assign({}, TraineeRoutes.POST.signup);
-    const address = data.email;
-    delete data?.email;
-    signup.payload = {
-      ...data,
-      email: {
-        address
-      }
-    };
-    await mutateAsync(signup);
+    try {
+      const signup = Object.assign({}, TraineeRoutes.POST.signup);
+      const address = data.email;
+      const name = `${data.firstName} ${data.lastName}`;
 
-    console.log('data');
-    console.log(data);
-    if (isLastStep) {
-    } else {
-      next();
+      signup.payload = {
+        ...data,
+        email: {
+          address
+        },
+        name
+      };
+      await toast.promise(
+        mutateAsync(signup),
+        {
+          pending: 'Pending',
+          success: `Welcome ${name}`
+        },
+        toastOptions
+      );
+
+      navigate('/auth/login', {
+        state: {
+          email: data.email
+        },
+        replace: true
+      });
+
+      if (isLastStep) {
+      } else {
+        next();
+      }
+    } catch (error) {
+      console.log(error);
+      if (!error) return;
+      if (
+        error?.response &&
+        error?.response.data &&
+        error?.response?.data.message
+      )
+        toast.error(error.response.data.message, toastOptions);
+      else toast.error(error?.message, toastOptions);
     }
   }
 

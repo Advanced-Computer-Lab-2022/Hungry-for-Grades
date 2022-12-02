@@ -302,8 +302,7 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {
-        firstName: '',
-        lastName: '',
+        name: '',
         birthDate: '',
         phone: '',
         email: {
