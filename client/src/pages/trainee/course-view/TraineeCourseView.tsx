@@ -10,6 +10,8 @@ import SolveExercise from './SolveExercise';
 
 import DownView from './DownView';
 
+import RateCourse from './RateCourse';
+
 import { UseCountry } from '@/store/countryStore';
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { ICourse } from '@/interfaces/course.interface';
@@ -72,18 +74,20 @@ function CourseView() {
     return <h1 className='text-danger text-center'>Section not found</h1>;
   }
   if (
-    !data.sections[leftProps.sectionIndex].lessons[leftProps.itemIndex] &&
-    !data.sections[leftProps.sectionIndex].exercises[leftProps.itemIndex]
+    !data.sections[leftProps.sectionIndex]?.lessons[leftProps.itemIndex] &&
+    !data.sections[leftProps.sectionIndex]?.exercises[leftProps.itemIndex]
   ) {
     return <h1 className='text-danger text-center'>Item not found</h1>;
   }
   let lessonId = '';
   if (itemType === 'exercise') {
     lessonId =
-      data.sections[leftProps.sectionIndex].exercises[leftProps.itemIndex]._id;
+      data.sections[leftProps.sectionIndex]?.exercises[leftProps.itemIndex]
+        ?._id ?? '';
   } else {
     lessonId =
-      data.sections[leftProps.sectionIndex].lessons[leftProps.itemIndex]._id;
+      data.sections[leftProps.sectionIndex]?.lessons[leftProps.itemIndex]
+        ?._id ?? '';
   }
 
   return (
@@ -100,6 +104,7 @@ function CourseView() {
           </div>
         </div>
         <div className='col-sm-12 col-md-3'>
+          <RateCourse />
           <Content {...data} />
         </div>
       </div>

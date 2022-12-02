@@ -12,24 +12,33 @@ import SortFilter from './filtersInput/SortFilter';
 
 import { type SearchSectionProps } from './types';
 
+import Dictaphone from '@components/dictaphone/Dictaphone';
+
 import Range from '@components/inputs/range/Range';
 
 import { ChangeEvent } from '@/components/common.types';
 import ControlledStarsRating from '@/components/starsRating/ControlledStarsRating';
 
-function SearchSection(props: SearchSectionProps) {
+type SearchTitleProps = {
+  heading: string;
+  subHeading: string;
+};
+
+function SearchSection(props: SearchSectionProps & SearchTitleProps) {
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (
     <section className={styles.searchSection__container}>
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
-        <div className='container my-3 mb-5'>
-          <h1 className={`${styles.heading ?? ''} mt-5`}>Search for Courses</h1>
-          <h2 className={`${styles.subheading ?? ''}`}>subheading</h2>
-        </div>
+        {props.subHeading && props.heading && (
+          <div className='container my-3 mb-5'>
+            <h1 className={`${styles.heading ?? ''} mt-5`}>{props.heading}</h1>
+            <h2 className={`${styles.subheading ?? ''}`}>{props.subHeading}</h2>
+          </div>
+        )}
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
-          <div className='container p-5 d-flex flex-row justify-content-between'>
+          <div className='container pb-5 pt-0 mx-auto pt-0 d-flex flex-row justify-content-between'>
             <div className='input-group '>
               <input
                 aria-describedby='search-addon'
@@ -47,12 +56,20 @@ function SearchSection(props: SearchSectionProps) {
               />
             </div>
             <button
-              className={styles.filter__icon}
+              className={`${styles.filter__icon ?? ''} mx-4 pb-3`}
               type='button'
               onClick={() => setIsFilterOpen(prev => !prev)}
             >
               <AiOutlineFilter />
             </button>
+            <Dictaphone
+              onChange={function onChange(value) {
+                //alert(value);
+                setSelectedFilters(prev => {
+                  return { ...prev, searchTerm: value };
+                });
+              }}
+            />
           </div>
           <div
             className={`${
