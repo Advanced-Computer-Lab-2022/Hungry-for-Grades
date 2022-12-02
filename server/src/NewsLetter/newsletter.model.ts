@@ -14,7 +14,7 @@ const newsLetterSchema = new Schema<INewsletter>(
       type: String,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 const newsLetterModel = model<INewsletter & Document>('Newsletter', newsLetterSchema);

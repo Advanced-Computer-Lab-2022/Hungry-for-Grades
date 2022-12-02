@@ -1,15 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Link } from 'react-router-dom';
-
 import { AiFillEdit } from 'react-icons/ai';
 
 import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
 
+import { Link } from 'react-router-dom';
+
 import styles from './InstructorCourseCard.module.scss';
 
-import { formatCurrency } from '@/utils/currency';
 import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
+
+import { formatCurrency } from '@/utils/currency';
+
+function getOriginalPrice(
+  price: number,
+  discounts: object[]
+): number | undefined {
+  if (!discounts?.length) {
+    return undefined;
+  }
+  const now = new Date();
+  const discount = discounts.find(
+    d => new Date(d?.startDate) <= now && new Date(d?.endDate) > now
+  );
+  if (!discount) {
+    return undefined;
+  }
+  return (price / (100 - discount.percentage)) * 100;
+}
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function InstructorCourseCard(
@@ -22,6 +40,8 @@ function InstructorCourseCard(
   const price = data?.price ?? '';
   const enrolled = data?.numberOfEnrolledTrainees ?? '';
   const rating = data?.rating?.averageRating ?? '';
+  const discount = data?.price?.discounts;
+  const oldPrice = getOriginalPrice(price.currentValue, discount);
   if (!props._course.price) return <></>;
   return (
     <div className={`${styles.cardContainer ?? ''}`}>
@@ -59,6 +79,15 @@ function InstructorCourseCard(
                 live
               </div>
               <div className={styles.fnt_sm}>
+                <div
+                  style={{
+                    textDecoration: 'line-through',
+                    display: 'inline-block'
+                  }}
+                >
+                  {formatCurrency(oldPrice, price.currency)}
+                </div>
+                &nbsp;&nbsp;
                 {formatCurrency(price.currentValue, price.currency)}{' '}
               </div>
             </div>
@@ -122,10 +151,13 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-        <Link className='btn btn-primary btn-lg' to={``}>
+        <a
+          className='btn btn-primary btn-lg'
+          href={'https://www.linkedin.com/feed/'}
+        >
           Share
           <BsShareFill />
-        </Link>
+        </a>
         <Link className='btn btn-primary btn-lg' to={``}>
           Edit
           <AiFillEdit />
@@ -133,6 +165,13 @@ function InstructorCourseCard(
         <Link className='btn btn-secondary btn-lg' to={``}>
           Delete
           <BsFillTrashFill />
+        </Link>
+        <Link
+          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
+        >
+          <button className='btn btn-primary btn-lg' type='button'>
+            Discounts
+          </button>
         </Link>
       </div>
     </div>

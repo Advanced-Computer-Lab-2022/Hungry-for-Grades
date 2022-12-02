@@ -36,8 +36,8 @@ export default function InstructorPage() {
   console.log(instructorId);
 
   const { isLoading, data } = useQuery(
-    ['getInstructorNow'],
-    () => getInstructor(instructorId),
+    ['getInstructorNoww'],
+    () => getInstructor(instructorId as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -58,13 +58,13 @@ export default function InstructorPage() {
             src={Instructor?.profileImage}
           />
           <div className={styles.social_wrapper}>
-            {Instructor?.socialMedia.linkedin.length > 0 && (
+            {Instructor?.socialMedia?.linkedin?.length > 0 && (
               <a href={Instructor.socialMedia.linkedin}>
                 {' '}
                 <AiFillLinkedin style={{ fontSize: '2rem' }} />{' '}
               </a>
             )}
-            {Instructor?.socialMedia.github.length > 0 && (
+            {Instructor?.socialMedia?.github?.length > 0 && (
               <a href={Instructor.socialMedia.github}>
                 {' '}
                 <AiFillGithub
@@ -72,7 +72,7 @@ export default function InstructorPage() {
                 />{' '}
               </a>
             )}
-            {Instructor?.socialMedia.youtube.length > 0 && (
+            {Instructor?.socialMedia?.youtube?.length > 0 && (
               <a href={Instructor.socialMedia.youtube}>
                 {' '}
                 <AiFillYoutube
@@ -80,7 +80,7 @@ export default function InstructorPage() {
                 />{' '}
               </a>
             )}
-            {Instructor?.socialMedia.personalWebsite.length > 0 && (
+            {Instructor?.socialMedia?.personalWebsite?.length > 0 && (
               <a href={Instructor.socialMedia.personalWebsite}>
                 {' '}
                 <BiWorld style={{ fontSize: '2rem', color: 'grey' }} />{' '}
@@ -116,7 +116,7 @@ export default function InstructorPage() {
       <ReviewSection />
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
-        <ReviewList text={instructorId} />
+        <ReviewList text={instructorId as string} />
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function CourseCard(props: {
   course: typeof InstructorRoutes.GET.getCourses.response.data[0];
   instructorName: string;
 }) {
-  const list = props.course._course.captions.map(language => {
+  const list = props?.course?._course?.captions?.map(language => {
     return (
       <>
         <span key={language}> {language} </span>{' '}

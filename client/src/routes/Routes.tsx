@@ -97,6 +97,9 @@ const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
 const LazyAddExam = lazy(() => import('@/pages/course-form/AddExam'));
+const LazyMyReview = lazy(
+  () => import('@pages/instructorDashboard/reviewAndRating/Main')
+);
 /**
  * Admin Pages
  */
@@ -104,6 +107,12 @@ const LazyAddInstructor = lazy(() => import('@/pages/admin/AddInstructor'));
 const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
 const LazyAddCorporateTrainee = lazy(
   () => import('@/pages/admin/AddCorporateTrainee')
+);
+const LazyDiscounts = lazy(
+  () =>
+    import(
+      '@pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts'
+    )
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -163,10 +172,12 @@ function AllRoutes() {
             element={<LazyInstructorProfileToShow />}
             path=':instructorId'
           />
+          <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
           <Route element={<LazyInstructorCoursesSection />} path='' />
+          <Route element={<LazyMyReview />} path='rating-review' />
         </Route>
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyCourse />} path='/course' />

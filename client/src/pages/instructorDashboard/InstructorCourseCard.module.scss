@@ -51,7 +51,7 @@
     transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
     border: 1px solid var(--primary-color);
     margin-bottom: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0; //it was 0.5rem by Omar Sherif ALi
     padding: 1rem;
     background-color: var(--primary-background-color);
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
