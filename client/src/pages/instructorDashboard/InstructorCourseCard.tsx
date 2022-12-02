@@ -4,13 +4,13 @@ import { AiFillEdit } from 'react-icons/ai';
 
 import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
 
+import { Link } from 'react-router-dom';
+
 import styles from './InstructorCourseCard.module.scss';
 
 import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 
 import { formatCurrency } from '@/utils/currency';
-
-import {  Link } from 'react-router-dom';
 
 function getOriginalPrice(
   price: number,
@@ -28,7 +28,6 @@ function getOriginalPrice(
   }
   return (price / (100 - discount.percentage)) * 100;
 }
-
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function InstructorCourseCard(
@@ -80,7 +79,14 @@ function InstructorCourseCard(
                 live
               </div>
               <div className={styles.fnt_sm}>
-                <div style={{textDecoration:'line-through', display:'inline-block'}}>{formatCurrency(oldPrice, price.currency)}</div>
+                <div
+                  style={{
+                    textDecoration: 'line-through',
+                    display: 'inline-block'
+                  }}
+                >
+                  {formatCurrency(oldPrice, price.currency)}
+                </div>
                 &nbsp;&nbsp;
                 {formatCurrency(price.currentValue, price.currency)}{' '}
               </div>
@@ -145,7 +151,10 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-        <a className='btn btn-primary btn-lg' href={'https://www.linkedin.com/feed/'}>
+        <a
+          className='btn btn-primary btn-lg'
+          href={'https://www.linkedin.com/feed/'}
+        >
           Share
           <BsShareFill />
         </a>
@@ -157,12 +166,16 @@ function InstructorCourseCard(
           Delete
           <BsFillTrashFill />
         </Link>
-        <Link to={`/instructor/hussein/${props._course.title}/${props._course._id}`}><button className='btn btn-primary btn-lg'>Discounts</button></Link> 
+        <Link
+          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
+        >
+          <button className='btn btn-primary btn-lg' type='button'>
+            Discounts
+          </button>
+        </Link>
       </div>
     </div>
   );
 }
 
 export default InstructorCourseCard;
-
-

@@ -4,18 +4,14 @@ import { getRequest } from '@/services/axios/http-verbs';
 
 import { CoursesRoutes } from '@/services/axios/dataServices/CoursesDataService';
 
-async function getDiscounts(id : string) {
-
+async function getDiscounts(id: string) {
   const Discounts = CoursesRoutes.GET.getDiscounts;
 
   Discounts.URL = `/courses/${id}/discount`;
 
   return getRequest(Discounts);
-
 }
-const useCourseDiscountsQuery = ( id : string, refresh : number) => {
-
-
+const useCourseDiscountsQuery = (id: string, refresh: number) => {
   return {
     ...useQuery(['course-discountsss', refresh, id], () => getDiscounts(id), {
       cacheTime: 1000 * 60 * 60 * 24,

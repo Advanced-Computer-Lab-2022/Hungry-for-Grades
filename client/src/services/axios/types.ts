@@ -31,9 +31,8 @@ export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
   typeof CoursesRoutes['GET']
 >];
 
-export type InstructorRouteType<T extends 'GET'|'POST'> = typeof InstructorRoutes[T][keyof Partial<
-  typeof InstructorRoutes[T]
->];
+export type InstructorRouteType<T extends 'GET' | 'POST'> =
+  typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
 export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];

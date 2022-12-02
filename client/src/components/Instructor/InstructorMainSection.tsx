@@ -31,12 +31,13 @@ export default function InstructorMainSection() {
             )}
           </div>
           <div style={{ marginRight: '3.2rem' }}>
-            <Link to={'/instructor/rating-review'}><div
-              className={styles.listitem}
-              onClick={() => setMyArray([0, 1, 0])}
-            >
-              Rating and Reviews
-            </div>
+            <Link to={'/instructor/rating-review'}>
+              <div
+                className={styles.listitem}
+                onClick={() => setMyArray([0, 1, 0])}
+              >
+                Rating and Reviews
+              </div>
             </Link>
             {myArray.at(1) == 1 && (
               <div

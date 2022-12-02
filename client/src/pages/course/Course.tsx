@@ -9,12 +9,13 @@ import CourseHeader from './CourseHeader';
 
 import PreviewVideo from './PreviewVideo';
 
+import CourseReviewList from './CourseReviewList';
+
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 
 import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
-import CourseReviewList from './CourseReviewList';
 
 function Course() {
   const country = UseCountry();

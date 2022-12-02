@@ -171,17 +171,17 @@ export const InstructorRoutes = {
       }
     }
   },
-  POST : {
-    addDiscount : {
-      URL : '',
+  POST: {
+    addDiscount: {
+      URL: '',
       params: '',
-      query : '',
-      payload : {
-        startDate:'',
-        endDate : '',
-        percentage:0
+      query: '',
+      payload: {
+        startDate: '',
+        endDate: '',
+        percentage: 0
       },
-      response:''
+      response: ''
     }
   }
 };
