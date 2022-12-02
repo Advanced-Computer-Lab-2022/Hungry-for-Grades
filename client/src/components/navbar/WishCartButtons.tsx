@@ -1,7 +1,8 @@
 import { AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 
-import '@components/courseCard/course-card.module.scss';
+import styles from './wish-cart-buttons.module.scss';
+
 import {
   UseCartStoreTotalCost,
   UseCartStoreTotalItems
@@ -22,31 +23,39 @@ function CourseCardButtons() {
     <>
       <NavLink replace state={{ from: '/course/' }} to='/auth/login'>
         <div className='d-flex flex-row justify-content-between'>
-          <NavLink className='position-relative' to='/trainee/cart'>
-            <p className='mt-2'>
-              <AiOutlineShoppingCart className='icon' />
+          <NavLink className='mt-2' to='/trainee/cart'>
+            <p className='position-relative'>
+              <AiOutlineShoppingCart className={styles.icon} />
               {cartCount > 0 && (
-                <span className='position-absolute top-5 start-100 translate-middle badge rounded-pill'>
-                  +{cartCount}
+                <span
+                  className={`${styles.right ?? ''} text-white badge rounded-pill bg-secondary`}
+                >
+                  +{toSmallNumber(cartCount)}
                 </span>
               )}
               {cartCost > 0 && (
-                <span className='position-absolute top-5 end-100 translate-middle badge rounded-pill'>
+                <span
+                  className={`${styles.rightTop ?? ''} text-white badge rounded-pill bg-secondary`}
+                >
                   +{toSmallNumber(cartCost)}
                 </span>
               )}
             </p>
           </NavLink>
-          <NavLink className='position-relative' to='/trainee/wishlist'>
-            <p className='mt-2'>
-              <AiOutlineHeart className='icon' />
+          <NavLink className='mt-2 p-0' to='/trainee/wishlist'>
+            <p className='p-0  position-relative'>
+              <AiOutlineHeart className={styles.icon} />
               {wishListCount > 0 && (
-                <span className='position-absolute top-5 start-100 translate-middle badge rounded-pill'>
-                  +{wishListCount}
+                <span
+                  className={`${styles.right ?? ''} text-white badge rounded-pill bg-secondary`}
+                >
+                  +{toSmallNumber(wishListCount)}
                 </span>
               )}{' '}
               {wishListCost > 0 && (
-                <span className='position-absolute top-5 start-100 translate-middle badge rounded-pill'>
+                <span
+                  className={`${styles.rightTop ?? ''} text-white badge rounded-pill bg-secondary`}
+                >
                   +{toSmallNumber(wishListCost)}
                 </span>
               )}

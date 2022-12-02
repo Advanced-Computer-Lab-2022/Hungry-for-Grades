@@ -22,15 +22,23 @@ import {
   UseAuthStoreRemoveToken
 } from '@store/authStore';
 
+import { UseCartStoreSetCart } from '@store/cartStore';
+import { UseWishListSetCart } from '@store/wishListStore';
+
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+import { UpdateCountry } from '@/store/countryStore';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
   const { mutateAsync: login, isError, error } = usePostQuery();
+  const updateCountry = UpdateCountry();
+
   const useSetUser = UseSetUser();
   const useAuthStoreSetToken = UseAuthStoreSetToken();
   const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
+	const useCartStoreSetCart = UseCartStoreSetCart();
+	const useWishListSetCart = UseWishListSetCart();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,9 +61,14 @@ function Login() {
       const response = await login(loginRoute);
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
+        const userRole: Role = role.toLocaleLowerCase();
         console.log(user);
         console.log(response?.data?.data);
-        useSetUser({...user,role});
+        useSetUser({ ...user, role: userRole });
+				useCartStoreSetCart(user?._cart);
+				useWishListSetCart(user?._wishList);
+
+        updateCountry(user.country);
         if (formik.values.rememberMe) {
           useAuthStoreSetToken(token);
         } else {
@@ -67,7 +80,7 @@ function Login() {
         if (from) {
           navigate(from.toLocaleLowerCase());
         } else {
-          navigate(`/${role as Role}/home`.toLocaleLowerCase(), {
+          navigate(`/${userRole}/dashboard`.toLocaleLowerCase(), {
             replace: true
           });
         }
@@ -79,15 +92,7 @@ function Login() {
       console.log(err);
       return false;
     }
-  }, [
-    formik,
-    login,
-    useSetUser,
-    from,
-    useAuthStoreSetToken,
-    useAuthStoreRemoveToken,
-    navigate
-  ]);
+  }, [formik, login, useSetUser, useCartStoreSetCart, useWishListSetCart, updateCountry, from, useAuthStoreSetToken, useAuthStoreRemoveToken, navigate]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
