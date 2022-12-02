@@ -1,20 +1,22 @@
-import { Newsletter } from '@/NewsLetter/newsletter.interface';
+import { type INewsletter } from '@/NewsLetter/newsletter.interface';
 import { Document, model, Schema } from 'mongoose';
-const newsLetterSchema = new Schema<Newsletter>(
+const newsLetterSchema = new Schema<INewsletter>(
   {
-    emails: {
-      index: true,
+    email: {
       lowercase: true,
-      match: [/\S+@\S+\.\S+/, 'is invalid'],
+      match: [/\S+@\S+\.\S+/, ' Email is invalid'],
       required: [true, "can't be blank"],
       type: String,
     },
+    role: {
+      enum: ['admin', 'guest', 'instructor', 'trainee'],
+      required: true,
+      type: String,
+    },
   },
-  {
-    timestamps: true,
-  },
+  { versionKey: false }
 );
 
-const newsLetterModel = model<Newsletter & Document>('Newsletter', newsLetterSchema);
+const newsLetterModel = model<INewsletter & Document>('Newsletter', newsLetterSchema);
 
 export default newsLetterModel;
