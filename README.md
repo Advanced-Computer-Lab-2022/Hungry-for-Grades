@@ -33,7 +33,7 @@
   <h3 align="center">CanCham Academy</h3>
 
   <p align="center">
-    An E-commerce Website !
+    An Educational Website !
     <br />
 	  ·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
