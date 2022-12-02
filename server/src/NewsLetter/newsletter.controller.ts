@@ -44,13 +44,13 @@ class NewsController {
     }
   };
 
-  public unsubscribe = async (req: Request<{}, {}, { email: string }, {}>, res: Response<INewsletter>, next: NextFunction) => {
+  public unsubscribe = async (req: Request<{}, {}, { email: string }, {}>, res: Response<HttpResponse<number>>, next: NextFunction) => {
     try {
       const { body } = req;
 
-      const newsLetterPaginatedResponse: PaginatedData<INewsletter> = await this.newsLetterService.unsubscribe(body);
+      const newsLetterPaginatedResponse = await this.newsLetterService.unsubscribe(body);
 
-      res.json({ ...newsLetterPaginatedResponse, message: 'Completed Successfully', success: true });
+      res.json({ data: newsLetterPaginatedResponse.data, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
