@@ -54,6 +54,7 @@ class AuthService {
     cookie: ICookie;
     findUser: IUser;
     refreshToken: string;
+    role: Role;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
@@ -102,7 +103,7 @@ class AuthService {
     delete findUser.password;
     findUser.role = role;
 
-    return { accessToken, cookie, findUser, refreshToken };
+    return { accessToken, cookie, findUser, refreshToken, role };
   }
 
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {

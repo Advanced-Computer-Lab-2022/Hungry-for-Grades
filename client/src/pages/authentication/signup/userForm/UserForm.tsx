@@ -1,13 +1,13 @@
 import PhoneInput from 'react-phone-number-input';
-import { FormikErrors, useFormik } from 'formik';
-
-import * as Yup from 'yup';
+import { FormikErrors } from 'formik';
 
 import Select from 'react-select';
 
-import { type UpdateSignupData, type UserFormProps } from './types';
+import ReactFlagsSelect from 'react-flags-select';
 
-import { getCountries } from '@utils/countries';
+import { type UpdateSignupData, type UserFormProps } from '../types';
+
+import useValidation from './useValidation';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
@@ -20,6 +20,16 @@ type Options = {
   label: string;
 };
 
+const genders: Options[] = [
+  {
+    label: Gender.MALE,
+    value: Gender.MALE
+  },
+  {
+    label: Gender.FEMALE,
+    value: Gender.FEMALE
+  }
+];
 const scrollToErrors = (
   errors: FormikErrors<{
     firstName: string;
@@ -48,49 +58,13 @@ function UserForm({
   country,
   updateData
 }: UserFormProps & { updateData: (data: UpdateSignupData) => void }) {
-  const countries: Options[] = getCountries();
-  const genders: Options[] = [
-    {
-      label: Gender.MALE,
-      value: Gender.MALE
-    },
-    {
-      label: Gender.FEMALE,
-      value: Gender.FEMALE
-    }
-  ];
-
-  const formik = useFormik<UserFormProps>({
-    initialValues: {
-      firstName: firstName || '',
-      lastName: lastName || '',
-      birthDate: birthDate || '',
-      phone: phone || '',
-      gender: gender || '',
-      country: country || ''
-    },
-
-    validationSchema: Yup.object({
-      firstName: Yup.string()
-        .min(1, 'First Name is Too Short!')
-        .max(50, 'First Name is Too Long!')
-        .matches(/^[a-zA-Z]+$/, 'First Name must be only letters')
-        .required('First Name is Required'),
-      lastName: Yup.string()
-        .min(1, 'Last Name Too Short!')
-        .matches(/^[a-zA-Z]+$/, 'First Name must be only letters')
-        .max(50, 'Last Name Too Long!')
-        .required('Last Name is Required'),
-      birthDate: Yup.date()
-        .min(new Date(1900, 1, 1), 'Birth Date is Too Old!')
-        .max(new Date(), 'Birth Date is Wrong')
-        .required('Birth Date is Required'),
-      phone: Yup.string().required('Phone is Required'),
-      country: Yup.string()
-    }),
-    onSubmit: (_, actions) => {
-      actions.setSubmitting(true);
-    }
+  const { formik } = useValidation({
+    firstName,
+    lastName,
+    birthDate,
+    phone,
+    gender,
+    country
   });
 
   async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
@@ -160,7 +134,8 @@ function UserForm({
           </label>
           <div className='col-sm-12'>
             <Select
-              className='select'
+              className='select react-select-container'
+              classNamePrefix='react-select'
               errorMessage={formik.errors.gender}
               id='Gender'
               label={'Gender'}
@@ -210,27 +185,16 @@ function UserForm({
           <label className={` col-form-label py-3`} htmlFor={'country'}>
             Country
           </label>
-          <div className='col-sm-12'>
-            <Select
-              className='select'
-              errorMessage={formik.errors.country}
+          <div className='col-sm-12 p-0 m-0'>
+            <ReactFlagsSelect
+              searchable
+              className='select flag__select__signup'
               id='country'
-              label={'country'}
-              name='country'
-              options={countries}
-              placeholder={'Select Your Country'}
-              style={{
-                border: '1px solid #ced4da',
-                height: '500px',
-                width: '100%'
-              }}
-              value={countries.find(
-                currCountry => formik?.values?.country === currCountry.value
-              )}
-              onBlurFunc={formik.handleBlur}
-              onChange={async function change(option: Options) {
+              placeholder='Select Your Country'
+              selected={formik?.values?.country}
+              onSelect={async function change(code) {
                 await formik.setValues(
-                  { ...formik.values, country: option.value },
+                  { ...formik.values, country: code },
                   false
                 );
               }}
@@ -240,7 +204,7 @@ function UserForm({
       </div>
       <div className='col-12 col-md-6  my-3'>
         <div className='form-group row'>
-          <label className={` col-form-label py-3`} htmlFor={'country'}>
+          <label className={` col-form-label py-3`} htmlFor={'phoneNumber'}>
             Phone Number
           </label>
           <div className='col-sm-12'>

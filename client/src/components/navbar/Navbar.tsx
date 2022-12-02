@@ -70,8 +70,10 @@ function NavbarComponent() {
             </Nav.Link>
             {user && userIsAuthenticated ? (
               <Nav.Link>
-                {user.role === Role.TRAINEE && <WishCartButtons />}
-                <UserDropdown />
+                <div className='d-flex flex-row justify-content-evenly'>
+                  {user.role === Role.TRAINEE && <WishCartButtons />}
+                  <UserDropdown />
+                </div>
               </Nav.Link>
             ) : (
               <>

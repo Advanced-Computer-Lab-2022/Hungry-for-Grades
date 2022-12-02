@@ -13,6 +13,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
         const cart = new Set<ICart>([...state.cart, course]);
         const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
         const totalItems = cart.size;
+        console.log(cart);
         return { cart, totalCost, totalItems };
       });
     },

@@ -1,9 +1,5 @@
 import { AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 
-import {
-  addtoCart,
-  addtoWishList
-} from '@/components/courseCard/cardButtons/buttons';
 import { ICart } from '@/interfaces/cart.interface';
 import { ICourse } from '@/interfaces/course.interface';
 import { UseCartStoreInCart } from '@/store/cartStore';

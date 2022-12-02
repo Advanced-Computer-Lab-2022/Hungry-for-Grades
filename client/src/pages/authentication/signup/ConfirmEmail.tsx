@@ -2,8 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
-
 import { type ConfirmEmailProps } from './types';
 
 import Button from '@/components/buttons/button/Button';
@@ -22,7 +20,9 @@ function ConfirmEmail({
   email
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
-  const { mutateAsync, isError, isSuccess } = usePostQuery();
+  const { mutateAsync, isError, isSuccess, error } = usePostQuery();
+  console.log('error post query');
+  console.log(error);
   const [wrongMessage, setWrongMessage] = useState<string>('');
 
   const getVerifiedCode = async () => {
@@ -131,7 +131,7 @@ function ConfirmEmail({
       {wrongMessage !== '' && (
         <div className='alert alert-danger mt-3'>Invalid Code !</div>
       )}
-      {isError && <ErrorMessage />}
+      {isError && error && <ErrorMessage />}
 
       <div className='d-flex flex-row justify-content-end my-3'>
         <Button
