@@ -23,6 +23,7 @@ class CoursesRoute implements Routes {
     this.router.get('/price/max', this.courseController.getMaxCoursePrice);
     this.router.post('/rating/:courseId', this.courseController.addReviewToCourse);
     this.router.get('/rating/:courseId', this.courseController.getCourseReviews);
+    this.router.get('/rating/:courseId/trainee/:traineeId', this.courseController.getUserReview);
     this.router.get('/instructor/:instructorId', this.courseController.getInstructorCourses);
 
     //FAQ

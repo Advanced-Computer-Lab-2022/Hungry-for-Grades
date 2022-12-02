@@ -3,12 +3,10 @@ import { Document, model, Schema } from 'mongoose';
 const newsLetterSchema = new Schema<INewsletter>(
   {
     email: {
-      index: true,
       lowercase: true,
-      match: [/\S+@\S+\.\S+/, 'is invalid'],
+      match: [/\S+@\S+\.\S+/, ' Email is invalid'],
       required: [true, "can't be blank"],
       type: String,
-      unique: [true, 'email is taken'],
     },
     role: {
       enum: ['admin', 'guest', 'instructor', 'trainee'],
@@ -16,7 +14,7 @@ const newsLetterSchema = new Schema<INewsletter>(
       type: String,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 const newsLetterModel = model<INewsletter & Document>('Newsletter', newsLetterSchema);

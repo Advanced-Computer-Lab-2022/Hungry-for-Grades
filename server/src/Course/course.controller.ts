@@ -170,6 +170,23 @@ class CourseController {
     }
   };
 
+  // get user review controller
+  public getUserReview = async (req: Request, res: Response<HttpResponse<Review>>, next: NextFunction) => {
+    try {
+      const courseId = req.params.courseId as string;
+      const traineeId = req.params.traineeId as string;
+
+      const traineeReview: Review = await this.courseService.getUserReviewOnCourse(courseId, traineeId);
+      res.json({
+        data: traineeReview,
+        message: 'Review Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   //create exam controller
   public createExam = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
     try {
