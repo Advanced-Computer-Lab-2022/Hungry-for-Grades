@@ -37,8 +37,8 @@ function Login() {
   const useSetUser = UseSetUser();
   const useAuthStoreSetToken = UseAuthStoreSetToken();
   const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
-	const useCartStoreSetCart = UseCartStoreSetCart();
-	const useWishListSetCart = UseWishListSetCart();
+  const useCartStoreSetCart = UseCartStoreSetCart();
+  const useWishListSetCart = UseWishListSetCart();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,8 +65,8 @@ function Login() {
         console.log(user);
         console.log(response?.data?.data);
         useSetUser({ ...user, role: userRole });
-				useCartStoreSetCart(user?._cart);
-				useWishListSetCart(user?._wishList);
+        useCartStoreSetCart(user?._cart);
+        useWishListSetCart(user?._wishList);
 
         updateCountry(user.country);
         if (formik.values.rememberMe) {
@@ -92,7 +92,18 @@ function Login() {
       console.log(err);
       return false;
     }
-  }, [formik, login, useSetUser, useCartStoreSetCart, useWishListSetCart, updateCountry, from, useAuthStoreSetToken, useAuthStoreRemoveToken, navigate]);
+  }, [
+    formik,
+    login,
+    useSetUser,
+    useCartStoreSetCart,
+    useWishListSetCart,
+    updateCountry,
+    from,
+    useAuthStoreSetToken,
+    useAuthStoreRemoveToken,
+    navigate
+  ]);
 
   return (
     <div className='login d-flex flex-row justify-content-between'>

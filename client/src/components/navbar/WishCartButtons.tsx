@@ -28,14 +28,18 @@ function CourseCardButtons() {
               <AiOutlineShoppingCart className={styles.icon} />
               {cartCount > 0 && (
                 <span
-                  className={`${styles.right ?? ''} text-white badge rounded-pill bg-secondary`}
+                  className={`${
+                    styles.right ?? ''
+                  } text-white badge rounded-pill bg-secondary`}
                 >
                   +{toSmallNumber(cartCount)}
                 </span>
               )}
               {cartCost > 0 && (
                 <span
-                  className={`${styles.rightTop ?? ''} text-white badge rounded-pill bg-secondary`}
+                  className={`${
+                    styles.rightTop ?? ''
+                  } text-white badge rounded-pill bg-secondary`}
                 >
                   +{toSmallNumber(cartCost)}
                 </span>
@@ -47,14 +51,18 @@ function CourseCardButtons() {
               <AiOutlineHeart className={styles.icon} />
               {wishListCount > 0 && (
                 <span
-                  className={`${styles.right ?? ''} text-white badge rounded-pill bg-secondary`}
+                  className={`${
+                    styles.right ?? ''
+                  } text-white badge rounded-pill bg-secondary`}
                 >
                   +{toSmallNumber(wishListCount)}
                 </span>
               )}{' '}
               {wishListCost > 0 && (
                 <span
-                  className={`${styles.rightTop ?? ''} text-white badge rounded-pill bg-secondary`}
+                  className={`${
+                    styles.rightTop ?? ''
+                  } text-white badge rounded-pill bg-secondary`}
                 >
                   +{toSmallNumber(wishListCost)}
                 </span>
