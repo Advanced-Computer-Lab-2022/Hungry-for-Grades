@@ -3,7 +3,6 @@ import { Role } from '@enums/role.enum';
 
 interface IUser {
   _id: string;
-  address: Address;
   email: {
     address: string;
     isValidated: boolean;

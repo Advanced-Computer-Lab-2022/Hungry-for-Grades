@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
 import { LoginProps } from './types';
+
+import useValidation from './useValidation';
 
 import { Role } from '@/enums/role.enum';
 
@@ -22,43 +22,28 @@ import {
   UseAuthStoreRemoveToken
 } from '@store/authStore';
 
+import { UseCartStoreSetCart } from '@store/cartStore';
+import { UseWishListSetCart } from '@store/wishListStore';
+
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+import { UpdateCountry } from '@/store/countryStore';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
   const { mutateAsync: login, isError, error } = usePostQuery();
+  const updateCountry = UpdateCountry();
+
   const useSetUser = UseSetUser();
   const useAuthStoreSetToken = UseAuthStoreSetToken();
   const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
+  const useCartStoreSetCart = UseCartStoreSetCart();
+  const useWishListSetCart = UseWishListSetCart();
 
   const navigate = useNavigate();
   const location = useLocation();
   const from: string = location?.state?.from?.pathname || '';
-  const formik = useFormik<LoginProps>({
-    enableReinitialize: true,
-    initialValues: {
-      email: '',
-      password: '',
-      rememberMe: false
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid Email address')
-        .min(6, 'Email address is Too Short!')
-        .max(50, 'Email address is Too Long!')
-        .required('Email address is Required'),
-      password: Yup.string()
-        .min(6, 'Password Too Short!')
-        .max(50, 'Password Too Long!')
-        .required('Password is Required')
-    }),
-    onSubmit: function submit(values, actions) {
-      actions.resetForm();
-      return Promise.resolve(values);
-    }
-  });
-
+  const { formik } = useValidation();
   const navigateToSignup = useCallback(() => {
     navigate('/auth/signup');
   }, [navigate]);
@@ -75,8 +60,15 @@ function Login() {
       };
       const response = await login(loginRoute);
       if (response && response.status === 200) {
-        const { token, user } = response?.data?.data;
-        useSetUser(user);
+        const { token, user, role } = response?.data?.data;
+        const userRole: Role = role.toLocaleLowerCase();
+        console.log(user);
+        console.log(response?.data?.data);
+        useSetUser({ ...user, role: userRole });
+        useCartStoreSetCart(user?._cart);
+        useWishListSetCart(user?._wishList);
+
+        updateCountry(user.country);
         if (formik.values.rememberMe) {
           useAuthStoreSetToken(token);
         } else {
@@ -88,7 +80,7 @@ function Login() {
         if (from) {
           navigate(from.toLocaleLowerCase());
         } else {
-          navigate(`/${user.role as Role}/home`.toLocaleLowerCase(), {
+          navigate(`/${userRole}/dashboard`.toLocaleLowerCase(), {
             replace: true
           });
         }
@@ -104,6 +96,9 @@ function Login() {
     formik,
     login,
     useSetUser,
+    useCartStoreSetCart,
+    useWishListSetCart,
+    updateCountry,
     from,
     useAuthStoreSetToken,
     useAuthStoreRemoveToken,
