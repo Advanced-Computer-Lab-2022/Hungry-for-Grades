@@ -104,7 +104,7 @@ export const InstructorRoutes = {
       }
     },
     getInstructor: {
-      URL: '/instructor' as const,
+      URL: '/instructor',
       params: '',
       query: '',
       payload: {},
@@ -169,6 +169,19 @@ export const InstructorRoutes = {
         message: '',
         success: true
       }
+    }
+  },
+  POST: {
+    addDiscount: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {
+        startDate: '',
+        endDate: '',
+        percentage: 0
+      },
+      response: ''
     }
   }
 };

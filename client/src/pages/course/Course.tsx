@@ -9,6 +9,8 @@ import CourseHeader from './CourseHeader';
 
 import PreviewVideo from './PreviewVideo';
 
+import CourseReviewList from './CourseReviewList';
+
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 
@@ -54,6 +56,9 @@ function Course() {
       </section>
       <section>
         <CourseContent {...data} />
+      </section>
+      <section>
+        <CourseReviewList />
       </section>
     </div>
   );
