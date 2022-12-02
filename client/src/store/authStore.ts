@@ -3,15 +3,12 @@ import { persist, devtools } from 'zustand/middleware';
 
 import { type IAuthStore, type IToken } from '@interfaces/token.interface';
 
-import { Role } from '@enums/role.enum';
-
 import LocalStorage from '@services/localStorage/LocalStorage';
 
 const INTIAL_TOKEN: IToken = {
   accessToken: '',
   expiresIn: 0,
-  refreshToken: '',
-  role: Role.NONE
+  refreshToken: ''
 };
 const STORAGE_KEYS_PREFIX = import.meta.env.VITE_STORAGE_KEYS_PREFIX;
 

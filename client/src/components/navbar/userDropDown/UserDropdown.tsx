@@ -28,7 +28,7 @@ function MenuHeadersExample() {
           alt='profile'
           loading='lazy'
           src={user?.profileImage ?? 'https://via.placeholder.com/50'}
-          style={{ borderRadius: '50%', width: '3.5rem', height: '3.5rem' }}
+          style={{ borderRadius: '50%', width: '3.5rem', height: '3.2rem' }}
           onError={e => {
             e.currentTarget.src = 'https://via.placeholder.com/50';
           }}

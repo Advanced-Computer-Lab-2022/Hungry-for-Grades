@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useFormik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
 import { LoginProps } from './types';
+
+import useValidation from './useValidation';
 
 import { Role } from '@/enums/role.enum';
 
@@ -35,30 +35,7 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from: string = location?.state?.from?.pathname || '';
-  const formik = useFormik<LoginProps>({
-    enableReinitialize: true,
-    initialValues: {
-      email: '',
-      password: '',
-      rememberMe: false
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid Email address')
-        .min(6, 'Email address is Too Short!')
-        .max(50, 'Email address is Too Long!')
-        .required('Email address is Required'),
-      password: Yup.string()
-        .min(6, 'Password Too Short!')
-        .max(50, 'Password Too Long!')
-        .required('Password is Required')
-    }),
-    onSubmit: function submit(values, actions) {
-      actions.resetForm();
-      return Promise.resolve(values);
-    }
-  });
-
+  const { formik } = useValidation();
   const navigateToSignup = useCallback(() => {
     navigate('/auth/signup');
   }, [navigate]);
@@ -75,8 +52,10 @@ function Login() {
       };
       const response = await login(loginRoute);
       if (response && response.status === 200) {
-        const { token, user } = response?.data?.data;
-        useSetUser(user);
+        const { token, user, role } = response?.data?.data;
+        console.log(user);
+        console.log(response?.data?.data);
+        useSetUser({...user,role});
         if (formik.values.rememberMe) {
           useAuthStoreSetToken(token);
         } else {
@@ -88,7 +67,7 @@ function Login() {
         if (from) {
           navigate(from.toLocaleLowerCase());
         } else {
-          navigate(`/${user.role as Role}/home`.toLocaleLowerCase(), {
+          navigate(`/${role as Role}/home`.toLocaleLowerCase(), {
             replace: true
           });
         }
