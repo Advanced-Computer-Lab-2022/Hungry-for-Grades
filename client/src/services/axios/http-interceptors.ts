@@ -5,7 +5,6 @@ import axios, {
   AxiosResponse
 } from 'axios';
 
-
 import SessionStorage from '../sessionStorage/SessionStorage';
 
 import { type IToken } from '@interfaces/token.interface';
@@ -32,7 +31,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
 }
 
 function onRequestError(error: AxiosError): Promise<AxiosError> {
- // const { status } = error.response as AxiosResponse;
+  // const { status } = error.response as AxiosResponse;
   /*
 	switch (status) {
 		case 401:
