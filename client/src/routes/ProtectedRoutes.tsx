@@ -46,7 +46,7 @@ function ProtectedRoutes() {
 		} */
   }, [refresh]);
 
-  if (!useUserIsAuthenticated) {
+  if (useUserIsAuthenticated) {
     return <Navigate replace state={{ from: location }} to='/auth/login' />;
   } else {
     return (

@@ -31,9 +31,8 @@ export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
   typeof CoursesRoutes['GET']
 >];
 
-export type InstructorRouteType = typeof InstructorRoutes['GET'][keyof Partial<
-  typeof InstructorRoutes['GET']
->];
+export type InstructorRouteType<T extends 'GET' | 'POST'> =
+  typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
 export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];
@@ -47,7 +46,7 @@ export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
 export type GETRoutesType =
   | CategoryRouteType
   | CoursesRoutesType
-  | InstructorRouteType
+  | InstructorRouteType<'GET'>
   | AuthRoutesType<'GET'>
   | TraineeRouteType<'GET'>
   | NewsLetterRouteType<'GET'>;
@@ -58,7 +57,8 @@ export type POSTRoutesType =
   | AdminRoutesType
   | AuthRoutesType<'POST'>
   | TraineeRouteType<'POST'>
-  | NewsLetterRouteType<'POST'>;
+  | NewsLetterRouteType<'POST'>
+  | InstructorRouteType<'POST'>;
 
 /**
  * All Delete Requests
