@@ -1,4 +1,3 @@
-import { userModel } from '@/User/user.schema';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { sign, verify } from 'jsonwebtoken';
