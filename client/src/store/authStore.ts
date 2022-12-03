@@ -50,3 +50,5 @@ export const UseAuthStoreUpdateAccessToken = () =>
   useAuthStore(state => state.updateAccessToken);
 export const UseAuthStoreRemoveToken = () =>
   useAuthStore(state => state.removeToken);
+export const UseAuthStoreGetRefreshToken = () =>
+  useAuthStore(state => state.token.refreshToken);
