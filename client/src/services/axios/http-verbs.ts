@@ -24,11 +24,11 @@ type Options = {
  */
 export async function getRequest(
   request: GETRoutesType,
-  isProtected?: boolean,
   options?: Options
 ): Promise<AxiosResponse<typeof request.response>> {
-  const httpInstance = isProtected ? httpProtected : http;
-  return httpInstance.get<typeof request.response>(
+  // const httpInstance = isProtected ? httpProtected : http;
+
+  return http.get<typeof request.response>(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`,

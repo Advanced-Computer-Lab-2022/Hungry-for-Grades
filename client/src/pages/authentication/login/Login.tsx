@@ -28,6 +28,7 @@ import { UseWishListSetCart } from '@store/wishListStore';
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import { UpdateCountry } from '@/store/countryStore';
+import SessionStorage from '@/services/sessionStorage/SessionStorage';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
@@ -67,7 +68,9 @@ function Login() {
         useSetUser({ ...user, role: userRole });
         useCartStoreSetCart(user?._cart);
         useWishListSetCart(user?._wishList);
-
+        SessionStorage.set('accessToken', token.accessToken);
+        console.log('token.accessToken');
+        console.log(token.accessToken);
         updateCountry(user.country);
         if (formik.values.rememberMe) {
           useAuthStoreSetToken(token);

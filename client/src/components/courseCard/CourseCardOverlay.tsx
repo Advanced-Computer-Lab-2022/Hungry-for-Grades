@@ -4,11 +4,14 @@ import { CourseCardPreview } from './CourseCard';
 import { CourseCardProps } from '@/pages/guest/landing/types';
 
 function CourseCardOverlay(props: CourseCardProps) {
-
   return (
     <div className='text-dark text-start p-2'>
       <h4>{props.title}</h4>
-			<CourseCardPreview image={props.image} previewVideoURL={props.previewVideoURL} title={props.title}/>
+      <CourseCardPreview
+        image={props.image}
+        previewVideoURL={props.previewVideoURL}
+        title={props.title}
+      />
       <hr />
       <p>{props.description}</p>
       {props.outline?.length ? (

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { Tooltip } from 'react-bootstrap';
 
-
 // eslint-disable-next-line import/no-cycle
 import CourseCardOverlay from './CourseCardOverlay';
 
@@ -82,22 +81,18 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
         >
           <Link to={`/course/${props.id}`}>
             <div className={`${styles.course__img__container ?? ''}`}>
-
-                <img
-                  alt={props.title}
-                  className={`card-img-top img-fluid ${
-                    styles.course__img ?? ''
-                  }`}
-                  src={
-                    props.image && props.image.length > 0
-                      ? props.image
-                      : COMPANY_LOGO
-                  }
-                  onError={e => {
-                    e.currentTarget.src = COMPANY_LOGO;
-                  }}
-                />
-
+              <img
+                alt={props.title}
+                className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+                src={
+                  props.image && props.image.length > 0
+                    ? props.image
+                    : COMPANY_LOGO
+                }
+                onError={e => {
+                  e.currentTarget.src = COMPANY_LOGO;
+                }}
+              />
             </div>
           </Link>
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
