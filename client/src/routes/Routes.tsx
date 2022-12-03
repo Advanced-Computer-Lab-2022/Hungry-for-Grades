@@ -116,7 +116,7 @@ function AllRoutes() {
         <Route element={<LazyUserProfile />} path='/profile/:userId' />
       </Route>
 
-      <Route element={<ProtectedRoutes />}>
+      <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route

@@ -34,13 +34,13 @@ function ProtectedRoutes() {
   const refresh = useRefreshToken();
 
   useEffect(() => {
-    refresh()
+ /*    refresh()
       .then(res => {
         console.log(res);
       })
       .catch(err => {
         console.log(err);
-      });
+      }); */
     /* 		if (!access) {
 			return <Navigate replace state={{ from: location }} to='/auth/login' />;
 		} */
