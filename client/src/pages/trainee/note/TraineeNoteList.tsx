@@ -164,7 +164,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
       <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
         {filteredNotes?.map(note => (
           <Col key={note.id}>
-            <Link to={`${note.id}`}>
+            <Link to={`/trainee/notes/${note.id}`}>
               <NoteCard
                 courseName={note.courseName}
                 id={note.id}

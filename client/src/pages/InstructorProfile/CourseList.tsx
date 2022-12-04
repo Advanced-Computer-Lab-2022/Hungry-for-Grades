@@ -23,14 +23,12 @@ async function getCourses(country: string, currentPage: number, id: string) {
 
   Courses.params = id;
 
-  Courses.query = `
-    page=${currentPage}
-    &limit=${4}
-    &country=${country}`;
+  Courses.query = `page=${currentPage}&limit=${4}&country=${country}`;
   return getRequest(Courses);
 }
 
 export default function CourseList(props: { text: string; namme: string }) {
+
   const instructorId = props.text;
 
   const [activePage, setActivePage] = useState<number>(1);
@@ -68,14 +66,14 @@ export default function CourseList(props: { text: string; namme: string }) {
 
   return (
     <div className={styles.course_section}>
-      <h2>Instructor Courses({toShow.length})</h2>
+      <h2>Instructor Courses({list?.totalResults})</h2>
       <div className={styles.course_wrapper} />
       {toShow}
       {data?.data?.totalPages > 1 && (
         <Pagination
-          activePage={activePage}
-          pages={data?.data?.totalPages as number}
-          setActivePage={setActivePage}
+          activePage = { activePage }
+          pages = {list?.totalPages as number}
+          setActivePage = {setActivePage}
         />
       )}
     </div>
