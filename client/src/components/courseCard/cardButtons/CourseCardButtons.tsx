@@ -37,14 +37,14 @@ function CourseCardButtons(props: ICart) {
     if (!isInCart) {
       addCourseToWishList(course);
     } else {
-      removeCourseToWishList(course);
+      removeCourseToWishList(course._id);
     }
   }
   function addtoCart(course: ICart) {
     if (!isInWishList) {
       addCourseToCart(course);
     } else {
-      removeCourseToCart(course);
+      removeCourseToCart(course._id);
     }
   }
 
