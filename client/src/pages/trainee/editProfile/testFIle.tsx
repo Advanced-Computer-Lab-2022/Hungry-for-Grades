@@ -1,4 +1,4 @@
-import Certificates from './Certificates';
+import Certificates from '../../user/profile/Certificates';
 
 function Profile() {
   return (
