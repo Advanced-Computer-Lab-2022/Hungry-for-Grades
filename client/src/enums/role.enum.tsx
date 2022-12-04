@@ -1,7 +1,7 @@
+// This file contains the Role enum
 export enum Role {
-  ADMIN = 'admin',
-  CORPORATE = 'corporate',
-  INSTRUCTOR = 'nstructor',
-  TRAINEE = 'trainee',
-  NONE = ''
+  ADMIN = 'Admin',
+  INSTRUCTOR = 'Instructor',
+  TRAINEE = 'Trainee',
+	NONE = ''
 }

@@ -11,11 +11,12 @@ async function userInfoRequest() {
   return getRequest(getUserInfo);
 }
 
-function useUserInfoQuery() {
+function useUserInfoQuery(enable: boolean) {
   return {
     ...useQuery(['getUserInfo'], userInfoRequest, {
       cacheTime: 1000 * 60 * 60 * 24,
-      retryDelay: 1000 // 1 second
+      retryDelay: 1000, // 1 second
+      enabled: enable
     })
   };
 }

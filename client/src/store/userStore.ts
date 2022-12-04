@@ -20,7 +20,7 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
     user: SessionStorage.get<IUser>('user') as IUser | null,
     isAuthenticated: SessionStorage.get('refreshToken') ? true : null,
     setUser: (user: IUser) => {
-      SessionStorage.set<IUser>('user', user);
+      SessionStorage.set<IUser>('user', { ...user });
 
       set({ user, isAuthenticated: true });
     },

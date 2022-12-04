@@ -11,15 +11,14 @@ import useValidation from './useValidation';
 import { Role } from '@/enums/role.enum';
 
 import { UseSetUser } from '@/store/userStore';
+import { UseCartStoreSetCart } from '@/store/cartStore';
+import { UseWishListSetCart } from '@/store/wishListStore';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-
-import { UseCartStoreSetCart } from '@store/cartStore';
-import { UseWishListSetCart } from '@store/wishListStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
@@ -64,17 +63,12 @@ function Login() {
         useWishListSetCart(user?._wishList);
         //session
         SessionStorage.set('accessToken', token.accessToken);
-        console.log('token.accessToken');
-        console.log(token.accessToken);
         updateCountry(user.country);
         if (formik.values.rememberMe) {
           LocalStorage.set('refreshToken', token.refreshToken);
         } else {
           LocalStorage.remove('refreshToken');
         }
-
-        console.log(user);
-        console.log(token);
 
         if (from) {
           navigate(from.toLocaleLowerCase());
@@ -190,7 +184,7 @@ function Login() {
             )}
             {isError && !error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
-                Please report this Problem through this
+                Please report this Problem through this &nbsp;
                 <Link className='alert-link' to='/report'>
                   Link
                 </Link>

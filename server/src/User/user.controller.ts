@@ -12,6 +12,7 @@ import { IInstructor } from '@/Instructor/instructor.interface';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { NextFunction, Response } from 'express';
 import { IAdmin } from '@/Admin/admin.interface';
+import { Role } from './user.enum';
 
 // import { type filters } from './user.type';
 class UsersController {
@@ -20,11 +21,11 @@ class UsersController {
   // @desc gets Instructor info by accessToken
   public getUserInfo = async (
     req: RequestWithTokenPayloadAndUser,
-    res: Response<HttpResponse<IInstructor | ITrainee | IAdmin>>,
+    res: Response<HttpResponse<(IInstructor | ITrainee | IAdmin) & { role: Role }>>,
     next: NextFunction,
   ): Promise<void> => {
     try {
-      res.json({ data: req.user, message: 'Completed Successfully', success: true });
+      res.json({ data: { ...req.user, role: req.tokenPayload.role }, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

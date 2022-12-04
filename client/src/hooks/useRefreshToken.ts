@@ -32,24 +32,15 @@ function useRefreshToken(): () => Promise<void> {
       toast.error('UnAuthorized , Please Login First ', toastOptions);
       return;
     }
-    alert('useRefreshToken');
 
     try {
       const dataService = Object.assign({}, AuthRoutes.GET.refresh);
-      /* 			dataService.payload = {
-							refreshToken: refreshToken
-						}; */
+
       const response = await getRequest(dataService, {
         withCredentials: true
       });
-      /* 	,
-				headers: {
-					'Set-Cookie': `Authorization=${refreshToken}`
-				} */
-      console.log('response');
-      console.log(response);
-      const accessToken = response?.data?.data.accessToken;
-      console.log('refresh.accessToken');
+
+      const accessToken = response?.data?.data?.accessToken as string;
       if (!accessToken) {
         navigate('/auth/login', { state: { from: location }, replace: true });
         toast.error('UnAuthorized , Please Login First kk', toastOptions);
@@ -58,11 +49,6 @@ function useRefreshToken(): () => Promise<void> {
 
       console.log(accessToken);
       SessionStorage.set('accessToken', accessToken);
-      console.log('accessToken useRefreshToken');
-      console.log(accessToken);
-      // useAuthStoreSetToken(token);
-      useUserSetIsAuthenticated(true);
-
       return;
     } catch (error) {
       console.log(error);
