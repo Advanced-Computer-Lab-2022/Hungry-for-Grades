@@ -4,15 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import { toast } from 'react-toastify';
 
-import {
-  AnswerFormValues,
-  ExerciseFormValues,
-  getUniqueId,
-  LessonFormValues,
-  OutlineFormValues,
-  QuestionFormValues,
-  SectionFormValues
-} from './course-form-types';
+import { getUniqueId } from './course-form-types';
 import CourseForm from './CourseForm';
 
 import { UseCountry } from '@/store/countryStore';
@@ -70,32 +62,36 @@ function EditCourse() {
     outline: data.outline.map(o => ({
       uid: getUniqueId(),
       value: o
-    })) as OutlineFormValues[],
+    })),
     sections: data.sections.map(s => ({
+      _id: s._id,
       uid: getUniqueId(),
       title: s.title,
       description: s.description,
       lessons: s.lessons.map(l => ({
+        _id: l._id,
         uid: getUniqueId(),
         duration: l.duration.toString(),
         videoURL: l.videoURL,
         title: l.title,
         description: l.description
-      })) as LessonFormValues[],
+      })),
       exercises: s.exercises.map(e => ({
+        _id: e._id,
         uid: getUniqueId(),
         title: e.title,
         questions: e.questions.map(q => ({
+          _id: q._id,
           uid: getUniqueId(),
           question: q.question,
           options: q.options.map(o => ({
             uid: getUniqueId(),
             value: o
-          })) as AnswerFormValues[],
+          })),
           answer: q.answer
-        })) as QuestionFormValues[]
-      })) as ExerciseFormValues[]
-    })) as SectionFormValues[]
+        }))
+      }))
+    }))
   };
 
   return (

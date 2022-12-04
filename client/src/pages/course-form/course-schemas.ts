@@ -28,9 +28,13 @@ export const infoSchema = object().shape({
     .label('Price'),
   previewVideoURL: string()
     .required()
-    .url()
-    .min(4)
-    .max(160)
+    .matches(
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+      {
+        message: 'URL must be a valid YouTube URL',
+        excludeEmptyString: true
+      }
+    )
     .label('Preview Video Url'),
   thumbnail: string()
     .required()
@@ -61,7 +65,16 @@ export const lessonsSchema = array()
     object().shape({
       uid: string(),
       title: string().required().min(4).max(100).label('Title'),
-      videoURL: string().required().url().min(4).max(160).label('Video Url'),
+      videoURL: string()
+        .required()
+        .matches(
+          /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+          {
+            message: 'URL must be a valid YouTube URL',
+            excludeEmptyString: true
+          }
+        )
+        .label('Video Url'),
       duration: number()
         .required()
         .min(1)

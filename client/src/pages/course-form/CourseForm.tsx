@@ -61,18 +61,22 @@ async function submitCourse(
     subcategory: [] as string[],
     outline: values.outline.map(o => o.value),
     sections: values.sections.map(s => ({
+      _id: s._id,
       title: s.title,
       description: s.description,
       exercises: s.exercises.map(e => ({
+        _id: e._id,
         title: e.title,
         numberOfQuestions: e.questions.length,
         questions: e.questions.map(q => ({
+          _id: q._id,
           question: q.question,
           options: q.options.map(o => o.value),
           answer: q.answer
         }))
       })),
       lessons: s.lessons.map(l => ({
+        _id: l._id,
         duration: parseInt(l.duration, 10),
         videoURL: l.videoURL,
         title: l.title,
