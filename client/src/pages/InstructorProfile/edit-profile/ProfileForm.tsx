@@ -1,6 +1,8 @@
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { Link, useNavigate } from 'react-router-dom';
+
 import { TraineeData } from './types';
 
 import Button from '@components/buttons/button/Button';
@@ -51,6 +53,7 @@ const validationSchema = Yup.object({
 
 export default function ProfileForm(props: any) {
   const { initialValues, submitAction } = props;
+  const navigate = useNavigate();
 
   const formik = useFormik<TraineeData>({
     initialValues,
@@ -77,8 +80,11 @@ export default function ProfileForm(props: any) {
       event.stopPropagation();
       return;
     }
-    console.log(formik.values);
     submitAction(formik.values); //need to be revised
+  }
+
+  function navigateToChangePassword() {
+    navigate('/instructor/change-password');
   }
 
   return (
@@ -140,6 +146,22 @@ export default function ProfileForm(props: any) {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
+      </div>
+      <div>
+        <form>
+          <div className='mt-3'>
+            <label htmlFor='password'>Password</label>
+          </div>
+          <Button
+            backgroundColor={'primary-bg'}
+            className='mt-3'
+            isDisabled={false}
+            label={'Edit Password'}
+            name={'Edit Password'}
+            type={'button'}
+            onClickFunc={navigateToChangePassword}
+          />
+        </form>
       </div>
       <div>
         <Input

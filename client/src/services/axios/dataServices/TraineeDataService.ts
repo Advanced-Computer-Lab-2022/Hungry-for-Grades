@@ -336,6 +336,17 @@ export const TraineeRoutes = {
         message: '',
         success: false
       }
+    },
+    changePassword: {
+      URL: '/change-password' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {
+        data: {},
+        message: '',
+        success: false
+      }
     }
   },
   DELETE: {
