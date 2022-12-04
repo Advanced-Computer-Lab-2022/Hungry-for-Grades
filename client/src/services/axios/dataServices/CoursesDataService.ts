@@ -215,7 +215,7 @@ export async function updateCourse(
     `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`,
     course
   );
-  if (res.statusText !== 'Updated') {
+  if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {
