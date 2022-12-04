@@ -6,14 +6,15 @@ import ProfileForm from './ProfileForm';
 import Form from '@/components/form/Form';
 
 export default function Profile() {
-  const traineeId = '637969352c3f71696ca34759';
+  const instructorId = '637a2160a0fc7dcfe39b4931';
 
   const { isLoading, isError, data } = useSearchQuery();
   const verifiedData = data?.data?.data;
+  console.log(verifiedData);
 
-  async function submitAction(traineeData: any) {
+  async function submitAction(instructorData: any) {
     console.log('was here 1');
-    await updateProfile(traineeId, traineeData);
+    await updateProfile(instructorId, instructorData);
   }
   if (isError)
     return (
@@ -29,7 +30,8 @@ export default function Profile() {
     name: verifiedData.name,
     email: { address: verifiedData.email.address },
     phone: verifiedData.phone,
-    username: verifiedData.username
+    username: verifiedData.username,
+    biography: verifiedData.biography
   };
 
   return (

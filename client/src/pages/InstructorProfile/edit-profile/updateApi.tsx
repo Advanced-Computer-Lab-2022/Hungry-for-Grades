@@ -3,10 +3,12 @@
 import axios from 'axios';
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
-export async function updateProfile(traineeId: string, traineeData: any) {
+export async function updateProfile(instructorId: string, instructorData: any) {
+  console.log('was here');
+  console.log(instructorData);
   const res = await axios.patch(
-    `${APP_BASE_API_URL}/trainee/${traineeId}`,
-    traineeData
+    `${APP_BASE_API_URL}/instructor/${instructorId}`,
+    instructorData
   );
   if (res.statusText !== 'Updated') {
     throw new Error(`server returned response status ${res.statusText}`);
