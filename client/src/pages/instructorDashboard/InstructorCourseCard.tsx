@@ -11,6 +11,9 @@ import styles from './InstructorCourseCard.module.scss';
 import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 
 import { formatCurrency } from '@/utils/currency';
+import { useCallback } from 'react';
+import { deleteCourse } from '@/services/axios/dataServices/CoursesDataService';
+import { useQueryClient } from '@tanstack/react-query';
 
 function getOriginalPrice(
   price: number,
@@ -42,6 +45,18 @@ function InstructorCourseCard(
   const rating = data?.rating?.averageRating ?? '';
   const discount = data?.price?.discounts;
   const oldPrice = getOriginalPrice(price.currentValue, discount);
+  const courseId = data._id;
+  const queryClient = useQueryClient();
+  const deleteCourseWithConfirm = useCallback(async () => {
+    if (!window.confirm('Are you sure you want to delete this course? This action cannot be undone!')) {
+      return false;
+    }
+    await deleteCourse(courseId);
+    await queryClient.invalidateQueries({
+      queryKey: ['search-instructor-courses'],
+      exact: false
+    })
+  }, [courseId, queryClient])
   if (!props._course.price) return <></>;
   return (
     <div className={`${styles.cardContainer ?? ''}`}>
@@ -165,10 +180,10 @@ function InstructorCourseCard(
           Edit
           <AiFillEdit />
         </Link>
-        <Link className='btn btn-secondary btn-lg' to={``}>
+        <button className='btn btn-secondary btn-lg ms-3' type='button' onClick={deleteCourseWithConfirm}>
           Delete
           <BsFillTrashFill />
-        </Link>
+        </button>
         <Link
           to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
         >
