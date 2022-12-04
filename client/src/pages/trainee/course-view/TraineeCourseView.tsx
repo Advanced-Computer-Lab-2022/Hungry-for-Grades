@@ -15,6 +15,7 @@ import RateCourse from './RateCourse';
 import { UseCountry } from '@/store/countryStore';
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { ICourse } from '@/interfaces/course.interface';
+import { useTraineeId } from '@/hooks/useTraineeId';
 
 type LeftViewProps = {
   sectionIndex: number;
@@ -25,6 +26,7 @@ type LeftViewProps = {
 
 function LeftView(props: LeftViewProps) {
   const section = props.course.sections[props.sectionIndex];
+  const traineeId = useTraineeId();
   if (!section) {
     return <></>;
   }
@@ -33,7 +35,13 @@ function LeftView(props: LeftViewProps) {
     if (!exercise) {
       return <></>;
     }
-    return <SolveExercise {...exercise} />;
+    return (
+      <SolveExercise
+        {...exercise}
+        courseId={props.course._id}
+        traineeId={traineeId}
+      />
+    );
   }
   const lesson = section.lessons[props.itemIndex];
   if (!lesson) {

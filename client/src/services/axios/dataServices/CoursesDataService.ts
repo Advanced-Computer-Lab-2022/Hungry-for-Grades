@@ -10,8 +10,6 @@ import {
   ICourse,
   ICourseFilters,
   ICourseQuestion,
-  ICourseReview,
-  Rating,
   Review
 } from '@interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
@@ -293,45 +291,4 @@ export async function getCourseReviews(
     throw new Error(`server returned error ${res.data.message}`);
   }
   return res.data;
-}
-
-export async function getTraineeReviewById(
-  courseId: string | undefined,
-  traineeId: string
-): Promise<ICourseReview | null> {
-  const props: PaginatedRequest = {
-    page: 0,
-    limit: 1000
-  };
-  const result = await getCourseReviews(courseId, props);
-  if (!result) {
-    return null;
-  }
-  const revs = result?.data.map(r => ({
-    _traineeId: r.trainee._id,
-    comment: r.comment,
-    createdAt: r.createdAt,
-    rating: r.rating
-  }));
-  return revs?.find(r => r._traineeId === traineeId) ?? null;
-}
-
-export async function addReviewToCourse(
-  courseId: string | undefined,
-  traineeReview: Review
-): Promise<Rating | undefined> {
-  if (!courseId) {
-    return undefined;
-  }
-  const res = await axios.post<HttpResponse<Rating>>(
-    `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    { body: traineeReview }
-  );
-  if (res.statusText !== 'OK') {
-    throw new Error(`server returned response status ${res.statusText}`);
-  }
-  if (!res.data.success) {
-    throw new Error(`server returned error ${res.data.message}`);
-  }
-  return res.data?.data;
 }

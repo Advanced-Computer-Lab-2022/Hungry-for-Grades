@@ -13,7 +13,7 @@ import styles from './rate-course.module.scss';
 
 import { useTraineeId } from '@/hooks/useTraineeId';
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
-import { getTraineeReviewById } from '@/services/axios/dataServices/CoursesDataService';
+import { getTraineeReviewById } from '@/services/axios/dataServices/TraineeDataService';
 //import { ICourseReview } from '@/interfaces/course.interface';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
