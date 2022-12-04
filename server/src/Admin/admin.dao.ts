@@ -44,6 +44,10 @@ class AdminService {
 
     return createdTrainee;
   };
+  // @desc get all Admins
+  public async findAdmins(): Promise<IAdmin[]> {
+    return await adminModel.find().select('-password ');
+  }
 
   //get admin by email
   public getAdminByEmail = async (adminEmail: string): Promise<IAdmin> => {

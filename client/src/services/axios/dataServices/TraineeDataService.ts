@@ -249,51 +249,54 @@ export const TraineeRoutes = {
       }
     },
     getTrainee: {
-      data: {
-        _id: '',
-        _cart: [''],
-        _wishlist: [''],
-        active: false,
-        balance: 0,
-        email: {
-          address: '',
+      URL: '',
+      response: {
+        data: {
           _id: '',
-          isVerified: false
-        },
-        name: '',
-        preferredSkills: [],
-        profileImage: '',
-        username: '',
-        _enrolledCourses: [
-          {
-            _course: '',
-            dateOfEnrollment: '',
+          _cart: [''],
+          _wishlist: [''],
+          active: false,
+          balance: 0,
+          email: {
+            address: '',
             _id: '',
-            notes: [],
-            examGrade: 0,
-            progress: 0,
-            dateOfCompletion: '',
-            _visitedLessons: [],
-            _submittedQuestions: [
-              {
-                _questionId: '',
-                submittedAnswer: ''
-              }
-            ]
-          }
-        ],
-        creditCards: [],
-        createdAt: '',
-        updatedAt: '',
-        lastLogin: '',
-        phone: '',
-        gender: '',
-        __v: 0,
-        country: '',
-        _lastViewedCourse: ''
-      },
-      message: '',
-      success: false
+            isVerified: false
+          },
+          name: '',
+          preferredSkills: [],
+          profileImage: '',
+          username: '',
+          _enrolledCourses: [
+            {
+              _course: '',
+              dateOfEnrollment: '',
+              _id: '',
+              notes: [],
+              examGrade: 0,
+              progress: 0,
+              dateOfCompletion: '',
+              _visitedLessons: [],
+              _submittedQuestions: [
+                {
+                  _questionId: '',
+                  submittedAnswer: ''
+                }
+              ]
+            }
+          ],
+          creditCards: [],
+          createdAt: '',
+          updatedAt: '',
+          lastLogin: '',
+          phone: '',
+          gender: '',
+          __v: 0,
+          country: '',
+          _lastViewedCourse: ''
+        },
+        message: '',
+        success: false
+      }
     }
   },
   POST: {

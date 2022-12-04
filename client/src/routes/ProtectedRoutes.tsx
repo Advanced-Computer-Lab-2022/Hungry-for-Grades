@@ -3,52 +3,51 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
+import useUserInfoQuery from './useUserInfoQuery';
+
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
 import { UseUserIsAuthenticated } from '@store/userStore';
 import useRefreshToken from '@/hooks/useRefreshToken';
 
-/*
-function Auth() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  try {
-    const token = Cookie.get('token');
-    if (!token) return false;
-    // const user = jwt.decode(token);
-    //return !!user;
-  } catch (e) {
-    navigate(location.pathname);
-    navigate('/login');
-
-    return false;
-  }
-}
-*/
+let effectOnce = 0;
 
 function ProtectedRoutes() {
+  const { isLoading, isError } = useUserInfoQuery();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const location = useLocation();
   const refresh = useRefreshToken();
 
   useEffect(() => {
-    /*    refresh()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      }); */
-    /* 		if (!access) {
+    if (effectOnce === 0) {
+      refresh()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      /* 		if (!access) {
 			return <Navigate replace state={{ from: location }} to='/auth/login' />;
 		} */
+      effectOnce = 1;
+    }
   }, [refresh]);
 
-  if (useUserIsAuthenticated) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (useUserIsAuthenticated === null) {
+    return null;
+  }
+
+  if (isError) {
     return <Navigate replace state={{ from: location }} to='/auth/login' />;
-  } else {
+  }
+
+  if (useUserIsAuthenticated) {
     return (
       <Suspense fallback={<Loader />}>
         <Navbar />
@@ -56,6 +55,8 @@ function ProtectedRoutes() {
         <Footer />
       </Suspense>
     );
+  } else {
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
   }
 }
 

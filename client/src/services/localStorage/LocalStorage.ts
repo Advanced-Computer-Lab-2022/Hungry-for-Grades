@@ -14,6 +14,8 @@ class LocalStorage {
       return JSON.parse(value) as T;
     }
     if (value) {
+      if (value.startsWith('"') && value.endsWith('"'))
+        return value.slice(1, -1);
       return value;
     }
     return null;
@@ -21,6 +23,10 @@ class LocalStorage {
 
   set<T>(key: string, value: string | T) {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
+    if (typeof key === 'string') {
+      this.storage.setItem(key, value as string);
+      return;
+    }
     const valueToStore = JSON.stringify(value);
     this.storage.setItem(key, valueToStore);
   }

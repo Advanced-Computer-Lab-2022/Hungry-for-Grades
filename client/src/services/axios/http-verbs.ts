@@ -32,7 +32,7 @@ export async function getRequest(
     `${request.URL}${request.params ? '/' + request.params : ''}${
       request.query ? '?' + request.query : ''
     }`,
-    options
+    { ...options, withCredentials: true }
   );
 }
 
@@ -47,6 +47,7 @@ export async function postRequest(
   options?: Options
 ) {
   const httpInstance = isProtected ? httpProtected : http;
+  options = { ...options, ...request?.options };
   return httpInstance.post<
     typeof request.response,
     AxiosResponse<typeof request.response>
@@ -55,7 +56,7 @@ export async function postRequest(
       request.query ? '?' + request.query : ''
     }`,
     { ...request?.payload },
-    { ...options }
+    { ...options, withCredentials: true }
   );
 }
 /*

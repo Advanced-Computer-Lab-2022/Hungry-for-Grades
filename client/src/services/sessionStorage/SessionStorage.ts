@@ -27,6 +27,7 @@ class SessionStorage {
     console.log(key);
     if (typeof key === 'string') {
       this.storage.setItem(key, value as string);
+      return;
     }
 
     const valueToStore = JSON.stringify(value);

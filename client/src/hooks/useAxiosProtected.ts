@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+/* import { useEffect } from 'react';
 
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -10,14 +10,12 @@ import useRefreshToken from './useRefreshToken';
 
 import { httpProtected } from '@services/axios/http-common';
 
-import { UseAuthStoreToken, UseAuthStoreRemoveToken } from '@/store/authStore';
 
 import { toastOptions } from '@components/toast/options';
 
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
-  const authToken = UseAuthStoreToken();
-  const removeToken = UseAuthStoreRemoveToken();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,3 +58,4 @@ const useAxiosPrivate = () => {
 };
 
 export default useAxiosPrivate;
+ */

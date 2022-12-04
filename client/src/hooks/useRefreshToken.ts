@@ -6,44 +6,71 @@ import { toast } from 'react-toastify';
 
 import { AuthRoutes } from '@/services/axios/dataServices/AuthDataService';
 import { getRequest } from '@/services/axios/http-verbs';
-import {
-  UseAuthStoreSetToken,
-  UseAuthStoreGetRefreshToken
-} from '@/store/authStore';
+
 import { toastOptions } from '@components/toast/options';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 import { UseUserSetIsAuthenticated } from '@/store/userStore';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 
-function useRefreshToken(): () => Promise<string> {
-  const useAuthStoreSetToken = UseAuthStoreSetToken();
+function useRefreshToken(): () => Promise<void> {
   const useUserSetIsAuthenticated = UseUserSetIsAuthenticated();
   const navigate = useNavigate();
   const location = useLocation();
 
   return async () => {
+    const refreshToken = LocalStorage.get('refreshToken');
+    const oldAccessToken = SessionStorage.get('accessToken');
+
+    if (!refreshToken) {
+      if (oldAccessToken) {
+        useUserSetIsAuthenticated(true);
+        return;
+      }
+      alert('oldaccesstoken in refresh');
+      useUserSetIsAuthenticated(false);
+      navigate('/auth/login', { state: { from: location }, replace: true });
+      toast.error('UnAuthorized , Please Login First ', toastOptions);
+      return;
+    }
     alert('useRefreshToken');
-    const refreshToken = UseAuthStoreGetRefreshToken();
+
     try {
       const dataService = Object.assign({}, AuthRoutes.GET.refresh);
-      dataService.payload = {
-        refreshToken: refreshToken
-      };
-      console.log('useRefreshToken');
+      /* 			dataService.payload = {
+							refreshToken: refreshToken
+						}; */
       const response = await getRequest(dataService, {
         withCredentials: true
       });
-      const token = response?.data?.token;
-      SessionStorage.set('accessToken', token);
-      useAuthStoreSetToken(token);
+      /* 	,
+				headers: {
+					'Set-Cookie': `Authorization=${refreshToken}`
+				} */
+      console.log('response');
+      console.log(response);
+      const accessToken = response?.data?.data.accessToken;
+      console.log('refresh.accessToken');
+      if (!accessToken) {
+        navigate('/auth/login', { state: { from: location }, replace: true });
+        toast.error('UnAuthorized , Please Login First kk', toastOptions);
+        return;
+      }
+
+      console.log(accessToken);
+      SessionStorage.set('accessToken', accessToken);
+      console.log('accessToken useRefreshToken');
+      console.log(accessToken);
+      // useAuthStoreSetToken(token);
       useUserSetIsAuthenticated(true);
 
-      return response?.data?.data?.data?.accessToken;
+      return;
     } catch (error) {
       console.log(error);
-      navigate('/auth/login', { state: { from: location }, replace: true });
-      toast.error('UnAuthorized , Please Login First ', toastOptions);
+      useUserSetIsAuthenticated(false);
+      //navigate('/auth/login', { state: { from: location }, replace: true });
+      toast.error('UnAuthorized , Please Login First heww', toastOptions);
       console.log(error);
-      return '';
+      return;
     }
   };
 }

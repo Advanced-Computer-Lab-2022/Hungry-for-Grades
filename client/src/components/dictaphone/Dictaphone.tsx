@@ -33,7 +33,7 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
             await SpeechRecognition.startListening();
           }}
         >
-          <BsFillMicFill className='icon' />
+          <BsFillMicFill className='icon micButton' />
         </button>
       ) : (
         <div className='d-flex flex-column align-items-center'>
@@ -47,7 +47,7 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
               SpeechRecognition.stopListening();
             }}
           >
-            <BsFillMicFill className='icon' />
+            <BsFillMicFill className='icon micButton' />
           </button>
           <div className='boxContainer'>
             <div className='box box1' />

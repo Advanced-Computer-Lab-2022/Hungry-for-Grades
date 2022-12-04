@@ -20,8 +20,9 @@ import './Navbar.scss';
 function NavbarComponent() {
   const country = UseCountry();
   const updateCountry = UpdateCountry();
-  const userIsAuthenticated = UseUserIsAuthenticated();
+  const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
+
   return (
     <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
       <Container>
@@ -68,7 +69,7 @@ function NavbarComponent() {
                 onSelect={code => updateCountry(code)}
               />
             </Nav.Link>
-            {user && userIsAuthenticated ? (
+            {user && useUserIsAuthenticated ? (
               <Nav.Link>
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role === Role.TRAINEE && <WishCartButtons />}

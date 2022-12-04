@@ -8,9 +8,11 @@ import { type ITokenPayload } from '@Token/token.interface';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
+// returns in req.tokenPayload = {_id ,role};
 async function authMiddleware(req: RequestWithTokenPayload, res: Response, next: NextFunction) {
   try {
     const authHeader: string = req.headers.authorization || (req.headers.Authorization as string);
+    logger.info(authHeader);
     if (!authHeader || !authHeader?.startsWith('Bearer ')) {
       throw new HttpException(HttpStatusCodes.UNAUTHORIZED, 'No authentication token, please log in');
     }

@@ -7,8 +7,6 @@ import axios, {
 
 import SessionStorage from '../sessionStorage/SessionStorage';
 
-import { type IToken } from '@interfaces/token.interface';
-
 import LocalStorage from '@services/localStorage/LocalStorage';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
@@ -23,7 +21,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   console.log(accessToken);
 
   if (accessToken) {
-    const authorization = `Bearers ${accessToken}`;
+    const authorization = `Bearer ${accessToken}`;
 
     config.headers.Authorization = authorization;
   }
@@ -61,10 +59,20 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
-  const unParsedToken = LocalStorage.get('_TOKEN');
+  const refreshToken = LocalStorage.get('refreshToken');
+  const oldAccessToken = SessionStorage.get('accessToken');
+  if (!refreshToken) {
+    if (oldAccessToken) {
+      return Promise.resolve(error);
+    } else {
+      LocalStorage.remove('refreshToken');
+      SessionStorage.remove('accessToken');
+      window.location.replace(loginRoute);
+    }
+  }
   if (
     error.response &&
-    unParsedToken &&
+    refreshToken &&
     error.response.status === 401 &&
     error.response.data
     //error.response.data?.error !== null &&
@@ -72,12 +80,11 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
   ) {
     try {
       const prevRequest = error.config;
-
+      alert('interceptor');
       if (prevRequest && !prevRequest?.sent) {
-        const { refreshToken } = unParsedToken as IToken;
         prevRequest.sent = true;
-        const res = await axios.post(`${APP_BASE_API_URL}/refresh`, {
-          refreshToken: refreshToken
+        const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
+          withCredentials: true
         });
 
         const { accessToken }: { accessToken: string } = res.data as {
@@ -91,7 +98,7 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
     } catch (_error) {
       LocalStorage.remove('_TOKEN');
       SessionStorage.remove('accessToken');
-      window.location.replace(loginRoute);
+      //	window.location.replace(loginRoute);
 
       return Promise.reject(_error);
     }

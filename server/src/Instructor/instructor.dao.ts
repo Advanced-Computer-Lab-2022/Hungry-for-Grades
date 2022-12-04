@@ -21,6 +21,10 @@ class InstructorService {
       .select('-password -bankAccount -rating.reviews -_teachedCourses -balance');
     return instructor;
   }
+  public async findInstructors(): Promise<IInstructor[]> {
+    const instructors: IInstructor[] = await instructorModel.find().select('-password -bankAccount -rating.reviews -_teachedCourses -balance');
+    return instructors;
+  }
 
   public async createInstructor(instructorData: CreateInstructorDTO): Promise<IInstructor> {
     if (isEmpty(instructorData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'userData is empty');
