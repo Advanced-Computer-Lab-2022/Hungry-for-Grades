@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Tooltip } from 'react-bootstrap';
 
-import { useState } from 'react';
-
+// eslint-disable-next-line import/no-cycle
 import CourseCardOverlay from './CourseCardOverlay';
 
 import styles from './course-card.module.scss';
@@ -26,12 +25,24 @@ const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function CourseCardPreview({
   previewVideoURL,
-  title
+  title,
+  image
 }: {
   previewVideoURL: string;
   title: string;
+  image: string;
 }) {
-  return (
+  return !previewVideoURL ||
+    !previewVideoURL.includes('https://www.youtube.com/embed/') ? (
+    <img
+      alt={title}
+      className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+      src={image && image.length > 0 ? image : COMPANY_LOGO}
+      onError={e => {
+        e.currentTarget.src = COMPANY_LOGO;
+      }}
+    />
+  ) : (
     <iframe
       allow='accelerometer; autoplay; clipboard-write;encrypted-media; gyroscope; picture-in-picture'
       className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
@@ -52,7 +63,6 @@ function CourseCardPreview({
 
 function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
   const props = x.pprops;
-  const [onMouse, setOnMouse] = useState(false);
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>
@@ -69,41 +79,20 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
             styles.course__card ?? ''
           } card card-cascade rounded bg-light shadow my-5`}
         >
-          <Link
-            to={`/course/${props.id}`}
-            onMouseLeave={function onMouseLeave() {
-              setOnMouse(false);
-            }}
-            onMouseOver={function onMouseOver() {
-              setOnMouse(true);
-            }}
-          >
+          <Link to={`/course/${props.id}`}>
             <div className={`${styles.course__img__container ?? ''}`}>
-              {!onMouse ||
-              !props.previewVideoURL ||
-              !props.previewVideoURL.includes(
-                'https://www.youtube.com/embed/'
-              ) ? (
-                <img
-                  alt={props.title}
-                  className={`card-img-top img-fluid ${
-                    styles.course__img ?? ''
-                  }`}
-                  src={
-                    props.image && props.image.length > 0
-                      ? props.image
-                      : COMPANY_LOGO
-                  }
-                  onError={e => {
-                    e.currentTarget.src = COMPANY_LOGO;
-                  }}
-                />
-              ) : (
-                <CourseCardPreview
-                  previewVideoURL={props.previewVideoURL}
-                  title={props.title}
-                />
-              )}
+              <img
+                alt={props.title}
+                className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+                src={
+                  props.image && props.image.length > 0
+                    ? props.image
+                    : COMPANY_LOGO
+                }
+                onError={e => {
+                  e.currentTarget.src = COMPANY_LOGO;
+                }}
+              />
             </div>
           </Link>
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
@@ -150,3 +139,4 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
 }
 
 export default CourseCard;
+export { CourseCardPreview };

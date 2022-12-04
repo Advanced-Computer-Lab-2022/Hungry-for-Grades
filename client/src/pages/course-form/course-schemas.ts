@@ -85,7 +85,7 @@ export const answerOptionsSchema = array()
   .of(
     object().shape({
       uid: string(),
-      value: string().required().min(4).max(500).label('Value')
+      value: string().required().min(1).max(500).label('Value')
     })
   );
 
@@ -95,7 +95,7 @@ export const questionSchema = object().shape({
   options: answerOptionsSchema,
   answer: string()
     .required()
-    .min(10)
+    .min(1)
     .max(500)
     .label('Answer')
     .when('options', (options: AnswerFormValues[], schema: StringSchema) => {

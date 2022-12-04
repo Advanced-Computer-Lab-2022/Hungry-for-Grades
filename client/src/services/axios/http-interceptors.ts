@@ -1,105 +1,110 @@
-import {
+import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse
 } from 'axios';
-import { toast } from 'react-toastify';
 
-import { toastOptions } from '@components/toast/options';
+import SessionStorage from '../sessionStorage/SessionStorage';
 
-type TokenType = {
-  ACCESS_TOKEN: string;
-  REFRESH_TOKEN: string;
-};
+import { type IToken } from '@interfaces/token.interface';
+
+import LocalStorage from '@services/localStorage/LocalStorage';
+
+const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+
+const loginRoute = '/auth/login';
+
+let http: AxiosInstance;
 
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
-  const unParsedToken = localStorage.getItem('token');
-  if (unParsedToken) {
-    // alert('problem');
-    const { ACCESS_TOKEN } = JSON.parse(unParsedToken) as TokenType;
+  const accessToken = SessionStorage.get<string | null>('accessToken');
+  console.log('accessToken');
+  console.log(accessToken);
 
-    if (ACCESS_TOKEN && config && config.headers) {
-      config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
-      //toast.error('Internal Server Error', toastOptions);
-      //Here i changed the position it was outside the if condition and we commented it because it was giving internal server error on interactions that are not needed
-    }
+  if (accessToken) {
+    const authorization = `Bearers ${accessToken}`;
+
+    config.headers.Authorization = authorization;
   }
-
   return config;
 }
 
-const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-  const { status } = error.response as AxiosResponse;
-  switch (status) {
-    case 401:
-      history.pushState(
-        {
-          nextPath: window.location.pathname
-        },
-        '/auth/login'
-      );
-      toast.error('Unauthorized', toastOptions);
-      break;
-    case 403:
-      toast.error('Forbidden access', toastOptions);
-      break;
-    case 404:
-      toast.error('Page Not Found', toastOptions);
-      break;
-    case 500:
-      history.pushState(
-        {
-          nextPath: window.location.pathname
-        },
-        '/auth/login'
-      );
-      toast.error('Internal Server', toastOptions);
-      break;
-    default:
-      toast.error(error.message, toastOptions);
-  }
-  return Promise.reject(error);
-};
-
-const onResponse = (response: AxiosResponse): AxiosResponse => {
-  return response;
-};
-
-const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
-  /*   const unParsedToken = localStorage.getItem('token');
-	if (
-		error.response &&
-		unParsedToken &&
-		error.response.status === 401 &&
-		error.response.data
-		//error.response.data?.error !== null &&
-		//error.response.data?.message === 'jwt expired'
-	) {
-		const { REFRESH_TOKEN } = JSON.parse(unParsedToken) as TokenType;
-
-		try {
-			const rs = await axios.post(`${APP_BASE_API_URL}/auth/refresh`, {
-				REFRESH_TOKEN: REFRESH_TOKEN
-			});
-
-			const { token }: { token: string } = rs.data as { token: string };
-
-			localStorage.setItem('token', JSON.stringify(token));
-			//localStorage.setItem('user', JSON.stringify(user));
-		} catch (_error) {
-			return Promise.reject(_error);
-		}
+function onRequestError(error: AxiosError): Promise<AxiosError> {
+  // const { status } = error.response as AxiosResponse;
+  /*
+	switch (status) {
+		case 401:
+			LocalStorage.remove('_TOKEN');
+			SessionStorage.remove('accessToken');
+			window.location.replace(loginRoute);
+			toast.error('Unauthorized', toastOptions);
+			break;
+		case 403:
+			toast.error('Forbidden access', toastOptions);
+			break;
+		case 404:
+			toast.error('Page Not Found', toastOptions);
+			break;
+		case 500:
+			window.location.replace(loginRoute);
+			toast.error('Internal Server', toastOptions);
+			break;
+		default:
+			toast.error(error.message, toastOptions);
 	} */
-
   return Promise.reject(error);
-};
+}
 
-export const setupInterceptorsTo = (
-  axiosInstance: AxiosInstance
-): AxiosInstance => {
+function onResponse(response: AxiosResponse): AxiosResponse {
+  return response;
+}
+
+async function onResponseError(error: AxiosError): Promise<AxiosError> {
+  const unParsedToken = LocalStorage.get('_TOKEN');
+  if (
+    error.response &&
+    unParsedToken &&
+    error.response.status === 401 &&
+    error.response.data
+    //error.response.data?.error !== null &&
+    //error.response.data?.message === 'jwt expired'
+  ) {
+    try {
+      const prevRequest = error.config;
+
+      if (prevRequest && !prevRequest?.sent) {
+        const { refreshToken } = unParsedToken as IToken;
+        prevRequest.sent = true;
+        const res = await axios.post(`${APP_BASE_API_URL}/refresh`, {
+          refreshToken: refreshToken
+        });
+
+        const { accessToken }: { accessToken: string } = res.data as {
+          accessToken: string;
+        };
+        SessionStorage.set('accessToken', accessToken);
+        await http(prevRequest);
+      } else {
+        return await Promise.reject(error);
+      }
+    } catch (_error) {
+      LocalStorage.remove('_TOKEN');
+      SessionStorage.remove('accessToken');
+      window.location.replace(loginRoute);
+
+      return Promise.reject(_error);
+    }
+  }
+
+  return Promise.resolve(error);
+}
+
+function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
+  http = axiosInstance;
   axiosInstance.interceptors.request.use(onRequest, onRequestError);
   axiosInstance.interceptors.response.use(onResponse, onResponseError);
 
   return axiosInstance;
-};
+}
+export default setupInterceptorsTo;

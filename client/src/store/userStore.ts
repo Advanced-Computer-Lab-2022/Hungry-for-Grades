@@ -9,6 +9,7 @@ export interface IUserStore {
   setUser: (user: IUser) => void;
   logOut: () => void;
   isAuthenticated: boolean;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
@@ -16,6 +17,7 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
     user: null,
     isAuthenticated: false,
     setUser: (user: IUser) => set({ user, isAuthenticated: true }),
+    setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
     logOut: () => set({ user: null, isAuthenticated: false })
   }))
 );
@@ -26,3 +28,5 @@ export const UseSetUser = () => useUserStore(state => state.setUser);
 export const UseUserStoreLogOut = () => useUserStore(state => state.logOut);
 export const UseUserIsAuthenticated = () =>
   useUserStore(state => state.isAuthenticated);
+export const UseUserSetIsAuthenticated = () =>
+  useUserStore(state => state.setIsAuthenticated);

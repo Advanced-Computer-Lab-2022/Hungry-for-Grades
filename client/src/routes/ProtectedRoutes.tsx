@@ -34,7 +34,16 @@ function ProtectedRoutes() {
   const refresh = useRefreshToken();
 
   useEffect(() => {
-    // const access = refresh();
+    /*    refresh()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      }); */
+    /* 		if (!access) {
+			return <Navigate replace state={{ from: location }} to='/auth/login' />;
+		} */
   }, [refresh]);
 
   if (useUserIsAuthenticated) {
