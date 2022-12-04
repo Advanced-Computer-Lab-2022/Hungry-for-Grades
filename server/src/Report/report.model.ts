@@ -12,18 +12,10 @@ const reportSchema = new Schema<Report>(
       required: true,
       type: Schema.Types.ObjectId,
     },
-    dateIssued: {
-      default: Date.now,
-      type: Date,
-    },
     description: String,
     reason: {
       default: Reason.OTHER,
       enum: Object.values(Reason),
-      type: String,
-    },
-    role: {
-      enum: Object.values(Role),
       type: String,
     },
     status: {

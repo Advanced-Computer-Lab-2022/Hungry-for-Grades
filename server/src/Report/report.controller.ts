@@ -2,7 +2,8 @@ import { HttpResponse } from '@Utils/HttpResponse';
 import HttpStatusCodes from '@Utils/HttpStatusCodes';
 import { NextFunction, Request, Response } from 'express';
 import ReportService from './report.dao';
-import { IReportFilters, Report, ReportDTO } from './report.interface';
+import { ReportDTO } from './report.dto';
+import { IReportFilters, Report } from './report.interface';
 
 class ReportController {
   public reportService = new ReportService();
@@ -66,6 +67,13 @@ class ReportController {
   public getAllReports = async (req: Request<{}, {}, {}, IReportFilters>, res: Response<HttpResponse<Report[]>>, next: NextFunction) => {
     try {
       const reportFilters = req.query;
+      //default page and limit
+      if (!reportFilters.page) reportFilters.page = 1;
+      else reportFilters.page = parseInt(`${reportFilters.page}`);
+
+      if (!reportFilters.limit) reportFilters.limit = 10;
+      else reportFilters.limit = parseInt(`${reportFilters.limit}`);
+
       const paginatedReponse = await this.reportService.getAllReports(reportFilters);
       res.status(HttpStatusCodes.OK).json({ ...paginatedReponse, message: 'Reports Retrieved Successfully', success: true });
     } catch (error) {

@@ -4,8 +4,10 @@ import InstructorService from '@/Instructor/instructor.dao';
 import TraineeService from '@/Trainee/trainee.dao';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData } from '@/Utils/PaginationResponse';
+import { DESTRUCTION } from 'dns';
 import mongoose from 'mongoose';
-import { Reason, Report, ReportDTO, IReportFilters, Status } from './report.interface';
+import { ReportDTO } from './report.dto';
+import { Reason, Report, IReportFilters, Status } from './report.interface';
 import reportModel from './report.model';
 
 class ReportService {
@@ -27,8 +29,8 @@ class ReportService {
     const course = await this.courseService.getCourseById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
-    // get _user && role from token & remove from ReportDTO
-    const report = await reportModel.create({ ...reportData, reason: Reason.COUSE_REQUEST, role: 'Trainee' });
+    // get _user from token & remove from ReportDTO
+    const report = await reportModel.create({ ...reportData });
     return report;
   }
 
@@ -80,34 +82,51 @@ class ReportService {
   public getAllReports = async (reportFilters: IReportFilters): Promise<PaginatedData<Report>> => {
     //prepare match query
     const matchQuery: object = {};
-    if (reportFilters._course) matchQuery['_course'] = reportFilters._course;
-    if (reportFilters._user) matchQuery['_user'] = reportFilters._user;
+    if (reportFilters._course) matchQuery['_course'] = new mongoose.Types.ObjectId(reportFilters._course);
+    if (reportFilters._user) matchQuery['_user'] = new mongoose.Types.ObjectId(reportFilters._user);
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
     if (reportFilters.reason) matchQuery['reason'] = reportFilters.reason;
-    if (reportFilters.startDate) matchQuery['dateIssued'] = { $gte: reportFilters.startDate };
-    if (reportFilters.endDate) matchQuery['dateIssued'] = { $lte: reportFilters.endDate };
+
+    const AndDateQuery = [];
+    if (reportFilters.startDate) AndDateQuery.push({ createdAt: { $gte: new Date(reportFilters.startDate) } });
+    if (reportFilters.endDate) AndDateQuery.push({ createdAt: { $lte: new Date(reportFilters.endDate) } });
+
+    matchQuery['$and'] = AndDateQuery;
 
     //aggregate query
     const reports = await reportModel.aggregate([
       { $match: matchQuery },
-      // match with trainee (if role is trainee)
+      // get trainee Info (if role is trainee)
       {
         $lookup: {
-          as: '_user',
+          as: 'traineeInfo',
           foreignField: '_id',
           from: 'trainees',
           localField: '_user',
+          pipeline: [{ $project: { country: 1, isCoporate: 1, name: 1, profileImage: 1 } }],
         },
       },
-      // match with instructor (if role is instructor)
+      // get Instructor Info (if role is Instructor)
       {
         $lookup: {
-          as: '_user',
+          as: 'instructorInfo',
           foreignField: '_id',
           from: 'instructors',
           localField: '_user',
+          pipeline: [{ $project: { country: 1, name: 1, profileImage: 1 } }],
         },
       },
+      // get course Info
+      {
+        $lookup: {
+          as: '_course',
+          foreignField: '_id',
+          from: 'courses',
+          localField: '_course',
+          pipeline: [{ $project: { category: 1, subcategory: 1, thumbnail: 1, title: 1 } }],
+        },
+      },
+      { $project: { __v: 0, _user: 0, updatedAt: 0 } },
     ]);
 
     const { page, limit } = reportFilters;
