@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { useCallback, useState } from 'react';
 import { BsFillXCircleFill } from 'react-icons/bs';
 import Modal from 'react-modal';
@@ -9,30 +9,45 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useParams } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 import styles from './rate-course.module.scss';
 
 import { useTraineeId } from '@/hooks/useTraineeId';
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
-import { getTraineeReviewById } from '@/services/axios/dataServices/TraineeDataService';
-//import { ICourseReview } from '@/interfaces/course.interface';
+import {
+  addReviewToCourse,
+  getTraineeReviewById
+} from '@/services/axios/dataServices/TraineeDataService';
+import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
-function submitRating() {
-  //   const result = {
-  //     trainee: review._traineeId,
-  //     comment: review.comment,
-  //     createdAt: review.createdAt,
-  //     rating: review.rating
-  //   };
-}
-
 function RateCourse() {
   const traineeId = useTraineeId();
-  const { courseId } = useParams();
+  const { courseid } = useParams();
   const { data, isLoading, isError } = useQuery(
-    ['getMyCourseReview', courseId],
-    () => getTraineeReviewById(courseId, traineeId)
+    ['getMyCourseReview', courseid],
+    () => getTraineeReviewById(courseid, traineeId)
+  );
+  const submitRating = useCallback(
+    async (review: ICourseReview) => {
+      if (!review.rating) {
+        return;
+      }
+      const r = {
+        _trainee: { _id: review._traineeId } as ITrainee,
+        comment: review.comment,
+        createdAt: review.createdAt,
+        rating: review.rating
+      };
+
+      const res = await addReviewToCourse(courseid, r);
+      if (res) {
+        toast('Review submitted successfully');
+      }
+    },
+    [courseid]
   );
   const [modalOpen, setModalOpen] = useState(false);
   const [starTempValue, setStarTempValue] = useState<number | null>(null);
@@ -67,21 +82,27 @@ function RateCourse() {
   const value = !data ? undefined : data.rating;
   return (
     <>
-      <button type='button' onClick={openPopup}>
-        {value !== undefined ? (
-          <StarRatingComponent
-            editing={
-              false
-            } /* is component available for editing, default `true` */
-            name='currentRating' /* name of the radio input, it is required */
-            value={
-              value
-            } /* number of selected icon (`0` - none, `1` - first) */
-          />
-        ) : (
+      {value !== undefined ? (
+        <div className='text-start'>
+          <strong>Your Review:</strong>
+          <h3 className={`${styles['rating-container'] ?? ''}`}>
+            <StarRatingComponent
+              editing={
+                false
+              } /* is component available for editing, default `true` */
+              name='currentRating' /* name of the radio input, it is required */
+              value={
+                value
+              } /* number of selected icon (`0` - none, `1` - first) */
+            />
+          </h3>
+          <p>{data?.comment}</p>
+        </div>
+      ) : (
+        <button type='button' onClick={openPopup}>
           <div>Not rated yet.</div>
-        )}
-      </button>
+        </button>
+      )}
       <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
         <div className={styles['close-button-container'] ?? ''}>
           <button
@@ -94,45 +115,47 @@ function RateCourse() {
         </div>
         <Formik initialValues={initialValues} onSubmit={submitRating}>
           {formikProps => (
-            <div className='py-2'>
-              <h4 className='text-center'>Enter your review</h4>
-              <h6 className='text-center'>
-                {ratingNames[
-                  (starTempValue ?? formikProps.values.rating) - 1
-                ] ?? 'Not rated'}
-              </h6>
-              <h1 className='text-center'>
-                <StarRatingComponent
-                  editing /* is component available for editing, default `true` */
-                  name='newRating' /* name of the radio input, it is required */
-                  value={
-                    starTempValue === null
-                      ? formikProps.values.rating
-                      : starTempValue
-                  } /* number of selected icon (`0` - none, `1` - first) */
-                  // eslint-disable-next-line react/jsx-no-bind
-                  onStarClick={nextValue => {
-                    formikProps.setValues({
-                      ...formikProps.values,
-                      rating: nextValue
-                    });
-                  }}
-                  onStarHover={setStarTempValue}
-                  onStarHoverOut={resetTempStarValue}
-                />
-              </h1>
-              <div className='form-group mx-4'>
-                <textarea
-                  className='form-control'
-                  placeholder='Tell us your opinion about this course.'
-                />
+            <Form>
+              <div className='py-2'>
+                <h4 className='text-center'>Enter your review</h4>
+                <h6 className='text-center'>
+                  {ratingNames[
+                    (starTempValue ?? formikProps.values.rating) - 1
+                  ] ?? 'Not rated'}
+                </h6>
+                <h1 className='text-center'>
+                  <StarRatingComponent
+                    editing /* is component available for editing, default `true` */
+                    name='newRating' /* name of the radio input, it is required */
+                    value={
+                      starTempValue === null
+                        ? formikProps.values.rating
+                        : starTempValue
+                    } /* number of selected icon (`0` - none, `1` - first) */
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onStarClick={nextValue => {
+                      formikProps.setValues({
+                        ...formikProps.values,
+                        rating: nextValue
+                      });
+                    }}
+                    onStarHover={setStarTempValue}
+                    onStarHoverOut={resetTempStarValue}
+                  />
+                </h1>
+                <div className='form-group mx-4'>
+                  <textarea
+                    className='form-control'
+                    placeholder='Tell us your opinion about this course.'
+                  />
+                </div>
+                <div className='text-end m-4'>
+                  <button className='btn btn-primary' type='submit'>
+                    Submit Review
+                  </button>
+                </div>
               </div>
-              <div className='text-end m-4'>
-                <button className='btn btn-primary' type='submit'>
-                  Submit Review
-                </button>
-              </div>
-            </div>
+            </Form>
           )}
         </Formik>
       </Modal>

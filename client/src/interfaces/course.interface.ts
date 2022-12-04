@@ -66,7 +66,7 @@ export type IPrice = {
   discounts: Array<CourseDiscount>;
 };
 export type Review = {
-  trainee: ITrainee;
+  _trainee: ITrainee;
   comment: string;
   createdAt: Date;
   rating: number;

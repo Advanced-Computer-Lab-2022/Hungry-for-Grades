@@ -1,16 +1,18 @@
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { useCallback } from 'react';
+
+import { toast } from 'react-toastify';
+
 import { TraineeData } from './types';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
 
-import { useCallback } from 'react';
 import usePostQuery from '@/hooks/usePostQuery';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
-import { toast } from 'react-toastify';
 
 const id = '637969352c3f71696ca34759';
 

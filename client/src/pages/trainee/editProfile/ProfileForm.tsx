@@ -137,7 +137,7 @@ export default function ProfileForm(props: any) {
           />
         </form>
       </div>
-      <div></div>
+      <div />
       <div>
         <Input
           correctMessage={''}

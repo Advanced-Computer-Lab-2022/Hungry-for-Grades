@@ -380,7 +380,7 @@ export async function getTraineeReviewById(
   traineeId: string
 ): Promise<ICourseReview | null> {
   const props: PaginatedRequest = {
-    page: 0,
+    page: 1,
     limit: 1000
   };
   const result = await getCourseReviews(courseId, props);
@@ -388,7 +388,7 @@ export async function getTraineeReviewById(
     return null;
   }
   const revs = result?.data.map(r => ({
-    _traineeId: r.trainee._id,
+    _traineeId: r._trainee._id,
     comment: r.comment,
     createdAt: r.createdAt,
     rating: r.rating
@@ -405,7 +405,7 @@ export async function addReviewToCourse(
   }
   const res = await axios.post<HttpResponse<Rating>>(
     `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    { body: traineeReview }
+    traineeReview
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
