@@ -140,6 +140,10 @@ function AllRoutes() {
 
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
+        <Route
+            element={<LazyInstructorProfileToShow />}
+            path='instructor/:instructorId'
+          />
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route
             element={<LazyTraineeViewCourse />}
@@ -183,10 +187,6 @@ function AllRoutes() {
         <Route element={<InstructorRoutes />} path='instructor'>
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
-          <Route
-            element={<LazyInstructorProfileToShow />}
-            path=':instructorId'
-          />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />

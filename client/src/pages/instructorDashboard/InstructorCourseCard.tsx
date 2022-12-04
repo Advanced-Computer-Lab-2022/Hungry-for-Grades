@@ -151,6 +151,9 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
+      <Link className='btn btn-primary btn-lg' to={`/course/${data?._id}`}>
+          View Course
+        </Link>
         <a
           className='btn btn-primary btn-lg'
           href={'https://www.linkedin.com/feed/'}

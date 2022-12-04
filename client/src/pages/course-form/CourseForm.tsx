@@ -57,6 +57,10 @@ const schemas = [
 
 // TODO: later
 function getCurrentUserID() {
+  //const id = UseParams();
+  //alert(id);
+  //console.log(id);
+  //return id;
   return '6379620f2c3f71696ca34735';
 }
 
@@ -293,3 +297,7 @@ function CourseForm(props: CourseFormProps) {
 }
 
 export default CourseForm;
+function UseParams() {
+  throw new Error('Function not implemented.');
+}
+
