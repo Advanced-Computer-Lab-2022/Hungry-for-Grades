@@ -36,8 +36,8 @@ export default function InstructorPage() {
   console.log(instructorId);
 
   const { isLoading, data } = useQuery(
-    ['getInstructorNoww'],
-    () => getInstructor(instructorId as string),
+    ['getInstructorNow', instructorId],
+    () => getInstructor(instructorId  as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -59,13 +59,13 @@ export default function InstructorPage() {
           />
           <div className={styles.social_wrapper}>
             {Instructor?.socialMedia?.linkedin?.length > 0 && (
-              <a href={Instructor.socialMedia.linkedin}>
+              <a href={Instructor?.socialMedia?.linkedin}>
                 {' '}
                 <AiFillLinkedin style={{ fontSize: '2rem' }} />{' '}
               </a>
             )}
             {Instructor?.socialMedia?.github?.length > 0 && (
-              <a href={Instructor.socialMedia.github}>
+              <a href={Instructor?.socialMedia?.github}>
                 {' '}
                 <AiFillGithub
                   style={{ fontSize: '2rem', color: '#112D4E' }}
@@ -73,7 +73,7 @@ export default function InstructorPage() {
               </a>
             )}
             {Instructor?.socialMedia?.youtube?.length > 0 && (
-              <a href={Instructor.socialMedia.youtube}>
+              <a href={Instructor?.socialMedia?.youtube}>
                 {' '}
                 <AiFillYoutube
                   style={{ fontSize: '2rem', color: 'red' }}
@@ -81,7 +81,7 @@ export default function InstructorPage() {
               </a>
             )}
             {Instructor?.socialMedia?.personalWebsite?.length > 0 && (
-              <a href={Instructor.socialMedia.personalWebsite}>
+              <a href={Instructor?.socialMedia?.personalWebsite}>
                 {' '}
                 <BiWorld style={{ fontSize: '2rem', color: 'grey' }} />{' '}
               </a>
@@ -90,8 +90,8 @@ export default function InstructorPage() {
         </div>
         <div className={styles.hero1}>
           <div className={styles.title}>Instructor</div>
-          <h1>{Instructor.name}</h1>
-          <h2>{Instructor.speciality}</h2>
+          <h1>{Instructor?.name}</h1>
+          <h2>{Instructor?.speciality}</h2>
           <h3 style={{ fontWeight: '700', fontSize: '1.2rem', color: 'grey' }}>
             {Instructor.title}
           </h3>
@@ -99,7 +99,7 @@ export default function InstructorPage() {
             <div style={{ marginRight: '1.5rem' }}>
               <div className={styles.property}>Rating</div>
               <div className={styles.value}>
-                {Instructor.rating.averageRating}
+                {Instructor?.rating?.averageRating}
               </div>
             </div>
             <div>
@@ -109,10 +109,10 @@ export default function InstructorPage() {
           </div>
 
           <h2>About me</h2>
-          <div className={styles.data}>{Instructor.biography}</div>
+          <div className={styles.data}>{Instructor?.biography}</div>
         </div>
       </div>
-      <CourseList namme={Instructor?.name} text={instructorId} />
+      <CourseList namme={Instructor?.name} text={instructorId as string} />
       <ReviewSection />
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
