@@ -150,5 +150,26 @@ class InstructorController {
       next(error);
     }
   };
+
+  //top rated instructors controller
+  public getTopRatedInstructors = async (req: Request, res: Response<PaginatedResponse<IInstructor>>, next: NextFunction) => {
+    try {
+      let page = 1;
+      let pageLimit = 5;
+      if (req.query.page) page = parseInt(req.query.page as string);
+      if (req.query.limit) pageLimit = parseInt(req.query.limit as string);
+
+      const topRatedInstructorsPaginatedResponse: PaginatedData<IInstructor> = await this.instructorService.getTopRatedInstructors(page, pageLimit);
+
+      res.json({
+        ...topRatedInstructorsPaginatedResponse,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
+
 export default InstructorController;

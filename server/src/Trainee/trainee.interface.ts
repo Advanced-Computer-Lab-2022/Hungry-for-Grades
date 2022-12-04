@@ -9,6 +9,7 @@ export interface ITrainee extends IUser {
   _wishlist?: ICourse[];
   balance: number;
   creditCards: CreditCard[];
+  isCorporate: boolean;
   preferredSkills: string[];
 }
 

@@ -1,4 +1,5 @@
 import { Reason, Report, Status } from '@/Report/report.interface';
+import { Role } from '@/User/user.enum';
 import { Document, model, Schema } from 'mongoose';
 
 const reportSchema = new Schema<Report>(
@@ -8,7 +9,7 @@ const reportSchema = new Schema<Report>(
       type: Schema.Types.ObjectId,
     },
     _user: {
-      ref: 'User',
+      required: true,
       type: Schema.Types.ObjectId,
     },
     description: String,

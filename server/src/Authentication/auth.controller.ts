@@ -1,6 +1,6 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
-import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
+import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import { Role } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
@@ -16,7 +16,7 @@ class AuthController {
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
       logger.info('signUp');
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
 
       res.status(HttpStatusCodes.CREATED).json({

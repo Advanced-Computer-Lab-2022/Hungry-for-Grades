@@ -1,5 +1,5 @@
 import { HttpException } from '@/Exceptions/HttpException';
-import { CreateUserDto } from '@/User/user.dto';
+import { UserDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import AuthService from '@/Authentication/auth.dao';
@@ -7,7 +7,7 @@ import { Role } from '@/User/user.enum';
 import InstructorService from '@Instructor/instructor.dao';
 import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
 import { IInstructor } from '@/Instructor/instructor.interface';
-import { CreateTraineeDTO } from '@/Trainee/trainee.dto';
+import { TraineeDTO } from '@/Trainee/trainee.dto';
 import TraineeService from '@Trainee/trainee.dao';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import { IAdmin } from './admin.interface';
@@ -19,7 +19,7 @@ class AdminService {
   public traineeService = new TraineeService();
 
   //create admin service
-  public createAdmin = async (adminData: CreateUserDto): Promise<IAdmin> => {
+  public createAdmin = async (adminData: UserDTO): Promise<IAdmin> => {
     if (isEmpty(adminData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Admin data is empty');
 
     const createdUser = this.authService.signup(adminData, Role.ADMIN);
@@ -37,10 +37,10 @@ class AdminService {
   };
 
   //create new trainee
-  public createCorporateTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
+  public createCorporateTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
-    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
+    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE, true);
 
     return createdTrainee;
   };

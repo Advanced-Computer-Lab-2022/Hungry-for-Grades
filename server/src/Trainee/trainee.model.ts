@@ -77,11 +77,15 @@ const traineeSchema = new Schema<ITrainee>(
       enum: Object.values(Gender),
       type: String,
     },
+    isCorporate: {
+      default: false,
+      type: Boolean,
+    },
     lastLogin: {
       type: Date,
     },
-    name: requiredString,
 
+    name: requiredString,
     password: { ...requiredString, minlength: 8 },
     phone: String,
     preferredSkills: [
