@@ -16,7 +16,7 @@ import { Gender } from '@/User/user.enum';
 import { IUser } from '@User/user.interface';
 import { Types } from 'mongoose';
 
-export class CreateUserDto implements IUser {
+export class UserDTO implements IUser {
   @IsOptional()
   lastLogin: Date;
 
@@ -63,6 +63,8 @@ export class CreateUserDto implements IUser {
 
   @IsPhoneNumber()
   public phone: string;
+
+  public isCorporate: boolean;
 }
 
 export class UserLoginDTO {

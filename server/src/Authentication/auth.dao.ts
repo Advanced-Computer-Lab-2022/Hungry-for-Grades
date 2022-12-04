@@ -1,6 +1,6 @@
 import { logger } from '@/Utils/logger';
 import { HttpException } from '@/Exceptions/HttpException';
-import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
+import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
 import { type ICookie } from '@Authentication/auth.interface';
@@ -21,11 +21,11 @@ import TraineeService from '@/Trainee/trainee.dao';
 import InstructorService from '@/Instructor/instructor.dao';
 import AdminService from '@/Admin/admin.dao';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
-import { Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
 class AuthService {
   instructorService = new InstructorService();
 
-  public async signup(userData: CreateUserDto, role: Role): Promise<any> {
+  public async signup(userData: UserDTO, role: Role, isCorporate = false): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
     const userModel = findUserModelByRole(role);
@@ -40,6 +40,8 @@ class AuthService {
     if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
 
     userData.email.isVerified = true;
+    if (isCorporate) userData.isCorporate = true;
+
     const createUserData = await userModel.create({
       ...userData,
     });
@@ -132,18 +134,6 @@ class AuthService {
 
     const userModel = findUserModelByRole(role);
     if (!userModel) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Role does not exist');
-
-    // const findUser = await userModel
-    //   .findById(
-    //     { _id: userId },
-    //     {
-    //       $set: {
-    //         password: newPassword,
-    //       },
-    //     },
-    //     { new: true },
-    //   )
-    //   .lean();
 
     const user = await userModel.findById(userId).lean();
     if (!user) throw new HttpException(HttpStatusCodes.BAD_REQUEST, `No matching user found`);
