@@ -1,5 +1,8 @@
 import { object } from 'yup';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, Form, FormikHelpers, ErrorMessage, Field } from 'formik';
+import Modal from 'react-modal';
+
+import { BsFillXCircleFill } from 'react-icons/bs';
 
 import {
   CourseFormProps,
@@ -7,13 +10,20 @@ import {
   CourseSubmitAction
 } from './course-form-types';
 
-import { infoSchema, outlineSchema, sectionSchema } from './course-schemas';
+import {
+  courseSchema,
+  infoSchema,
+  outlineSchema,
+  sectionSchema
+} from './course-schemas';
 
 import { CourseInfoForm } from './CourseInfoForm';
 
 import { CourseOutlineForm } from './CourseOutlineForm';
 
 import { SectionsForm } from './SectionsForm';
+
+import styles from './course-form.module.scss';
 
 import { Level } from '@/enums/level.enum';
 import {
@@ -22,6 +32,8 @@ import {
 } from '@/interfaces/course.interface';
 import ProgressSteps from '@/components/progress/ProgressSteps';
 import useMultistepForm from '@/hooks/useMultistepForm';
+import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+import { useCallback, useState } from 'react';
 
 const stepTitles = ['Course Info', 'Course Outline', 'Course Sections'];
 
@@ -104,6 +116,9 @@ async function submitCourse(
 }
 
 function CourseForm(props: CourseFormProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const openTerms = useCallback(() => setModalOpen(true), [setModalOpen]);
+  const closeTerms = useCallback(() => setModalOpen(false), [setModalOpen]);
   const {
     currentStepIndex,
     steps,
@@ -142,7 +157,7 @@ function CourseForm(props: CourseFormProps) {
       <Formik
         initialValues={props.initialValues}
         // eslint-disable-next-line security/detect-object-injection
-        validationSchema={schemas[currentStepIndex]}
+        validationSchema={isLastStep ? courseSchema : schemas[currentStepIndex]}
         // eslint-disable-next-line react/jsx-no-bind
         onSubmit={handleSubmit}
       >
@@ -163,6 +178,42 @@ function CourseForm(props: CourseFormProps) {
                 <h5 className='text-dark'>{subtitle}</h5>
                 {step}
                 <div className='form-group text-end my-3'>
+                  {isLastStep && (
+                    <>
+                      <div className='d-flex flex-raw'>
+                        <div className='form-check'>
+                          <Field
+                            className='form-check-input'
+                            id='terms'
+                            name='terms'
+                            type='checkbox'
+                          />
+                          <label
+                            className='form-check-label'
+                            htmlFor='invalidCheck'
+                          >
+                            I read and agree to the{' '}
+                            <button
+                              className={`btn btn-link d-inline p-0 m-0 border-0 ${
+                                styles['terms-link'] ?? ''
+                              }`}
+                              type='button'
+                              onClick={openTerms}
+                            >
+                              Terms and Conditions
+                            </button>
+                          </label>
+                        </div>
+                      </div>
+                      <div className='text-start'>
+                        <ErrorMessage
+                          className={styles['terms-error']}
+                          component='div'
+                          name='terms'
+                        />
+                      </div>
+                    </>
+                  )}
                   {currentStepIndex > 0 && (
                     <button
                       className='btn btn-secondary mx-2'
@@ -173,13 +224,15 @@ function CourseForm(props: CourseFormProps) {
                     </button>
                   )}
                   {isLastStep && (
-                    <button
-                      className='btn btn-primary'
-                      disabled={formikProps.isSubmitting}
-                      type='submit'
-                    >
-                      Submit
-                    </button>
+                    <>
+                      <button
+                        className='btn btn-primary'
+                        disabled={formikProps.isSubmitting}
+                        type='submit'
+                      >
+                        Submit
+                      </button>
+                    </>
                   )}
                   {!isLastStep && (
                     <button className='btn btn-primary' type='submit'>
@@ -192,6 +245,49 @@ function CourseForm(props: CourseFormProps) {
           );
         }}
       </Formik>
+      <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
+        <div className={styles['close-button-container'] ?? ''}>
+          <button
+            className={styles['close-button']}
+            type='button'
+            onClick={closeTerms}
+          >
+            <BsFillXCircleFill />
+          </button>
+        </div>
+        <div className={`container ${styles['scroll-container'] ?? ''}`}>
+          <h1>Terms and Conditions</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 }

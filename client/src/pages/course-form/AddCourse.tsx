@@ -24,7 +24,8 @@ function AddCourse() {
       previewVideoURL: ''
     },
     outline: [] as OutlineFormValues[],
-    sections: [] as SectionFormValues[]
+    sections: [] as SectionFormValues[],
+    terms: false,
   };
 
   const submitAction = useMemo(

@@ -226,7 +226,7 @@ export async function deleteCourse(courseId: string): Promise<ICourse> {
   const res = await axios.delete<HttpResponse<ICourse>>(
     `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`
   );
-  if (res.statusText !== 'Deleted') {
+  if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {

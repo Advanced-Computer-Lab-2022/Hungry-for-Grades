@@ -78,6 +78,7 @@ export type CourseFormValues = {
   info: CourseInfoFormValues;
   outline: OutlineFormValues[];
   sections: SectionFormValues[];
+  terms: boolean;
 };
 
 export type ExamFormValues = {

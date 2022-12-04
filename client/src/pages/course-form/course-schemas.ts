@@ -1,4 +1,4 @@
-import { object, string, number, array, StringSchema } from 'yup';
+import { object, string, number, array, StringSchema, boolean } from 'yup';
 
 import { AnswerFormValues, languages, levels } from './course-form-types';
 
@@ -163,5 +163,6 @@ export const sectionSchema = array()
 export const courseSchema = object().shape({
   info: infoSchema,
   outline: outlineSchema,
-  sections: sectionSchema
+  sections: sectionSchema,
+  terms: boolean().test('ValidateRequired', 'You must accept the terms and conditions.', (v) => !!v),
 });

@@ -91,7 +91,8 @@ function EditCourse() {
           answer: q.answer
         }))
       }))
-    }))
+    })),
+    terms: true,
   };
 
   return (
