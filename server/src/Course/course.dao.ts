@@ -13,15 +13,12 @@ import {
   getConversionRate,
   getCurrencyFromCountry,
   getCurrentPrice,
-  getYoutubeVideoID,
 } from '@Course/course.common';
 import instructorModel from '@/Instructor/instructor.model';
-import userModel from '@/User/user.schema';
 import { CategoryDTO, CourseDTO, FrequentlyAskedQuestionDTO } from './course.dto';
-import { IInstructor, ITeachedCourse } from '@/Instructor/instructor.interface';
+import { ITeachedCourse } from '@/Instructor/instructor.interface';
 import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
-import { ITrainee } from '@/Trainee/trainee.interface';
 import TraineeService from '@/Trainee/trainee.dao';
 import { logger } from '@/Utils/logger';
 
