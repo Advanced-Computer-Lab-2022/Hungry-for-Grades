@@ -29,7 +29,7 @@ export interface ICourse {
   price: Price;
   rating: Rating;
   sections: Section[];
-  subcategory: string;
+  subcategory: string[];
   thumbnail: string;
   title: string;
 }
