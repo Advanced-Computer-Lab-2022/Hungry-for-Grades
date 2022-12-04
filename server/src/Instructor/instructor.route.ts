@@ -15,6 +15,7 @@ class InstructorsRoute implements Routes {
   private initializeRoutes() {
     this.router.get('/username', this.instructorController.getInstructorByUsername);
     this.router.get('/email', this.instructorController.getInstructorByEmail);
+    this.router.get('/top-rated', this.instructorController.getTopRatedInstructors);
 
     this.router.get('/:instructorID', this.instructorController.getInstructorbyId);
     this.router.patch('/:instructorID', this.instructorController.updateInstructorProfile);

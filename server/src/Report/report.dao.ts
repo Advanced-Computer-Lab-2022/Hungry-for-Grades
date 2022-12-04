@@ -53,7 +53,7 @@ class ReportService {
       // enroll trainee in course
       await this.traineeService.enrollTrainee(report._user.toString(), report._course.toString());
     } else if (report.reason === Reason.REFUND) {
-      // refund trainee
+      // refund trainee (only if less than 50% of the course has been attended)
 
       //unroll trainee from course
       await this.traineeService.unrollTrainee(report._user.toString(), report._course.toString());

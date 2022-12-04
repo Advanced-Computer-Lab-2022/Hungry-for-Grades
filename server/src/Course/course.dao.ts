@@ -283,14 +283,14 @@ class CourseService {
     return createdCourse;
   }
 
-  public async updateCourse(courseId: string, courseData: ICourse): Promise<ICourse> {
-    if (isEmpty(courseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course data is empty');
+  public async updateCourse(courseId: string, newCourseData: any): Promise<ICourse> {
+    if (isEmpty(newCourseData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course data is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
-    const updatedCourse: ICourse = await courseModel.findByIdAndUpdate(courseId, { courseData: courseData });
-    if (!updatedCourse) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    const course = await courseModel.findOneAndReplace({ _id: new mongoose.Types.ObjectId(courseId) }, newCourseData, { new: true });
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Course doesn't exist");
 
-    return updatedCourse;
+    return course;
   }
 
   public deleteCourse = async (courseId: string): Promise<ICourse> => {
