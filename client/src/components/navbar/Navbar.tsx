@@ -74,7 +74,9 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-										<div className='text-muted py-3 mx-3 w-100 px-0'>{user.name}</div>
+                  <div className='text-muted py-3 mx-3 w-100 px-0'>
+                    {user.name}
+                  </div>
                   <UserDropdown />
                 </div>
               </Nav.Link>

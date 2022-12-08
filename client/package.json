@@ -173,6 +173,7 @@
     "typescript-parser": "^2.6.1",
     "use-yarn": "^2.4.0",
     "vite": "^3.1.6",
+    "vite-plugin-pwa": "^0.13.3",
     "vite-plugin-remove-console": "^1.1.0",
     "vite-plugin-svgr": "^2.2.1",
     "vite-tsconfig-paths": "^3.5.1",
