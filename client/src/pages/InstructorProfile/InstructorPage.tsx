@@ -37,7 +37,7 @@ export default function InstructorPage() {
 
   const { isLoading, data } = useQuery(
     ['getInstructorNow', instructorId],
-    () => getInstructor(instructorId  as string),
+    () => getInstructor(instructorId as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second

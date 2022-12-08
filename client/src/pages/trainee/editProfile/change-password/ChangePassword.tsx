@@ -1,4 +1,5 @@
-import { FormikErrors, useFormik } from 'formik';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
@@ -12,7 +13,6 @@ import Input from '@components/inputs/input/Input';
 
 import usePostQuery from '@/hooks/usePostQuery';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
-
 
 const id = '637969352c3f71696ca34759';
 
@@ -37,7 +37,7 @@ const initialValues: TraineeData = {
 };
 
 export default function ChangePassword() {
-  const { mutateAsync: changePassword, isError, error } = usePostQuery();
+  const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
     async (data: any) => {
@@ -70,7 +70,7 @@ export default function ChangePassword() {
     enableReinitialize: true
   });
 
-  async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit() {
     await formik.setTouched({
       oldPassword: true,
       newPassword: true,

@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 
 import { BsFillXCircleFill } from 'react-icons/bs';
 
+import { useCallback, useState } from 'react';
+
 import {
   CourseFormProps,
   CourseFormValues,
@@ -32,8 +34,8 @@ import {
 } from '@/interfaces/course.interface';
 import ProgressSteps from '@/components/progress/ProgressSteps';
 import useMultistepForm from '@/hooks/useMultistepForm';
-import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
-import { useCallback, useState } from 'react';
+
+// import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 
 const stepTitles = ['Course Info', 'Course Outline', 'Course Sections'];
 
@@ -296,8 +298,7 @@ function CourseForm(props: CourseFormProps) {
   );
 }
 
+// function UseParams() {
+//   throw new Error('Function not implemented.');
+// }
 export default CourseForm;
-function UseParams() {
-  throw new Error('Function not implemented.');
-}
-

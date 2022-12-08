@@ -164,5 +164,9 @@ export const courseSchema = object().shape({
   info: infoSchema,
   outline: outlineSchema,
   sections: sectionSchema,
-  terms: boolean().test('ValidateRequired', 'You must accept the terms and conditions.', (v) => !!v),
+  terms: boolean().test(
+    'ValidateRequired',
+    'You must accept the terms and conditions.',
+    v => !!v
+  )
 });

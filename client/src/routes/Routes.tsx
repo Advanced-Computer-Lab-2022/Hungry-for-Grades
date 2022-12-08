@@ -141,9 +141,9 @@ function AllRoutes() {
       <Route element={<PublicRoutes />}>
         {/* Trainee Routes*/}
         <Route
-            element={<LazyInstructorProfileToShow />}
-            path='instructor/:instructorId'
-          />
+          element={<LazyInstructorProfileToShow />}
+          path='instructor/:instructorId'
+        />
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route
             element={<LazyTraineeViewCourse />}

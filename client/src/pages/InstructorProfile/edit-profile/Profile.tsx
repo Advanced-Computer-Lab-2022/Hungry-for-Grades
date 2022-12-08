@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSearchQuery from './fetchApi';
 import { updateProfile } from './updateApi';
 

@@ -25,7 +25,7 @@ function AddCourse() {
     },
     outline: [] as OutlineFormValues[],
     sections: [] as SectionFormValues[],
-    terms: false,
+    terms: false
   };
 
   const submitAction = useMemo(

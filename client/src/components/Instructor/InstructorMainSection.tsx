@@ -12,10 +12,10 @@ export default function InstructorMainSection() {
     <div className={styles.hero}>
       <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
         <div className={styles.mylearning}>Instructor Dashboard</div>
-        <Link to = 'add-course'>
-          <button className = {styles.add_course}>
-              Create Course
-        </button>
+        <Link to='add-course'>
+          <button className={styles.add_course} type='submit'>
+            Create Course
+          </button>
         </Link>
         <div className={styles.list}>
           <div style={{ marginRight: '3.2rem' }}>
