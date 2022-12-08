@@ -92,7 +92,7 @@ function EditCourse() {
         }))
       }))
     })),
-    terms: true,
+    terms: true
   };
 
   return (

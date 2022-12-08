@@ -28,7 +28,6 @@ async function getCourses(country: string, currentPage: number, id: string) {
 }
 
 export default function CourseList(props: { text: string; namme: string }) {
-
   const instructorId = props.text;
 
   const [activePage, setActivePage] = useState<number>(1);
@@ -71,9 +70,9 @@ export default function CourseList(props: { text: string; namme: string }) {
       {toShow}
       {data?.data?.totalPages > 1 && (
         <Pagination
-          activePage = { activePage }
-          pages = {list?.totalPages as number}
-          setActivePage = {setActivePage}
+          activePage={activePage}
+          pages={list?.totalPages}
+          setActivePage={setActivePage}
         />
       )}
     </div>

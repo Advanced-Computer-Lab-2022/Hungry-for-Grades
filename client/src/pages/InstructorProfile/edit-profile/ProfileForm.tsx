@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { TraineeData } from './types';
 
