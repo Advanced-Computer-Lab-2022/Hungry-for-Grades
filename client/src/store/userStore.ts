@@ -2,6 +2,8 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import LocalStorage from '@/services/localStorage/LocalStorage';
+
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 
 import { type IUser } from '@interfaces/user.interface';
@@ -27,7 +29,13 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
     getUser: () => SessionStorage.get<IUser>('user') as IUser | null,
     setIsAuthenticated: (isAuthenticated: boolean | null) =>
       set({ isAuthenticated }),
-    logOut: () => set({ user: null, isAuthenticated: false })
+    logOut: () => {
+      SessionStorage.remove('user');
+      SessionStorage.remove('accessToken');
+      LocalStorage.remove('refreshToken');
+      LocalStorage.remove('role');
+      set({ user: null, isAuthenticated: false });
+    }
   }))
 );
 

@@ -144,9 +144,8 @@
     text-align: right;
 }
 
-@media (max-width: 1140px) {
-    .slider h3,
-    .slider h4 {
+@media (max-width: 40px) {
+    .carousel-caption {
         display: none;
     }
 }
