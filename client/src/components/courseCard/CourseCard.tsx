@@ -61,8 +61,12 @@ function CourseCardPreview({
   );
 }
 
-function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
-  const props = x.pprops;
+function CourseCard(courseProps: {
+  pprops: CourseCardProps;
+  percent: number;
+  enrolled: boolean;
+}) {
+  const props = courseProps.pprops;
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>
@@ -79,7 +83,13 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
             styles.course__card ?? ''
           } card card-cascade rounded bg-light shadow my-5`}
         >
-          <Link to={`/course/${props.id}`}>
+          <Link
+            to={`${
+              !courseProps.enrolled
+                ? `/course/${props.id}`
+                : `/trainee/view-course/${props.id}/`
+            }`}
+          >
             <div className={`${styles.course__img__container ?? ''}`}>
               <img
                 alt={props.title}
@@ -96,7 +106,13 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
             </div>
           </Link>
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
-            <Link to={`/course/${props.id}`}>
+            <Link
+              to={`${
+                !courseProps.enrolled
+                  ? `/course/${props.id}`
+                  : `/trainee/view-course/${props.id}/`
+              }`}
+            >
               <h4
                 className={`${styles.course__title ?? ''} ${
                   styles['fnt-md'] ?? ''
@@ -121,8 +137,10 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
                   <strong>Duration: {formatDuration(props.duration)}</strong>
                 </div>
                 <CourseRating {...props.rating} />
-                {x.percent == -1 && <Price {...props.price} />}
-                {x.percent != -1 && <ProgressBar completed={x.percent} />}
+                {courseProps.percent == -1 && <Price {...props.price} />}
+                {courseProps.percent != -1 && (
+                  <ProgressBar completed={courseProps.percent} />
+                )}
               </div>
               <div>
                 <CourseCardButtons

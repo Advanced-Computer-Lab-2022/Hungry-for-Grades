@@ -42,6 +42,9 @@ class TraineeService {
 
     return trainee;
   };
+  public getTrainees = async (): Promise<ITrainee[]> => {
+    return await traineeModel.find().select('-password');
+  };
 
   public getTraineeByEmail = async (traineeEmail: string): Promise<ITrainee> => {
     if (isEmpty(traineeEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');

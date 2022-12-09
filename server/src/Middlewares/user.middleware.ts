@@ -5,6 +5,7 @@ import { RequestWithTokenPayloadAndUser } from '@Authentication/auth.interface';
 import { NextFunction, Response } from 'express';
 import { isEmpty } from '@/Utils/util';
 
+// returns req.user the correct user from correct role based in role
 async function userMiddleware(request: RequestWithTokenPayloadAndUser, response: Response, next: NextFunction) {
   try {
     if (!request.tokenPayload || isEmpty(request.tokenPayload))

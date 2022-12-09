@@ -9,6 +9,8 @@ import { FiUser } from 'react-icons/fi';
 
 import styles from './trainee-dashboard.module.scss';
 
+import Music from '@/components/mediaPlayer/Music';
+
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
     styles.listitem ?? ''
@@ -17,7 +19,7 @@ function navIsActive({ isActive }: { isActive: boolean }) {
 
 const navLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
-  Courses: { path: '/trainee/courses', icon: <BsFillBookFill /> },
+  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
   Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
@@ -30,7 +32,10 @@ function TraineeDashboard() {
       <div>
         <div className={styles.hero}>
           <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
-            <div className={styles.mylearning}>My learning</div>
+            <div className='d-flex flex-row justify-content-between'>
+              <div className={styles.mylearning}>My learning</div>
+              <Music />
+            </div>
             <div className={styles.list}>
               {Object.keys(navLinks).map((key: string) => (
                 <div key={key} style={{ marginRight: '3.2rem' }}>

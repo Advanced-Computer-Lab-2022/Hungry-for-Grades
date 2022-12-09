@@ -122,9 +122,11 @@ function Footer() {
                 </h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  Here you can use rows and columns to organize your footer
-                  content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                  elit.
+                  Canadian Chamber of Commerce in Egypt (CanCham) was officially
+                  inaugurated on the 31st of May 2006. It was established in
+                  Egypt as a non-profit and non-governmental organization. It is
+                  an official member at the Canadian Chamber of Commerce in
+                  Canada; having access to their members database who ...
                 </p>
               </div>
 
@@ -132,23 +134,35 @@ function Footer() {
                 <h6 className='text-uppercase fw-bold'>Products</h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  <a className='text-white' href='#!'>
-                    MDBootstrap
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/services.html'
+                  >
+                    Services
                   </a>
                 </p>
                 <p>
-                  <a className='text-white' href='#!'>
-                    MDWordPress
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/about_us.html'
+                  >
+                    About us
                   </a>
                 </p>
                 <p>
-                  <a className='text-white' href='#!'>
-                    BrandFlow
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/membership.html'
+                  >
+                    Membership
                   </a>
                 </p>
                 <p>
-                  <a className='text-white' href='#!'>
-                    Bootstrap Angular
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/courses.html'
+                  >
+                    Training
                   </a>
                 </p>
               </div>

@@ -11,24 +11,20 @@ import useValidation from './useValidation';
 import { Role } from '@/enums/role.enum';
 
 import { UseSetUser } from '@/store/userStore';
+import { UseCartStoreSetCart } from '@/store/cartStore';
+import { UseWishListSetCart } from '@/store/wishListStore';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-import {
-  UseAuthStoreSetToken,
-  UseAuthStoreRemoveToken
-} from '@store/authStore';
-
-import { UseCartStoreSetCart } from '@store/cartStore';
-import { UseWishListSetCart } from '@store/wishListStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import { UpdateCountry } from '@/store/countryStore';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
@@ -36,8 +32,7 @@ function Login() {
   const updateCountry = UpdateCountry();
 
   const useSetUser = UseSetUser();
-  const useAuthStoreSetToken = UseAuthStoreSetToken();
-  const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
+
   const useCartStoreSetCart = UseCartStoreSetCart();
   const useWishListSetCart = UseWishListSetCart();
 
@@ -63,23 +58,18 @@ function Login() {
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase();
-        console.log(user);
-        console.log(response?.data?.data);
         useSetUser({ ...user, role: userRole });
         useCartStoreSetCart(user?._cart);
         useWishListSetCart(user?._wishList);
+        //session
         SessionStorage.set('accessToken', token.accessToken);
-        console.log('token.accessToken');
-        console.log(token.accessToken);
         updateCountry(user.country);
         if (formik.values.rememberMe) {
-          useAuthStoreSetToken(token);
+          LocalStorage.set('role', userRole);
         } else {
-          useAuthStoreRemoveToken();
+          LocalStorage.remove('role');
         }
 
-        console.log(user);
-        console.log(token);
         if (from) {
           navigate(from.toLocaleLowerCase());
         } else {
@@ -103,8 +93,6 @@ function Login() {
     useWishListSetCart,
     updateCountry,
     from,
-    useAuthStoreSetToken,
-    useAuthStoreRemoveToken,
     navigate
   ]);
 
@@ -196,7 +184,7 @@ function Login() {
             )}
             {isError && !error?.response?.data?.message && (
               <div className='alert alert-danger' role='alert'>
-                Please report this Problem through this
+                Please report this Problem through this &nbsp;
                 <Link className='alert-link' to='/report'>
                   Link
                 </Link>

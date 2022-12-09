@@ -2,22 +2,31 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import SessionStorage from '@/services/sessionStorage/SessionStorage';
+
 import { type IUser } from '@interfaces/user.interface';
 
 export interface IUserStore {
   user: IUser | null;
   setUser: (user: IUser) => void;
+  getUser: () => IUser | null;
   logOut: () => void;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
   devtools(set => ({
-    user: null,
-    isAuthenticated: false,
-    setUser: (user: IUser) => set({ user, isAuthenticated: true }),
-    setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
+    user: SessionStorage.get<IUser>('user') as IUser | null,
+    isAuthenticated: SessionStorage.get('refreshToken') ? true : null,
+    setUser: (user: IUser) => {
+      SessionStorage.set<IUser>('user', { ...user });
+
+      set({ user, isAuthenticated: true });
+    },
+    getUser: () => SessionStorage.get<IUser>('user') as IUser | null,
+    setIsAuthenticated: (isAuthenticated: boolean | null) =>
+      set({ isAuthenticated }),
     logOut: () => set({ user: null, isAuthenticated: false })
   }))
 );

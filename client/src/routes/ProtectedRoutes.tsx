@@ -1,54 +1,82 @@
-import { Suspense, useEffect } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Suspense } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
+import useUserInfoQuery from './useUserInfoQuery';
+
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
-import useRefreshToken from '@/hooks/useRefreshToken';
+import { UseUserIsAuthenticated, UseSetUser } from '@store/userStore';
+import { UseCartStoreSetCart } from '@/store/cartStore';
+import { UseWishListSetCart } from '@/store/wishListStore';
+import { UpdateCountry } from '@/store/countryStore';
 
-/*
-function Auth() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  try {
-    const token = Cookie.get('token');
-    if (!token) return false;
-    // const user = jwt.decode(token);
-    //return !!user;
-  } catch (e) {
-    navigate(location.pathname);
-    navigate('/login');
-
-    return false;
-  }
-}
-*/
+//let effectOnce = 0;
 
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
+  const updateCountry = UpdateCountry();
+
+  const { isLoading, isError, data, error } = useUserInfoQuery(
+    !useUserIsAuthenticated ? true : false
+  );
+
+  const useSetUser = UseSetUser();
+
+  const useCartStoreSetCart = UseCartStoreSetCart();
+  const useWishListSetCart = UseWishListSetCart();
+
+  if (
+    !isLoading &&
+    !isError &&
+    data &&
+    !useUserIsAuthenticated &&
+    data.data &&
+    data.data.data
+  ) {
+    const userData = data?.data?.data;
+    useSetUser(userData);
+    updateCountry(userData?.country);
+    useCartStoreSetCart(userData?._cart);
+    useWishListSetCart(userData?._wishList);
+  }
   const location = useLocation();
+
+  /*
   const refresh = useRefreshToken();
 
-  useEffect(() => {
-    /*    refresh()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      }); */
-    /* 		if (!access) {
+useEffect(() => {
+     if (effectOnce === 0) {
+      refresh()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+       		if (!access) {
 			return <Navigate replace state={{ from: location }} to='/auth/login' />;
-		} */
-  }, [refresh]);
+		}
+      effectOnce = 1;
+    }
+  }, [refresh]); */
+
+  if (isLoading && !data && !useUserIsAuthenticated) {
+    return <Loader />;
+  }
+
+  if (useUserIsAuthenticated === null) {
+    return <></>;
+  }
+
+  if (isError || error) {
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
+  }
 
   if (useUserIsAuthenticated) {
-    return <Navigate replace state={{ from: location }} to='/auth/login' />;
-  } else {
     return (
       <Suspense fallback={<Loader />}>
         <Navbar />
@@ -56,6 +84,8 @@ function ProtectedRoutes() {
         <Footer />
       </Suspense>
     );
+  } else {
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
   }
 }
 

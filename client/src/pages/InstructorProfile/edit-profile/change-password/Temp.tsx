@@ -4,11 +4,7 @@ import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
-import { toast } from 'react-toastify';
-
-import { TraineeData } from './types';
-
-import { toastOptions } from '@components/toast/options';
+import { InstructorData } from './types';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
@@ -16,7 +12,7 @@ import Input from '@components/inputs/input/Input';
 import usePostQuery from '@/hooks/usePostQuery';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
-const id = '637969352c3f71696ca34759';
+const id = '6379620f2c3f71696ca34735';
 
 const validationSchema = Yup.object({
   oldPassword: Yup.string()
@@ -32,7 +28,7 @@ const validationSchema = Yup.object({
     .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
 });
 
-const initialValues: TraineeData = {
+const initialValues: InstructorData = {
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''
@@ -48,22 +44,15 @@ export default function ChangePassword() {
           {},
           InstructorRoutes.POST.changePassword
         );
-        console.log(updateRoute);
         updateRoute.payload = data;
-        const response = await changePassword(updateRoute);
-        if (response && response.status === 201) {
-          toast.success('Password changed successfully', toastOptions);
-        } else {
-          toast.error('Password change failed', toastOptions);
-        }
-        console.log(response);
+        await changePassword(updateRoute);
       } catch (err) {
         console.log(err);
       }
     },
     [changePassword]
   );
-  const formik = useFormik<TraineeData>({
+  const formik = useFormik<InstructorData>({
     initialValues,
     validationSchema,
     onSubmit: submitAction,
@@ -80,7 +69,7 @@ export default function ChangePassword() {
     const submittedValues = {
       oldPassword: formik.values.oldPassword,
       newPassword: formik.values.newPassword,
-      role: 'Trainee',
+      role: 'Instructor',
       _id: id
     };
     void submitAction(submittedValues); //need to be revised

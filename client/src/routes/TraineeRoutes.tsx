@@ -1,14 +1,16 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
+import { UseUserIsAuthenticated, UseUser } from '@store/userStore';
 
 import { Role } from '@enums/role.enum';
 
 export default function TraineeRoutes() {
   const location = useLocation();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
+  const useUser = UseUser();
 
-  return 'trainee' === Role.TRAINEE ? (
+  return useUser?.role.toLocaleLowerCase() ===
+    Role.TRAINEE.toLocaleLowerCase() ? (
     <>
       <Outlet />
     </>

@@ -42,7 +42,7 @@ export const useAuthStore = create<
     )
   )
 );
-
+/*
 export const UseAuthStoreToken = () => useAuthStore(state => state.token);
 
 export const UseAuthStoreSetToken = () => useAuthStore(state => state.setToken);
@@ -52,3 +52,4 @@ export const UseAuthStoreRemoveToken = () =>
   useAuthStore(state => state.removeToken);
 export const UseAuthStoreGetRefreshToken = () =>
   useAuthStore(state => state.token.refreshToken);
+ */

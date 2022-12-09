@@ -188,7 +188,6 @@ class AuthService {
       options: {
         httpOnly: true, // only accessible by a web server
         maxAge: 1000 * 60 * 60 * 24 * 7, // expires in 1 week
-        sameSite: 'none', // cross-site cookie
         secure: false, //https
       },
       value: refreshToken,

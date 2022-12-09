@@ -4,7 +4,6 @@ import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import { Role } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
 import { type IUser } from '@User/user.interface';
 import { NextFunction, Request, Response } from 'express';
@@ -15,7 +14,6 @@ class AuthController {
 
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.info('signUp');
       const userData: UserDTO = req.body;
       const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
 
@@ -79,14 +77,15 @@ class AuthController {
   public refresh = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { cookies } = req;
-      if (!cookies || !cookies?.Authorization) throw new HttpException(HttpStatusCodes.UNAUTHORIZED, "There's No Authorization Cookies");
-
       const refreshToken = cookies.Authorization ?? cookies.authorization;
+      if (!cookies || (!cookies?.Authorization && !cookies.authorization))
+        throw new HttpException(HttpStatusCodes.UNAUTHORIZED, "There's No Authorization Cookies");
+
       const accessToken = verifyRefreshToken(refreshToken);
 
       res.status(HttpStatusCodes.OK).json({
         data: { accessToken },
-        message: 'refreshed refresh token',
+        message: 'refreshed access token',
       });
     } catch (error) {
       next(error);

@@ -17,82 +17,91 @@ function MenuHeadersExample() {
   const user = UseUser();
 
   return (
-    <>
-      <button
-        className={styles.user__avatar ?? ''}
-        type='button'
-        onClick={() => setShow(!show)}
-      >
-        <img
-          ref={target}
-          alt='profile'
-          loading='lazy'
-          src={user?.profileImage ?? 'https://via.placeholder.com/50'}
-          style={{ borderRadius: '50%', width: '3.5rem', height: '3.2rem' }}
-          onError={e => {
-            e.currentTarget.src = 'https://via.placeholder.com/50';
-          }}
-        />
-      </button>
-      <Overlay placement='bottom' show={show} target={target.current}>
-        {({ placement, arrowProps, show: _show, popper, ...props }) => (
-          <div
-            {...props}
-            className={styles.dropdown__menu ?? ''}
+    user && (
+      <>
+        <button
+          className={styles.user__avatar ?? ''}
+          type='button'
+          onClick={() => setShow(!show)}
+        >
+          <img
+            ref={target}
+            alt='profile'
+            loading='lazy'
+            src={user?.profileImage ?? 'https://via.placeholder.com/50'}
             style={{
-              borderRadius: 3,
-              ...props.style
+              borderRadius: '50%',
+              width: '3.5rem',
+              height: '3.2rem',
+              objectFit: 'cover'
             }}
-          >
-            <NavDropdown.Item>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active__link ?? '' : undefined
-                }
-                style={{ color: 'inherit' }}
-                to='/setiings'
-              >
-                <FiUser className={styles.nav__icon} />
-                Personal Profile
-              </NavLink>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active__link ?? '' : undefined
-                }
-                style={{ color: 'inherit' }}
-                to='/setiings'
-              >
-                Settings
-              </NavLink>
-            </NavDropdown.Item>
-            <hr />
-            <NavDropdown.Item>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? styles.active__link ?? '' : undefined
-                }
-                style={{ color: 'inherit' }}
-                to='/setiings'
-              >
-                <IoSettingsOutline className={styles.nav__icon} /> Settings
-              </NavLink>
-            </NavDropdown.Item>{' '}
-            <NavDropdown.Item>
-              <Link
-                replace
-                style={{ color: 'inherit' }}
-                to='/'
-                onClick={useUserStoreLogOut}
-              >
-                <FiLogOut className={styles.nav__icon} /> Log Out
-              </Link>
-            </NavDropdown.Item>
-          </div>
-        )}
-      </Overlay>
-    </>
+            onError={e => {
+              e.currentTarget.src = 'https://via.placeholder.com/50';
+            }}
+          />
+        </button>
+        <Overlay placement='bottom' show={show} target={target.current}>
+          {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            <div
+              {...props}
+              className={styles.dropdown__menu ?? ''}
+              style={{
+                borderRadius: 3,
+                ...props.style,
+                marginTop: '10px',
+                zIndex: 9999
+              }}
+            >
+              <NavDropdown.Item>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active__link ?? '' : undefined
+                  }
+                  style={{ color: 'inherit' }}
+                  to={`/${user.role}/profile`}
+                >
+                  <FiUser className={styles.nav__icon} />
+                  Personal Profile
+                </NavLink>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active__link ?? '' : undefined
+                  }
+                  style={{ color: 'inherit' }}
+                  to='/setiings'
+                >
+                  Settings
+                </NavLink>
+              </NavDropdown.Item>
+              <hr />
+              <NavDropdown.Item>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? styles.active__link ?? '' : undefined
+                  }
+                  style={{ color: 'inherit' }}
+                  to='/setiings'
+                >
+                  <IoSettingsOutline className={styles.nav__icon} /> Settings
+                </NavLink>
+              </NavDropdown.Item>{' '}
+              <NavDropdown.Item>
+                <Link
+                  replace
+                  style={{ color: 'inherit' }}
+                  to='/'
+                  onClick={useUserStoreLogOut}
+                >
+                  <FiLogOut className={styles.nav__icon} /> Log Out
+                </Link>
+              </NavDropdown.Item>
+            </div>
+          )}
+        </Overlay>
+      </>
+    )
   );
 }
 

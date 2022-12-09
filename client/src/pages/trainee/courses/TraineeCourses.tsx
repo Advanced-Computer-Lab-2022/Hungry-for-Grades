@@ -41,6 +41,7 @@ export default function MyCourses() {
       <div key={course._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard
           key={course._id}
+          enrolled
           percent={course?.progress}
           pprops={courseCardP}
         />

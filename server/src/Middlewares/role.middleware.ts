@@ -7,6 +7,7 @@ import { isEmpty } from '@/Utils/util';
 
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 
+// based on role type allowed
 const roleMiddleware = (acceptedRoles: Role[]): RequestHandler => {
   return (request: RequestWithTokenPayload, response, next) => {
     if (!request.tokenPayload || isEmpty(request.tokenPayload)) {
@@ -14,7 +15,7 @@ const roleMiddleware = (acceptedRoles: Role[]): RequestHandler => {
       next(new HttpException(HttpStatusCodes.UNAUTHORIZED, 'No authentication token, please log in'));
     }
     const { role } = request.tokenPayload;
-    if (acceptedRoles.includes(role)) {
+    if (!acceptedRoles.includes(role)) {
       next(new HttpException(HttpStatusCodes.UNAUTHORIZED, `You are not Authorized as ${role}`));
     } else {
       next();

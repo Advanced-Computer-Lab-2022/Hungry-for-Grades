@@ -2,8 +2,8 @@ import { ReactElement, useState } from 'react';
 
 type Step = {
   currentStepIndex: number;
-  steps: ReactElement[];
-  step: ReactElement;
+  steps: (ReactElement | string)[];
+  step: ReactElement | string;
   title?: string;
   subtitle?: string;
   isFirstStep: boolean;
@@ -14,7 +14,7 @@ type Step = {
 };
 
 function useMultistepForm(
-  steps: ReactElement[],
+  steps: (ReactElement | string)[],
   titles: string[] | undefined,
   subtitles: string[] | undefined
 ): Step {

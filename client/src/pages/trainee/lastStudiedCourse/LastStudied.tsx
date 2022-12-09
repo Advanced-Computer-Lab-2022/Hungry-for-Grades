@@ -25,7 +25,12 @@ export default function LastStudy() {
         <img
           alt={course?._course?.title}
           className={styles.image_holder}
+          loading='lazy'
           src={course?._course?.thumbnail}
+          onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            sevent.target.onerror = null;
+            event.target.src = 'https://via.placeholder.com/150';
+          }}
         />
         <div
           style={{

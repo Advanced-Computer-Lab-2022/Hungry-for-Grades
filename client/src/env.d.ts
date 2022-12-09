@@ -27,6 +27,8 @@ type ImportMetaEnv = {
   readonly VITE_COMPANY_GITHUB: string;
   readonly VITE_COMPANY_GOOGLE_PLAY: string;
   readonly VITE_COMPANY_APP_STORE: string;
+  readonly VITE_COMPANY_PHONE: string;
+  readonly VITE_COMPANY_END_DATE: string;
 };
 
 type ImportMeta = {
