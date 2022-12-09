@@ -21,6 +21,8 @@ class TraineeRoute implements Routes {
     this.router.get('/info', authMiddleware, roleMiddleware([Role.TRAINEE]), userMiddleware, this.traineeController.getTraineeInfo);
     this.router.get('/email', this.traineeController.getTraineeByEmail);
     this.router.get('/username', this.traineeController.getTraineeByUsername);
+    //notes
+    this.router.post('/notes', authMiddleware, roleMiddleware([Role.TRAINEE]), this.traineeController.updateNotes);
 
     this.router.get('/:traineeId/cart', this.traineeController.getCart);
     this.router.get('/:traineeId/wishlist', this.traineeController.getWishlist);
