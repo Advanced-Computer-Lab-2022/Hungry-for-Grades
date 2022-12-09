@@ -4,8 +4,8 @@ import { IInstructor, SocialMedia } from '@Instructor/instructor.interface';
 import { NextFunction, Request, Response } from 'express';
 import { Rating, Review } from '@/Common/Types/common.types';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
-import { ReadableStreamBYOBRequest } from 'stream/web';
 import { CreateInstructorDTO } from './instructor.dto';
+import { RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
 
 class InstructorController {
   public instructorService = new InstructorService();
@@ -24,6 +24,30 @@ class InstructorController {
       next(error);
     }
   };
+
+  // @desc gets Instructor info by accessToken
+  public getInstructorInfo = async (
+    req: RequestWithTokenPayloadAndUser,
+    res: Response<HttpResponse<IInstructor>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      res.json({ data: req.user as IInstructor, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets all Instructors info
+  public getAllInstructors = async (req: Request, res: Response<HttpResponse<IInstructor[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const instructorsData: IInstructor[] = await this.instructorService.findInstructors();
+      res.json({ data: instructorsData, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   // add social media controller
   public addSocialMedia = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
     try {

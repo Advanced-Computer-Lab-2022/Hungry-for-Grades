@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -174,7 +175,7 @@ export default function ProfileForm(props: any) {
           onChangeFunc={formik.handleChange}
         />
       </div>
-      <div className='d-flex flex-row justify-content-center my-3'>
+      <div className='d-flex flex-row justify-content-end mt-4'>
         <Button
           backgroundColor={'primary-bg'}
           isDisabled={

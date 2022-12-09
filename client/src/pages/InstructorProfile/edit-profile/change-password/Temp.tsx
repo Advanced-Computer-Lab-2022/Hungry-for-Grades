@@ -1,11 +1,10 @@
-import { FormikErrors, useFormik } from 'formik';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
 
 import { InstructorData } from './types';
-
-import { updatePassword } from './updateApi';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
@@ -36,7 +35,7 @@ const initialValues: InstructorData = {
 };
 
 export default function ChangePassword() {
-  const { mutateAsync: changePassword, isError, error } = usePostQuery();
+  const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
     async (data: any) => {
@@ -46,7 +45,7 @@ export default function ChangePassword() {
           InstructorRoutes.POST.changePassword
         );
         updateRoute.payload = data;
-        const response = await changePassword(updateRoute);
+        await changePassword(updateRoute);
       } catch (err) {
         console.log(err);
       }
@@ -60,7 +59,7 @@ export default function ChangePassword() {
     enableReinitialize: true
   });
 
-  async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit() {
     await formik.setTouched({
       oldPassword: true,
       newPassword: true,

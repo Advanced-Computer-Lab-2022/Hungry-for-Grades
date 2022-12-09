@@ -38,7 +38,6 @@ function NoteForm({
     markdown = markdownRef?.current?.value || '';
 
     if (title && markdown && selectedTags) {
-      alert(markdown);
       const note: INoteData = {
         title,
         markdown,

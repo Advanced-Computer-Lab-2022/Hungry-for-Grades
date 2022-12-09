@@ -58,7 +58,7 @@ function ConfirmEmail({
       .catch(() => {
         console.log('error');
       });
-  }, [email, firstName, lastName, mutateAsync]);
+  }, [mutateAsync]);
 
   return (
     <div className='row'>

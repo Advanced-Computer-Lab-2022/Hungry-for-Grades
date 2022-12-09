@@ -1,4 +1,4 @@
-import { ICourse, Lesson } from '@/Course/course.interface';
+import { ICourse } from '@/Course/course.interface';
 import { IUser } from '@/User/user.interface';
 import { Types } from 'mongoose';
 
@@ -10,6 +10,7 @@ export interface ITrainee extends IUser {
   balance: number;
   creditCards: CreditCard[];
   isCorporate: boolean;
+  notes: INote[];
   preferredSkills: string[];
 }
 
@@ -28,7 +29,6 @@ export type EnrolledCourse = {
   // null or undefined signifies incomplete (not certified yet)
   dateOfEnrollment: Date;
   examGrade?: number;
-  notes?: Note[];
   progress?: number;
   reminder?: Reminder;
   subscribedNotification?: boolean;
@@ -42,12 +42,6 @@ type Reminder = {
   time: string;
 };
 
-type Note = {
-  content: string;
-  createdAt: Date;
-  title: string;
-};
-
 type CreditCard = {
   cardHolderName: string;
   cardNumber: string;
@@ -59,3 +53,30 @@ export type SubmittedQuestion = {
   _questionId: Types.ObjectId;
   submittedAnswer: string;
 };
+
+export interface INote extends INoteData {
+  id: string;
+}
+
+export interface INoteData {
+  courseName?: string;
+  lessonId?: string;
+  markdown: string;
+  tags: ITag[];
+  title: string;
+}
+
+export interface ITag {
+  id: string;
+  label: string;
+}
+
+export interface IRawNote extends IRawNoteData {
+  id: string;
+}
+
+export interface IRawNoteData {
+  markdown: string;
+  tagIds: string[];
+  title: string;
+}

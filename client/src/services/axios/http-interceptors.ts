@@ -7,8 +7,6 @@ import axios, {
 
 import SessionStorage from '../sessionStorage/SessionStorage';
 
-import { type IToken } from '@interfaces/token.interface';
-
 import LocalStorage from '@services/localStorage/LocalStorage';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
@@ -23,7 +21,7 @@ function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   console.log(accessToken);
 
   if (accessToken) {
-    const authorization = `Bearers ${accessToken}`;
+    const authorization = `Bearer ${accessToken}`;
 
     config.headers.Authorization = authorization;
   }
@@ -61,10 +59,20 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
-  const unParsedToken = LocalStorage.get('_TOKEN');
+  const refreshToken = LocalStorage.get('refreshToken');
+  const oldAccessToken = SessionStorage.get('accessToken');
+  if (!refreshToken) {
+    if (oldAccessToken) {
+      return Promise.resolve(error);
+    } else {
+      LocalStorage.remove('refreshToken');
+      SessionStorage.remove('accessToken');
+      window.location.replace(loginRoute);
+    }
+  }
   if (
     error.response &&
-    unParsedToken &&
+    refreshToken &&
     error.response.status === 401 &&
     error.response.data
     //error.response.data?.error !== null &&
@@ -72,24 +80,29 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
   ) {
     try {
       const prevRequest = error.config;
-
       if (prevRequest && !prevRequest?.sent) {
-        const { refreshToken } = unParsedToken as IToken;
         prevRequest.sent = true;
-        const res = await axios.post(`${APP_BASE_API_URL}/refresh`, {
-          refreshToken: refreshToken
+        const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
+          withCredentials: true
         });
+        console.log('res');
+        console.log(res.data.data);
 
-        const { accessToken }: { accessToken: string } = res.data as {
+        const { accessToken }: { accessToken: string } = res.data.data as {
           accessToken: string;
         };
+        window.location.reload();
         SessionStorage.set('accessToken', accessToken);
+        prevRequest.headers.Authorization = `Bearer ${accessToken}`;
         await http(prevRequest);
       } else {
         return await Promise.reject(error);
       }
     } catch (_error) {
+      console.log('_error');
+      console.log(_error);
       LocalStorage.remove('_TOKEN');
+      LocalStorage.remove('role');
       SessionStorage.remove('accessToken');
       window.location.replace(loginRoute);
 

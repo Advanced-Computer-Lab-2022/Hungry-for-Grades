@@ -1,7 +1,10 @@
 import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
 import InstructorController from '@Instructor/instructor.controller';
-import InstructorService from './instructor.dao';
+import authMiddleware from '@/Middlewares/auth.middleware';
+import roleMiddleware from '@/Middlewares/role.middleware';
+import { Role } from '@/User/user.enum';
+import userMiddleware from '@/Middlewares/user.middleware';
 
 class InstructorsRoute implements Routes {
   public path = '/instructor';
@@ -13,8 +16,12 @@ class InstructorsRoute implements Routes {
   }
 
   private initializeRoutes() {
+    // @desc get all instructors
+    this.router.get('/', this.instructorController.getAllInstructors);
     this.router.get('/username', this.instructorController.getInstructorByUsername);
     this.router.get('/email', this.instructorController.getInstructorByEmail);
+    // @desc get instructor info by accesstoken
+    this.router.get('/info', authMiddleware, roleMiddleware([Role.INSTRUCTOR]), userMiddleware, this.instructorController.getInstructorInfo);
     this.router.get('/top-rated', this.instructorController.getTopRatedInstructors);
 
     this.router.get('/:instructorID', this.instructorController.getInstructorbyId);

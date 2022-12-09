@@ -31,7 +31,7 @@ function TopRatedCourses() {
         <div className='row'>
           {coursesMapped?.map(course => (
             <div key={course.id} className='col-12 col-md-6 col-lg-4'>
-              <CourseCard percent={-1} pprops={course} />
+              <CourseCard enrolled={false} percent={-1} pprops={course} />
             </div>
           ))}
         </div>

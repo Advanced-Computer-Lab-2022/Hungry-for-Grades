@@ -29,13 +29,7 @@ const traineeSchema = new Schema<ITrainee>(
           default: 0,
           type: Number,
         },
-        notes: [
-          {
-            content: String,
-            createdAt: Date,
-            title: String,
-          },
-        ],
+
         progress: {
           default: 0,
           type: Number,
@@ -47,7 +41,6 @@ const traineeSchema = new Schema<ITrainee>(
       type: Schema.Types.ObjectId,
     },
     _wishlist: [{ ref: 'Course', type: Schema.Types.ObjectId }],
-
     active: {
       default: true,
       type: Boolean,
@@ -56,6 +49,7 @@ const traineeSchema = new Schema<ITrainee>(
       default: 0,
       type: Number,
     },
+
     country: String,
     creditCards: [
       {
@@ -84,8 +78,24 @@ const traineeSchema = new Schema<ITrainee>(
     lastLogin: {
       type: Date,
     },
-
     name: requiredString,
+    notes: [
+      {
+        _id: false,
+        courseName: String,
+        id: String,
+        lessonId: String,
+        markdown: String,
+        tags: [
+          {
+            _id: false,
+            id: String,
+            label: String,
+          },
+        ],
+        title: String,
+      },
+    ],
     password: { ...requiredString, minlength: 8 },
     phone: String,
     preferredSkills: [

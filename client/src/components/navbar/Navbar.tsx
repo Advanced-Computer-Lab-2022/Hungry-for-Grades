@@ -20,8 +20,9 @@ import './Navbar.scss';
 function NavbarComponent() {
   const country = UseCountry();
   const updateCountry = UpdateCountry();
-  const userIsAuthenticated = UseUserIsAuthenticated();
+  const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
+
   return (
     <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
       <Container>
@@ -68,10 +69,16 @@ function NavbarComponent() {
                 onSelect={code => updateCountry(code)}
               />
             </Nav.Link>
-            {user && userIsAuthenticated ? (
+            {user && useUserIsAuthenticated ? (
               <Nav.Link>
                 <div className='d-flex flex-row justify-content-evenly'>
-                  {user.role === Role.TRAINEE && <WishCartButtons />}
+                  {user.role.toLocaleLowerCase() ===
+                    Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+                  <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
+                    <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
+                      {user.name}
+                    </div>
+                  </Link>
                   <UserDropdown />
                 </div>
               </Nav.Link>

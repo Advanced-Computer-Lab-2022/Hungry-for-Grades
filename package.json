@@ -38,6 +38,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/regenerator-runtime": "^0.13.1",
     "@typescript-eslint/parser": "^5.41.0",
     "commitizen": "^4.2.5",
     "concurrently": "^7.5.0",

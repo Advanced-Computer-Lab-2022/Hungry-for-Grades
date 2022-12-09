@@ -1,4 +1,5 @@
-import { FormikErrors, useFormik } from 'formik';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useCallback } from 'react';
@@ -7,12 +8,13 @@ import { toast } from 'react-toastify';
 
 import { TraineeData } from './types';
 
+import { toastOptions } from '@components/toast/options';
+
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
 
 import usePostQuery from '@/hooks/usePostQuery';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
-
 
 const id = '637969352c3f71696ca34759';
 
@@ -37,7 +39,7 @@ const initialValues: TraineeData = {
 };
 
 export default function ChangePassword() {
-  const { mutateAsync: changePassword, isError, error } = usePostQuery();
+  const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
     async (data: any) => {
@@ -50,11 +52,9 @@ export default function ChangePassword() {
         updateRoute.payload = data;
         const response = await changePassword(updateRoute);
         if (response && response.status === 201) {
-          console.log('Password changed successfully');
-          toast.success('Password changed successfully');
+          toast.success('Password changed successfully', toastOptions);
         } else {
-          console.log('Password change failed');
-          toast.error('Password change failed');
+          toast.error('Password change failed', toastOptions);
         }
         console.log(response);
       } catch (err) {
@@ -70,7 +70,7 @@ export default function ChangePassword() {
     enableReinitialize: true
   });
 
-  async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
+  async function handleSubmit() {
     await formik.setTouched({
       oldPassword: true,
       newPassword: true,

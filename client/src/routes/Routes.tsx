@@ -56,6 +56,9 @@ const LazyUserProfile = lazy(
 const LazyTraineeLastStudied = lazy(
   () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
 );
+const LazyTraineeEnrolledCourses = lazy(
+  () => import('@/pages/trainee/courses/TraineeCourses')
+);
 const LazyTraineeDashboard = lazy(
   () => import('@pages/trainee/dashboard/TraineeDashboard')
 );
@@ -134,16 +137,14 @@ function AllRoutes() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route element={<div />} path='/home' />
-        <Route element={<LazyUserProfile />} path='/profile/:userId' />
-      </Route>
-
-      <Route element={<PublicRoutes />}>
+        <Route element={<LazySearchCourses />} path='courses' />
+        <Route element={<LazyCourse />} path='course/:courseid' />
+        <Route element={<LazyLanding />} path='/' />
         {/* Trainee Routes*/}
         <Route
-            element={<LazyInstructorProfileToShow />}
-            path='instructor/:instructorId'
-          />
+          element={<LazyInstructorProfileToShow />}
+          path='instructor/:instructorId'
+        />
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route
             element={<LazyTraineeViewCourse />}
@@ -154,6 +155,10 @@ function AllRoutes() {
             path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
           />
           <Route element={<LazyTraineeDashboard />}>
+            <Route
+              element={<LazyTraineeEnrolledCourses />}
+              path='enrolled-courses'
+            />
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
             <Route

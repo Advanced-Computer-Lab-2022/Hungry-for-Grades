@@ -10,8 +10,10 @@ import CoursesRoute from './Course/course.route';
 import InstructorsRoute from '@Instructor/instructor.route';
 import TraineeRoute from './Trainee/trainee.route';
 import NewsLetterRoute from './NewsLetter/newsletter.route';
+import UserRoute from './User/user.route';
 import ReportRoute from './Report/report.route';
 
+// validate environment variables
 validateEnv();
 
 try {
@@ -22,6 +24,7 @@ try {
     new InstructorsRoute(),
     new TraineeRoute(),
     new NewsLetterRoute(),
+    new UserRoute(),
     new ReportRoute(),
   ]);
 

@@ -1,12 +1,13 @@
+import { RequestWithTokenPayload, RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
 import { ICourse } from '@/Course/course.interface';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { logger } from '@/Utils/logger';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
-import { Types } from 'mongoose';
 import { CartDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
+import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -16,6 +17,24 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.getTraineeById(traineeId);
       res.json({ data: trainee, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // @desc gets Trainee info by accessToken
+  public getTraineeInfo = async (req: RequestWithTokenPayloadAndUser, res: Response<HttpResponse<ITrainee>>, next: NextFunction): Promise<void> => {
+    try {
+      res.json({ data: req.user as ITrainee, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets all Trainees info
+  public getAllTrainees = async (req: Response, res: Response<HttpResponse<ITrainee[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineesData: ITrainee[] = await this.traineeService.getTrainees();
+      res.json({ data: traineesData, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -50,6 +69,19 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.updateTrainee(traineeId, req.body);
       res.json({ data: trainee, message: 'Updated Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public updateNotes = async (req: RequestWithTokenPayload, res: Response<HttpResponse<null>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = `${req.tokenPayload._id}`;
+      logger.info(traineeId);
+
+      const { notes } = req.body as { notes: INote[] };
+
+      await this.traineeService.updateNotes(traineeId, notes);
+      res.json({ data: null, message: 'Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -239,9 +271,14 @@ class TraineeController {
   };
 
   // get last viewed course controller
-  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
+  public getLastViewedCourse = async (
+    req: RequestWithTokenPayload,
+    res: Response<HttpResponse<EnrolledCourse>>,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
-      const traineeId = req.params.traineeId as string;
+      const traineeId = `${req.tokenPayload._id}`;
+      logger.info(traineeId);
 
       const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
       res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });

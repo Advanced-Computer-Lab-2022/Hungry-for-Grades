@@ -4,7 +4,7 @@ import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import { CartDTO, TraineeDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
+import { Cart, EnrolledCourse, INote, INote, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -12,8 +12,6 @@ import mongoose, { Types } from 'mongoose';
 import courseModel from '@/Course/course.model';
 import { ICourse, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
-import { sendEmail } from '@/Common/Email Service/nodemailer.service';
-import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 import CourseService from '@/Course/course.dao';
 
 class TraineeService {
@@ -42,6 +40,9 @@ class TraineeService {
 
     return trainee;
   };
+  public getTrainees = async (): Promise<ITrainee[]> => {
+    return await traineeModel.find().select('-password');
+  };
 
   public getTraineeByEmail = async (traineeEmail: string): Promise<ITrainee> => {
     if (isEmpty(traineeEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
@@ -66,7 +67,7 @@ class TraineeService {
 
   //update trainee
   public updateTrainee = async (traineeId: string, traineeData: TraineeDTO): Promise<ITrainee> => {
-    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
+    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
     const updatedTrainee = await traineeModel.findById(traineeId);
     updatedTrainee.set(traineeData);
@@ -76,9 +77,21 @@ class TraineeService {
     return updatedTrainee;
   };
 
+  //update notes
+  public updateNotes = async (traineeId: string, notes: INote[]): Promise<void> => {
+    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id ');
+
+    const updatedTrainee = await traineeModel.findById(traineeId);
+    updatedTrainee.set({
+      notes,
+    });
+
+    await updatedTrainee.save();
+  };
+
   //trainee sign up
   public addIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
-    if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
+    if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
     const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
     return createdTrainee;

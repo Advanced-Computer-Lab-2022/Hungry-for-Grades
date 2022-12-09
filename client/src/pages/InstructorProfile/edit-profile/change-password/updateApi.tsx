@@ -2,7 +2,7 @@
 import axios from 'axios';
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
-export async function updatePassword(data: any) {
+export async function updatePassword(data: unknown) {
   console.log('was here');
   // eslint-disable-next-line @typescript-eslint/return-await
   return await axios.post(`${APP_BASE_API_URL}/change-password`, data);

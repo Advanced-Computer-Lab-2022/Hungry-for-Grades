@@ -49,12 +49,6 @@
         background-color: var(--secondary-background-color);
         color: var(--primary-background-color);
     }
-    .active__link {
-        background-color: var(--secondary-background-color);
-        color: var(--primary-background-color);
-        filter: brightness(1.2);
-        -webkit-filter: brightness(1.2);
-    }
     .nav__link {
         img {
             width: 1.5rem;

@@ -14,9 +14,14 @@ import Pagination from '@/components/pagination/Pagination';
 
 import LoaderCards from '@components/loader/loaderCard/LoaderCards';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 export default function MyCourses() {
-  const { data, isLoading, activePage, setActivePage } = useCoursesQuery();
+  const { data, isLoading, activePage, setActivePage, isError } =
+    useCoursesQuery();
+  if (isError) {
+    return <ErrorMessage />;
+  }
 
   if (isLoading)
     return (
@@ -41,6 +46,7 @@ export default function MyCourses() {
       <div key={course._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard
           key={course._id}
+          enrolled
           percent={course?.progress}
           pprops={courseCardP}
         />
