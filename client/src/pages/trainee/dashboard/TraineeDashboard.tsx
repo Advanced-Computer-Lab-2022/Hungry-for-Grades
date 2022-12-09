@@ -19,7 +19,7 @@ function navIsActive({ isActive }: { isActive: boolean }) {
 
 const navLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
-  Courses: { path: '/trainee/courses', icon: <BsFillBookFill /> },
+  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
   Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },

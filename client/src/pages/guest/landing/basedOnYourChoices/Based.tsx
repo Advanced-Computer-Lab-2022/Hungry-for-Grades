@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { mapCourseToCardProps } from '../types';
 
@@ -17,21 +17,20 @@ import { UseCountry } from '@/store/countryStore';
 export default function Based() {
   const { category, subCategory } = UseCacheStoreData();
 
-  const location = useLocation();
-
   const [activePage, setActivePage] = useState(1);
 
-  const con = UseCountry();
+  const country = UseCountry();
 
-  const { isLoading, data } = useQueryBased(
+  const { isLoading, data, isError } = useQueryBased(
     category,
     subCategory,
     activePage,
-    con,
-    location
+    country
   );
-
   if (!category) {
+    return <></>;
+  }
+  if (!isError) {
     return <></>;
   }
 
@@ -46,9 +45,7 @@ export default function Based() {
   const list: typeof CoursesRoutes.GET.getCoursesSearchFilter.response.data =
     data?.data?.data;
 
-  console.log(list.length);
-
-  if (list.length == 0) {
+  if (list?.length == 0) {
     return <></>;
   }
 
@@ -57,7 +54,12 @@ export default function Based() {
     const courseCardP = mapCourseToCardProps(courseData);
     return (
       <div key={courseData._id} className={'col-12 col-md-6 col-lg-4'}>
-        <CourseCard key={courseData._id} percent={-1} pprops={courseCardP} />
+        <CourseCard
+          key={courseData._id}
+          enrolled={false}
+          percent={-1}
+          pprops={courseCardP}
+        />
       </div>
     );
   });

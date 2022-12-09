@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -38,7 +39,7 @@ const initialValues: TraineeData = {
 };
 
 export default function ChangePassword() {
-  const { mutateAsync: changePassword, isError, error } = usePostQuery();
+  const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
     async (data: any) => {
@@ -51,10 +52,8 @@ export default function ChangePassword() {
         updateRoute.payload = data;
         const response = await changePassword(updateRoute);
         if (response && response.status === 201) {
-          console.log('Password changed successfully');
           toast.success('Password changed successfully', toastOptions);
         } else {
-          console.log('Password change failed');
           toast.error('Password change failed', toastOptions);
         }
         console.log(response);

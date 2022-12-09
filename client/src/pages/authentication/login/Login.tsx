@@ -65,9 +65,9 @@ function Login() {
         SessionStorage.set('accessToken', token.accessToken);
         updateCountry(user.country);
         if (formik.values.rememberMe) {
-          LocalStorage.set('refreshToken', token.refreshToken);
+          LocalStorage.set('role', userRole);
         } else {
-          LocalStorage.remove('refreshToken');
+          LocalStorage.remove('role');
         }
 
         if (from) {

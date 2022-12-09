@@ -43,7 +43,7 @@ export default function MyCourses() {
           key={course._id}
           enrolled
           percent={course?.progress}
-					pprops={courseCardP}
+          pprops={courseCardP}
         />
       </div>
     );

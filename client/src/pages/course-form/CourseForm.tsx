@@ -35,6 +35,8 @@ import {
 import ProgressSteps from '@/components/progress/ProgressSteps';
 import useMultistepForm from '@/hooks/useMultistepForm';
 
+// import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
+
 const stepTitles = ['Course Info', 'Course Outline', 'Course Sections'];
 
 const stepDescriptions = [
@@ -296,4 +298,7 @@ function CourseForm(props: CourseFormProps) {
   );
 }
 
+// function UseParams() {
+//   throw new Error('Function not implemented.');
+// }
 export default CourseForm;

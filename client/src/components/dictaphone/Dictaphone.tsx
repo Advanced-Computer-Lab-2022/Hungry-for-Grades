@@ -1,11 +1,13 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable import/no-unassigned-import */
 import 'regenerator-runtime/runtime';
 import SpeechRecognition, {
   useSpeechRecognition
 } from 'react-speech-recognition';
-import './dictaphone.scss';
 
 import { BsFillMicFill } from 'react-icons/bs';
+
+import styles from './dictaphone.module.scss';
 
 import { ButtonEvent } from '@/pages/common.types';
 let oldTranscript = '';
@@ -25,7 +27,7 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
     <div className='mx-1 pt-2'>
       {!listening ? (
         <button
-          className='micButton'
+          className={`${styles.micButton ?? ''}`}
           type='button'
           onClick={async function onListen(e: ButtonEvent) {
             e.stopPropagation();
@@ -33,12 +35,14 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
             await SpeechRecognition.startListening();
           }}
         >
-          <BsFillMicFill className='icon micButton' />
+          <BsFillMicFill
+            className={`${styles.icon ?? ''} ${styles.micButton ?? ''}`}
+          />
         </button>
       ) : (
         <div className='d-flex flex-column align-items-center'>
           <button
-            className='micButton listening'
+            className={`${styles.micButton ?? ''} ${styles.listening ?? ''}`}
             type='button'
             onClick={function onStop(e: ButtonEvent) {
               e.stopPropagation();
@@ -47,14 +51,16 @@ function Dictaphone({ onChange }: { onChange: (value: string) => void }) {
               SpeechRecognition.stopListening();
             }}
           >
-            <BsFillMicFill className='icon micButton' />
+            <BsFillMicFill
+              className={`${styles.icon ?? ''} ${styles.micButton ?? ''}`}
+            />
           </button>
-          <div className='boxContainer'>
-            <div className='box box1' />
-            <div className='box box2' />
-            <div className='box box3' />
-            <div className='box box4' />
-            <div className='box box5' />
+          <div className={`${styles.boxContainer ?? ''}`}>
+            <div className={`${styles.box ?? ''} ${styles.box1 ?? ''}`} />
+            <div className={`${styles.box ?? ''} ${styles.box2 ?? ''}`} />
+            <div className={`${styles.box ?? ''} ${styles.box3 ?? ''}`} />
+            <div className={`${styles.box ?? ''} ${styles.box4 ?? ''}`} />
+            <div className={`${styles.box ?? ''} ${styles.box5 ?? ''}`} />
           </div>
         </div>
       )}

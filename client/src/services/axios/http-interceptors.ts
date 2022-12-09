@@ -81,7 +81,6 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
     try {
       const prevRequest = error.config;
       if (prevRequest && !prevRequest?.sent) {
-        alert('in interceptor');
         prevRequest.sent = true;
         const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
           withCredentials: true
@@ -92,8 +91,8 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
         const { accessToken }: { accessToken: string } = res.data.data as {
           accessToken: string;
         };
+        window.location.reload();
         SessionStorage.set('accessToken', accessToken);
-        alert(accessToken);
         prevRequest.headers.Authorization = `Bearer ${accessToken}`;
         await http(prevRequest);
       } else {
@@ -103,8 +102,9 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
       console.log('_error');
       console.log(_error);
       LocalStorage.remove('_TOKEN');
+      LocalStorage.remove('role');
       SessionStorage.remove('accessToken');
-      //	window.location.replace(loginRoute);
+      window.location.replace(loginRoute);
 
       return Promise.reject(_error);
     }

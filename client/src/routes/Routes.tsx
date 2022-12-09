@@ -134,11 +134,9 @@ function AllRoutes() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route element={<div />} path='/home' />
-        <Route element={<LazyUserProfile />} path='/profile/:userId' />
-      </Route>
-
-      <Route element={<ProtectedRoutes />}>
+        <Route element={<LazySearchCourses />} path='courses' />
+        <Route element={<LazyCourse />} path='course/:courseid' />
+        <Route element={<LazyLanding />} path='/' />
         {/* Trainee Routes*/}
         <Route
           element={<LazyInstructorProfileToShow />}
