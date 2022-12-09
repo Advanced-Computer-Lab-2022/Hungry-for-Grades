@@ -1,4 +1,5 @@
 import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 import './mainSection.scss';
 export default function MainSection() {
@@ -21,9 +22,14 @@ export default function MainSection() {
                   width: '100%'
                 }}
               />
-              <div className='carousel-caption  d-md-block position-absolute'>
+              <div className='carousel-caption  d-sm-none d-lg-block  position-absolute'>
                 <h3 className='text-black'>Focused on strategy</h3>
                 <h4 className='text-primary'>To Reach Your Goal Faster</h4>
+                <div className='d-flex justify-content-start mt-3'>
+                  <Link className='btn btn-primary btn-lg' to={'courses'}>
+                    courses
+                  </Link>
+                </div>
               </div>
             </div>
             <div className='carousel-item vh-100  '>

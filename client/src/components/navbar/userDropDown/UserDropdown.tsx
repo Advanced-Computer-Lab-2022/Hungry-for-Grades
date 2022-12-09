@@ -54,9 +54,6 @@ function MenuHeadersExample() {
             >
               <NavDropdown.Item>
                 <NavLink
-                  className={({ isActive }) =>
-                    isActive ? styles.active__link ?? '' : undefined
-                  }
                   style={{ color: 'inherit' }}
                   to={`/${user.role}/profile`}
                 >
@@ -64,26 +61,9 @@ function MenuHeadersExample() {
                   Personal Profile
                 </NavLink>
               </NavDropdown.Item>
-              <NavDropdown.Item>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive ? styles.active__link ?? '' : undefined
-                  }
-                  style={{ color: 'inherit' }}
-                  to='/setiings'
-                >
-                  Settings
-                </NavLink>
-              </NavDropdown.Item>
               <hr />
               <NavDropdown.Item>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive ? styles.active__link ?? '' : undefined
-                  }
-                  style={{ color: 'inherit' }}
-                  to='/setiings'
-                >
+                <NavLink style={{ color: 'inherit' }} to='/setiings'>
                   <IoSettingsOutline className={styles.nav__icon} /> Settings
                 </NavLink>
               </NavDropdown.Item>{' '}

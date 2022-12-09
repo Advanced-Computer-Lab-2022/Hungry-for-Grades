@@ -74,11 +74,11 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-										<Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
-                  <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
-                    {user.name}
-                  </div>
-									</Link>
+                  <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
+                    <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
+                      {user.name}
+                    </div>
+                  </Link>
                   <UserDropdown />
                 </div>
               </Nav.Link>
