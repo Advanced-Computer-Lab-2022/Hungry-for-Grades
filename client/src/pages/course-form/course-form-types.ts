@@ -23,6 +23,7 @@ export const levels = Object.values(Level);
 
 export type LessonFormValues = {
   uid: string;
+  _id: string | undefined;
   description: string;
   duration: string;
   title: string;
@@ -36,6 +37,7 @@ export type AnswerFormValues = {
 
 export type QuestionFormValues = {
   uid: string;
+  _id: string | undefined;
   answer: string;
   options: AnswerFormValues[];
   question: string;
@@ -43,12 +45,14 @@ export type QuestionFormValues = {
 
 export type ExerciseFormValues = {
   uid: string;
+  _id: string | undefined;
   title: string;
   questions: QuestionFormValues[];
 };
 
 export type SectionFormValues = {
   uid: string;
+  _id: string | undefined;
   description: string;
   lessons: LessonFormValues[];
   exercises: ExerciseFormValues[];
@@ -74,6 +78,7 @@ export type CourseFormValues = {
   info: CourseInfoFormValues;
   outline: OutlineFormValues[];
   sections: SectionFormValues[];
+  terms: boolean;
 };
 
 export type ExamFormValues = {

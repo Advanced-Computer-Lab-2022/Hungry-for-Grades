@@ -142,5 +142,26 @@ class InstructorService {
     if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
     return instructor?.balance ?? 0;
   };
+
+  // get top rated instructors
+  public getTopRatedInstructors = async (page: number, pageLimit: number): Promise<PaginatedData<IInstructor>> => {
+    const instructors = await instructorModel
+      .find()
+      .sort({ 'rating.averageRating': -1 })
+      .select('name profileImage rating.averageRating speciality title country');
+
+    const toBeSkipped = (page - 1) * pageLimit;
+    const totalInstructors = instructors.length;
+    const totalPages = Math.ceil(totalInstructors / pageLimit);
+    const paginatedInstructors = instructors.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+    return {
+      data: paginatedInstructors,
+      page,
+      pageSize: paginatedInstructors.length,
+      totalPages,
+      totalResults: totalInstructors,
+    };
+  };
 }
 export default InstructorService;

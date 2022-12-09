@@ -130,6 +130,13 @@ button:focus-visible {
   background-color: var(--variant-color);
 }
 
+/* Input */
+
+input {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
 /* MEDIA QUERY FOR PREFERED COLOR SCHEME */
 
 @media (prefers-color-scheme: light) {

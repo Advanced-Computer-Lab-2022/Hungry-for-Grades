@@ -3,6 +3,7 @@ import { requiredString } from '@Common/Models/common';
 import { Document, model, Schema } from 'mongoose';
 import * as yt from 'youtube-info-streams';
 import { getYoutubeVideoID } from './course.common';
+import categories from '@Course/category.json';
 
 //balabizo
 const courseSchema = new Schema<ICourse>(
@@ -167,12 +168,13 @@ const courseSchema = new Schema<ICourse>(
 courseSchema.pre('save', async function (next) {
   try {
     // Validate answer is included inside options array in exam
-    this.exam.forEach(question => {
-      if (!question.options.includes(question.answer)) {
-        throw new Error('Answer is not included inside options array in exam');
-      }
-    });
-
+    if (this.isModified('exam')) {
+      this.exam.forEach(question => {
+        if (!question.options.includes(question.answer)) {
+          throw new Error('Answer is not included inside options array in exam');
+        }
+      });
+    }
     // Validate answer is included inside options array in sections exercises
     this.sections.forEach(section => {
       section.exercises.forEach(exercise => {
@@ -183,6 +185,18 @@ courseSchema.pre('save', async function (next) {
         });
       });
     });
+
+    // check if category & subcategory are valid ones
+    if (this.isModified('category') || this.isModified('subcategory')) {
+      const category = categories.find(category => category.name === this.category);
+      if (!category) throw new Error('Category is not valid');
+
+      //check subcategory array is valid
+      const subcategories = category.subcategory;
+      this.subcategory.forEach(subcategory => {
+        if (!subcategories.includes(subcategory)) throw new Error(`Subcategory ${subcategory} is not valid`);
+      });
+    }
 
     if (this.isModified('price')) {
       // check price.discount is below 100 and above 0
@@ -203,8 +217,8 @@ courseSchema.pre('save', async function (next) {
       }
     }
 
-    let totalCourseDurationInMins = 0;
     if (this.isModified('sections')) {
+      let totalCourseDurationInMins = 0;
       for (let i = 0; i < this.sections.length; i++) {
         for (let j = 0; j < this.sections[i].lessons.length; j++) {
           try {

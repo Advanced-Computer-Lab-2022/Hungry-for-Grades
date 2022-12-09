@@ -66,7 +66,7 @@ export type IPrice = {
   discounts: Array<CourseDiscount>;
 };
 export type Review = {
-  trainee: ITrainee;
+  _trainee: ITrainee;
   comment: string;
   createdAt: Date;
   rating: number;
@@ -128,6 +128,7 @@ export type ICourseLesson = {
 };
 
 export type ICourseQuestion = {
+  _id?: string;
   answer: string;
   options: string[];
   question: string;
@@ -141,6 +142,7 @@ export type ICourseExercise = {
 };
 
 export type ICourseSection = {
+  _id?: string;
   description: string;
   lessons: ICourseLesson[];
   exercises: ICourseExercise[];

@@ -22,6 +22,7 @@ class InstructorsRoute implements Routes {
     this.router.get('/email', this.instructorController.getInstructorByEmail);
     // @desc get instructor info by accesstoken
     this.router.get('/info', authMiddleware, roleMiddleware([Role.INSTRUCTOR]), userMiddleware, this.instructorController.getInstructorInfo);
+    this.router.get('/top-rated', this.instructorController.getTopRatedInstructors);
 
     this.router.get('/:instructorID', this.instructorController.getInstructorbyId);
     this.router.patch('/:instructorID', this.instructorController.updateInstructorProfile);

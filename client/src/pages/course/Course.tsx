@@ -58,7 +58,7 @@ function Course() {
         <CourseContent {...data} />
       </section>
       <section>
-        <CourseReviewList />
+        <CourseReviewList id={data._id} />
       </section>
     </div>
   );

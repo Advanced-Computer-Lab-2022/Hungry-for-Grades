@@ -74,7 +74,12 @@ export function QuestionForm(
                 push({
                   uid: getUniqueId(),
                   question: '',
-                  options: [],
+                  options: Array(4)
+                    .fill(undefined)
+                    .map(() => ({
+                      uid: getUniqueId(),
+                      value: ''
+                    })),
                   answer: ''
                 })
               }

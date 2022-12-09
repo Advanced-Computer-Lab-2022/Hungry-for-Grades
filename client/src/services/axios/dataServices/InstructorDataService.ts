@@ -182,6 +182,54 @@ export const InstructorRoutes = {
         percentage: 0
       },
       response: ''
+    },
+    changePassword: {
+      URL: '/change-password' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {
+        data: {
+          rating: {
+            averageRating: 0,
+            reviews: []
+          },
+          _id: '',
+          active: false,
+          balance: 0,
+          bankAccount: {
+            _id: ''
+          },
+          biography: '',
+          email: {
+            address: '',
+            _id: '',
+            isVerified: false
+          },
+          name: '',
+          password: '',
+          profileImage: '',
+          socialMedia: {
+            _id: ''
+          },
+          speciality: '',
+          title: '',
+          username: '',
+          _teachedCourses: [
+            {
+              _course: '',
+              earning: 0
+            }
+          ],
+          lastLogin: '',
+          phone: '',
+          gender: '',
+          __v: 0,
+          country: ''
+        },
+        message: '',
+        success: false
+      }
     }
   }
 };

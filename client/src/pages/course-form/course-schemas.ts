@@ -1,4 +1,4 @@
-import { object, string, number, array, StringSchema } from 'yup';
+import { object, string, number, array, StringSchema, boolean } from 'yup';
 
 import { AnswerFormValues, languages, levels } from './course-form-types';
 
@@ -28,9 +28,13 @@ export const infoSchema = object().shape({
     .label('Price'),
   previewVideoURL: string()
     .required()
-    .url()
-    .min(4)
-    .max(160)
+    .matches(
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+      {
+        message: 'URL must be a valid YouTube URL',
+        excludeEmptyString: true
+      }
+    )
     .label('Preview Video Url'),
   thumbnail: string()
     .required()
@@ -61,7 +65,16 @@ export const lessonsSchema = array()
     object().shape({
       uid: string(),
       title: string().required().min(4).max(100).label('Title'),
-      videoURL: string().required().url().min(4).max(160).label('Video Url'),
+      videoURL: string()
+        .required()
+        .matches(
+          /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+          {
+            message: 'URL must be a valid YouTube URL',
+            excludeEmptyString: true
+          }
+        )
+        .label('Video Url'),
       duration: number()
         .required()
         .min(1)
@@ -85,7 +98,7 @@ export const answerOptionsSchema = array()
   .of(
     object().shape({
       uid: string(),
-      value: string().required().min(4).max(500).label('Value')
+      value: string().required().min(1).max(500).label('Value')
     })
   );
 
@@ -95,7 +108,7 @@ export const questionSchema = object().shape({
   options: answerOptionsSchema,
   answer: string()
     .required()
-    .min(10)
+    .min(1)
     .max(500)
     .label('Answer')
     .when('options', (options: AnswerFormValues[], schema: StringSchema) => {
@@ -150,5 +163,10 @@ export const sectionSchema = array()
 export const courseSchema = object().shape({
   info: infoSchema,
   outline: outlineSchema,
-  sections: sectionSchema
+  sections: sectionSchema,
+  terms: boolean().test(
+    'ValidateRequired',
+    'You must accept the terms and conditions.',
+    v => !!v
+  )
 });

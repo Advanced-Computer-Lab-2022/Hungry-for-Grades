@@ -80,22 +80,28 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
   ) {
     try {
       const prevRequest = error.config;
-      alert('interceptor');
       if (prevRequest && !prevRequest?.sent) {
+        alert('in interceptor');
         prevRequest.sent = true;
         const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
           withCredentials: true
         });
+        console.log('res');
+        console.log(res.data.data);
 
-        const { accessToken }: { accessToken: string } = res.data as {
+        const { accessToken }: { accessToken: string } = res.data.data as {
           accessToken: string;
         };
         SessionStorage.set('accessToken', accessToken);
+        alert(accessToken);
+        prevRequest.headers.Authorization = `Bearer ${accessToken}`;
         await http(prevRequest);
       } else {
         return await Promise.reject(error);
       }
     } catch (_error) {
+      console.log('_error');
+      console.log(_error);
       LocalStorage.remove('_TOKEN');
       SessionStorage.remove('accessToken');
       //	window.location.replace(loginRoute);

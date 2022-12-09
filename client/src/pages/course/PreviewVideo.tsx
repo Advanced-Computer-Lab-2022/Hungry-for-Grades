@@ -4,6 +4,10 @@ import { ICart } from '@/interfaces/cart.interface';
 import { ICourse } from '@/interfaces/course.interface';
 import { UseCartStoreInCart } from '@/store/cartStore';
 import { UseWishListInCart } from '@/store/wishListStore';
+import {
+  addtoCart,
+  addtoWishList
+} from '@/components/courseCard/cardButtons/buttons';
 
 function parseYoutubeUrl(url: string) {
   const regExp =

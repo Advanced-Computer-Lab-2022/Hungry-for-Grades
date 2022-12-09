@@ -1,6 +1,6 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
-import { CreateUserDto, UserLoginDTO } from '@/User/user.dto';
+import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import { Role } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
@@ -14,7 +14,7 @@ class AuthController {
 
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
 
       res.status(HttpStatusCodes.CREATED).json({
@@ -117,8 +117,8 @@ class AuthController {
   // Change Password
   public changePassword = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
     try {
-      const { _id, role, newPassword } = req.body;
-      const user = await this.authService.changePassword(_id, role, newPassword);
+      const { _id, role, oldPassword, newPassword } = req.body;
+      const user = await this.authService.changePassword(_id, role, oldPassword, newPassword);
       res.status(HttpStatusCodes.CREATED).json({ data: user, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

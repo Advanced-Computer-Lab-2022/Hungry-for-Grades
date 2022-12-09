@@ -3,7 +3,7 @@ import { Role } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
-import { CartDTO, CreateTraineeDTO, WishlistDTO } from './trainee.dto';
+import { CartDTO, TraineeDTO, WishlistDTO } from './trainee.dto';
 import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
@@ -20,16 +20,16 @@ class TraineeService {
   public authService = new AuthService();
   public courseService = new CourseService();
   //create trainee service
-  public createCorporateTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
+  public createCorporateTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     // User should be created before corporate trainee
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
-    const createdCorporateTrainee = traineeModel.create({ ...traineeData });
+    const createdCorporateTrainee = traineeModel.create({ ...traineeData, isCorporate: true });
     return createdCorporateTrainee;
   };
 
   //sign up individual trainee service
-  public createIndividualTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
+  public createIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
     const createdTrainee = traineeModel.create({ ...traineeData });
@@ -38,6 +38,8 @@ class TraineeService {
 
   public getTraineeById = async (traineeId: string): Promise<ITrainee> => {
     const trainee: ITrainee = await traineeModel.findById(traineeId).select('-password');
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee not found');
+
     return trainee;
   };
   public getTrainees = async (): Promise<ITrainee[]> => {
@@ -66,7 +68,7 @@ class TraineeService {
   };
 
   //update trainee
-  public updateTrainee = async (traineeId: string, traineeData: CreateTraineeDTO): Promise<ITrainee> => {
+  public updateTrainee = async (traineeId: string, traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
     const updatedTrainee = await traineeModel.findById(traineeId);
@@ -78,7 +80,7 @@ class TraineeService {
   };
 
   //trainee sign up
-  public addIndividualTrainee = async (traineeData: CreateTraineeDTO): Promise<ITrainee> => {
+  public addIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
 
     const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
