@@ -39,7 +39,7 @@ class AuthController {
       //res.setHeader('Set-Cookie', [cookie]);
       res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
-        data: { role, token: { accessToken, expiryToken: cookie.options.maxAge, refreshToken }, user: findUser, firstLogin },
+        data: { firstLogin, role, token: { accessToken, expiryToken: cookie.options.maxAge, refreshToken }, user: findUser },
         message: 'login',
       });
     } catch (error) {

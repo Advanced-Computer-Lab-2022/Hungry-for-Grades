@@ -53,16 +53,16 @@ class AuthService {
     accessToken: string;
     cookie: ICookie;
     findUser: IUser;
+    firstLogin: boolean;
     refreshToken: string;
     role: Role;
-    firstLogin: boolean;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
     let userModel: typeof traineeModel | typeof instructorModel | typeof adminModel, findInstructor: IInstructor, findAdmin: IAdmin;
     let role: Role;
     const query = {
-      $or: [{ 'email.address': userData?.email?.address??"" }, { username: userData?.username??"" }],
+      $or: [{ 'email.address': userData?.email?.address ?? '' }, { username: userData?.username ?? '' }],
     };
 
     const findTrainee = await traineeModel.findOne(query).select('-active');
@@ -107,7 +107,7 @@ class AuthService {
     delete findUser.password;
     findUser.role = role;
 
-    return { accessToken, cookie, findUser, refreshToken, role, firstLogin };
+    return { accessToken, cookie, findUser, firstLogin, refreshToken, role };
   }
 
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {
