@@ -345,5 +345,18 @@ class TraineeController {
       next(error);
     }
   };
+
+  // get trainee's viewed lessons controller
+  public getViewedLessons = async (req: Request, res: Response<HttpResponse<Types.ObjectId[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const viewedLessons = await this.traineeService.getTraineeViewedLessons(traineeId, courseId);
+      res.json({ data: viewedLessons, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default TraineeController;

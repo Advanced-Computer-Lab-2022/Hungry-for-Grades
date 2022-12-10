@@ -384,8 +384,9 @@ class CourseController {
   public getCourseDiscount = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
     try {
       const { courseId } = req.params;
+      const issuedByInstructor = Number((req.query?.issuedByInstructor as string) ?? '-1');
 
-      const discounts = await this.courseService.getAllCourseDiscounts(courseId);
+      const discounts = await this.courseService.getAllCourseDiscounts(courseId, issuedByInstructor);
 
       res.json({
         data: discounts,
@@ -699,6 +700,29 @@ class CourseController {
       res.json({
         data: null,
         message: 'Question Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add discount to serveral courses with filters
+  public addDiscountToCoursesWithFilters = async (
+    req: Request<{}, {}, Discount, CourseFilters>,
+    res: Response<HttpResponse<string[]>>,
+    next: NextFunction,
+  ) => {
+    try {
+      const discountData: Discount = req.body;
+
+      const requestFilters: CourseFilters = req.query;
+      const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
+      const failedCoursesErrors = await this.courseService.addDiscountToCourses(newFilters, discountData);
+
+      res.json({
+        data: failedCoursesErrors,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {
