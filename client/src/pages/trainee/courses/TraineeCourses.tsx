@@ -35,7 +35,7 @@ export default function MyCourses() {
     return (
       <ErrorMessage
         errorMessage='You Dont have any courses Yet'
-        link='youtube.com'
+        link='/trainee/courses'
         linkTitle={'Go Check some courses now'}
       />
     );
@@ -51,11 +51,6 @@ export default function MyCourses() {
   if (data?.data?.totalResults == 0) {
     return <div>You Don;t Have any Courses</div>;
   }
-  //console.log(incoming);
-
-  //const course : ICourse = incoming[0]?._course;
-
-  //console.log(course);
 
   const toShow = incoming?.map(
     (course) => {

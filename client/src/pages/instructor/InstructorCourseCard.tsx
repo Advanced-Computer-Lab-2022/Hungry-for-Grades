@@ -172,7 +172,10 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-        <Link className='btn btn-primary btn-lg' to={`/course/${data?._id}`}>
+        <Link
+          className='btn btn-primary btn-lg'
+          to={`/course/${data?._id as string}`}
+        >
           View Course
         </Link>
         <a
@@ -195,7 +198,9 @@ function InstructorCourseCard(
           <BsFillTrashFill />
         </button>
         <Link
-          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
+          to={`/instructor/hussein/${props._course.title as string}/${
+            props._course._id as string
+          }`}
         >
           <button className='btn btn-primary btn-lg' type='button'>
             Discounts

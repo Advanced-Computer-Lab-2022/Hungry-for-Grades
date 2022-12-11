@@ -28,7 +28,7 @@ function ErrorMessage({
       {errorMessage?.length > 0 && errorMessage}
       {link?.length > 0 && (
         <Link className='alert-link' to={link}>
-          {linkTitle}
+          &nbsp; {linkTitle}
         </Link>
       )}
     </div>
