@@ -23,8 +23,8 @@ function SearchCourses() {
   if (isError && error) {
     return <ErrorMessage />;
   }
-  if (data?.success === false) {
-    return <ErrorMessage errorMessage={data?.message} />;
+  if (data?.data?.success === false) {
+    return <ErrorMessage errorMessage={data?.data?.message} />;
   }
 
   return (
@@ -41,17 +41,16 @@ function SearchCourses() {
           {error && <div>error</div>}
           {data && (
             <>
-              <CoursesSection {...data} />
-              {data?.totalResults > 0 && (
+              <CoursesSection {...data?.data} />
+              {data?.data?.totalResults > 0 && (
                 <Pagination
                   activePage={activePage}
-                  pages={data?.totalPages}
+                  pages={data?.data?.totalPages}
                   setActivePage={setActivePage}
                 />
               )}
             </>
           )}
-          {error && <ErrorMessage errorMessage={error?.message} />}
         </div>
       </section>
     </section>
