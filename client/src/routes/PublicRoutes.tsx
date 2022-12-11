@@ -12,8 +12,8 @@ function PublicRoutes() {
   const role = LocalStorage.get('role') as Role | null;
   const location = useLocation();
 
-  if (role) {
-    return <Navigate to={`/${role}${location.pathname}`} />;
+  if (role && !location.pathname.includes(role.toLocaleLowerCase())) {
+    return <Navigate to={`/${role.toLocaleLowerCase()}${location.pathname}`} />;
   }
   return (
     <Suspense fallback={<Loader />}>

@@ -1,4 +1,3 @@
-
 import { RiDashboardFill } from 'react-icons/ri';
 import { BsFillBookFill } from 'react-icons/bs';
 import { AiFillHeart, AiFillCreditCard } from 'react-icons/ai';
@@ -6,10 +5,8 @@ import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 
-
 import Dashboard from '@/components/dashboard/Dashboard';
 import MusicPlayer from '@/components/mediaPlayer/Music';
-
 
 const navLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
@@ -21,6 +18,12 @@ const navLinks = {
   Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 function TraineeDashboard() {
-  return <Dashboard media={<MusicPlayer/>} navLinks={navLinks} title='My Learning'/>;
+  return (
+    <Dashboard
+      media={<MusicPlayer />}
+      navLinks={navLinks}
+      title='My Learning'
+    />
+  );
 }
 export default TraineeDashboard;
