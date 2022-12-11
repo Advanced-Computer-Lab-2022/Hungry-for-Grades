@@ -107,8 +107,6 @@ export default function MainSection() {
             </button>
           </div>
         </div>
-
-
       </section>
       {/*      <div
         className='fluid-container'

@@ -1,14 +1,13 @@
 import axios, {
-	AxiosError,
-	AxiosInstance,
-	AxiosRequestConfig,
-	AxiosResponse
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse
 } from 'axios';
 
 import SessionStorage from '../sessionStorage/SessionStorage';
 
 import { removeInfo } from '../savedInfo/SavedInfo';
-
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -17,19 +16,18 @@ const loginRoute = '/auth/login';
 let http: AxiosInstance;
 
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
-	const accessToken = SessionStorage.get<string | null>('accessToken');
+  const accessToken = SessionStorage.get<string | null>('accessToken');
 
-
-	if (accessToken) {
-		const authorization = `Bearer ${accessToken}`;
-		config.headers.Authorization = authorization;
-	}
-	return config;
+  if (accessToken) {
+    const authorization = `Bearer ${accessToken}`;
+    config.headers.Authorization = authorization;
+  }
+  return config;
 }
 
 function onRequestError(error: AxiosError): Promise<AxiosError> {
-	// const { status } = error.response as AxiosResponse;
-	/*
+  // const { status } = error.response as AxiosResponse;
+  /*
 	switch (status) {
 		case 401:
 			LocalStorage.remove('_TOKEN');
@@ -50,58 +48,56 @@ function onRequestError(error: AxiosError): Promise<AxiosError> {
 		default:
 			toast.error(error.message, toastOptions);
 	} */
-	return Promise.reject(error);
+  return Promise.reject(error);
 }
 
 function onResponse(response: AxiosResponse): AxiosResponse {
-	return response;
+  return response;
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
+  if (
+    error.response &&
+    error.response.status === 401 &&
+    error.response.data
+    //error.response.data?.error !== null &&
+    //error.response.data?.message === 'jwt expired'
+  ) {
+    try {
+      const prevRequest = error.config;
+      if (prevRequest && !prevRequest?.sent) {
+        prevRequest.sent = true;
+        const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
+          withCredentials: true
+        });
+        const { accessToken }: { accessToken: string } = res.data.data as {
+          accessToken: string;
+        };
+        SessionStorage.set<string>('accessToken', accessToken);
+        prevRequest.headers.Authorization = `Bearer ${accessToken}`;
+        window.location.reload();
+        await http(prevRequest);
+      } else {
+        removeInfo();
+        window.location.replace(loginRoute);
+        return await Promise.reject(error);
+      }
+    } catch (_error) {
+      removeInfo();
+      window.location.replace(loginRoute);
 
-	if (
-		error.response &&
-		error.response.status === 401 &&
-		error.response.data
-		//error.response.data?.error !== null &&
-		//error.response.data?.message === 'jwt expired'
-	) {
-		try {
-			const prevRequest = error.config;
-			if (prevRequest && !prevRequest?.sent) {
-				prevRequest.sent = true;
-				const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
-					withCredentials: true
-				});
-				const { accessToken }: { accessToken: string } = res.data.data as {
-					accessToken: string;
-				};
-				SessionStorage.set<string>('accessToken', accessToken);
-				prevRequest.headers.Authorization = `Bearer ${accessToken}`;
-				window.location.reload();
-				await http(prevRequest);
-			} else {
-				removeInfo();
-				window.location.replace(loginRoute);
-				return await Promise.reject(error);
-			}
-		} catch (_error) {
+      return Promise.reject(_error);
+    }
+  }
 
-			removeInfo();
-			window.location.replace(loginRoute);
-
-			return Promise.reject(_error);
-		}
-	}
-
-	return Promise.resolve(error);
+  return Promise.resolve(error);
 }
 
 function setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
-	http = axiosInstance;
-	axiosInstance.interceptors.request.use(onRequest, onRequestError);
-	axiosInstance.interceptors.response.use(onResponse, onResponseError);
+  http = axiosInstance;
+  axiosInstance.interceptors.request.use(onRequest, onRequestError);
+  axiosInstance.interceptors.response.use(onResponse, onResponseError);
 
-	return axiosInstance;
+  return axiosInstance;
 }
 export default setupInterceptorsTo;

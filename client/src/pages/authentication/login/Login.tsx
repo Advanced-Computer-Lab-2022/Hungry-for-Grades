@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 
 import { useCallback } from 'react';
 
-
 import useValidation from './useValidation';
 
 import { Role } from '@/enums/role.enum';
@@ -124,52 +123,60 @@ function Login() {
             </div>
           </Link>
           <Form
-						ariaLabel={'Login Form'}
-						className={'middle'}
-						disabled={false}
-						encType={'application/x-www-form-urlencoded'}
-						id={'loginForm'}
-						inputs={[
-							<Input
-								key='email-1'
-								correctMessage={''}
-								errorMessage={formik.errors.email as string}
-								hint={''}
-								id='input-sadasd'
-								isError={formik.touched.email && formik.errors.email ? true : null}
-								isTop={false}
-								label={'Email'}
-								name={'email'}
-								placeholder='Email'
-								size={0}
-								type='email'
-								value={formik.values.email}
-								onBlurFunc={formik.handleBlur}
-								onChangeFunc={formik.handleChange} />,
-							<Input
-								key={'password-1'}
-								correctMessage={''}
-								errorMessage={formik.errors.password as string}
-								hint={''}
-								id='input-sadasssosd993d'
-								isError={formik.touched.password && formik.errors.password
-									? true
-									: null}
-								isTop={false}
-								label={'Password'}
-								name={'password'}
-								placeholder='Password'
-								size={0}
-								type='password'
-								value={formik.values.password}
-								onBlurFunc={formik.handleBlur}
-								onChangeFunc={formik.handleChange} />
-						]}
-						isError={false}
-						isLoading={false}
-						method={'post'}
-						subtitle='Login to your account'
-						title='Login' onResetFunc={undefined}          >
+            ariaLabel={'Login Form'}
+            className={'middle'}
+            disabled={false}
+            encType={'application/x-www-form-urlencoded'}
+            id={'loginForm'}
+            inputs={[
+              <Input
+                key='email-1'
+                correctMessage={''}
+                errorMessage={formik.errors.email as string}
+                hint={''}
+                id='input-sadasd'
+                isError={
+                  formik.touched.email && formik.errors.email ? true : null
+                }
+                isTop={false}
+                label={'Email'}
+                name={'email'}
+                placeholder='Email'
+                size={0}
+                type='email'
+                value={formik.values.email}
+                onBlurFunc={formik.handleBlur}
+                onChangeFunc={formik.handleChange}
+              />,
+              <Input
+                key={'password-1'}
+                correctMessage={''}
+                errorMessage={formik.errors.password as string}
+                hint={''}
+                id='input-sadasssosd993d'
+                isError={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : null
+                }
+                isTop={false}
+                label={'Password'}
+                name={'password'}
+                placeholder='Password'
+                size={0}
+                type='password'
+                value={formik.values.password}
+                onBlurFunc={formik.handleBlur}
+                onChangeFunc={formik.handleChange}
+              />
+            ]}
+            isError={false}
+            isLoading={false}
+            method={'post'}
+            subtitle='Login to your account'
+            title='Login'
+            onResetFunc={undefined}
+          >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
                 checked={formik.values.rememberMe}
@@ -190,7 +197,7 @@ function Login() {
               </Link>
             </span>
 
-            {data && (
+            {data && data?.response && (
               <ErrorMessage errorMessage={data?.response?.data?.message} />
             )}
             <div className='d-flex flex-column justify-content-between'>

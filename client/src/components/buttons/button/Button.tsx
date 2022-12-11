@@ -9,12 +9,14 @@ import { type ButtonProps } from './types';
 import { toastOptions } from '@components/toast/options';
 
 function Button(props: ButtonProps) {
-  const id = props.id ;
+  const id = props.id;
   const [isLoading, setIsLoading] = useState(false);
   return (
     <button
       className={`btn ${props.className ?? styles.button ?? ''} ${
         styles[props.backgroundColor] ?? ''
+      }${
+        props.backgroundColor === 'primary-bg' ? styles['primary-bg'] ?? '' : ''
       } }`}
       disabled={props.isDisabled}
       id={id}
