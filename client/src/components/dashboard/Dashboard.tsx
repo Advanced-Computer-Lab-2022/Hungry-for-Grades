@@ -1,7 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
 
-
-
 import styles from './dashboard.module.scss';
 
 import Music from '@/components/mediaPlayer/Music';

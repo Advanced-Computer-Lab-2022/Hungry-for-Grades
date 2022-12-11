@@ -45,7 +45,7 @@ function SearchCourses() {
               {data?.totalResults > 0 && (
                 <Pagination
                   activePage={activePage}
-                  pages={data?.totalPages }
+                  pages={data?.totalPages}
                   setActivePage={setActivePage}
                 />
               )}
