@@ -18,13 +18,10 @@ import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-<<<<<<< HEAD
 import AdminHome from '@/pages/admin/home/AdminHome';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
-=======
->>>>>>> development
 /**
  * Guest Pages
  */
