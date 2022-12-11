@@ -108,9 +108,7 @@ export default function MainSection() {
           </div>
         </div>
 
-        <div className='dotparent d-flex justify-content-center align-items-center'>
-          <div className='dot' />
-        </div>
+
       </section>
       {/*      <div
         className='fluid-container'

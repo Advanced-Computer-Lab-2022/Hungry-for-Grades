@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { useCallback } from 'react';
 
-import { LoginProps } from './types';
 
 import useValidation from './useValidation';
 
@@ -29,14 +29,12 @@ import { HttpResponse } from '@/interfaces/response.interface';
 import { IUser } from '@/interfaces/user.interface';
 import { ITrainee } from '@/interfaces/course.interface';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+
+import { toastOptions } from '@/components/toast/options';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
-  const {
-    data,
-    mutateAsync: login,
-    isError
-  } = usePostQuery<
+  const { data, mutateAsync: login } = usePostQuery<
     HttpResponse<{
       firstLogin: boolean;
       role: Role;
@@ -62,9 +60,9 @@ function Login() {
     navigate('/auth/signup');
   }, [navigate]);
 
-  const handleSubmit = useCallback(async () => {
+  async function handleSubmit() {
     try {
-      const { email, password } = (await formik.submitForm()) as LoginProps;
+      const { email, password } = formik.values;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
@@ -73,6 +71,10 @@ function Login() {
         password
       };
       const response = await login(loginRoute);
+
+      console.log('response');
+      console.log(response);
+
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase() as Role;
@@ -100,21 +102,17 @@ function Login() {
 
         return true;
       }
+
+      console.log(response?.data);
+      toast.error(response?.data?.message, toastOptions);
       return false;
     } catch (err) {
       console.log(err);
       return false;
     }
-  }, [
-    formik,
-    login,
-    useSetUser,
-    useCartStoreSetCart,
-    useWishListSetCart,
-    updateCountry,
-    from,
-    navigate
-  ]);
+  }
+
+  console.log('error');
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
@@ -126,64 +124,58 @@ function Login() {
             </div>
           </Link>
           <Form
-            ariaLabel={'Login Form'}
-            className={'middle'}
-            disabled={false}
-            encType={'application/x-www-form-urlencoded'}
-            id={'loginForm'}
-            inputs={[
-              <Input
-                key='email-1'
-                correctMessage={''}
-                errorMessage={formik.errors.email as string}
-                hint={''}
-                isError={
-                  formik.touched.email && formik.errors.email ? true : null
-                }
-                isTop={false}
-                label={'Email'}
-                name={'email'}
-                placeholder='Email'
-                size={0}
-                type='email'
-                value={formik.values.email}
-                onBlurFunc={formik.handleBlur}
-                onChangeFunc={formik.handleChange}
-              />,
-              <Input
-                key={'password-1'}
-                correctMessage={''}
-                errorMessage={formik.errors.password as string}
-                hint={''}
-                isError={
-                  formik.touched.password && formik.errors.password
-                    ? true
-                    : null
-                }
-                isTop={false}
-                label={'Password'}
-                name={'password'}
-                placeholder='Password'
-                size={0}
-                type='password'
-                value={formik.values.password}
-                onBlurFunc={formik.handleBlur}
-                onChangeFunc={formik.handleChange}
-              />
-            ]}
-            isError={false}
-            isLoading={false}
-            method={'post'}
-            subtitle='Login to your account'
-            title='Login'
-            onResetFunc={formik.handleReset}
-          >
+						ariaLabel={'Login Form'}
+						className={'middle'}
+						disabled={false}
+						encType={'application/x-www-form-urlencoded'}
+						id={'loginForm'}
+						inputs={[
+							<Input
+								key='email-1'
+								correctMessage={''}
+								errorMessage={formik.errors.email as string}
+								hint={''}
+								id='input-sadasd'
+								isError={formik.touched.email && formik.errors.email ? true : null}
+								isTop={false}
+								label={'Email'}
+								name={'email'}
+								placeholder='Email'
+								size={0}
+								type='email'
+								value={formik.values.email}
+								onBlurFunc={formik.handleBlur}
+								onChangeFunc={formik.handleChange} />,
+							<Input
+								key={'password-1'}
+								correctMessage={''}
+								errorMessage={formik.errors.password as string}
+								hint={''}
+								id='input-sadasssosd993d'
+								isError={formik.touched.password && formik.errors.password
+									? true
+									: null}
+								isTop={false}
+								label={'Password'}
+								name={'password'}
+								placeholder='Password'
+								size={0}
+								type='password'
+								value={formik.values.password}
+								onBlurFunc={formik.handleBlur}
+								onChangeFunc={formik.handleChange} />
+						]}
+						isError={false}
+						isLoading={false}
+						method={'post'}
+						subtitle='Login to your account'
+						title='Login' onResetFunc={undefined}          >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
                 checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
-                id='rememberMe'
+                id='rememberMe-jnjnjn'
                 isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'
@@ -198,10 +190,9 @@ function Login() {
               </Link>
             </span>
 
-            {!data?.data?.success && (
-              <ErrorMessage errorMessage={data?.data?.message} />
+            {data && (
+              <ErrorMessage errorMessage={data?.response?.data?.message} />
             )}
-            {isError && <ErrorMessage />}
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
