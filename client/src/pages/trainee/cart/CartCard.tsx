@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 
 import styles from './cart-card.module.scss';
@@ -17,7 +16,7 @@ import { POSTRoutesType } from '@/services/axios/types';
 import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
 
-function remove(courseId: string, user : IUser) {
+function remove(courseId: string, user: IUser) {
   const Courses = TraineeRoutes.DELETE.removeFromCart;
 
   Courses.URL = `/trainee/${user?._id}/cart/${courseId}`;
@@ -25,7 +24,7 @@ function remove(courseId: string, user : IUser) {
   return deleteRequest(Courses);
 }
 
-function move(courseId: string, user : IUser) {
+function move(courseId: string, user: IUser) {
   const Courses = TraineeRoutes.POST.addToWishlist;
 
   Courses.URL = `/trainee/${user?._id}/wishlist/${courseId}`;
@@ -40,7 +39,7 @@ export default function CartCard(props: {
   category: string;
   subcategory: string;
   price: number;
-  discount: CourseDiscount[] ;
+  discount: CourseDiscount[];
   currency: string;
   img: string;
   old: number | undefined;
@@ -53,11 +52,15 @@ export default function CartCard(props: {
 
   const removeFromCart = UseCartStoreRemoveCourse();
 
-  const { refetch } = useQuery(['ASJLHFXYZZZY'], () => remove(props.id, user as IUser), {
-    cacheTime: 1000 * 60 * 60 * 24,
-    retryDelay: 1000, // 1 second
-    enabled: false
-  });
+  const { refetch } = useQuery(
+    ['ASJLHFXYZZZY'],
+    () => remove(props.id, user as IUser),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000, // 1 second
+      enabled: false
+    }
+  );
 
   const { refetch: moveToWishListRefetch } = useQuery(
     ['ASJLHFXYZZZYX'],
@@ -105,8 +108,12 @@ export default function CartCard(props: {
           <span>{props.subcategory}</span>
         </div>
         <div className={styles.actions}>
-          <span onClick={handleRemoveCart}>Remove</span>
-          <span onClick={handleMoveToWishList}>Move to Whishlist</span>
+          <button type='button' onClick={handleRemoveCart}>
+            Remove
+          </button>
+          <button type='button' onClick={handleMoveToWishList}>
+            Move to Whishlist
+          </button>
         </div>
       </div>
       <div className={styles.pricing}>

@@ -43,7 +43,7 @@ function ProtectedRoutes() {
   ) {
     const userData = data?.data?.data;
     useSetUser(userData);
-    updateCountry(userData?.country);
+    if (userData.country) updateCountry(userData?.country);
     if (userData.role === Role.TRAINEE) {
       useCartStoreSetCart((userData as ITrainee)?._cart);
       useWishListSetCart((userData as ITrainee)?._wishlist);
@@ -52,34 +52,14 @@ function ProtectedRoutes() {
 
   const location = useLocation();
 
-  if (isError || error) {
-    removeInfo();
-    return <Navigate replace state={{ from: location }} to='/auth/login' />;
-  }
-
-  /*
-  const refresh = useRefreshToken();
-
-useEffect(() => {
-     if (effectOnce === 0) {
-      refresh()
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-       		if (!access) {
-			return <Navigate replace state={{ from: location }} to='/auth/login' />;
-		}
-      effectOnce = 1;
-    }
-  }, [refresh]); */
-
   if (isLoading && !data && !useUserIsAuthenticated) {
     return <Loader />;
   }
 
+  if (isError || error) {
+    removeInfo();
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
+  }
   if (useUserIsAuthenticated === null) {
     return <></>;
   }
