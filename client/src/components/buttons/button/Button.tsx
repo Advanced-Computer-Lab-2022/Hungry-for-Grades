@@ -15,7 +15,7 @@ function Button(props: ButtonProps) {
     <button
       className={`btn ${props.className ?? styles.button ?? ''} ${
         styles[props.backgroundColor] ?? ''
-      } }`}
+      } ${styles.button ?? ''}}`}
       disabled={props.isDisabled}
       id={id}
       name={props.name}

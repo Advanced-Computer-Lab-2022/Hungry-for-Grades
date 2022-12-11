@@ -18,6 +18,10 @@ import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
+import AdminHome from '@/pages/admin/home/AdminHome';
+
+//import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
+
 /**
  * Guest Pages
  */
@@ -219,8 +223,13 @@ function AllRoutes() {
         <Route element={<InstructorRoutes />} path='instructor'>
           {/* Instructor Dashboard */}
           <Route element={<LazyInstructorDashboard />}>
+            <Route
+              element={<LazyInstructorCoursesSection />}
+              path='dashboard'
+            />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
+          <Route element={<AdminHome />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
@@ -235,23 +244,18 @@ function AllRoutes() {
             path='change-password'
           />
         </Route>
-        <Route element={<LazyCourse />} path='course/:courseid' />
-        <Route element={<LazyCourse />} path='/course' />
       </Route>
 
-      {/* Authorized Routes */}
-      <Route element={<ProtectedRoutes />}>
-        {/* Admin Routes */}
-        <Route element={<AdminRoutes />} path='admin'>
-          <Route element={<div />} path='home' />
-          <Route element={<LazyAddInstructor />} path='add-instructor' />
-          <Route element={<LazyAddAdmin />} path='add-admin' />
-          <Route
-            element={<LazyAddCorporateTrainee />}
-            path='add-corporatetrainee'
-          />
-          <Route element={<LazyUserProfile />} path='profile' />
-        </Route>
+      {/* Admin Routes */}
+      <Route element={<AdminRoutes />} path='admin'>
+        <Route element={<div />} path='dashboard' />
+        <Route element={<LazyAddInstructor />} path='add-instructor' />
+        <Route element={<LazyAddAdmin />} path='add-admin' />
+        <Route
+          element={<LazyAddCorporateTrainee />}
+          path='add-corporatetrainee'
+        />
+        <Route element={<LazyUserProfile />} path='profile' />
       </Route>
 
       {/*Guest Routes */}

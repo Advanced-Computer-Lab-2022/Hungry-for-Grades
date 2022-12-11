@@ -17,11 +17,22 @@ const navLinks = {
   Profile: { path: '/instructor/profile', icon: <FiUser /> }
 };
 
-function TraineeDashboard() {
+function InstructorDashboard() {
   return (
     <Dashboard
       media={
-        <Link className={styles.add_course} to='add-course'>
+        <Link
+          className={`btn btn-primary ${styles.add_course ?? ''}`}
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            padding: '1rem',
+            borderRadius: '0.5rem',
+            backgroundColor: 'var(--primary-color)',
+            marginRight: '20px'
+          }}
+          to='add-course'
+        >
           Create Course
         </Link>
       }
@@ -30,4 +41,4 @@ function TraineeDashboard() {
     />
   );
 }
-export default TraineeDashboard;
+export default InstructorDashboard;

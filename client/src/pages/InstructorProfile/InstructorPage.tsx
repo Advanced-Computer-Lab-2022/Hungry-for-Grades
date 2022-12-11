@@ -93,7 +93,7 @@ export default function InstructorPage() {
           <h1>{Instructor?.name}</h1>
           <h2>{Instructor?.speciality}</h2>
           <h3 style={{ fontWeight: '700', fontSize: '1.2rem', color: 'grey' }}>
-            {Instructor.title}
+            {Instructor?.title}
           </h3>
           <div style={{ display: 'flex' }}>
             <div style={{ marginRight: '1.5rem' }}>
