@@ -18,8 +18,14 @@ function SearchCourses() {
     SelectFiltersType,
     React.Dispatch<React.SetStateAction<SelectFiltersType>>
   ];
-  const { data, isLoading, error, activePage, setActivePage } =
+  const { data, isLoading, error, activePage, setActivePage, isError } =
     useSearchQuery(selectedFilters);
+  if (isError && error) {
+    return <ErrorMessage />;
+  }
+  if (data?.success === false) {
+    return <ErrorMessage errorMessage={data?.message} />;
+  }
 
   return (
     <section className={styles.courses__page}>
@@ -35,11 +41,11 @@ function SearchCourses() {
           {error && <div>error</div>}
           {data && (
             <>
-              <CoursesSection {...data?.data} />
-              {data?.data?.totalResults > 0 && (
+              <CoursesSection {...data} />
+              {data?.totalResults > 0 && (
                 <Pagination
                   activePage={activePage}
-                  pages={data?.data?.totalPages as number}
+                  pages={data?.totalPages }
                   setActivePage={setActivePage}
                 />
               )}

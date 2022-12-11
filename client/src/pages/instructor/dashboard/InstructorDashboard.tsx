@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import styles from './InstructorMainSection.module.scss';
+import styles from './instructor-dashboard.module.scss';
 
 export default function InstructorMainSection() {
   const [myArray, setMyArray] = useState([1, 0, 0, 0]);

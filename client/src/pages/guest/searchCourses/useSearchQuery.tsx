@@ -11,6 +11,8 @@ import { getRequest } from '@services/axios/http-verbs';
 
 import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
+import { PaginatedResponse } from '@/interfaces/response.interface';
+import { ICourse } from '@/interfaces/course.interface';
 
 let oldFilters: SelectFiltersType;
 
@@ -64,7 +66,7 @@ async function searchRequest(
   //navigateSearch('/courses', searchQuery);
  */
 
-  return getRequest(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {

@@ -96,6 +96,10 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
         prevRequest.headers.Authorization = `Bearer ${accessToken}`;
         await http(prevRequest);
       } else {
+        LocalStorage.remove('_TOKEN');
+        LocalStorage.remove('role');
+        SessionStorage.remove('accessToken');
+        window.location.replace(loginRoute);
         return await Promise.reject(error);
       }
     } catch (_error) {

@@ -34,6 +34,9 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
       SessionStorage.remove('accessToken');
       LocalStorage.remove('refreshToken');
       LocalStorage.remove('role');
+      document.cookie = '';
+      window.location.replace('/');
+
       set({ user: null, isAuthenticated: false });
     }
   }))
