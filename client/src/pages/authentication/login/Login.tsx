@@ -102,8 +102,7 @@ function Login() {
         return true;
       }
 
-      console.log(response?.data);
-      toast.error(response?.data?.message, toastOptions);
+      toast.error(response?.response?.data?.message, toastOptions);
       return false;
     } catch (err) {
       console.log(err);
