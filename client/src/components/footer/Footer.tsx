@@ -174,9 +174,7 @@ function Footer() {
                   </a>
                 </p>
 
-
                 <ReportForm />
-
 
                 <p>
                   <a className='text-white' href='#!'>
