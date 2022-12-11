@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable css-modules/no-unused-class */
 /* eslint-disable react/jsx-no-bind */
 import { useRef, useState } from 'react';
@@ -14,8 +15,11 @@ function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
   const useUserStoreLogOut = UseUserStoreLogOut();
+ // const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
   const user = UseUser();
-
+  function logout() {
+    useUserStoreLogOut();
+  }
   return (
     user && (
       <>
@@ -75,7 +79,7 @@ function MenuHeadersExample() {
                   replace
                   style={{ color: 'inherit' }}
                   to='/'
-                  onClick={useUserStoreLogOut}
+                  onClick={logout}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out
                 </Link>

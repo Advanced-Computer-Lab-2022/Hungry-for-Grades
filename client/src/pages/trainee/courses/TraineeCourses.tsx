@@ -42,11 +42,6 @@ export default function MyCourses() {
   if (incoming?.totalResults == 0) {
     return <div>You Don;t Have any Courses</div>;
   }
-  //console.log(incoming);
-
-  //const course : ICourse = incoming[0]?._course;
-
-  //console.log(course);
 
   const toShow = incoming?.map(
     (course: {
