@@ -1,3 +1,4 @@
+import { INote } from './note.interface';
 import { PaginatedRequest } from './request.interface';
 
 import { ICart } from './cart.interface';
@@ -173,6 +174,7 @@ export interface ITrainee extends IUser {
   balance: number;
   creditCards: CreditCard[];
   preferredSkills: string[];
+  notes: INote[];
 }
 
 export { type ICourseFilters };
