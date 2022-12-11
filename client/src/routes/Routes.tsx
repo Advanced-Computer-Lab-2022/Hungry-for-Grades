@@ -1,9 +1,5 @@
 import { lazy } from 'react';
 
-//import Home from './pages/home/Home';
-/* import Nav from '../nav/Nav'
- */
-
 import { Route, Routes } from 'react-router-dom';
 
 import AdminRoutes from './AdminRoutes';
@@ -21,8 +17,6 @@ import TraineeRoutes from './TraineeRoutes';
 import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
-
-//import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
 /**
  * Guest Pages
@@ -96,14 +90,14 @@ const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
 const LazyInstructorCoursesSection = lazy(
-  () => import('@/pages/instructorDashboard/InstructorCoursesSection')
+  () => import('@/pages/instructor/InstructorCoursesSection')
 );
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
 const LazyAddExam = lazy(() => import('@/pages/course-form/AddExam'));
 const LazyMyReview = lazy(
-  () => import('@pages/instructorDashboard/reviewAndRating/Main')
+  () => import('@/pages/instructor/reviewAndRating/Main')
 );
 const LazyInstructorEditProfile = lazy(
   () => import('@/pages/InstructorProfile/edit-profile/Profile')
@@ -123,23 +117,42 @@ const LazyAddCorporateTrainee = lazy(
   () => import('@/pages/admin/AddCorporateTrainee')
 );
 const LazyDiscounts = lazy(
-  () =>
-    import(
-      '@pages/instructorDashboard/setDiscount/courseDiscounts/CourseDiscounts'
-    )
+  () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
 // I commented  <Route element={<StudentPage />} path='hussein' /> because it was causing an error
 
+// landing page
+
+const roles = ['/trainee/', '/admin/', '/instructor/'];
+
 function AllRoutes() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route element={<LazySearchCourses />} path='courses' />
-        <Route element={<LazyCourse />} path='course/:courseid' />
-        <Route element={<LazyLanding />} path='/' />
+        {roles.map((path, index) => (
+          <Route
+            key={`${index + 311} course`}
+            element={<LazySearchCourses />}
+            path={`${path}courses`}
+          />
+        ))}
+        {roles.map((path, index) => (
+          <Route
+            key={`${index + 3} course`}
+            element={<LazyCourse />}
+            path={`${path}course/:courseid`}
+          />
+        ))}
+        {roles.map((path, index) => (
+          <Route
+            key={`${index + 33} landing`}
+            element={<LazyLanding />}
+            path={path}
+          />
+        ))}
         {/* Trainee Routes*/}
         <Route
           element={<LazyInstructorProfileToShow />}
@@ -154,6 +167,7 @@ function AllRoutes() {
             element={<LazyTraineeViewCourse />}
             path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
           />
+
           <Route element={<LazyTraineeDashboard />}>
             <Route
               element={<LazyTraineeEnrolledCourses />}

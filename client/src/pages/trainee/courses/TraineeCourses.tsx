@@ -53,17 +53,18 @@ export default function MyCourses() {
       </div>
     );
   });
+  console.log(data);
 
   return (
     <>
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
-      {data?.data?.totalPages > 1 && (
+      {data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}
-            pages={data?.data?.totalPages as number}
+            pages={data?.totalPages as number}
             setActivePage={setActivePage}
           />
         </div>

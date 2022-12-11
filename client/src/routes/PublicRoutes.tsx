@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
@@ -10,8 +10,10 @@ import { Role } from '@/enums/role.enum';
 
 function PublicRoutes() {
   const role = LocalStorage.get('role') as Role | null;
+  const location = useLocation();
+
   if (role) {
-    return <Navigate to={`${role}/dashboard`} />;
+    return <Navigate to={`/${role}${location.pathname}`} />;
   }
   return (
     <Suspense fallback={<Loader />}>
