@@ -18,7 +18,7 @@ export default function LastStudy() {
     return <Loader />;
   }
 
-  const course: EnrolledCourse|undefined = data?.data?.data;
+  const course: EnrolledCourse | undefined = data?.data?.data;
 
   return (
     <section className='container mx-auto'>
@@ -29,7 +29,6 @@ export default function LastStudy() {
             className={styles.image_holder}
             loading='lazy'
             src={course?._course?.thumbnail}
-            
           />
           <div
             style={{
@@ -42,7 +41,9 @@ export default function LastStudy() {
           >
             <span className={styles.txt}> {course?._course?.title}</span>
             <div style={{ width: '70%' }}>
-              <ProgressBar completed={(course?.progress == undefined)? 0:course?.progress} />
+              <ProgressBar
+                completed={course?.progress == undefined ? 0 : course?.progress}
+              />
             </div>
             {/* 						meteiny fix link
              */}{' '}

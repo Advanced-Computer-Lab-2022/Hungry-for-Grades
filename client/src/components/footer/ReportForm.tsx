@@ -8,7 +8,6 @@ import { toastOptions } from '../toast/options';
 
 import useValidation from './useValidation';
 
-
 import { UseUser } from '@store/userStore';
 
 import usePostQuery from '@/hooks/usePostQuery';
@@ -24,32 +23,24 @@ function ReportForm() {
     { label: 'Other', value: 'Other' }
   ];
 
-  const {  mutateAsync: submitReport } = usePostQuery();
+  const { mutateAsync: submitReport } = usePostQuery();
 
-
-
-  async function clickSubmit(res : string, des : string)
-  {
-    const Courses  = ReportDataService.POST.makeReport;
+  async function clickSubmit(res: string, des: string) {
+    const Courses = ReportDataService.POST.makeReport;
 
     Courses.payload = {
-      _course:'63933df8be2be796734ce16d',
-      _user : useUser?._id,
-      description : des,
-      reason : res,
-      status : 'Pending'
-    }
+      _course: '63933df8be2be796734ce16d',
+      _user: useUser?._id,
+      description: des,
+      reason: res,
+      status: 'Pending'
+    };
 
     const response = await submitReport(Courses as POSTRoutesType);
 
     console.log(response);
 
-    toast.success(
-      'Report is Sent Successfully...',
-      toastOptions
-    );
-
-
+    toast.success('Report is Sent Successfully...', toastOptions);
   }
 
   return useUser?._id ? (
@@ -78,7 +69,7 @@ function ReportForm() {
         onDone={async function onDone() {
           await formik.submitForm();
           // husssein yasser when ahmed wahba adjust the course id back from null we should adjust the hardcoded course id above
-            void clickSubmit(formik.values.reason, formik.values.description);
+          void clickSubmit(formik.values.reason, formik.values.description);
         }}
       >
         <div className='row'>
@@ -121,8 +112,8 @@ function ReportForm() {
               <textarea
                 className='form-control'
                 id='report'
-                name='report'
-                placeholder='Report'
+                name='description'
+                placeholder='Enter Your Description'
                 value={formik.values.description}
                 onChange={formik.handleChange}
               />

@@ -180,7 +180,8 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
               className='alert alert-danger d-flex justify-content-center'
               role='alert'
             >
-              No notes found,
+              No notes {notes && notes.length > 0 ? 'for this Course where found' : ''}
+              found,
               <Link
                 to={`/trainee/notes/form?courseName=${
                   courseName ?? ''
