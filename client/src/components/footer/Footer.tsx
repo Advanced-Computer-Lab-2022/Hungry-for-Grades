@@ -173,19 +173,11 @@ function Footer() {
                     About us
                   </a>
                 </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Your Account
-                  </a>
-                </p>
+
 
                 <ReportForm />
 
-                <p>
-                  <a className='text-white' href='#!'>
-                    Shipping Rates
-                  </a>
-                </p>
+
                 <p>
                   <a className='text-white' href='#!'>
                     Help
