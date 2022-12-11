@@ -53,6 +53,7 @@ class AuthService {
     accessToken: string;
     cookie: ICookie;
     findUser: IUser;
+    firstLogin: boolean;
     refreshToken: string;
     role: Role;
   }> {
@@ -61,7 +62,7 @@ class AuthService {
     let userModel: typeof traineeModel | typeof instructorModel | typeof adminModel, findInstructor: IInstructor, findAdmin: IAdmin;
     let role: Role;
     const query = {
-      $or: [{ 'email.address': userData.email.address }, { username: userData.username }],
+      $or: [{ 'email.address': userData?.email?.address ?? '' }, { username: userData?.username ?? '' }],
     };
 
     const findTrainee = await traineeModel.findOne(query).select('-active');
@@ -83,6 +84,9 @@ class AuthService {
 
     const findUser = findTrainee ?? findInstructor ?? findAdmin;
 
+    // check if user logged in before or not
+    const firstLogin = !findUser.lastLogin;
+
     // check Password Hashing
     const isPasswordMatching: boolean = await compare(userData.password, findUser.password);
 
@@ -103,7 +107,7 @@ class AuthService {
     delete findUser.password;
     findUser.role = role;
 
-    return { accessToken, cookie, findUser, refreshToken, role };
+    return { accessToken, cookie, findUser, firstLogin, refreshToken, role };
   }
 
   public async logout(tokenPayload: ITokenPayload): Promise<IUser> {

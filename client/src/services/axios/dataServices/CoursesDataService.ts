@@ -22,118 +22,25 @@ export const CoursesRoutes = {
       URL: '/getCSRFToken' as const,
       params: '',
       query: '',
-      payload: {},
-      response: {
-        _id: '',
-        username: '',
-        email: '',
-        createdAt: '',
-        updatedAt: ''
-      }
+      payload: {}
     },
     getCoursesSearchFilter: {
       URL: '/courses' as const,
       params: '' as const,
-      query:
-        '?priceLow=6&priceHigh=10000&page=&limit=12&searchTerm=learn&country=Egypt',
-      payload: {},
-      response: {
-        data: [
-          {
-            _id: '',
-            _instructor: {
-              _user: [
-                {
-                  _id: '',
-                  name: ''
-                }
-              ]
-            },
-            captions: [''],
-            category: '',
-            description: '',
-            keywords: [''],
-            language: '',
-            level: '',
-            previewVideoURL: '',
-            price: {
-              currency: 'EGP',
-              currentValue: 0,
-              discounts: [
-                {
-                  startDate: '',
-                  endDate: '',
-                  percentage: 0
-                },
-                {
-                  startDate: '',
-                  endDate: '',
-                  percentage: 30
-                }
-              ]
-            },
-            subcategory: [''],
-            thumbnail: '',
-            title: '',
-            numberOfEnrolledTrainees: 0,
-            duration: 3,
-            rating: {
-              averageRating: 5
-            }
-          }
-        ],
-        message: 'Completed Successfully',
-        page: 1,
-        pageSize: 1,
-        success: true,
-        totalPages: 1
-      }
+      query: '',
+      payload: {}
     },
     getDiscounts: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            endDate: '',
-            percentage: 0,
-            startDate: '',
-            _id: ''
-          }
-        ],
-        message: '',
-        success: true
-      }
+      payload: {}
     },
     getCourseReviews: {
       URL: '/courses/rating' as const,
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            _trainee: {
-              _id: '',
-              name: '',
-              profileImage: '',
-              country: ''
-            },
-            comment: '',
-            createdAt: '',
-            rating: 0,
-            _id: ''
-          }
-        ],
-        page: 0,
-        pageSize: 0,
-        totalPages: 0,
-        totalResults: 0,
-        message: '',
-        success: true
-      }
+      payload: ''
     }
   }
 };

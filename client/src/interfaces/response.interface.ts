@@ -5,6 +5,7 @@ interface PaginatedResponse<T> {
   pageSize: number;
   totalPages: number;
   success: boolean;
+  totalResults: number;
 }
 
 interface HttpResponse<T> {

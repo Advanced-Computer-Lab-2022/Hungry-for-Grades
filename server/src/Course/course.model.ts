@@ -95,6 +95,7 @@ const courseSchema = new Schema<ICourse>(
         type: [
           {
             endDate: Date,
+            issuedByInstructor: Boolean,
             percentage: Number,
             startDate: Date,
           },

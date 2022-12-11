@@ -15,7 +15,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: [
           {
@@ -64,7 +64,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: [
           {
@@ -105,7 +105,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: [
           {
@@ -153,7 +153,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: {
           price: {
@@ -194,7 +194,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: [
           {
@@ -263,7 +263,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: {
           _id: '',
@@ -341,7 +341,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
+      payload: {},
       response: {
         data: [],
         message: '',
@@ -365,12 +365,7 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: '',
-        message: '',
-        success: ''
-      }
+      payload: {}
     }
   }
 };
