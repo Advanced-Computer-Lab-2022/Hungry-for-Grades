@@ -16,7 +16,7 @@ import CourseCardButtons from './cardButtons/CourseCardButtons';
 
 import { CourseCardProps } from '@/pages/guest/landing/types';
 
-import CourseRating from '@/pages/course/CourseRating';
+import CourseRating from '@/pages/guest/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
 
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';

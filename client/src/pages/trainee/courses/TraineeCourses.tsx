@@ -31,7 +31,7 @@ export default function MyCourses() {
       return <ErrorMessage errorMessage='You Dont have any courses Yet' link='youtube.com' linkTitle={'Go Check some courses now'}/>;
     }
 
-  if(data?.data?.data?.success == false)
+  if(data?.data?.data?.success === false)
   {
     return <ErrorMessage errorMessage={data?.data?.data?.message} />
   }

@@ -1,4 +1,4 @@
-import { setArrayElement } from '../trainee/course-view/question-types';
+import { setArrayElement } from '../../trainee/course-view/question-types';
 
 import {
   AnswerFormValues,

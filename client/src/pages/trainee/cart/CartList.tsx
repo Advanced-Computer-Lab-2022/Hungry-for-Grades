@@ -73,6 +73,11 @@ export default function CartList() {
     return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
   }
 
+  if(!data?.data.success) 
+  {
+    return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
+  }
+
   function updateNum() {
     setWhenDeleteCourse(whenDeleteCourse + 1);
   }
@@ -148,7 +153,7 @@ export default function CartList() {
           <div style={{ marginLeft: 'auto' }}>
             <Pagination
               activePage={activePage}
-              pages={data?.data?.totalPages as number}
+              pages={data?.data?.totalPages}
               setActivePage={setActivePage}
             />
           </div>
