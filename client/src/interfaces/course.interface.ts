@@ -10,6 +10,7 @@ import {
 } from '@/interfaces/user.interface';
 
 import { Level } from '@/enums/level.enum';
+import { ICart } from './cart.interface';
 
 //import { PaginatedResponse } from './response.interface';
 
@@ -164,10 +165,10 @@ export type EnrolledCourse = {
 };
 
 export interface ITrainee extends IUser {
-  _cart?: ICourse[];
+  _cart: ICart[];
   _enrolledCourses?: EnrolledCourse[];
   _lastViewedCourse?: ICourse | string;
-  _wishlist?: ICourse[];
+  _wishlist: ICart[];
   balance: number;
   creditCards: CreditCard[];
   preferredSkills: string[];

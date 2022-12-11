@@ -25,10 +25,29 @@ import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import { UpdateCountry } from '@/store/countryStore';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 import LocalStorage from '@/services/localStorage/LocalStorage';
+import { HttpResponse } from '@/interfaces/response.interface';
+import { IUser } from '@/interfaces/user.interface';
+import { ITrainee } from '@/interfaces/course.interface';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
-  const { mutateAsync: login, isError, error } = usePostQuery();
+  const {
+    data,
+    mutateAsync: login,
+    isError,
+    error
+  } = usePostQuery<
+    HttpResponse<{
+      firstLogin: boolean;
+      role: Role;
+      token: {
+        accessToken: string;
+        refreshToken: string;
+      };
+      user: IUser;
+    }>
+  >();
   const updateCountry = UpdateCountry();
 
   const useSetUser = UseSetUser();
@@ -57,10 +76,12 @@ function Login() {
       const response = await login(loginRoute);
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
-        const userRole: Role = role.toLocaleLowerCase();
+        const userRole: Role = role.toLocaleLowerCase() as Role;
         useSetUser({ ...user, role: userRole });
-        useCartStoreSetCart(user?._cart);
-        useWishListSetCart(user?._wishList);
+        if (role === Role.TRAINEE) {
+          useCartStoreSetCart((user as ITrainee)?._cart);
+          useWishListSetCart((user as ITrainee)?._wishlist);
+        }
         //session
         SessionStorage.set('accessToken', token.accessToken);
         updateCountry(user.country);
@@ -177,19 +198,11 @@ function Login() {
                 Forgot Password?
               </Link>
             </span>
-            {isError && error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                {error?.response?.data?.message}
-              </div>
+
+            {!data?.data?.success && (
+              <ErrorMessage errorMessage={data?.data?.message} />
             )}
-            {isError && !error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                Please report this Problem through this &nbsp;
-                <Link className='alert-link' to='/report'>
-                  Link
-                </Link>
-              </div>
-            )}
+            {isError && <ErrorMessage />}
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
