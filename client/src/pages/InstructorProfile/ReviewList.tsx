@@ -46,7 +46,7 @@ export default function ReviewList(props: { text: string }) {
 
   console.log(reviewList);
 
-  const toShow = reviewList.map(
+  const toShow = reviewList?.map(
     (course: typeof InstructorRoutes.GET.getReviews.response.data[0]) => {
       return (
         <ReviewContainer
@@ -65,7 +65,7 @@ export default function ReviewList(props: { text: string }) {
   return (
     <>
       <div>{toShow}</div>
-      {t1.totalPages > 1 && (
+      {t1?.totalPages > 1 && (
         <Pagination
           activePage={reviewPage}
           pages={t1.totalPages}

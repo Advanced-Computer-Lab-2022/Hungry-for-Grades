@@ -22,6 +22,8 @@ import Error from '@/components/error/page/Error';
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
+import AdminHome from '@/pages/admin/home/AdminHome';
+
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
 /**
@@ -190,6 +192,7 @@ function AllRoutes() {
 
         {/* Instructor Routes*/}
         <Route element={<InstructorRoutes />} path='instructor'>
+        <Route element={<AdminHome />} path = 'test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
