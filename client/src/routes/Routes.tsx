@@ -250,7 +250,7 @@ function AllRoutes() {
 
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
-					{/* Admin Dashboard */}
+          {/* Admin Dashboard */}
           <Route element={<LazyAdminDashboard />}>
             <Route element={<div />} path='dashboard' />
           </Route>

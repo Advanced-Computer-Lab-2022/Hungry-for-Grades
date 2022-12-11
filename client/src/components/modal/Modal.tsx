@@ -57,7 +57,7 @@ function Modal(props: ModalProps) {
             <div className='modal-footer'>
               {isClose && (
                 <button
-                  className='btn btn-secondary'
+                  className='btn btn-outline-primary'
                   data-bs-dismiss='modal'
                   data-bs-target='classNamemodal'
                   type='button'
