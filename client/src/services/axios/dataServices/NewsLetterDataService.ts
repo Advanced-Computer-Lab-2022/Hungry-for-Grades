@@ -8,11 +8,6 @@ export const NewsLetterRoutes = {
       payload: {
         email: '',
         role: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     },
     sendEmail: {
@@ -24,11 +19,6 @@ export const NewsLetterRoutes = {
       payload: {
         body: '',
         subject: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     }
   },
@@ -39,12 +29,7 @@ export const NewsLetterRoutes = {
       query: '' as const,
       options: {},
 
-      payload: {},
-      response: {
-        data: {},
-        message: '',
-        success: ''
-      }
+      payload: {}
     }
   },
   DELETE: {
@@ -55,11 +40,6 @@ export const NewsLetterRoutes = {
       options: {},
       payload: {
         email: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     }
   }

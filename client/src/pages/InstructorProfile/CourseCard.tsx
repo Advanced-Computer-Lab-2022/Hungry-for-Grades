@@ -27,14 +27,14 @@ export default function CourseCard(props: {
   course: typeof InstructorRoutes.GET.getCourses.response.data[0];
   instructorName: string;
 }) {
-  const list = props?.course?._course?.captions?.map(language => {
+  const list = props?.course?._course?.captions?.map((language: string) => {
     return (
       <>
         <span key={language}> {language} </span>{' '}
       </>
     );
   });
-  const toGo = '/course/:' + props.course._course._id.toString();
+  const toGo = `/course/:${props.course._course._id.toString() as string}`;
   const old = getOriginalPrice(
     props.course._course.price.currentValue,
     props.course._course.price.discounts

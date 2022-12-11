@@ -7,14 +7,14 @@ import {
   type INote,
   type ITag,
   type INoteData
-} from '@/interfaces/note.interface';
+} from '@interfaces/note.interface';
 
 type INoteStore = {
   notes: INote[];
   tags: ITag[];
   backgroundUrl: string;
   setBackgroundUrl: (backgroundUrl: string) => void;
-
+  setNotes: (notes: INote[]) => void;
   createNote: (
     note: INoteData,
     lessonId?: string,
@@ -67,6 +67,13 @@ export const useTraineeNoteStore = create<
           const newTags = [...tags, newTag];
           set({ tags: newTags });
           return newTag;
+        },
+        setNotes: (notes: INote[]) => {
+          let tags: ITag[] = [];
+          notes.forEach(note => {
+            tags = [...tags, ...note.tags];
+          });
+          set({ notes, tags });
         },
         deleteNote: (id: string) => {
           const { notes } = get();
@@ -172,6 +179,8 @@ export const useTraineeNoteStore = create<
 
 export const UseTraineeNoteStoreNotes = () =>
   useTraineeNoteStore(state => state.notes); //To get the Notes
+export const UseTraineeNoteStoreSetNotes = () =>
+  useTraineeNoteStore(state => state.setNotes); //To set the Notes
 
 export const UseTraineeNoteStoreNotesByCourseandLessonId = () =>
   useTraineeNoteStore(state => state.getNotesByCourseNameAndLessonId); //To get the Notes By Course and Lesson

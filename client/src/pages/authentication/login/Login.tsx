@@ -30,6 +30,7 @@ import { ITrainee } from '@/interfaces/course.interface';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 import { toastOptions } from '@/components/toast/options';
+import { UseTraineeNoteStoreSetNotes } from '@/store/noteStore';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
@@ -44,6 +45,9 @@ function Login() {
       user: IUser;
     }>
   >();
+
+  const useTraineeNoteStoreSetNotes = UseTraineeNoteStoreSetNotes();
+
   const updateCountry = UpdateCountry();
 
   const useSetUser = UseSetUser();
@@ -81,6 +85,7 @@ function Login() {
         if (role === Role.TRAINEE) {
           useCartStoreSetCart((user as ITrainee)?._cart);
           useWishListSetCart((user as ITrainee)?._wishlist);
+          useTraineeNoteStoreSetNotes((user as ITrainee)?.notes);
         }
         //session
         SessionStorage.set('accessToken', token.accessToken);

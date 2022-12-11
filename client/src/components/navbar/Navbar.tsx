@@ -16,6 +16,7 @@ import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
 import './Navbar.scss';
+import toSmallNumber from '@/utils/toSmallNumber';
 
 function NavbarComponent() {
   const country = UseCountry();
@@ -74,6 +75,16 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+                  {user.role.toLocaleLowerCase() !==
+                    Role.ADMIN.toLocaleLowerCase() &&
+                    user?.balance && (
+                      <Link
+                        className='user__balance balance__title'
+                        to={`${user.role.toLocaleLowerCase()}/balance`}
+                      >
+                        $ {toSmallNumber(user.balance)}
+                      </Link>
+                    )}
                   <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                     <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
                       {user.name}
