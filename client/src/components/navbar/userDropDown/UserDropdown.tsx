@@ -15,7 +15,7 @@ function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
   const useUserStoreLogOut = UseUserStoreLogOut();
- // const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
+  // const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
   const user = UseUser();
   function logout() {
     useUserStoreLogOut();
