@@ -63,7 +63,10 @@ function MenuHeadersExample() {
               </NavDropdown.Item>
               <hr />
               <NavDropdown.Item>
-                <NavLink style={{ color: 'inherit' }} to='/setiings'>
+                <NavLink
+                  style={{ color: 'inherit' }}
+                  to={`/${user.role}/profile`}
+                >
                   <IoSettingsOutline className={styles.nav__icon} /> Settings
                 </NavLink>
               </NavDropdown.Item>{' '}

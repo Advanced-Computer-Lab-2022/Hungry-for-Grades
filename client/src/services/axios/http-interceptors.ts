@@ -7,7 +7,7 @@ import axios, {
 
 import SessionStorage from '../sessionStorage/SessionStorage';
 
-import LocalStorage from '@services/localStorage/LocalStorage';
+import { removeInfo } from '../savedInfo/SavedInfo';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -17,12 +17,9 @@ let http: AxiosInstance;
 
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   const accessToken = SessionStorage.get<string | null>('accessToken');
-  console.log('accessToken');
-  console.log(accessToken);
 
   if (accessToken) {
     const authorization = `Bearer ${accessToken}`;
-
     config.headers.Authorization = authorization;
   }
   return config;
@@ -59,20 +56,8 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
-  const refreshToken = LocalStorage.get('refreshToken');
-  const oldAccessToken = SessionStorage.get('accessToken');
-  if (!refreshToken) {
-    if (oldAccessToken) {
-      return Promise.resolve(error);
-    } else {
-      LocalStorage.remove('refreshToken');
-      SessionStorage.remove('accessToken');
-      window.location.replace(loginRoute);
-    }
-  }
   if (
     error.response &&
-    refreshToken &&
     error.response.status === 401 &&
     error.response.data
     //error.response.data?.error !== null &&
@@ -85,29 +70,20 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
         const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
           withCredentials: true
         });
-        console.log('res');
-        console.log(res.data.data);
-
         const { accessToken }: { accessToken: string } = res.data.data as {
           accessToken: string;
         };
-        window.location.reload();
-        SessionStorage.set('accessToken', accessToken);
+        SessionStorage.set<string>('accessToken', accessToken);
         prevRequest.headers.Authorization = `Bearer ${accessToken}`;
+        window.location.reload();
         await http(prevRequest);
       } else {
-        LocalStorage.remove('_TOKEN');
-        LocalStorage.remove('role');
-        SessionStorage.remove('accessToken');
+        removeInfo();
         window.location.replace(loginRoute);
         return await Promise.reject(error);
       }
     } catch (_error) {
-      console.log('_error');
-      console.log(_error);
-      LocalStorage.remove('_TOKEN');
-      LocalStorage.remove('role');
-      SessionStorage.remove('accessToken');
+      removeInfo();
       window.location.replace(loginRoute);
 
       return Promise.reject(_error);

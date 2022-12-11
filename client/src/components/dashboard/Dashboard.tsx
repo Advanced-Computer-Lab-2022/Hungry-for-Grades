@@ -18,7 +18,7 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
           <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
             <div className='d-flex flex-row justify-content-between'>
               <div className={styles.mylearning}>{title}</div>
-              {media}
+              <div>{media}</div>
             </div>
             <div className={styles.list}>
               {Object.keys(navLinks).map((key: string) => (

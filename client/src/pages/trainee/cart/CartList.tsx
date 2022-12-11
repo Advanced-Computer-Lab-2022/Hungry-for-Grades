@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
@@ -20,8 +19,7 @@ import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
-async function getCart(country: string, activePage: number, user : IUser) {
-  
+async function getCart(country: string, activePage: number, user: IUser) {
   const Courses = TraineeRoutes.GET.getMyCart;
 
   Courses.URL = `/trainee/${encodeURIComponent(user?._id)}/cart`;
@@ -49,7 +47,6 @@ function getOriginalPrice(
 }
 
 export default function CartList() {
-
   const user = UseUser();
 
   const [activePage, setActivePage] = useState(1);
@@ -69,9 +66,14 @@ export default function CartList() {
     }
   );
 
-  if(isError || error)
-  {
-    return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
+  if (isError || error) {
+    return (
+      <ErrorMessage
+        errorMessage='an Error has occurred'
+        link='/report'
+        linkTitle='Report your problem'
+      />
+    );
   }
 
   function updateNum() {
@@ -86,39 +88,36 @@ export default function CartList() {
     return <LoaderComponent /> ;
   }
 
-  const cart =
-    data?.data?.data;
+  const cart = data?.data?.data;
 
   let currency = '';
 
-  const toShow = cart?.map(
-    (course : ICourse) => {
-      const oldd : number| undefined = getOriginalPrice(
-        course?.price?.currentValue,
-        course?.price?.discounts
-      );
-      currency = course.price.currency;
-      return (
-        <>
-          <CartCard
-            key={course?._id}
-            category={course?.category}
-            currency={course?.price?.currency}
-            discount={course?.price?.discounts}
-            id={course?._id}
-            img={course?.thumbnail}
-            old={oldd}
-            passedFunction={updateNum}
-            passedFunction2={updateActiveOnDelete}
-            price={course?.price.currentValue}
-            rating={course?.rating.averageRating}
-            subcategory={course?.subcategory.at(0) as string}
-            title={course.title}
-          />
-        </>
-      );
-    }
-  );
+  const toShow = cart?.map((course: ICourse) => {
+    const oldd: number | undefined = getOriginalPrice(
+      course?.price?.currentValue,
+      course?.price?.discounts
+    );
+    currency = course.price.currency;
+    return (
+      <>
+        <CartCard
+          key={course?._id}
+          category={course?.category}
+          currency={course?.price?.currency}
+          discount={course?.price?.discounts}
+          id={course?._id}
+          img={course?.thumbnail}
+          old={oldd}
+          passedFunction={updateNum}
+          passedFunction2={updateActiveOnDelete}
+          price={course?.price.currentValue}
+          rating={course?.rating.averageRating}
+          subcategory={course?.subcategory.at(0) as string}
+          title={course.title}
+        />
+      </>
+    );
+  });
 
   return (
     <div
@@ -149,7 +148,7 @@ export default function CartList() {
           <div style={{ marginLeft: 'auto' }}>
             <Pagination
               activePage={activePage}
-              pages={data?.data?.totalPages as number}
+              pages={data?.data?.totalPages}
               setActivePage={setActivePage}
             />
           </div>
@@ -194,4 +193,3 @@ export default function CartList() {
     </div>
   );
 }
-

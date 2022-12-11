@@ -1,44 +1,8 @@
-.hero {
-  background-color: #1c1d1f;
-  width: 100%;
-  font-family: SuisseWorks, Georgia, Times, times new roman, serif,
-    apple color emoji, segoe ui emoji, segoe ui symbol;
-  padding-top: 2rem;
-}
-
-.mylearning {
-  font-weight: 700;
-  font-size: 2.5rem;
-  color: white;
-  margin-bottom: 1.5rem;
-  display: inline-block;
-  margin-right: 40%;
-}
-
-.list {
-  display: flex;
-  flex-direction: row;
-}
-
-.listitem {
-  font-size: 1.1rem;
-  color: white;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  cursor: pointer;
-}
-
-.listitem:hover {
-  color: #d1d7dc;
-}
-
-.add_course
-{
-  background-color: white;
-  border: #1c1d1f;
-  color:#1c1d1f;
-  font-family: SuisseWorks, Georgia, Times, times new roman, serif,
-    apple color emoji, segoe ui emoji, segoe ui symbol;
+.add_course {
+    background-color: white;
+    border: #1c1d1f;
+    color: #1c1d1f;
+    font-family: SuisseWorks, Georgia, Times, times new roman, serif, apple color emoji, segoe ui emoji, segoe ui symbol;
     font-weight: 600;
     width: auto;
     border-color: #A00407;
