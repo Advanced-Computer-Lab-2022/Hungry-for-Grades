@@ -7,6 +7,8 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
+import {ReportDataService} from './dataServices/ReportDataService';
+
 /**
  * HTTP methods
  */
@@ -40,6 +42,8 @@ export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
 export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof NewsLetterRoutes[T][keyof Partial<typeof NewsLetterRoutes[T]>];
 
+export type ReportRouteType = typeof ReportDataService['POST'];
+
 /**
  * All GET routes that are available for the  data service
  */
@@ -58,7 +62,8 @@ export type POSTRoutesType =
   | AuthRoutesType<'POST'>
   | TraineeRouteType<'POST'>
   | NewsLetterRouteType<'POST'>
-  | InstructorRouteType<'POST'>;
+  | InstructorRouteType<'POST'>
+  | ReportRouteType;
 
 /**
  * All Delete Requests

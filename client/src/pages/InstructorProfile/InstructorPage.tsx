@@ -115,7 +115,7 @@ export default function InstructorPage() {
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
-              <div className={styles.value}>554,468</div>
+              <div className={styles.value}>{Instructor?.rating?.reviews?.length > 0 ? Instructor?.rating?.reviews?.length:0}</div>
             </div>
           </div>
 
