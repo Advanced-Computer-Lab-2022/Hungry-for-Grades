@@ -13,9 +13,10 @@ import { UseUserIsAuthenticated, UseSetUser } from '@store/userStore';
 import { UseCartStoreSetCart } from '@/store/cartStore';
 import { UseWishListSetCart } from '@/store/wishListStore';
 import { UpdateCountry } from '@/store/countryStore';
-import LocalStorage from '@/services/localStorage/LocalStorage';
 import { Role } from '@/enums/role.enum';
 import { ITrainee } from '@/interfaces/course.interface';
+
+import { removeInfo } from '@services/savedInfo/SavedInfo';
 
 //let effectOnce = 0;
 
@@ -52,10 +53,7 @@ function ProtectedRoutes() {
   const location = useLocation();
 
   if (isError || error) {
-    LocalStorage.remove('token');
-    LocalStorage.remove('role');
-    LocalStorage.remove('user');
-
+    removeInfo();
     return <Navigate replace state={{ from: location }} to='/auth/login' />;
   }
 

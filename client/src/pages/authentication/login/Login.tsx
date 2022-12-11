@@ -35,8 +35,7 @@ function Login() {
   const {
     data,
     mutateAsync: login,
-    isError,
-    error
+    isError
   } = usePostQuery<
     HttpResponse<{
       firstLogin: boolean;

@@ -4,24 +4,12 @@ import styles from './dashboard.module.scss';
 
 import { type DashboardPropsType } from './types';
 
-import Music from '@/components/mediaPlayer/Music';
-import { Role } from '@/enums/role.enum';
-
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
     styles.listitem ?? ''
   }`;
 }
 
-/* const navLinks = {
-  Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
-  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
-  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
-  Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
-  Notes: { path: '/trainee/notes', icon: <BiNote /> },
-  Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
-  Profile: { path: '/trainee/profile', icon: <FiUser /> }
-}; */
 function Dashboard({ navLinks, title, media }: DashboardPropsType) {
   return (
     <>

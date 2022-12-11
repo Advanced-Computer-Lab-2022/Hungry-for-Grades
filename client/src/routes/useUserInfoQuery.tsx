@@ -13,7 +13,9 @@ async function userInfoRequest() {
   const getUserInfo = Object.assign({}, TraineeRoutes.GET.getTrainee);
   getUserInfo.URL = `/user/info`;
 
-  return getRequest<HttpResponse<(IInstructor | ITrainee | IUser) & { role: Role }>>(getUserInfo);
+  return getRequest<
+    HttpResponse<(IInstructor | ITrainee | IUser) & { role: Role }>
+  >(getUserInfo);
 }
 
 function useUserInfoQuery(enable: boolean) {
