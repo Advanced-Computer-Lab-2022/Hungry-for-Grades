@@ -1,10 +1,19 @@
 import Select from 'react-select';
 
+import { toast } from 'react-toastify';
+
 import Modal from '../modal/Modal';
+
+import { toastOptions } from '../toast/options';
 
 import useValidation from './useValidation';
 
+
 import { UseUser } from '@store/userStore';
+
+import usePostQuery from '@/hooks/usePostQuery';
+import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
+import { POSTRoutesType } from '@/services/axios/types';
 
 function ReportForm() {
   const { formik } = useValidation();
@@ -14,6 +23,34 @@ function ReportForm() {
     { label: 'Financial', value: 'Financial' },
     { label: 'Other', value: 'Other' }
   ];
+
+  const {  mutateAsync: submitReport } = usePostQuery();
+
+
+
+  async function clickSubmit(res : string, des : string)
+  {
+    const Courses  = ReportDataService.POST.makeReport;
+
+    Courses.payload = {
+      _course:'63933df8be2be796734ce16d',
+      _user : useUser?._id,
+      description : des,
+      reason : res,
+      status : 'Pending'
+    }
+
+    const response = await submitReport(Courses as POSTRoutesType);
+
+    console.log(response);
+
+    toast.success(
+      'Report is Sent Successfully...',
+      toastOptions
+    );
+
+
+  }
 
   return useUser?._id ? (
     <>
@@ -40,7 +77,8 @@ function ReportForm() {
         isDelete={false}
         onDone={async function onDone() {
           await formik.submitForm();
-          // husssein yasser
+          // husssein yasser when ahmed wahba adjust the course id back from null we should adjust the hardcoded course id above
+            void clickSubmit(formik.values.reason, formik.values.description);
         }}
       >
         <div className='row'>

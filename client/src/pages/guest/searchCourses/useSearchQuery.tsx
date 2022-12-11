@@ -38,7 +38,7 @@ async function searchRequest(
     {},
     CoursesRoutes.GET.getCoursesSearchFilter
   );
-  const searchQuery = `category=${filters.category.trim()}
+  const searchQuery = `category=${filters.category}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
 	&priceLow=${
@@ -50,10 +50,10 @@ async function searchRequest(
 	&sortBy=${filters.sortBy}
 	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
 	&durationHigh=${filters.durationHigh * 24 * 30}
-	&country=${filters.country.trim()}
+	&country=${filters.country}
 	&limit=${18}
 	&page=${page}
-	&searchTerm=${filters.searchTerm.trim()}
+	&searchTerm=${filters.searchTerm}
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
   //	const [searchParams] = useSearchParams();

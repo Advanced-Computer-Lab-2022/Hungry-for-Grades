@@ -17,6 +17,7 @@ import { PaginatedResponse } from '@/interfaces/response.interface';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 async function getCart(country: string, activePage: number, user: IUser) {
   const Courses = TraineeRoutes.GET.getMyCart;
@@ -84,7 +85,7 @@ export default function CartList() {
   }
 
   if (isLoading) {
-    return <>Loading </>;
+    return <LoaderComponent /> ;
   }
 
   const cart = data?.data?.data;
