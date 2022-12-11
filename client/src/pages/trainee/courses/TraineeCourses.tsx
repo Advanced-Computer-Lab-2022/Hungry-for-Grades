@@ -19,7 +19,7 @@ export default function MyCourses() {
   const user = UseUser();
 
   const { data, isLoading, activePage, setActivePage, isError, error } =
-    useCoursesQuery();
+    useCoursesQuery(user as IUser);
 
   if (isLoading)
     return (
@@ -31,7 +31,7 @@ export default function MyCourses() {
     if (isError || error || data?.data?.data == null) {
       return <ErrorMessage errorMessage='You Dont have any courses Yet' link='youtube.com' linkTitle={'Go Check some courses now'}/>;
     }
-  if (isError || error || data?.data?.data?.data == null) {
+  if (isError || error || data?.data?.data == null) {
     return (
       <ErrorMessage
         errorMessage='You Dont have any courses Yet'
@@ -41,10 +41,6 @@ export default function MyCourses() {
     );
   }
 
-  if(data?.data?.success === false)
-  {
-    return <ErrorMessage errorMessage={data?.data?.message} />
-  }
 
   if (Boolean(data?.data?.success) === false) {
     return <ErrorMessage errorMessage={data?.data?.message} />;
