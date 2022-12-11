@@ -1,4 +1,5 @@
 interface PaginatedResponse<T> {
+  [x: string]: any;
   data: T[];
   message: string;
   page: number;

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
@@ -13,20 +13,26 @@ import { getRequest } from '@/services/axios/http-verbs';
 
 import { UseCountry } from '@/store/countryStore';
 import Pagination from '@/components/pagination/Pagination';
+import { CourseDiscount, ICourse } from '@/interfaces/course.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
+import { IUser } from '@/interfaces/user.interface';
 
-async function getCart(country: string, activePage: number) {
+async function getCart(country: string, activePage: number, user : IUser) {
+  
   const Courses = TraineeRoutes.GET.getMyCart;
 
-  Courses.URL = '/trainee/637969352c3f71696ca34759/cart';
+  Courses.URL = `/trainee/${encodeURIComponent(user?._id)}/cart`;
 
   Courses.query = `country=${country}&limit=${4}&page=${activePage}`;
 
-  return getRequest(Courses);
+  return getRequest<PaginatedResponse<ICourse>>(Courses);
 }
 
 function getOriginalPrice(
   price: number,
-  discounts: object[]
+  discounts: CourseDiscount[]
 ): number | undefined {
   if (!discounts?.length) {
     return undefined;
@@ -38,10 +44,13 @@ function getOriginalPrice(
   if (!discount) {
     return undefined;
   }
-  return (price / (100 - discount.percentage)) * 100;
+  return (price / (100 - discount?.percentage)) * 100;
 }
 
 export default function CartList() {
+
+  const user = UseUser();
+
   const [activePage, setActivePage] = useState(1);
 
   const con = UseCountry();
@@ -50,14 +59,19 @@ export default function CartList() {
 
   const location = useLocation();
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, isError, error } = useQuery(
     ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
-    () => getCart(con, activePage),
+    () => getCart(con, activePage, user as IUser),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
     }
   );
+
+  if(isError || error)
+  {
+    return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
+  }
 
   function updateNum() {
     setWhenDeleteCourse(whenDeleteCourse + 1);
@@ -71,33 +85,33 @@ export default function CartList() {
     return <>Loading </>;
   }
 
-  const cart: typeof TraineeRoutes.GET.getMyCart.response.data =
+  const cart =
     data?.data?.data;
 
   let currency = '';
 
-  const toShow = cart.map(
-    (course: typeof TraineeRoutes.GET.getMyCart.response.data[0]) => {
-      const oldd = getOriginalPrice(
-        course.price.currentValue,
-        course.price.discounts
+  const toShow = cart?.map(
+    (course : ICourse) => {
+      const oldd : number| undefined = getOriginalPrice(
+        course?.price?.currentValue,
+        course?.price?.discounts
       );
       currency = course.price.currency;
       return (
         <>
           <CartCard
-            key={course._id}
-            category={course.category}
-            currency={course.price.currency}
-            discount={course.price.discounts}
-            id={course._id}
-            img={course.thumbnail}
+            key={course?._id}
+            category={course?.category}
+            currency={course?.price?.currency}
+            discount={course?.price?.discounts}
+            id={course?._id}
+            img={course?.thumbnail}
             old={oldd}
             passedFunction={updateNum}
             passedFunction2={updateActiveOnDelete}
-            price={course.price.currentValue}
-            rating={course.rating.averageRating}
-            subcategory={course.subcategory.at(0)}
+            price={course?.price.currentValue}
+            rating={course?.rating.averageRating}
+            subcategory={course?.subcategory.at(0) as string}
             title={course.title}
           />
         </>
@@ -179,3 +193,4 @@ export default function CartList() {
     </div>
   );
 }
+
