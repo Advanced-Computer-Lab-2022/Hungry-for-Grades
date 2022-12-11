@@ -63,7 +63,7 @@ function getCurrentUserID() {
   //alert(id);
   //console.log(id);
   //return id;
-  return '6379620f2c3f71696ca34735';
+  return '637962792c3f71696ca3473c';
 }
 
 async function submitCourse(

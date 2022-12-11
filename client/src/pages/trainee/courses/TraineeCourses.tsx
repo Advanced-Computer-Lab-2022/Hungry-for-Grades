@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 
 import { mapCourseToCardProps } from '../../guest/landing/types';
 
-//import styles from './MyCourses.module.scss';
 import useCoursesQuery from './useCoursesQuery';
 
 import { ICourse } from '@/interfaces/course.interface';
@@ -13,15 +11,14 @@ import CourseCard from '@/components/courseCard/CourseCard';
 import Pagination from '@/components/pagination/Pagination';
 
 import LoaderCards from '@components/loader/loaderCard/LoaderCards';
-import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
+
 export default function MyCourses() {
-  const { data, isLoading, activePage, setActivePage, isError } =
+  const { data, isLoading, activePage, setActivePage, isError, error } =
     useCoursesQuery();
-  if (isError) {
-    return <ErrorMessage />;
-  }
+
 
   if (isLoading)
     return (
@@ -30,16 +27,32 @@ export default function MyCourses() {
       </div>
     );
 
-  const incoming: typeof TraineeRoutes.GET.getMyCourses.response.data =
+    if (isError || error || data?.data?.data?.data == null) {
+      return <ErrorMessage errorMessage='You Dont have any courses Yet' link='youtube.com' linkTitle={'Go Check some courses now'}/>;
+    }
+
+  if(data?.data?.data?.success == false)
+  {
+    return <ErrorMessage errorMessage={data?.data?.data?.message} />
+  }
+
+
+
+  const incoming =
     data?.data?.data;
 
+
+    if(incoming?.totalResults == 0)
+    {
+      return(<div>You Don;t Have any Courses</div>)
+    }
   //console.log(incoming);
 
   //const course : ICourse = incoming[0]?._course;
 
   //console.log(course);
 
-  const toShow = incoming?.map(course => {
+  const toShow = incoming?.map((course: { _course: ICourse; _id: string | null | undefined; progress: number; }) => {
     const tt: ICourse = course._course;
     const courseCardP = mapCourseToCardProps(tt);
     return (
@@ -60,11 +73,11 @@ export default function MyCourses() {
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
-      {data?.totalPages > 1 && (
+      {data?.data?.data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}
-            pages={data?.totalPages as number}
+            pages={data?.data?.data?.totalPages as number}
             setActivePage={setActivePage}
           />
         </div>
