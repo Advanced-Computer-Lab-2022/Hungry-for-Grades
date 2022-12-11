@@ -10,7 +10,7 @@ import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Types } from 'mongoose';
 import courseModel from '@/Course/course.model';
-import { ICourse, Price } from '@/Course/course.interface';
+import { ICourse, Lesson, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
 import CourseService from '@/Course/course.dao';
 
@@ -518,6 +518,23 @@ class TraineeService {
       // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
+  };
+
+  // get trainee's viewed lessons
+  public getTraineeViewedLessons = async (traineeId: string, courseId: string): Promise<Types.ObjectId[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    //get enrolled course
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    //get viewed lessons
+    const viewedLessons = enrolledCourse._visitedLessons;
+    return viewedLessons;
   };
 }
 export default TraineeService;
