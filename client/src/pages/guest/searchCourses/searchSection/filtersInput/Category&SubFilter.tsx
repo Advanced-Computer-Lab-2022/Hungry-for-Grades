@@ -22,7 +22,7 @@ function CategoryFilter(props: SearchSectionProps) {
           isDisabled={isError || isLoading || !data}
           isLoading={isLoading}
           options={
-            data?.map(category => ({
+            data?.data?.map(category => ({
               label: category.label,
               value: category.label
             })) ?? []
@@ -48,8 +48,7 @@ function CategoryFilter(props: SearchSectionProps) {
           }
           isLoading={isLoading}
           options={
-            data
-              ?.find(value => value.label === selectedFilters.category)
+            data?.data?.find(value => value.label === selectedFilters.category)
               ?.subcategory.map(subcategory => ({
                 label: subcategory.label,
                 value: subcategory.label

@@ -1,15 +1,16 @@
+import { AxiosResponse } from 'axios';
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
 import { http } from './http-common';
 import {
-  type DELETERoutesType,
-  //type DELETERoutesType,
-  type GETRoutesType,
-  // type PATCHRoutesType,
-  type POSTRoutesType
-  //type PUTRoutesType
+	type DELETERoutesType,
+	//type DELETERoutesType,
+	type GETRoutesType,
+	// type PATCHRoutesType,
+	type POSTRoutesType
+	//type PUTRoutesType
 } from './types';
 
 /**
@@ -18,33 +19,30 @@ import {
  * @returns a promise - with the response from the server
  */
 export async function getRequest<T>(
-  request: GETRoutesType
-): Promise<T | undefined> {
-  const response = await http.get<T>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
-    }`,
-    { withCredentials: true }
-  );
+	request: GETRoutesType
+): Promise<AxiosResponse<T>> {
+	return http.get<T>(
+		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
+		}`,
+		{ withCredentials: true }
+	);
 
-  return response?.data;
 }
 
 /**
  * POST request
  * @param request - request object
- * @returns a promise with the response from the server
+ * @returns a promise with the respon
+ * se from the server
  */
-export async function postRequest<T>(request: POSTRoutesType): Promise<T> {
-  const response = await http.post<T>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
-    }`,
-    { ...request?.payload },
-    { withCredentials: true }
-  );
+export async function postRequest<T>(request: POSTRoutesType): Promise<AxiosResponse<T>> {
+	return http.post<T>(
+		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
+		}`,
+		{ ...request?.payload },
+		{ withCredentials: true }
+	);
 
-  return response?.data;
 }
 /*
 /**
@@ -66,14 +64,12 @@ export async function postRequest<T>(request: POSTRoutesType): Promise<T> {
  * @param request - request object
  * @returns a promise with the response from the server
  */
-export async function deleteRequest<T>(request: DELETERoutesType) {
-  const response = await http.delete<T>(
-    `${request.URL}${request.params ? '/' + request.params : ''}${
-      request.query ? '?' + request.query : ''
-    }`
-  );
+export async function deleteRequest<T>(request: DELETERoutesType): Promise<AxiosResponse<T>> {
+	return http.delete<T>(
+		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
+		}`
+	);
 
-  return response?.data;
 }
 
 /**
