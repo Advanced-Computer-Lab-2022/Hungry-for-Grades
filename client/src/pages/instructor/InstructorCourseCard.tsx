@@ -12,14 +12,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import styles from './InstructorCourseCard.module.scss';
 
-import { type InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
-
 import { formatCurrency } from '@/utils/currency';
 import { deleteCourse } from '@/services/axios/dataServices/CoursesDataService';
+import { CourseDiscount } from '@/interfaces/course.interface';
+import { ITeachedCourse } from '@/interfaces/instructor.interface';
 
 function getOriginalPrice(
   price: number,
-  discounts: object[]
+  discounts: CourseDiscount[]
 ): number | undefined {
   if (!discounts?.length) {
     return undefined;
@@ -34,9 +34,9 @@ function getOriginalPrice(
   return (price / (100 - discount.percentage)) * 100;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
+
 function InstructorCourseCard(
-  props: typeof InstructorRoutes.GET.getCourses.response.data[0]
+  props : ITeachedCourse
 ) {
   const data = props?._course ?? '';
   const earned = props.earning;

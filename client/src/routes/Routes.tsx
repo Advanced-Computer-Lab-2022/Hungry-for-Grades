@@ -15,7 +15,9 @@ import PublicRoutes from './PublicRoutes';
 import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
+
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
+
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 import AdminHome from '@/pages/admin/home/AdminHome';

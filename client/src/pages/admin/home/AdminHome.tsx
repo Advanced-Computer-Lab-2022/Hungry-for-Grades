@@ -2,7 +2,6 @@
 
 import styles from './table.module.scss';
 
-import Button from '@components/buttons/button/Button';
 
 export default function AdminHome() {
   return (

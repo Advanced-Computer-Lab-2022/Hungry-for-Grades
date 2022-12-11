@@ -13,11 +13,16 @@ import Pagination from '@/components/pagination/Pagination';
 import LoaderCards from '@components/loader/loaderCard/LoaderCards';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
+import { IUser } from '@/interfaces/user.interface';
 
 
 export default function MyCourses() {
+
+  const user = UseUser();
+
   const { data, isLoading, activePage, setActivePage, isError, error } =
-    useCoursesQuery();
+    useCoursesQuery(user as IUser);
 
 
   if (isLoading)
@@ -27,7 +32,7 @@ export default function MyCourses() {
       </div>
     );
 
-    if (isError || error || data?.data?.data?.data == null) {
+    if (isError || error || data?.data?.data == null) {
       return <ErrorMessage errorMessage='You Dont have any courses Yet' link='youtube.com' linkTitle={'Go Check some courses now'}/>;
     }
 

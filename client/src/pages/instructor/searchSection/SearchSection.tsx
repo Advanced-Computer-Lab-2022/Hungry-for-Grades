@@ -1,4 +1,4 @@
-function SearchSection(props) {
+function SearchSection(props: { setSelectedFilters: any; selectedFilters: any; }) {
   const { setSelectedFilters, selectedFilters } = props;
 
   return (
@@ -12,7 +12,7 @@ function SearchSection(props) {
         type='search'
         value={selectedFilters.searchTerm}
         onChange={e => {
-          setSelectedFilters(prev => {
+          setSelectedFilters((prev: any) => {
             return { ...prev, [e.target.name]: e.target.value };
           });
         }}

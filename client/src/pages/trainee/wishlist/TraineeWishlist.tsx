@@ -3,17 +3,21 @@ import { useLocation } from 'react-router-dom';
 import useWishQuery from './UseWishQuery';
 
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
-import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { ICourse } from '@/interfaces/course.interface';
 import { mapCourseToCardProps } from '@/pages/guest/landing/types';
 import CourseCard from '@/components/courseCard/CourseCard';
 import Pagination from '@/components/pagination/Pagination';
+import { UseUser } from '@/store/userStore';
+import { IUser } from '@/interfaces/user.interface';
 
 export default function TraineeWishlist() {
   const location = useLocation();
 
+  const user = UseUser();
+
   const { data, isLoading, activePage, setActivePage } = useWishQuery(
-    location as unknown as Location
+    location as unknown as Location,
+    user as IUser
   );
 
   if (isLoading)
@@ -25,7 +29,7 @@ export default function TraineeWishlist() {
 
   console.log(data?.data?.totalPages);
 
-  const incoming: typeof TraineeRoutes.GET.getMyWishlist.response.data =
+  const incoming =
     data?.data?.data;
 
   const toShow = incoming?.map(course => {
@@ -34,8 +38,8 @@ export default function TraineeWishlist() {
     console.log('Here is a Course');
     console.log(course);
     return (
-      <div key={course.id} className={'col-12 col-md-6 col-lg-4'}>
-        <CourseCard key={course.id} percent={-1} pprops={courseCardP} />
+      <div key={course?._id} className={'col-12 col-md-6 col-lg-4'}>
+        <CourseCard key={course?._id} percent={-1} pprops={courseCardP} enrolled={false} />
       </div>
     );
   });
@@ -45,7 +49,7 @@ export default function TraineeWishlist() {
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
-      {data?.data?.totalPages > 1 && (
+      {data?.data?.totalPages as number > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}

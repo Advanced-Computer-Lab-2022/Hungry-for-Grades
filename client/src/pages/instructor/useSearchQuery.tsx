@@ -10,6 +10,8 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { UseCountry } from '@/store/countryStore';
 
 import { customComparator } from '@/utils/comparator';
+import { ITeachedCourse } from '@/interfaces/instructor.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 
 const id = '637962792c3f71696ca3473c';
 
@@ -57,7 +59,7 @@ async function searchRequest(
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
 
-  return getRequest(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<ITeachedCourse>>(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {
