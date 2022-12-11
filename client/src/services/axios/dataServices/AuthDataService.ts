@@ -15,13 +15,7 @@ export const AuthRoutes = {
       URL: '/refresh' as const,
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: {
-          accessToken: '',
-          refreshToken: ''
-        }
-      }
+      payload: {}
     }
   },
   POST: {
@@ -32,52 +26,19 @@ export const AuthRoutes = {
       payload: {
         email: '',
         username: ''
-      },
-      response: {
-        data: ''
       }
     },
     login: {
       URL: '/login' as const,
       params: '',
       query: '',
-      payload: {},
-      options: {
-        withCredentials: true
-      },
-      response: {
-        data: {
-          accessToken: '',
-          user: {
-            _id: '',
-            active: false,
-            email: {
-              address: '',
-              isValidated: false
-            },
-            name: '',
-            password: '',
-            profileImage: '',
-            username: '',
-            lastLogin: '',
-            __v: 0
-          }
-        }
-      }
+      payload: {}
     },
     logout: {
       URL: '/auth/logout' as const,
       params: '',
       query: '',
-      payload: {},
-      options: {
-        withCredentials: true
-      },
-      response: {
-        data: {
-          accessToken: ''
-        }
-      }
+      payload: {}
     },
     forgetPassword: {
       URL: '/forget' as const,
@@ -85,14 +46,6 @@ export const AuthRoutes = {
       query: '',
       payload: {
         email: ''
-      },
-      options: {
-        withCredentials: true
-      },
-      response: {
-        data: {
-          accessToken: ''
-        }
       }
     },
     changePassword: {
@@ -103,14 +56,6 @@ export const AuthRoutes = {
         _id: '',
         newPassword: '',
         role: ''
-      },
-      options: {
-        withCredentials: true
-      },
-      response: {
-        data: {
-          accessToken: ''
-        }
       }
     }
   }

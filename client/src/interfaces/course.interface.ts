@@ -1,5 +1,7 @@
 import { PaginatedRequest } from './request.interface';
 
+import { ICart } from './cart.interface';
+
 import {
   Address,
   CreditCard,
@@ -164,10 +166,10 @@ export type EnrolledCourse = {
 };
 
 export interface ITrainee extends IUser {
-  _cart?: ICourse[];
+  _cart: ICart[];
   _enrolledCourses?: EnrolledCourse[];
   _lastViewedCourse?: ICourse | string;
-  _wishlist?: ICourse[];
+  _wishlist: ICart[];
   balance: number;
   creditCards: CreditCard[];
   preferredSkills: string[];

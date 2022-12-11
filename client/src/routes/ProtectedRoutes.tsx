@@ -13,6 +13,10 @@ import { UseUserIsAuthenticated, UseSetUser } from '@store/userStore';
 import { UseCartStoreSetCart } from '@/store/cartStore';
 import { UseWishListSetCart } from '@/store/wishListStore';
 import { UpdateCountry } from '@/store/countryStore';
+import { Role } from '@/enums/role.enum';
+import { ITrainee } from '@/interfaces/course.interface';
+
+import { removeInfo } from '@services/savedInfo/SavedInfo';
 
 //let effectOnce = 0;
 
@@ -40,10 +44,18 @@ function ProtectedRoutes() {
     const userData = data?.data?.data;
     useSetUser(userData);
     updateCountry(userData?.country);
-    useCartStoreSetCart(userData?._cart);
-    useWishListSetCart(userData?._wishList);
+    if (userData.role === Role.TRAINEE) {
+      useCartStoreSetCart((userData as ITrainee)?._cart);
+      useWishListSetCart((userData as ITrainee)?._wishlist);
+    }
   }
+
   const location = useLocation();
+
+  if (isError || error) {
+    removeInfo();
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
+  }
 
   /*
   const refresh = useRefreshToken();
@@ -70,10 +82,6 @@ useEffect(() => {
 
   if (useUserIsAuthenticated === null) {
     return <></>;
-  }
-
-  if (isError || error) {
-    return <Navigate replace state={{ from: location }} to='/auth/login' />;
   }
 
   if (useUserIsAuthenticated) {
