@@ -18,8 +18,6 @@ import { ITrainee } from '@/interfaces/course.interface';
 
 import { removeInfo } from '@services/savedInfo/SavedInfo';
 
-//let effectOnce = 0;
-
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const updateCountry = UpdateCountry();

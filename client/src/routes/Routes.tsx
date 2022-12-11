@@ -128,6 +128,9 @@ const LazyAddCorporateTrainee = lazy(
 const LazyDiscounts = lazy(
   () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
 );
+const LazyAdminDashboard = lazy(
+  () => import('@/pages/admin/dashboard/AdminDashboard')
+);
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -246,18 +249,21 @@ function AllRoutes() {
             path='change-password'
           />
         </Route>
-      </Route>
 
-      {/* Admin Routes */}
-      <Route element={<AdminRoutes />} path='admin'>
-        <Route element={<div />} path='dashboard' />
-        <Route element={<LazyAddInstructor />} path='add-instructor' />
-        <Route element={<LazyAddAdmin />} path='add-admin' />
-        <Route
-          element={<LazyAddCorporateTrainee />}
-          path='add-corporatetrainee'
-        />
-        <Route element={<LazyUserProfile />} path='profile' />
+        {/* Admin Routes */}
+        <Route element={<AdminRoutes />} path='admin'>
+          {/* Admin Dashboard */}
+          <Route element={<LazyAdminDashboard />}>
+            <Route element={<div />} path='dashboard' />
+          </Route>
+          <Route element={<LazyAddInstructor />} path='add-instructor' />
+          <Route element={<LazyAddAdmin />} path='add-admin' />
+          <Route
+            element={<LazyAddCorporateTrainee />}
+            path='add-corporatetrainee'
+          />
+          <Route element={<LazyUserProfile />} path='profile' />
+        </Route>
       </Route>
 
       {/*Guest Routes */}
