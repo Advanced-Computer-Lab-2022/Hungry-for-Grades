@@ -48,7 +48,8 @@ function CategoryFilter(props: SearchSectionProps) {
           }
           isLoading={isLoading}
           options={
-            data?.data?.find(value => value.label === selectedFilters.category)
+            data?.data
+              ?.find(value => value.label === selectedFilters.category)
               ?.subcategory.map(subcategory => ({
                 label: subcategory.label,
                 value: subcategory.label

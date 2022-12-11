@@ -5,12 +5,12 @@ import { AxiosResponse } from 'axios';
 
 import { http } from './http-common';
 import {
-	type DELETERoutesType,
-	//type DELETERoutesType,
-	type GETRoutesType,
-	// type PATCHRoutesType,
-	type POSTRoutesType
-	//type PUTRoutesType
+  type DELETERoutesType,
+  //type DELETERoutesType,
+  type GETRoutesType,
+  // type PATCHRoutesType,
+  type POSTRoutesType
+  //type PUTRoutesType
 } from './types';
 
 /**
@@ -19,14 +19,14 @@ import {
  * @returns a promise - with the response from the server
  */
 export async function getRequest<T>(
-	request: GETRoutesType
+  request: GETRoutesType
 ): Promise<AxiosResponse<T>> {
-	return http.get<T>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
-		}`,
-		{ withCredentials: true }
-	);
-
+  return http.get<T>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
+    { withCredentials: true }
+  );
 }
 
 /**
@@ -35,14 +35,16 @@ export async function getRequest<T>(
  * @returns a promise with the respon
  * se from the server
  */
-export async function postRequest<T>(request: POSTRoutesType): Promise<AxiosResponse<T>> {
-	return http.post<T>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
-		}`,
-		{ ...request?.payload },
-		{ withCredentials: true }
-	);
-
+export async function postRequest<T>(
+  request: POSTRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.post<T>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
+    { ...request?.payload },
+    { withCredentials: true }
+  );
 }
 /*
 /**
@@ -64,12 +66,14 @@ export async function postRequest<T>(request: POSTRoutesType): Promise<AxiosResp
  * @param request - request object
  * @returns a promise with the response from the server
  */
-export async function deleteRequest<T>(request: DELETERoutesType): Promise<AxiosResponse<T>> {
-	return http.delete<T>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${request.query ? '?' + request.query : ''
-		}`
-	);
-
+export async function deleteRequest<T>(
+  request: DELETERoutesType
+): Promise<AxiosResponse<T>> {
+  return http.delete<T>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`
+  );
 }
 
 /**
