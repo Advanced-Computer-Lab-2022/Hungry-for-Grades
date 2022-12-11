@@ -1,5 +1,7 @@
 import { PaginatedRequest } from './request.interface';
 
+import { ICart } from './cart.interface';
+
 import {
   Address,
   CreditCard,
@@ -10,7 +12,6 @@ import {
 } from '@/interfaces/user.interface';
 
 import { Level } from '@/enums/level.enum';
-import { ICart } from './cart.interface';
 
 //import { PaginatedResponse } from './response.interface';
 
