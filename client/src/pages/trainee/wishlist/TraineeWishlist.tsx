@@ -29,8 +29,7 @@ export default function TraineeWishlist() {
 
   console.log(data?.data?.totalPages);
 
-  const incoming =
-    data?.data?.data;
+  const incoming = data?.data?.data;
 
   const toShow = incoming?.map(course => {
     const tt: ICourse = course;
@@ -39,7 +38,12 @@ export default function TraineeWishlist() {
     console.log(course);
     return (
       <div key={course?._id} className={'col-12 col-md-6 col-lg-4'}>
-        <CourseCard key={course?._id} percent={-1} pprops={courseCardP} enrolled={false} />
+        <CourseCard
+          key={course?._id}
+          percent={-1}
+          pprops={courseCardP}
+          enrolled={false}
+        />
       </div>
     );
   });
@@ -49,7 +53,7 @@ export default function TraineeWishlist() {
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
-      {data?.data?.totalPages as number > 1 && (
+      {(data?.data?.totalPages as number) > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}

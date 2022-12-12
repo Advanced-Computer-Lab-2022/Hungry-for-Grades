@@ -7,7 +7,7 @@ import { IUser } from '@/interfaces/user.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
 import { ICourse } from '@/interfaces/course.interface';
 
-async function getCourses(activePage: number, user : IUser) {
+async function getCourses(activePage: number, user: IUser) {
   const Courses = TraineeRoutes.GET.getMyWishlist;
 
   Courses.URL = `trainee/${user?._id}/wishlist`;
@@ -17,7 +17,7 @@ async function getCourses(activePage: number, user : IUser) {
 
   return getRequest<PaginatedResponse<ICourse>>(Courses);
 }
-const useWishQuery = (location: Location, user : IUser) => {
+const useWishQuery = (location: Location, user: IUser) => {
   const [activePage, setActivePage] = useState<number>(1);
 
   return {

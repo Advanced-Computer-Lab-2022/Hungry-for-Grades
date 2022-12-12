@@ -12,6 +12,7 @@ import TraineeRoute from './Trainee/trainee.route';
 import NewsLetterRoute from './NewsLetter/newsletter.route';
 import UserRoute from './User/user.route';
 import ReportRoute from './Report/report.route';
+import PaymentRoute from './Payment/payment.route';
 
 // validate environment variables
 validateEnv();
@@ -26,6 +27,7 @@ try {
     new NewsLetterRoute(),
     new UserRoute(),
     new ReportRoute(),
+    new PaymentRoute(),
   ]);
 
   (async function connectToDatabase() {

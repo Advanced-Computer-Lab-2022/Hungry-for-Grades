@@ -34,10 +34,7 @@ function getOriginalPrice(
   return (price / (100 - discount.percentage)) * 100;
 }
 
-
-function InstructorCourseCard(
-  props : ITeachedCourse
-) {
+function InstructorCourseCard(props: ITeachedCourse) {
   const data = props?._course ?? '';
   const earned = props.earning;
   const photo = data?.thumbnail ?? '';

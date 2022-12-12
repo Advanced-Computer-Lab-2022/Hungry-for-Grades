@@ -76,9 +76,14 @@ export default function CartList() {
     );
   }
 
-  if(!data?.data.success) 
-  {
-    return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
+  if (!data?.data.success) {
+    return (
+      <ErrorMessage
+        errorMessage='an Error has occurred'
+        link='/report'
+        linkTitle='Report your problem'
+      />
+    );
   }
 
   function updateNum() {
@@ -90,7 +95,7 @@ export default function CartList() {
   }
 
   if (isLoading) {
-    return <LoaderComponent /> ;
+    return <LoaderComponent />;
   }
 
   const cart = data?.data?.data;
