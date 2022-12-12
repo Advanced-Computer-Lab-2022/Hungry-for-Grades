@@ -10,14 +10,23 @@ import { NavLink, Link } from 'react-router-dom';
 
 import styles from './UserDropdown.module.scss';
 
+import { UseTraineeNoteStoreNotes } from '@store/noteStore';
+import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
+
 import { UseUserStoreLogOut, UseUser } from '@store/userStore';
+import { postRequest } from '@/services/axios/http-verbs';
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
   const useUserStoreLogOut = UseUserStoreLogOut();
-  // const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
+  const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
   const user = UseUser();
-  function logout() {
+  async function logout() {
+    const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
+    storeNotes.payload = {
+      notes: useTraineeNoteStoreNotes
+    };
+    await postRequest(storeNotes);
     useUserStoreLogOut();
   }
   return (

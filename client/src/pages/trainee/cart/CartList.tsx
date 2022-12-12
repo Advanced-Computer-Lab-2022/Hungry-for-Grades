@@ -76,6 +76,11 @@ export default function CartList() {
     );
   }
 
+  if(!data?.data.success) 
+  {
+    return <ErrorMessage errorMessage='an Error has occurred' link='/report' linkTitle='Report your problem'/>;
+  }
+
   function updateNum() {
     setWhenDeleteCourse(whenDeleteCourse + 1);
   }
@@ -85,7 +90,7 @@ export default function CartList() {
   }
 
   if (isLoading) {
-    return <LoaderComponent /> ;
+    return <LoaderComponent />;
   }
 
   const cart = data?.data?.data;

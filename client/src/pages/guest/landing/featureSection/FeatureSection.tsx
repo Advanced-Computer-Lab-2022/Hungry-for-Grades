@@ -9,9 +9,21 @@ function FeatureSection() {
             <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
               <div className='features-item'>
                 <div className='features-icon'>
-                  <h2>01</h2>
+                  <h2
+                    style={{
+                      zIndex: '-1'
+                    }}
+                  >
+                    01
+                  </h2>
                   <img alt='' src='/features-icon-1.png' />
-                  <h4>Trend Analysis</h4>
+                  <h4
+                    style={{
+                      zIndex: 99999
+                    }}
+                  >
+                    Trend Analysis
+                  </h4>
                   <p>
                     Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
                     diam, nec consectetur diam.

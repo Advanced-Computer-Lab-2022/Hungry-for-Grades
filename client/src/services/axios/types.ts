@@ -7,7 +7,7 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
-import {ReportDataService} from './dataServices/ReportDataService';
+import { ReportDataService } from './dataServices/ReportDataService';
 
 /**
  * HTTP methods
@@ -29,10 +29,6 @@ export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
   typeof AdminRoutes['POST']
 >];
 
-export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
-  typeof CoursesRoutes['GET']
->];
-
 export type InstructorRouteType<T extends 'GET' | 'POST'> =
   typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
@@ -44,12 +40,14 @@ export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
 
 export type ReportRouteType<T extends 'GET'|'POST'> = typeof ReportDataService[T][keyof Partial<typeof ReportDataService[T]>];
 
+export type CourseRouteType<T extends 'GET' | 'POST' | 'PUT' | 'DELETE'> =
+  typeof CoursesRoutes[T][keyof Partial<typeof CoursesRoutes[T]>];
 /**
  * All GET routes that are available for the  data service
  */
 export type GETRoutesType =
   | CategoryRouteType
-  | CoursesRoutesType
+  | CourseRouteType<'GET'>
   | InstructorRouteType<'GET'>
   | AuthRoutesType<'GET'>
   | TraineeRouteType<'GET'>
@@ -72,11 +70,13 @@ export type POSTRoutesType =
 
 export type DELETERoutesType =
   | TraineeRouteType<'DELETE'>
-  | NewsLetterRouteType<'DELETE'>;
+  | NewsLetterRouteType<'DELETE'>
+  | CourseRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
  */
-export type PUTRoutesType = null;
+export type PUTRoutesType = 
+| CourseRouteType<'PUT'>;
 export type PATCHRoutesType = null;
 //export type DELETERoutesType = null;
