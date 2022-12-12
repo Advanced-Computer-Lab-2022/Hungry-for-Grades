@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
 import { AiFillLinkedin, AiFillGithub, AiFillYoutube } from 'react-icons/ai';
 
@@ -22,12 +21,19 @@ import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataSe
 
 import { getRequest } from '@/services/axios/http-verbs';
 
+import { HttpResponse } from '@/interfaces/response.interface';
+
+import { IInstructor } from '@/interfaces/instructor.interface';
+
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+
 async function getInstructor(id: string) {
+
   const Inst = InstructorRoutes.GET.getInstructor;
 
   Inst.params = id;
 
-  return getRequest(Inst);
+  return getRequest<HttpResponse<IInstructor>>(Inst);
 }
 
 export default function InstructorPage() {
@@ -46,7 +52,12 @@ export default function InstructorPage() {
 
   const Instructor = data?.data?.data;
 
-  if (isLoading) return <Loader />;
+  if(Instructor == undefined)
+  {
+    return <ErrorMessage errorMessage={data?.data?.message} />
+  }
+
+  if (isLoading ) return <Loader />;
 
   return (
     <div className={styles.page}>
@@ -104,7 +115,7 @@ export default function InstructorPage() {
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
-              <div className={styles.value}>554,468</div>
+              <div className={styles.value}>{Instructor?.rating?.reviews?.length > 0 ? Instructor?.rating?.reviews?.length:0}</div>
             </div>
           </div>
 

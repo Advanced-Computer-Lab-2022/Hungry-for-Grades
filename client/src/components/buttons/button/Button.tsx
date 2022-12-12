@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 import { toast } from 'react-toastify';
 
@@ -10,13 +9,13 @@ import { type ButtonProps } from './types';
 import { toastOptions } from '@components/toast/options';
 
 function Button(props: ButtonProps) {
-  const id = props.id || uuidv4();
+  const id = props.id;
   const [isLoading, setIsLoading] = useState(false);
   return (
     <button
       className={`btn ${props.className ?? styles.button ?? ''} ${
         styles[props.backgroundColor] ?? ''
-      } }`}
+      } ${styles.button ?? ''}}`}
       disabled={props.isDisabled}
       id={id}
       name={props.name}

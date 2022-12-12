@@ -17,11 +17,10 @@ import { Role } from '@/enums/role.enum';
 import { ITrainee } from '@/interfaces/course.interface';
 
 import { removeInfo } from '@services/savedInfo/SavedInfo';
-
-//let effectOnce = 0;
-
+import { UseTraineeNoteStoreSetNotes } from '@store/noteStore';
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
+  const useTraineeNoteStoreSetNotes = UseTraineeNoteStoreSetNotes();
   const updateCountry = UpdateCountry();
 
   const { isLoading, isError, data, error } = useUserInfoQuery(
@@ -42,44 +41,33 @@ function ProtectedRoutes() {
     data.data.data
   ) {
     const userData = data?.data?.data;
+
+    console.log('userData');
+    console.log(userData);
     useSetUser(userData);
-    updateCountry(userData?.country);
-    if (userData.role === Role.TRAINEE) {
+    if (userData.country) {
+      updateCountry(userData?.country);
+    }
+    if (
+      userData.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()
+    ) {
       useCartStoreSetCart((userData as ITrainee)?._cart);
       useWishListSetCart((userData as ITrainee)?._wishlist);
+      console.log((userData as ITrainee)?.notes);
+      useTraineeNoteStoreSetNotes((userData as ITrainee)?.notes);
     }
   }
 
   const location = useLocation();
 
-  if (isError || error) {
-    removeInfo();
-    return <Navigate replace state={{ from: location }} to='/auth/login' />;
-  }
-
-  /*
-  const refresh = useRefreshToken();
-
-useEffect(() => {
-     if (effectOnce === 0) {
-      refresh()
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-       		if (!access) {
-			return <Navigate replace state={{ from: location }} to='/auth/login' />;
-		}
-      effectOnce = 1;
-    }
-  }, [refresh]); */
-
   if (isLoading && !data && !useUserIsAuthenticated) {
     return <Loader />;
   }
 
+  if (isError || error) {
+    removeInfo();
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
+  }
   if (useUserIsAuthenticated === null) {
     return <></>;
   }

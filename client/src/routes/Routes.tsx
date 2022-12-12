@@ -15,7 +15,9 @@ import PublicRoutes from './PublicRoutes';
 import TraineeRoutes from './TraineeRoutes';
 
 import Error from '@/components/error/page/Error';
+
 import { NoteLayout } from '@pages/trainee/note/NoteLayout';
+
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 import AdminHome from '@/pages/admin/home/AdminHome';
@@ -112,6 +114,9 @@ const LazyInstructorChangePassword = lazy(
       '@/pages/InstructorProfile/edit-profile/change-password/ChangePassword'
     )
 );
+const LazyInstructorDashboard = lazy(
+  () => import('@/pages/instructor/dashboard/InstructorDashboard')
+);
 /**
  * Admin Pages
  */
@@ -122,6 +127,9 @@ const LazyAddCorporateTrainee = lazy(
 );
 const LazyDiscounts = lazy(
   () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
+);
+const LazyAdminDashboard = lazy(
+  () => import('@/pages/admin/dashboard/AdminDashboard')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -135,6 +143,16 @@ const roles = ['/trainee/', '/admin/', '/instructor/'];
 function AllRoutes() {
   return (
     <Routes>
+      {/* Authentication Routes  */}
+      <Route element={<AuthRoutes />} path='/auth'>
+        <Route element={<LazyLogin />} path='login' />
+        <Route element={<LazySignup />} path='signup' />
+        <Route element={<LazyForgotPassword />} path='forgot-password' />
+        <Route
+          element={<LazyChangePassword />}
+          path='change-password/:userId'
+        />
+      </Route>
       <Route element={<ProtectedRoutes />}>
         {roles.map((path, index) => (
           <Route
@@ -171,7 +189,7 @@ function AllRoutes() {
             element={<LazyTraineeViewCourse />}
             path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
           />
-
+          {/* Trainee Dashboard */}
           <Route element={<LazyTraineeDashboard />}>
             <Route
               element={<LazyTraineeEnrolledCourses />}
@@ -208,7 +226,15 @@ function AllRoutes() {
 
         {/* Instructor Routes*/}
         <Route element={<InstructorRoutes />} path='instructor'>
-        <Route element={<AdminHome />} path = 'test' />
+          {/* Instructor Dashboard */}
+          <Route element={<LazyInstructorDashboard />}>
+            <Route
+              element={<LazyInstructorCoursesSection />}
+              path='dashboard'
+            />
+            <Route element={<LazyInstructorEditProfile />} path='profile' />
+          </Route>
+          <Route element={<AdminHome />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
@@ -223,15 +249,13 @@ function AllRoutes() {
             path='change-password'
           />
         </Route>
-        <Route element={<LazyCourse />} path='course/:courseid' />
-        <Route element={<LazyCourse />} path='/course' />
-      </Route>
 
-      {/* Authorized Routes */}
-      <Route element={<ProtectedRoutes />}>
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
-          <Route element={<div />} path='home' />
+          {/* Admin Dashboard */}
+          <Route element={<LazyAdminDashboard />}>
+            <Route element={<div />} path='dashboard' />
+          </Route>
           <Route element={<LazyAddInstructor />} path='add-instructor' />
           <Route element={<LazyAddAdmin />} path='add-admin' />
           <Route
@@ -242,16 +266,6 @@ function AllRoutes() {
         </Route>
       </Route>
 
-      {/* Authentication Routes  */}
-      <Route element={<AuthRoutes />} path='/auth'>
-        <Route element={<LazyLogin />} path='login' />
-        <Route element={<LazySignup />} path='signup' />
-        <Route element={<LazyForgotPassword />} path='forgot-password' />
-        <Route
-          element={<LazyChangePassword />}
-          path='change-password/:userId'
-        />
-      </Route>
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>
         <Route element={<LazySearchCourses />} path='courses' />

@@ -6,23 +6,21 @@ import { FiUser } from 'react-icons/fi';
 
 import { Link } from 'react-router-dom';
 
-import styles from './instructor-dashboard.module.scss';
-
 import Dashboard from '@/components/dashboard/Dashboard';
 const navLinks = {
-  Dashboard: { path: '/instructor/dashboard', icon: <RiDashboardFill /> },
-  Courses: { path: '/instructor/courses', icon: <BsFillBookFill /> },
+  Dashboard: { path: '/admin/dashboard', icon: <RiDashboardFill /> },
+  Courses: { path: '/admin/courses', icon: <BsFillBookFill /> },
   'Rating & Reviews': { path: '/instructor/rating-review', icon: <BiNote /> },
-  Payment: { path: '/instructor/payment', icon: <AiFillCreditCard /> },
-  Profile: { path: '/instructor/profile', icon: <FiUser /> }
+  Payment: { path: '/admin/payment', icon: <AiFillCreditCard /> },
+  Profile: { path: '/admin/profile', icon: <FiUser /> }
 };
 
-function InstructorDashboard() {
+function AdminDashboard() {
   return (
     <Dashboard
       media={
         <Link
-          className={`btn btn-primary ${styles.add_course ?? ''}`}
+          className={`btn btn-primary `}
           style={{
             color: 'white',
             textDecoration: 'none',
@@ -33,12 +31,12 @@ function InstructorDashboard() {
           }}
           to='add-course'
         >
-          Create Course
+          Create User
         </Link>
       }
       navLinks={navLinks}
-      title='Instructor Dashboard'
+      title='Admin Dashboard'
     />
   );
 }
-export default InstructorDashboard;
+export default AdminDashboard;

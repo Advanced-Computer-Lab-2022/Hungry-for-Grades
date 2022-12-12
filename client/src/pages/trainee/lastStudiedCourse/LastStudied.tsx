@@ -8,7 +8,7 @@ import useLastStudiedQuery from './useLastStudied';
 
 import ProgressBar from '@pages/trainee/progressBar/ProgressBar';
 
-import { ICourse } from '@/interfaces/course.interface';
+import { EnrolledCourse } from '@/interfaces/course.interface';
 import Loader from '@/components/loader/loaderpage/Loader';
 
 export default function LastStudy() {
@@ -18,7 +18,7 @@ export default function LastStudy() {
     return <Loader />;
   }
 
-  const course: ICourse = data?.data?.data;
+  const course: EnrolledCourse|undefined = data?.data?.data;
 
   return (
     <section className='container mx-auto'>
@@ -29,10 +29,7 @@ export default function LastStudy() {
             className={styles.image_holder}
             loading='lazy'
             src={course?._course?.thumbnail}
-            onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-              sevent.target.onerror = null;
-              event.target.src = 'https://via.placeholder.com/150';
-            }}
+            
           />
           <div
             style={{
@@ -45,7 +42,7 @@ export default function LastStudy() {
           >
             <span className={styles.txt}> {course?._course?.title}</span>
             <div style={{ width: '70%' }}>
-              <ProgressBar completed={course?.progress} />
+              <ProgressBar completed={(course?.progress == undefined)? 0:course?.progress} />
             </div>
             {/* 						meteiny fix link
              */}{' '}
