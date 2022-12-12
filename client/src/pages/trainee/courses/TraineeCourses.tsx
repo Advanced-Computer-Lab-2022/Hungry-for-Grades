@@ -15,7 +15,6 @@ import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
 
 export default function MyCourses() {
-
   const user = UseUser();
 
   const { data, isLoading, activePage, setActivePage, isError, error } =
@@ -28,9 +27,15 @@ export default function MyCourses() {
       </div>
     );
 
-    if (isError || error || data?.data?.data == null) {
-      return <ErrorMessage errorMessage='You Dont have any courses Yet' link='youtube.com' linkTitle={'Go Check some courses now'}/>;
-    }
+  if (isError || error || data?.data?.data == null) {
+    return (
+      <ErrorMessage
+        errorMessage='You Dont have any courses Yet'
+        link='youtube.com'
+        linkTitle={'Go Check some courses now'}
+      />
+    );
+  }
   if (isError || error || data?.data?.data == null) {
     return (
       <ErrorMessage
@@ -40,7 +45,6 @@ export default function MyCourses() {
       />
     );
   }
-
 
   if (Boolean(data?.data?.success) === false) {
     return <ErrorMessage errorMessage={data?.data?.message} />;
@@ -52,22 +56,20 @@ export default function MyCourses() {
     return <div>You Don;t Have any Courses</div>;
   }
 
-  const toShow = incoming?.map(
-    (course) => {
-      const tt: ICourse = course._course;
-      const courseCardP = mapCourseToCardProps(tt);
-      return (
-        <div key={course?._course?._id} className={'col-12 col-md-6 col-lg-4'}>
-          <CourseCard
-            key={course?._course?._id}
-            enrolled
-            percent={course?.progress as number}
-            pprops={courseCardP}
-          />
-        </div>
-      );
-    }
-  );
+  const toShow = incoming?.map(course => {
+    const tt: ICourse = course._course;
+    const courseCardP = mapCourseToCardProps(tt);
+    return (
+      <div key={course?._course?._id} className={'col-12 col-md-6 col-lg-4'}>
+        <CourseCard
+          key={course?._course?._id}
+          enrolled
+          percent={course?.progress as number}
+          pprops={courseCardP}
+        />
+      </div>
+    );
+  });
   console.log(data);
 
   return (

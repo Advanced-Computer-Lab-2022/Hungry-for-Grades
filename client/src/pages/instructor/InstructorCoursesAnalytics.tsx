@@ -25,7 +25,7 @@ function tickFormatter(value: string) {
 }
 
 export default function InstructorCoursesAnalytics(
-  props: CourseAnalyticsProps|undefined
+  props: CourseAnalyticsProps | undefined
 ) {
   console.log(props?.data);
   return (

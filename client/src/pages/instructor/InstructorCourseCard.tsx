@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable sonarjs/cognitive-complexity */
 
 import { AiFillEdit } from 'react-icons/ai';
 
@@ -34,10 +34,7 @@ function getOriginalPrice(
   return (price / (100 - discount.percentage)) * 100;
 }
 
-
-function InstructorCourseCard(
-  props : ITeachedCourse
-) {
+function InstructorCourseCard(props: ITeachedCourse) {
   const data = props?._course ?? '';
   const earned = props.earning;
   const photo = data?.thumbnail ?? '';
@@ -172,10 +169,7 @@ function InstructorCourseCard(
         </div>
       </div>
       <div className={`${styles.cardButtons ?? ''}`}>
-        <Link
-          className='btn btn-primary btn-lg'
-          to={`/course/${data?._id as string}`}
-        >
+        <Link className='btn btn-primary btn-lg' to={`/course/${data?._id}`}>
           View Course
         </Link>
         <a
@@ -198,9 +192,7 @@ function InstructorCourseCard(
           <BsFillTrashFill />
         </button>
         <Link
-          to={`/instructor/hussein/${props._course.title as string}/${
-            props._course._id as string
-          }`}
+          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
         >
           <button className='btn btn-primary btn-lg' type='button'>
             Discounts

@@ -1,4 +1,7 @@
-function SearchSection(props: { setSelectedFilters: any; selectedFilters: any; }) {
+function SearchSection(props: {
+  setSelectedFilters: any;
+  selectedFilters: any;
+}) {
   const { setSelectedFilters, selectedFilters } = props;
 
   return (

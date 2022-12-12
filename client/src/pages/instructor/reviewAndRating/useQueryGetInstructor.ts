@@ -6,8 +6,7 @@ import { IUser } from '@/interfaces/user.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { IInstructor } from '@/interfaces/instructor.interface';
 
-function getInstructor(user : IUser) {
-
+function getInstructor(user: IUser) {
   const Inst = InstructorRoutes.GET.getInstructor;
 
   Inst.params = user?._id;
@@ -15,7 +14,7 @@ function getInstructor(user : IUser) {
   return getRequest<HttpResponse<IInstructor>>(Inst);
 }
 
-const useCoursesQuery = (user : IUser) => {
+const useCoursesQuery = (user: IUser) => {
   return {
     ...useQuery(['instructorSelffdataaa'], () => getInstructor(user), {
       cacheTime: 1000 * 60 * 60 * 24,
