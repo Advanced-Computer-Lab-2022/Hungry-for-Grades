@@ -10,8 +10,6 @@ import { Link } from 'react-router-dom';
 import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
 
-import '@/pages/course/accordion.scss';
-
 function Content(props: ICourse) {
   return (
     <div className='my-3 py-5'>
