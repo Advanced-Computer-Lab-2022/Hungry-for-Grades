@@ -1,5 +1,4 @@
 export const ReportDataService = {
-<<<<<<< HEAD
 
     GET:{
         getReports:{
@@ -21,15 +20,5 @@ export const ReportDataService = {
             response:{}
         }
 
-=======
-  POST: {
-    makeReport: {
-      URL: '/report/' as const,
-      params: '',
-      query: '',
-      payload: {},
-      response: {}
->>>>>>> development
     }
-  }
-};
+  };
