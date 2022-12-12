@@ -9,7 +9,6 @@ import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
 
 export default function Main() {
-
   const user = UseUser();
 
   const data = useQueryGetInstructor(user as IUser);

@@ -25,7 +25,7 @@
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
     "sort-keys": "error",
-    "no-console": "error",
+    "no-console": "warn",
     "no-debugger": "error",
     "no-var": "error",
     "prefer-const": "error",

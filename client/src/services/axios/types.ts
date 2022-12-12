@@ -7,7 +7,7 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
-import {ReportDataService} from './dataServices/ReportDataService';
+import { ReportDataService } from './dataServices/ReportDataService';
 
 /**
  * HTTP methods

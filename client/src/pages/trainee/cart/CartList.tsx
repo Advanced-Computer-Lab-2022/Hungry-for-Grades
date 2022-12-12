@@ -90,7 +90,7 @@ export default function CartList() {
   }
 
   if (isLoading) {
-    return <LoaderComponent /> ;
+    return <LoaderComponent />;
   }
 
   const cart = data?.data?.data;

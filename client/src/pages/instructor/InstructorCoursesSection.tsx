@@ -40,7 +40,7 @@ function InstructorCoursesSection() {
         setSelectedFilters={setSelectedFilters}
         subHeading=''
       />
-      {!isLoading && !isError && data && verifiedData?.length as number > 0 && (
+      {!isLoading && !isError && data && (verifiedData?.length as number) > 0 && (
         <div className='container'>
           <div className='d-flex flex-row justify-content-evenly align-items-center mb-5'>
             <button

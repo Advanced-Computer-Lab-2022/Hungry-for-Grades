@@ -1,4 +1,3 @@
-
 import { AiFillLinkedin, AiFillGithub, AiFillYoutube } from 'react-icons/ai';
 
 import { BiWorld } from 'react-icons/bi';
@@ -28,7 +27,6 @@ import { IInstructor } from '@/interfaces/instructor.interface';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 async function getInstructor(id: string) {
-
   const Inst = InstructorRoutes.GET.getInstructor;
 
   Inst.params = id;
@@ -52,12 +50,11 @@ export default function InstructorPage() {
 
   const Instructor = data?.data?.data;
 
-  if(Instructor == undefined)
-  {
-    return <ErrorMessage errorMessage={data?.data?.message} />
+  if (Instructor == undefined) {
+    return <ErrorMessage errorMessage={data?.data?.message} />;
   }
 
-  if (isLoading ) return <Loader />;
+  if (isLoading) return <Loader />;
 
   return (
     <div className={styles.page}>
@@ -115,7 +112,11 @@ export default function InstructorPage() {
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
-              <div className={styles.value}>{Instructor?.rating?.reviews?.length > 0 ? Instructor?.rating?.reviews?.length:0}</div>
+              <div className={styles.value}>
+                {Instructor?.rating?.reviews?.length > 0
+                  ? Instructor?.rating?.reviews?.length
+                  : 0}
+              </div>
             </div>
           </div>
 
