@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import jsPDF from 'jspdf';
 
 import CourseRating from '../../course/CourseRating';
@@ -19,16 +19,15 @@ export default function CertificateGenerator() {
   const { isLoading: traineeIsLoading, data: traineeData } =
     useSearchQueryTrainee();
   const verifiedTraineeData = traineeData?.data?.data;
-  const verifiedCourseData = courseData?.data?.data._course;
+  const verifiedCourseData = courseData?.data?.data?._course;
   const courseTitle = verifiedCourseData?.title;
-  let date = courseData?.data?.data.dateOfCompletion;
-  date = date?.split('T')[0];
+  const date = courseData?.data?.data.dateOfCompletion; //needs to be revised
+  // date = date?.split('T')[0];
   const instructorName = verifiedCourseData?._instructor[0]?.name;
 
   if (isError) return <ErrorMessage />;
 
   const [imageURL, setImageURL] = useState('');
-  const canvasRef = useRef(null);
   const img = useMemo(() => new Image(), []);
   img.src = '/Certificate.png';
 
@@ -39,8 +38,10 @@ export default function CertificateGenerator() {
       verifiedCourseData &&
       verifiedTraineeData
     ) {
-      const canvas = canvasRef.current;
-      const context = canvas?.getContext('2d');
+      const canvas = document.createElement('canvas');
+      console.log(canvas);
+      const context: CanvasRenderingContext2D | null = canvas?.getContext('2d');
+      if (context === null) return;
       context.canvas.width = 770;
       context.canvas.height = 595;
       img.onload = () => {
@@ -49,53 +50,61 @@ export default function CertificateGenerator() {
         context.fillStyle = 'black';
         context.fillText(verifiedTraineeData?.name, 80, 282);
         const spaceIndexes: number[] = [];
-        for (let i = 0; i < courseTitle.length; i++)
-          if (courseTitle[i] === ' ') spaceIndexes.push(i);
+        for (let i = 0; i < (courseTitle ? courseTitle.length : 0); i++)
+          if (courseTitle && courseTitle[i] === ' ') spaceIndexes.push(i);
 
-        if (courseTitle.length <= 30) {
+        if (courseTitle && courseTitle.length <= 30) {
           context.font = 'bold 26px open sans';
           context.fillText(courseTitle, 80, 400);
-        } else if (courseTitle.length > 30 && courseTitle.length <= 60) {
+        } else if (
+          courseTitle &&
+          courseTitle.length > 30 &&
+          courseTitle.length <= 60
+        ) {
           context.font = 'bold 24px open sans';
           let lastSpace = 0;
           for (let i = 0; i < spaceIndexes.length; i++) {
-            if (spaceIndexes[i] > 30) {
-              if (i > 0) lastSpace = spaceIndexes[i - 1];
+            if ((spaceIndexes[i] as number) > 30) {
+              if (i > 0) lastSpace = spaceIndexes[i - 1] as number;
               break;
             }
           }
           context.fillText(courseTitle.slice(0, lastSpace), 80, 380);
           context.fillText(courseTitle.slice(lastSpace + 1), 80, 410);
         } else {
-          const numberOfLines = Math.ceil(courseTitle.length / 40);
+          const numberOfLines = Math.ceil(
+            courseTitle ? courseTitle.length / 40 : 0
+          );
           console.log(spaceIndexes);
           let lastSpaceIndex = 0;
           for (let i = 0; i < numberOfLines; i++) {
-            const spaceFlag = courseTitle[lastSpaceIndex] === ' ' ? 1 : 0;
+            const spaceFlag =
+              courseTitle && courseTitle[lastSpaceIndex] === ' ' ? 1 : 0;
 
             let spaceIndex = -1;
             for (let index = 0; index < spaceIndexes.length; index++) {
-              if (spaceIndexes[index] > lastSpaceIndex + 40) {
-                spaceIndex = spaceIndexes[index - 1];
+              if ((spaceIndexes[index] as number) > lastSpaceIndex + 40) {
+                spaceIndex = spaceIndexes[index - 1] as number;
                 break;
               }
             }
             if (spaceIndex === -1) {
-              spaceIndex = courseTitle.length;
+              spaceIndex = courseTitle?.length as number;
             }
             context.font = 'bold 18px open sans';
-            context.fillText(
-              courseTitle.slice(lastSpaceIndex + spaceFlag, spaceIndex),
-              80,
-              372 + i * 24
-            );
+            if (courseTitle)
+              context.fillText(
+                courseTitle.slice(lastSpaceIndex + spaceFlag, spaceIndex),
+                80,
+                372 + i * 24
+              );
             lastSpaceIndex = spaceIndex;
           }
         }
         context.font = 'bold 11px open sans';
-        context.fillText(date, 190, 449);
+        if (date) context.fillText(date.toString(), 190, 449); // need to be revised
         context.font = 'bold 14px open sans';
-        context.fillText(instructorName, 473, 484);
+        context.fillText(instructorName as string, 473, 484);
         setImageURL(canvas?.toDataURL());
       };
     }
@@ -113,15 +122,6 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('certificate.pdf');
   };
-
-  if (!imageURL)
-    return (
-      <>
-        <div>Loading...</div>
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-      </>
-    );
-
   if (isLoading) return <div>Loading...</div>;
   return (
     <div className='container mt-4'>
@@ -180,7 +180,10 @@ export default function CertificateGenerator() {
                   marginBottom: '0.1rem'
                 }}
               >
-                <CourseRating reviews={[]} {...verifiedCourseData.rating} />
+                $
+                {verifiedCourseData && (
+                  <CourseRating {...verifiedCourseData.rating} />
+                )}
               </div>
               <div
                 className={`${styles.userNameFnt ?? ''} mb-3`}
@@ -191,13 +194,14 @@ export default function CertificateGenerator() {
                   0
                 )}{' '}
                 lessons&nbsp; • &nbsp;
-                {formatDuration(
-                  verifiedCourseData?.sections.reduce(
-                    (s, l) =>
-                      s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
-                    0
-                  )
-                )}
+                {verifiedCourseData &&
+                  formatDuration(
+                    verifiedCourseData?.sections.reduce(
+                      (s, l) =>
+                        s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+                      0
+                    )
+                  )}
               </div>
             </div>
             <button

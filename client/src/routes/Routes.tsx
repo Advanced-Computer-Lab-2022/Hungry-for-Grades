@@ -204,6 +204,8 @@ function AllRoutes() {
 
         {/* Instructor Routes*/}
         <Route element={<InstructorRoutes />} path='instructor'>
+          <Route element={<LazyUserProfile />} path='shams' />
+          <Route element={<LazyTraineeCertificate />} path='cer' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />

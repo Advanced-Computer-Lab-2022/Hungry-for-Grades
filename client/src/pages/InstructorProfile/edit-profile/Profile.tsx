@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSearchQuery from './fetchApi';
 import { updateProfile } from './updateApi';
 
 import ProfileForm from './ProfileForm';
+
+import { InstructorData } from './types';
 
 import Form from '@/components/form/Form';
 
@@ -11,10 +12,8 @@ export default function Profile() {
 
   const { isLoading, isError, data } = useSearchQuery();
   const verifiedData = data?.data?.data;
-  console.log(verifiedData);
 
-  async function submitAction(instructorData: any) {
-    console.log('was here 1');
+  async function submitAction(instructorData: InstructorData) {
     await updateProfile(instructorId, instructorData);
   }
   if (isError)
@@ -28,11 +27,11 @@ export default function Profile() {
   if (!data) return <></>;
 
   const initialValues = {
-    name: verifiedData.name,
-    email: { address: verifiedData.email.address },
-    phone: verifiedData.phone,
-    username: verifiedData.username,
-    biography: verifiedData.biography
+    name: verifiedData?.name,
+    email: { address: verifiedData?.email?.address },
+    phone: verifiedData?.phone,
+    username: verifiedData?.username,
+    biography: verifiedData?.biography
   };
 
   return (
