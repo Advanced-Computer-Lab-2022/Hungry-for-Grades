@@ -42,7 +42,7 @@ export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
 export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof NewsLetterRoutes[T][keyof Partial<typeof NewsLetterRoutes[T]>];
 
-export type ReportRouteType = typeof ReportDataService['POST'];
+export type ReportRouteType<T extends 'GET'|'POST'> = typeof ReportDataService[T][keyof Partial<typeof ReportDataService[T]>];
 
 /**
  * All GET routes that are available for the  data service
@@ -53,7 +53,8 @@ export type GETRoutesType =
   | InstructorRouteType<'GET'>
   | AuthRoutesType<'GET'>
   | TraineeRouteType<'GET'>
-  | NewsLetterRouteType<'GET'>;
+  | NewsLetterRouteType<'GET'>
+  | ReportRouteType<'GET'>;
 /**
  * All POST routes that are available for the  data service
  */
@@ -63,7 +64,7 @@ export type POSTRoutesType =
   | TraineeRouteType<'POST'>
   | NewsLetterRouteType<'POST'>
   | InstructorRouteType<'POST'>
-  | ReportRouteType;
+  | ReportRouteType<'POST'>;
 
 /**
  * All Delete Requests

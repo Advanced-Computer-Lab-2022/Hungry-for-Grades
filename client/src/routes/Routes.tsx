@@ -20,7 +20,9 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import AdminHome from '@/pages/admin/home/AdminHome';
+import AdminHome from '@/pages/admin/adminTable/AdminTable';
+
+import CourseRequest from '@/pages/admin/corporateRequests/CourseRequest';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -234,7 +236,7 @@ function AllRoutes() {
             />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
-          <Route element={<AdminHome />} path='test' />
+          <Route element={<CourseRequest />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
