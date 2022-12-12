@@ -15,6 +15,8 @@ interface IUser {
   profileImage: string;
   role: Role;
   username: string;
+  country: string;
+  balance?: number;
 }
 export type Address = {
   city: string;

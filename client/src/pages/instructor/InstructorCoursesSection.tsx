@@ -26,11 +26,11 @@ function InstructorCoursesSection() {
     React.Dispatch<React.SetStateAction<SelectFiltersType>>
   ];
 
-  const { isLoading, isError, data, error, activePage, setActivePage } =
+  const { isLoading, isError, data, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
-  const verifiedData = data?.data;
+  const verifiedData = data?.data?.data;
   console.log(verifiedData);
-  if (isError) return <ErrorMessage errorMessage={error?.message} />;
+  if (isError) return <ErrorMessage errorMessage={data?.data?.message} />;
   console.log(verifiedData);
   return (
     <>
@@ -40,7 +40,7 @@ function InstructorCoursesSection() {
         setSelectedFilters={setSelectedFilters}
         subHeading=''
       />
-      {!isLoading && !isError && data && verifiedData?.data?.length > 0 && (
+      {!isLoading && !isError && data && (verifiedData?.length as number) > 0 && (
         <div className='container'>
           <div className='d-flex flex-row justify-content-evenly align-items-center mb-5'>
             <button
@@ -68,7 +68,7 @@ function InstructorCoursesSection() {
           </div>
           {currentStepIndex === 1 && (
             <InstructorCoursesAnalytics
-              data={verifiedData?.data.map(course => ({
+              data={verifiedData?.map(course => ({
                 Earnings: course.earning,
                 title: course._course.title,
                 Trainees: course._course.numberOfEnrolledTrainees
@@ -76,18 +76,18 @@ function InstructorCoursesSection() {
             />
           )}
           {currentStepIndex === 0 &&
-            verifiedData?.data.map(course => (
-              <InstructorCourseCard key={course._course.id} {...course} />
+            verifiedData?.map(course => (
+              <InstructorCourseCard key={course?._course?._id} {...course} />
             ))}
           <Pagination
             activePage={activePage}
-            pages={verifiedData?.totalPages}
+            pages={data?.data?.totalPages}
             setActivePage={setActivePage}
           />
         </div>
       )}
 
-      {!isLoading && !isError && data && verifiedData?.data?.length === 0 && (
+      {!isLoading && !isError && data && verifiedData?.length === 0 && (
         <div className='container'>
           <NoResults />
         </div>

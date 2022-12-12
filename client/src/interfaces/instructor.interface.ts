@@ -1,7 +1,7 @@
 import { ICourse, Rating, SocialMedia } from './course.interface';
 import { IUser } from './user.interface';
 
-type BankAccount = {
+export type BankAccount = {
   accountHolderName: string;
   accountNumber: string;
   bankName: string;
@@ -9,30 +9,6 @@ type BankAccount = {
   branchName: string;
   swiftCode: string;
 };
-
-export interface Note extends NoteData {
-  id: string;
-}
-
-export interface NoteData {
-  title: string;
-  tags: Tag[];
-  markdown: string;
-}
-
-export interface Tag {
-  label: string;
-}
-
-export interface RawNote extends RawNoteData {
-  id: string;
-}
-
-export interface RawNoteData {
-  title: string;
-  markdown: string;
-  tagLabels: string[];
-}
 
 export interface ITeachedCourse {
   _course: ICourse;

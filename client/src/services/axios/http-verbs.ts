@@ -5,12 +5,14 @@ import { AxiosResponse } from 'axios';
 
 import { http } from './http-common';
 import {
+  type PUTRoutesType,
+  //type PUTRoutesType
   type DELETERoutesType,
   //type DELETERoutesType,
   type GETRoutesType,
   // type PATCHRoutesType,
   type POSTRoutesType
-  //type PUTRoutesType
+  //type POSTRoutesType
 } from './types';
 
 /**
@@ -82,13 +84,14 @@ export async function deleteRequest<T>(
  * @returns a promise with the response from the server
  */
 
-/* export async function putRequest<T>(request: PUTRoutesType):Promise<T> {
-	const response=await  http.put<T>(
-		`${request?.URL}${request?.params ? '/' + request?.params : ''}${
-			request?.query ? '?' + request?.query : ''
-		}`,
-		request?.payload
-	);
-
-	return response?.data;
-} */
+export async function putRequest<T>(
+  request: PUTRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.put<T>(
+    `${request?.URL}${request?.params ? '/' + request?.params : ''}${
+      request?.query ? '?' + request?.query : ''
+    }`,
+    { ...request?.payload },
+    { withCredentials: true }
+  );
+}

@@ -29,7 +29,21 @@ class AuthController {
   // @desc login
   // @route POST /login
   // @access Public
-  public logIn = async (req: Request, res: Response, next: NextFunction) => {
+  public logIn = async (
+    req: Request,
+    res: Response<
+      HttpResponse<{
+        firstLogin: boolean;
+        role: Role;
+        token: {
+          accessToken: string;
+          refreshToken: string;
+        };
+        user: IUser;
+      }>
+    >,
+    next: NextFunction,
+  ) => {
     try {
       const userData: UserLoginDTO = req.body;
       const { cookie, findUser, accessToken, refreshToken, role, firstLogin } = await this.authService.login(userData);
@@ -37,8 +51,9 @@ class AuthController {
       //res.setHeader('Set-Cookie', [cookie]);
       res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
-        data: { firstLogin, role, token: { accessToken, expiryToken: cookie.options.maxAge, refreshToken }, user: findUser },
+        data: { firstLogin, role, token: { accessToken, refreshToken }, user: findUser },
         message: 'login',
+        success: true,
       });
     } catch (error) {
       next(error);

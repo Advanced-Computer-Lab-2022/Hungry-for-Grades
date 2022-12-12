@@ -5,13 +5,15 @@ import useQueryGetInstructor from './useQueryGetInstructor';
 import styles from './Main.module.scss';
 
 import ReviewList from '@/pages/InstructorProfile/ReviewList';
+import { UseUser } from '@/store/userStore';
+import { IUser } from '@/interfaces/user.interface';
 
 export default function Main() {
-  const data = useQueryGetInstructor();
+  const user = UseUser();
+
+  const data = useQueryGetInstructor(user as IUser);
 
   const info = data?.data?.data?.data;
-
-  console.log(info);
 
   return (
     <div className={styles.container}>

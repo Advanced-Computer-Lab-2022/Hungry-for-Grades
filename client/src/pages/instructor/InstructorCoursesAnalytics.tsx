@@ -25,9 +25,9 @@ function tickFormatter(value: string) {
 }
 
 export default function InstructorCoursesAnalytics(
-  props: CourseAnalyticsProps
+  props: CourseAnalyticsProps | undefined
 ) {
-  console.log(props.data);
+  console.log(props?.data);
   return (
     <div>
       <ResponsiveContainer height={300} width='100%'>
@@ -76,3 +76,5 @@ export default function InstructorCoursesAnalytics(
     </div>
   );
 }
+
+export type { CourseAnalyticsProps, AnalyticData };

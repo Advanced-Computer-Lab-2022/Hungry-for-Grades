@@ -2,20 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getRequest } from '@/services/axios/http-verbs';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { IUser } from '@/interfaces/user.interface';
+import { HttpResponse } from '@/interfaces/response.interface';
+import { IInstructor } from '@/interfaces/instructor.interface';
 
-function getInstructor() {
+function getInstructor(user: IUser) {
   const Inst = InstructorRoutes.GET.getInstructor;
 
-  //Inst.URL = '/instructor/6379620f2c3f71696ca34735'
+  Inst.params = user?._id;
 
-  Inst.params = '637962792c3f71696ca3473c';
-
-  return getRequest(Inst);
+  return getRequest<HttpResponse<IInstructor>>(Inst);
 }
 
-const useCoursesQuery = () => {
+const useCoursesQuery = (user: IUser) => {
   return {
-    ...useQuery(['instructorSelffdataaa'], () => getInstructor(), {
+    ...useQuery(['instructorSelffdataaa'], () => getInstructor(user), {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000,
       enabled: true // 1 second

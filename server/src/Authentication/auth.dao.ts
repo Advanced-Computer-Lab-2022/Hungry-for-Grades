@@ -1,4 +1,3 @@
-import { logger } from '@/Utils/logger';
 import { HttpException } from '@/Exceptions/HttpException';
 import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';

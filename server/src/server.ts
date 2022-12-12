@@ -12,6 +12,9 @@ import TraineeRoute from './Trainee/trainee.route';
 import NewsLetterRoute from './NewsLetter/newsletter.route';
 import UserRoute from './User/user.route';
 import ReportRoute from './Report/report.route';
+import { Server } from 'socket.io';
+import MessageRoute from './Message/message.route';
+import * as http from 'http';
 
 // validate environment variables
 validateEnv();
@@ -26,11 +29,42 @@ try {
     new NewsLetterRoute(),
     new UserRoute(),
     new ReportRoute(),
+    new MessageRoute(),
   ]);
 
   (async function connectToDatabase() {
     connect(dbConnection.url, dbConnection.options)
-      .then(() => app.listen())
+      .then(() => {
+        const server = http.createServer(app.app);
+
+        const io = new Server(server, {
+          cors: {
+            credentials: true,
+            origin: 'http://localhost:3000',
+          },
+        });
+        global.onlineUsers = new Map();
+        io.on('connection', socket => {
+          global.chatSocket = socket;
+          socket.on('add-user', userId => {
+            global.onlineUsers.set(userId, socket.id);
+          });
+
+          socket.on('send-msg', data => {
+            const sendUserSocket = global.onlineUsers.get(data.to);
+            if (sendUserSocket) {
+              socket.to(sendUserSocket).emit('msg-recieve', data.msg);
+            }
+          });
+        });
+        server.listen(app.port, () => {
+          logger.info(`=================================`);
+          logger.info(`======= ENV: ${app.env} =======`);
+          logger.info(`🚀 App listening on the http://localhost:${app.port}`);
+          logger.info(`📃 API on the http://localhost:${app.port}/docs`);
+          logger.info(`=================================`);
+        });
+      })
       .catch(err => logger.error(`Connection to database failed with error: ${err}`));
 
     connection.on('connecting', () => logger.info('database connecting'));
@@ -40,5 +74,5 @@ try {
     connection.on('error', () => logger.info('database error'));
   })();
 } catch (err) {
-  logger.info(err);
+  console.log(err);
 }

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { useCallback } from 'react';
-
-import { LoginProps } from './types';
 
 import useValidation from './useValidation';
 
@@ -25,10 +24,30 @@ import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import { UpdateCountry } from '@/store/countryStore';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 import LocalStorage from '@/services/localStorage/LocalStorage';
+import { HttpResponse } from '@/interfaces/response.interface';
+import { IUser } from '@/interfaces/user.interface';
+import { ITrainee } from '@/interfaces/course.interface';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+
+import { toastOptions } from '@/components/toast/options';
+import { UseTraineeNoteStoreSetNotes } from '@/store/noteStore';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
-  const { mutateAsync: login, isError, error } = usePostQuery();
+  const { data, mutateAsync: login } = usePostQuery<
+    HttpResponse<{
+      firstLogin: boolean;
+      role: Role;
+      token: {
+        accessToken: string;
+        refreshToken: string;
+      };
+      user: IUser;
+    }>
+  >();
+
+  const useTraineeNoteStoreSetNotes = UseTraineeNoteStoreSetNotes();
+
   const updateCountry = UpdateCountry();
 
   const useSetUser = UseSetUser();
@@ -44,9 +63,9 @@ function Login() {
     navigate('/auth/signup');
   }, [navigate]);
 
-  const handleSubmit = useCallback(async () => {
+  async function handleSubmit() {
     try {
-      const { email, password } = (await formik.submitForm()) as LoginProps;
+      const { email, password } = formik.values;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
@@ -55,12 +74,19 @@ function Login() {
         password
       };
       const response = await login(loginRoute);
+
+      console.log('response');
+      console.log(response);
+
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
-        const userRole: Role = role.toLocaleLowerCase();
+        const userRole: Role = role.toLocaleLowerCase() as Role;
         useSetUser({ ...user, role: userRole });
-        useCartStoreSetCart(user?._cart);
-        useWishListSetCart(user?._wishList);
+        if (role === Role.TRAINEE) {
+          useCartStoreSetCart((user as ITrainee)?._cart);
+          useWishListSetCart((user as ITrainee)?._wishlist);
+          useTraineeNoteStoreSetNotes((user as ITrainee)?.notes);
+        }
         //session
         SessionStorage.set('accessToken', token.accessToken);
         updateCountry(user.country);
@@ -80,21 +106,16 @@ function Login() {
 
         return true;
       }
+
+      toast.error(response?.response?.data?.message, toastOptions);
       return false;
     } catch (err) {
       console.log(err);
       return false;
     }
-  }, [
-    formik,
-    login,
-    useSetUser,
-    useCartStoreSetCart,
-    useWishListSetCart,
-    updateCountry,
-    from,
-    navigate
-  ]);
+  }
+
+  console.log('error');
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
@@ -117,6 +138,7 @@ function Login() {
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
+                id='input-sadasd'
                 isError={
                   formik.touched.email && formik.errors.email ? true : null
                 }
@@ -135,6 +157,7 @@ function Login() {
                 correctMessage={''}
                 errorMessage={formik.errors.password as string}
                 hint={''}
+                id='input-sadasssosd993d'
                 isError={
                   formik.touched.password && formik.errors.password
                     ? true
@@ -156,14 +179,14 @@ function Login() {
             method={'post'}
             subtitle='Login to your account'
             title='Login'
-            onResetFunc={formik.handleReset}
+            onResetFunc={undefined}
           >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
                 checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
-                id='rememberMe'
+                id='rememberMe-jnjnjn'
                 isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'
@@ -177,18 +200,9 @@ function Login() {
                 Forgot Password?
               </Link>
             </span>
-            {isError && error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                {error?.response?.data?.message}
-              </div>
-            )}
-            {isError && !error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                Please report this Problem through this &nbsp;
-                <Link className='alert-link' to='/report'>
-                  Link
-                </Link>
-              </div>
+
+            {data && data?.response && (
+              <ErrorMessage errorMessage={data?.response?.data?.message} />
             )}
             <div className='d-flex flex-column justify-content-between'>
               <Button

@@ -5,7 +5,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import jsPDF from 'jspdf';
 
-import CourseRating from '../../course/CourseRating';
+import CourseRating from '../../guest/course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
 import useSearchQueryCourse from './useSearchQueryCourse';

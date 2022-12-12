@@ -9,6 +9,8 @@ import {
 } from 'react-icons/fa';
 
 import Newsletter from '../newsletter/Newsletter';
+
+import ReportForm from './ReportForm';
 function Footer() {
   const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME;
   const COMPANY_ADDRESS = import.meta.env.VITE_COMPANY_ADDRESS;
@@ -141,14 +143,7 @@ function Footer() {
                     Services
                   </a>
                 </p>
-                <p>
-                  <a
-                    className='text-white'
-                    href='https://cancham.org.eg/en/about_us.html'
-                  >
-                    About us
-                  </a>
-                </p>
+
                 <p>
                   <a
                     className='text-white'
@@ -171,20 +166,16 @@ function Footer() {
                 <h6 className='text-uppercase fw-bold'>Useful links</h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  <a className='text-white' href='#!'>
-                    Your Account
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/about_us.html'
+                  >
+                    About us
                   </a>
                 </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Become an Affiliate
-                  </a>
-                </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Shipping Rates
-                  </a>
-                </p>
+
+                <ReportForm />
+
                 <p>
                   <a className='text-white' href='#!'>
                     Help

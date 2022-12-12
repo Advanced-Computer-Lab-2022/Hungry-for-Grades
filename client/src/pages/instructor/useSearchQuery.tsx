@@ -10,6 +10,8 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { UseCountry } from '@/store/countryStore';
 
 import { customComparator } from '@/utils/comparator';
+import { ITeachedCourse } from '@/interfaces/instructor.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 
 const id = '637962792c3f71696ca3473c';
 
@@ -38,7 +40,7 @@ async function searchRequest(
     InstructorRoutes.GET.getCourses
   );
   getCoursesSearchFilter.URL = `/courses/instructor/${id}`;
-  const searchQuery = `category=${filters.category.trim()}
+  const searchQuery = `category=${filters.category}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
 	&priceLow=${
@@ -50,14 +52,14 @@ async function searchRequest(
 	&sortBy=${filters.sortBy}
 	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
 	&durationHigh=${filters.durationHigh * 24 * 30}
-	&country=${filters.country.trim()}
+	&country=${filters.country}
 	&limit=${18}
 	&page=${page}
-	&searchTerm=${filters.searchTerm.trim()}
+	&searchTerm=${filters.searchTerm}
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
 
-  return getRequest(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<ITeachedCourse>>(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {

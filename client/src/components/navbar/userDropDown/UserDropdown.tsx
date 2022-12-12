@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable css-modules/no-unused-class */
 /* eslint-disable react/jsx-no-bind */
 import { useRef, useState } from 'react';
@@ -9,13 +10,25 @@ import { NavLink, Link } from 'react-router-dom';
 
 import styles from './UserDropdown.module.scss';
 
+import { UseTraineeNoteStoreNotes } from '@store/noteStore';
+import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
+
 import { UseUserStoreLogOut, UseUser } from '@store/userStore';
+import { postRequest } from '@/services/axios/http-verbs';
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
   const useUserStoreLogOut = UseUserStoreLogOut();
+  const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
   const user = UseUser();
-
+  async function logout() {
+    const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
+    storeNotes.payload = {
+      notes: useTraineeNoteStoreNotes
+    };
+    await postRequest(storeNotes);
+    useUserStoreLogOut();
+  }
   return (
     user && (
       <>
@@ -63,7 +76,10 @@ function MenuHeadersExample() {
               </NavDropdown.Item>
               <hr />
               <NavDropdown.Item>
-                <NavLink style={{ color: 'inherit' }} to='/setiings'>
+                <NavLink
+                  style={{ color: 'inherit' }}
+                  to={`/${user.role}/profile`}
+                >
                   <IoSettingsOutline className={styles.nav__icon} /> Settings
                 </NavLink>
               </NavDropdown.Item>{' '}
@@ -72,7 +88,7 @@ function MenuHeadersExample() {
                   replace
                   style={{ color: 'inherit' }}
                   to='/'
-                  onClick={useUserStoreLogOut}
+                  onClick={logout}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out
                 </Link>
