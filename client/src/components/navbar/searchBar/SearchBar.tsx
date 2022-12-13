@@ -18,7 +18,9 @@ export default function SearchBar() {
     e.preventDefault();
     const value = searchRef?.current?.value || '';
 
-    navigateSearch(role?`/${role as string}/courses`:'/courses', { searchTerm: value });
+    navigateSearch(role ? `/${role as string}/courses` : '/courses', {
+      searchTerm: value
+    });
   };
 
   useEffect(() => {

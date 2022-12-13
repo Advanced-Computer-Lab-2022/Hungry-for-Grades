@@ -47,12 +47,12 @@ function ReportForm() {
     <>
       <p>
         <a
-				data-bs-target={`#modalReport`}
+          data-bs-target={`#modalReport`}
           data-bs-toggle='modal'
           href='#?'
           style={{
-					color:'inherit'
-				}}
+            color: 'inherit'
+          }}
           type='button'
         >
           Report

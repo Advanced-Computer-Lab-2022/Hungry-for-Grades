@@ -40,7 +40,6 @@ function ProtectedRoutes() {
   ) {
     const userData = data?.data?.data;
 
-
     useSetUser(userData);
     if (userData.country) {
       updateCountry(userData?.country);

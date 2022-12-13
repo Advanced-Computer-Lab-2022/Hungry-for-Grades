@@ -6,6 +6,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
 import { Link, NavLink } from 'react-router-dom';
 
+import ReportForm from '../footer/ReportForm';
+
 import UserDropdown from './userDropDown/UserDropdown';
 
 import WishCartButtons from './WishCartButtons';
@@ -18,7 +20,6 @@ import { Role } from '@enums/role.enum';
 import './Navbar.scss';
 import toSmallNumber from '@/utils/toSmallNumber';
 import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
-import ReportForm from '../footer/ReportForm';
 
 function NavbarComponent() {
   const { data, isError } = useCategoryQuery();
@@ -27,7 +28,6 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
-
 
   return (
     <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
@@ -50,13 +50,10 @@ function NavbarComponent() {
               {!isError &&
                 data?.data?.map(category => (
                   <NavDropdown.Item key={category.label}>
-                    <div className='category__parent__link'
-										>
+                    <div className='category__parent__link'>
                       <Link
                         className='category__link  '
-                        to={`/courses?category=${
-                          category.label
-                        }`}
+                        to={`/courses?category=${category.label}`}
                       >
                         {category.label}
                       </Link>

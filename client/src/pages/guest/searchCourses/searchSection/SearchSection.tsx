@@ -25,6 +25,7 @@ type SearchTitleProps = {
 };
 
 function SearchSection(props: SearchSectionProps & SearchTitleProps) {
+
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -85,7 +86,7 @@ function SearchSection(props: SearchSectionProps & SearchTitleProps) {
               />
               <Range
                 label='Min Price'
-                max={100}
+                max={1000000000000000}
                 min={0}
                 name='min'
                 value={selectedFilters.min}
@@ -122,7 +123,7 @@ function SearchSection(props: SearchSectionProps & SearchTitleProps) {
               />
               <Range
                 label='Max Price'
-                max={100}
+                max={1000000000000000}
                 min={0}
                 name='max'
                 value={selectedFilters.max}
