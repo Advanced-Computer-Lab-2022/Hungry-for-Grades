@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { useQuery } from '@tanstack/react-query';
 
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -56,15 +55,7 @@ async function searchRequest(
 	&searchTerm=${filters.searchTerm}
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
-  //	const [searchParams] = useSearchParams();
 
-  //	alert(getCoursesSearchFilter.query);
-  /*   const searchQuery = toString(filters);
-
-	console.log('searchQuery');
-	console.log(searchQuery);
-  //navigateSearch('/courses', searchQuery);
- */
 
   return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
 }
