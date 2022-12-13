@@ -26,7 +26,6 @@ function useRefreshToken(): () => Promise<void> {
         useUserSetIsAuthenticated(true);
         return;
       }
-      alert('oldaccesstoken in refresh');
       useUserSetIsAuthenticated(false);
       navigate('/auth/login', { state: { from: location }, replace: true });
       toast.error('UnAuthorized , Please Login First ', toastOptions);

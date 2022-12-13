@@ -1,6 +1,7 @@
-import LocalStorage from '@/services/localStorage/LocalStorage';
 import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+
+import LocalStorage from '@/services/localStorage/LocalStorage';
 
 import './mainSection.scss';
 const COMPANY_EMAIL = import.meta.env.VITE_COMPANY_EMAIL;

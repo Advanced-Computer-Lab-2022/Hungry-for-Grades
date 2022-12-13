@@ -10,7 +10,6 @@ async function useDiscountQuery(endDate: string, percent: number) {
   Courses.payload.startDate = new Date().toDateString();
   Courses.payload.percentage = percent;
 
-  alert(Courses.payload.percentage);
 
   const { mutateAsync } = usePostQuery();
 

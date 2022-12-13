@@ -7,7 +7,6 @@ import { Level } from '@/enums/level.enum';
 
 export default function useSeletedFilters() {
   const [searchParams] = useSearchParams();
-
   const [selectedFilters, setSelectedFilters] = useState<SelectFiltersType>({
     category: searchParams.get('category') || '',
     subCategory: searchParams.get('subCategory') || '',

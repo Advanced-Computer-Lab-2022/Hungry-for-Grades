@@ -69,9 +69,9 @@ function InstructorCoursesSection() {
           {currentStepIndex === 1 && (
             <InstructorCoursesAnalytics
               data={verifiedData?.map(course => ({
-                'Earnings': course.earning,
-                'title': course._course.title+'',
-                'Trainees': course._course.numberOfEnrolledTrainees
+                Earnings: course.earning,
+                title: course._course.title + '',
+                Trainees: course._course.numberOfEnrolledTrainees
               }))}
             />
           )}

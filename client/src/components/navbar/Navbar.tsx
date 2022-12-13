@@ -17,12 +17,17 @@ import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
 import './Navbar.scss';
 import toSmallNumber from '@/utils/toSmallNumber';
+import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import ReportForm from '../footer/ReportForm';
 
 function NavbarComponent() {
+  const { data, isError } = useCategoryQuery();
+
   const country = UseCountry();
   const updateCountry = UpdateCountry();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
+
 
   return (
     <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
@@ -42,20 +47,38 @@ function NavbarComponent() {
               <span style={{ color: 'inherit' }}>Courses</span>
             </NavLink>
             <NavDropdown id='basic-nav-dropdown' title='Explore'>
-              <NavDropdown.Item>
-                <Link to='/courses'>Courses</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Navbar </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Image</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>
-                Image Slider
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.5'>Image</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.6'>Div</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.6'>Footer</NavDropdown.Item>
+              {!isError &&
+                data?.data?.map(category => (
+                  <NavDropdown.Item key={category.label}>
+                    <div className='category__parent__link'
+										>
+                      <Link
+                        className='category__link  '
+                        to={`/courses?category=${
+                          category.label
+                        }`}
+                      >
+                        {category.label}
+                      </Link>
+                      <div className='subCategory__link d-flex flex-column'>
+                        {category.subcategory?.map(subCat => (
+                          <Link
+                            key={subCat.label}
+                            className=''
+                            to={`/courses?category=${encodeURIComponent(
+                              category.label
+                            )}&subCategory=${encodeURIComponent(subCat.label)}`}
+                          >
+                            {subCat.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </NavDropdown.Item>
+                ))}
               <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.9'>
-                Documentation{' '}
+              <NavDropdown.Item>
+                <ReportForm />
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>

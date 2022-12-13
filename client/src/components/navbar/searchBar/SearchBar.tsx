@@ -7,7 +7,9 @@ import { useSearchParams } from 'react-router-dom';
 import styles from './SearchBar.module.scss';
 
 import useNavigateSearch from '@hooks/useNavigateSearch';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 export default function SearchBar() {
+  const role = LocalStorage.get('role');
   const [searchParams] = useSearchParams();
   const navigateSearch = useNavigateSearch();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -15,7 +17,8 @@ export default function SearchBar() {
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const value = searchRef?.current?.value || '';
-    navigateSearch('/courses', { searchTerm: value });
+
+    navigateSearch(role?`/${role as string}/courses`:'/courses', { searchTerm: value });
   };
 
   useEffect(() => {
