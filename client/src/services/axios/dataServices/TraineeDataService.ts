@@ -1,4 +1,3 @@
-
 import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
@@ -93,13 +92,13 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: {} as object,
+      payload: {} as object
     },
     addReviewToCourse: {
       URL: 'courses/rating' as const,
       params: '',
       query: '',
-      payload: {} as Review,
+      payload: {} as Review
     }
   },
   DELETE: {
@@ -169,7 +168,7 @@ export async function addSubmittedQuestion(
   )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
     exerciseId
   )}/question/${encodeURIComponent(questionId)}`;
-  answerToQuestion.payload = {answer};
+  answerToQuestion.payload = { answer };
   await postRequest<HttpResponse<SubmittedQuestion>>(answerToQuestion);
 }
 

@@ -1,5 +1,9 @@
-
-import { deleteRequest, getRequest, postRequest, putRequest } from '../http-verbs';
+import {
+  deleteRequest,
+  getRequest,
+  postRequest,
+  putRequest
+} from '../http-verbs';
 
 import {
   HttpResponse,
@@ -27,9 +31,17 @@ function createQueryString(params: unknown): string {
     }
     const val = (params as Record<string, unknown>)[key];
     if (typeof val === 'string') {
-      result += (result.length === 0 ? '' : '&') + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+      result +=
+        (result.length === 0 ? '' : '&') +
+        encodeURIComponent(key) +
+        '=' +
+        encodeURIComponent(val);
     } else if (typeof val === 'number' || typeof val === 'boolean') {
-      result += (result.length === 0 ? '' : '&') + encodeURIComponent(key) + '=' + val.toString();
+      result +=
+        (result.length === 0 ? '' : '&') +
+        encodeURIComponent(key) +
+        '=' +
+        val.toString();
     }
   }
   return result;
@@ -71,7 +83,7 @@ export const CoursesRoutes = {
       URL: '/courses' as const,
       params: '',
       query: '',
-      payload: '',
+      payload: ''
     },
     getCourseExam: {
       URL: '',
@@ -85,13 +97,13 @@ export const CoursesRoutes = {
       URL: '/courses' as const,
       params: '',
       query: '',
-      payload: {} as IAddCourseRequest,
+      payload: {} as IAddCourseRequest
     },
     createExam: {
       URL: '',
       params: '',
       query: '',
-      payload: {} as ICourseQuestion[],
+      payload: {} as ICourseQuestion[]
     }
   },
   PUT: {
@@ -99,7 +111,7 @@ export const CoursesRoutes = {
       URL: 'courses' as const,
       params: '',
       query: '',
-      payload: {} as IAddCourseRequest,
+      payload: {} as IAddCourseRequest
     }
   },
   DELETE: {
@@ -107,11 +119,10 @@ export const CoursesRoutes = {
       URL: 'courses' as const,
       params: '',
       query: '',
-      payload: {},
+      payload: {}
     }
   }
 };
-
 
 export async function getCourses(
   filter: ICourseFilters
@@ -149,7 +160,7 @@ export async function getCourseByID(
   const courseById = CoursesRoutes.GET.getCourseById;
   courseById.params = encodeURIComponent(courseID);
   courseById.query = createQueryString({ country });
-  
+
   const res = await getRequest<HttpResponse<ICourse>>(courseById);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
@@ -163,7 +174,7 @@ export async function getCourseByID(
 export async function createCourse(
   course: IAddCourseRequest
 ): Promise<ICourse | null> {
-  if(!course) {
+  if (!course) {
     return null;
   }
   const newCourse = CoursesRoutes.POST.createCourse;
@@ -182,7 +193,7 @@ export async function updateCourse(
   course: IAddCourseRequest,
   courseId: string
 ): Promise<ICourse | null> {
-  if(!course || !courseId) {
+  if (!course || !courseId) {
     return null;
   }
   const updatedCourse = CoursesRoutes.PUT.updateCourse;
@@ -199,7 +210,7 @@ export async function updateCourse(
 }
 
 export async function deleteCourse(courseId: string): Promise<ICourse | null> {
-  if(!courseId) {
+  if (!courseId) {
     return null;
   }
   const deletedCourse = CoursesRoutes.DELETE.deleteCourse;
@@ -241,7 +252,7 @@ export async function createExam(
     return null;
   }
   const newExam = CoursesRoutes.POST.createExam;
-  newExam.URL = `/courses/${encodeURIComponent(courseId)}/exam`
+  newExam.URL = `/courses/${encodeURIComponent(courseId)}/exam`;
   newExam.payload = examData;
   const res = await postRequest<HttpResponse<ICourseQuestion[]>>(newExam);
   if (res.statusText !== 'OK') {

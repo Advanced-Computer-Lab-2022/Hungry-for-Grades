@@ -84,13 +84,14 @@ export async function deleteRequest<T>(
  * @returns a promise with the response from the server
  */
 
-export async function putRequest<T>(request: PUTRoutesType):Promise<AxiosResponse<T>> {
-	return http.put<T>(
-		`${request?.URL}${request?.params ? '/' + request?.params : ''}${
-			request?.query ? '?' + request?.query : ''
-		}`,
-		{ ...request?.payload },
+export async function putRequest<T>(
+  request: PUTRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.put<T>(
+    `${request?.URL}${request?.params ? '/' + request?.params : ''}${
+      request?.query ? '?' + request?.query : ''
+    }`,
+    { ...request?.payload },
     { withCredentials: true }
-	);
-
-} 
+  );
+}
