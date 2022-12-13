@@ -1,11 +1,24 @@
 export const ReportDataService = {
-  POST: {
-    makeReport: {
-      URL: '/report/' as const,
-      params: '',
-      query: '',
-      payload: {},
-      response: {}
+
+    GET:{
+        getReports:{
+            URL:'/report/' as const,
+            params:'',
+            query:'',
+            payload:{},
+            response:{}
+        }
+
+    },
+    POST:{
+
+        makeReport:{
+            URL:'/report/' as const,
+            params: '',
+            query: '',
+            payload: {},
+            response:{}
+        }
+
     }
-  }
-};
+  };

@@ -1,4 +1,5 @@
-import axios from 'axios';
+
+import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
 
@@ -7,313 +8,58 @@ import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { SubmittedQuestion } from '@/interfaces/user.interface';
 
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
-
 export const TraineeRoutes = {
   GET: {
     getMyCourses: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: [
-          {
-            _course: {
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: []
-              },
-              rating: {
-                averageRating: 0,
-                reviews: []
-              },
-              _id: '',
-              _instructor: [
-                {
-                  rating: {
-                    reviews: []
-                  },
-                  _id: '',
-                  name: '',
-                  profileImage: ''
-                }
-              ],
-              captions: [''],
-              category: '',
-              duration: 0,
-              language: '',
-              level: '',
-              previewVideoURL: '',
-              subcategory: [''],
-              thubmnail: '',
-              title: '',
-              id: ''
-            },
-            dateOfEnrollment: '',
-            _id: '',
-            notes: [],
-            examGrade: 0,
-            progress: 0
-          }
-        ]
-      }
+      payload: {}
     },
     getMyCart: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: [
-          {
-            price: {
-              currency: '',
-              currentValue: 0,
-              discounts: []
-            },
-            rating: {
-              averageRating: 0,
-              reviews: []
-            },
-            _id: '',
-            _instructor: [
-              {
-                rating: {
-                  averageRating: 0,
-                  reviews: []
-                },
-                _id: '',
-                name: '',
-                profileImage: '',
-                speciality: '',
-                title: ''
-              }
-            ],
-            category: '',
-            description: '',
-            subcategory: [''],
-            thumbnail: '',
-            title: '',
-            id: ''
-          }
-        ]
-      }
+      payload: {}
     },
     getMyWishlist: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: [
-          {
-            price: {
-              currency: '',
-              currentValue: 0,
-              discounts: [
-                {
-                  endData: '',
-                  percentage: 0,
-                  startDate: '',
-                  _id: ''
-                }
-              ]
-            },
-            rating: {
-              averageRating: 0,
-              reviews: []
-            },
-            _id: '',
-            _instructor: [
-              {
-                rating: {
-                  averageRating: 0,
-                  reviews: []
-                },
-                _id: '',
-                name: '',
-                profileImage: '',
-                speciality: '',
-                title: ''
-              }
-            ],
-            category: '',
-            description: '',
-            subcategory: [''],
-            thumbnail: '',
-            title: '',
-            id: ''
-          }
-        ]
-      }
+      payload: {}
     },
     getLastViewed: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: {
-          price: {
-            currency: '',
-            currentValue: 0,
-            discounts: []
-          },
-          rating: {
-            averagerating: 0,
-            reviews: []
-          },
-          _id: '',
-          _instructor: [
-            {
-              rating: {
-                averageRating: 0,
-                reviews: []
-              },
-              _id: '',
-              name: '',
-              profileImage: '',
-              speciality: '',
-              title: ''
-            }
-          ],
-          category: '',
-          description: '',
-          subcategory: [],
-          thubmnail: '',
-          title: '',
-          id: ''
-        },
-        message: '',
-        success: true
-      }
+      payload: {}
     },
     getEnrolledCourse: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: [
-          {
-            _course: {
-              _id: '',
-              category: '',
-              description: '',
-              duration: 0,
-              level: '',
-              numberOfEnrolledTrainees: 0,
-              previewVideoURL: '',
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: [
-                  {
-                    endDate: '',
-                    percentage: 0,
-                    startDate: '',
-                    _id: ''
-                  }
-                ]
-              },
-              rating: {
-                averageRating: 0
-              },
-              subcategory: [''],
-              thumbnail: '',
-              title: ''
-            },
-            earning: 0
-          },
-          {
-            _course: {
-              _id: '',
-              category: '',
-              description: '',
-              duration: 0,
-              level: '',
-              numberOfEnrolledTrainees: 0,
-              previewVideoURL: '',
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: []
-              },
-              rating: {
-                averageRating: 0
-              },
-              subcategory: ['', ''],
-              thumbnail: '',
-              title: ''
-            },
-            earning: 0
-          }
-        ],
-        page: 0,
-        pageSize: 0,
-        totalPages: 0,
-        totalResults: 0,
-        message: '',
-        success: false
-      }
+      payload: {}
     },
     getTrainee: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: {
-          _id: '',
-          _cart: [''],
-          _wishlist: [''],
-          active: false,
-          balance: 0,
-          email: {
-            address: '',
-            _id: '',
-            isVerified: false
-          },
-          name: '',
-          preferredSkills: [],
-          profileImage: '',
-          username: '',
-          _enrolledCourses: [
-            {
-              _course: '',
-              dateOfEnrollment: '',
-              _id: '',
-              notes: [],
-              examGrade: 0,
-              progress: 0,
-              dateOfCompletion: '',
-              _visitedLessons: [],
-              _submittedQuestions: [
-                {
-                  _questionId: '',
-                  submittedAnswer: ''
-                }
-              ]
-            }
-          ],
-          creditCards: [],
-          createdAt: '',
-          updatedAt: '',
-          lastLogin: '',
-          phone: '',
-          gender: '',
-          __v: 0,
-          country: '',
-          _lastViewedCourse: ''
-        },
-        message: '',
-        success: false
-      }
+      payload: {}
+    },
+    getSubmittedQuestions: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
     }
   },
   POST: {
+    storeNotes: {
+      URL: '/trainee/notes' as const,
+      params: '',
+      query: '',
+      payload: {}
+    },
     signup: {
       URL: '/trainee/signup' as const,
       params: '',
@@ -329,35 +75,31 @@ export const TraineeRoutes = {
         password: '',
         gender: '',
         country: ''
-      },
-      response: {
-        data: {
-          accessToken: '',
-          refreshToken: ''
-        }
       }
     },
     addToWishlist: {
       URL: '',
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: [],
-        message: '',
-        success: false
-      }
+      payload: {}
     },
     changePassword: {
       URL: '/change-password' as const,
       params: '',
       query: '',
-      payload: {},
-      response: {
-        data: {},
-        message: '',
-        success: false
-      }
+      payload: {}
+    },
+    addSubmittedQuestion: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {} as object,
+    },
+    addReviewToCourse: {
+      URL: 'courses/rating' as const,
+      params: '',
+      query: '',
+      payload: {} as Review,
     }
   },
   DELETE: {
@@ -394,14 +136,14 @@ export async function getTraineeReviewById(
 export async function addReviewToCourse(
   courseId: string | undefined,
   traineeReview: Review
-): Promise<Rating | undefined> {
-  if (!courseId) {
-    return undefined;
+): Promise<Rating | null> {
+  if (!courseId || !traineeReview) {
+    return null;
   }
-  const res = await axios.post<HttpResponse<Rating>>(
-    `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    traineeReview
-  );
+  const newReview = TraineeRoutes.POST.addReviewToCourse;
+  newReview.params = encodeURIComponent(courseId);
+  newReview.payload = traineeReview;
+  const res = await postRequest<HttpResponse<Rating>>(newReview);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -421,14 +163,14 @@ export async function addSubmittedQuestion(
   if (!courseId || !traineeId || !exerciseId || !questionId || !answer) {
     return;
   }
-  await axios.post<HttpResponse<SubmittedQuestion>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}/question/${encodeURIComponent(questionId)}`,
-    { answer }
-  );
+  const answerToQuestion = TraineeRoutes.POST.addSubmittedQuestion;
+  answerToQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}/question/${encodeURIComponent(questionId)}`;
+  answerToQuestion.payload = {answer};
+  await postRequest<HttpResponse<SubmittedQuestion>>(answerToQuestion);
 }
 
 export async function getSubmittedQuestions(
@@ -439,12 +181,14 @@ export async function getSubmittedQuestions(
   if (!courseId || !traineeId || !exerciseId) {
     return null;
   }
-  const res = await axios.get<HttpResponse<SubmittedQuestion[]>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}`
+  const submittedQuestion = TraineeRoutes.GET.getSubmittedQuestions;
+  submittedQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}`;
+  const res = await getRequest<HttpResponse<SubmittedQuestion[]>>(
+    submittedQuestion
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);

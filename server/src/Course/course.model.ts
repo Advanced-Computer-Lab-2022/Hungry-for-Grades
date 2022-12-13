@@ -5,7 +5,7 @@ import * as yt from 'youtube-info-streams';
 import { getYoutubeVideoID } from './course.common';
 import categories from '@Course/category.json';
 
-//balabizo
+//course schema
 const courseSchema = new Schema<ICourse>(
   {
     _instructor: [

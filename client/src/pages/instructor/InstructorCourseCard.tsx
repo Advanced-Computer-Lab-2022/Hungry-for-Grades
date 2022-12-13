@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable sonarjs/cognitive-complexity */
 
 import { AiFillEdit } from 'react-icons/ai';
 

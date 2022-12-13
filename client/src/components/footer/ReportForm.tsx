@@ -112,8 +112,8 @@ function ReportForm() {
               <textarea
                 className='form-control'
                 id='report'
-                name='report'
-                placeholder='Report'
+                name='description'
+                placeholder='Enter Your Description'
                 value={formik.values.description}
                 onChange={formik.handleChange}
               />
