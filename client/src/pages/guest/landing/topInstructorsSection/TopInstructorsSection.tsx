@@ -6,7 +6,6 @@ import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 function TopInstructorsSection() {
-
   const isLoading = false;
   const isError = false;
 
@@ -14,10 +13,9 @@ function TopInstructorsSection() {
     <section className='container'>
       <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
       {isLoading && <LoaderCards numberOfCards={3} />}
-      {isError && <ErrorMessage/>}
+      {isError && <ErrorMessage />}
       {!isLoading && !isError && (
         <div className='row'>
-
           <div className='col-12 col-md-6 col-lg-4'>
             <InsuctorCard />
           </div>

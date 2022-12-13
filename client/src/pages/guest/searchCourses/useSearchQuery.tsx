@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -55,7 +54,6 @@ async function searchRequest(
 	&searchTerm=${filters.searchTerm}
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
-
 
   return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
 }
