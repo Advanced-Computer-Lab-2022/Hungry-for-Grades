@@ -12,12 +12,13 @@ import UserDropdown from './userDropDown/UserDropdown';
 
 import WishCartButtons from './WishCartButtons';
 
+import styles from './navbar.module.scss';
+
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
-import './Navbar.scss';
 import toSmallNumber from '@/utils/toSmallNumber';
 import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
 
@@ -30,7 +31,7 @@ function NavbarComponent() {
   const user = UseUser();
 
   return (
-    <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
+    <Navbar bg='light' className={styles.navbar} expand='lg' sticky='top'>
       <Container>
         <Navbar.Brand>
           <Link to='/'>CanCham</Link>
@@ -50,15 +51,21 @@ function NavbarComponent() {
               {!isError &&
                 data?.data?.map(category => (
                   <NavDropdown.Item key={category.label}>
-                    <div className='category__parent__link'>
+                    <div className={styles.category__parent__link}>
                       <Link
-                        className='category__link  '
-                        to={`/courses?category=${category.label}`}
+                        className={styles.category__link}
+                        to={`/courses?category=${encodeURIComponent(
+                          category.label
+                        )}`}
                       >
                         {category.label}
                       </Link>
-                      <div className='subCategory__link d-flex flex-column'>
-                        {category.subcategory?.map(subCat => (
+                      <div
+                        className={`${
+                          styles.subCategory__link ?? ''
+                        } d-flex flex-column`}
+                      >
+                        {category?.subcategory?.map(subCat => (
                           <Link
                             key={subCat.label}
                             className=''
@@ -83,7 +90,7 @@ function NavbarComponent() {
           <Nav className='ml-auto'>
             <Nav.Link>
               <ReactFlagsSelect
-                className='flag__select'
+                className={styles.flag__select}
                 placeholder='Country'
                 selected={country}
                 showSelectedLabel={false}
@@ -95,16 +102,14 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-                  {user.role.toLocaleLowerCase() !==
-                    Role.ADMIN.toLocaleLowerCase() &&
-                    user?.balance && (
-                      <Link
-                        className='user__balance'
-                        to={`${user.role.toLocaleLowerCase()}/balance`}
-                      >
-                        ${toSmallNumber(user.balance)}
-                      </Link>
-                    )}
+                  {user?.balance && (
+                    <Link
+                      className={styles.user__balance}
+                      to={`/${user.role.toLocaleLowerCase()}/balance`}
+                    >
+                      ${toSmallNumber(user.balance)}
+                    </Link>
+                  )}
                   <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                     <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
                       {user.name}
@@ -115,11 +120,17 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <NavLink className='auth_btn nav-link' to='/auth/signup'>
-                  <span className='signup__btn'>Sign Up</span>
+                <NavLink
+                  className={`${styles.auth_btn ?? ''} nav-link`}
+                  to='/auth/signup'
+                >
+                  <span className={styles.signup__btn}>Sign Up</span>
                 </NavLink>
-                <NavLink className='auth_btn nav-link' to='/auth/login'>
-                  <span className='login__btn'>Login</span>
+                <NavLink
+                  className={`${styles.auth_btn ?? ''} nav-link`}
+                  to='/auth/login'
+                >
+                  <span className={styles.login__btn}>Login</span>
                 </NavLink>
               </>
             )}

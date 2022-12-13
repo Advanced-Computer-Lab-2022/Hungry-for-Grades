@@ -1,11 +1,11 @@
 import AreaAnalytics from './analytics/AreaAnalytics';
 
 import LineAnalytics from './analytics/LineAnalytics';
+import BarAnalytics from './analytics/BarAnalytics';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 
 import './nav-button.scss';
-import BarAnalytics from './analytics/BarAnalytics';
 
 type AnalyticData = {
   title: string;

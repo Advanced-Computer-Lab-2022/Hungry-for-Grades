@@ -3,8 +3,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { useCallback } from 'react';
-
 import useValidation from './useValidation';
 
 import { Role } from '@/enums/role.enum';
@@ -59,13 +57,10 @@ function Login() {
   const location = useLocation();
   const from: string = location?.state?.from?.pathname || '';
   const { formik } = useValidation();
-  const navigateToSignup = useCallback(() => {
-    navigate('/auth/signup');
-  }, [navigate]);
 
   async function handleSubmit() {
     try {
-      const { email, password } = formik.values;
+      const { email, password, rememberMe } = formik.values;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
@@ -75,14 +70,12 @@ function Login() {
       };
       const response = await login(loginRoute);
 
-      console.log('response');
-      console.log(response);
 
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase() as Role;
         useSetUser({ ...user, role: userRole });
-        if (role === Role.TRAINEE) {
+        if (role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()) {
           useCartStoreSetCart((user as ITrainee)?._cart);
           useWishListSetCart((user as ITrainee)?._wishlist);
           useTraineeNoteStoreSetNotes((user as ITrainee)?.notes);
@@ -90,11 +83,12 @@ function Login() {
         //session
         SessionStorage.set('accessToken', token.accessToken);
         updateCountry(user.country);
-        if (formik.values.rememberMe) {
-          LocalStorage.set('role', userRole);
+        if (rememberMe) {
+          LocalStorage.set('rememberme', true);
         } else {
-          LocalStorage.remove('role');
+          LocalStorage.set('rememberme', false);
         }
+        LocalStorage.set('role', userRole);
 
         if (from) {
           navigate(from.toLocaleLowerCase());
@@ -215,9 +209,7 @@ function Login() {
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/auth/signup' onClick={navigateToSignup}>
-                  Sign Up
-                </Link>
+                <Link to='/auth/signup'>Sign Up</Link>
               </span>
             </div>
             <div />

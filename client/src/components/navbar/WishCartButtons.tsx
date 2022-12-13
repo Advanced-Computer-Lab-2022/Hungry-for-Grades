@@ -21,7 +21,7 @@ function CourseCardButtons() {
   const wishListCost = UseWishListTotalCost();
   return (
     <>
-      <NavLink replace state={{ from: '/course/' }} to='/auth/login'>
+      <NavLink replace state={{ from: '/courses/' }} to='/auth/login'>
         <div className='d-flex flex-row justify-content-between'>
           <NavLink className='mt-2' to='/trainee/cart'>
             <p className='position-relative'>
@@ -57,7 +57,7 @@ function CourseCardButtons() {
                 >
                   +{toSmallNumber(wishListCount)}
                 </span>
-              )}{' '}
+              )}
               {wishListCost > 0 && (
                 <span
                   className={`${
