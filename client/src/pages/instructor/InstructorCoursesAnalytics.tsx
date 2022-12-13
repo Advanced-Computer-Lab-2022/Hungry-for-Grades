@@ -11,8 +11,8 @@ import {
 
 type AnalyticData = {
   title: string;
-  e: number;
-  t: number;
+  Earnings: number;
+  Trainees: number;
 };
 
 type CourseAnalyticsProps = {
@@ -69,7 +69,6 @@ export default function InstructorCoursesAnalytics(
           <YAxis />
           <Tooltip />
           <Legend />
-
           <Line dataKey='Trainees' stroke='#a00407' />
         </LineChart>
       </ResponsiveContainer>
