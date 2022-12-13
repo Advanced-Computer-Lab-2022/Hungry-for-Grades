@@ -82,7 +82,7 @@ export default function MainSection() {
                 Learn confidently with up-to-date courses
               </h4>
               <div className='d-flex justify-content-start mt-3'>
-                {!role && (
+                {!role ? (
                   <>
                     <Link
                       className='btn btn-outline-primary btn-lg'
@@ -97,6 +97,13 @@ export default function MainSection() {
                       Login
                     </Link>
                   </>
+                ) : (
+                  <Link
+                    className='btn btn-primary btn-lg mx-3'
+                    to={role ? `/${role as string}/courses` : '/courses'}
+                  >
+                    Search for Courses
+                  </Link>
                 )}
               </div>
             </div>

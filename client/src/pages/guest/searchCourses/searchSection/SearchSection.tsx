@@ -25,7 +25,6 @@ type SearchTitleProps = {
 };
 
 function SearchSection(props: SearchSectionProps & SearchTitleProps) {
-
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -34,8 +33,8 @@ function SearchSection(props: SearchSectionProps & SearchTitleProps) {
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
         {props.subHeading && props.heading && (
           <div className='container my-3 mb-5'>
-            <h1 className={`${styles.heading ?? ''} mt-5`}>{props.heading}</h1>
-            <h2 className={`${styles.subheading ?? ''}`}>{props.subHeading}</h2>
+            <h1 className={`${styles.heading ?? ''} mt-5 text-black`}>{props.heading}</h1>
+            <h2 className={`${styles.subheading ?? ''} text-primary`}>{props.subHeading}</h2>
           </div>
         )}
         <div className={`fluid-container ${styles.searchFilters ?? ''} `}>
