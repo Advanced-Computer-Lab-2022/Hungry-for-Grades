@@ -20,7 +20,7 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import AdminHome from '@/pages/admin/home/AdminHome';
+import CourseRequest from '@/pages/admin/corporateRequests/CourseRequest';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
@@ -28,7 +28,7 @@ import AdminHome from '@/pages/admin/home/AdminHome';
  * Guest Pages
  */
 const LazyLanding = lazy(() => import('@/pages/guest/landing/Landing'));
-const LazyCourse = lazy(() => import('@/pages/course/Course'));
+const LazyCourse = lazy(() => import('@/pages/guest/course/Course'));
 const LazySearchCourses = lazy(
   () => import('@/pages/guest/searchCourses/Courses')
 );
@@ -90,8 +90,12 @@ const LazyTraineeViewCourse = lazy(
 /**
  * Instructor Pages
  */
-const LazyAddCourse = lazy(() => import('@/pages/course-form/AddCourse'));
-const LazyEditCourse = lazy(() => import('@/pages/course-form/EditCourse'));
+const LazyAddCourse = lazy(
+  () => import('@/pages/instructor/course-form/AddCourse')
+);
+const LazyEditCourse = lazy(
+  () => import('@/pages/instructor/course-form/EditCourse')
+);
 const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
@@ -101,7 +105,9 @@ const LazyInstructorCoursesSection = lazy(
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
-const LazyAddExam = lazy(() => import('@/pages/course-form/AddExam'));
+const LazyAddExam = lazy(
+  () => import('@/pages/instructor/course-form/AddExam')
+);
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );
@@ -235,7 +241,7 @@ function AllRoutes() {
             <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
-          <Route element={<AdminHome />} path='test' />
+          <Route element={<CourseRequest />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />

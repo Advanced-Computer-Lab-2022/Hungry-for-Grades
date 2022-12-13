@@ -1,4 +1,9 @@
-import axios from 'axios';
+import {
+  deleteRequest,
+  getRequest,
+  postRequest,
+  putRequest
+} from '../http-verbs';
 
 import {
   HttpResponse,
@@ -12,9 +17,35 @@ import {
   ICourseQuestion,
   Review
 } from '@interfaces/course.interface';
+
 import { PaginatedRequest } from '@/interfaces/request.interface';
 
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+function createQueryString(params: unknown): string {
+  if (!params) {
+    return '';
+  }
+  let result = '';
+  for (const key in params) {
+    if (!params.hasOwnProperty(key)) {
+      continue;
+    }
+    const val = (params as Record<string, unknown>)[key];
+    if (typeof val === 'string') {
+      result +=
+        (result.length === 0 ? '' : '&') +
+        encodeURIComponent(key) +
+        '=' +
+        encodeURIComponent(val);
+    } else if (typeof val === 'number' || typeof val === 'boolean') {
+      result +=
+        (result.length === 0 ? '' : '&') +
+        encodeURIComponent(key) +
+        '=' +
+        val.toString();
+    }
+  }
+  return result;
+}
 
 export const CoursesRoutes = {
   GET: {
@@ -41,6 +72,54 @@ export const CoursesRoutes = {
       params: '',
       query: '',
       payload: ''
+    },
+    getCourses: {
+      URL: '/courses' as const,
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getCourseById: {
+      URL: '/courses' as const,
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getCourseExam: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    }
+  },
+  POST: {
+    createCourse: {
+      URL: '/courses' as const,
+      params: '',
+      query: '',
+      payload: {} as IAddCourseRequest
+    },
+    createExam: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {} as ICourseQuestion[]
+    }
+  },
+  PUT: {
+    updateCourse: {
+      URL: 'courses' as const,
+      params: '',
+      query: '',
+      payload: {} as IAddCourseRequest
+    }
+  },
+  DELETE: {
+    deleteCourse: {
+      URL: 'courses' as const,
+      params: '',
+      query: '',
+      payload: {}
     }
   }
 };
@@ -48,12 +127,9 @@ export const CoursesRoutes = {
 export async function getCourses(
   filter: ICourseFilters
 ): Promise<PaginatedResponse<ICourse>> {
-  const res = await axios.get<PaginatedResponse<ICourse>>(
-    `${APP_BASE_API_URL}/courses`,
-    {
-      params: filter
-    }
-  );
+  const courses = CoursesRoutes.GET.getCourses;
+  courses.query = createQueryString(filter);
+  const res = await getRequest<PaginatedResponse<ICourse>>(courses);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -77,16 +153,15 @@ export function getTopRatedCourses(
 export async function getCourseByID(
   courseID: string | undefined,
   country: string
-): Promise<ICourse | undefined> {
+): Promise<ICourse | null> {
   if (!courseID) {
-    return undefined;
+    return null;
   }
-  const res = await axios.get<HttpResponse<ICourse>>(
-    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseID)}`,
-    {
-      params: { country }
-    }
-  );
+  const courseById = CoursesRoutes.GET.getCourseById;
+  courseById.params = encodeURIComponent(courseID);
+  courseById.query = createQueryString({ country });
+
+  const res = await getRequest<HttpResponse<ICourse>>(courseById);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -98,11 +173,13 @@ export async function getCourseByID(
 
 export async function createCourse(
   course: IAddCourseRequest
-): Promise<ICourse> {
-  const res = await axios.post<HttpResponse<ICourse>>(
-    `${APP_BASE_API_URL}/courses/`,
-    course
-  );
+): Promise<ICourse | null> {
+  if (!course) {
+    return null;
+  }
+  const newCourse = CoursesRoutes.POST.createCourse;
+  newCourse.payload = course;
+  const res = await postRequest<HttpResponse<ICourse>>(newCourse);
   if (res.statusText !== 'Created') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -115,11 +192,14 @@ export async function createCourse(
 export async function updateCourse(
   course: IAddCourseRequest,
   courseId: string
-): Promise<ICourse> {
-  const res = await axios.put<HttpResponse<ICourse>>(
-    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`,
-    course
-  );
+): Promise<ICourse | null> {
+  if (!course || !courseId) {
+    return null;
+  }
+  const updatedCourse = CoursesRoutes.PUT.updateCourse;
+  updatedCourse.params = encodeURIComponent(courseId);
+  updatedCourse.payload = course;
+  const res = await putRequest<HttpResponse<ICourse>>(updatedCourse);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -129,10 +209,13 @@ export async function updateCourse(
   return res.data?.data;
 }
 
-export async function deleteCourse(courseId: string): Promise<ICourse> {
-  const res = await axios.delete<HttpResponse<ICourse>>(
-    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}`
-  );
+export async function deleteCourse(courseId: string): Promise<ICourse | null> {
+  if (!courseId) {
+    return null;
+  }
+  const deletedCourse = CoursesRoutes.DELETE.deleteCourse;
+  deletedCourse.params = encodeURIComponent(courseId);
+  const res = await deleteRequest<HttpResponse<ICourse>>(deletedCourse);
   if (res.statusText !== 'Accepted') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -144,13 +227,14 @@ export async function deleteCourse(courseId: string): Promise<ICourse> {
 
 export async function getCourseExam(
   courseId: string | undefined
-): Promise<ICourseQuestion[] | undefined> {
+): Promise<ICourseQuestion[] | null> {
   if (!courseId) {
-    return undefined;
+    return null;
   }
-  const res = await axios.get<HttpResponse<ICourseQuestion[]>>(
-    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}/exam`
-  );
+  const courseExam = CoursesRoutes.GET.getCourseExam;
+  courseExam.URL = `/courses/${encodeURIComponent(courseId)}/exam`;
+
+  const res = await getRequest<HttpResponse<ICourseQuestion[]>>(courseExam);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -163,14 +247,14 @@ export async function getCourseExam(
 export async function createExam(
   courseId: string | undefined,
   examData: ICourseQuestion[]
-): Promise<ICourseQuestion[] | undefined> {
+): Promise<ICourseQuestion[] | null> {
   if (!courseId) {
-    return undefined;
+    return null;
   }
-  const res = await axios.post<HttpResponse<ICourseQuestion[]>>(
-    `${APP_BASE_API_URL}/courses/${encodeURIComponent(courseId)}/exam`,
-    examData
-  );
+  const newExam = CoursesRoutes.POST.createExam;
+  newExam.URL = `/courses/${encodeURIComponent(courseId)}/exam`;
+  newExam.payload = examData;
+  const res = await postRequest<HttpResponse<ICourseQuestion[]>>(newExam);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -183,14 +267,14 @@ export async function createExam(
 export async function getCourseReviews(
   courseId: string | undefined,
   props: PaginatedRequest
-): Promise<PaginatedResponse<Review> | undefined> {
+): Promise<PaginatedResponse<Review> | null> {
   if (!courseId) {
-    return undefined;
+    return null;
   }
-  const res = await axios.get<PaginatedResponse<Review>>(
-    `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    { params: props }
-  );
+  const courseReviews = CoursesRoutes.GET.getCourseReviews;
+  courseReviews.params = encodeURIComponent(courseId);
+  courseReviews.query = createQueryString(props);
+  const res = await getRequest<PaginatedResponse<Review>>(courseReviews);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }

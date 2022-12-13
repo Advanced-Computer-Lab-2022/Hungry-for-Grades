@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
 
@@ -6,8 +6,6 @@ import { Review, ICourseReview, Rating } from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { SubmittedQuestion } from '@/interfaces/user.interface';
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 export const TraineeRoutes = {
   GET: {
@@ -46,6 +44,12 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    getSubmittedQuestions: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
     }
   },
   POST: {
@@ -83,6 +87,18 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    addSubmittedQuestion: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {} as object
+    },
+    addReviewToCourse: {
+      URL: 'courses/rating' as const,
+      params: '',
+      query: '',
+      payload: {} as Review
     }
   },
   DELETE: {
@@ -119,14 +135,14 @@ export async function getTraineeReviewById(
 export async function addReviewToCourse(
   courseId: string | undefined,
   traineeReview: Review
-): Promise<Rating | undefined> {
-  if (!courseId) {
-    return undefined;
+): Promise<Rating | null> {
+  if (!courseId || !traineeReview) {
+    return null;
   }
-  const res = await axios.post<HttpResponse<Rating>>(
-    `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    traineeReview
-  );
+  const newReview = TraineeRoutes.POST.addReviewToCourse;
+  newReview.params = encodeURIComponent(courseId);
+  newReview.payload = traineeReview;
+  const res = await postRequest<HttpResponse<Rating>>(newReview);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -146,14 +162,14 @@ export async function addSubmittedQuestion(
   if (!courseId || !traineeId || !exerciseId || !questionId || !answer) {
     return;
   }
-  await axios.post<HttpResponse<SubmittedQuestion>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}/question/${encodeURIComponent(questionId)}`,
-    { answer }
-  );
+  const answerToQuestion = TraineeRoutes.POST.addSubmittedQuestion;
+  answerToQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}/question/${encodeURIComponent(questionId)}`;
+  answerToQuestion.payload = { answer };
+  await postRequest<HttpResponse<SubmittedQuestion>>(answerToQuestion);
 }
 
 export async function getSubmittedQuestions(
@@ -164,12 +180,14 @@ export async function getSubmittedQuestions(
   if (!courseId || !traineeId || !exerciseId) {
     return null;
   }
-  const res = await axios.get<HttpResponse<SubmittedQuestion[]>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}`
+  const submittedQuestion = TraineeRoutes.GET.getSubmittedQuestions;
+  submittedQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}`;
+  const res = await getRequest<HttpResponse<SubmittedQuestion[]>>(
+    submittedQuestion
   );
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);

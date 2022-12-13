@@ -4,7 +4,7 @@ import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import { CartDTO, TraineeDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, INote, INote, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
+import { Cart, EnrolledCourse, INote, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -159,6 +159,10 @@ class TraineeService {
 
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee not found');
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
+
+    // check if trainee is already enrolled in the course
+    const isTraineeEnrolled = trainee._enrolledCourses.some(enrolledCourse => enrolledCourse._course._id.toString() == courseId);
+    if (isTraineeEnrolled) return course;
 
     course.numberOfEnrolledTrainees++;
     trainee._enrolledCourses.push({ _course: course, _submittedQuestions: [], dateOfEnrollment: new Date() });
@@ -535,6 +539,25 @@ class TraineeService {
     //get viewed lessons
     const viewedLessons = enrolledCourse._visitedLessons;
     return viewedLessons;
+  };
+
+  // get trainee's certified courses
+  public getTraineeCertifiedCourses = async (traineeId: string): Promise<EnrolledCourse[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId).populate({
+      path: '_enrolledCourses._course',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: 'rating.averageRating title description _instructor category subcategory previewVideoURL thumbnail',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    // select courses that trainee finished (implied certified)
+    const certifiedCourses = trainee._enrolledCourses.filter(enrolledCourse => enrolledCourse.dateOfCompletion);
+    return certifiedCourses;
   };
 }
 export default TraineeService;

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import styles from './cart-card.module.scss';
 
-import CourseRating from '@pages/course/CourseRating';
+import CourseRating from '@/pages/guest/course/CourseRating';
 
 import { CourseDiscount, Rating } from '@/interfaces/course.interface';
 

@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useNavigate } from 'react-router-dom';
 
-import { TraineeData } from './types';
+import { PropsTraineeData, TraineeData } from './types';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
@@ -47,8 +46,9 @@ const validationSchema = Yup.object({
     .required('Username is Required')
 });
 
-export default function ProfileForm(props: any) {
+export default function ProfileForm(props: PropsTraineeData) {
   const { initialValues, submitAction } = props;
+  console.log(typeof submitAction);
   const navigate = useNavigate();
 
   const formik = useFormik<TraineeData>({
@@ -96,7 +96,7 @@ export default function ProfileForm(props: any) {
           placeholder='Name'
           size={0}
           type='text'
-          value={formik.values.name}
+          value={formik.values.name ? formik.values.name : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -117,7 +117,7 @@ export default function ProfileForm(props: any) {
           placeholder='E-mail'
           size={0}
           type='text'
-          value={formik.values.email.address}
+          value={formik.values.email.address ? formik.values.email.address : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -153,7 +153,7 @@ export default function ProfileForm(props: any) {
           placeholder='Username'
           size={0}
           type='text'
-          value={formik.values.username}
+          value={formik.values.username ? formik.values.username : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -170,12 +170,12 @@ export default function ProfileForm(props: any) {
           placeholder='Phone Number'
           size={0}
           type='text'
-          value={formik.values.phone}
+          value={formik.values.phone ? formik.values.phone : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
       </div>
-      <div className='d-flex flex-row justify-content-end mt-4'>
+      <div className='d-flex flex-row justify-content-center mt-4'>
         <Button
           backgroundColor={'primary-bg'}
           isDisabled={

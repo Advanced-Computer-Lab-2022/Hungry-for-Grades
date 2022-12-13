@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSearchQuery from './fetchApi';
 import { updateProfile } from './updateApi';
 
 import ProfileForm from './ProfileForm';
+
+import { TraineeData } from './types';
 
 import Form from '@/components/form/Form';
 
@@ -12,7 +13,7 @@ export default function Profile() {
   const { isLoading, isError, data } = useSearchQuery();
   const verifiedData = data?.data?.data;
 
-  async function submitAction(traineeData: any) {
+  async function submitAction(traineeData: TraineeData) {
     console.log('was here 1');
     await updateProfile(traineeId, traineeData);
   }
@@ -27,10 +28,10 @@ export default function Profile() {
   if (!data) return <></>;
 
   const initialValues = {
-    name: verifiedData.name,
-    email: { address: verifiedData.email.address },
-    phone: verifiedData.phone,
-    username: verifiedData.username
+    name: verifiedData?.name,
+    email: { address: verifiedData?.email.address },
+    phone: verifiedData?.phone,
+    username: verifiedData?.username
   };
 
   return (

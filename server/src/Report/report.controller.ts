@@ -19,34 +19,24 @@ class ReportController {
     }
   };
 
-  // resolve report controller
-  public resolveReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
-    try {
-      const { reportId } = req.params;
-      const updatedReport = await this.reportService.resolveReport(reportId);
-      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Resolved Successfully', success: true });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  //reject report controller
-  public rejectReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
-    try {
-      const { reportId } = req.params;
-      const updatedReport = await this.reportService.rejectReport(reportId);
-      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Rejected Successfully', success: true });
-    } catch (error) {
-      next(error);
-    }
-  };
-
   // get report by id
   public getReportById = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
     try {
       const { reportId } = req.params;
       const report = await this.reportService.getReportById(reportId);
       res.status(HttpStatusCodes.OK).json({ data: report, message: 'Report Rejected Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update report controller
+  public updateReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
+    try {
+      const { reportId } = req.params;
+      const reportData: ReportDTO = req.body;
+      const updatedReport = await this.reportService.updateReport(reportId, reportData);
+      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
