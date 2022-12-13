@@ -19,9 +19,10 @@ export enum Reason {
   TECHNICAL = 'Technical',
 }
 export interface Report {
-  _course: ICourse;
+  _course: ICourse | Types.ObjectId;
   _id: Types.ObjectId;
-  _user: IUser;
+  _user: IUser | Types.ObjectId;
+  createdAt: Date;
   description: string;
   reason: Reason;
   role: Role;
@@ -33,6 +34,7 @@ export interface IReportFilters extends PaginatedRequest {
   _user?: string;
   endDate?: Date;
   reason?: Reason;
+  sort?: number; // 1: ascending, -1: descending , undefined: default (no sort)
   startDate?: Date;
   status?: Status;
 }

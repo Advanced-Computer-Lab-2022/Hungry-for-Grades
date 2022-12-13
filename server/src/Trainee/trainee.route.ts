@@ -16,7 +16,7 @@ class TraineeRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get('/', this.traineeController.getAllTrainees);
+    //this.router.get('/', this.traineeController.getAllTrainees);
     this.router.post('/signup', this.traineeController.createTrainee);
     this.router.get('/info', authMiddleware, roleMiddleware([Role.TRAINEE]), userMiddleware, this.traineeController.getTraineeInfo);
     this.router.get('/email', this.traineeController.getTraineeByEmail);
@@ -42,6 +42,7 @@ class TraineeRoute implements Routes {
     this.router.get('/:traineeId/course/:courseId/viewed-lessons', this.traineeController.getViewedLessons);
     this.router.post('/:traineeId/enroll/:courseId', this.traineeController.enrollTraineeInCourse);
     this.router.delete('/:traineeId/unroll/:courseId', this.traineeController.unrollTraineeInCourse);
+    this.router.get('/:traineeId/courses/certified', this.traineeController.getCertifiedCourses);
     // testing
     this.router.get('/:traineeId/last-viewed-course', authMiddleware, roleMiddleware([Role.TRAINEE]), this.traineeController.getLastViewedCourse);
     this.router.get('/:traineeId/course/:courseId/exercise/:exerciseId', this.traineeController.getSubmittedQuestions);
