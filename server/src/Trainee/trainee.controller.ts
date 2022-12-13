@@ -6,6 +6,7 @@ import { logger } from '@/Utils/logger';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
+import { Types } from 'mongoose';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
 
@@ -354,6 +355,18 @@ class TraineeController {
 
       const viewedLessons = await this.traineeService.getTraineeViewedLessons(traineeId, courseId);
       res.json({ data: viewedLessons, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee's certified courses
+  public getCertifiedCourses = async (req: Request, res: Response<HttpResponse<EnrolledCourse[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+
+      const certifiedCourses = await this.traineeService.getTraineeCertifiedCourses(traineeId);
+      res.json({ data: certifiedCourses, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

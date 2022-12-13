@@ -1,20 +1,27 @@
 import { logger } from '@/Utils/logger';
-import { Price } from '@Course/course.interface';
+import { Discount, Price } from '@Course/course.interface';
 import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
 
 export function getPriceAfterDiscount(price: Price) {
+  const discountsAvailable = getCourseDiscounts(price);
+  let result = 0;
+  if (discountsAvailable.length == 0)
+    // No discounts are available on the course
+    result = price.currentValue;
+  // Original Value Returned
+  else result = ((100 - discountsAvailable[0].percentage) / 100) * price.currentValue;
+  return Math.round(result * 100) / 100; // round to 2 decimal places
+}
+
+// gets discount currently available on the course
+export function getCourseDiscounts(price: Price): Discount[] {
   const currentDate = new Date();
-  const discountAvailable = price.discounts.filter(discount => {
+  const discountsAvailable = price.discounts.filter(discount => {
     return currentDate >= discount.startDate && currentDate <= discount.endDate;
   });
-  let result = 0;
-  if (discountAvailable.length == 0)
-    // No discounts are available on the course
-    result = price.currentValue; // Original Value Returned
-  else result = ((100 - discountAvailable[0].percentage) / 100) * price.currentValue;
-  return Math.round(result * 100) / 100; // round to 2 decimal places
+  return discountsAvailable;
 }
 
 export function getCurrencyFromCountry(countryCode: string): string {
@@ -32,7 +39,6 @@ export async function getConversionRate(country: string, toUSD = false): Promise
       currencyConverter = new CC({ from: 'USD', to: inputCurrency });
     }
     const rates = await currencyConverter.rates();
-    //console.log(rates, country, toUSD);
     return rates;
   } catch (err) {
     logger.error(err.message);

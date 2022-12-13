@@ -163,5 +163,23 @@ class InstructorService {
       totalResults: totalInstructors,
     };
   };
+
+  // update Instructor's earning in course
+  // amount param should be after deducting the platform fee and it should be in dollars
+  public updateInstructorEarningAndBalance = async (instructorId: string, courseId: string, amount: number): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorId);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
+
+    // get teached course
+    const course = instructor._teachedCourses.find(teachedCourse => teachedCourse._course.toString() === courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+
+    course.earning += amount;
+    instructor.balance += amount;
+
+    await instructor.save();
+  };
 }
 export default InstructorService;

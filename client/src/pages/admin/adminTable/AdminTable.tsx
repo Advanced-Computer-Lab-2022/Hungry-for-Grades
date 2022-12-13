@@ -1,6 +1,6 @@
 import { MdIndeterminateCheckBox } from 'react-icons/md';
 
-// NEEDS TO BE REVISED BECAUSE IT PRODUCES AN ERROR
+// NEED TO BE REVISED
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './table.module.scss';
 
