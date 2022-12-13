@@ -10,6 +10,7 @@ type Step = {
   isLastStep: boolean;
   next: () => void;
   prev: () => void;
+  titles: string[] | undefined;
   goTo: (stepIndex: number) => void;
 };
 
@@ -43,6 +44,7 @@ function useMultistepForm(
     isLastStep: currentStepIndex === steps.length - 1,
     next,
     prev,
+    titles,
     goTo
   };
 }

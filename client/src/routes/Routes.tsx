@@ -96,7 +96,7 @@ const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
 const LazyInstructorCoursesSection = lazy(
-  () => import('@/pages/instructor/InstructorCoursesSection')
+  () => import('@/pages/instructor/coursesData/InstructorCoursesSection')
 );
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
@@ -230,8 +230,9 @@ function AllRoutes() {
           <Route element={<LazyInstructorDashboard />}>
             <Route
               element={<LazyInstructorCoursesSection />}
-              path='dashboard'
-            />
+              path='my-courses'
+            />{' '}
+            <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
           <Route element={<AdminHome />} path='test' />

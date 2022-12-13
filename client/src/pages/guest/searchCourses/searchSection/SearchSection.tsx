@@ -27,7 +27,6 @@ type SearchTitleProps = {
 function SearchSection(props: SearchSectionProps & SearchTitleProps) {
   const { setSelectedFilters, selectedFilters } = props;
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   return (
     <section className={styles.searchSection__container}>
       <div className={`container-fluid bg-dark ${styles.searchSection ?? ''}`}>
