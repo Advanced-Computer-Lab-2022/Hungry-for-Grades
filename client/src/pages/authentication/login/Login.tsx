@@ -70,7 +70,6 @@ function Login() {
       };
       const response = await login(loginRoute);
 
-
       if (response && response.status === 200) {
         const { token, user, role } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase() as Role;

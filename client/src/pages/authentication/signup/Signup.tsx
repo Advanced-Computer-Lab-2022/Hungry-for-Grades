@@ -46,7 +46,7 @@ function Signup() {
     setData(prev => {
       return { ...prev, ...newData };
     });
- 
+
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     next();
   }
