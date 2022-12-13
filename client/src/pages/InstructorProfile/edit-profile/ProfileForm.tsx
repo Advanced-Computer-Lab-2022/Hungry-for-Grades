@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormikErrors, useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { useNavigate } from 'react-router-dom';
 
-import { TraineeData } from './types';
+import { InstructorData, PropsInstructorData } from './types';
 
 import Button from '@components/buttons/button/Button';
 import Input from '@components/inputs/input/Input';
@@ -52,11 +51,12 @@ const validationSchema = Yup.object({
     .required('Biography is Required')
 });
 
-export default function ProfileForm(props: any) {
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export default function ProfileForm(props: PropsInstructorData) {
   const { initialValues, submitAction } = props;
   const navigate = useNavigate();
 
-  const formik = useFormik<TraineeData>({
+  const formik = useFormik<InstructorData>({
     initialValues,
     validationSchema,
     onSubmit: submitAction,
@@ -71,7 +71,6 @@ export default function ProfileForm(props: any) {
       username: true,
       biography: true
     });
-    console.log('was here 2');
     await formik.submitForm();
     formik.handleSubmit();
 
@@ -103,7 +102,7 @@ export default function ProfileForm(props: any) {
           placeholder='Name'
           size={0}
           type='text'
-          value={formik.values.name}
+          value={formik.values.name ? formik.values.name : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -122,7 +121,7 @@ export default function ProfileForm(props: any) {
           placeholder='Biography'
           size={0}
           type='text'
-          value={formik.values.biography}
+          value={formik.values.biography ? formik.values.biography : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -143,7 +142,7 @@ export default function ProfileForm(props: any) {
           placeholder='E-mail'
           size={0}
           type='text'
-          value={formik.values.email.address}
+          value={formik.values.email.address ? formik.values.email.address : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -178,7 +177,7 @@ export default function ProfileForm(props: any) {
           placeholder='Username'
           size={0}
           type='text'
-          value={formik.values.username}
+          value={formik.values.username ? formik.values.username : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
@@ -195,7 +194,7 @@ export default function ProfileForm(props: any) {
           placeholder='Phone Number'
           size={0}
           type='text'
-          value={formik.values.phone}
+          value={formik.values.phone ? formik.values.phone : 0}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />

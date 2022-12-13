@@ -1,5 +1,3 @@
-import { useLocation } from 'react-router-dom';
-
 import { useReqQuery } from './useReqQuery';
 
 import { AllReport } from '@/interfaces/reports.interface';

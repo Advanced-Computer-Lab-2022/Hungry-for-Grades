@@ -20,8 +20,6 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import AdminHome from '@/pages/admin/adminTable/AdminTable';
-
 import CourseRequest from '@/pages/admin/corporateRequests/CourseRequest';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';

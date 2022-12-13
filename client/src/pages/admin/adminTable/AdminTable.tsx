@@ -1,5 +1,7 @@
 import { MdIndeterminateCheckBox } from 'react-icons/md';
 
+// NEED TO BE REVISED
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './table.module.scss';
 
 import { AllReport } from '@/interfaces/reports.interface';
