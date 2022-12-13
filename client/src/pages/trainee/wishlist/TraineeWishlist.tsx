@@ -40,9 +40,9 @@ export default function TraineeWishlist() {
       <div key={course?._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard
           key={course?._id}
+          enrolled={false}
           percent={-1}
           pprops={courseCardP}
-          enrolled={false}
         />
       </div>
     );
