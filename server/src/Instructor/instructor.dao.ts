@@ -16,9 +16,7 @@ class InstructorService {
 
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    const instructor: IInstructor = await instructorModel
-      .findById(instructorID)
-      .select('-password -bankAccount -rating.reviews -_teachedCourses -balance');
+    const instructor: IInstructor = await instructorModel.findById(instructorID).select('-password -bankAccount -rating.reviews -balance');
     return instructor;
   }
   public async findInstructors(): Promise<IInstructor[]> {

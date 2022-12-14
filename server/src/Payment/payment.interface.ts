@@ -17,7 +17,7 @@ export enum PaymentType {
 }
 
 export interface PaidCourse {
-  _course: ICourse;
+  _course: ICourse | Types.ObjectId;
   discountApplied: number;
   price: number; //after discount
 }

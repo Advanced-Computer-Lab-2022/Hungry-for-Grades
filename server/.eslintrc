@@ -24,7 +24,7 @@
     "@typescript-eslint/no-var-requires": "error",
     "typescript-sort-keys/interface": "error",
     "typescript-sort-keys/string-enum": "error",
-    "sort-keys": "error",
+    "sort-keys": "off",
     "no-console": "warn",
     "no-debugger": "error",
     "no-var": "error",
@@ -34,7 +34,7 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-destructuring": "error",
-    "sort-keys-fix/sort-keys-fix": "error",
+    "sort-keys-fix/sort-keys-fix": "off",
     "xss/no-location-href-assign": "error",
     "xss/no-mixed-html": "off"
   }
