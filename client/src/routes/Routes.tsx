@@ -56,6 +56,9 @@ const LazyUserProfile = lazy(
 const LazyTraineeLastStudied = lazy(
   () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
 );
+const LazyTraineeBoard = lazy(
+  () => import('@/pages/trainee/board/TraineeBoard')
+);
 const LazyTraineeEnrolledCourses = lazy(
   () => import('@/pages/trainee/courses/TraineeCourses')
 );
@@ -225,6 +228,7 @@ function AllRoutes() {
               path='courses'
             />
             <Route element={<LazyTraineeCertificate />} path='certificate' />
+            <Route element={<LazyTraineeBoard />} path='board' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
