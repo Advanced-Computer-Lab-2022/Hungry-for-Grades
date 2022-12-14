@@ -24,7 +24,7 @@ function Landing() {
       <Based />
       <TopInstructorsSection />
       {/*       <Sponsers />
-       */}{' '}
+       */}
       <TestmonialSection />
     </>
   );

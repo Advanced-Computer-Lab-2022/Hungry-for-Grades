@@ -12,7 +12,7 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
     for (let i = 1; i <= pages; i++) {
       elements.push(
         <div
-          key={i}
+          key={i * 33 * Math.random()}
           className={`${activePage === i ? styles.active ?? '' : ''}`}
           onClick={() => setActivePage(i)}
         >
@@ -23,7 +23,12 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
     return elements;
   }
   return (
-    <div className={styles.pagination}>
+    <div
+      className={styles.pagination}
+      style={{
+        zIndex: 99999
+      }}
+    >
       <div
         // Previous page (<) inactive if current page is 1
         className={`${styles.paginationArrow ?? ''}${
@@ -31,8 +36,7 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
         }`}
         style={{
           cursor: activePage === 1 ? 'not-allowed' : 'pointer',
-					opacity: activePage === 1 ? '0.7' : '1'
-
+          opacity: activePage === 1 ? '0.7' : '1'
         }}
         onClick={() =>
           activePage !== 1 && setActivePage((page: number) => page - 1)
