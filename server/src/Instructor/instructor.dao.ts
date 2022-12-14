@@ -163,8 +163,8 @@ class InstructorService {
   };
 
   // update Instructor's earning in course
-  // amount param should be after deducting the platform fee and it should be in dollars
-  public updateInstructorEarningAndBalance = async (instructorId: string, courseId: string, amount: number): Promise<void> => {
+  // profit param should be after deducting the platform fee and it should be in dollars
+  public updateInstructorEarningAndBalance = async (instructorId: string, courseId: string, profit: number): Promise<void> => {
     if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
     const instructor = await instructorModel.findById(instructorId);
@@ -172,10 +172,33 @@ class InstructorService {
 
     // get teached course
     const course = instructor._teachedCourses.find(teachedCourse => teachedCourse._course.toString() === courseId);
-    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist or is not teached by this instructor');
 
-    course.earning += amount;
-    instructor.balance += amount;
+    // balance & earnings can be negative (if instructor owes money to the platform)
+    course.earning += profit;
+    instructor.balance += profit;
+
+    await instructor.save();
+  };
+
+  // adjust instructor's balance after refund
+  // both profit params should be after deducting the platform fee and should be in dollars
+  public adjustBalanceAfterRefund = async (instructorId: string, courseId: string, oldProfit: number, newProfit: number): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorId);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
+
+    // get teached course
+    const course = instructor._teachedCourses.find(teachedCourse => teachedCourse._course.toString() === courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist or is not teached by this instructor');
+
+    let netProfit = newProfit - oldProfit;
+    netProfit = Math.round(netProfit * 100) / 100;
+
+    // balance & earnings can be negative (if instructor owes money to the platform)
+    instructor.balance += netProfit;
+    course.earning += netProfit;
 
     await instructor.save();
   };
