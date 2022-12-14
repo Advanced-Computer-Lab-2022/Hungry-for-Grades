@@ -8,7 +8,7 @@ function App() {
   const ctxRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [lineWidth, setLineWidth] = useState(5);
-  const [lineColor, setLineColor] = useState('red');
+  const [lineColor, setLineColor] = useState('black');
   const [lineOpacity, setLineOpacity] = useState(0.1);
   const [prevMouse, setPrevMouse] = useState({ prevMouseY: 0, prevMouseX: 0 });
 
@@ -28,6 +28,7 @@ function App() {
     ctx.lineWidth = lineWidth;
     ctxRef.current = ctx;
 
+
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
   }, []);
@@ -41,12 +42,7 @@ function App() {
     if (!ctxRef && !ctxRef.current) {
       return;
     }
-    const ctx = {
-      globalAlpha: lineOpacity,
-      strokeStyle: lineColor,
-      fillStyle: lineColor,
-      lineWidth: lineWidth
-    };
+
 
     ctxRef.current.fillStyle = lineColor;
     ctxRef.current.strokeStyle = lineColor;
