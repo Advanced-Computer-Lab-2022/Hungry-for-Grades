@@ -210,7 +210,7 @@ function Footer() {
         </section>
 
         <div className='text-center p-3'>
-          © {new Date().getFullYear()} Copyright &middot;{' '}
+          © {new Date().getFullYear()} Copyright &middot;
           <a className='text-white' href={COMPANY_WEBSITE}>
             {COMPANY_NAME}
           </a>

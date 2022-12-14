@@ -1,8 +1,14 @@
 import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
+import LocalStorage from '@/services/localStorage/LocalStorage';
+
 import './mainSection.scss';
+const COMPANY_EMAIL = import.meta.env.VITE_COMPANY_EMAIL;
+const mail = `mailto:${COMPANY_EMAIL}?subject=Cancham%20Instructor%20Application&body=Dear%20Cancham%20%2C%0A1-%20Name%0A2-%20Please%20attach%20your%20cv%0A3-%20Specification%0A4-%20Your%20Contact%20Details%20and%20Social%20media%20links%0A`;
 export default function MainSection() {
+  const role = LocalStorage.get('role');
+
   return (
     <section className='slider'>
       <div
@@ -25,9 +31,9 @@ export default function MainSection() {
               <h3 className='text-black'>Focused on strategy</h3>
               <h4 className='text-primary'>To Reach Your Goal Faster</h4>
               <div className='d-flex justify-content-start mt-3'>
-                <Link className='btn btn-primary btn-lg' to={'courses'}>
-                  courses
-                </Link>
+                <a className='btn btn-primary btn-lg' href={mail}>
+                  Be an Instructor
+                </a>
               </div>
             </div>
           </div>
@@ -47,6 +53,14 @@ export default function MainSection() {
                 Access to a collection of top-rated courses in tech, business,
                 and more.
               </h4>
+              <div className='d-flex justify-content-start mt-3'>
+                <Link
+                  className='btn btn-primary btn-lg'
+                  to={role ? `/${role as string}/courses` : '/courses'}
+                >
+                  Search for Courses
+                </Link>
+              </div>
             </div>
           </div>
           <div className='carousel-item vh-100'>
@@ -67,6 +81,31 @@ export default function MainSection() {
               <h4 className='text-primary'>
                 Learn confidently with up-to-date courses
               </h4>
+              <div className='d-flex justify-content-start mt-3'>
+                {!role ? (
+                  <>
+                    <Link
+                      className='btn btn-outline-primary btn-lg'
+                      to={'/auth/signup'}
+                    >
+                      Sign up
+                    </Link>
+                    <Link
+                      className='btn btn-primary btn-lg mx-3'
+                      to={'/auth/login'}
+                    >
+                      Login
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    className='btn btn-primary btn-lg mx-3'
+                    to={role ? `/${role as string}/courses` : '/courses'}
+                  >
+                    Search for Courses
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>

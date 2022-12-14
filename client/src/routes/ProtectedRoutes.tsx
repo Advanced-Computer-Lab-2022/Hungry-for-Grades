@@ -17,10 +17,8 @@ import { Role } from '@/enums/role.enum';
 import { ITrainee } from '@/interfaces/course.interface';
 
 import { removeInfo } from '@services/savedInfo/SavedInfo';
-import { UseTraineeNoteStoreSetNotes } from '@store/noteStore';
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
-  const useTraineeNoteStoreSetNotes = UseTraineeNoteStoreSetNotes();
   const updateCountry = UpdateCountry();
 
   const { isLoading, isError, data, error } = useUserInfoQuery(
@@ -42,8 +40,6 @@ function ProtectedRoutes() {
   ) {
     const userData = data?.data?.data;
 
-    console.log('userData');
-    console.log(userData);
     useSetUser(userData);
     if (userData.country) {
       updateCountry(userData?.country);
@@ -53,8 +49,6 @@ function ProtectedRoutes() {
     ) {
       useCartStoreSetCart((userData as ITrainee)?._cart);
       useWishListSetCart((userData as ITrainee)?._wishlist);
-      console.log((userData as ITrainee)?.notes);
-      useTraineeNoteStoreSetNotes((userData as ITrainee)?.notes);
     }
   }
 

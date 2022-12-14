@@ -46,8 +46,7 @@ function Signup() {
     setData(prev => {
       return { ...prev, ...newData };
     });
-    console.log('newData');
-    console.log(newData);
+
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     next();
   }

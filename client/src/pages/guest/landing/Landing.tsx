@@ -9,20 +9,22 @@ import FeatureSection from './featureSection/FeatureSection';
 import MainSection from './mainSection/MainSection';
 
 import Based from './basedOnYourChoices/Based';
-
-import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
-
+/* import Sponsers from './sponsers/Sponsers';
+ */
+/* import InstructorBillboard from '@/components/instructorBillboard/InstructorBillboard';
+ */
 function Landing() {
   return (
     <>
       <MainSection />
       <FeatureSection />
-      <InstructorBillboard />
+      {/*       <InstructorBillboard />
+       */}{' '}
       <TopRatedCourses />
-
       <Based />
       <TopInstructorsSection />
-
+      {/*       <Sponsers />
+       */}{' '}
       <TestmonialSection />
     </>
   );
