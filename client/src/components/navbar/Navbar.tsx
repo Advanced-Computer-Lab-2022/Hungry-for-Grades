@@ -102,14 +102,16 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-                  {user?.balance && (
+
+                  {user.role !== Role.ADMIN && (
                     <Link
                       className={styles.user__balance}
                       to={`/${user.role.toLocaleLowerCase()}/balance`}
                     >
-                      ${toSmallNumber(user.balance)}
+                      ${toSmallNumber(user.balance as number)}
                     </Link>
                   )}
+
                   <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                     <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
                       {user.name}
