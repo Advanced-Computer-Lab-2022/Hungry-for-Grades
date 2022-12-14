@@ -19,12 +19,10 @@ function App() {
     console.log(canvas);
     const ctx = canvas?.getContext('2d');
 
-
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     ctxRef.current = ctx;
-
 
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -39,7 +37,6 @@ function App() {
     if (!ctxRef && !ctxRef.current) {
       return;
     }
-
 
     ctxRef.current.fillStyle = lineColor;
     ctxRef.current.strokeStyle = lineColor;
