@@ -2,24 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
 
-import { CoursesRoutes } from '@services/axios/dataServices/CoursesDataService';
+import { InstructorRoutes } from '@services/axios/dataServices/InstructorDataService';
 import { getRequest } from '@services/axios/http-verbs';
 
 import { PaginatedResponse } from '@/interfaces/response.interface';
-import { ICourse } from '@/interfaces/course.interface';
+import { IInstructor } from '@/interfaces/instructor.interface';
 
 async function searchRequest(page: number) {
-  const getCoursesSearchFilter = Object.assign(
+  const getTopInstructors = Object.assign(
     {},
-    CoursesRoutes.GET.getCoursesSearchFilter
+    InstructorRoutes.GET.getTopInstructors
   );
   const searchQuery = `
 	&limit=${3}
 	&page=${page}
 	`.trim();
-  getCoursesSearchFilter.query = searchQuery;
+  getTopInstructors.query = searchQuery;
 
-  return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<IInstructor>>(getTopInstructors);
 }
 
 function useTopInstructorQuery() {

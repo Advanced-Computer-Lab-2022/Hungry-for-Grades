@@ -70,7 +70,9 @@ function FeatureSection() {
         </div>
       </section>
 
-      <div className='left-image-decor' />
+      <div className='left-image-decor' style={{
+				zIndex: '-1'
+			}}/>
     </>
   );
 }

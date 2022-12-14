@@ -148,7 +148,7 @@ class InstructorService {
     const instructors = await instructorModel
       .find()
       .sort({ 'rating.averageRating': -1 })
-      .select('name profileImage rating.averageRating speciality title country');
+      .select('name profileImage rating.averageRating speciality title country biography');
 
     const toBeSkipped = (page - 1) * pageLimit;
     const totalInstructors = instructors.length;

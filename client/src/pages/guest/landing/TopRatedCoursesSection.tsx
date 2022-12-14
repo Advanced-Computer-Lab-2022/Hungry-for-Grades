@@ -36,7 +36,9 @@ function TopRatedCourses() {
           ))}
         </div>
         <p className='text-end'>
-          <Link to='/courses'>View all courses</Link>
+          <Link style={{
+						zIndex:'999'
+					}}to='/courses'>View all courses</Link>
         </p>
       </section>
     );
