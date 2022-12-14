@@ -26,7 +26,11 @@ function MenuHeadersExample() {
     storeNotes.payload = {
       notes: useTraineeNoteStoreNotes
     };
-    await postRequest(storeNotes);
+    try {
+      await postRequest(storeNotes);
+    } catch (e) {
+      console.log(e);
+    }
     useUserStoreLogOut();
   }
   return (

@@ -14,6 +14,9 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
         <div
           key={i * 33 * Math.random()}
           className={`${activePage === i ? styles.active ?? '' : ''}`}
+          style={{
+            cursor: 'pointer'
+          }}
           onClick={() => setActivePage(i)}
         >
           {i < 10 ? `0${i}` : i}
