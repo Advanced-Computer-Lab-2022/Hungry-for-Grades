@@ -26,9 +26,14 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
     <div className={styles.pagination}>
       <div
         // Previous page (<) inactive if current page is 1
-        className={`${styles['pagination-arrow'] ?? ''}${
+        className={`${styles.paginationArrow ?? ''}${
           activePage === 1 ? styles.inactive ?? '' : ''
         }`}
+        style={{
+          cursor: activePage === 1 ? 'not-allowed' : 'pointer',
+					opacity: activePage === 1 ? '0.7' : '1'
+
+        }}
         onClick={() =>
           activePage !== 1 && setActivePage((page: number) => page - 1)
         }
@@ -38,9 +43,13 @@ function Pagination({ activePage, pages, setActivePage }: PaginationProps) {
       {getPages()} {/* We will handle this method in the next step */}
       <div
         // Next Page (>) inactive if the current page is the last page.
-        className={`${styles['pagination-arrow'] ?? ''}${
+        className={`${styles.paginationArrow ?? ''}${
           activePage === pages ? styles.inactive ?? '' : ''
         }`}
+        style={{
+          cursor: activePage === pages ? 'not-allowed' : 'pointer',
+          opacity: activePage === pages ? '0.7' : '1'
+        }}
         onClick={() =>
           activePage !== pages && setActivePage((page: number) => page + 1)
         }

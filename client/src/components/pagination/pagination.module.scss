@@ -25,12 +25,17 @@
     color: white;
 }
 
-.pagination div.pagination-arrow {
+.pagination div.paginationArrow {
     font-size: 24px;
     color: #91b4f9;
 }
 
-.pagination div.pagination-arrow.inactive {
+.pagination div.paginationArrow.inactive {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.inactive {
     opacity: 0.7;
     cursor: not-allowed;
 }

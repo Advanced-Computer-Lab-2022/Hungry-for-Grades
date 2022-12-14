@@ -27,13 +27,13 @@ function Newsletter() {
   }, [formik, signupToNewsletter]);
 
   return (
-    <div className='container subscribe' >
+    <div className='container subscribe'>
       <h2 className='subscribe__title'>Subscribe to our NewsLetter </h2>
       <div className='container form d-flex flex-row justify-content-center'>
         <input
           className='form__email mx-2'
           id='newsletter'
-					name='email'
+          name='email'
           placeholder='Enter your email address'
           type='email'
           value={formik.values.email}

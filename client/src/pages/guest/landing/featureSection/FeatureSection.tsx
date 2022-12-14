@@ -28,7 +28,7 @@ function FeatureSection() {
                     Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
                     diam, nec consectetur diam.
                   </p>
-                  <a className='main-button'  href='#rated-courses'>
+                  <a className='main-button' href='#rated-courses'>
                     Read More
                   </a>
                 </div>
