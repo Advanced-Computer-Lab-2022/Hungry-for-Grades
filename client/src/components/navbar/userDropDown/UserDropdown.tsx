@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable css-modules/no-unused-class */
-/* eslint-disable react/jsx-no-bind */
 import { useRef, useState } from 'react';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';

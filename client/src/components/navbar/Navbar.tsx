@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -40,9 +39,9 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav-link active' : 'nav-link'
-              }
+              className={function activate({ isActive }) {
+                return isActive ? 'nav-link active' : 'nav-link';
+              }}
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
@@ -94,7 +93,9 @@ function NavbarComponent() {
                 placeholder='Country'
                 selected={country}
                 showSelectedLabel={false}
-                onSelect={code => updateCountry(code)}
+                onSelect={function updateCode(code) {
+                  updateCountry(code);
+                }}
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
