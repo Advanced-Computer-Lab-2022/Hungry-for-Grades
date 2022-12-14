@@ -70,6 +70,18 @@ class ReportController {
       next(error);
     }
   };
+
+  // add follow up message controller
+  public addFollowUpMessage = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
+    try {
+      const { reportId, userId } = req.params;
+      const followUpMessage = req.body;
+      const updatedReport = await this.reportService.addMessageToFollowUp(userId, reportId, followUpMessage);
+      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Follow Up Message Added Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default ReportController;
