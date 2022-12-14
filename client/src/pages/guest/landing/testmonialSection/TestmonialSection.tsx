@@ -44,7 +44,7 @@ function TestmonialSection() {
 
   return (
     <section className='section mb-5' id='testimonials'>
-      <div className='right-image-decor' />
+      <div className='right-image-decor' style={{ zIndex: '-1' }} />
       <div className='container'>
         <div className='row'>
           <div className='col-lg-8 offset-lg-2'>

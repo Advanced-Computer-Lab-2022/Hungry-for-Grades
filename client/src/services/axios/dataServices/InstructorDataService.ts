@@ -17,6 +17,12 @@ export const InstructorRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    getTopInstructors: {
+      URL: '/instructor/top-rated' as const,
+      params: '',
+      query: 'limit=3',
+      payload: {}
     }
   },
   POST: {

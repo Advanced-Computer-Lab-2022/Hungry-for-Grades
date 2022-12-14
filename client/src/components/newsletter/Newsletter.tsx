@@ -32,6 +32,7 @@ function Newsletter() {
       <div className='container form d-flex flex-row justify-content-center'>
         <input
           className='form__email mx-2'
+          id='newsletter'
           name='email'
           placeholder='Enter your email address'
           type='email'
