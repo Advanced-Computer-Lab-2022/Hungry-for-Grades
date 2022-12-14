@@ -9,7 +9,7 @@ function TopInstructors({
   title,
   rating,
   country,
-	biography,
+  biography,
   _id
 }: IInstructor) {
   return (
@@ -37,19 +37,12 @@ function TopInstructors({
             <small>{speciality}</small>
           </div>
           <div className='text-primary'>{title}</div>
-          <div className='profile-description  text-truncate'>
-           {biography}
-          </div>
+          <div className='profile-description  text-truncate'>{biography}</div>
           <div className='row'>
-					<div className='col-xs-4'>
+            <div className='col-xs-4'>
               <div className='profile-overview'>
                 <p>COUNTRY</p>
-                <h5
-                  className='text-primary text-truncate'
-
-                >
-                  {country}
-                </h5>
+                <h5 className='text-primary text-truncate'>{country}</h5>
               </div>
             </div>
             <div className='col-xs-4'>
@@ -60,7 +53,6 @@ function TopInstructors({
                 </h5>
               </div>
             </div>
-
           </div>
         </div>
       </Link>

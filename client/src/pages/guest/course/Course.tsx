@@ -16,6 +16,7 @@ import { UseCountry } from '@/store/countryStore';
 
 import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 function Course() {
   const country = UseCountry();
@@ -31,9 +32,7 @@ function Course() {
     return <ErrorMessage />;
   }
   if (isLoading) {
-    return (
-      <div className='text-info text-center'>Loading course information...</div>
-    );
+    return <LoaderComponent />;
   }
   if (!data) {
     return <></>;

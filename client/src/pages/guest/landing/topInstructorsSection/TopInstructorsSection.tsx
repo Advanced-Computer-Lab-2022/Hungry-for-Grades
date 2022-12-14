@@ -15,14 +15,16 @@ function TopInstructorsSection() {
   console.log('data');
   console.log(data);
   return (
-    <section className='container'>
+    <section className='container' id='rated-instructors'>
       <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
       {isLoading && <LoaderCards numberOfCards={3} />}
       {isError && <ErrorMessage />}
       {!isLoading && !isError && data && data?.data?.totalResults > 0 && (
-        <div style={{
-					zIndex:'9999999'
-				}}>
+        <div
+          style={{
+            zIndex: '9999999'
+          }}
+        >
           <div className='row'>
             {data.data.data.map(instructor => {
               return (
@@ -39,8 +41,6 @@ function TopInstructorsSection() {
           />
         </div>
       )}
-
-
     </section>
   );
 }
