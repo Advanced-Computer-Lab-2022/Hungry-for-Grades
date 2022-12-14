@@ -1,3 +1,5 @@
+import { ICourse } from '@/Course/course.interface';
+import { IUser } from '@/User/user.interface';
 import { IsEnum } from 'class-validator';
 import { Reason, Status } from './report.interface';
 

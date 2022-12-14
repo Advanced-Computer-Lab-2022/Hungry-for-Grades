@@ -20,8 +20,6 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import AdminHome from '@/pages/admin/adminTable/AdminTable';
-
 import CourseRequest from '@/pages/admin/corporateRequests/CourseRequest';
 
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
@@ -92,8 +90,12 @@ const LazyTraineeViewCourse = lazy(
 /**
  * Instructor Pages
  */
-const LazyAddCourse = lazy(() => import('@/pages/instructor/course-form/AddCourse'));
-const LazyEditCourse = lazy(() => import('@/pages/instructor/course-form/EditCourse'));
+const LazyAddCourse = lazy(
+  () => import('@/pages/instructor/course-form/AddCourse')
+);
+const LazyEditCourse = lazy(
+  () => import('@/pages/instructor/course-form/EditCourse')
+);
 const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
@@ -103,7 +105,9 @@ const LazyInstructorCoursesSection = lazy(
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
-const LazyAddExam = lazy(() => import('@/pages/instructor/course-form/AddExam'));
+const LazyAddExam = lazy(
+  () => import('@/pages/instructor/course-form/AddExam')
+);
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );

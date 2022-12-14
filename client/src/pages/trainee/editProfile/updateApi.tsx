@@ -1,14 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+
+import { TraineeData } from './types';
+
+import { HttpResponse } from '@/interfaces/response.interface';
+import { ITrainee } from '@/interfaces/course.interface';
+
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
-export async function updateProfile(traineeId: string, traineeData: any) {
-  const res = await axios.patch(
-    `${APP_BASE_API_URL}/trainee/${traineeId}`,
+export async function updateProfile(
+  traineeId: string,
+  traineeData: TraineeData
+): Promise<ITrainee> {
+  const res: AxiosResponse<HttpResponse<ITrainee>> = await axios.patch(
+    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(traineeId)}`,
     traineeData
   );
-  if (res.statusText !== 'Updated') {
+  if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {

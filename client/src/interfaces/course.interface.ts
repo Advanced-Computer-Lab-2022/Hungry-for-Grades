@@ -4,13 +4,12 @@ import { PaginatedRequest } from './request.interface';
 import { ICart } from './cart.interface';
 
 import {
-  Address,
   CreditCard,
   IUser,
   Note,
   Reminder,
   SubmittedQuestion
-} from '@/interfaces/user.interface';
+} from './user.interface';
 
 import { Level } from '@/enums/level.enum';
 
@@ -104,7 +103,6 @@ export type Instructor = {
   _id: string;
   name: string;
   profileImage: string;
-  address: Address;
   email: Email;
   biography: string;
   balance: number;

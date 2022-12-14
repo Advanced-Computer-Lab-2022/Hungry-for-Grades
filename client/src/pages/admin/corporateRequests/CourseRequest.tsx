@@ -1,4 +1,5 @@
 
+
 import { useLocation } from 'react-router-dom';
 
 import { useState } from 'react';
@@ -6,9 +7,8 @@ import { useState } from 'react';
 import { useReqQuery } from './useReqQuery';
 
 import { AllReport } from '@/interfaces/reports.interface';
-import AdminTable from '@pages/admin/adminTable/AdminTable';
+import { AdminTable } from '@pages/admin/adminTable/AdminTable';
 import Loader from '@/components/loader/loaderpage/Loader';
-
 
 export default function CourseRequest() {
 
@@ -47,5 +47,5 @@ export default function CourseRequest() {
     <div style={{marginLeft:'3rem', marginTop:'1.5rem'}}><AdminTable data={arr as AllReport[]} funA = {addFoo} funR = {removeFoo } st = {set as Set<AllReport>} /></div>
     </div>
     </>
-  )
+  );
 }

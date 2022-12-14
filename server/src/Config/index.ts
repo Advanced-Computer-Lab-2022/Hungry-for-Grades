@@ -36,4 +36,5 @@ export const {
   EMAIL_SERVICE,
   SENDER_MAIL,
   SENDER_PASSSWORD,
+  STRIPE_PRIVATE_KEY,
 } = process.env;

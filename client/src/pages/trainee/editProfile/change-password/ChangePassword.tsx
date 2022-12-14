@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -6,7 +5,7 @@ import { useCallback } from 'react';
 
 import { toast } from 'react-toastify';
 
-import { TraineeData } from './types';
+import { TraineeData, TraineeSubmitActionData } from './types';
 
 import { toastOptions } from '@components/toast/options';
 
@@ -35,14 +34,16 @@ const validationSchema = Yup.object({
 const initialValues: TraineeData = {
   oldPassword: '',
   newPassword: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  role: '',
+  _id: ''
 };
 
 export default function ChangePassword() {
   const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
-    async (data: any) => {
+    async (data: TraineeSubmitActionData) => {
       try {
         const updateRoute = Object.assign(
           {},
