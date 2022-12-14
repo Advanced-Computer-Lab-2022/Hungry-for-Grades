@@ -8,17 +8,14 @@
         justify-content: flex-start;
         align-items: center;
     }
-    h1 {
-        font-family: 'Lobster', cursive;
-        font-size: 50px;
-        color: #4644f0;
-    }
     .draw-area {
         width: 1280px;
         height: 720px;
-        border: 2px solid var(--primary-color);
         position: relative;
         background-color: white;
+    }
+    .canvas {
+        border: 2px solid var(--primary-color);
         border-radius: 5px;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
@@ -26,14 +23,25 @@
         -o-border-radius: 5px;
     }
     .Menu {
-        width: 650px;
+        width: 720px;
         height: 50px;
         display: flex;
+        padding: 1rem;
         justify-content: space-evenly;
         border-radius: 5px;
         align-items: center;
         background-color: #a3a3a32d;
         margin: auto;
         margin-top: 10px;
+        input {
+            width: 100px;
+            height: 30px;
+            border: none;
+            margin-right: 0.5rem;
+        }
+        label {
+            border: none;
+            margin-left: 0.5rem;
+        }
     }
 }
