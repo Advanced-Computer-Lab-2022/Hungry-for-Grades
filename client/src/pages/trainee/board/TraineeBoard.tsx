@@ -10,7 +10,7 @@ function App() {
   const [lineWidth, setLineWidth] = useState(5);
   const [lineColor, setLineColor] = useState('black');
   const [lineOpacity, setLineOpacity] = useState(0.1);
-  const [prevMouse, setPrevMouse] = useState({ prevMouseY: 0, prevMouseX: 0 });
+  const [, setPrevMouse] = useState({ prevMouseY: 0, prevMouseX: 0 });
 
   // Initialization when the component
   // mounts for the first time
@@ -19,13 +19,10 @@ function App() {
     console.log(canvas);
     const ctx = canvas?.getContext('2d');
 
+
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.globalAlpha = lineOpacity;
-    ctx.strokeStyle = lineColor;
-    ctx.fillStyle = lineColor;
 
-    ctx.lineWidth = lineWidth;
     ctxRef.current = ctx;
 
 
