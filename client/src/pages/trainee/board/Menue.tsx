@@ -45,7 +45,7 @@ function Menu({
         min='1'
         name='opacity'
         type='range'
-        value={lineOpacity*100}
+        value={lineOpacity * 100}
         onChange={e => {
           setLineOpacity(() => parseInt(e.target.value) / 100);
         }}

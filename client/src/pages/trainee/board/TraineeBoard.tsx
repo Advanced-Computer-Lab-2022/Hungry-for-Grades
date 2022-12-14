@@ -34,12 +34,11 @@ function App() {
 
   // Function for starting the drawing
   function startDrawing(e) {
-    /*     setPrevMouse(() => ({
+    setPrevMouse(() => ({
       prevMouseX: e.offsetX,
       prevMouseY: e.offsetY
-    })); */
+    }));
     if (!ctxRef && !ctxRef.current) {
-      alert('sss');
       return;
     }
     const ctx = {
