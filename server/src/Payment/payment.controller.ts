@@ -64,6 +64,17 @@ class PaymentController {
       next(error);
     }
   };
+
+  // refund controller
+  public refund = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const { traineeId, courseId } = req.params;
+      await this.paymentService.refundPayment(traineeId, courseId);
+      res.json({ data: null, message: 'Refund Successful', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default PaymentController;

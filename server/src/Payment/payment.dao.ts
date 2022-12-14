@@ -108,7 +108,6 @@ class PaymentService {
   // get total amount paid each month in a given year for a given instructor
   public async getMonthlyRevenue(instructorId: string, year: number, country: string): Promise<number[]> {
     const conversionRate = await getConversionRate(country);
-    console.log(conversionRate);
 
     // get instructor's courses
     const instructor = await this.instructorService.findInstructorById(instructorId);
@@ -127,7 +126,9 @@ class PaymentService {
           if (payment.paymentType == PaymentType.CART_PAYMENT)
             monthlyPayments[payment.createdAt.getMonth()] += paidCourse.price * 0.8 * conversionRate; // only 80% of the price goes to the instructor
           else if (payment.paymentType == PaymentType.REFUND_PAYMENT)
-            monthlyPayments[payment.createdAt.getMonth()] -= payment.amount * conversionRate; // refund amount should be subtracted(full amount?)
+            //payment.amount represents refund amount (70% of the paid course price)
+            // 30% of paid price remain of which 80% goes to the instructor
+            monthlyPayments[payment.createdAt.getMonth()] -= (payment.amount / 0.7) * 0.3 * 0.8;
         }
       }
     }
@@ -137,6 +138,58 @@ class PaymentService {
       monthlyPayments[i] = Math.floor(monthlyPayments[i] * 100) / 100;
     }
     return monthlyPayments;
+  }
+
+  // refund payment
+  public async refundPayment(traineeId: string, courseId: string): Promise<void> {
+    // check if trainee is enrolled in the course
+    const enrolledCourse = await this.traineeService.getEnrolledCourseById(traineeId, courseId);
+    if (!enrolledCourse) throw new HttpException(422, 'Trainee is not enrolled in this course');
+
+    // const traineeProgress=enrolledCourse?.progress ??0;
+    // if(traineeProgress<50) throw new HttpException(422, 'Refund is not allowed before 50% of the course is completed');
+
+    // get payment where trainee bought this course
+    const payment = await paymentModel.findOne({ '_courses._course': courseId, trainee: traineeId });
+    if (!payment) throw new HttpException(422, 'Trainee did not buy this course');
+
+    // get price trainee paid for this course
+    const paidPrice = payment._courses.find(PaidCourse => PaidCourse._course.toString() == courseId).price;
+
+    let refundAmount = paidPrice * 0.7; // only 70% of the price is refunded (refund amount in $)
+    refundAmount = Math.floor(refundAmount * 100) / 100; // round to 2 decimal places
+
+    // update trainee balance
+    await this.traineeService.updateTraineeBalance(traineeId, refundAmount);
+
+    // update instructor balance
+    const oldProfit = paidPrice * 0.8; // only 80% of the price goes to the instructor
+    const newProfit = paidPrice * 0.3 * 0.8; // 30% only remain after refund and only 80% of the price goes to the instructor
+
+    const instructorId = enrolledCourse._course._instructor[0]?._id ?? enrolledCourse._course._instructor;
+    await this.instructorService.adjustBalanceAfterRefund(instructorId.toString(), courseId, oldProfit, newProfit);
+
+    // create refund payment
+    await paymentModel.create(
+      {
+        _courses: [
+          {
+            _course: courseId,
+            discountApplied: 0,
+            price: paidPrice,
+          },
+        ],
+        amount: refundAmount,
+        paymentType: PaymentType.REFUND_PAYMENT,
+        trainee: traineeId,
+      },
+      (err: Error) => {
+        if (err) {
+          logger.error(err.message);
+          throw new HttpException(500, 'Error saving payment');
+        }
+      },
+    );
   }
 }
 export default PaymentService;
