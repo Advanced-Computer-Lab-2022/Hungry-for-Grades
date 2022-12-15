@@ -598,8 +598,8 @@ class TraineeService {
     const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
     if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
 
-    //await sendCertificateEmail(trainee.email.address,trainee.name, enrolledCourse._course.title, ""+enrolledCourse.examGrade);
-    await sendCertificateEmail('ahmedheshamwahba@gmail.com', trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
+    await sendCertificateEmail(trainee.email.address,trainee.name, enrolledCourse._course.title, ""+enrolledCourse.examGrade);
+    
   };
 }
 export default TraineeService;
