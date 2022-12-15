@@ -67,7 +67,7 @@ function Signup() {
     isLastStep,
     next,
     prev,
-		goTo
+    goTo
   } = useMultistepForm(
     [
       // eslint-disable-next-line react/jsx-no-bind
@@ -164,7 +164,7 @@ function Signup() {
               </Link>
               <div className='mt-4'>
                 <ProgressSteps
-								currentStepIndex={currentStepIndex}
+                  currentStepIndex={currentStepIndex}
                   goTo={goTo}
                   icons={[
                     <BiUserPin key='icon-12313' className='icon' />,
