@@ -27,8 +27,11 @@ class PaymentController {
     try {
       const { traineeId } = req.params;
       const country = req.query.country as string;
+      const walletUsed = req.query.walletUsed as string;
 
-      await this.paymentService.savePayment(traineeId, country);
+      const walletUsedBool = walletUsed === 'true' ? true : false;
+
+      await this.paymentService.savePayment(traineeId, country, walletUsedBool);
       res.status(201).json({ data: null, message: 'Payment Successful', success: true });
     } catch (error) {
       next(error);
