@@ -1,12 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable css-modules/no-unused-class */
-/* eslint-disable react/jsx-no-bind */
 import { useRef, useState } from 'react';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';
 import { FiUser, FiLogOut } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './UserDropdown.module.scss';
 
@@ -15,6 +13,8 @@ import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
 
 import { UseUserStoreLogOut, UseUser } from '@store/userStore';
 import { postRequest } from '@/services/axios/http-verbs';
+import { removeInfo } from '@/services/savedInfo/SavedInfo';
+
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
@@ -31,7 +31,9 @@ function MenuHeadersExample() {
     } catch (e) {
       console.log(e);
     }
+    removeInfo();
     useUserStoreLogOut();
+    useNavigate()('/auth/login');
   }
   return (
     user && (
@@ -87,15 +89,16 @@ function MenuHeadersExample() {
                   <IoSettingsOutline className={styles.nav__icon} /> Settings
                 </NavLink>
               </NavDropdown.Item>{' '}
-              <NavDropdown.Item>
-                <Link
-                  replace
-                  style={{ color: 'inherit' }}
-                  to='/'
-                  onClick={logout}
+              <NavDropdown.Item onClick={logout}>
+                <button
+                  style={{ color: 'inherit', outline: 'none', border: 'none' }}
+                  type='button'
+                  onClick={async function x() {
+                    await logout();
+                  }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out
-                </Link>
+                </button>
               </NavDropdown.Item>
             </div>
           )}
