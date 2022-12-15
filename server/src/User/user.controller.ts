@@ -1,18 +1,11 @@
 import { ITrainee } from '@/Trainee/trainee.interface';
-// import { CreateUserDto } from '@/User/user.dto';
-// import { IUser } from '@/User/user.interface';
-// import userService from '@/User/users.dao';
-// import { HttpResponse } from '@/Utils/HttpResponse';
-// import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-// import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
-// import { NextFunction, Request, Response } from 'express';
-
 import { RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
 import { IInstructor } from '@/Instructor/instructor.interface';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { NextFunction, Response } from 'express';
 import { IAdmin } from '@/Admin/admin.interface';
 import { Role } from './user.enum';
+import { getConversionRate, getCurrencyFromCountry } from '@/Course/course.common';
 
 // import { type filters } from './user.type';
 class UsersController {
@@ -21,11 +14,18 @@ class UsersController {
   // @desc gets Instructor info by accessToken
   public getUserInfo = async (
     req: RequestWithTokenPayloadAndUser,
-    res: Response<HttpResponse<(IInstructor | ITrainee | IAdmin) & { role: Role }>>,
+    res: Response<HttpResponse<(IInstructor | ITrainee | IAdmin) & { currency: string; role: Role }>>,
     next: NextFunction,
   ): Promise<void> => {
     try {
-      res.json({ data: { ...req.user, role: req.tokenPayload.role }, message: 'Completed Successfully', success: true });
+      const country = (req.query.country as string) ?? 'US';
+      const currency = await getCurrencyFromCountry(country);
+      const conversionRate = await getConversionRate(country);
+
+      if ((<ITrainee | IInstructor>req.user).balance) {
+        (<ITrainee | IInstructor>req.user).balance = conversionRate * (<ITrainee | IInstructor>req.user).balance;
+      }
+      res.json({ data: { ...req.user, role: req.tokenPayload.role, currency }, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
