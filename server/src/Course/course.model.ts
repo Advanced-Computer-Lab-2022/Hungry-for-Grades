@@ -155,6 +155,16 @@ const courseSchema = new Schema<ICourse>(
     subcategory: [requiredString],
     thumbnail: requiredString,
     title: requiredString,
+    examGrades: {
+      average: {
+        default: 0,
+        type: Number,
+      },
+      totalAttempts: {
+        default: 0,
+        type: Number,
+      },
+    },
   },
   {
     timestamps: true,
