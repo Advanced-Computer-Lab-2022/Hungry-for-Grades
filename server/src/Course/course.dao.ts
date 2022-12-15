@@ -399,6 +399,28 @@ class CourseService {
     return userReview;
   }
 
+  // delete user review on course
+  public async deleteUserReviewOnCourse(courseID: string, traineeID: string): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID.toString());
+    if (userReviewIndex == -1) return;
+    //throw new HttpException(HttpStatusCodes.NOT_FOUND, "You haven't reviewed this course yet");
+
+    const userReview = course.rating.reviews[userReviewIndex];
+
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews.splice(userReviewIndex, 1);
+
+    await course.save();
+  }
+
   //create exam for course
   public createExam = async (courseId: string, examData: Question[]): Promise<Question[]> => {
     if (isEmpty(examData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Exam data is empty');

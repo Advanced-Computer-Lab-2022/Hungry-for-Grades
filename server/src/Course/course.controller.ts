@@ -187,6 +187,23 @@ class CourseController {
     }
   };
 
+  // delete user review controller
+  public deleteUserReview = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const courseId = req.params.courseId as string;
+      const traineeId = req.params.traineeId as string;
+
+      await this.courseService.deleteUserReviewOnCourse(courseId, traineeId);
+      res.json({
+        data: null,
+        message: 'Review Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   //create exam controller
   public createExam = async (req: Request, res: Response<HttpResponse<Question[]>>, next: NextFunction) => {
     try {

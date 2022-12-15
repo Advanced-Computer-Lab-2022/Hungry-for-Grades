@@ -30,6 +30,7 @@ class InstructorsRoute implements Routes {
     this.router.post('/socialMedia/:instructorID', this.instructorController.addSocialMedia);
     this.router.post('/rating/:instructorID', this.instructorController.addReviewToInstructor);
     this.router.get('/rating/:instructorID', this.instructorController.getInstructorReviews);
+    this.router.delete('/rating/:instructorID/trainee/:traineeID', this.instructorController.deleteReview);
 
     this.router.get('/:instructorID/balance', this.instructorController.getInstructorBalance);
   }

@@ -103,6 +103,27 @@ class InstructorService {
     };
   }
 
+  // delete user review on instructor
+  public async deleteReview(instructorID: string, traineeID: string): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) return;
+
+    const userReview = instructor.rating.reviews[reviewIndex];
+    console.log(userReview);
+
+    const totalReviews = instructor.rating.reviews.length;
+    const newRating = (instructor.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+    instructor.rating.averageRating = Math.round(newRating * 100) / 100;
+    instructor.rating.reviews.splice(reviewIndex, 1);
+
+    await instructor.save();
+  }
+
   //update instructor profile
   public async updateInstructor(instructorId: string, instructorData: CreateInstructorDTO): Promise<IInstructor> {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');

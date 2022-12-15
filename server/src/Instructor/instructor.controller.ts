@@ -109,6 +109,23 @@ class InstructorController {
     }
   };
 
+  // delete review controller
+  public deleteReview = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const traineeID: string = req.params.traineeID as string;
+
+      await this.instructorService.deleteReview(instructorID, traineeID);
+      res.json({
+        data: null,
+        message: 'Review Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   //edit instructor profile controller
   public updateInstructorProfile = async (req: Request, res: Response<HttpResponse<IInstructor>>, next: NextFunction) => {
     try {
