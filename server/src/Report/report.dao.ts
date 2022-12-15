@@ -99,7 +99,7 @@ class ReportService {
     if (reportFilters._course) matchQuery['_course'] = new mongoose.Types.ObjectId(reportFilters._course);
     if (reportFilters._user) matchQuery['_user'] = new mongoose.Types.ObjectId(reportFilters._user);
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
-    if (reportFilters.reason) matchQuery['reason'] = reportFilters.reason;
+    if (reportFilters.reason) matchQuery['reason'] = {$in: reportFilters.reason};
     if (reportFilters.isSeen) matchQuery['isSeen'] = reportFilters.isSeen === 'true';
 
     const AndDateQuery = [];
