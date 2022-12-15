@@ -10,6 +10,7 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { logger } from '@/Utils/logger';
 import InstructorService from '@/Instructor/instructor.dao';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 
 const stripe = new Stripe(STRIPE_PRIVATE_KEY, { apiVersion: '2022-11-15' });
 
@@ -55,6 +56,7 @@ class PaymentService {
   // create and save payment upon success
   public async savePayment(traineeId: string, country: string, walletUsed: boolean): Promise<void> {
     const cartPaginatedResponse = await this.traineeService.getCart(traineeId, country, 1, 10000);
+
     // cart is empty
     if (cartPaginatedResponse.totalResults == 0) return;
 

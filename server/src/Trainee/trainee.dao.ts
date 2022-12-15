@@ -13,6 +13,8 @@ import courseModel from '@/Course/course.model';
 import { ICourse, Lesson, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
 import CourseService from '@/Course/course.dao';
+import { sendEmail } from '@/Common/Email Service/nodemailer.service';
+import { sendCertificateEmail } from '@/Common/Email Service/email.template';
 
 class TraineeService {
   public authService = new AuthService();
@@ -587,6 +589,17 @@ class TraineeService {
     amount = Math.floor(amount * 100) / 100;
     trainee.balance += amount;
     await trainee.save();
+  };
+
+  // send certificate by email
+  public sendCertificateByEmail = async (traineeId: string, courseId: string): Promise<void> => {
+    const trainee = await traineeModel.findById(traineeId);
+
+    const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    //await sendCertificateEmail(trainee.email.address,trainee.name, enrolledCourse._course.title, ""+enrolledCourse.examGrade);
+    await sendCertificateEmail('ahmedheshamwahba@gmail.com', trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;
