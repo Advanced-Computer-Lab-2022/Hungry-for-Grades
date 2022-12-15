@@ -28,8 +28,13 @@ class InstructorsRoute implements Routes {
     this.router.patch('/:instructorID', this.instructorController.updateInstructorProfile);
 
     this.router.post('/socialMedia/:instructorID', this.instructorController.addSocialMedia);
+
+    //Ratings & Reviews
     this.router.post('/rating/:instructorID', this.instructorController.addReviewToInstructor);
     this.router.get('/rating/:instructorID', this.instructorController.getInstructorReviews);
+    this.router.get('/rating/:instructorID/trainee/:traineeID', this.instructorController.getUserReview);
+    this.router.delete('/rating/:instructorID/trainee/:traineeID', this.instructorController.deleteReview);
+    this.router.patch('/rating/:instructorID/trainee/:traineeID', this.instructorController.updateUserReview);
 
     this.router.get('/:instructorID/balance', this.instructorController.getInstructorBalance);
   }
