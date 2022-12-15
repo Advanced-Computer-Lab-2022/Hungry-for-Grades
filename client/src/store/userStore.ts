@@ -5,7 +5,6 @@ import { devtools } from 'zustand/middleware';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 
 import { type IUser } from '@interfaces/user.interface';
-import { removeInfo } from '@/services/savedInfo/SavedInfo';
 
 export interface IUserStore {
   user: IUser | null;
@@ -29,8 +28,6 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
     setIsAuthenticated: (isAuthenticated: boolean | null) =>
       set({ isAuthenticated }),
     logOut: () => {
-      removeInfo();
-      window.location.replace('/');
       set({ user: null, isAuthenticated: false });
     }
   }))

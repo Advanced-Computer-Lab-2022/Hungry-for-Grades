@@ -63,6 +63,7 @@ function Signup() {
     step,
     title,
     subtitle,
+    subtitles,
     isLastStep,
     next,
     prev
@@ -172,6 +173,7 @@ function Signup() {
                     <MdMarkEmailRead key='icon-12dssd313' className='icon' />
                   ]}
                   steps={titles}
+                  subtitles={subtitles}
                 />
               </div>
             </div>

@@ -48,7 +48,10 @@ export default function MainSection() {
               }}
             />
             <div className='carousel-caption d-sm-none d-md-block position-absolute text-black'>
-              <h3 className='text-truncate'> Take your career to the next level</h3>
+              <h3 className='text-truncate'>
+                {' '}
+                Take your career to the next level
+              </h3>
               <h4 className='text-primary text-truncate'>
                 Access to a collection of top-rated courses in tech, business,
                 and more.

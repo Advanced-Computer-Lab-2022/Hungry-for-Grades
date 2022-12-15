@@ -6,6 +6,7 @@ type Step = {
   step: ReactElement | string;
   title?: string;
   subtitle?: string;
+  subtitles?: string[];
   isFirstStep: boolean;
   isLastStep: boolean;
   next: () => void;
@@ -42,6 +43,7 @@ function useMultistepForm(
     subtitle: subtitles ? subtitles.at(currentStepIndex) : undefined,
     isFirstStep: currentStepIndex === 0,
     isLastStep: currentStepIndex === steps.length - 1,
+    subtitles,
     next,
     prev,
     titles,

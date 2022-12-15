@@ -11,5 +11,5 @@ export function removeInfo() {
   SessionStorage.remove('accessToken');
   LocalStorage.remove('refreshToken');
   LocalStorage.remove('role');
-  document.cookie = '';
+  LocalStorage.remove('REMEMBERME');
 }

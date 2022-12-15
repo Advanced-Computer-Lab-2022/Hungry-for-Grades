@@ -15,10 +15,11 @@ function ProgressSteps(props: ProgressStepsProps) {
               >
                 {!props.icons ? (
                   <span className='number'>{index}</span>
-                ) :
+                ) : (
                   props.icons[index]
-                }
+                )}
                 {step}
+                <span>{props.subtitles ? props.subtitles[index] : ''}</span>
               </div>
             </li>
           );
