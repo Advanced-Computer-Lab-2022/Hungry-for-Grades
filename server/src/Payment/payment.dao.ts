@@ -10,6 +10,7 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { logger } from '@/Utils/logger';
 import InstructorService from '@/Instructor/instructor.dao';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 
 const stripe = new Stripe(STRIPE_PRIVATE_KEY, { apiVersion: '2022-11-15' });
 
@@ -23,6 +24,8 @@ class PaymentService {
     const currency = getCurrencyFromCountry(country);
     // generate line items
     const cartItems = (await this.traineeService.getCart(traineeId, country, 1, 10000)).data;
+    if (cartItems.length === 0) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Cart is empty');
+
     const lineItems = cartItems.map(item => {
       return {
         price_data: {
@@ -51,8 +54,9 @@ class PaymentService {
   }
 
   // create and save payment upon success
-  public async savePayment(traineeId: string, country: string): Promise<void> {
+  public async savePayment(traineeId: string, country: string, walletUsed: boolean): Promise<void> {
     const cartPaginatedResponse = await this.traineeService.getCart(traineeId, country, 1, 10000);
+
     // cart is empty
     if (cartPaginatedResponse.totalResults == 0) return;
 
@@ -66,11 +70,25 @@ class PaymentService {
       };
     });
 
+    // get total cart cost in USD
+    const totalCartCost = Math.floor(cartPaginatedResponse.totalCost * conversionRate * 100) / 100;
+
+    // check if wallet is used and deduct from trainee's balance accordingly
+    if (walletUsed) {
+      const trainee = await this.traineeService.getTraineeById(traineeId);
+
+      // check if wallet balance is enough
+      if (trainee.balance < totalCartCost) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Wallet balance is not enough');
+
+      // update wallet balance
+      await this.traineeService.updateTraineeBalance(traineeId, -totalCartCost);
+    }
+
     // Saving Transaction
     await paymentModel.create(
       {
         _courses: cartItems,
-        amount: Math.floor(cartPaginatedResponse.totalCost * conversionRate * 100) / 100, // exact amount paid after all discounts
+        amount: totalCartCost, // exact amount paid after all discounts
         paymentType: PaymentType.CART_PAYMENT,
         trainee: traineeId,
       },
