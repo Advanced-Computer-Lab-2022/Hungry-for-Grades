@@ -163,6 +163,7 @@ class CourseService {
           subcategory: 1,
           thumbnail: 1,
           title: 1,
+          examGrades: 1,
         },
       },
     ];
@@ -210,8 +211,6 @@ class CourseService {
     }
 
     const teachedCourses: ITeachedCourse[] = queryResult[0]?._teachedCourses ?? [];
-    //osa
-    logger.info(queryResult[0].count);
 
     const totalCourses = teachedCourses.length;
     const totalPages = Math.ceil(totalCourses / pageLimit);
@@ -966,6 +965,24 @@ class CourseService {
       }
     }
     return failedCourses;
+  }
+
+  // add examGrade to course
+  public async modifyAverageExamGrade(courseID: string, examGradeInPercent: number): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // compute new average exam grade
+    const courseExamGrade = course.examGrades;
+    const total = courseExamGrade.totalAttempts;
+    const oldAverage = courseExamGrade.average;
+    let newAverage = (oldAverage * total + examGradeInPercent) / (total + 1);
+    newAverage = Math.round(newAverage * 100) / 100;
+
+    course.examGrades = { average: newAverage, totalAttempts: total + 1 };
+    await course.save();
   }
 }
 export default CourseService;

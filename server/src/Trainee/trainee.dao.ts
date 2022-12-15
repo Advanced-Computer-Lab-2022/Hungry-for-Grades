@@ -509,7 +509,7 @@ class TraineeService {
   };
 
   // submit exam for trainee
-  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<void> => {
+  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<number> => {
     if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
 
     const trainee = await traineeModel.findById(traineeId);
@@ -529,12 +529,15 @@ class TraineeService {
 
     const examGrade = (correctAnswersCount / exam.length) * 100;
     enrolledCourse.examGrade = examGrade;
+    await this.courseService.modifyAverageExamGrade(courseId, examGrade);
+
     if (examGrade >= 50) {
       // Only Certify if at least 50%
       enrolledCourse.dateOfCompletion = new Date();
       // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
+    return examGrade;
   };
 
   // get trainee's viewed lessons
