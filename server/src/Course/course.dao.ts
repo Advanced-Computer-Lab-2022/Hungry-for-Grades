@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
@@ -419,6 +419,31 @@ class CourseService {
     course.rating.reviews.splice(userReviewIndex, 1);
 
     await course.save();
+  }
+
+  // update review on course
+  public async updateUserReviewOnCourse(courseID: string, traineeID: string, userReview: ReviewDTO): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    console.log(course.rating.reviews);
+
+    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID.toString());
+    if (userReviewIndex == -1) return;
+
+    const oldUserReview = course.rating.reviews[userReviewIndex];
+
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews - oldUserReview.rating + userReview.rating) / totalReviews;
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews[userReviewIndex].rating = userReview.rating;
+    course.rating.reviews[userReviewIndex].comment = userReview.comment;
+
+    await course.save();
+
+    return course.rating.reviews[userReviewIndex];
   }
 
   //create exam for course

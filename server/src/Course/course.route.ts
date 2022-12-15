@@ -26,6 +26,7 @@ class CoursesRoute implements Routes {
     this.router.get('/rating/:courseId', this.courseController.getCourseReviews);
     this.router.get('/rating/:courseId/trainee/:traineeId', this.courseController.getUserReview);
     this.router.delete('/rating/:courseId/trainee/:traineeId', this.courseController.deleteUserReview);
+    this.router.patch('/rating/:courseId/trainee/:traineeId', this.courseController.updateUserReview);
     this.router.get('/instructor/:instructorId', this.courseController.getInstructorCourses);
 
     //FAQ

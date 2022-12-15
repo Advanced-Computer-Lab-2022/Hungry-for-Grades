@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
@@ -197,6 +197,24 @@ class CourseController {
       res.json({
         data: null,
         message: 'Review Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update review controller
+  public updateUserReview = async (req: Request, res: Response<HttpResponse<Review>>, next: NextFunction) => {
+    try {
+      const courseId = req.params.courseId as string;
+      const traineeId = req.params.traineeId as string;
+      const reviewData: ReviewDTO = req.body;
+
+      const updatedReview: Review = await this.courseService.updateUserReviewOnCourse(courseId, traineeId, reviewData);
+      res.json({
+        data: updatedReview,
+        message: 'Review Updated Successfully',
         success: true,
       });
     } catch (error) {

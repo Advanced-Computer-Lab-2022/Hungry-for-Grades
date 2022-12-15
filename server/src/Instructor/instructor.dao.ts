@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { FrequentlyAskedQuestionDTO } from '@/Course/course.dto';
 import { HttpException } from '@/Exceptions/HttpException';
 import instructorModel from '@/Instructor/instructor.model';
@@ -114,7 +114,6 @@ class InstructorService {
     if (reviewIndex === -1) return;
 
     const userReview = instructor.rating.reviews[reviewIndex];
-    console.log(userReview);
 
     const totalReviews = instructor.rating.reviews.length;
     const newRating = (instructor.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
@@ -122,6 +121,45 @@ class InstructorService {
     instructor.rating.reviews.splice(reviewIndex, 1);
 
     await instructor.save();
+  }
+
+  // update user review
+  public async updateReview(instructorID: string, traineeID: string, reviewData: ReviewDTO): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) return;
+
+    const userReview = instructor.rating.reviews[reviewIndex];
+
+    const totalReviews = instructor.rating.reviews.length;
+    // old rating removed and replaced by the new one
+    const newRating = (instructor.rating.averageRating * totalReviews - userReview.rating + reviewData.rating) / totalReviews;
+    instructor.rating.averageRating = Math.round(newRating * 100) / 100;
+    instructor.rating.reviews[reviewIndex].rating = reviewData.rating;
+    instructor.rating.reviews[reviewIndex].comment = reviewData.comment;
+
+    await instructor.save();
+
+    return instructor.rating.reviews[reviewIndex];
+  }
+
+  // get User Review on Instructor
+  public async getUserReview(instructorID: string, traineeID: string): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Review doesn't exist");
+
+    return instructor.rating.reviews[reviewIndex];
   }
 
   //update instructor profile
