@@ -9,9 +9,18 @@ $hover-color: var(--secondary-background-color);
         li {
             display: inline;
             div {
+                .subtitle {
+                    font-size: 0.7rem;
+                    color: #8093a7;
+                    display: block;
+                    height: 10px;
+                    margin: -5px;
+                    padding-left: 2.5rem;
+                    font-weight: 400;
+                }
                 display: block;
                 float: left;
-                height: 79px;
+                height: 90px;
                 font-weight: 600;
                 background: #f3f5fa;
                 text-align: center;
@@ -68,6 +77,8 @@ $hover-color: var(--secondary-background-color);
                     }
                     &::after {
                         border-left: none;
+                        border-top: none;
+                        border-bottom: none;
                     }
                     padding: 30px 20px 0 30px;
                 }
@@ -99,7 +110,8 @@ $hover-color: var(--secondary-background-color);
     background: $hover-color;
     color: #fff;
     border-bottom: none;
-    .icon {
+    .icon,
+    .subtitle {
         color: #fff;
     }
 }
@@ -141,6 +153,9 @@ $hover-color: var(--secondary-background-color);
     .icon {
         color: var(--primary-color);
     }
+    .subtitle {
+        color: var(--primary-color)
+    }
 }
 
 #crumbs ul li .done div:after {
@@ -160,7 +175,8 @@ $hover-color: var(--secondary-background-color);
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     border-bottom: 5px solid var(--primary-color);
-    .icon {
+    .icon,
+    .subtitle {
         color: #fff;
     }
     .number {

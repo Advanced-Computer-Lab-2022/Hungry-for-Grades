@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import './progress-stepper.scss';
 
 import { ProgressStepsProps } from '../types';
@@ -12,6 +14,17 @@ function ProgressSteps(props: ProgressStepsProps) {
               <div
                 className={` ${index === currentStepIndex ? 'active' : ''}
 			  ${index < currentStepIndex ? 'done' : ''}`}
+                style={{
+                  cursor: props.goTo
+                    ? index <= currentStepIndex
+                      ? 'pointer'
+                      : 'not-allowed'
+                    : 'default'
+                }}
+                onClick={() => {
+                  if (props.goTo && index <= currentStepIndex)
+                    props.goTo(index);
+                }}
               >
                 {!props.icons ? (
                   <span className='number'>{index}</span>
@@ -19,7 +32,9 @@ function ProgressSteps(props: ProgressStepsProps) {
                   props.icons[index]
                 )}
                 {step}
-                <span>{props.subtitles ? props.subtitles[index] : ''}</span>
+                <span className='subtitle'>
+                  {props.subtitles ? props.subtitles[index] : ''}
+                </span>
               </div>
             </li>
           );

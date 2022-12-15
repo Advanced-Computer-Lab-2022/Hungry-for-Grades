@@ -4,4 +4,5 @@ export type ProgressStepsProps = {
   steps: string[];
   icons?: ReactNode[];
   subtitles?: string[];
+	goTo?: (stepIndex: number) => void;
 };
