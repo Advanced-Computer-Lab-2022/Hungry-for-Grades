@@ -5,6 +5,7 @@ import authMiddleware from '@/Middlewares/auth.middleware';
 import roleMiddleware from '@/Middlewares/role.middleware';
 import { Role } from '@/User/user.enum';
 import userMiddleware from '@/Middlewares/user.middleware';
+import fileUpload from 'express-fileupload';
 
 class TraineeRoute implements Routes {
   public path = '/trainee';
@@ -32,6 +33,9 @@ class TraineeRoute implements Routes {
 
     this.router.post('/:traineeId/cart/:courseId', this.traineeController.addCourseToCart);
     this.router.post('/:traineeId/wishlist/:courseId', this.traineeController.addCourseToWishlist);
+
+    // Certificate
+    this.router.post('/:traineeId/course/:courseId/certificate', fileUpload(), this.traineeController.sendCertificate);
 
     this.router.delete('/:traineeId/cart/:courseId', this.traineeController.removeCourseFromCart);
     this.router.delete('/:traineeId/wishlist/:courseId', this.traineeController.removeCourseFromWishlist);

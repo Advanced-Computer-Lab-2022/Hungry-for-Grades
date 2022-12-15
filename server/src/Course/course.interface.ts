@@ -19,6 +19,7 @@ export interface ICourse {
   description: string;
   duration: number;
   exam: Question[];
+  examGrades: ExamGrades;
   frequentlyAskedQuestions: FrequentlyAskedQuestion[];
   keywords: string[];
   language: string;
@@ -28,11 +29,16 @@ export interface ICourse {
   previewVideoURL: string;
   price: Price;
   rating: Rating;
-  sections: Section[];
   subcategory: string[];
   thumbnail: string;
   title: string;
+  sections: Section[];
 }
+
+export type ExamGrades = {
+  average: number;
+  totalAttempts: number;
+};
 
 export type FrequentlyAskedQuestion = {
   _id: Types.ObjectId;

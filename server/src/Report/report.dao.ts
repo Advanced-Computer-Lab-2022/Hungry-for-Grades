@@ -1,6 +1,7 @@
 import CourseService from '@/Course/course.dao';
 import { HttpException } from '@/Exceptions/HttpException';
 import InstructorService from '@/Instructor/instructor.dao';
+import PaymentService from '@/Payment/payment.dao';
 import TraineeService from '@/Trainee/trainee.dao';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -13,22 +14,28 @@ class ReportService {
   traineeService = new TraineeService();
   courseService = new CourseService();
   instructorService = new InstructorService();
+  paymentService = new PaymentService();
 
   public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report> {
     const courseId = reportData._course;
-    const traineeId = reportData._user;
+    const userId = reportData._user;
 
     //Validation
-    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(courseId) && courseId != null)
       throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id can only be an Object Id or null');
-    if (reportData.reason === Reason.COUSE_REQUEST && courseId == null)
-      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course Id is required for a Course Request');
+    if (reportData.reason === Reason.COUSE_REQUEST || (reportData.reason === Reason.REFUND && courseId == null))
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course Id is required for a Course Request or Refund Request');
 
-    const trainee = await this.traineeService.getTraineeById(traineeId);
-    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee not found');
+    if (reportData.reason === Reason.REFUND) {
+      // trainee should be enrolled in course and at least 50% of the course content should be seen
+      const enrolledCourse = await this.traineeService.getEnrolledCourseById(userId, courseId);
+      if (!enrolledCourse) throw new HttpException(422, 'Trainee is not enrolled in this course');
 
-    // get _user from token & remove from ReportDTO
+      const traineeProgress = enrolledCourse?.progress ?? 0;
+      if (traineeProgress < 50) throw new HttpException(422, 'Refund is not allowed before 50% of the course is completed');
+    }
+
     const report = await reportModel.create({ ...reportData });
     return report;
   }
@@ -38,6 +45,8 @@ class ReportService {
     // return Info user & course
     const report = await reportModel.findById(reportId);
     if (!report) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Report not found');
+
+    if (!report.isSeen) report.isSeen = true;
     return report;
   };
 
@@ -63,11 +72,14 @@ class ReportService {
         await this.traineeService.enrollTrainee(report._user.toString(), report._course.toString());
       } else if (report.reason === Reason.REFUND) {
         // refund trainee (only if less than 50% of the course has been attended)
+        await this.paymentService.refundPayment(report._user.toString(), report._course.toString());
 
         //unroll trainee from course
         await this.traineeService.unrollTrainee(report._user.toString(), report._course.toString());
       }
     }
+
+    if (!report.isSeen) report.isSeen = true;
 
     await report.save();
     return report;
@@ -87,7 +99,7 @@ class ReportService {
     if (reportFilters._course) matchQuery['_course'] = new mongoose.Types.ObjectId(reportFilters._course);
     if (reportFilters._user) matchQuery['_user'] = new mongoose.Types.ObjectId(reportFilters._user);
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
-    if (reportFilters.reason) matchQuery['reason'] = reportFilters.reason;
+    if (reportFilters.reason) matchQuery['reason'] = {$in: reportFilters.reason};
     if (reportFilters.isSeen) matchQuery['isSeen'] = reportFilters.isSeen === 'true';
 
     const AndDateQuery = [];
@@ -95,7 +107,6 @@ class ReportService {
     if (reportFilters.endDate) AndDateQuery.push({ createdAt: { $lte: new Date(reportFilters.endDate) } });
 
     if (AndDateQuery.length > 0) matchQuery['$and'] = AndDateQuery;
-    // handle _user when filtering by jwt
 
     const aggregateQuery: any = [
       { $match: matchQuery },
