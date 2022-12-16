@@ -25,6 +25,8 @@ updateTable: (x : number)=>void, num : number}) {
 
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
+  const [description, setDescription] = useState('');
+
   function closeModal(){
     setShowDescription(false);
   }
@@ -83,9 +85,9 @@ updateTable: (x : number)=>void, num : number}) {
     {!(report?.status == 'Resolved' || report?.status=='Rejected') && <td>
       <button className = {styles.aprove} type = 'button' onClick={()=>handleAction(Status?.RESOLVED, report)}>Mark as Resolved</button>
       </td>}
-    <td>{report?.description != '' && <button style={{border:'none'}} type='button' onClick={()=>setShowDescription(true)}><HiOutlineDocumentReport className = {styles.report_description}  /></button>}
+    <td>{report?.description != '' && <button style={{border:'none'}} type='button' onClick={()=>{setShowDescription(true);
+      setDescription(report?.description)}}><HiOutlineDocumentReport className = {styles.report_description}  /></button>}
     {report?.description == '' && 'No Description'}</td>
-    {showDescription && <DescriptionModal description={report?.description} handleClose={closeModal}   />}
   </tr>)}
   );
 
@@ -111,6 +113,7 @@ updateTable: (x : number)=>void, num : number}) {
         </thead>
         <tbody>
         {toShow}
+        {showDescription && <DescriptionModal description={description} handleClose={closeModal}   />}
         </tbody>
       </table>
     </div>
