@@ -6,15 +6,18 @@ import ProfileForm from './ProfileForm';
 import { InstructorData } from './types';
 
 import Form from '@/components/form/Form';
+import { UseUser } from '@/store/userStore';
 
 export default function Profile() {
-  const instructorId = '637a2160a0fc7dcfe39b4931';
 
-  const { isLoading, isError, data } = useSearchQuery();
+  const user = UseUser();
+  const instructorId = user?._id;
+
+  const { isLoading, isError, data } = useSearchQuery(instructorId as string);
   const verifiedData = data?.data?.data;
 
   async function submitAction(instructorData: InstructorData) {
-    await updateProfile(instructorId, instructorData);
+    await updateProfile(instructorId as string, instructorData);
   }
   if (isError)
     return (

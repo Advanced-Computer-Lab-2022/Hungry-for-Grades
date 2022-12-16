@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
     .required('Username is Required'),
   biography: Yup.string()
     .min(1, 'Biography is Too Short!')
-    .max(500, 'Biography is Too Long!')
+    .max(5000, 'Biography is Too Long!')
     .required('Biography is Required')
 });
 
