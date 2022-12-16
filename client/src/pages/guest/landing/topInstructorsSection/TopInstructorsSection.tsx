@@ -20,7 +20,7 @@ function TopInstructorsSection() {
         data.data &&
         data?.data?.totalResults > 0 && (
           <>
-						      <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
+            <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
 
             <div className='row'>
               {data.data.data.map(instructor => {

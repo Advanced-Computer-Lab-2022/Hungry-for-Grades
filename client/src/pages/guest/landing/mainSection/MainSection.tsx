@@ -95,7 +95,6 @@ export default function MainSection() {
                       className='btn btn-outline-primary btn-lg'
                       id='sign-up-main-section'
                       to={'/auth/signup'}
-
                     >
                       Sign up
                     </Link>
@@ -103,7 +102,6 @@ export default function MainSection() {
                       className='btn btn-primary btn-lg mx-3'
                       id='login-main-section'
                       to={'/auth/login'}
-
                     >
                       Login
                     </Link>
@@ -113,7 +111,6 @@ export default function MainSection() {
                     className='btn btn-primary btn-lg mx-3'
                     id='search-courses-loggedin-main-section'
                     to={role ? `/${role as string}/courses` : '/courses'}
-
                   >
                     Search for Courses
                   </Link>
@@ -128,7 +125,6 @@ export default function MainSection() {
             data-bs-slide='prev'
             data-bs-target='#carouselExampleCaptions'
             id='prev-main-section'
-
             style={{
               zIndex: 999,
               top: '35%'
@@ -144,7 +140,6 @@ export default function MainSection() {
             data-bs-slide='next'
             data-bs-target='#carouselExampleCaptions'
             id='next-main-section'
-
             style={{
               zIndex: 999,
               top: '40%'

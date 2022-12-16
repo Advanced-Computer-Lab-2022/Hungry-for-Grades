@@ -1,4 +1,3 @@
-
 import styles from './input.module.scss';
 import { type InputProps } from './types';
 function Input(props: InputProps) {

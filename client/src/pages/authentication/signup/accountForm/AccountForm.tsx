@@ -146,8 +146,7 @@ function AccountForm({
           data-bs-toggle='modal'
           href='/'
           id='accountform-modalTerms'
-					type='button'
-
+          type='button'
         >
           <CheckBoxInput
             checked={formik.values.terms}
@@ -160,7 +159,6 @@ function AccountForm({
             required={false}
             value={formik.values.terms}
             onChange={formik.handleChange}
-
           />
         </a>
         <Modal

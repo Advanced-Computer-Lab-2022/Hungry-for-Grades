@@ -234,7 +234,7 @@ function UserForm({
       </div>
       <div className='d-flex flex-row justify-content-end my-3'>
         <Button
-				backgroundColor={'primary-bg'}
+          backgroundColor={'primary-bg'}
           id='userform-next'
           isDisabled={
             !formik.isValid ||
