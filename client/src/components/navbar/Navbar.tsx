@@ -20,6 +20,8 @@ import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
 import toSmallNumber from '@/utils/toSmallNumber';
 import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import { ITrainee } from '@/interfaces/course.interface';
+import { IInstructor } from '@/interfaces/instructor.interface';
 
 function NavbarComponent() {
   const { data, isError } = useCategoryQuery();
@@ -28,7 +30,6 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
-
   return (
     <Navbar bg='light' className={styles.navbar} expand='lg' sticky='top'>
       <Container>
@@ -109,7 +110,7 @@ function NavbarComponent() {
                       className={styles.user__balance}
                       to={`/${user.role.toLocaleLowerCase()}/balance`}
                     >
-                      ${toSmallNumber(user.balance as number)}
+                      {(user as ITrainee | IInstructor)?.currency}{toSmallNumber(user.balance as number)}
                     </Link>
                   )}
 

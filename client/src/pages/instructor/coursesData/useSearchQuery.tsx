@@ -12,12 +12,13 @@ import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
 import { ITeachedCourse } from '@/interfaces/instructor.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
+import { UseUser } from '@/store/userStore';
 
-const id = '637962792c3f71696ca3473c';
 
 let oldFilters: SelectFiltersType;
 
 async function searchRequest(
+	id:string,
   filters: SelectFiltersType,
   page: number,
   setActivePage: Dispatch<SetStateAction<number>>,
@@ -64,11 +65,12 @@ async function searchRequest(
 
 function useSearchQuery(filters: SelectFiltersType) {
   const [activePage, setActivePage] = useState<number>(1);
+	const useUser=UseUser();
   const country = UseCountry();
   return {
     ...useQuery(
       ['search-instructor-courses', filters, activePage, country],
-      () => searchRequest(filters, activePage, setActivePage, country),
+      () => searchRequest(useUser?._id,filters, activePage, setActivePage, country),
       {
         retryDelay: 1000
       }
