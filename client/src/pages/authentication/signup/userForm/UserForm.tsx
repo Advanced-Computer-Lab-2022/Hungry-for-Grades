@@ -94,6 +94,7 @@ function UserForm({
           correctMessage=''
           errorMessage={formik.errors.firstName}
           hint=''
+          id='signup-firstname'
           isError={
             formik.touched.firstName && formik.errors.firstName ? true : null
           }
@@ -113,6 +114,7 @@ function UserForm({
           correctMessage={''}
           errorMessage={formik.errors.lastName}
           hint={''}
+          id='signup-lastname'
           isError={
             formik.touched.lastName && formik.errors.lastName ? true : null
           }
@@ -137,7 +139,7 @@ function UserForm({
               className='select react-select-container'
               classNamePrefix='react-select'
               errorMessage={formik.errors.gender}
-              id='Gender'
+              id='userform-gender'
               label={'Gender'}
               name='gender'
               options={genders}
@@ -165,6 +167,7 @@ function UserForm({
           correctMessage={''}
           errorMessage={formik.errors.birthDate}
           hint={''}
+          id='signup-birthDate'
           isError={
             formik.touched.birthDate && formik.errors.birthDate ? true : null
           }
@@ -189,7 +192,7 @@ function UserForm({
             <ReactFlagsSelect
               searchable
               className='select flag__select__signup'
-              id='country'
+              id='signup-country'
               placeholder='Select Your Country'
               selected={formik?.values?.country}
               onSelect={async function change(code) {
@@ -232,6 +235,7 @@ function UserForm({
       <div className='d-flex flex-row justify-content-end my-3'>
         <Button
           backgroundColor={'primary-bg'}
+          id='userform-next'
           isDisabled={
             !formik.isValid ||
             formik.values.firstName === '' ||

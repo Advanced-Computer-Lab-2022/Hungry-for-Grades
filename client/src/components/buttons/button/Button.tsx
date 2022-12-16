@@ -13,7 +13,7 @@ function Button(props: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   return (
     <button
-      className={`btn ${props.className ?? styles.button ?? ''} ${
+      className={`btn btn-primary ${props.className ?? styles.button ?? ''} ${
         styles[props.backgroundColor] ?? ''
       } ${styles.button ?? ''}}`}
       disabled={props.isDisabled}
