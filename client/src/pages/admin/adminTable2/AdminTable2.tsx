@@ -4,7 +4,13 @@ import { MdIndeterminateCheckBox } from 'react-icons/md';
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
 
-import styles from './table.module.scss';
+import { HiOutlineDocumentReport } from 'react-icons/hi';
+
+import { useState } from 'react';
+
+import DescriptionModal from '../reportRequests/DescriptionModal';
+
+import styles from './AdminTable2.module.scss';
 
 import { AllReport, Status } from '@/interfaces/reports.interface';
 import usePatchQuery from '@/hooks/usePatchQuery';
@@ -19,6 +25,14 @@ export default function AdminHome(props: {
   updateTable: (x: number) => void;
   num: number;
 }) {
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+
+  const [description, setDescription] = useState('');
+
+  function closeModal() {
+    setShowDescription(false);
+  }
+
   function handleMultipleRows(report: AllReport) {
     if (props?.st.has(report)) {
       //then we are removing it now
@@ -60,7 +74,10 @@ export default function AdminHome(props: {
         <td>
           <input
             disabled={isDisabled}
-            id={'CheckBox' + (138191 * 10501 + -10 + 1912 + i).toString()}
+            id={
+              'CheckBox' +
+              (1381124191 * 1050510891 + -10 + 1124912 + i * i).toString()
+            }
             style={{
               width: '1.4rem',
               height: '1.2rem',
@@ -73,7 +90,7 @@ export default function AdminHome(props: {
           />
         </td>
         <td>{report?.traineeInfo.at(0)?.name}</td>
-        <td>{report?._course.at(0)?.title}</td>
+        <td>{report?.reason}</td>
         <td>15/04/2001</td>
         {report?.status == 'Pending' && (
           <td>
@@ -100,17 +117,25 @@ export default function AdminHome(props: {
               type='button'
               onClick={() => handleAction(Status?.RESOLVED, report)}
             >
-              Accept
-            </button>
-            <button
-              className={styles.decline}
-              type='button'
-              onClick={() => handleAction(Status?.REJECTED, report)}
-            >
-              Decline
+              Mark as Resolved
             </button>
           </td>
         )}
+        <td>
+          {report?.description != '' && (
+            <button
+              style={{ border: 'none' }}
+              type='button'
+              onClick={() => {
+                setShowDescription(true);
+                setDescription(report?.description);
+              }}
+            >
+              <HiOutlineDocumentReport className={styles.report_description} />
+            </button>
+          )}
+          {report?.description == '' && 'No Description'}
+        </td>
       </tr>
     );
   });
@@ -127,14 +152,23 @@ export default function AdminHome(props: {
                 style={{ color: '#DC3535', fontSize: '1.5rem' }}
               />
             </th>
-            <th>Corporate Trainee</th>
-            <th>Requested Course</th>
+            <th>User</th>
+            <th>Report Type</th>
             <th>Date</th>
             <th style={{ paddingLeft: '0.5rem' }}>Status</th>
             <th style={{ paddingLeft: '3rem' }}>Actions</th>
+            <th>Description</th>
           </tr>
         </thead>
-        <tbody>{toShow}</tbody>
+        <tbody>
+          {toShow}
+          {showDescription && (
+            <DescriptionModal
+              description={description}
+              handleClose={closeModal}
+            />
+          )}
+        </tbody>
       </table>
     </div>
   );

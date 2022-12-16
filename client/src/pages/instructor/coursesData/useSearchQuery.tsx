@@ -14,11 +14,10 @@ import { ITeachedCourse } from '@/interfaces/instructor.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
 import { UseUser } from '@/store/userStore';
 
-
 let oldFilters: SelectFiltersType;
 
 async function searchRequest(
-	id:string,
+  id: string,
   filters: SelectFiltersType,
   page: number,
   setActivePage: Dispatch<SetStateAction<number>>,
@@ -65,12 +64,19 @@ async function searchRequest(
 
 function useSearchQuery(filters: SelectFiltersType) {
   const [activePage, setActivePage] = useState<number>(1);
-	const useUser=UseUser();
+  const useUser = UseUser();
   const country = UseCountry();
   return {
     ...useQuery(
       ['search-instructor-courses', filters, activePage, country],
-      () => searchRequest(useUser?._id,filters, activePage, setActivePage, country),
+      () =>
+        searchRequest(
+          useUser?._id,
+          filters,
+          activePage,
+          setActivePage,
+          country
+        ),
       {
         retryDelay: 1000
       }
