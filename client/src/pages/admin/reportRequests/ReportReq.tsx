@@ -1,31 +1,41 @@
-
-import { useRef, useState } from 'react';
-
-import {AiFillPlusCircle} from 'react-icons/ai';
-
-import { Overlay } from 'react-bootstrap';
+import { useState, useRef } from 'react';
 
 import { toast } from 'react-toastify';
 
-import { useReqQuery } from './useReqQuery';
 
-import styles from './CourseRequest.module.scss';
+import { Overlay } from 'react-bootstrap';
 
-import { AllReport, FilterAdmin, FilterElement, Status } from '@/interfaces/reports.interface';
+import { AiFillPlusCircle } from 'react-icons/ai';
+
+import ReactGa from 'react-ga';
+
+import Filter from '../adminTable/Filter';
+
+import AdminTable2 from '../adminTable2/AdminTable2';
+
+import { useReportReq } from './useReportReq';
+
+import styles from './ReportReq.module.scss';
+
+
 
 import Loader from '@/components/loader/loaderpage/Loader';
-
-import AdminTable from '@pages/admin/adminTable/AdminTable';
+import { toastOptions } from '@/components/toast/options';
+import usePatchQuery from '@/hooks/usePatchQuery';
+import { AllReport, FilterAdmin, FilterElement, Status } from '@/interfaces/reports.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 
-import usePatchQuery from '@/hooks/usePatchQuery';
-import { toastOptions } from '@/components/toast/options';
-
-import Filter from '@pages/admin/adminTable/Filter';
 
 
 
-export default function CourseRequest() {
+
+
+
+export default function ReportReq() {
+
+
+    ReactGa.pageview(window.location.pathname);
+    
 
     const [set, setSet] = useState(new Set());
 
@@ -45,11 +55,15 @@ export default function CourseRequest() {
 
     const [filterV1, setFilterV1] = useState<string>('All');
 
+    const [filterV2, setFilterV2] = useState<string>('All');
+
     const f1 :FilterElement = {values:['Resolved', 'Pending', 'Rejected', 'All'], setValue:setFilterV1, actualValue:filterV1, title:'Status'}
 
-    const filters:FilterAdmin = {att:[f1]};
+    const f2 :FilterElement = {values:['Financial', 'Technical', 'Refund', 'Other', 'All'], setValue : setFilterV2, actualValue: filterV2, title : 'Report Problem'};
 
-    const {data, isLoading} = useReqQuery(update, filterV1);
+    const filters:FilterAdmin = {att:[f1, f2]};
+
+    const {data, isLoading} = useReportReq(update, filterV1, filterV2);
 
     const { mutateAsync: updateReport } = usePatchQuery();
 
@@ -87,17 +101,16 @@ export default function CourseRequest() {
       setUpdate(update+1);
     }
 
-
   return (
     <>
-    <div style={{ backgroundColor:'#F5F7F8', width:'100%', height:'100%'}}>
-    <div style={{marginLeft:'3rem',fontSize:'1.4rem', fontWeight:'500', color:'#A00407', display:'inline-block', marginTop:'2rem'}}>Course Requests</div>
+      <div style={{backgroundColor:'#F5F7F8', width:'100%', height:'100%'}}>
+    <div style={{marginLeft:'3rem',fontSize:'1.4rem', fontWeight:'500', color:'#A00407', display:'inline-block', marginTop:'2rem'}}>Reported Problems</div>
     <div style={{display:'inline-block', marginLeft:'75%'}}>
     <button ref = {target} style={{backgroundColor:'#A00407', color:'white', fontWeight:'600', marginTop:'2rem'}} type='button' onClick={()=>test()}>Actions({set?.size}) &nbsp;<AiFillPlusCircle /></button>
     
     <Overlay placement='bottom' show={visible}  target={target?.current} >
     {({ placement, arrowProps, show: _show, popper, ...props }) => (
-      <div className=  {styles.drop_down} 
+      <div className = {styles.drop_downn} 
       {...props} 
       style={{
         borderRadius: 3,
@@ -112,11 +125,12 @@ export default function CourseRequest() {
     </Overlay>
     </div>
     <div style={{marginLeft:'3rem', marginTop:'2rem'}}>
-    <Filter elements={filters} fun = { setSet }/>
+    <Filter elements={filters} fun={ setSet } />
     </div>
 
-    <div style={{marginLeft:'3rem', marginTop:'1.5rem'}}><AdminTable data={arr as AllReport[]} funA={addFoo} funR={removeFoo} num={update} st={set as Set<AllReport>} updateTable={setUpdate}  /></div>
+    <div style={{marginLeft:'3rem', marginTop:'1.5rem'}}><AdminTable2 data={arr as AllReport[]} funA={addFoo} funR={removeFoo} num={update} st={set as Set<AllReport>} updateTable={setUpdate}  /></div>
     </div>
     </>
-  );
+
+  )
 }

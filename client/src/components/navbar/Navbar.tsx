@@ -82,7 +82,7 @@ function NavbarComponent() {
                         className='user__balance balance__title'
                         to={`${user.role.toLocaleLowerCase()}/balance`}
                       >
-                        $ {toSmallNumber(user.balance)}
+                        ${toSmallNumber(user.balance)}
                       </Link>
                     )}
                   <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>

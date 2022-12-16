@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postRequest } from '@services/axios/http-verbs';
+import {  postRequest } from '@services/axios/http-verbs';
 
 function usePostQuery<T>() {
   return useMutation(postRequest<T>, {
@@ -11,5 +11,6 @@ function usePostQuery<T>() {
     retryDelay: 1000 // 1 second
   });
 }
+
 
 export default usePostQuery;

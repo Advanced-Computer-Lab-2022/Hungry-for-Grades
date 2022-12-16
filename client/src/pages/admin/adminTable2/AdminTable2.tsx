@@ -1,13 +1,16 @@
 import { MdIndeterminateCheckBox } from 'react-icons/md';
 
-import { useState } from 'react';
-
-
 // NEED TO BE REVISED
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
 
-import styles from './table.module.scss';
+import { HiOutlineDocumentReport } from 'react-icons/hi';
+
+import { useState } from 'react';
+
+import DescriptionModal from '../reportRequests/DescriptionModal';
+
+import styles from './AdminTable2.module.scss';
 
 import { AllReport, Status } from '@/interfaces/reports.interface';
 import usePatchQuery from '@/hooks/usePatchQuery';
@@ -15,8 +18,16 @@ import { ReportDataService } from '@/services/axios/dataServices/ReportDataServi
 import { toastOptions } from '@/components/toast/options';
 
 
+
+
 export default function AdminHome( props:{data : AllReport[], st : Set<AllReport>, funA: (x:AllReport)=>void, funR : (x:AllReport)=>void ,
 updateTable: (x : number)=>void, num : number}) {
+
+  const [showDescription, setShowDescription] = useState<boolean>(false);
+
+  function closeModal(){
+    setShowDescription(false);
+  }
 
   function handleMultipleRows(report:AllReport)
   {
@@ -36,7 +47,7 @@ updateTable: (x : number)=>void, num : number}) {
 
   async function handleAction(status : Status, report : AllReport)
   {
-    const Rep = ReportDataService.PATCH.updateReport;
+        const Rep = ReportDataService.PATCH.updateReport;
 
         Rep.URL = `/report/${report?._id}`;
 
@@ -51,8 +62,6 @@ updateTable: (x : number)=>void, num : number}) {
         toast.success('Actions are applied successfully...', toastOptions);
         
         props?.updateTable(props?.num + 1);
-
-
   }
 
   let i = 0;
@@ -62,19 +71,21 @@ updateTable: (x : number)=>void, num : number}) {
     const isDisabled = report?.status == 'Pending'? false:true;
     return(
   <tr key = {report?._id} style={{fontSize:'1rem', fontWeight:'450', color:'#393E46'}}>
-    <td><input  disabled={isDisabled} id={'CheckBox'+((138191*10501)+-10+1912 + i).toString()} style={{width:'1.4rem', height:'1.2rem', alignItems:'center', marginTop:'1rem', marginLeft:'0.1rem'}} type='checkbox' onClick={()=>
+    <td><input  disabled={isDisabled} id={'CheckBox'+((1381124191*1050510891)+-10+1124912 + i*i).toString()} style={{width:'1.4rem', height:'1.2rem', alignItems:'center', marginTop:'1rem', marginLeft:'0.1rem'}} type='checkbox' onClick={()=>
     handleMultipleRows(report)}/></td>
     <td>{report?.traineeInfo.at(0)?.name}</td>
-    <td>{report?._course.at(0)?.title}</td>
+    <td>{report?.reason}</td>
     <td>15/04/2001</td>
     {report?.status == 'Pending' && <td><div className={styles.statusP}>Pending</div></td>}
     {report?.status == 'Resolved' && <td><div className={styles.statusResolved}>Resolved</div></td>}
     {report?.status == 'Rejected' && <td><div className={styles.statusRej}>Rejected</div></td>}
     {(report?.status == 'Resolved' || report?.status=='Rejected') && <td>No Actions Required</td>}
     {!(report?.status == 'Resolved' || report?.status=='Rejected') && <td>
-      <button className = {styles.aprove} type = 'button' onClick={()=>handleAction(Status?.RESOLVED, report)}>Accept</button>
-      <button className = {styles.decline} type = 'button' onClick={()=>handleAction(Status?.REJECTED, report)}>Decline</button>
+      <button className = {styles.aprove} type = 'button' onClick={()=>handleAction(Status?.RESOLVED, report)}>Mark as Resolved</button>
       </td>}
+    <td>{report?.description != '' && <button style={{border:'none'}} type='button' onClick={()=>setShowDescription(true)}><HiOutlineDocumentReport className = {styles.report_description}  /></button>}
+    {report?.description == '' && 'No Description'}</td>
+    {showDescription && <DescriptionModal description={report?.description} handleClose={closeModal}   />}
   </tr>)}
   );
 
@@ -90,11 +101,12 @@ updateTable: (x : number)=>void, num : number}) {
               style={{ color: '#DC3535', fontSize: '1.5rem' }}
             />
           </th>
-          <th>Corporate Trainee</th>
-          <th>Requested Course</th>
+          <th>User</th>
+          <th>Report Type</th>
           <th>Date</th>
           <th style={{ paddingLeft: '0.5rem' }}>Status</th>
           <th style={{ paddingLeft: '3rem' }}>Actions</th>
+          <th>Description</th>
         </tr>
         </thead>
         <tbody>

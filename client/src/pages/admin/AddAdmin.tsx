@@ -121,7 +121,7 @@ export default function AddAdmin() {
                         <span>
                           <RiAccountCircleFill />
                         </span>
-                        <TextArea
+                        <TextArea 
                           name='firstName'
                           placeholder='First Name'
                           type='text'
