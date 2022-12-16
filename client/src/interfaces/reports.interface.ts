@@ -39,12 +39,12 @@ export enum Reason {
 }
 
 export type FilterAdmin = {
-  att : FilterElement[]
-}
+  att: FilterElement[];
+};
 
 export type FilterElement = {
-  values : string[],
-  setValue: (x : string)=>void,
-  actualValue : string,
-  title : string
-}
+  values: string[];
+  setValue: (x: string) => void;
+  actualValue: string;
+  title: string;
+};

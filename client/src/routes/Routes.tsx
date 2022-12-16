@@ -20,7 +20,6 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
 /**
@@ -128,7 +127,7 @@ const LazyInstructorDashboard = lazy(
 /**
  * Admin Pages
  */
-const LazyAdduser = lazy(()=>import('@/pages/admin/createUser/Create'));
+const LazyAdduser = lazy(() => import('@/pages/admin/createUser/Create'));
 const LazyDiscounts = lazy(
   () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
 );
@@ -269,9 +268,11 @@ function AllRoutes() {
           <Route element={<LazyAdminDashboard />} path='dashboard'>
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
-            <Route element = {<LazyAdminCourseRequests />} path = 'course-requests' />
+            <Route
+              element={<LazyAdminCourseRequests />}
+              path='course-requests'
+            />
           </Route>
-            
         </Route>
       </Route>
 

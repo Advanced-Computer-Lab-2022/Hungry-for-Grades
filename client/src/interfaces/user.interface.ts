@@ -17,7 +17,7 @@ interface IUser {
   username: string;
   country: string;
   balance?: number;
-	currency?: string;
+  currency?: string;
 }
 export type Address = {
   city: string;

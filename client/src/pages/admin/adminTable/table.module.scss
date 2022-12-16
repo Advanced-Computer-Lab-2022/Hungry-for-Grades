@@ -30,97 +30,6 @@
       }
 }
 
-.listWrap {
-    
-    height: fit-content;
-    width: 100%;
-    
-}
-
-.list {
-    
-    list-style:none;
-    margin: 0;
-    padding: 0;
-    display: table;
-    white-space: nowrap;
-    width: 100%;
-    //border-bottom: 2px solid rgb(224, 222, 222);
-    
-}
-
-.list li{
-    
-    border-bottom: 1.2px solid rgb(220, 220, 220);
-    box-shadow:wheat;
-    background-color: white;
-    display: table-row;
-    color: black;
-    font-size:0.9rem;
-    height: 3.1rem;
-
-}
-
-.list li:nth-child(odd) {
-    
-    background-color: white;
-    //font-size: 9pt;
-    color: black;
-    //border-bottom: 2px solid rgb(224, 222, 222);
-}
-
-.list li:nth-child(even) {
-    
-    background-color: white;
-
-    //font-size: 9pt;
-    color: black;
-    //border-bottom: 2px solid rgb(224, 222, 222);
-
-}
-
-
-.list li:nth-child(1) span:first-child {
-    
-    border-top-left-radius: 6px;
-    
-}
-
-.list li:nth-child(1) span:last-child {
-    
-    border-top-right-radius: 6px;
-    
-}
-
-
-.list li:nth-child(1) {
-    
-    background-color: #A00407;
-    text-transform: uppercase;
-    font-size: 8pt;
-    font-weight: bold;
-    color: white;
-}
-
-
-
-
-.list li:nth-child(1) span {
-    
-    //border-bottom: 2px solid rgb(224, 222, 222);
-    //box-shadow: inset;
-    padding: 14px;
-    
-}
-
-.list span {
-    
-    text-align: left;
-    display: table-cell;
-    padding: 6px;
-    vertical-align: middle;
-    
-}
 
 .aprove
 {
@@ -177,12 +86,6 @@
     width:5rem;
     text-align: center;
     padding-top: 0.5rem;
-}
-
-.status:hover
-{
-    border-color: #fbe0cb;
-    cursor:auto;
 }
 
 

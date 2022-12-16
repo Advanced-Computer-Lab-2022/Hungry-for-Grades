@@ -24,7 +24,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // App
 import { RoutedApp } from './App';
 
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

@@ -12,7 +12,7 @@ import {
   type GETRoutesType,
   // type PATCHRoutesType,
   type POSTRoutesType,
- type  PATCHRoutesType
+  type PATCHRoutesType
   //type POSTRoutesType
 } from './types';
 
@@ -56,14 +56,16 @@ export async function postRequest<T>(
  * @returns a promise with the response from the server
  */
 
-export async function patchRequest<T>(request: PATCHRoutesType): Promise<AxiosResponse<T>> {
-	return http.patch<T>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${
-			request.query ? '?' + request.query : ''
-		}`,
-		request.payload
-	);
-} 
+export async function patchRequest<T>(
+  request: PATCHRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.patch<T>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
+    request.payload
+  );
+}
 
 /**
  * DELETE request

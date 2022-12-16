@@ -6,15 +6,10 @@ import {
 
 // import Toast from './components/toast/MessageToast';
 
-
 import Header from './components/header/Header';
 import Toast from './components/toast/MessageToast';
 
 import Routes from './routes/Routes';
-
-
-
-
 
 function App() {
   return (
