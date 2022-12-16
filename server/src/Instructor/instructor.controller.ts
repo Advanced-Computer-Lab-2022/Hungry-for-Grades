@@ -2,7 +2,7 @@ import InstructorService from '@Instructor/instructor.dao';
 import { HttpResponse } from '@Utils/HttpResponse';
 import { IInstructor, SocialMedia } from '@Instructor/instructor.interface';
 import { NextFunction, Request, Response } from 'express';
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import { CreateInstructorDTO } from './instructor.dto';
 import { RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
@@ -101,6 +101,61 @@ class InstructorController {
 
       res.json({
         ...instructorReviewsPaginatedResponse,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete review controller
+  public deleteReview = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const traineeID: string = req.params.traineeID as string;
+
+      await this.instructorService.deleteReview(instructorID, traineeID);
+      res.json({
+        data: null,
+        message: 'Review Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update review controller
+  public updateUserReview = async (req: Request, res: Response<HttpResponse<Review>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const traineeID: string = req.params.traineeID as string;
+
+      const updatedReview: ReviewDTO = req.body;
+
+      const instructorRating: Review = await this.instructorService.updateReview(instructorID, traineeID, updatedReview);
+
+      res.json({
+        data: instructorRating,
+        message: 'Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get user review controller
+  public getUserReview = async (req: Request, res: Response<HttpResponse<Review>>, next: NextFunction) => {
+    try {
+      const instructorID: string = req.params.instructorID as string;
+      const traineeID: string = req.params.traineeID as string;
+
+      const userReview: Review = await this.instructorService.getUserReview(instructorID, traineeID);
+
+      res.json({
+        data: userReview,
         message: 'Completed Successfully',
         success: true,
       });

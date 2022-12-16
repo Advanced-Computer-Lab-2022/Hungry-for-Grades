@@ -1,0 +1,291 @@
+/* import './board.scss';
+import { useRef, useEffect, useState } from 'react';
+
+function TraineeBoard() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const fillColorRef = useRef<HTMLInputElement>(null);
+  const toolBtns = document.querySelectorAll('.tool'),
+    colorBtns = document.querySelectorAll('.colors .option'),
+    colorPinker = document.querySelector('#color-picker');
+
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const [lineColor, setLineColor] = useState('black');
+  const [lineOpacity, setLineOpacity] = useState(0.1);
+  const [lineWidth, setLineWidth] = useState(5);
+
+  const [isDrawing, setIsDrawing] = useState<boolean>(false);
+
+  const [brushWidth, setBrushWidth] = useState<number>(1);
+  //golbal varables with default value
+  let prevMouseX: number,
+    prevMouseY: number,
+    snapShot,
+    selectedTool = 'brush',
+    selectedColor = '#000';
+
+  function setCanvasBackground() {
+    if (
+      !ctxRef ||
+      !ctxRef.current ||
+      canvasRef?.current?.width ||
+      canvasRef?.current?.height
+    )
+      return;
+
+    ctxRef.current.fillStyle = '#fff';
+    ctxRef.current.fillRect(
+      0,
+      0,
+      canvasRef?.current?.width as number,
+      canvasRef?.current?.height as number
+    );
+    ctxRef.current.fillStyle = selectedColor;
+  }
+  //setting width and height
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d') as CanvasRenderingContext2D;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.globalAlpha = lineOpacity;
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
+    ctxRef.current = ctx;
+
+    canvasRef.current.width = canvasRef?.current?.offsetWidth;
+    canvasRef.current.height = canvasRef?.current?.offsetHeight;
+    setCanvasBackground();
+  }, [lineColor, lineOpacity, lineWidth]);
+
+  // To Draw RECT FILL AND NOT
+  function drawRect(e) {
+    if (!fillColorRef?.current?.checked) {
+      return ctx?.strokeRect(
+        e.offsetX,
+        e.offsetY,
+        prevMouseX - e.offsetX,
+        prevMouseY - e.offsetY
+      );
+    } else {
+      ctx?.fillRect(
+        e.offsetX,
+        e.offsetY,
+        prevMouseX - e.offsetX,
+        prevMouseY - e.offsetY
+      );
+    }
+  }
+
+  // To Draw Circle FILL AND NOT
+  function drawCircle(e) {
+    if (!ctx) return;
+    ctx?.beginPath();
+    const redius = Math.sqrt(
+      Math.pow(prevMouseX - e.offsetX, 2) + Math.pow(prevMouseY - e.offsetY, 2)
+    );
+    ctx?.arc(prevMouseX, prevMouseY, redius, 0, 2 * Math.PI);
+    fillColorRef.current && fillColorRef.current.checked
+      ? ctx?.fill()
+      : ctx?.stroke();
+  }
+
+  // To Draw Triangle FILL AND NOT
+  function drawTriangle(e) {
+    if (!ctx) return;
+    ctx?.beginPath();
+    ctx?.moveTo(prevMouseX, prevMouseY);
+    ctx?.lineTo(e.offsetX, e.offsetY);
+    ctx?.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY);
+    ctx?.closePath();
+    fillColorRef?.current?.checked ? ctx.fill() : ctx.stroke();
+  }
+
+  function startDraw(e) {
+    if (!ctx) return;
+    setIsDrawing(() => true);
+    prevMouseX = e.offsetX;
+    prevMouseY = e.offsetY;
+    ctx?.beginPath(); //creating new path in draw
+    ctx.lineWidth = brushWidth; //passing brushWidth as a line width
+    ctx.strokeStyle = selectedColor;
+    ctx.fillStyle = selectedColor;
+    snapShot = ctx?.getImageData(
+      0,
+      0,
+      parseInt(`${canvasRef?.current?.width ?? '0'}`),
+      parseInt(`${canvasRef?.current?.height ?? '0'}`)
+    );
+  }
+
+  //Choosing what to use
+  function drawing(e) {
+    if (!isDrawing || !ctx) return; // if isDrawing false return from here
+
+    ctx?.putImageData(snapShot, 0, 0);
+    if (selectedTool === 'brush' || selectedTool === 'eraser') {
+      ctx.strokeStyle = selectedTool === 'eraser' ? '#fff' : selectedColor;
+      ctx?.lineTo(e.offsetX, e.offsetY); //creationg line according to the mouse pointer
+      ctx?.stroke(); //drawing filing line with color
+    } else if (selectedTool === 'rectangle') {
+      drawRect(e);
+    } else if (selectedTool === 'circle') {
+      drawCircle(e);
+    } else {
+      drawTriangle(e);
+    }
+  }
+
+  toolBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      //adding click event to tool
+      //adding and remove class for options
+      document.querySelector('.options .active').classList.remove('active');
+      btn.classList.add('active');
+      selectedTool = btn.id;
+    });
+  });
+
+  colorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.options .selected').classList.remove('selected');
+      btn.classList.add('selected');
+      selectedColor = window
+        .getComputedStyle(btn)
+        .getPropertyValue('background-color');
+    });
+  });
+
+  colorPinker?.addEventListener('change', () => {
+    colorPinker.parentElement.style.background = colorPinker.value;
+    colorPinker.parentElement.click();
+  });
+
+  // Function for ending the drawing
+  function endDrawing() {
+    ctxRef.current.closePath();
+    setIsDrawing(false);
+  }
+  return (
+    <div
+      className='container board'
+      style={{
+        overflow: 'hidden'
+      }}
+    >
+      <div className='container'>
+        <section className='tools-board'>
+          <div className='row'>
+            <label className='title'>Shapes</label>
+            <ul className='options'>
+              <li className='option tool' id='rectangle'>
+                <img alt='' src='icons/rectangle.svg' />
+                <span>Rectangle</span>
+              </li>
+              <li className='option tool' id='circle'>
+                <img alt='' src='icons/circle.svg' />
+                <span>Circle</span>
+              </li>
+              <li className='option tool' id='triangle'>
+                <img alt='' src='icons/triangle.svg' />
+                <span>Triangle</span>
+              </li>
+              <li className='option'>
+                <input ref={fillColorRef} id='fill-color' type='checkbox' />
+                <label htmlFor='fill-color'>Fill Color</label>
+              </li>
+            </ul>
+          </div>
+          <div className='row'>
+            <label className='title'>Options</label>
+            <ul className='options'>
+              <li className='option active tool' id='brush'>
+                <img alt='brush' src='icons/brush.svg' />
+                <span>Brush</span>
+              </li>
+              <li className='option tool' id='eraser'>
+                <img alt='' src='icons/eraser.svg' />
+                <span>Eraser</span>
+              </li>
+              <li className='option'>
+                <input
+                  id='Size-Silder'
+                  max='30'
+                  min='1'
+                  type='range'
+                  value={brushWidth}
+                  onChange={e =>
+                    setBrushWidth(() => parseInt(e.currentTarget.value))
+                  }
+                />
+              </li>
+            </ul>
+          </div>
+          <div className='row colors'>
+            <label className='title'>Colors</label>
+            <ul className='options'>
+              <li className='option' />
+              <li className='option selected' />
+              <li className='option' />
+              <li className='option' />
+              <li className='option'>
+                <input
+                  id='color-picker'
+                  type='color'
+                  value='#4A98f7'
+                  onChange={() => {
+                    colorPinker.parentElement.style.background =
+                      colorPinker.value;
+                    colorPinker.parentElement.click();
+                  }}
+                />
+              </li>
+            </ul>
+          </div>
+          <div className='row buttons'>
+            <button
+              className='clear-canvas'
+              type='button'
+              onClick={function onClear() {
+                ctx?.clearRect(
+                  0,
+                  0,
+                  canvasRef?.current?.width,
+                  canvasRef?.current?.height
+                );
+                setCanvasBackground();
+              }}
+            >
+              Clear Canvas
+            </button>
+            <button
+              className='btn btn-primary  text-primary'
+              type='button'
+              onClick={function onSave() {
+                const link = document.createElement('a');
+                link.download = `${Date.now()}.jpg`;
+                link.href = canvasRef?.current?.toDataURL();
+                link.click();
+              }}
+            >
+              Save As Image
+            </button>
+          </div>
+        </section>
+        <section className='drawing-board'>
+          <canvas
+            ref={canvasRef}
+            height={`720px`}
+            width={`1280px`}
+            onMouseDown={startDraw}
+            onMouseMove={drawing}
+            onMouseUp={endDrawing}
+          />
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default TraineeBoard;
+ */

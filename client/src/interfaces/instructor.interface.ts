@@ -1,21 +1,5 @@
-import { ICourse, Rating } from './course.interface';
+import { ICourse, Rating, SocialMedia } from './course.interface';
 import { IUser } from './user.interface';
-
-export interface IInstructor extends IUser {
-  _teachedCourses: ITeachedCourse[];
-  balance: number;
-  bankAccount: BankAccount;
-  biography: string;
-  rating: Rating;
-  socialMedia: SocialMedia;
-  speciality: string;
-  title: string;
-}
-
-export interface ITeachedCourse {
-  _course: ICourse;
-  earning: number;
-}
 
 export type BankAccount = {
   accountHolderName: string;
@@ -26,10 +10,23 @@ export type BankAccount = {
   swiftCode: string;
 };
 
-export type SocialMedia = {
-  facebook: string;
-  github: string;
-  linkedin: string;
-  personalWebsite: string;
-  youtube: string;
-};
+export interface ITeachedCourse {
+  _course: ICourse;
+  earning: number;
+}
+
+export interface IInstructor extends IUser {
+  _teachedCourses: ITeachedCourse[];
+  balance: number;
+  currency: string;
+  bankAccount: BankAccount;
+  biography: string;
+  rating: Rating;
+  socialMedia: SocialMedia;
+  speciality: string;
+  title: string;
+  email: {
+    address: string;
+    isValidated: boolean;
+  };
+}

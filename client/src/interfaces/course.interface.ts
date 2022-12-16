@@ -4,13 +4,12 @@ import { PaginatedRequest } from './request.interface';
 import { ICart } from './cart.interface';
 
 import {
-  Address,
   CreditCard,
   IUser,
   Note,
   Reminder,
   SubmittedQuestion
-} from '@/interfaces/user.interface';
+} from './user.interface';
 
 import { Level } from '@/enums/level.enum';
 
@@ -55,6 +54,10 @@ export interface ICourse extends IBaseCourse {
   _instructor: Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
+  examGrades?: {
+    average: number;
+    totalAttempts: number;
+  };
 }
 
 export type CourseDiscount = {
@@ -104,7 +107,6 @@ export type Instructor = {
   _id: string;
   name: string;
   profileImage: string;
-  address: Address;
   email: Email;
   biography: string;
   balance: number;
@@ -172,6 +174,7 @@ export interface ITrainee extends IUser {
   _lastViewedCourse?: ICourse | string;
   _wishlist: ICart[];
   balance: number;
+  currency: string;
   creditCards: CreditCard[];
   preferredSkills: string[];
   notes: INote[];

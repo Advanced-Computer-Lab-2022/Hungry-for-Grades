@@ -12,6 +12,7 @@ import TraineeRoute from './Trainee/trainee.route';
 import NewsLetterRoute from './NewsLetter/newsletter.route';
 import UserRoute from './User/user.route';
 import ReportRoute from './Report/report.route';
+import PaymentRoute from './Payment/payment.route';
 import { Server } from 'socket.io';
 import MessageRoute from './Message/message.route';
 import * as http from 'http';
@@ -29,6 +30,7 @@ try {
     new NewsLetterRoute(),
     new UserRoute(),
     new ReportRoute(),
+    new PaymentRoute(),
     new MessageRoute(),
   ]);
 
@@ -40,7 +42,7 @@ try {
         const io = new Server(server, {
           cors: {
             credentials: true,
-            origin: 'http://localhost:3000',
+            origin: ['http://localhost:8000', 'http://127.0.0.1:8000'],
           },
         });
         global.onlineUsers = new Map();

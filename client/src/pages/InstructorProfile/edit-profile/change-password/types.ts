@@ -3,4 +3,13 @@ export type InstructorData = {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
+  role: string;
+  _id: string;
+};
+
+export type InstructorSubmitActionData = {
+  oldPassword: string;
+  newPassword: string;
+  role: string;
+  _id: string;
 };

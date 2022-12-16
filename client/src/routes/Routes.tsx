@@ -20,8 +20,6 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import AdminHome from '@/pages/admin/home/AdminHome';
-
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
 /**
@@ -55,6 +53,9 @@ const LazyUserProfile = lazy(
  */
 const LazyTraineeLastStudied = lazy(
   () => import('@/pages/trainee/lastStudiedCourse/LastStudied')
+);
+const LazyTraineeBoard = lazy(
+  () => import('@/pages/trainee/board/TraineeBoard')
 );
 const LazyTraineeEnrolledCourses = lazy(
   () => import('@/pages/trainee/courses/TraineeCourses')
@@ -90,18 +91,24 @@ const LazyTraineeViewCourse = lazy(
 /**
  * Instructor Pages
  */
-const LazyAddCourse = lazy(() => import('@/pages/instructor/course-form/AddCourse'));
-const LazyEditCourse = lazy(() => import('@/pages/instructor/course-form/EditCourse'));
+const LazyAddCourse = lazy(
+  () => import('@/pages/instructor/course-form/AddCourse')
+);
+const LazyEditCourse = lazy(
+  () => import('@/pages/instructor/course-form/EditCourse')
+);
 const LazyInstructorProfileToShow = lazy(
   () => import('@/pages/InstructorProfile/InstructorPage')
 );
 const LazyInstructorCoursesSection = lazy(
-  () => import('@/pages/instructor/InstructorCoursesSection')
+  () => import('@/pages/instructor/coursesData/InstructorCoursesSection')
 );
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
-const LazyAddExam = lazy(() => import('@/pages/instructor/course-form/AddExam'));
+const LazyAddExam = lazy(
+  () => import('@/pages/instructor/course-form/AddExam')
+);
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );
@@ -120,16 +127,20 @@ const LazyInstructorDashboard = lazy(
 /**
  * Admin Pages
  */
-const LazyAddInstructor = lazy(() => import('@/pages/admin/AddInstructor'));
-const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
-const LazyAddCorporateTrainee = lazy(
-  () => import('@/pages/admin/AddCorporateTrainee')
-);
+const LazyAdduser = lazy(() => import('@/pages/admin/createUser/Create'));
 const LazyDiscounts = lazy(
   () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
 );
 const LazyAdminDashboard = lazy(
   () => import('@/pages/admin/dashboard/AdminDashboard')
+);
+
+const LazyAdminReports = lazy(
+  () => import('@/pages/admin/reportRequests/ReportReq')
+);
+
+const LazyAdminCourseRequests = lazy(
+  () => import('@/pages/admin/corporateRequests/CourseRequest')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -219,6 +230,7 @@ function AllRoutes() {
               path='courses'
             />
             <Route element={<LazyTraineeCertificate />} path='certificate' />
+            <Route element={<LazyTraineeBoard />} path='board' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
@@ -230,11 +242,11 @@ function AllRoutes() {
           <Route element={<LazyInstructorDashboard />}>
             <Route
               element={<LazyInstructorCoursesSection />}
-              path='dashboard'
-            />
+              path='my-courses'
+            />{' '}
+            <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
-          <Route element={<AdminHome />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
@@ -253,16 +265,14 @@ function AllRoutes() {
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
-          <Route element={<LazyAdminDashboard />}>
-            <Route element={<div />} path='dashboard' />
+          <Route element={<LazyAdminDashboard />} path='dashboard'>
+            <Route element={<LazyAdduser />} path='create-user' />
+            <Route element={<LazyAdminReports />} path='reports' />
+            <Route
+              element={<LazyAdminCourseRequests />}
+              path='course-requests'
+            />
           </Route>
-          <Route element={<LazyAddInstructor />} path='add-instructor' />
-          <Route element={<LazyAddAdmin />} path='add-admin' />
-          <Route
-            element={<LazyAddCorporateTrainee />}
-            path='add-corporatetrainee'
-          />
-          <Route element={<LazyUserProfile />} path='profile' />
         </Route>
       </Route>
 

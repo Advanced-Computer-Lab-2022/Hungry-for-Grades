@@ -1,0 +1,114 @@
+.col-md-3 {
+    float: left
+}
+
+
+/* paket active: active */
+
+.carousel-inner .active {
+    left: 0;
+}
+
+
+/* paket lama: yang akan hilang */
+
+.carousel-inner>.carousel-item {
+    display: none;
+    position: relative;
+    transition: .6s ease-in-out left
+}
+
+
+/* paket lama: display block */
+
+.carousel-inner>.active,
+.carousel-inner>.carousel-item-next,
+.carousel-inner>.carousel-item-prev {
+    display: block;
+}
+
+
+/* paket lama:  akan pergi ke left -25*/
+
+.carousel-inner .active.carousel-item-left {
+    left: -25%;
+}
+
+.carousel-inner>.active.carousel-item-left {
+    left: -100%;
+}
+
+.carousel-inner>.active {
+    left: 0;
+}
+
+
+/* saat tidak active & akan hilang paling kiri saat datang yang baru */
+
+.carousel-inner.carousel-item {
+    display: none;
+    position: relative;
+}
+
+
+/* paket baru: posisi tujuan saat sedang event */
+
+.carousel-inner>.carousel-item-next.carousel-item-left,
+.carousel-inner>.carousel-item-prev.carousel-item-right {
+    left: -25%;
+}
+
+
+/* paket baru: posisi awal event saat sedang event kotak yang mau tampil */
+
+.carousel-inner>.carousel-item-next {
+    left: 40%;
+}
+
+
+/* paket baru: posisi awal event saat sedang event kotak yang mau tampil */
+
+.carousel-inner>.carousel-item-prev {
+    left: -25%;
+}
+
+
+/* paket baru: */
+
+.carousel-inner .carousel-item-next {
+    left: 25%;
+}
+
+
+/* paket baru */
+
+.carousel-inner .carousel-item-prev {
+    left: -25%;
+}
+
+
+/* paket baru: hasil akhir */
+
+.carousel-inner>.carousel-item-next.carousel-item-left,
+.carousel-inner>.carousel-item-prev.carousel-item-right {
+    left: 0;
+}
+
+
+/* paket baru:  */
+
+.carousel-inner>.carousel-item-next,
+.carousel-inner>.carousel-item-prev {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+
+/* paket baru:  */
+
+.carousel-inner>.active,
+.carousel-inner>.carousel-item-next,
+.carousel-inner>.carousel-item-prev {
+    display: block;
+}

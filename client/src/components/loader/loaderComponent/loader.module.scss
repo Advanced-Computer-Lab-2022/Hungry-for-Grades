@@ -1,8 +1,12 @@
 .ldsFacebook {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     position: relative;
     width: 80px;
     height: 80px;
+    margin: auto;
+    text-align: center;
 }
 
 .ldsFacebook div {
@@ -10,9 +14,9 @@
     position: absolute;
     left: 8px;
     width: 16px;
-    background: var(--secodary-color);
-    animation: ldsFacebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-    -webkit-animation: ldsFacebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    background: var(--secondary-color);
+    animation: ldsFacebook-animate 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    -webkit-animation: ldsFacebook-animate 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
 .ldsFacebook div:nth-child(1) {
@@ -30,7 +34,7 @@
     animation-delay: 0;
 }
 
-@keyframes ldsFacebook {
+@keyframes ldsFacebook-animate {
     0% {
         top: 8px;
         height: 64px;

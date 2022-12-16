@@ -3,11 +3,29 @@
     
     width: 80%;
     height: fit-content;
-    padding: 20px;
+    margin-left: 10rem;
+    //padding: 20px;
     font-family: udemy sans,sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
     font-weight: 400;
-    line-height: 1.4;
-    font-size: 1.6rem;
+    line-height: 1.2;
+    border-collapse:collapse;
+    font-size: 1.1rem;
+}
+
+.container
+{
+    tr{
+        border-bottom: rgb(239, 239, 239) 1.5px;
+        border-style: solid;
+        height: 3.5rem;
+    }
+}
+
+.container
+{
+    input[type=checkbox] {
+        accent-color: #DC3535;
+      }
 }
 
 .listWrap {
@@ -25,7 +43,6 @@
     display: table;
     white-space: nowrap;
     width: 100%;
-    border-collapse:collapse;
     //border-bottom: 2px solid rgb(224, 222, 222);
     
 }
@@ -126,11 +143,13 @@
 
 .status
 {
-    font-size:0.6rem;
+    font-size:1rem;
     background-color: 	#fbe0cb;
     color:orange;
-    height:fit-content;
-    width:fit-content;
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.3rem;
 }
 
 .status:hover

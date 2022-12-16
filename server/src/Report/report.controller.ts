@@ -19,34 +19,24 @@ class ReportController {
     }
   };
 
-  // resolve report controller
-  public resolveReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
-    try {
-      const { reportId } = req.params;
-      const updatedReport = await this.reportService.resolveReport(reportId);
-      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Resolved Successfully', success: true });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  //reject report controller
-  public rejectReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
-    try {
-      const { reportId } = req.params;
-      const updatedReport = await this.reportService.rejectReport(reportId);
-      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Rejected Successfully', success: true });
-    } catch (error) {
-      next(error);
-    }
-  };
-
   // get report by id
   public getReportById = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
     try {
       const { reportId } = req.params;
       const report = await this.reportService.getReportById(reportId);
       res.status(HttpStatusCodes.OK).json({ data: report, message: 'Report Rejected Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update report controller
+  public updateReport = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
+    try {
+      const { reportId } = req.params;
+      const reportData: ReportDTO = req.body;
+      const updatedReport = await this.reportService.updateReport(reportId, reportData);
+      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Report Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -74,8 +64,26 @@ class ReportController {
       if (!reportFilters.limit) reportFilters.limit = 10;
       else reportFilters.limit = parseInt(`${reportFilters.limit}`);
 
+      // If sent as comma seperated string, convert to array
+      if (typeof reportFilters.reason === 'string') {
+        reportFilters.reason = reportFilters.reason.split(',');
+        reportFilters.reason = reportFilters.reason.map(reason => reason.trim());
+      }
+
       const paginatedReponse = await this.reportService.getAllReports(reportFilters);
       res.status(HttpStatusCodes.OK).json({ ...paginatedReponse, message: 'Reports Retrieved Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add follow up message controller
+  public addFollowUpMessage = async (req: Request, res: Response<HttpResponse<Report>>, next: NextFunction) => {
+    try {
+      const { reportId, userId } = req.params;
+      const followUpMessage = req.body;
+      const updatedReport = await this.reportService.addMessageToFollowUp(userId, reportId, followUpMessage);
+      res.status(HttpStatusCodes.OK).json({ data: updatedReport, message: 'Follow Up Message Added Successfully', success: true });
     } catch (error) {
       next(error);
     }

@@ -11,7 +11,8 @@ import {
   //type DELETERoutesType,
   type GETRoutesType,
   // type PATCHRoutesType,
-  type POSTRoutesType
+  type POSTRoutesType,
+  type PATCHRoutesType
   //type POSTRoutesType
 } from './types';
 
@@ -49,19 +50,22 @@ export async function postRequest<T>(
   );
 }
 /*
-/**
+
  * PATCH request
  * @param request - request object
  * @returns a promise with the response from the server
  */
-/* export async function patchRequest(request: PATCHRoutesType) {
-	return http.patch<typeof request.response>(
-		`${request.URL}${request.params ? '/' + request.params : ''}${
-			request.query ? '?' + request.query : ''
-		}`,
-		request.payload
-	);
-} */
+
+export async function patchRequest<T>(
+  request: PATCHRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.patch<T>(
+    `${request.URL}${request.params ? '/' + request.params : ''}${
+      request.query ? '?' + request.query : ''
+    }`,
+    request.payload
+  );
+}
 
 /**
  * DELETE request
@@ -84,13 +88,14 @@ export async function deleteRequest<T>(
  * @returns a promise with the response from the server
  */
 
-export async function putRequest<T>(request: PUTRoutesType):Promise<AxiosResponse<T>> {
-	return http.put<T>(
-		`${request?.URL}${request?.params ? '/' + request?.params : ''}${
-			request?.query ? '?' + request?.query : ''
-		}`,
-		{ ...request?.payload },
+export async function putRequest<T>(
+  request: PUTRoutesType
+): Promise<AxiosResponse<T>> {
+  return http.put<T>(
+    `${request?.URL}${request?.params ? '/' + request?.params : ''}${
+      request?.query ? '?' + request?.query : ''
+    }`,
+    { ...request?.payload },
     { withCredentials: true }
-	);
-
-} 
+  );
+}

@@ -1,6 +1,6 @@
 import { type ChangeEvent } from '../../common.types';
 export type InputProps = {
-  id?: string;
+  id: string;
   className?: string;
   label: string;
   pattern?: string;

@@ -26,7 +26,7 @@ function TopRatedCourses() {
     return <></>;
   } else if (coursesMapped) {
     return (
-      <section className='container'>
+      <section className='container' id='rated-courses'>
         <h2 className='text-dark text-left mb-2'>Top rated courses</h2>
         <div className='row'>
           {coursesMapped?.map(course => (
@@ -36,7 +36,14 @@ function TopRatedCourses() {
           ))}
         </div>
         <p className='text-end'>
-          <Link to='/courses'>View all courses</Link>
+          <Link
+            style={{
+              zIndex: '999'
+            }}
+            to='/courses'
+          >
+            View all courses
+          </Link>
         </p>
       </section>
     );
