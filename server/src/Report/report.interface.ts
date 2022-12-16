@@ -24,6 +24,8 @@ export interface Report {
   _user: IUser | Types.ObjectId;
   createdAt: Date;
   description: string;
+  followUp: Message[];
+  isSeen: boolean;
   reason: Reason;
   role: Role;
   status: Status;
@@ -33,8 +35,16 @@ export interface IReportFilters extends PaginatedRequest {
   _course?: string;
   _user?: string;
   endDate?: Date;
-  reason?: Reason;
-  sort?: number; // 1: ascending, -1: descending , undefined: default (no sort)
+  isSeen: string;
+  reason?: string | string[];
+  sort?: number;
+  // 1: ascending, -1: descending , undefined: default (no sort)
   startDate?: Date;
   status?: Status;
+}
+
+export interface Message {
+  content: string;
+  createdAt: Date;
+  isAdmin: boolean;
 }

@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { HttpException } from '@/Exceptions/HttpException';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
@@ -163,6 +163,7 @@ class CourseService {
           subcategory: 1,
           thumbnail: 1,
           title: 1,
+          examGrades: 1,
         },
       },
     ];
@@ -210,8 +211,6 @@ class CourseService {
     }
 
     const teachedCourses: ITeachedCourse[] = queryResult[0]?._teachedCourses ?? [];
-    //osa
-    logger.info(queryResult[0].count);
 
     const totalCourses = teachedCourses.length;
     const totalPages = Math.ceil(totalCourses / pageLimit);
@@ -398,6 +397,53 @@ class CourseService {
     if (!userReview) throw new HttpException(HttpStatusCodes.NOT_FOUND, "You haven't reviewed this course yet");
 
     return userReview;
+  }
+
+  // delete user review on course
+  public async deleteUserReviewOnCourse(courseID: string, traineeID: string): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID.toString());
+    if (userReviewIndex == -1) return;
+    //throw new HttpException(HttpStatusCodes.NOT_FOUND, "You haven't reviewed this course yet");
+
+    const userReview = course.rating.reviews[userReviewIndex];
+
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews.splice(userReviewIndex, 1);
+
+    await course.save();
+  }
+
+  // update review on course
+  public async updateUserReviewOnCourse(courseID: string, traineeID: string, userReview: ReviewDTO): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+    console.log(course.rating.reviews);
+
+    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID.toString());
+    if (userReviewIndex == -1) return;
+
+    const oldUserReview = course.rating.reviews[userReviewIndex];
+
+    const totalReviews = course.rating.reviews.length;
+    const newRating = (course.rating.averageRating * totalReviews - oldUserReview.rating + userReview.rating) / totalReviews;
+    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    course.rating.reviews[userReviewIndex].rating = userReview.rating;
+    course.rating.reviews[userReviewIndex].comment = userReview.comment;
+
+    await course.save();
+
+    return course.rating.reviews[userReviewIndex];
   }
 
   //create exam for course
@@ -966,6 +1012,24 @@ class CourseService {
       }
     }
     return failedCourses;
+  }
+
+  // add examGrade to course
+  public async modifyAverageExamGrade(courseID: string, examGradeInPercent: number): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID);
+    if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
+
+    // compute new average exam grade
+    const courseExamGrade = course.examGrades;
+    const total = courseExamGrade.totalAttempts;
+    const oldAverage = courseExamGrade.average;
+    let newAverage = (oldAverage * total + examGradeInPercent) / (total + 1);
+    newAverage = Math.round(newAverage * 100) / 100;
+
+    course.examGrades = { average: newAverage, totalAttempts: total + 1 };
+    await course.save();
   }
 }
 export default CourseService;

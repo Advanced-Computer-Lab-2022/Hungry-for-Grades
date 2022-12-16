@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^5.41.0",
     "commitizen": "^4.2.5",
     "concurrently": "^7.5.0",
-    "cypress": "^12.0.2",
+    "cypress": "^12.1.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.26.0",
     "eslint-plugin-perf-standard": "^1.0.3",

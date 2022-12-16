@@ -29,7 +29,6 @@ function InstructorCoursesSection() {
   const { isLoading, isError, data, activePage, setActivePage } =
     useSearchQuery(selectedFilters);
   const verifiedData = data?.data?.data;
-  console.log(verifiedData);
   if (isError) return <ErrorMessage errorMessage={data?.data?.message} />;
   console.log(verifiedData);
   return (
@@ -66,11 +65,11 @@ function InstructorCoursesSection() {
               Courses Analytics
             </button>
           </div>
-          {currentStepIndex === 1 && (
+          {currentStepIndex === 1 && data && (
             <InstructorCoursesAnalytics
               data={verifiedData?.map(course => ({
                 Earnings: course.earning,
-                title: course._course.title,
+                title: course._course.title + '',
                 Trainees: course._course.numberOfEnrolledTrainees
               }))}
             />

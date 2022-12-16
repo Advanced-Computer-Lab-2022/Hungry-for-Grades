@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -6,26 +5,33 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
 import { Link, NavLink } from 'react-router-dom';
 
+import ReportForm from '../footer/ReportForm';
+
 import UserDropdown from './userDropDown/UserDropdown';
 
 import WishCartButtons from './WishCartButtons';
+
+import styles from './navbar.module.scss';
 
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@enums/role.enum';
-import './Navbar.scss';
 import toSmallNumber from '@/utils/toSmallNumber';
+import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import { ITrainee } from '@/interfaces/course.interface';
+import { IInstructor } from '@/interfaces/instructor.interface';
 
 function NavbarComponent() {
+  const { data, isError } = useCategoryQuery();
+
   const country = UseCountry();
   const updateCountry = UpdateCountry();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
-
   return (
-    <Navbar bg='light' className='navbar' expand='lg' sticky='top'>
+    <Navbar bg='light' className={styles.navbar} expand='lg' sticky='top'>
       <Container>
         <Navbar.Brand>
           <Link to='/'>CanCham</Link>
@@ -34,28 +40,49 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav-link active' : 'nav-link'
-              }
+              className={function activate({ isActive }) {
+                return isActive ? 'nav-link active' : 'nav-link';
+              }}
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
             </NavLink>
             <NavDropdown id='basic-nav-dropdown' title='Explore'>
-              <NavDropdown.Item>
-                <Link to='/courses'>Courses</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Navbar </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Image</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>
-                Image Slider
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.5'>Image</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.6'>Div</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.6'>Footer</NavDropdown.Item>
+              {!isError &&
+                data?.data?.map(category => (
+                  <NavDropdown.Item key={category.label}>
+                    <div className={styles.category__parent__link}>
+                      <Link
+                        className={styles.category__link}
+                        to={`/courses?category=${encodeURIComponent(
+                          category.label
+                        )}`}
+                      >
+                        {category.label}
+                      </Link>
+                      <div
+                        className={`${
+                          styles.subCategory__link ?? ''
+                        } d-flex flex-column`}
+                      >
+                        {category?.subcategory?.map(subCat => (
+                          <Link
+                            key={subCat.label}
+                            className=''
+                            to={`/courses?category=${encodeURIComponent(
+                              category.label
+                            )}&subCategory=${encodeURIComponent(subCat.label)}`}
+                          >
+                            {subCat.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </NavDropdown.Item>
+                ))}
               <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.9'>
-                Documentation{' '}
+              <NavDropdown.Item>
+                <ReportForm />
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
@@ -63,11 +90,13 @@ function NavbarComponent() {
           <Nav className='ml-auto'>
             <Nav.Link>
               <ReactFlagsSelect
-                className='flag__select'
+                className={styles.flag__select}
                 placeholder='Country'
                 selected={country}
                 showSelectedLabel={false}
-                onSelect={code => updateCountry(code)}
+                onSelect={function updateCode(code) {
+                  updateCountry(code);
+                }}
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
@@ -75,16 +104,16 @@ function NavbarComponent() {
                 <div className='d-flex flex-row justify-content-evenly'>
                   {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-                  {user.role.toLocaleLowerCase() !==
-                    Role.ADMIN.toLocaleLowerCase() &&
-                    user?.balance && (
-                      <Link
-                        className='user__balance balance__title'
-                        to={`${user.role.toLocaleLowerCase()}/balance`}
-                      >
-                        ${toSmallNumber(user.balance)}
-                      </Link>
-                    )}
+
+                  {user.role !== Role.ADMIN && (
+                    <Link
+                      className={styles.user__balance}
+                      to={`/${user.role.toLocaleLowerCase()}/balance`}
+                    >
+                      {(user as ITrainee | IInstructor)?.currency}{toSmallNumber(user.balance as number)}
+                    </Link>
+                  )}
+
                   <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                     <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
                       {user.name}
@@ -95,11 +124,19 @@ function NavbarComponent() {
               </Nav.Link>
             ) : (
               <>
-                <NavLink className='auth_btn nav-link' to='/auth/signup'>
-                  <span className='signup__btn'>Sign Up</span>
+                <NavLink
+                  className={`${styles.auth_btn ?? ''} nav-link`}
+                  id='signup-navlink'
+                  to='/auth/signup'
+                >
+                  <span className={styles.signup__btn}>Sign Up</span>
                 </NavLink>
-                <NavLink className='auth_btn nav-link' to='/auth/login'>
-                  <span className='login__btn'>Login</span>
+                <NavLink
+                  className={`${styles.auth_btn ?? ''} nav-link`}
+                  id='login-navlink'
+                  to='/auth/login'
+                >
+                  <span className={styles.login__btn}>Login</span>
                 </NavLink>
               </>
             )}

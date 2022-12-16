@@ -10,6 +10,8 @@ import { ChangeEvent } from '@/components/common.types';
 import usePostQuery from '@/hooks/usePostQuery';
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { IUser } from '@/interfaces/user.interface';
+import { HttpResponse } from '@/interfaces/response.interface';
 let verifiedCode: string;
 
 function ConfirmEmail({
@@ -20,9 +22,9 @@ function ConfirmEmail({
   email
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
-  const { mutateAsync, isError, isSuccess, error } = usePostQuery();
-  console.log('error post query');
-  console.log(error);
+  const { mutateAsync, isError, isSuccess, error } =
+    usePostQuery<HttpResponse<IUser>>();
+
   const [wrongMessage, setWrongMessage] = useState<string>('');
 
   const getVerifiedCode = async () => {
@@ -103,6 +105,7 @@ function ConfirmEmail({
               correctMessage={''}
               errorMessage={undefined}
               hint={''}
+              id={`code-${index * 4}`}
               isError={null}
               isTop={false}
               label={''}

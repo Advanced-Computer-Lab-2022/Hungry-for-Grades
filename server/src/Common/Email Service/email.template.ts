@@ -2,7 +2,16 @@ import handlebars from 'handlebars';
 import path from 'path';
 import fs from 'fs';
 import { sendEmail } from './nodemailer.service';
-import { COMPANY_FACEBOOK, COMPANY_INSTAGRAM, COMPANY_TWITTER, COMPANY_LOGO, COMPANY_LINKEDIN, CLIENT_URL } from '@/Config';
+import {
+  COMPANY_FACEBOOK,
+  COMPANY_INSTAGRAM,
+  COMPANY_TWITTER,
+  COMPANY_LOGO,
+  COMPANY_LINKEDIN,
+  CLIENT_URL,
+  COMPANY_EMAIL,
+  COMPANY_PHONE,
+} from '@/Config';
 import { Role } from '@/User/user.enum';
 
 export function sendVerificationEmail(traineeEmail: string, username: string, code: number) {
@@ -51,4 +60,42 @@ export function getDiscountHTML(): string {
   const replacements = {};
   const htmlToSend = template(replacements);
   return htmlToSend;
+}
+
+export function sendCertificateEmail(traineeEmail: string, username: string, courseName: string, examGrade: string) {
+  const emailBody = getCertificateEmailHTML(username, courseName, examGrade);
+  const certificateAttachment = prepareCertificateAttachment('Certificate.pdf');
+  sendEmail(traineeEmail, emailBody, 'You officially graduated!!!', certificateAttachment);
+}
+
+export function getCertificateEmailHTML(username: string, courseName: string, examGrade: string): string {
+  const filePath = path.join(__dirname, '/templates/Certificate.html');
+  const source = fs.readFileSync(filePath, 'utf-8').toString();
+  const template = handlebars.compile(source);
+  const replacements = {
+    facebook: COMPANY_FACEBOOK,
+    instagram: COMPANY_INSTAGRAM,
+    linkedin: COMPANY_LINKEDIN,
+    logo: COMPANY_LOGO,
+    twitter: COMPANY_TWITTER,
+    canchamEmail: COMPANY_EMAIL,
+    canchamPhone: COMPANY_PHONE,
+    username,
+    courseName,
+    examGrade,
+  };
+  const htmlToSend = template(replacements);
+  return htmlToSend;
+}
+
+function prepareCertificateAttachment(filename: string) {
+  const certificateAttachment: any[] = [
+    {
+      filename,
+      //content:fs.createReadStream(path.join(__dirname,'../../Uploads/certificate.png')), // image
+      path: path.join(__dirname, '../../Uploads/certificate.pdf'), // pdf
+      contentType: 'application/pdf',
+    },
+  ];
+  return certificateAttachment;
 }

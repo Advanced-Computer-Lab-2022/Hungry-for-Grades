@@ -4,6 +4,7 @@ import { AiFillHeart, AiFillCreditCard } from 'react-icons/ai';
 import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
+import { FaPaintBrush } from 'react-icons/fa';
 
 import Dashboard from '@/components/dashboard/Dashboard';
 import MusicPlayer from '@/components/mediaPlayer/Music';
@@ -15,6 +16,7 @@ const navLinks = {
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 function TraineeDashboard() {

@@ -9,6 +9,8 @@ import SessionStorage from '../sessionStorage/SessionStorage';
 
 import { removeInfo } from '../savedInfo/SavedInfo';
 
+import LocalStorage from '@/services/localStorage/LocalStorage';
+
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 const loginRoute = '/auth/login';
@@ -56,17 +58,20 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
+  const rememberMe = LocalStorage.get('rememberMe');
   if (
     error.response &&
     error.response.status === 401 &&
     error.response.data
+
     //error.response.data?.error !== null &&
     //error.response.data?.message === 'jwt expired'
   ) {
     try {
       const prevRequest = error.config;
-      if (prevRequest && !prevRequest?.sent) {
+      if (prevRequest && !prevRequest?.sent && rememberMe) {
         prevRequest.sent = true;
+
         const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
           withCredentials: true
         });

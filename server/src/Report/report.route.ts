@@ -19,6 +19,8 @@ class ReportRoute implements Routes {
     this.router.get('/:reportId', this.reportController.getReportById);
     this.router.delete('/:reportId', this.reportController.deleteReport);
     this.router.patch('/:reportId', validationMiddleware(ReportDTO, 'body'), this.reportController.updateReport);
+
+    this.router.post('/:reportId/user/:userId', this.reportController.addFollowUpMessage);
   }
 }
 

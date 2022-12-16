@@ -14,8 +14,10 @@ class PaymentRoute implements Routes {
   private initializeRoutes() {
     this.router.post('/checkout/:traineeId', this.paymentController.checkout);
     this.router.post('/success/:traineeId', this.paymentController.savePayment);
+    this.router.get('/monthly-revenue/:instructorId', this.paymentController.monthlyRevenue);
 
     this.router.delete('/:paymentId', this.paymentController.deletePayment);
+    this.router.post('/refund/trainee/:traineeId/course/:courseId', this.paymentController.refund);
   }
 }
 
