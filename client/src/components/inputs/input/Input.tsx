@@ -1,9 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
 
 import styles from './input.module.scss';
 import { type InputProps } from './types';
 function Input(props: InputProps) {
-  const id = uuidv4();
+  const id = props.id;
   return (
     <div className={`form-group row ${props.className || ''}`}>
       <label

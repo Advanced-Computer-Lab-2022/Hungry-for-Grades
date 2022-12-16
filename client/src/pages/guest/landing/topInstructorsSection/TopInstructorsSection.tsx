@@ -12,7 +12,6 @@ function TopInstructorsSection() {
 
   return (
     <section className='container' id='rated-instructors'>
-      <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
       {isLoading && <LoaderCards numberOfCards={3} />}
       {isError && <ErrorMessage />}
       {!isLoading &&
@@ -20,7 +19,9 @@ function TopInstructorsSection() {
         data &&
         data.data &&
         data?.data?.totalResults > 0 && (
-          <div>
+          <>
+						      <h2 className='text-dark text-left mb-4'>Top rated instructors</h2>
+
             <div className='row'>
               {data.data.data.map(instructor => {
                 return (
@@ -38,7 +39,7 @@ function TopInstructorsSection() {
               pages={parseInt(data.data.totalPages)}
               setActivePage={setActivePage}
             />
-          </div>
+          </>
         )}
     </section>
   );

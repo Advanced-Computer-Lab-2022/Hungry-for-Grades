@@ -114,9 +114,9 @@ function Login() {
     <div className='login d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
-          <Link to='/'>
+          <Link id='login-to-landing-page-navlink' to='/'>
             <div className='form__container__logo'>
-              <img alt='logo' src={COMPANY_LOGO} />
+              <img alt='logo'  src={COMPANY_LOGO}/>
             </div>
           </Link>
           <Form

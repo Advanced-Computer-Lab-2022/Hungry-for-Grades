@@ -124,12 +124,15 @@ function NavbarComponent() {
             ) : (
               <>
                 <NavLink
+																id='signup-navlink'
+
                   className={`${styles.auth_btn ?? ''} nav-link`}
                   to='/auth/signup'
                 >
                   <span className={styles.signup__btn}>Sign Up</span>
                 </NavLink>
                 <NavLink
+								id='login-navlink'
                   className={`${styles.auth_btn ?? ''} nav-link`}
                   to='/auth/login'
                 >
