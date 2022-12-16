@@ -12,6 +12,7 @@ import DiscountCard from './DiscountCard';
 import useCourseDiscountsQuery from './useCourseDiscountsQuery';
 
 import { CoursesRoutes } from '@/services/axios/dataServices/CoursesDataService';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 function handleClick(setShow: {
   (value: SetStateAction<boolean>): void;
@@ -44,7 +45,7 @@ export default function CourseDiscounts() {
   );
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <LoaderComponent/>;
   }
 
   const list = data?.data?.data;
