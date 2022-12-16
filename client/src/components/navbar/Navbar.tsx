@@ -71,11 +71,10 @@ function NavbarComponent() {
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
-              <Nav.Link>
-                <div className='d-flex flex-row justify-content-evenly'>
-                  {user.role.toLocaleLowerCase() ===
+              <div className='d-flex flex-row justify-content-evenly'>
+                {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-                  {user.role.toLocaleLowerCase() !==
+                {user.role.toLocaleLowerCase() !==
                     Role.ADMIN.toLocaleLowerCase() &&
                     user?.balance && (
                       <Link
@@ -90,9 +89,8 @@ function NavbarComponent() {
                       {user.name}
                     </div>
                   </Link>
-                  <UserDropdown />
-                </div>
-              </Nav.Link>
+                <UserDropdown />
+              </div>
             ) : (
               <>
                 <NavLink className='auth_btn nav-link' to='/auth/signup'>
