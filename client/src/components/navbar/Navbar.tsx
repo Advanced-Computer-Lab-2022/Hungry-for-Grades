@@ -100,9 +100,8 @@ function NavbarComponent() {
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
-              <Nav.Link>
-                <div className='d-flex flex-row justify-content-evenly'>
-                  {user.role.toLocaleLowerCase() ===
+              <div className='d-flex flex-row justify-content-evenly'>
+                {user.role.toLocaleLowerCase() ===
                     Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
 
                   {user.role !== Role.ADMIN && (
@@ -120,9 +119,8 @@ function NavbarComponent() {
                       {user.name}
                     </div>
                   </Link>
-                  <UserDropdown />
-                </div>
-              </Nav.Link>
+                <UserDropdown />
+              </div>
             ) : (
               <>
                 <NavLink

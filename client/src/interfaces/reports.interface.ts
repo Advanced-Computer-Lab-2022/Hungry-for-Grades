@@ -37,3 +37,14 @@ export enum Reason {
   REFUND = 'Refund',
   TECHNICAL = 'Technical'
 }
+
+export type FilterAdmin = {
+  att: FilterElement[];
+};
+
+export type FilterElement = {
+  values: string[];
+  setValue: (x: string) => void;
+  actualValue: string;
+  title: string;
+};

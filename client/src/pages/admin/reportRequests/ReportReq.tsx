@@ -1,33 +1,35 @@
-import { useRef, useState } from 'react';
-
-import { AiFillPlusCircle } from 'react-icons/ai';
-
-import { Overlay } from 'react-bootstrap';
+import { useState, useRef } from 'react';
 
 import { toast } from 'react-toastify';
 
-import { useReqQuery } from './useReqQuery';
+import { Overlay } from 'react-bootstrap';
 
-import styles from './CourseRequest.module.scss';
+import { AiFillPlusCircle } from 'react-icons/ai';
 
+import ReactGa from 'react-ga';
+
+import Filter from '../adminTable/Filter';
+
+import AdminTable2 from '../adminTable2/AdminTable2';
+
+import { useReportReq } from './useReportReq';
+
+import styles from './ReportReq.module.scss';
+
+import Loader from '@/components/loader/loaderpage/Loader';
+import { toastOptions } from '@/components/toast/options';
+import usePatchQuery from '@/hooks/usePatchQuery';
 import {
   AllReport,
   FilterAdmin,
   FilterElement,
   Status
 } from '@/interfaces/reports.interface';
-
-import Loader from '@/components/loader/loaderpage/Loader';
-
-import AdminTable from '@pages/admin/adminTable/AdminTable';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 
-import usePatchQuery from '@/hooks/usePatchQuery';
-import { toastOptions } from '@/components/toast/options';
+export default function ReportReq() {
+  ReactGa.pageview(window.location.pathname);
 
-import Filter from '@pages/admin/adminTable/Filter';
-
-export default function CourseRequest() {
   const [set, setSet] = useState(new Set());
 
   const [update, setUpdate] = useState(0);
@@ -46,6 +48,8 @@ export default function CourseRequest() {
 
   const [filterV1, setFilterV1] = useState<string>('All');
 
+  const [filterV2, setFilterV2] = useState<string>('All');
+
   const f1: FilterElement = {
     values: ['Resolved', 'Pending', 'Rejected', 'All'],
     setValue: setFilterV1,
@@ -53,9 +57,16 @@ export default function CourseRequest() {
     title: 'Status'
   };
 
-  const filters: FilterAdmin = { att: [f1] };
+  const f2: FilterElement = {
+    values: ['Financial', 'Technical', 'Refund', 'Other', 'All'],
+    setValue: setFilterV2,
+    actualValue: filterV2,
+    title: 'Report Problem'
+  };
 
-  const { data, isLoading } = useReqQuery(update, filterV1);
+  const filters: FilterAdmin = { att: [f1, f2] };
+
+  const { data, isLoading } = useReportReq(update, filterV1, filterV2);
 
   const { mutateAsync: updateReport } = usePatchQuery();
 
@@ -104,7 +115,7 @@ export default function CourseRequest() {
             marginTop: '2rem'
           }}
         >
-          Course Requests
+          Reported Problems
         </div>
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
@@ -125,7 +136,7 @@ export default function CourseRequest() {
           <Overlay placement='bottom' show={visible} target={target?.current}>
             {({ placement, arrowProps, show: _show, popper, ...props }) => (
               <div
-                className={styles.drop_down}
+                className={styles.drop_downn}
                 {...props}
                 style={{
                   borderRadius: 3,
@@ -153,7 +164,7 @@ export default function CourseRequest() {
         </div>
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
-          <AdminTable
+          <AdminTable2
             data={arr as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
