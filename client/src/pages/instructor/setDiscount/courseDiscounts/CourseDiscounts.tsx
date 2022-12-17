@@ -45,7 +45,7 @@ export default function CourseDiscounts() {
   );
 
   if (isLoading) {
-    return <LoaderComponent/>;
+    return <LoaderComponent />;
   }
 
   const list = data?.data?.data;

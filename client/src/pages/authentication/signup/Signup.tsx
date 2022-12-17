@@ -150,7 +150,6 @@ function Signup() {
         <div className={`form__container `}>
           <div className='container'>
             <div className='d-flex flex-column flex-lg-row justify-content-between m-0 p-0'>
-
               <div className='mt-4'>
                 <ProgressSteps
                   currentStepIndex={currentStepIndex}
@@ -167,7 +166,7 @@ function Signup() {
                   subtitles={subtitles}
                 />
               </div>
-							<Link className='p-0 m-0' to='/'>
+              <Link className='p-0 m-0' to='/'>
                 <img
                   alt='logo'
                   loading='lazy'

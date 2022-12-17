@@ -17,7 +17,7 @@ import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
-import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 import toSmallNumber from '@/utils/toSmallNumber';
 import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
 import { ITrainee } from '@/interfaces/course.interface';
@@ -110,7 +110,8 @@ function NavbarComponent() {
                       className={styles.user__balance}
                       to={`/${user.role.toLocaleLowerCase()}/balance`}
                     >
-                      {(user as ITrainee | IInstructor)?.currency}{toSmallNumber(user.balance as number)}
+                      {(user as ITrainee | IInstructor)?.currency}
+                      {toSmallNumber(user.balance as number)}
                     </Link>
                   )}
 

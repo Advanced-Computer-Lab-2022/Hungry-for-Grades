@@ -54,11 +54,10 @@ export interface ICourse extends IBaseCourse {
   _instructor: Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
-	examGrades?: {
-		average: number;
-		totalAttempts: number;
-}
-
+  examGrades?: {
+    average: number;
+    totalAttempts: number;
+  };
 }
 
 export type CourseDiscount = {
@@ -175,7 +174,7 @@ export interface ITrainee extends IUser {
   _lastViewedCourse?: ICourse | string;
   _wishlist: ICart[];
   balance: number;
-	currency:string;
+  currency: string;
   creditCards: CreditCard[];
   preferredSkills: string[];
   notes: INote[];
