@@ -47,7 +47,10 @@ export default function LastStudy() {
             </div>
             {/* 						meteiny fix link
              */}{' '}
-            <Link className={styles.cnt} to={`/trainee/view-course/`}>
+            <Link
+              className={styles.cnt}
+              to={`/trainee/view-course/${course?._course?._id}`}
+            >
               {course?.progress === undefined || course?.progress === 0
                 ? 'Start now'
                 : 'Continue now'}{' '}

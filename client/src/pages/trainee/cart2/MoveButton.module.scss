@@ -1,0 +1,20 @@
+.actions
+{
+    display: flex;
+    flex-direction: row;
+    //flex-wrap: wrap;
+    font-size: .8rem;
+    font-weight: 500;
+    gap: 1rem;
+    border: none;
+    color: var(--primary-light-color);
+   
+    span:hover
+    {
+        text-decoration: underline;
+        cursor: pointer;
+        border: none;
+    }
+
+
+}

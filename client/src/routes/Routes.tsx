@@ -77,7 +77,7 @@ const LazyTraineeNoteForm = lazy(
 const LazyTraineeNoteList = lazy(
   () => import('@/pages/trainee/note/TraineeNoteList')
 );
-const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
+const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart2/Cart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
 );

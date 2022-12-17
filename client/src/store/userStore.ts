@@ -5,6 +5,8 @@ import { devtools } from 'zustand/middleware';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 
 import { type IUser } from '@interfaces/user.interface';
+import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
+import { Role } from '@/enums/role.enum';
 
 export interface IUserStore {
   user: IUser | null;
@@ -13,10 +15,11 @@ export interface IUserStore {
   logOut: () => void;
   isAuthenticated: boolean | null;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  isEnrolled: (id: string) => boolean;
 }
 
 export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
-  devtools(set => ({
+  devtools((set, get) => ({
     user: SessionStorage.get<IUser>('user') as IUser | null,
     isAuthenticated: SessionStorage.get<IUser>('user') ? true : null,
     setUser: (user: IUser) => {
@@ -29,6 +32,14 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
       set({ isAuthenticated }),
     logOut: () => {
       set({ user: null, isAuthenticated: false });
+    },
+    isEnrolled: _id => {
+      if (get().user?.role != Role?.TRAINEE) return true; //I will remove the Card Buttons from the Card of the enrolled is true
+      return (
+        [
+          ...((get().user as ITrainee)?._enrolledCourses as EnrolledCourse[])
+        ].find(item => item?._course?._id === _id) !== undefined
+      );
     }
   }))
 );
