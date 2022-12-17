@@ -9,7 +9,6 @@ import Form from '@/components/form/Form';
 import { UseUser } from '@/store/userStore';
 
 export default function Profile() {
-
   const user = UseUser();
   const instructorId = user?._id;
 
