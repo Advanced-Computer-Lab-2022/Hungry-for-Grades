@@ -80,10 +80,15 @@ function NavbarComponent() {
                     </div>
                   </NavDropdown.Item>
                 ))}
-              <NavDropdown.Divider />
-              <NavDropdown.Item>
-                <ReportForm />
-              </NavDropdown.Item>
+
+              {useUserIsAuthenticated && (
+                <>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item>
+                    <ReportForm />
+                  </NavDropdown.Item>
+                </>
+              )}
             </NavDropdown>
           </Nav>
           <SearchBar />
@@ -100,25 +105,25 @@ function NavbarComponent() {
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
-              <div className='d-flex flex-row justify-content-evenly'>
+              <div className='d-flex flex-row justify-content-evenly mt-2'>
                 {user.role.toLocaleLowerCase() ===
-                    Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+                  Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
 
-                  {user.role !== Role.ADMIN && (
-                    <Link
-                      className={styles.user__balance}
-                      to={`/${user.role.toLocaleLowerCase()}/balance`}
-                    >
-                      {(user as ITrainee | IInstructor)?.currency}
-                      {toSmallNumber(user.balance as number)}
-                    </Link>
-                  )}
-
-                  <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
-                    <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
-                      {user.name}
-                    </div>
+                {user.role !== Role.ADMIN && (
+                  <Link
+                    className={styles.user__balance}
+                    to={`/${user.role.toLocaleLowerCase()}/balance`}
+                  >
+                    {(user as ITrainee | IInstructor)?.currency}
+                    {toSmallNumber(user.balance as number)}
                   </Link>
+                )}
+
+                <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
+                  <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
+                    {user.name}
+                  </div>
+                </Link>
                 <UserDropdown />
               </div>
             ) : (
