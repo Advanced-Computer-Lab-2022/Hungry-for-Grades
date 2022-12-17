@@ -6,8 +6,6 @@ import {
   AccordionItemPanel
 } from 'react-accessible-accordion';
 
-// Demo styles, see 'Styles' section below for some notes on use.
-import './accordion.scss';
 // import styles from './course-content.module.scss';
 
 import { type ICourse } from '@/interfaces/course.interface';

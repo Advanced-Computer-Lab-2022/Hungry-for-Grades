@@ -6,6 +6,8 @@ import { FiUser, FiLogOut } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { RiDashboardFill } from 'react-icons/ri';
+
 import styles from './UserDropdown.module.scss';
 
 import { UseTraineeNoteStoreNotes } from '@store/noteStore';
@@ -33,7 +35,7 @@ function MenuHeadersExample() {
     }
     removeInfo();
     useUserStoreLogOut();
-    useNavigate()('/auth/login');
+    useNavigate()('/auth/login', { replace: true });
   }
   return (
     user && (
@@ -80,6 +82,15 @@ function MenuHeadersExample() {
                   Personal Profile
                 </NavLink>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <NavLink
+                  style={{ color: 'inherit' }}
+                  to={`/${user.role}/dashboard`}
+                >
+                  <RiDashboardFill className={styles.nav__icon} />
+                  Dashboard
+                </NavLink>
+              </NavDropdown.Item>
               <hr />
               <NavDropdown.Item>
                 <NavLink
@@ -88,10 +99,15 @@ function MenuHeadersExample() {
                 >
                   <IoSettingsOutline className={styles.nav__icon} /> Settings
                 </NavLink>
-              </NavDropdown.Item>{' '}
+              </NavDropdown.Item>
               <NavDropdown.Item onClick={logout}>
                 <button
-                  style={{ color: 'inherit', outline: 'none', border: 'none' }}
+                  style={{
+                    color: 'inherit',
+                    outline: 'none',
+                    border: 'none',
+                    fontWeight: 'normal'
+                  }}
                   type='button'
                   onClick={async function x() {
                     await logout();

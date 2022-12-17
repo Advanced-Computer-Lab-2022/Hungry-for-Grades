@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { UseUserIsAuthenticated, UseUser } from '@store/userStore';
 
-import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 
 export default function TraineeRoutes() {
   const location = useLocation();

@@ -1,5 +1,5 @@
 import { Gender } from '@/enums/gender.enum';
-import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 
 interface IUser {
   _id: string;
