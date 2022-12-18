@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import CourseService from '@/Course/course.dao';
 import TraineeService from '@/Trainee/trainee.dao';
 import { getConversionRate, getCourseDiscounts, getCurrencyFromCountry, getPriceAfterDiscount } from '@/Course/course.common';
-import { IPayment, PaymentType } from './payment.interface';
+import { IPayment, PaymentDTO, PaymentType } from './payment.interface';
 import paymentModel from './payment.model';
 import { HttpException } from '@/Exceptions/HttpException';
 import { logger } from '@/Utils/logger';
@@ -54,11 +54,11 @@ class PaymentService {
   }
 
   // create and save payment upon success
-  public async savePayment(traineeId: string, country: string, walletUsed: boolean): Promise<void> {
+  public async savePayment(traineeId: string, country: string, walletUsed: boolean): Promise<PaymentDTO> {
     const cartPaginatedResponse = await this.traineeService.getCart(traineeId, country, 1, 10000);
 
     // cart is empty
-    if (cartPaginatedResponse.totalResults == 0) return;
+    if (cartPaginatedResponse.totalResults == 0) return null;
 
     // Convert to USD before saving
     const conversionRate = await getConversionRate(country, true);
@@ -85,6 +85,7 @@ class PaymentService {
     }
 
     // Saving Transaction
+    let createdPayment = null;
     await paymentModel.create(
       {
         _courses: cartItems,
@@ -92,11 +93,12 @@ class PaymentService {
         paymentType: PaymentType.CART_PAYMENT,
         trainee: traineeId,
       },
-      (err: Error) => {
+      (err: Error, result) => {
         if (err) {
           logger.error(err.message);
           throw new HttpException(500, 'Error saving payment');
         }
+        createdPayment = result;
       },
     );
 
@@ -115,6 +117,11 @@ class PaymentService {
       earnings = Math.floor(earnings * 100) / 100;
       await this.instructorService.updateInstructorEarningAndBalance(instructorId.toString(), course._id.toString(), earnings);
     }
+
+    return {
+      _id: createdPayment._id,
+      amount: createdPayment.amount,
+    };
   }
 
   // delete payment
