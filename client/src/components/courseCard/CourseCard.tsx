@@ -142,6 +142,9 @@ function CourseCard(courseProps: {
                   <strong>Duration: {formatDuration(props.duration)}</strong>
                 </div>
                 <CourseRating {...props.rating} />
+                <button className='btn btn-light' type='button'>
+                  View Course
+                </button>
                 {courseProps.percent == -1 && <Price {...props.price} />}
                 {courseProps.percent != -1 && (
                   <ProgressBar completed={courseProps.percent} />
