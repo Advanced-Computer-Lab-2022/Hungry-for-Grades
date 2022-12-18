@@ -25,6 +25,8 @@ export type Wishlist = {
 export type EnrolledCourse = {
   _course: ICourse;
   _submittedQuestions: SubmittedQuestion[];
+  _submittedExamAnswers: string[];
+  seenAnswers: boolean;
   _visitedLessons?: Types.ObjectId[];
   dateOfCompletion?: Date;
   // null or undefined signifies incomplete (not certified yet)
