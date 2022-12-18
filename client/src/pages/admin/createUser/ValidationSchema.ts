@@ -21,6 +21,5 @@ export const ValidationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
-  corporate: yup.string()
-    .required('Corporate Name is Required')
+  corporate: yup.string().required('Corporate Name is Required')
 });

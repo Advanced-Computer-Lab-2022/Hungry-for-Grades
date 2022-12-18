@@ -147,7 +147,9 @@ function CourseCard(courseProps: {
                   <ProgressBar completed={courseProps.percent} />
                 )}
               </div>
-              {(useUser === null || (useUser.role === Role.TRAINEE && (useUser as ITrainee)?.isCorporate)) && (
+              {(useUser === null ||
+                (useUser.role === Role.TRAINEE &&
+                  (useUser as ITrainee)?.isCorporate)) && (
                 <div>
                   <CourseCardButtons
                     _id={props.id}

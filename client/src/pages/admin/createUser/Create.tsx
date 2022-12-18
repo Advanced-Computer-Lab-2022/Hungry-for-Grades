@@ -14,8 +14,6 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
-import { ITrainee } from '@/interfaces/course.interface';
-import { AxiosResponse } from 'axios';
 
 export default function Create() {
   const { mutateAsync: createUser } = usePostQuery();

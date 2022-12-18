@@ -67,7 +67,7 @@ export const AdminRoutes = {
           city: '',
           country: ''
         },
-        corporate:'',
+        corporate: '',
         role: 'Trainee' as const
       },
       response: {

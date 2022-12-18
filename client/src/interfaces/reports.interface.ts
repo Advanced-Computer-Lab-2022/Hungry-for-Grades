@@ -22,7 +22,7 @@ export type AllReport = {
   reason: Reason;
   role: Role;
   status: Status;
-  createdAt : Date
+  createdAt: Date;
 };
 
 export enum Status {

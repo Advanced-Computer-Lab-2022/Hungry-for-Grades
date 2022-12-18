@@ -8,7 +8,6 @@ import { ReportDataService } from '@/services/axios/dataServices/ReportDataServi
 import { AllReport } from '@/interfaces/reports.interface';
 
 async function getReports(activePage: number, user: IUser) {
-
   const Reports = ReportDataService.GET.getReports;
 
   Reports.query = `page=${activePage}&_user=${user?._id}`;

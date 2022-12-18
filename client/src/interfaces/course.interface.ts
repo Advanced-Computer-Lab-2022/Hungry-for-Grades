@@ -178,7 +178,7 @@ export interface ITrainee extends IUser {
   creditCards: CreditCard[];
   preferredSkills: string[];
   notes: INote[];
-  isCorporate : boolean;
+  isCorporate: boolean;
 }
 
 export { type ICourseFilters };
