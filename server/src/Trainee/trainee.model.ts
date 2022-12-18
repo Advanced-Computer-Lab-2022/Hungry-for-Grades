@@ -75,6 +75,10 @@ const traineeSchema = new Schema<ITrainee>(
       default: false,
       type: Boolean,
     },
+    corporate: {
+      type: String,
+      default: null,
+    },
     lastLogin: {
       type: Date,
     },
