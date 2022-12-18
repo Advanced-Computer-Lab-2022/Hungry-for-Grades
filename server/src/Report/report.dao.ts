@@ -24,7 +24,7 @@ class ReportService {
     if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(courseId) && courseId != null)
       throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id can only be an Object Id or null');
-    if (reportData.reason === Reason.COUSE_REQUEST || (reportData.reason === Reason.REFUND && courseId == null))
+    if ((reportData.reason === Reason.COUSE_REQUEST || reportData.reason === Reason.REFUND) && courseId == null)
       throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course Id is required for a Course Request or Refund Request');
 
     if (reportData.reason === Reason.REFUND) {
