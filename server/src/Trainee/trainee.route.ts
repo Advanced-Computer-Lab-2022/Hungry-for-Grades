@@ -37,6 +37,9 @@ class TraineeRoute implements Routes {
     // Certificate
     this.router.post('/:traineeId/course/:courseId/certificate', fileUpload(), this.traineeController.sendCertificate);
 
+    // Exam Answers
+    this.router.get('/:traineeId/course/:courseId/exam-answers', this.traineeController.getSubmittedExamAnswers);
+
     this.router.delete('/:traineeId/cart/:courseId', this.traineeController.removeCourseFromCart);
     this.router.delete('/:traineeId/wishlist/:courseId', this.traineeController.removeCourseFromWishlist);
 
