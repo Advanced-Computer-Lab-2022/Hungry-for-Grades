@@ -117,7 +117,7 @@ class ReportService {
           foreignField: '_id',
           from: 'trainees',
           localField: '_user',
-          pipeline: [{ $project: { country: 1, isCorporate: 1, name: 1, profileImage: 1 } }],
+          pipeline: [{ $project: { country: 1, isCorporate: 1, name: 1, profileImage: 1, corporate: 1 } }],
         },
       },
       // get Instructor Info (if role is Instructor)
