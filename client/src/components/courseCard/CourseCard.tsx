@@ -23,6 +23,7 @@ import { formatDuration } from '@/utils/duration';
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
 import { UseUser } from '@/store/userStore';
 import { Role } from '@/enums/role.enum';
+import { ITrainee } from '@/interfaces/course.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -146,7 +147,9 @@ function CourseCard(courseProps: {
                   <ProgressBar completed={courseProps.percent} />
                 )}
               </div>
-              {(useUser === null || useUser.role === Role.TRAINEE) && (
+              {(useUser === null ||
+                (useUser.role === Role.TRAINEE &&
+                  (useUser as ITrainee)?.isCorporate)) && (
                 <div>
                   <CourseCardButtons
                     _id={props.id}

@@ -227,12 +227,21 @@ export default function Cart() {
                     </span>
                   </div>
                 )}
-                <button
-                  className='btn btn-primary btn-lg btn-block'
-                  type='button'
-                >
-                  Checkout
-                </button>
+                <div>
+                  <button
+                    className='btn btn-primary btn-lg btn-block'
+                    type='button'
+                  >
+                    Checkout
+                  </button>
+                  <button
+                    className='btn btn-primary btn-lg btn-block'
+                    style={{ marginLeft: '2rem' }}
+                    type='button'
+                  >
+                    Pay with Balance
+                  </button>
+                </div>
               </div>
             </div>
           </div>
