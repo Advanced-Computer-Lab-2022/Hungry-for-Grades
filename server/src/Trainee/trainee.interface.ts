@@ -10,6 +10,7 @@ export interface ITrainee extends IUser {
   balance: number;
   creditCards: CreditCard[];
   isCorporate: boolean;
+  corporate: string;
   notes: INote[];
   preferredSkills: string[];
 }

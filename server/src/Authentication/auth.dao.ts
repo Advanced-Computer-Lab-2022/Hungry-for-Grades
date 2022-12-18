@@ -27,20 +27,39 @@ class AuthService {
   public async signup(userData: UserDTO, role: Role, isCorporate = false): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
-    const userModel = findUserModelByRole(role);
-    const userWithEmail: IUser = await userModel.findOne({
-      'email.address': userData.email.address,
-    });
-    if (userWithEmail) throw new HttpException(HttpStatusCodes.CONFLICT, `This email ${userData.email.address} already exists`);
+    // check if email and username already exists
+    const query = {
+      $or: [{ 'email.address': userData?.email?.address ?? '' }, { username: userData?.username ?? '' }],
+    };
 
-    const userWithUsername: IUser = await userModel.findOne({
-      username: userData.username,
-    });
-    if (userWithUsername) throw new HttpException(HttpStatusCodes.CONFLICT, `This username ${userData.username} already exists`);
+    const trainee = await traineeModel.findOne(query);
+    if (trainee) {
+      if (trainee.email.address === userData?.email?.address)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This email ${userData.email.address} already exists`);
+      if (trainee.username === userData?.username)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This username ${userData.username} already exists`);
+    }
+
+    const instructor = await instructorModel.findOne(query);
+    if (instructor) {
+      if (instructor.email.address === userData?.email?.address)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This email ${userData.email.address} already exists`);
+      if (instructor.username === userData?.username)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This username ${userData.username} already exists`);
+    }
+
+    const admin = await adminModel.findOne(query);
+    if (admin) {
+      if (admin.email.address === userData?.email?.address)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This email ${userData.email.address} already exists`);
+      if (admin.username === userData?.username)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This username ${userData.username} already exists`);
+    }
 
     userData.email.isVerified = true;
     if (isCorporate) userData.isCorporate = true;
 
+    const userModel = findUserModelByRole(role);
     const createUserData = await userModel.create({
       ...userData,
     });
