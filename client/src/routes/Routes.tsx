@@ -86,8 +86,10 @@ const LazyTraineeCourses = lazy(
 );
 const LazySolveExam = lazy(() => import('@/pages/trainee/course-view/Exam'));
 const LazyTraineeViewCourse = lazy(
-  () => import('@/pages/trainee/course-view/TraineeCourseView')
-);
+  () => import('@/pages/trainee/course-view/TraineeCourseView'));
+
+const LazyMyReports = lazy(() => import('@/pages/trainee/myReports/ReportTable'));
+
 /**
  * Instructor Pages
  */
@@ -222,6 +224,7 @@ function AllRoutes() {
                 <Route element={<LazyTraineeNoteEdit />} path='edit' />
               </Route>
             </Route>
+            <Route element = {<LazyMyReports />} path='my-reports' />
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route

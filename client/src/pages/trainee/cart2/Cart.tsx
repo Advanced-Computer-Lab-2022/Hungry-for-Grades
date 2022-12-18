@@ -9,7 +9,7 @@ import styles from './Cart.module.scss';
 import MoveButtons from './MoveButtons';
 
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
-import { CourseDiscount, ICourse } from '@/interfaces/course.interface';
+import { CourseDiscount, ICourse, ITrainee } from '@/interfaces/course.interface';
 import { IUser } from '@/interfaces/user.interface';
 import { UseCountry } from '@/store/countryStore';
 import { UseUser } from '@/store/userStore';
@@ -18,6 +18,7 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 import { getRequest } from '@/services/axios/http-verbs';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import Pagination from '@/components/pagination/Pagination';
+import { Role } from '@/enums/role.enum';
 
 async function getCart(country: string, activePage: number, user: IUser) {
   const Courses = TraineeRoutes.GET.getMyCart;
@@ -63,6 +64,8 @@ export default function Cart() {
   const [whenDeleteCourse, setWhenDeleteCourse] = useState(0);
 
   const location = useLocation();
+
+
 
   const { isLoading, data, isError, error } = useQuery(
     ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
@@ -227,12 +230,20 @@ export default function Cart() {
                     </span>
                   </div>
                 )}
+                <div>
                 <button
                   className='btn btn-primary btn-lg btn-block'
                   type='button'
                 >
                   Checkout
                 </button>
+                <button className='btn btn-primary btn-lg btn-block'
+                  style = {{marginLeft:'2rem'}}
+                  type='button'
+                >
+                  Pay with Balance
+                </button>
+                </div>
               </div>
             </div>
           </div>
