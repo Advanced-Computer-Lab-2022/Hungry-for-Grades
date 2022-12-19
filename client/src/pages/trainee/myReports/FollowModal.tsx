@@ -36,7 +36,7 @@ export default function FollowModal(props: {
   console.log(follow);
 
   const toShow = follow?.map((msg: Message) => {
-    const b = ((user?.role == Role.ADMIN)? 1:0) ^ ((msg?.isAdmin)? 1:0);
+    const b = (user?.role == Role.ADMIN ? 1 : 0) ^ (msg?.isAdmin ? 1 : 0);
 
     console.log(msg);
 
