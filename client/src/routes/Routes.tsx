@@ -145,6 +145,16 @@ const LazySkills=lazy(()=> import('../skills/Skills'));
  */
 // I commented  <Route element={<StudentPage />} path='hussein' /> because it was causing an error
 
+/**
+ * Payment Pages
+ */
+
+const LazySuccessfulPayment = lazy(
+  () => import('@/pages/payment/PaymentAccepted')
+);
+
+const LazyFailedPayment = lazy(() => import('@/pages/payment/PaymentRejected'));
+
 // landing page
 
 const roles = ['/trainee/', '/admin/', '/instructor/'];
@@ -232,6 +242,8 @@ function AllRoutes() {
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
+          <Route element={<LazySuccessfulPayment />} path='payment-success' />
+          <Route element={<LazyFailedPayment />} path='payment-failed' />
         </Route>
 
         {/* Instructor Routes*/}
