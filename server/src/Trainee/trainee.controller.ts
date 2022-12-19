@@ -282,8 +282,6 @@ class TraineeController {
   ): Promise<void> => {
     try {
       const traineeId = `${req.tokenPayload._id}`;
-      logger.info(traineeId);
-
       const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
       res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });
     } catch (error) {
@@ -345,6 +343,19 @@ class TraineeController {
 
       const examGrade = await this.traineeService.submitExam(traineeId, courseId, examAnswers);
       res.json({ data: examGrade, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee's submitted exam answers
+  public getSubmittedExamAnswers = async (req: Request, res: Response<HttpResponse<string[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const submittedExamAnswers = await this.traineeService.getTraineeSubmittedExamAnswers(traineeId, courseId);
+      res.json({ data: submittedExamAnswers, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
