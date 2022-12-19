@@ -524,16 +524,6 @@ class TraineeService {
     const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
-    // set seenAnswers flag to false in all trainees
-    const trainees = await traineeModel.find();
-    trainees.forEach(trainee => {
-      trainee._enrolledCourses.forEach(enrolledCourse => {
-        enrolledCourse.seenAnswers = false;
-        enrolledCourse._submittedExamAnswers = [];
-      });
-      trainee.save();
-    });
-
     const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
     if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
 
