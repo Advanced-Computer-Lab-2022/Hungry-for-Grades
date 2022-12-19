@@ -107,7 +107,8 @@ function NavbarComponent() {
             {user && useUserIsAuthenticated ? (
               <div className='d-flex flex-row justify-content-evenly mt-2'>
                 {user.role.toLocaleLowerCase() ===
-                  Role.TRAINEE.toLocaleLowerCase() && !(user as ITrainee).isCorporate && <WishCartButtons />}
+                  Role.TRAINEE.toLocaleLowerCase() &&
+                  !(user as ITrainee).isCorporate && <WishCartButtons />}
 
                 {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
                   <Link
