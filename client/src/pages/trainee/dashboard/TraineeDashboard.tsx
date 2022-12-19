@@ -8,8 +8,20 @@ import { FaPaintBrush } from 'react-icons/fa';
 
 import Dashboard from '@/components/dashboard/Dashboard';
 import MusicPlayer from '@/components/mediaPlayer/Music';
+import { UseUser } from '@/store/userStore';
+import { ITrainee } from '@/interfaces/course.interface';
 
-const navLinks = {
+const corpLinks = {
+  Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
+  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
+  Notes: { path: '/trainee/notes', icon: <BiNote /> },
+  Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
+  Profile: { path: '/trainee/profile', icon: <FiUser /> },
+  Reports: { path: '/trainee/my-reports', icon: <></> }
+};
+
+const traineeLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
   Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
@@ -17,13 +29,17 @@ const navLinks = {
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
-  Profile: { path: '/trainee/profile', icon: <FiUser /> }
+  Profile: { path: '/trainee/profile', icon: <FiUser /> },
+  Reports: { path: '/trainee/my-reports', icon: <></> }
 };
+
 function TraineeDashboard() {
+  const user = UseUser();
+
   return (
     <Dashboard
       media={<MusicPlayer />}
-      navLinks={navLinks}
+      navLinks={(user as ITrainee)?.isCorporate ? corpLinks : traineeLinks}
       title='My Learning'
     />
   );

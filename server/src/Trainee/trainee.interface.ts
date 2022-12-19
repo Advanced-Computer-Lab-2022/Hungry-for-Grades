@@ -10,6 +10,7 @@ export interface ITrainee extends IUser {
   balance: number;
   creditCards: CreditCard[];
   isCorporate: boolean;
+  corporate: string;
   notes: INote[];
   preferredSkills: string[];
 }
@@ -24,6 +25,8 @@ export type Wishlist = {
 export type EnrolledCourse = {
   _course: ICourse;
   _submittedQuestions: SubmittedQuestion[];
+  _submittedExamAnswers: string[];
+  seenAnswers: boolean;
   _visitedLessons?: Types.ObjectId[];
   dateOfCompletion?: Date;
   // null or undefined signifies incomplete (not certified yet)

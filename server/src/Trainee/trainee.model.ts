@@ -22,6 +22,19 @@ const traineeSchema = new Schema<ITrainee>(
             submittedAnswer: String,
           },
         ],
+        _submittedExamAnswers: {
+          default: [],
+          type: [
+            {
+              type: String,
+              _id: false,
+            },
+          ],
+        },
+        seenAnswers: {
+          default: false,
+          type: Boolean,
+        },
         _visitedLessons: [{ ref: 'Lesson', type: Schema.Types.ObjectId }],
         dateOfCompletion: Date,
         dateOfEnrollment: Date,
@@ -74,6 +87,10 @@ const traineeSchema = new Schema<ITrainee>(
     isCorporate: {
       default: false,
       type: Boolean,
+    },
+    corporate: {
+      type: String,
+      default: null,
     },
     lastLogin: {
       type: Date,

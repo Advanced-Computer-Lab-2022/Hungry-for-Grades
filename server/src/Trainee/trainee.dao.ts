@@ -180,7 +180,13 @@ class TraineeService {
     if (isTraineeEnrolled) return course;
 
     course.numberOfEnrolledTrainees++;
-    trainee._enrolledCourses.push({ _course: course, _submittedQuestions: [], dateOfEnrollment: new Date() });
+    trainee._enrolledCourses.push({
+      _course: course,
+      _submittedQuestions: [],
+      dateOfEnrollment: new Date(),
+      _submittedExamAnswers: [],
+      seenAnswers: false,
+    });
 
     await course.save();
     await trainee.save();
@@ -513,6 +519,7 @@ class TraineeService {
   // submit exam for trainee
   public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<number> => {
     if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
@@ -532,14 +539,32 @@ class TraineeService {
     const examGrade = (correctAnswersCount / exam.length) * 100;
     enrolledCourse.examGrade = examGrade;
     await this.courseService.modifyAverageExamGrade(courseId, examGrade);
+    enrolledCourse._submittedExamAnswers = examAnswers;
 
     if (examGrade >= 50) {
       // Only Certify if at least 50%
       enrolledCourse.dateOfCompletion = new Date();
-      // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
     return examGrade;
+  };
+
+  // get trainee's submitted exam answers
+  // calling it implies that trainee has seen exam answers (his answers is compared against correct ones)
+  public getTraineeSubmittedExamAnswers = async (traineeId: string, courseId: string): Promise<string[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    enrolledCourse.seenAnswers = true;
+    await trainee.save();
+
+    return enrolledCourse._submittedExamAnswers;
   };
 
   // get trainee's viewed lessons

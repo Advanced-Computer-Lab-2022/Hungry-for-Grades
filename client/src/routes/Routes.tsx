@@ -77,7 +77,7 @@ const LazyTraineeNoteForm = lazy(
 const LazyTraineeNoteList = lazy(
   () => import('@/pages/trainee/note/TraineeNoteList')
 );
-const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
+const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart2/Cart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
 );
@@ -88,6 +88,11 @@ const LazySolveExam = lazy(() => import('@/pages/trainee/course-view/Exam'));
 const LazyTraineeViewCourse = lazy(
   () => import('@/pages/trainee/course-view/TraineeCourseView')
 );
+
+const LazyMyReports = lazy(
+  () => import('@/pages/trainee/myReports/ReportTable')
+);
+
 /**
  * Instructor Pages
  */
@@ -141,6 +146,10 @@ const LazyAdminReports = lazy(
 
 const LazyAdminCourseRequests = lazy(
   () => import('@/pages/admin/corporateRequests/CourseRequest')
+);
+
+const LazyAdminCourseDiscounts = lazy(
+  () => import('@/pages/admin/addDiscounts/MakeDiscounts')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -222,6 +231,7 @@ function AllRoutes() {
                 <Route element={<LazyTraineeNoteEdit />} path='edit' />
               </Route>
             </Route>
+            <Route element={<LazyMyReports />} path='my-reports' />
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route
@@ -271,6 +281,10 @@ function AllRoutes() {
             <Route
               element={<LazyAdminCourseRequests />}
               path='course-requests'
+            />
+            <Route
+              element={<LazyAdminCourseDiscounts />}
+              path='courses-discounts'
             />
           </Route>
         </Route>

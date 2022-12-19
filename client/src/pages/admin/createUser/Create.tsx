@@ -130,6 +130,7 @@ export default function Create() {
         city: '',
         country: ''
       },
+      corporate: values.corporate,
       role: 'Trainee'
     };
     const resp = await createUser(AdminRoutee);
