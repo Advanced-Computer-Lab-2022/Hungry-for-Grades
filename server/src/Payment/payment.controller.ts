@@ -5,6 +5,7 @@ import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { HttpException } from '@/Exceptions/HttpException';
+import { PaymentDTO } from './payment.interface';
 
 class PaymentController {
   public paymentService = new PaymentService();
@@ -23,7 +24,7 @@ class PaymentController {
   };
 
   //save payment controller
-  public savePayment = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+  public savePayment = async (req: Request, res: Response<HttpResponse<PaymentDTO>>, next: NextFunction) => {
     try {
       const { traineeId } = req.params;
       const country = req.query.country as string;
@@ -31,8 +32,8 @@ class PaymentController {
 
       const walletUsedBool = walletUsed === 'true' ? true : false;
 
-      await this.paymentService.savePayment(traineeId, country, walletUsedBool);
-      res.status(201).json({ data: null, message: 'Payment Successful', success: true });
+      const payment = await this.paymentService.savePayment(traineeId, country, walletUsedBool);
+      res.status(201).json({ data: payment, message: 'Payment Successful', success: true });
     } catch (error) {
       next(error);
     }
