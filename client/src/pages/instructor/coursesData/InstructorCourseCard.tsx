@@ -48,11 +48,9 @@ function InstructorCourseCard(props: ITeachedCourse) {
   const courseId = data._id;
   const queryClient = useQueryClient();
   const deleteCourseWithConfirm = useCallback(async () => {
-    if (
-      !window.confirm(
-        'Are you sure you want to delete this course? This action cannot be undone!'
-      )
-    ) {
+    if (!window.confirm(
+      'Are you sure you want to delete this course? This action cannot be undone!'
+    )) {
       return false;
     }
     await deleteCourse(courseId);
@@ -180,7 +178,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
           Share
           <BsShareFill />
         </a>
-        <Link className='btn btn-primary btn-lg' to={``}>
+        <Link className='btn btn-primary btn-lg' to={`/instructor/edit-course/${data?._id}`}>
           Edit
           <AiFillEdit />
         </Link>
