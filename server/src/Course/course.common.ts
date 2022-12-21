@@ -25,7 +25,11 @@ export function getCourseDiscounts(price: Price): Discount[] {
 }
 
 export function getCurrencyFromCountry(countryCode: string): string {
-  return CountryToCurrency.getParamByISO(countryCode, 'currency');
+  try {
+    return CountryToCurrency.getParamByISO(countryCode, 'currency');
+  } catch (error) {
+    return 'USD';
+  }
 }
 
 export async function getConversionRate(country: string, toUSD = false): Promise<number> {
