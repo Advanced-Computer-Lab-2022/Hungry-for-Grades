@@ -21,7 +21,7 @@ import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
-function RateCourse(props: {courseid: string}) {
+function RateCourse(props: { courseid: string }) {
   const traineeId = useTraineeId();
   const { data, isLoading, isError } = useQuery(
     ['getMyCourseReview', props.courseid],
@@ -83,8 +83,13 @@ function RateCourse(props: {courseid: string}) {
     <>
       {value !== undefined ? (
         <div className='text-start'>
-          <strong style={{fontSize: '0.9rem', lineHeight: '0'}}>Your Review:</strong>
-          <h6 className={`${styles['rating-container'] ?? ''} mx-1`} style={{lineHeight: '-1'}}>
+          <strong style={{ fontSize: '0.9rem', lineHeight: '0' }}>
+            Your Review:
+          </strong>
+          <h6
+            className={`${styles['rating-container'] ?? ''} mx-1`}
+            style={{ lineHeight: '-1' }}
+          >
             <StarRatingComponent
               editing={
                 false
@@ -95,10 +100,16 @@ function RateCourse(props: {courseid: string}) {
               } /* number of selected icon (`0` - none, `1` - first) */
             />
           </h6>
-          <p className='text-dark' style={{fontSize: '0.75rem'}}>{data?.comment}</p>
+          <p className='text-dark' style={{ fontSize: '0.75rem' }}>
+            {data?.comment}
+          </p>
         </div>
       ) : (
-        <button className='btn btn-light text-dark mx-3' type='button' onClick={openPopup}>
+        <button
+          className='btn btn-light text-dark mx-3'
+          type='button'
+          onClick={openPopup}
+        >
           <div>Rate course</div>
         </button>
       )}

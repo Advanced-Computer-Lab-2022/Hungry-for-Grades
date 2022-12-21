@@ -37,7 +37,7 @@ function Video(props: ICourseLesson) {
               position: 'absolute',
               width: '100%',
               left: 0,
-              top: 0, 
+              top: 0,
               border: 0
             }}
             title={props.title}

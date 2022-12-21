@@ -7,6 +7,8 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
+import { PaymentRoutes } from './dataServices/PaymenrDataService';
+
 import { ReportDataService } from '@services/axios/dataServices/ReportDataService';
 
 /**
@@ -43,6 +45,11 @@ export type ReportRouteType<T extends 'GET' | 'POST' | 'PATCH'> =
 
 export type CourseRouteType<T extends 'GET' | 'POST' | 'PUT' | 'DELETE'> =
   typeof CoursesRoutes[T][keyof Partial<typeof CoursesRoutes[T]>];
+
+export type PaymentRouteType = typeof PaymentRoutes['POST'][keyof Partial<
+  typeof PaymentRoutes['POST']
+>];
+
 /**
  * All GET routes that are available for the  data service
  */
@@ -63,7 +70,8 @@ export type POSTRoutesType =
   | TraineeRouteType<'POST'>
   | NewsLetterRouteType<'POST'>
   | InstructorRouteType<'POST'>
-  | ReportRouteType<'POST'>;
+  | ReportRouteType<'POST'>
+  | PaymentRouteType;
 
 /**
  * All Delete Requests
