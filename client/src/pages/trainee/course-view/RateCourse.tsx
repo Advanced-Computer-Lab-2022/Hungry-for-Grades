@@ -7,8 +7,6 @@ import StarRatingComponent from 'react-star-rating-component';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { useParams } from 'react-router-dom';
-
 import { toast } from 'react-toastify';
 
 import styles from './rate-course.module.scss';
@@ -23,13 +21,17 @@ import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
-function RateCourse() {
+function RateCourse(props: { courseid: string }) {
   const traineeId = useTraineeId();
-  const { courseid } = useParams();
   const { data, isLoading, isError } = useQuery(
-    ['getMyCourseReview', courseid],
-    () => getTraineeReviewById(courseid, traineeId)
+    ['getMyCourseReview', props.courseid],
+    () => getTraineeReviewById(props.courseid, traineeId)
   );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [starTempValue, setStarTempValue] = useState<number | null>(null);
+  const openPopup = useCallback(() => setModalOpen(true), [setModalOpen]);
+  const closePopup = useCallback(() => setModalOpen(false), [setModalOpen]);
+  const [comment, setComment] = useState('');
   const submitRating = useCallback(
     async (review: ICourseReview) => {
       if (!review.rating) {
@@ -42,17 +44,14 @@ function RateCourse() {
         rating: review.rating
       };
 
-      const res = await addReviewToCourse(courseid, r);
+      const res = await addReviewToCourse(props.courseid, r);
       if (res) {
         toast('Review submitted successfully');
+        closePopup();
       }
     },
-    [courseid]
+    [props.courseid, closePopup]
   );
-  const [modalOpen, setModalOpen] = useState(false);
-  const [starTempValue, setStarTempValue] = useState<number | null>(null);
-  const openPopup = useCallback(() => setModalOpen(true), [setModalOpen]);
-  const closePopup = useCallback(() => setModalOpen(false), [setModalOpen]);
   const resetTempStarValue = useCallback(
     () => setStarTempValue(null),
     [setStarTempValue]
@@ -84,8 +83,13 @@ function RateCourse() {
     <>
       {value !== undefined ? (
         <div className='text-start'>
-          <strong>Your Review:</strong>
-          <h3 className={`${styles['rating-container'] ?? ''}`}>
+          <strong style={{ fontSize: '0.9rem', lineHeight: '0' }}>
+            Your Review:
+          </strong>
+          <h6
+            className={`${styles['rating-container'] ?? ''} mx-1`}
+            style={{ lineHeight: '-1' }}
+          >
             <StarRatingComponent
               editing={
                 false
@@ -95,12 +99,18 @@ function RateCourse() {
                 value
               } /* number of selected icon (`0` - none, `1` - first) */
             />
-          </h3>
-          <p>{data?.comment}</p>
+          </h6>
+          <p className='text-dark' style={{ fontSize: '0.75rem' }}>
+            {data?.comment}
+          </p>
         </div>
       ) : (
-        <button type='button' onClick={openPopup}>
-          <div>Not rated yet.</div>
+        <button
+          className='btn btn-light text-dark mx-3'
+          type='button'
+          onClick={openPopup}
+        >
+          <div>Rate course</div>
         </button>
       )}
       <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
@@ -147,6 +157,14 @@ function RateCourse() {
                   <textarea
                     className='form-control'
                     placeholder='Tell us your opinion about this course.'
+                    value={comment}
+                    onChange={event => {
+                      setComment(event.target.value);
+                      formikProps.setValues({
+                        ...formikProps.values,
+                        comment: comment
+                      });
+                    }}
                   />
                 </div>
                 <div className='text-end m-4'>

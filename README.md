@@ -84,37 +84,7 @@ yarn
 yarn dev
 ```
 
-## Requirements
-https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
-
-
-## Build Status
-
-The project is currently under development. The goals for Sprint 1,2,3 are done.
-
-## Code Style
-
-- [ESLint](https://eslint.org) is used to statically analyzes the code to quickly find problems. It is run as a part of the commit workflow to ensure code adhere to the rules.
-
-- [Prettier](https://prettier.io/) is used as a part of the commit workflow to style the code according to configured rules to ensure code adhere to style guidelines.
-
-## Tech/Framework used
-
-- [MongoDB](https://www.mongodb.com/) is used as the Database server.
-- [express](https://expressjs.com/) is used as the backend webserver.
-- [React](https://reactjs.org/) is used as the frontend framework
-- [Node.js](https://nodejs.org/en/) is used as the javascript engine running express webserver and also used in front end development for tooling and building the application.
-- [yarn](https://classic.yarnpkg.com/lang/en/) is used as the package manager.
-- [vite](https://vitejs.dev/) is used for frontend tooling.
-- [Typescript](https://www.typescriptlang.org/) is used as the main development language for both the frontend and the backend.
-- [Bootstrap](https://getbootstrap.com/) is used as a CSS library for styling the web pages.
-- [Sass](https://sass-lang.com/) is used a CSS preprocessor.
-
-## Screenshots
-
-![App Screenshot](./screenshots/homepage.png)
-
-## Authors
+##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
 - [Omar Sherif Ali](https://www.github.com/omar-sherif9992)
 - [Omar Sherif Elmeteny](https://github.com/omar-elmeteny)

@@ -151,6 +151,8 @@ const LazyAdminCourseRequests = lazy(
 const LazyAdminCourseDiscounts = lazy(
   () => import('@/pages/admin/addDiscounts/MakeDiscounts')
 );
+
+const LazyAdminRefunds = lazy(() => import('@/pages/admin/refunds/Refund'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -207,7 +209,7 @@ function AllRoutes() {
           />
           <Route
             element={<LazyTraineeViewCourse />}
-            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+            path='view-course/:courseid/:itemType/:sectionid/:itemid'
           />
           {/* Trainee Dashboard */}
           <Route element={<LazyTraineeDashboard />}>
@@ -286,6 +288,7 @@ function AllRoutes() {
               element={<LazyAdminCourseDiscounts />}
               path='courses-discounts'
             />
+            <Route element={<LazyAdminRefunds />} path='refunds' />
           </Route>
         </Route>
       </Route>

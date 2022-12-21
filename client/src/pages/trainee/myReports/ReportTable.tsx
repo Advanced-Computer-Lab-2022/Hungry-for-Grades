@@ -11,11 +11,14 @@ import { AllReport } from '@/interfaces/reports.interface';
 import { IUser } from '@/interfaces/user.interface';
 import { UseUser } from '@/store/userStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import Pagination from '@/components/pagination/Pagination';
 
 export default function ReportsTable() {
   const user = UseUser();
 
-  const { data, isLoading } = useGetReports(user as IUser);
+  const { data, isLoading, activePage, setActivePage } = useGetReports(
+    user as IUser
+  );
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -119,6 +122,11 @@ export default function ReportsTable() {
               {showModal && <FollowModal func={handleClick} report={curr} />}
             </tbody>
           </table>
+          <Pagination
+            activePage={activePage}
+            pages={data?.data?.totalPages}
+            setActivePage={setActivePage}
+          />
         </div>
       </div>
     </div>
