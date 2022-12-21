@@ -151,6 +151,10 @@ const LazyAdminCourseRequests = lazy(
 const LazyAdminCourseDiscounts = lazy(
   () => import('@/pages/admin/addDiscounts/MakeDiscounts')
 );
+
+const LazyAdminRefunds = lazy(
+  () => import('@/pages/admin/refunds/Refund')
+);
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -286,6 +290,7 @@ function AllRoutes() {
               element={<LazyAdminCourseDiscounts />}
               path='courses-discounts'
             />
+            <Route element = {<LazyAdminRefunds />} path='refunds' />
           </Route>
         </Route>
       </Route>

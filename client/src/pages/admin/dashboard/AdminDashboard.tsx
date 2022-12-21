@@ -7,7 +7,8 @@ const navLinks = {
   'Create User': { path: '/admin/dashboard/create-user', icon: <></> },
   'Course Requests': { path: '/admin/dashboard/course-requests', icon: <></> },
   Reports: { path: '/admin/dashboard/reports', icon: <></> },
-  Discounts: { path: '/admin/dashboard/courses-discounts', icon: <></> }
+  Discounts: { path: '/admin/dashboard/courses-discounts', icon: <></> },
+  Refunds: { path: '/admin/dashboard/refunds', icon: <></>}
   //Profile: { path: '/admin/profile', icon: <FiUser /> }
 };
 

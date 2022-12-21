@@ -38,9 +38,8 @@ function ReportForm() {
 
     const response = await submitReport(Courses as POSTRoutesType);
 
-    console.log(response);
-
-    toast.success('Report is Sent Successfully...', toastOptions);
+    const flg = response?.status;
+    
   }
 
   return useUser?._id ? (
