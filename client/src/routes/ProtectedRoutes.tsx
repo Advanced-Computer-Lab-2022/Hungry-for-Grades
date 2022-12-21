@@ -28,13 +28,7 @@ function ProtectedRoutes() {
   const useCartStoreSetCart = UseCartStoreSetCart();
   const useWishListSetCart = UseWishListSetCart();
 
-  if (
-    !isLoading &&
-    !isError &&
-    data &&
-    data.data &&
-    data.data.data
-  ) {
+  if (!isLoading && !isError && data && data.data && data.data.data) {
     const userData = data?.data?.data;
 
     useSetUser(userData);
