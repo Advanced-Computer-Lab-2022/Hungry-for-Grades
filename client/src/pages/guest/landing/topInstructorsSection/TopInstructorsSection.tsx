@@ -7,9 +7,7 @@ import ErrorMessage from '@/components/error/message/ErrorMessage';
 import Pagination from '@/components/pagination/Pagination';
 
 function TopInstructorsSection() {
-  const { isLoading, isError, data, activePage, setActivePage } =
-    useTopInstructorQuery();
-
+  const { isLoading, isError, data, activePage, setActivePage } = useTopInstructorQuery();
 
   return (
     <section className='container' id='rated-instructors'>
@@ -35,14 +33,13 @@ function TopInstructorsSection() {
                 );
               })}
             </div>
-						<div className='d-flex justify-content-center'>
-            <Pagination
-              activePage={activePage}
-              pages={parseInt(data.data.totalPages)}
-              setActivePage={setActivePage}
-            />
-							</div>
-
+            <div className='d-flex justify-content-center'>
+              <Pagination
+                activePage={activePage}
+                pages={parseInt(`${data.data.totalPages}`)}
+                setActivePage={setActivePage}
+              />
+            </div>
           </>
         )}
     </section>
