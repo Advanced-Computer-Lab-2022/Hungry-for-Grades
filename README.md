@@ -75,6 +75,24 @@ The project is currently under development. The goals for Sprint 1 are done.
 
 ![App Screenshot](./screenshots/homepage.png)
 
+
+## Installation
+- clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
+- make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine
+
+#### You can use either use Makefile or yarn to install dependencies and run the project
+
+### Using Makefile
+1 -make sure that you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
+2 - run `make installall` to install dependencies
+3 - run `make run` to run the project (Server and Client Concurrently)
+
+### Using yarn
+1 - make sure that you have yarn `npm i -g yarn` installed on your machine 
+2 - run `yarn install` to install dependencies
+3 - run `yarn dev` to run the project (Server and Client Concurrently)
+
+
 ## Requirements 
 https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
 

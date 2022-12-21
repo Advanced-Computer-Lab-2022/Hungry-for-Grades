@@ -2,27 +2,28 @@ import Navigation from './Navigation';
 
 import Overview from './Overview';
 import QandA from './QandA';
-import Announcments from './Announcment';
+import Announcements from './Announcement';
 import Notes from './Notes';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
+import { ICourse } from '@/interfaces/course.interface';
 type DownViewProps = {
   lessonId: string;
-  courseName: string;
+  course: ICourse;
 };
 const titles = ['Overview', 'Q&A', 'Notes', 'Announcments'];
 
-function DownView({ lessonId, courseName }: DownViewProps) {
+function DownView({ lessonId, course }: DownViewProps) {
   const { step, goTo } = useMultistepForm(
     [
-      <Overview key='11231313213' />,
-      <QandA key='we9rw9rwe9r' />,
+      <Overview key='11231313213' {...course} />,
+      <QandA key='we9rw9rwe9r' {...course} />,
       <Notes
         key='sadsaasdasd34ew43'
-        courseName={courseName}
+        courseName={course.title}
         lessonId={lessonId}
       />,
-      <Announcments key='sdadasdwerre654' />
+      <Announcements key='sdadasdwerre654' {...course} />
     ],
     titles,
     []

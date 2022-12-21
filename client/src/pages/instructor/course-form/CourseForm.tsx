@@ -32,7 +32,7 @@ import {
   CourseDiscount,
   IAddCourseRequest
 } from '@/interfaces/course.interface';
-import ProgressSteps from '@/components/progress/ProgressSteps';
+import ProgressStepper from '@/components/progress/progressStepper/ProgressStepper';
 import useMultistepForm from '@/hooks/useMultistepForm';
 
 // import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
@@ -132,6 +132,7 @@ function CourseForm(props: CourseFormProps) {
     title,
     subtitle,
     isLastStep,
+    goTo,
     next,
     prev
   } = useMultistepForm(
@@ -170,9 +171,11 @@ function CourseForm(props: CourseFormProps) {
         {formikProps => {
           return (
             <Form className='form-horizontal small'>
-              <ProgressSteps
+              <ProgressStepper
                 currentStepIndex={currentStepIndex}
+                goTo={goTo}
                 steps={stepTitles}
+                subtitles={stepDescriptions}
               />
               <div className='border border-primary p-3 rounded'>
                 <div className='float-end'>
