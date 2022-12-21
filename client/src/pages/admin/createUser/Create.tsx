@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 
 import TextArea from '../TextArea';
 
+import '@pages/instructor/coursesData/nav-button.scss';
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './create.module.scss';
 
 import { ValidationSchema } from '@pages/admin/createUser/ValidationSchema';
@@ -171,18 +173,24 @@ export default function Create() {
       {function (actions) {
         return (
           <Form>
-            <div className={styles.hero}>
-              <div className={styles.cont}>
-                <div className={styles.form}>
+            <div className={`${styles.hero ?? ''} card p-5`}>
+              <div
+                className={`${
+                  styles.cont ?? ''
+                } card card-cascade rounded bg-light shadow`}
+              >
+                <div className={`${styles.form ?? ''} p-4 `}>
                   <h2>Create a User</h2>
-                  <div className={styles.toggle}>
+                  <div
+                    className='container d-flex flex-row justify-content-center mb-4'
+                    style={{
+                      width: '32rem'
+                    }}
+                  >
                     <button
-                      className={styles.toggle_button}
-                      style={{
-                        ...(inst === 'Instructor'
-                          ? { borderBottomColor: 'red' }
-                          : { borderBottomColor: 'white' })
-                      }}
+                      className={`navButton ${
+                        inst === 'Instructor' ? 'activeNavButton' : ''
+                      }`}
                       type='button'
                       onClick={() => {
                         setInst('Instructor');
@@ -192,12 +200,9 @@ export default function Create() {
                       Instructor
                     </button>
                     <button
-                      className={styles.toggle_button}
-                      style={{
-                        ...(inst === 'C'
-                          ? { borderBottomColor: 'red' }
-                          : { borderBottomColor: 'white' })
-                      }}
+                      className={`navButton ${
+                        inst === 'C' ? 'activeNavButton' : ''
+                      }`}
                       type='button'
                       onClick={() => {
                         setInst('C');
@@ -207,12 +212,9 @@ export default function Create() {
                       Corporate Trainee
                     </button>
                     <button
-                      className={styles.toggle_button}
-                      style={{
-                        ...(inst === 'Admin'
-                          ? { borderBottomColor: 'red' }
-                          : { borderBottomColor: 'white' })
-                      }}
+                      className={`navButton ${
+                        inst === 'Admin' ? 'activeNavButton' : ''
+                      }`}
                       type='button'
                       onClick={() => {
                         setInst('Admin');
@@ -222,53 +224,74 @@ export default function Create() {
                       Admin
                     </button>
                   </div>
-                  <label>
-                    <span>Name</span>
-                    <input style={{ display: 'none' }} />
-                    <TextArea name='Name' placeholder={''} type='text' />
-                  </label>
-                  <label>
-                    <span>UserName</span>
-                    <input style={{ display: 'none' }} type='text' />
-                    <TextArea name='username' placeholder={''} type='text' />
-                  </label>
-                  {inst === 'C' && (
+                  <div className='container'>
+                    <div className='row'>
+                      <div className='col-12 col-lg-5'>
+                        <label>
+                          <span>Name</span>
+                          <input style={{ display: 'none' }} />
+                          <TextArea name='Name' placeholder={''} type='text' />
+                        </label>
+                      </div>
+                      <div className='col-12 col-lg-5'>
+                        <label>
+                          <span>UserName</span>
+                          <input style={{ display: 'none' }} type='text' />
+                          <TextArea
+                            name='username'
+                            placeholder={''}
+                            type='text'
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    {inst === 'C' && (
+                      <label>
+                        <span>Corporate</span>
+                        <input style={{ display: 'none' }} type='text' />
+                        <TextArea
+                          name='corporate'
+                          placeholder={''}
+                          type='text'
+                        />
+                      </label>
+                    )}
                     <label>
-                      <span>Corporate</span>
-                      <input style={{ display: 'none' }} type='text' />
-                      <TextArea name='corporate' placeholder={''} type='text' />
+                      <span>Email</span>
+                      <input style={{ display: 'none' }} type='email' />
+                      <TextArea name='email' placeholder={''} type='text' />
                     </label>
-                  )}
-                  <label>
-                    <span>Email</span>
-                    <input style={{ display: 'none' }} type='email' />
-                    <TextArea name='email' placeholder={''} type='text' />
-                  </label>
-                  <label>
-                    <span>Password</span>
-                    <input style={{ display: 'none' }} type='password' />
-                    <TextArea
-                      name='password'
-                      placeholder={''}
-                      type='password'
-                    />
-                  </label>
-                  <label style={{ marginBottom: '1.5rem' }}>
-                    <span>Confirm Password</span>
-                    <input style={{ display: 'none' }} type='password' />
-                    <TextArea
-                      name='confirmPassword'
-                      placeholder={''}
-                      type='password'
-                    />
-                  </label>
-                  <button className={styles.submit} type='submit'>
-                    Submit
-                  </button>
+                    <label>
+                      <span>Password</span>
+                      <input style={{ display: 'none' }} type='password' />
+                      <TextArea
+                        name='password'
+                        placeholder={''}
+                        type='password'
+                      />
+                    </label>
+                    <label style={{ marginBottom: '1.5rem' }}>
+                      <span>Confirm Password</span>
+                      <input style={{ display: 'none' }} type='password' />
+                      <TextArea
+                        name='confirmPassword'
+                        placeholder={''}
+                        type='password'
+                      />
+                    </label>
+                    <div className='d-flex flex-row justify-content-end'>
+                      <button
+                        className={`btn btn-primary btn-lg`}
+                        type='submit'
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.sub_cont}>
+                {/*                 <div className={styles.sub_cont}>
                   <div className={styles.img} />
-                </div>
+                </div> */}
               </div>
             </div>
           </Form>

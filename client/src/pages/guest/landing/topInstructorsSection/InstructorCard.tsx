@@ -42,7 +42,9 @@ function TopInstructors({
             <div className='col-xs-4'>
               <div className='profile-overview'>
                 <p>COUNTRY</p>
-                <h5 className='text-primary text-truncate'>{country}</h5>
+                <h5 className='text-primary text-truncate'>
+                  {country || 'unknown'}
+                </h5>
               </div>
             </div>
             <div className='col-xs-4'>

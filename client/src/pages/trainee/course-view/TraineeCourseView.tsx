@@ -84,9 +84,13 @@ function CourseView() {
     return <h1 className='text-danger text-center'>Section not found</h1>;
   }
   const item =
-    itemType === 'exercise' ?
-       (itemid ? section.exercises.find(e => e._id === itemid) : section.exercises[0])
-      : (itemid ? section.lessons.find(l => l._id === itemid) : section.lessons[0])
+    itemType === 'exercise'
+      ? itemid
+        ? section.exercises.find(e => e._id === itemid)
+        : section.exercises[0]
+      : itemid
+      ? section.lessons.find(l => l._id === itemid)
+      : section.lessons[0];
 
   if (!item) {
     return <h1 className='text-danger text-center'>Item not found</h1>;

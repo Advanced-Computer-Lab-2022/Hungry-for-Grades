@@ -1,8 +1,8 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionItemHeading,
   AccordionItemButton,
+  AccordionItemHeading,
   AccordionItemPanel
 } from 'react-accessible-accordion';
 import { Link } from 'react-router-dom';
@@ -21,34 +21,38 @@ function Content(props: ICourse) {
         style={{ overflowY: 'scroll', overflowX: 'hidden', height: '100%' }}
       >
         <Accordion allowZeroExpanded>
-          {props.sections.map((sec, sectionIndex) => (
-            <AccordionItem key={sec.title}>
+          {props.sections.map(section => (
+            <AccordionItem key={section.title}>
               <AccordionItemHeading>
                 <AccordionItemButton>
-                  <strong>{sec.title}</strong>
+                  <strong>{section.title}</strong>
 
                   <p className='text-dark'>
                     <small>
-                      {sec.lessons.length} lessons{' | '}
+                      {section.lessons.length} lessons{' | '}
                       {formatDuration(
-                        sec.lessons.reduce((sum, l) => sum + l.duration, 0)
+                        section.lessons.reduce((sum, l) => sum + l.duration, 0)
                       )}
                     </small>
                   </p>
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>
-                {sec.lessons ? (
+                {section.lessons ? (
                   <ol className='list-group'>
-                    {sec.lessons.map((l, lessonIndex) => (
+                    {section.lessons.map(lesson => (
                       <Link
-                        key={l.title}
+                        key={lesson.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/lesson/${sec._id ?? ''}/${l._id ?? ''}`}
+                        to={`/trainee/view-course/${props._id}/lesson/${
+                          section._id ?? ''
+                        }/${lesson._id ?? ''}`}
                       >
                         <li className='list-item'>
-                          <strong>{l.title}</strong>{' '}
-                          <p className='small'>{formatDuration(l.duration)}</p>
+                          <strong>{lesson.title}</strong>{' '}
+                          <p className='small'>
+                            {formatDuration(lesson.duration)}
+                          </p>
                         </li>
                       </Link>
                     ))}
@@ -56,13 +60,15 @@ function Content(props: ICourse) {
                 ) : (
                   <></>
                 )}
-                {sec.exercises ? (
+                {section.exercises ? (
                   <ol className='list-group'>
-                    {sec.exercises.map((e) => (
+                    {section.exercises.map(e => (
                       <Link
                         key={e.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/exercise/${sec._id ?? ''}/${e._id ?? ''}`}
+                        to={`/trainee/view-course/${props._id}/exercise/${
+                          section._id ?? ''
+                        }/${e._id ?? ''}`}
                       >
                         <li className='list-item'>
                           <strong>{e.title}</strong>{' '}

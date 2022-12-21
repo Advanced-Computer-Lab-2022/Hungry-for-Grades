@@ -2,7 +2,7 @@ import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
 
-import { Review, ICourseReview, Rating } from '@/interfaces/course.interface';
+import { ICourseReview, Rating, Review } from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { SubmittedQuestion } from '@/interfaces/user.interface';

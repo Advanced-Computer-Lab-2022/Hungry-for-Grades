@@ -34,11 +34,13 @@ function TopInstructorsSection() {
                 );
               })}
             </div>
-            <Pagination
-              activePage={activePage}
-              pages={parseInt(data.data.totalPages)}
-              setActivePage={setActivePage}
-            />
+            <div className='d-flex justify-content-center'>
+              <Pagination
+                activePage={activePage}
+                pages={parseInt(`${data.data.totalPages}`)}
+                setActivePage={setActivePage}
+              />
+            </div>
           </>
         )}
     </section>
