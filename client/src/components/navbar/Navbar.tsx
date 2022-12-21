@@ -107,14 +107,17 @@ function NavbarComponent() {
             {user && useUserIsAuthenticated ? (
               <div className='d-flex flex-row justify-content-evenly mt-2'>
                 {user.role.toLocaleLowerCase() ===
-                  Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+                  Role.TRAINEE.toLocaleLowerCase() &&
+                  !(user as ITrainee).isCorporate && <WishCartButtons />}
 
-                {user.role !== Role.ADMIN && (
+                {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
                   <Link
                     className={styles.user__balance}
                     to={`/${user.role.toLocaleLowerCase()}/balance`}
                   >
-                    {(user as ITrainee | IInstructor)?.currency}
+                    {(user as ITrainee | IInstructor)?.currency
+                      ? (user as ITrainee | IInstructor)?.currency
+                      : 'USD'}
                     {toSmallNumber(user.balance as number)}
                   </Link>
                 )}
