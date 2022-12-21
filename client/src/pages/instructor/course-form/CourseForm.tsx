@@ -175,7 +175,7 @@ function CourseForm(props: CourseFormProps) {
                 currentStepIndex={currentStepIndex}
                 goTo={goTo}
                 steps={stepTitles}
-								subtitles={stepDescriptions}
+                subtitles={stepDescriptions}
               />
               <div className='border border-primary p-3 rounded'>
                 <div className='float-end'>
