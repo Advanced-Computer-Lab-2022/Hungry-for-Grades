@@ -29,17 +29,19 @@ function ReportForm() {
     const Courses = ReportDataService.POST.makeReport;
 
     Courses.payload = {
-      _course: '63933df8be2be796734ce16d',
+      _course: null,
       _user: useUser?._id,
       description: des,
       reason: res,
       status: 'Pending'
     };
 
-    const response = await submitReport(Courses as POSTRoutesType);
+    await submitReport(Courses as POSTRoutesType);
 
-    const flg = response?.status;
-    
+    toast.success(
+      'Your Report is sent to the Admin successfully...',
+      toastOptions
+    );
   }
 
   return useUser?._id ? (

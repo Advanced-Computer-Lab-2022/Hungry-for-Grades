@@ -143,15 +143,25 @@ function CourseCard(courseProps: {
                   <strong>Duration: {formatDuration(props.duration)}</strong>
                 </div>
                 <CourseRating {...props.rating} />
-                  {courseProps.enrolled && <div className='my-2'>
-                    <Link className='btn btn-primary text-light' to={`/trainee/view-course/${props.id}`}>
+                {courseProps.enrolled && (
+                  <div className='my-2'>
+                    <Link
+                      className='btn btn-primary text-light'
+                      to={`/trainee/view-course/${props.id}`}
+                    >
                       View Course
                     </Link>
-                    {courseProps.percent > 0 && <RateCourse courseid={courseProps.pprops.id} />}
-                  </div>}
+                    {courseProps.percent > 0 && (
+                      <RateCourse courseid={courseProps.pprops.id} />
+                    )}
+                  </div>
+                )}
                 {courseProps.percent == -1 && <Price {...props.price} />}
                 {courseProps.percent != -1 && (
-                  <ProgressBar completed={courseProps.percent} courseID={courseProps?.pprops?.id} />
+                  <ProgressBar
+                    completed={courseProps.percent}
+                    courseID={courseProps?.pprops?.id}
+                  />
                 )}
               </div>
               {(useUser === null ||
