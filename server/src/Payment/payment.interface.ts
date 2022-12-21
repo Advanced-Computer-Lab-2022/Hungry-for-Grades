@@ -21,3 +21,8 @@ export interface PaidCourse {
   discountApplied: number;
   price: number; //after discount
 }
+
+export interface PaymentDTO {
+  amount: number;
+  _id: Types.ObjectId;
+}

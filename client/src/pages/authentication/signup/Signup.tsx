@@ -6,6 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
+import { BiUserPin } from 'react-icons/bi';
+
+import { FaRegAddressCard } from 'react-icons/fa';
+
+import { MdMarkEmailRead } from 'react-icons/md';
+
 import AccountForm from './accountForm/AccountForm';
 import { type SignupData, type UpdateSignupData } from './types';
 import UserForm from './userForm/UserForm';
@@ -16,7 +22,7 @@ import useMultistepForm from '@hooks/useMultistepForm';
 
 import { Gender } from '@/enums/gender.enum';
 import Form from '@components/form/Form';
-import ProgressSteps from '@components/progress/ProgressSteps';
+import ProgressSteps from '@components/progress/progressStepper/ProgressStepper';
 import './signup.scss';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
@@ -57,9 +63,11 @@ function Signup() {
     step,
     title,
     subtitle,
+    subtitles,
     isLastStep,
     next,
-    prev
+    prev,
+    goTo
   } = useMultistepForm(
     [
       // eslint-disable-next-line react/jsx-no-bind
@@ -142,6 +150,22 @@ function Signup() {
         <div className={`form__container `}>
           <div className='container'>
             <div className='d-flex flex-column flex-lg-row justify-content-between m-0 p-0'>
+              <div className='mt-4'>
+                <ProgressSteps
+                  currentStepIndex={currentStepIndex}
+                  goTo={goTo}
+                  icons={[
+                    <BiUserPin key='icon-12313' className='icon' />,
+                    <FaRegAddressCard
+                      key='icon-123dssd00013'
+                      className='icon'
+                    />,
+                    <MdMarkEmailRead key='icon-12dssd313' className='icon' />
+                  ]}
+                  steps={titles}
+                  subtitles={subtitles}
+                />
+              </div>
               <Link className='p-0 m-0' to='/'>
                 <img
                   alt='logo'
@@ -154,11 +178,6 @@ function Signup() {
                   }}
                 />
               </Link>
-
-              <ProgressSteps
-                currentStepIndex={currentStepIndex}
-                steps={titles}
-              />
             </div>
             <hr />
             <div className='text-muted'>

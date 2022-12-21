@@ -13,6 +13,8 @@ import courseModel from '@/Course/course.model';
 import { ICourse, Lesson, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
 import CourseService from '@/Course/course.dao';
+import { sendEmail } from '@/Common/Email Service/nodemailer.service';
+import { sendCertificateEmail } from '@/Common/Email Service/email.template';
 
 class TraineeService {
   public authService = new AuthService();
@@ -131,7 +133,10 @@ class TraineeService {
 
   // get enrolled course info
   public getEnrolledCourseById = async (traineeId: string, courseId: string): Promise<EnrolledCourse> => {
-    const trainee = await traineeModel.find({ '_enrolledCourses._course': courseId, _id: traineeId }).populate({
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is invalid');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is invalid');
+
+    const trainee = await traineeModel.findOne({ '_enrolledCourses._course': courseId, _id: traineeId }).populate({
       match: { _id: courseId },
       path: '_enrolledCourses._course',
       populate: {
@@ -140,13 +145,23 @@ class TraineeService {
       },
       select: '-rating.reviews -announcements -captions -coupouns  -outline -exam',
     });
-    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist or is not enrolled in this course');
+
+    // get enrolled course (null if trainee not enrolled)
+    const enrolledCourse = trainee._enrolledCourses.find(course => course._course !== null) ?? null;
 
     // Adjust Last Visited Course
-    await this.markLastVisitedCourse(traineeId, courseId);
+    if (enrolledCourse) await this.markLastVisitedCourse(traineeId, courseId);
 
-    // returns null if trainee is not enrolled in the course
-    return trainee[0]?._enrolledCourses[0] ?? null;
+    return enrolledCourse;
+  };
+
+  // check if trainee is enrolled in a course
+  public isTraineeEnrolled = async (traineeId: string, courseId: string): Promise<boolean> => {
+    const trainee = await traineeModel.findOne({ '_enrolledCourses._course': courseId, _id: traineeId });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist or is not enrolled in this course');
+
+    return !!trainee;
   };
 
   // enroll trainee in a course
@@ -165,7 +180,13 @@ class TraineeService {
     if (isTraineeEnrolled) return course;
 
     course.numberOfEnrolledTrainees++;
-    trainee._enrolledCourses.push({ _course: course, _submittedQuestions: [], dateOfEnrollment: new Date() });
+    trainee._enrolledCourses.push({
+      _course: course,
+      _submittedQuestions: [],
+      dateOfEnrollment: new Date(),
+      _submittedExamAnswers: [],
+      seenAnswers: false,
+    });
 
     await course.save();
     await trainee.save();
@@ -496,11 +517,22 @@ class TraineeService {
   };
 
   // submit exam for trainee
-  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<void> => {
+  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<number> => {
     if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    // set seenAnswers flag to false in all trainees
+    const trainees = await traineeModel.find();
+    trainees.forEach(trainee => {
+      trainee._enrolledCourses.forEach(enrolledCourse => {
+        enrolledCourse.seenAnswers = false;
+        enrolledCourse._submittedExamAnswers = [];
+      });
+      trainee.save();
+    });
 
     const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
     if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
@@ -516,12 +548,33 @@ class TraineeService {
 
     const examGrade = (correctAnswersCount / exam.length) * 100;
     enrolledCourse.examGrade = examGrade;
+    await this.courseService.modifyAverageExamGrade(courseId, examGrade);
+    enrolledCourse._submittedExamAnswers = examAnswers;
+
     if (examGrade >= 50) {
       // Only Certify if at least 50%
       enrolledCourse.dateOfCompletion = new Date();
-      // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
+    return examGrade;
+  };
+
+  // get trainee's submitted exam answers
+  // calling it implies that trainee has seen exam answers (his answers is compared against correct ones)
+  public getTraineeSubmittedExamAnswers = async (traineeId: string, courseId: string): Promise<string[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    enrolledCourse.seenAnswers = true;
+    await trainee.save();
+
+    return enrolledCourse._submittedExamAnswers;
   };
 
   // get trainee's viewed lessons
@@ -558,6 +611,29 @@ class TraineeService {
     // select courses that trainee finished (implied certified)
     const certifiedCourses = trainee._enrolledCourses.filter(enrolledCourse => enrolledCourse.dateOfCompletion);
     return certifiedCourses;
+  };
+
+  // update trainee balance
+  // amount param should be in USD
+  public updateTraineeBalance = async (traineeId: string, amount: number): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    amount = Math.floor(amount * 100) / 100;
+    trainee.balance += amount;
+    await trainee.save();
+  };
+
+  // send certificate by email
+  public sendCertificateByEmail = async (traineeId: string, courseId: string): Promise<void> => {
+    const trainee = await traineeModel.findById(traineeId);
+
+    const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    await sendCertificateEmail(trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;

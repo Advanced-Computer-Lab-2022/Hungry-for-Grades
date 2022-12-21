@@ -61,6 +61,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.username}
           hint=''
+          id='accountform-username'
           isError={
             formik.touched.username && formik.errors.username ? true : null
           }
@@ -81,6 +82,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.email}
           hint=''
+          id='accountform-emailAddress'
           isError={formik.touched.email && formik.errors.email ? true : null}
           isTop={false}
           label='Email Address'
@@ -99,6 +101,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.password}
           hint=''
+          id='accountform-password'
           isError={
             formik.touched.password && formik.errors.password ? true : null
           }
@@ -119,6 +122,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.confirmPassword}
           hint=''
+          id='accountform-confirmPassword'
           isError={
             formik.touched.confirmPassword && formik.errors.confirmPassword
               ? true
@@ -141,6 +145,7 @@ function AccountForm({
           data-bs-target={`#modalTerms`}
           data-bs-toggle='modal'
           href='/'
+          id='accountform-modalTerms'
           type='button'
         >
           <CheckBoxInput

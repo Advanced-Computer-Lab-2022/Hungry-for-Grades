@@ -99,6 +99,20 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {} as Review
+    },
+    checkout: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    },
+    savePayment: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
     }
   },
   DELETE: {

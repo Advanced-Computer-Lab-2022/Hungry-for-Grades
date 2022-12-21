@@ -38,7 +38,7 @@ export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
 export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof NewsLetterRoutes[T][keyof Partial<typeof NewsLetterRoutes[T]>];
 
-export type ReportRouteType<T extends 'GET' | 'POST'> =
+export type ReportRouteType<T extends 'GET' | 'POST' | 'PATCH'> =
   typeof ReportDataService[T][keyof Partial<typeof ReportDataService[T]>];
 
 export type CourseRouteType<T extends 'GET' | 'POST' | 'PUT' | 'DELETE'> =
@@ -78,5 +78,5 @@ export type DELETERoutesType =
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = CourseRouteType<'PUT'>;
-export type PATCHRoutesType = null;
+export type PATCHRoutesType = ReportRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

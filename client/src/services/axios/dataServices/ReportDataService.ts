@@ -15,6 +15,22 @@ export const ReportDataService = {
       query: '',
       payload: {},
       response: {}
+    },
+    sendMessage: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    }
+  },
+  PATCH: {
+    updateReport: {
+      URL: '/report/',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
     }
   }
 };

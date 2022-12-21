@@ -1,12 +1,45 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import styles from './payment-accepted.module.scss';
+import PaymentFailed from './PaymentFailed';
 
+import usePostQuery from '@/hooks/usePostQuery';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import { UseUser } from '@/store/userStore';
 import successIcon from 'src/assets/success.png';
+import Loader from '@/components/loader/loaderpage/Loader';
 export default function PaymentAccepted() {
-  const paymentId = '63976f0ca7691a901835e492';
-  const amount = 100;
   const navigate = useNavigate();
+  const user = UseUser();
+  const [paymentId, setPaymentId] = useState('');
+  const [amount, setAmount] = useState(0);
+  const { walletUsed } = useParams<{ walletUsed: string }>();
+  const [isRendered, setIsRendered] = useState(false);
+
+  const { mutateAsync: savePayment, isLoading, isError } = usePostQuery();
+
+  const handleSavePayment = async () => {
+    const acknowledge = TraineeRoutes.POST.savePayment;
+    acknowledge.URL = `/payment/success/${encodeURIComponent(
+      user?._id as string
+    )}?walletUsed=${walletUsed as string}`;
+    const response = await savePayment(acknowledge);
+    setPaymentId(response?.data?.data?._id);
+    setAmount(response?.data?.data?.amount);
+  };
+
+  if (!isRendered) {
+    void handleSavePayment();
+    setIsRendered(true);
+  }
+
+  if (isError) return <PaymentFailed />;
+
+  if (isLoading) {
+    <Loader />;
+  }
+
   const routeChange = () => {
     navigate('/enrolled-courses');
   };

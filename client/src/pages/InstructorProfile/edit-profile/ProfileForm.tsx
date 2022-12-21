@@ -47,7 +47,7 @@ const validationSchema = Yup.object({
     .required('Username is Required'),
   biography: Yup.string()
     .min(1, 'Biography is Too Short!')
-    .max(500, 'Biography is Too Long!')
+    .max(5000, 'Biography is Too Long!')
     .required('Biography is Required')
 });
 
@@ -95,6 +95,7 @@ export default function ProfileForm(props: PropsInstructorData) {
           correctMessage=''
           errorMessage={formik.errors.name}
           hint=''
+          id='instructor-name'
           isError={formik.touched.name && formik.errors.name ? true : null}
           isTop={false}
           label={'Name'}
@@ -112,6 +113,7 @@ export default function ProfileForm(props: PropsInstructorData) {
           correctMessage={''}
           errorMessage={formik.errors.biography}
           hint={''}
+          id='instructor-biography'
           isError={
             formik.touched.biography && formik.errors.biography ? true : null
           }
@@ -131,6 +133,7 @@ export default function ProfileForm(props: PropsInstructorData) {
           correctMessage={''}
           errorMessage={formik.errors.email?.address}
           hint={''}
+          id='instructor-email'
           isError={
             formik.touched.email?.address && formik.errors.email?.address
               ? true
@@ -168,6 +171,7 @@ export default function ProfileForm(props: PropsInstructorData) {
           correctMessage={''}
           errorMessage={formik.errors.username}
           hint={''}
+          id='instructor-username'
           isError={
             formik.touched.username && formik.errors.username ? true : null
           }
@@ -187,6 +191,7 @@ export default function ProfileForm(props: PropsInstructorData) {
           correctMessage={''}
           errorMessage={formik.errors.phone}
           hint={''}
+          id='instructor-phone'
           isError={formik.touched.phone && formik.errors.phone ? true : null}
           isTop={false}
           label={'Phone Number'}

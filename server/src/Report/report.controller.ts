@@ -64,6 +64,12 @@ class ReportController {
       if (!reportFilters.limit) reportFilters.limit = 10;
       else reportFilters.limit = parseInt(`${reportFilters.limit}`);
 
+      // If sent as comma seperated string, convert to array
+      if (typeof reportFilters.reason === 'string') {
+        reportFilters.reason = reportFilters.reason.split(',');
+        reportFilters.reason = reportFilters.reason.map(reason => reason.trim());
+      }
+
       const paginatedReponse = await this.reportService.getAllReports(reportFilters);
       res.status(HttpStatusCodes.OK).json({ ...paginatedReponse, message: 'Reports Retrieved Successfully', success: true });
     } catch (error) {

@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
+import { useParams } from 'react-router-dom';
 
 import CourseRating from '../../guest/course/CourseRating';
 
@@ -11,13 +12,14 @@ import { formatDuration } from '@/utils/duration';
 import ErrorMessage from '@components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 
-export default function CertificateGenerator(courseId: string) {
+export default function CertificateGenerator() {
+  const { courseId } = useParams<{ courseId: string }>();
   const traineeData = UseUser();
   const {
     isLoading,
     isError,
     data: courseData
-  } = useSearchQueryCourse(traineeData?._id as string, courseId);
+  } = useSearchQueryCourse(traineeData?._id as string, courseId as string);
   const verifiedCourseData = courseData?.data?.data?._course;
   const courseTitle = verifiedCourseData?.title;
   let date = courseData?.data?.data.dateOfCompletion?.toString();

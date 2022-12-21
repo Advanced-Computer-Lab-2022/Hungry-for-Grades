@@ -36,7 +36,7 @@ export interface IReportFilters extends PaginatedRequest {
   _user?: string;
   endDate?: Date;
   isSeen: string;
-  reason?: Reason;
+  reason?: string | string[];
   sort?: number;
   // 1: ascending, -1: descending , undefined: default (no sort)
   startDate?: Date;

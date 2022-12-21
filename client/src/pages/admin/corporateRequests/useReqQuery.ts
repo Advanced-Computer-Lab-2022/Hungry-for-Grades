@@ -9,21 +9,24 @@ import { getRequest } from '@/services/axios/http-verbs';
 
 // NEEDS TO BE REVISED BECAUSE IT PRODUCES A WARNING
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getReports(_activePage: number) {
+function getReports(_activePage: number, filterVal: string) {
   const Reports = ReportDataService.GET.getReports;
 
-  Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}`;
+  if (filterVal != 'All')
+    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}&status=${filterVal}`;
+  else
+    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}`;
 
   return getRequest<HttpResponse<AllReport[]>>(Reports);
 }
 
-export function useReqQuery() {
+export function useReqQuery(updates: number, filterVal: string) {
   const [activePage, setActivePage] = useState<number>(1);
 
   return {
     ...useQuery(
-      ['admin-gimme-reports', activePage, location],
-      () => getReports(activePage),
+      ['admin-gimme-reports', activePage, location, updates, filterVal],
+      () => getReports(activePage, filterVal),
       {
         cacheTime: 1000 * 60 * 60 * 24,
         retryDelay: 1000,

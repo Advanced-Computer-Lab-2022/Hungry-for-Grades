@@ -20,8 +20,6 @@ import { NoteLayout } from '@pages/trainee/note/NoteLayout';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
-import CourseRequest from '@/pages/admin/corporateRequests/CourseRequest';
-
 //import InstructorPage from '@/pages/InstructorProfile/InstructorPage';
 
 /**
@@ -79,7 +77,7 @@ const LazyTraineeNoteForm = lazy(
 const LazyTraineeNoteList = lazy(
   () => import('@/pages/trainee/note/TraineeNoteList')
 );
-const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart/TraineeCart'));
+const LazyTraineeCart = lazy(() => import('@/pages/trainee/cart2/Cart'));
 const LazyTraineeWishlist = lazy(
   () => import('@/pages/trainee/wishlist/TraineeWishlist')
 );
@@ -90,6 +88,11 @@ const LazySolveExam = lazy(() => import('@/pages/trainee/course-view/Exam'));
 const LazyTraineeViewCourse = lazy(
   () => import('@/pages/trainee/course-view/TraineeCourseView')
 );
+
+const LazyMyReports = lazy(
+  () => import('@/pages/trainee/myReports/ReportTable')
+);
+
 /**
  * Instructor Pages
  */
@@ -129,16 +132,20 @@ const LazyInstructorDashboard = lazy(
 /**
  * Admin Pages
  */
-const LazyAddInstructor = lazy(() => import('@/pages/admin/AddInstructor'));
-const LazyAddAdmin = lazy(() => import('@/pages/admin/AddAdmin'));
-const LazyAddCorporateTrainee = lazy(
-  () => import('@/pages/admin/AddCorporateTrainee')
-);
+const LazyAdduser = lazy(() => import('@/pages/admin/createUser/Create'));
 const LazyDiscounts = lazy(
   () => import('@/pages/instructor/setDiscount/courseDiscounts/CourseDiscounts')
 );
 const LazyAdminDashboard = lazy(
   () => import('@/pages/admin/dashboard/AdminDashboard')
+);
+
+const LazyAdminReports = lazy(
+  () => import('@/pages/admin/reportRequests/ReportReq')
+);
+
+const LazyAdminCourseRequests = lazy(
+  () => import('@/pages/admin/corporateRequests/CourseRequest')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -153,7 +160,11 @@ const LazySuccessfulPayment = lazy(
   () => import('@/pages/payment/PaymentAccepted')
 );
 
-const LazyFailedPayment = lazy(() => import('@/pages/payment/PaymentRejected'));
+const LazyRejectedPayment = lazy(
+  () => import('@/pages/payment/PaymentRejected')
+);
+
+const LazyFailedPayment = lazy(() => import('@/pages/payment/PaymentFailed'));
 
 // landing page
 
@@ -230,6 +241,7 @@ function AllRoutes() {
                 <Route element={<LazyTraineeNoteEdit />} path='edit' />
               </Route>
             </Route>
+            <Route element={<LazyMyReports />} path='my-reports' />
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route
@@ -237,13 +249,17 @@ function AllRoutes() {
               errorElement={<ErrorMessage />}
               path='courses'
             />
-            <Route element={<LazyTraineeCertificate />} path='certificate' />
+            <Route
+              element={<LazyTraineeCertificate />}
+              path='certificate/:courseId'
+            />
             <Route element={<LazyTraineeBoard />} path='board' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
-          <Route element={<LazySuccessfulPayment />} path='payment-success' />
+          <Route element={<LazySuccessfulPayment />} path='payment-accepted' />
           <Route element={<LazyFailedPayment />} path='payment-failed' />
+          <Route element={<LazyRejectedPayment />} path='payment-rejected' />
         </Route>
 
         {/* Instructor Routes*/}
@@ -257,7 +273,6 @@ function AllRoutes() {
             <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
-          <Route element={<CourseRequest />} path='test' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
@@ -276,16 +291,14 @@ function AllRoutes() {
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
-          <Route element={<LazyAdminDashboard />}>
-            <Route element={<div />} path='dashboard' />
+          <Route element={<LazyAdminDashboard />} path='dashboard'>
+            <Route element={<LazyAdduser />} path='create-user' />
+            <Route element={<LazyAdminReports />} path='reports' />
+            <Route
+              element={<LazyAdminCourseRequests />}
+              path='course-requests'
+            />
           </Route>
-          <Route element={<LazyAddInstructor />} path='add-instructor' />
-          <Route element={<LazyAddAdmin />} path='add-admin' />
-          <Route
-            element={<LazyAddCorporateTrainee />}
-            path='add-corporatetrainee'
-          />
-          <Route element={<LazyUserProfile />} path='profile' />
         </Route>
       </Route>
 

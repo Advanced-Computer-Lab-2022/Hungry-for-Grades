@@ -1,0 +1,18 @@
+.drop_down
+{
+    position: absolute;
+    left:auto;
+    top:1rem;
+    background-color: var(--primary-background-color);
+    padding: 2px 10px;
+    color: var(--primary-color);
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    text-align: left;
+    -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+}

@@ -40,7 +40,8 @@ function InstructorCourseCard(props: ITeachedCourse) {
   const photo = data?.thumbnail ?? '';
   const title = data?.title ?? '';
   const price = data?.price ?? '';
-  const enrolled = data?.numberOfEnrolledTrainees ?? '';
+  const enrolled = data?.numberOfEnrolledTrainees ?? 0;
+  const averageExamGrades = data?.examGrades?.average ?? 0;
   const rating = data?.rating?.averageRating ?? '';
   const discount = data?.price?.discounts;
   const oldPrice = getOriginalPrice(price.currentValue, discount);
@@ -159,10 +160,10 @@ function InstructorCourseCard(props: ITeachedCourse) {
                   styles.partOne ?? ''
                 } d-flex justify-content-center`}
               >
-                Unanswered questions
+                Average Exam Grades
               </div>
               <div>
-                <h4>2</h4>
+                <h4>{averageExamGrades}</h4>
               </div>
             </div>
           </div>

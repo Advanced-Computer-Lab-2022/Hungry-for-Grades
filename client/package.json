@@ -23,7 +23,7 @@
     "dev": "vite",
     "lighthouse": "lighthouse http://localhost:8000/",
     "prelint": "prettier --write **/src/**/*.{js,jsx,ts,tsx,css,md,json}  --config ./.prettierrc",
-    "lint": "eslint --config ./.eslintrc.json  --color --fix --ext .js,.jsx,.ts,.tsx src",
+    "lint": "eslint --config ./.eslintrc.json  --max-warnings=0 --color --fix --ext .js,.jsx,.ts,.tsx src",
     "postlint": "eslint  --config ./.eslintrc.json  --color  --ext .js,.jsx,.ts,.tsx src",
     "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
     "restart": "echo 'Make sure node version 16>'&& rm -rf node_modules && rm -f package-lock.json  && npm i && npm run dev",

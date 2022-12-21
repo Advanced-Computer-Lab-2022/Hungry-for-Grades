@@ -18,6 +18,7 @@ export interface ITeachedCourse {
 export interface IInstructor extends IUser {
   _teachedCourses: ITeachedCourse[];
   balance: number;
+  currency: string;
   bankAccount: BankAccount;
   biography: string;
   rating: Rating;

@@ -5,6 +5,7 @@ import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { HttpException } from '@/Exceptions/HttpException';
+import { PaymentDTO } from './payment.interface';
 
 class PaymentController {
   public paymentService = new PaymentService();
@@ -23,13 +24,16 @@ class PaymentController {
   };
 
   //save payment controller
-  public savePayment = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+  public savePayment = async (req: Request, res: Response<HttpResponse<PaymentDTO>>, next: NextFunction) => {
     try {
       const { traineeId } = req.params;
       const country = req.query.country as string;
+      const walletUsed = req.query.walletUsed as string;
 
-      await this.paymentService.savePayment(traineeId, country);
-      res.status(201).json({ data: null, message: 'Payment Successful', success: true });
+      const walletUsedBool = walletUsed === 'true' ? true : false;
+
+      const payment = await this.paymentService.savePayment(traineeId, country, walletUsedBool);
+      res.status(201).json({ data: payment, message: 'Payment Successful', success: true });
     } catch (error) {
       next(error);
     }
@@ -60,6 +64,17 @@ class PaymentController {
 
       const monthlyRevenues = await this.paymentService.getMonthlyRevenue(instructorId, yearInt, country);
       res.json({ data: monthlyRevenues, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // refund controller
+  public refund = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const { traineeId, courseId } = req.params;
+      await this.paymentService.refundPayment(traineeId, courseId);
+      res.json({ data: null, message: 'Refund Successful', success: true });
     } catch (error) {
       next(error);
     }

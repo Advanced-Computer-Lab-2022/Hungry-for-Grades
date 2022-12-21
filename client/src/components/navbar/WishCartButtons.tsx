@@ -14,65 +14,63 @@ import {
 
 import toSmallNumber from '@utils/toSmallNumber';
 
-function CourseCardButtons() {
+function WishCartButtons() {
   const cartCount = UseCartStoreTotalItems();
   const cartCost = UseCartStoreTotalCost();
   const wishListCount = UseWishListTotalItems();
   const wishListCost = UseWishListTotalCost();
   return (
     <>
-      <NavLink replace state={{ from: '/courses/' }} to='/auth/login'>
-        <div className='d-flex flex-row justify-content-between'>
-          <NavLink className='mt-2' to='/trainee/cart'>
-            <p className='position-relative'>
-              <AiOutlineShoppingCart className={styles.icon} />
-              {cartCount > 0 && (
-                <span
-                  className={`${
-                    styles.right ?? ''
-                  } text-white badge rounded-pill bg-secondary`}
-                >
-                  +{toSmallNumber(cartCount)}
-                </span>
-              )}
-              {cartCost > 0 && (
-                <span
-                  className={`${
-                    styles.rightTop ?? ''
-                  } text-white badge rounded-pill bg-secondary`}
-                >
-                  +{toSmallNumber(cartCost)}
-                </span>
-              )}
-            </p>
-          </NavLink>
-          <NavLink className='mt-2 p-0' to='/trainee/wishlist'>
-            <p className='p-0  position-relative'>
-              <AiOutlineHeart className={styles.icon} />
-              {wishListCount > 0 && (
-                <span
-                  className={`${
-                    styles.right ?? ''
-                  } text-white badge rounded-pill bg-secondary`}
-                >
-                  +{toSmallNumber(wishListCount)}
-                </span>
-              )}
-              {wishListCost > 0 && (
-                <span
-                  className={`${
-                    styles.rightTop ?? ''
-                  } text-white badge rounded-pill bg-secondary`}
-                >
-                  +{toSmallNumber(wishListCost)}
-                </span>
-              )}
-            </p>
-          </NavLink>
-        </div>
-      </NavLink>
+      <div className='d-flex flex-row justify-content-between'>
+        <NavLink className='mt-2' to='/trainee/cart'>
+          <p className='position-relative'>
+            <AiOutlineShoppingCart className={styles.icon} />
+            {cartCount > 0 && (
+              <span
+                className={`${
+                  styles.right ?? ''
+                } text-white badge rounded-pill bg-secondary`}
+              >
+                +{toSmallNumber(cartCount)}
+              </span>
+            )}
+            {cartCost > 0 && (
+              <span
+                className={`${
+                  styles.rightTop ?? ''
+                } text-white badge rounded-pill bg-secondary`}
+              >
+                +{toSmallNumber(cartCost)}
+              </span>
+            )}
+          </p>
+        </NavLink>
+        <NavLink className='mt-2 p-0' to='/trainee/wishlist'>
+          <p className='p-0  position-relative'>
+            <AiOutlineHeart className={styles.icon} />
+            {wishListCount > 0 && (
+              <span
+                className={`${
+                  styles.right ?? ''
+                } text-white badge rounded-pill bg-secondary`}
+              >
+                +{toSmallNumber(wishListCount)}
+              </span>
+            )}{' '}
+            {wishListCost > 0 && (
+              <span
+                className={`${
+                  styles.rightTop ?? ''
+                } text-white badge rounded-pill bg-secondary`}
+              >
+                +{toSmallNumber(wishListCost)}
+              </span>
+            )}
+          </p>
+        </NavLink>
+      </div>
     </>
   );
 }
 
-export default CourseCardButtons;
+export default WishCartButtons;

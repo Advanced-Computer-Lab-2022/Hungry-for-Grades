@@ -1,4 +1,3 @@
-import useSearchQuery from './fetchApi';
 import { updateProfile } from './updateApi';
 
 import ProfileForm from './ProfileForm';
@@ -6,29 +5,21 @@ import ProfileForm from './ProfileForm';
 import { TraineeData } from './types';
 
 import Form from '@/components/form/Form';
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
-import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
 
 export default function Profile() {
-  const traineeId = '637969352c3f71696ca34759';
-
-  const { isLoading, isError, data } = useSearchQuery();
-  const verifiedData = data?.data?.data;
+  const user = UseUser();
+  const traineeId = user?._id;
 
   async function submitAction(traineeData: TraineeData) {
-    console.log('was here 1');
-    await updateProfile(traineeId, traineeData);
+    await updateProfile(traineeId as string, traineeData);
   }
-  if (isError) return <ErrorMessage />;
-  if (isLoading) return <LoaderComponent />;
-
-  if (!data) return <></>;
 
   const initialValues = {
-    name: verifiedData?.name,
-    email: { address: verifiedData?.email.address },
-    phone: verifiedData?.phone,
-    username: verifiedData?.username
+    name: user?.name,
+    email: { address: user?.email.address },
+    phone: user?.phone,
+    username: user?.username
   };
 
   return (

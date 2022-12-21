@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -18,9 +17,11 @@ import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
 import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
-import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 import toSmallNumber from '@/utils/toSmallNumber';
 import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import { ITrainee } from '@/interfaces/course.interface';
+import { IInstructor } from '@/interfaces/instructor.interface';
 
 function NavbarComponent() {
   const { data, isError } = useCategoryQuery();
@@ -29,7 +30,6 @@ function NavbarComponent() {
   const updateCountry = UpdateCountry();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
   const user = UseUser();
-
   return (
     <Navbar bg='light' className={styles.navbar} expand='lg' sticky='top'>
       <Container>
@@ -40,9 +40,9 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
-              className={({ isActive }) =>
-                isActive ? 'nav-link active' : 'nav-link'
-              }
+              className={function activate({ isActive }) {
+                return isActive ? 'nav-link active' : 'nav-link';
+              }}
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
@@ -80,10 +80,15 @@ function NavbarComponent() {
                     </div>
                   </NavDropdown.Item>
                 ))}
-              <NavDropdown.Divider />
-              <NavDropdown.Item>
-                <ReportForm />
-              </NavDropdown.Item>
+
+              {useUserIsAuthenticated && (
+                <>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item>
+                    <ReportForm />
+                  </NavDropdown.Item>
+                </>
+              )}
             </NavDropdown>
           </Nav>
           <SearchBar />
@@ -94,40 +99,45 @@ function NavbarComponent() {
                 placeholder='Country'
                 selected={country}
                 showSelectedLabel={false}
-                onSelect={code => updateCountry(code)}
+                onSelect={function updateCode(code) {
+                  updateCountry(code);
+                }}
               />
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
-              <Nav.Link>
-                <div className='d-flex flex-row justify-content-evenly'>
-                  {user.role.toLocaleLowerCase() ===
-                    Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
-                  {user?.balance && (
-                    <Link
-                      className={styles.user__balance}
-                      to={`/${user.role.toLocaleLowerCase()}/balance`}
-                    >
-                      ${toSmallNumber(user.balance)}
-                    </Link>
-                  )}
-                  <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
-                    <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
-                      {user.name}
-                    </div>
+              <div className='d-flex flex-row justify-content-evenly mt-2'>
+                {user.role.toLocaleLowerCase() ===
+                  Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+
+                {user.role !== Role.ADMIN && (
+                  <Link
+                    className={styles.user__balance}
+                    to={`/${user.role.toLocaleLowerCase()}/balance`}
+                  >
+                    {(user as ITrainee | IInstructor)?.currency}
+                    {toSmallNumber(user.balance as number)}
                   </Link>
-                  <UserDropdown />
-                </div>
-              </Nav.Link>
+                )}
+
+                <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
+                  <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>
+                    {user.name}
+                  </div>
+                </Link>
+                <UserDropdown />
+              </div>
             ) : (
               <>
                 <NavLink
                   className={`${styles.auth_btn ?? ''} nav-link`}
+                  id='signup-navlink'
                   to='/auth/signup'
                 >
                   <span className={styles.signup__btn}>Sign Up</span>
                 </NavLink>
                 <NavLink
                   className={`${styles.auth_btn ?? ''} nav-link`}
+                  id='login-navlink'
                   to='/auth/login'
                 >
                   <span className={styles.login__btn}>Login</span>

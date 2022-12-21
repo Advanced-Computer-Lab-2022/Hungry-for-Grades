@@ -55,7 +55,9 @@ function CourseCardButtons(props: ICart) {
           <button
             className={styles.button}
             type='button'
-            onClick={() => addtoWishList(props)}
+            onClick={() => {
+              addtoWishList(props);
+            }}
           >
             {isInWishList && <AiFillHeart className={styles.icon} />}
             {!isInWishList && <AiOutlineHeart className={styles.icon} />}{' '}

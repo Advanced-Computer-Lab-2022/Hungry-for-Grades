@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Link } from 'react-router-dom';
 
@@ -20,6 +21,9 @@ import CourseRating from '@/pages/guest/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
 
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
+import { UseUser } from '@/store/userStore';
+import { Role } from '@/enums/role.enum';
+import { ITrainee } from '@/interfaces/course.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -66,6 +70,7 @@ function CourseCard(courseProps: {
   percent: number;
   enrolled: boolean;
 }) {
+  const useUser = UseUser();
   const props = courseProps.pprops;
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
@@ -142,12 +147,16 @@ function CourseCard(courseProps: {
                   <ProgressBar completed={courseProps.percent} />
                 )}
               </div>
-              <div>
-                <CourseCardButtons
-                  _id={props.id}
-                  price={props.price.currentValue}
-                />
-              </div>
+              {(useUser === null ||
+                (useUser.role === Role.TRAINEE &&
+                  (useUser as ITrainee)?.isCorporate)) && (
+                <div>
+                  <CourseCardButtons
+                    _id={props.id}
+                    price={props.price.currentValue}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </article>

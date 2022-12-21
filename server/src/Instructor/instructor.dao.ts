@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { FrequentlyAskedQuestionDTO } from '@/Course/course.dto';
 import { HttpException } from '@/Exceptions/HttpException';
 import instructorModel from '@/Instructor/instructor.model';
@@ -103,6 +103,65 @@ class InstructorService {
     };
   }
 
+  // delete user review on instructor
+  public async deleteReview(instructorID: string, traineeID: string): Promise<void> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) return;
+
+    const userReview = instructor.rating.reviews[reviewIndex];
+
+    const totalReviews = instructor.rating.reviews.length;
+    const newRating = (instructor.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+    instructor.rating.averageRating = Math.round(newRating * 100) / 100;
+    instructor.rating.reviews.splice(reviewIndex, 1);
+
+    await instructor.save();
+  }
+
+  // update user review
+  public async updateReview(instructorID: string, traineeID: string, reviewData: ReviewDTO): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) return;
+
+    const userReview = instructor.rating.reviews[reviewIndex];
+
+    const totalReviews = instructor.rating.reviews.length;
+    // old rating removed and replaced by the new one
+    const newRating = (instructor.rating.averageRating * totalReviews - userReview.rating + reviewData.rating) / totalReviews;
+    instructor.rating.averageRating = Math.round(newRating * 100) / 100;
+    instructor.rating.reviews[reviewIndex].rating = reviewData.rating;
+    instructor.rating.reviews[reviewIndex].comment = reviewData.comment;
+
+    await instructor.save();
+
+    return instructor.rating.reviews[reviewIndex];
+  }
+
+  // get User Review on Instructor
+  public async getUserReview(instructorID: string, traineeID: string): Promise<Review> {
+    if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorID);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
+
+    const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
+    if (reviewIndex === -1) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Review doesn't exist");
+
+    return instructor.rating.reviews[reviewIndex];
+  }
+
   //update instructor profile
   public async updateInstructor(instructorId: string, instructorData: CreateInstructorDTO): Promise<IInstructor> {
     if (isEmpty(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');
@@ -163,8 +222,8 @@ class InstructorService {
   };
 
   // update Instructor's earning in course
-  // amount param should be after deducting the platform fee and it should be in dollars
-  public updateInstructorEarningAndBalance = async (instructorId: string, courseId: string, amount: number): Promise<void> => {
+  // profit param should be after deducting the platform fee and it should be in dollars
+  public updateInstructorEarningAndBalance = async (instructorId: string, courseId: string, profit: number): Promise<void> => {
     if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
     const instructor = await instructorModel.findById(instructorId);
@@ -172,10 +231,33 @@ class InstructorService {
 
     // get teached course
     const course = instructor._teachedCourses.find(teachedCourse => teachedCourse._course.toString() === courseId);
-    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist');
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist or is not teached by this instructor');
 
-    course.earning += amount;
-    instructor.balance += amount;
+    // balance & earnings can be negative (if instructor owes money to the platform)
+    course.earning += profit;
+    instructor.balance += profit;
+
+    await instructor.save();
+  };
+
+  // adjust instructor's balance after refund
+  // both profit params should be after deducting the platform fee and should be in dollars
+  public adjustBalanceAfterRefund = async (instructorId: string, courseId: string, oldProfit: number, newProfit: number): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(instructorId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+
+    const instructor = await instructorModel.findById(instructorId);
+    if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor does not exist');
+
+    // get teached course
+    const course = instructor._teachedCourses.find(teachedCourse => teachedCourse._course.toString() === courseId);
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course does not exist or is not teached by this instructor');
+
+    let netProfit = newProfit - oldProfit;
+    netProfit = Math.round(netProfit * 100) / 100;
+
+    // balance & earnings can be negative (if instructor owes money to the platform)
+    instructor.balance += netProfit;
+    course.earning += netProfit;
 
     await instructor.save();
   };

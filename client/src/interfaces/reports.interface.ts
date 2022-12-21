@@ -13,6 +13,12 @@ export type Report = {
   status: Status;
 };
 
+export interface Message {
+  content: string;
+  createdAt: Date;
+  isAdmin: boolean;
+}
+
 export type AllReport = {
   _course: ICourse[];
   _id: string;
@@ -22,6 +28,8 @@ export type AllReport = {
   reason: Reason;
   role: Role;
   status: Status;
+  createdAt: Date;
+  followUp: Message[];
 };
 
 export enum Status {
@@ -37,3 +45,14 @@ export enum Reason {
   REFUND = 'Refund',
   TECHNICAL = 'Technical'
 }
+
+export type FilterAdmin = {
+  att: FilterElement[];
+};
+
+export type FilterElement = {
+  values: string[];
+  setValue: (x: string) => void;
+  actualValue: string;
+  title: string;
+};

@@ -1,5 +1,5 @@
 import { Gender } from '@/enums/gender.enum';
-import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 
 interface IUser {
   _id: string;
@@ -17,6 +17,8 @@ interface IUser {
   username: string;
   country: string;
   balance?: number;
+  currency?: string;
+  biography?: string;
 }
 export type Address = {
   city: string;
