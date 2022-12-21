@@ -118,7 +118,7 @@ yarn
 yarn dev
 ```
 
-## Authors
+##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
 - [Omar Sherif Ali](https://www.github.com/omar-sherif9992)
 - [Omar Sherif Elmeteny](https://github.com/omar-elmeteny)
