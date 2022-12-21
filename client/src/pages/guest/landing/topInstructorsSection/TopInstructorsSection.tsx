@@ -10,6 +10,7 @@ function TopInstructorsSection() {
   const { isLoading, isError, data, activePage, setActivePage } =
     useTopInstructorQuery();
 
+
   return (
     <section className='container' id='rated-instructors'>
       {isLoading && <LoaderCards numberOfCards={3} />}
@@ -34,11 +35,14 @@ function TopInstructorsSection() {
                 );
               })}
             </div>
+						<div className='d-flex justify-content-center'>
             <Pagination
               activePage={activePage}
               pages={parseInt(data.data.totalPages)}
               setActivePage={setActivePage}
             />
+							</div>
+
           </>
         )}
     </section>
