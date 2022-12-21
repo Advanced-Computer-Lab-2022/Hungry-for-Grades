@@ -173,6 +173,13 @@ function InstructorCourseCard(props: ITeachedCourse) {
         <Link className='btn btn-primary btn-lg' to={`/course/${data?._id}`}>
           View Course
         </Link>
+        <Link
+          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
+        >
+          <button className='btn btn-primary btn-lg' type='button'>
+            Discounts
+          </button>
+        </Link>
         <a
           className='btn btn-primary btn-lg'
           href={'https://www.linkedin.com/feed/'}
@@ -195,13 +202,6 @@ function InstructorCourseCard(props: ITeachedCourse) {
           Delete
           <BsFillTrashFill />
         </button>
-        <Link
-          to={`/instructor/hussein/${props._course.title}/${props._course._id}`}
-        >
-          <button className='btn btn-primary btn-lg' type='button'>
-            Discounts
-          </button>
-        </Link>
       </div>
     </div>
   );
