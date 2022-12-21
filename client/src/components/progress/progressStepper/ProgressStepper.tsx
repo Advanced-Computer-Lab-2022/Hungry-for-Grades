@@ -27,7 +27,7 @@ function ProgressSteps(props: ProgressStepsProps) {
                 }}
               >
                 {!props.icons ? (
-                  <span className='number'>{index}</span>
+                  <span className='number'>{index + 1}</span>
                 ) : (
                   props.icons[index]
                 )}
