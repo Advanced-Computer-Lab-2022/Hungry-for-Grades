@@ -209,7 +209,7 @@ function AllRoutes() {
           />
           <Route
             element={<LazyTraineeViewCourse />}
-            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+            path='view-course/:courseid/:itemType/:sectionid/:itemid'
           />
           {/* Trainee Dashboard */}
           <Route element={<LazyTraineeDashboard />}>

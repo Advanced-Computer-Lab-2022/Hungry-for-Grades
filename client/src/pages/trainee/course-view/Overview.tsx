@@ -4,7 +4,7 @@ function Overview(props: ICourse) {
   return (
     <>
       {props.outline && (
-        <div className='container m-3 border rounded-3'>
+        <div className='container m-3'>
           <ul className='list-group bg-light'>
             {props.outline.map(o => (
               <li key={o} className='list-group-item bg-light border-0'>

@@ -1,47 +1,45 @@
-
-
 .hero {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     background: #ededed;
-  }
-  
-.hero input, button {
+}
+
+.hero input,
+button {
     border: none;
     outline: none;
     background: none;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  }
-  
-  $contW: 900px;
-  $imgW: 260px;
-  $formW: $contW - $imgW;
-  $switchAT: 1.2s;
-  
-  $inputW: 260px;
-  $btnH: 36px;
-  
-  $diffRatio:(($contW - $imgW) / $contW);
-  
- 
-  
-  .cont {
+}
+
+$contW: 90px;
+$imgW: 260px;
+$formW: $contW - $imgW;
+$switchAT: 1.2s;
+$inputW: 260px;
+$btnH: 36px;
+$diffRatio: (($contW - $imgW) / $contW);
+.cont {
     overflow: hidden;
     position: relative;
-    width: 80%;
+    width: 70%;
     height: 100%;
     margin: 0 auto 100px;
     background: #fff;
-  }
-  
-  .form {
+}
+
+.form {
     position: relative;
     width: $formW;
     height: 100%;
     transition: transform $switchAT ease-in-out;
     padding: 50px 30px 0;
-  }
-  
-  .sub_cont {
+    -webkit-transition: transform $switchAT ease-in-out;
+    -moz-transition: transform $switchAT ease-in-out;
+    -ms-transition: transform $switchAT ease-in-out;
+    -o-transition: transform $switchAT ease-in-out;
+}
+
+.sub_cont {
     overflow: hidden;
     position: absolute;
     left: $formW;
@@ -51,22 +49,15 @@
     padding-left: $imgW;
     background: #fff;
     transition: transform $switchAT ease-in-out;
+}
 
-  }
-  
- .hero button {
+.hero button {
     display: block;
     margin: 0 auto;
-    width: $inputW;
-    height: $btnH;
-    border-radius: 30px;
-    color: #fff;
-    font-size: 15px;
-    background-color: #A00407;;
     cursor: pointer;
-  }
-  
-  .img {
+}
+
+.img {
     overflow: hidden;
     z-index: 2;
     position: absolute;
@@ -76,63 +67,56 @@
     height: 10rem;
     padding-top: 360px;
     background-image: url('https://cancham.org.eg//upload/cancham.jpg');
-    background-size:contain;
+    background-size: contain;
     object-fit: contain;
-  
-  }
-  
-  .hero h2 {
+}
+
+.hero h2 {
     width: 100%;
     font-size: 26px;
     text-align: center;
-  }
-  
-  .hero label {
+}
+
+.hero label {
     display: block;
     width: $inputW;
     margin: 25px auto 0;
     text-align: left;
-  
     span {
-      font-size: 12px;
-      color: #cfcfcf;
-      text-transform: uppercase;
+        font-size: 12px;
+        color: #cfcfcf;
+        text-transform: uppercase;
     }
-  }
+}
 
-  .toggle
-  {
+.toggle {
     margin: 25px auto 0;
     text-align: center;
-  }
+}
 
-  .hero .toggle_button
-  {
-    display:inline-block;
+.hero .toggle_button {
+    display: inline-block;
     width: 10rem;
     background-color: white;
     color: black;
     border-bottom-style: solid;
     border-radius: 0px;
     border-bottom-width: 3px;
-  }
-  
-  .hero input {
+}
+
+.hero input {
     display: block;
     width: 100%;
     margin-top: 5px;
     padding-bottom: 5px;
     font-size: 16px;
-    border-bottom: 1px solid rgba(0,0,0,0.4);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     text-align: center;
-  }
-  
-  
-  .submit {
+}
+
+.submit {
     margin-top: 40px;
     margin-bottom: 20px;
     background: #d4af7a;
     text-transform: uppercase;
-  }
- 
-  
+}

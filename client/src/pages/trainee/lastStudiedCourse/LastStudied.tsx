@@ -43,10 +43,9 @@ export default function LastStudy() {
             <div style={{ width: '70%' }}>
               <ProgressBar
                 completed={course?.progress == undefined ? 0 : course?.progress}
+                courseID={''}
               />
-            </div>
-            {/* 						meteiny fix link
-             */}{' '}
+            </div>{' '}
             <Link
               className={styles.cnt}
               to={`/trainee/view-course/${course?._course?._id}`}

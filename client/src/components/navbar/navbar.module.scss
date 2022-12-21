@@ -93,7 +93,6 @@
         align-items: center;
         justify-content: center;
         margin: 0;
-        padding: 0;
         overflow: hidden;
         outline: none;
         border: 2px solid var(--primary-color);
@@ -103,9 +102,9 @@
         -moz-border-radius: 15%;
         -ms-border-radius: 15%;
         -o-border-radius: 15%;
-        padding: 0 0.5rem;
+        padding: 0 1rem;
         height: 3rem;
-        width: 5rem;
+        width: 5.5rem;
     }
     .flag__select {
         outline: none;
