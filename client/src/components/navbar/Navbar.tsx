@@ -115,7 +115,8 @@ function NavbarComponent() {
                     className={styles.user__balance}
                     to={`/${user.role.toLocaleLowerCase()}/balance`}
                   >
-                    {(user as ITrainee | IInstructor)?.currency}
+                    {(user as ITrainee | IInstructor)?.currency ?
+														(user as ITrainee | IInstructor)?.currency:'USD'}
                     {toSmallNumber(user.balance as number)}
                   </Link>
                 )}
