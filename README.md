@@ -2,7 +2,7 @@
 
 <!-- badges -->
 <div align="center" >
-	
+
 [![Nodejs](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/en/)
 [![javascript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](https://www.javascript.com)
 [![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://GitHub.com/Naereen/badges/)
@@ -12,7 +12,6 @@
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)](https://github.com/omar-sherif9992)
-[![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://www.heroku.com/)
 [![Analytics](https://img.shields.io/badge/Google%20Analytics-E37400?style=for-the-badge&logo=google%20analytics&logoColor=white)](https://analytics.google.com/analytics/web/provision/#/provision)
 ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
@@ -51,7 +50,7 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 
 ## Build Status
 
-The project is currently under development. The goals for Sprint 1 are done.
+The project is currently under development. The goals for Sprint 1,2,3 are done.
 
 ## Code Style
 
@@ -62,7 +61,7 @@ The project is currently under development. The goals for Sprint 1 are done.
 ## Tech/Framework used
 
 - [MongoDB](https://www.mongodb.com/) is used as the Database server.
-- [express](https://expressjs.com/) is used as the backend webserver. 
+- [express](https://expressjs.com/) is used as the backend webserver.
 - [React](https://reactjs.org/) is used as the frontend framework
 - [Node.js](https://nodejs.org/en/) is used as the javascript engine running express webserver and also used in front end development for tooling and building the application.
 - [yarn](https://classic.yarnpkg.com/lang/en/) is used as the package manager.
@@ -79,31 +78,23 @@ The project is currently under development. The goals for Sprint 1 are done.
 ## Installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
 - make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine
-
-#### You can use either use Makefile or yarn to install dependencies and run the project
+## Run Locally
+#### You can use either use Makefile or yarn to install dependencies and run the whole project
 
 ### Using Makefile
-1 -make sure that you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
+1 - make sure that you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
+
 2 - run `make installall` to install dependencies
+
 3 - run `make run` to run the project (Server and Client Concurrently)
 
 ### Using yarn
-1 - make sure that you have yarn `npm i -g yarn` installed on your machine 
+1 - make sure that you have yarn `npm i -g yarn` installed on your machine
+
 2 - run `yarn install` to install dependencies
+
 3 - run `yarn dev` to run the project (Server and Client Concurrently)
-
-
-## Requirements 
-https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
-
-## Run Locally
-
-- Clone the project
-
-```bash
-git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades
-```
-### Start the frontend
+### Start the frontend alone
 - Change to the client directory and run yarn to install packages then yarn dev.
 ```bash
 cd Hungry-for-Grades/client
@@ -117,6 +108,11 @@ cd Hungry-for-Grades/server
 yarn
 yarn dev
 ```
+
+## Requirements
+https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing
+
+
 
 ## Authors
 
