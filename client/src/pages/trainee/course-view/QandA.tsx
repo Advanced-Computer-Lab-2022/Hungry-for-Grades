@@ -6,7 +6,7 @@ function QandA(props: ICourse) {
       {props.frequentlyAskedQuestions && (
         <div className='col'>
           {props.frequentlyAskedQuestions.map(faq => (
-            <div key={faq._id} className='row border rounded-3 m-3'>
+            <div key={faq._id} className='row m-3'>
               <p className='text-dark my-2'>Q: {faq.question}</p>
               <span className='text-secondary my-2 small'>A: {faq.answer}</span>
               <span

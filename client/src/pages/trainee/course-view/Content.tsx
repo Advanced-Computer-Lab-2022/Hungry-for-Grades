@@ -44,7 +44,7 @@ function Content(props: ICourse) {
                       <Link
                         key={l.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/lesson/${sectionIndex}/${lessonIndex}`}
+                        to={`/trainee/view-course/${props._id}/lesson/${sec._id ?? ''}/${l._id ?? ''}`}
                       >
                         <li className='list-item'>
                           <strong>{l.title}</strong>{' '}
@@ -58,11 +58,11 @@ function Content(props: ICourse) {
                 )}
                 {sec.exercises ? (
                   <ol className='list-group'>
-                    {sec.exercises.map((e, exerciseIndex) => (
+                    {sec.exercises.map((e) => (
                       <Link
                         key={e.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/exercise/${sectionIndex}/${exerciseIndex}`}
+                        to={`/trainee/view-course/${props._id}/exercise/${sec._id ?? ''}/${e._id ?? ''}`}
                       >
                         <li className='list-item'>
                           <strong>{e.title}</strong>{' '}

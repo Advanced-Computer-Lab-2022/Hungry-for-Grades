@@ -351,13 +351,13 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
           </Col>
         ))}
         {filteredNotes?.length === 0 && (
-          <div className='container mt-5'>
+          <div className='mt-5'>
             <div
               className='alert alert-danger d-flex justify-content-center'
               role='alert'
             >
-              No notes found,
-              <span className='alert-link'> Create Note</span>
+              No notes found
+              
             </div>
           </div>
         )}
