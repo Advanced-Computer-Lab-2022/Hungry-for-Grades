@@ -129,6 +129,10 @@ const LazyInstructorChangePassword = lazy(
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
 );
+
+const LazyInstructorEarnings = lazy(
+  () => import('@/pages/instructor/earnings/InstructorEarningsAnalytics')
+);
 /**
  * Admin Pages
  */
@@ -146,6 +150,10 @@ const LazyAdminReports = lazy(
 
 const LazyAdminCourseRequests = lazy(
   () => import('@/pages/admin/corporateRequests/CourseRequest')
+);
+
+const LazyAdminCourseDiscounts = lazy(
+  () => import('@/pages/admin/addDiscounts/MakeDiscounts')
 );
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
@@ -272,6 +280,7 @@ function AllRoutes() {
             />{' '}
             <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
+            <Route element={<LazyInstructorEarnings />} path='earnings' />
           </Route>
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
@@ -297,6 +306,10 @@ function AllRoutes() {
             <Route
               element={<LazyAdminCourseRequests />}
               path='course-requests'
+            />
+            <Route
+              element={<LazyAdminCourseDiscounts />}
+              path='courses-discounts'
             />
           </Route>
         </Route>

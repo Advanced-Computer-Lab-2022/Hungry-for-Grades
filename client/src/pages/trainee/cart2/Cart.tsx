@@ -134,7 +134,7 @@ export default function Cart() {
 
   const submitPayWithBalance = () => {
     if ((user?.balance as number) >= total) {
-      navigate('../payment-success?walletUsed=true');
+      navigate('../payment-accepted?walletUsed=true');
     } else {
       isHavingLessBalance = true;
     }

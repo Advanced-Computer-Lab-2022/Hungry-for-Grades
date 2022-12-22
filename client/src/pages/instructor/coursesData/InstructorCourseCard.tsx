@@ -180,7 +180,10 @@ function InstructorCourseCard(props: ITeachedCourse) {
           Share
           <BsShareFill />
         </a>
-        <Link className='btn btn-primary btn-lg' to={``}>
+        <Link
+          className='btn btn-primary btn-lg'
+          to={`/instructor/edit-course/${data?._id}`}
+        >
           Edit
           <AiFillEdit />
         </Link>

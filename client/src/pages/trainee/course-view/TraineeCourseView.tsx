@@ -10,7 +10,7 @@ import SolveExercise from './SolveExercise';
 
 import DownView from './DownView';
 
-import RateCourse from './RateCourse';
+// import RateCourse from './RateCourse';
 
 import { UseCountry } from '@/store/countryStore';
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
@@ -107,12 +107,12 @@ function CourseView() {
               <LeftView {...leftProps} />
             </div>
             <div>
-              <DownView courseName={data?.title} lessonId={lessonId} />
+              <DownView course={data} lessonId={lessonId} />
             </div>
           </div>
         </div>
         <div className='col-sm-12 col-md-3'>
-          <RateCourse />
+          {/* <RateCourse /> */}
           <Content {...data} />
         </div>
       </div>
