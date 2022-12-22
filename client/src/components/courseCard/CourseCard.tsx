@@ -158,7 +158,10 @@ function CourseCard(courseProps: {
                 )}
                 {courseProps.percent == -1 && <Price {...props.price} />}
                 {courseProps.percent != -1 && (
-                  <ProgressBar completed={courseProps.percent} />
+                  <ProgressBar
+                    completed={courseProps.percent}
+                    courseID={courseProps?.pprops?.id}
+                  />
                 )}
               </div>
               {(useUser === null ||

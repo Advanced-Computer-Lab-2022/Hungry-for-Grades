@@ -6,7 +6,7 @@ function Announcement(props: ICourse) {
       {props.announcements && (
         <div className='col'>
           {props.announcements.map((a, index) => (
-            <div key={a._id} className='row m-3 border rounded-3'>
+            <div key={a._id} className='row m-3'>
               {a.title && (
                 <h3 className='strong my-2 text-dark'>
                   {index + 1}. {a.title}

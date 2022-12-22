@@ -1,5 +1,6 @@
 export default function toSmallNumber(number: number) {
   if (typeof number !== 'number') number = parseInt(number);
+  if (typeof number !== 'number') return 0;
 
   if (number > 1000000000) {
     return `${(number / 1000000000).toFixed(1)}B`;
@@ -14,7 +15,7 @@ export default function toSmallNumber(number: number) {
     return '999+';
   }
   if (number < 10) {
-    return `${number}`;
+    return `${number.toFixed(1)}`;
   }
-  return `${number}`;
+  return `${number.toFixed(1)}`;
 }

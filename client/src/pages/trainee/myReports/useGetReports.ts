@@ -10,7 +10,7 @@ import { AllReport } from '@/interfaces/reports.interface';
 async function getReports(activePage: number, user: IUser) {
   const Reports = ReportDataService.GET.getReports;
 
-  Reports.query = `page=${activePage}&_user=${user?._id}`;
+  Reports.query = `page=${activePage}&limit=${10}&_user=${user?._id}`;
 
   return getRequest<HttpResponse<AllReport[]>>(Reports);
 }
