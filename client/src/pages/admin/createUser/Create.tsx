@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 
-import TextArea from '../TextArea';
 
 import '@pages/instructor/coursesData/nav-button.scss';
 // eslint-disable-next-line css-modules/no-unused-class
@@ -16,11 +15,14 @@ import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
+import Input from '@/components/inputs/input/Input';
 
 export default function Create() {
   const { mutateAsync: createUser } = usePostQuery();
 
+
   const [chosenTab, setChosenTab] = useState<string>('Instructor'); 
+
   async function createAdmin(
     values: {
       name: string;
@@ -152,6 +154,7 @@ export default function Create() {
         confirmPassword: '',
         corporate: ''
       }}
+      
       validationSchema={ValidationSchema}
       onSubmit={async function (
         values: {
@@ -169,8 +172,7 @@ export default function Create() {
         else await createinstructor(values, actions);
       }}
     >
-      {function (actions) {
-        return (
+      {formik => (
           <Form>
             <div className={`${styles.hero ?? ''} card p-5`}>
               <div
@@ -193,7 +195,7 @@ export default function Create() {
                       type='button'
                       onClick={() => {
                         setChosenTab('Instructor');
-                        actions.resetForm();
+                        formik.resetForm();
                       }}
                       id = 'Create_ChooseInstructorTab'
                     >
@@ -201,12 +203,12 @@ export default function Create() {
                     </button>
                     <button
                       className={`navButton ${
-                        chosenTab === 'C' ? 'activeNavButton' : ''
+                        chosenTab === 'Corporate' ? 'activeNavButton' : ''
                       }`}
                       type='button'
                       onClick={() => {
                         setChosenTab('Corporate');
-                        actions.resetForm();
+                        formik.resetForm();
                       }}
                       id='Create_ChooseCorporateTraineeTab'
                     >
@@ -219,7 +221,7 @@ export default function Create() {
                       type='button'
                       onClick={() => {
                         setChosenTab('Admin');
-                        actions.resetForm();
+                        formik.resetForm();
                       }}
                       id = 'Create_ChooseAdminTab'
                     >
@@ -231,55 +233,135 @@ export default function Create() {
                       <div className='col-12 col-lg-5'>
                         <label>
                           <span>Name</span>
-                          <input style={{ display: 'none' }} id='Create_NameInput' />
-                          <TextArea name='Name' placeholder={''} type='text' />
+                          <Input
+          correctMessage=''
+          errorMessage={formik.errors.name}
+          hint=''
+          id='Create_NameInput'
+          isError={
+            formik.touched.name && formik.errors.name ? true : null
+          }
+          isTop={false}
+          label={'Name'}
+          name={'name'}
+          placeholder='Name'
+          size={0}
+          type='text'
+          value={formik.values.name}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                         </label>
                       </div>
                       <div className='col-12 col-lg-5'>
                         <label>
                           <span>UserName</span>
-                          <input style={{ display: 'none' }} type='text' id='Create_UserNameInput' />
-                          <TextArea
-                            name='username'
-                            placeholder={''}
-                            type='text'
-                          />
+                          <Input
+          correctMessage=''
+          errorMessage={formik.errors.userName}
+          hint=''
+          id='Create_UserNameInput'
+          isError={
+            formik.touched.userName && formik.errors.userName ? true : null
+          }
+          isTop={false}
+          label={'UserName'}
+          name={'userName'}
+          placeholder='UserName'
+          size={0}
+          type='text'
+          value={formik.values.userName}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                         </label>
                       </div>
                     </div>
                     {chosenTab === 'Corporate' && (
                       <label>
                         <span>Corporate</span>
-                        <input style={{ display: 'none' }} type='text' id='Create_CorporateInput' />
-                        <TextArea
-                          name='corporate'
-                          placeholder={''}
-                          type='text'
-                        />
+                        <Input
+          correctMessage=''
+          errorMessage={formik.errors.corporate}
+          hint=''
+          id='Create_CorporateInput'
+          isError={
+            formik.touched.corporate && formik.errors.corporate ? true : null
+          }
+          isTop={false}
+          label={'Corporate Name'}
+          name={'corporate'}
+          placeholder='Corporate Name'
+          size={0}
+          type='text'
+          value={formik.values.corporate}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                       </label>
                     )}
                     <label>
                       <span>Email</span>
-                      <input style={{ display: 'none' }} type='email' id='Create_EmailInput' />
-                      <TextArea name='email' placeholder={''} type='text' />
+                      <Input
+          correctMessage=''
+          errorMessage={formik.errors.email}
+          hint=''
+          id='Create_EmailInput'
+          isError={
+            formik.touched.email && formik.errors.email ? true : null
+          }
+          isTop={false}
+          label={'Email'}
+          name={'email'}
+          placeholder='E-mail'
+          size={0}
+          type='text'
+          value={formik.values.email}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                     </label>
                     <label>
                       <span>Password</span>
-                      <input style={{ display: 'none' }} type='password' id = 'Create_PasswordInput' />
-                      <TextArea
-                        name='password'
-                        placeholder={''}
-                        type='password'
-                      />
+                      <Input
+          correctMessage=''
+          errorMessage={formik.errors.password}
+          hint=''
+          id='Create_PasswordInput'
+          isError={
+            formik.touched.password && formik.errors.password ? true : null
+          }
+          isTop={false}
+          label={'Password'}
+          name={'password'}
+          placeholder='Password'
+          size={0}
+          type='text'
+          value={formik.values.password}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                     </label>
                     <label style={{ marginBottom: '1.5rem' }}>
                       <span>Confirm Password</span>
-                      <input style={{ display: 'none' }} type='password' id = 'Create_ConfirmPasswordInput' />
-                      <TextArea
-                        name='confirmPassword'
-                        placeholder={''}
-                        type='password'
-                      />
+                      <Input
+          correctMessage=''
+          errorMessage={formik.errors.confirmPassword}
+          hint=''
+          id='Create_ConfirmPasswordInput'
+          isError={
+            formik.touched.confirmPassword && formik.errors.confirmPassword ? true : null
+          }
+          isTop={false}
+          label={'Confirm Password'}
+          name={'confirmPassword'}
+          placeholder='Retype your Password'
+          size={0}
+          type='text'
+          value={formik.values.confirmPassword}
+          onBlurFunc={formik.handleBlur}
+          onChangeFunc={formik.handleChange}
+        />
                     </label>
                     <div className='d-flex flex-row justify-content-end'>
                       <button
@@ -298,8 +380,7 @@ export default function Create() {
               </div>
             </div>
           </Form>
-        );
-      }}
+      )}
     </Formik>
   );
 }
