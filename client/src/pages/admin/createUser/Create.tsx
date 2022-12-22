@@ -20,20 +20,19 @@ import { toastOptions } from '@/components/toast/options';
 export default function Create() {
   const { mutateAsync: createUser } = usePostQuery();
 
-  const [inst, setInst] = useState<string>('Instructor');
-
+  const [chosenTab, setChosenTab] = useState<string>('Instructor'); 
   async function createAdmin(
     values: {
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
       corporate: string;
     },
     actions: FormikHelpers<{
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
@@ -46,34 +45,34 @@ export default function Create() {
         address: values.email
       },
       password: values.password,
-      username: values.username,
-      name: values.Name,
+      username: values.userName,
+      name: values.name,
       address: {
         city: '',
         country: ''
       },
       role: 'Admin'
     };
-    const resp = await createUser(AdminRoutee);
-    const succ = resp?.response?.data?.success;
-    if (succ == undefined)
+    const response = await createUser(AdminRoutee);
+    const success = response?.response?.data?.success;
+    if (success == undefined)
       toast.success('Admin Created Successfully', toastOptions);
-    else toast.error(resp?.response?.data?.message, toastOptions);
+    else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
 
   async function createinstructor(
     values: {
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
       corporate: string;
     },
     actions: FormikHelpers<{
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
@@ -86,34 +85,34 @@ export default function Create() {
         address: values.email
       },
       password: values.password,
-      username: values.username,
-      name: values.Name,
+      username: values.userName,
+      name: values.name,
       address: {
         city: '',
         country: ''
       },
       role: 'Instructor'
     };
-    const resp = await createUser(AdminRoutee);
-    const succ = resp?.response?.data?.success;
-    if (succ == undefined)
+    const response = await createUser(AdminRoutee);
+    const success = response?.response?.data?.success;
+    if (success == undefined)
       toast.success('Instructor Created Successfully', toastOptions);
-    else toast.error(resp?.response?.data?.message, toastOptions);
+    else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
 
   async function createTrainee(
     values: {
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
       corporate: string;
     },
     actions: FormikHelpers<{
-      Name: string;
-      username: string;
+      name: string;
+      userName: string;
       email: string;
       password: string;
       confirmPassword: string;
@@ -126,8 +125,8 @@ export default function Create() {
         address: values.email
       },
       password: values.password,
-      username: values.username,
-      name: values.Name,
+      username: values.userName,
+      name: values.name,
       address: {
         city: '',
         country: ''
@@ -135,19 +134,19 @@ export default function Create() {
       corporate: values.corporate,
       role: 'Trainee'
     };
-    const resp = await createUser(AdminRoutee);
-    const succ = resp?.response?.data?.success;
-    if (succ == undefined)
+    const response = await createUser(AdminRoutee);
+    const success = response?.response?.data?.success;
+    if (success == undefined)
       toast.success('Corporate Trainee Created Successfully', toastOptions);
-    else toast.error(resp?.response?.data?.message, toastOptions);
+    else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
 
   return (
     <Formik
       initialValues={{
-        Name: '',
-        username: '',
+        name: '',
+        userName: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -156,8 +155,8 @@ export default function Create() {
       validationSchema={ValidationSchema}
       onSubmit={async function (
         values: {
-          Name: string;
-          username: string;
+          name: string;
+          userName: string;
           email: string;
           password: string;
           confirmPassword: string;
@@ -165,8 +164,8 @@ export default function Create() {
         },
         actions
       ) {
-        if (inst == 'Admin') await createAdmin(values, actions);
-        else if (inst == 'C') await createTrainee(values, actions);
+        if (chosenTab == 'Admin') await createAdmin(values, actions);
+        else if (chosenTab == 'Corporate') await createTrainee(values, actions);
         else await createinstructor(values, actions);
       }}
     >
@@ -189,37 +188,40 @@ export default function Create() {
                   >
                     <button
                       className={`navButton ${
-                        inst === 'Instructor' ? 'activeNavButton' : ''
+                        chosenTab === 'Instructor' ? 'activeNavButton' : ''
                       }`}
                       type='button'
                       onClick={() => {
-                        setInst('Instructor');
+                        setChosenTab('Instructor');
                         actions.resetForm();
                       }}
+                      id = 'Create_ChooseInstructorTab'
                     >
                       Instructor
                     </button>
                     <button
                       className={`navButton ${
-                        inst === 'C' ? 'activeNavButton' : ''
+                        chosenTab === 'C' ? 'activeNavButton' : ''
                       }`}
                       type='button'
                       onClick={() => {
-                        setInst('C');
+                        setChosenTab('Corporate');
                         actions.resetForm();
                       }}
+                      id='Create_ChooseCorporateTraineeTab'
                     >
                       Corporate Trainee
                     </button>
                     <button
                       className={`navButton ${
-                        inst === 'Admin' ? 'activeNavButton' : ''
+                        chosenTab === 'Admin' ? 'activeNavButton' : ''
                       }`}
                       type='button'
                       onClick={() => {
-                        setInst('Admin');
+                        setChosenTab('Admin');
                         actions.resetForm();
                       }}
+                      id = 'Create_ChooseAdminTab'
                     >
                       Admin
                     </button>
@@ -229,14 +231,14 @@ export default function Create() {
                       <div className='col-12 col-lg-5'>
                         <label>
                           <span>Name</span>
-                          <input style={{ display: 'none' }} />
+                          <input style={{ display: 'none' }} id='Create_NameInput' />
                           <TextArea name='Name' placeholder={''} type='text' />
                         </label>
                       </div>
                       <div className='col-12 col-lg-5'>
                         <label>
                           <span>UserName</span>
-                          <input style={{ display: 'none' }} type='text' />
+                          <input style={{ display: 'none' }} type='text' id='Create_UserNameInput' />
                           <TextArea
                             name='username'
                             placeholder={''}
@@ -245,10 +247,10 @@ export default function Create() {
                         </label>
                       </div>
                     </div>
-                    {inst === 'C' && (
+                    {chosenTab === 'Corporate' && (
                       <label>
                         <span>Corporate</span>
-                        <input style={{ display: 'none' }} type='text' />
+                        <input style={{ display: 'none' }} type='text' id='Create_CorporateInput' />
                         <TextArea
                           name='corporate'
                           placeholder={''}
@@ -258,12 +260,12 @@ export default function Create() {
                     )}
                     <label>
                       <span>Email</span>
-                      <input style={{ display: 'none' }} type='email' />
+                      <input style={{ display: 'none' }} type='email' id='Create_EmailInput' />
                       <TextArea name='email' placeholder={''} type='text' />
                     </label>
                     <label>
                       <span>Password</span>
-                      <input style={{ display: 'none' }} type='password' />
+                      <input style={{ display: 'none' }} type='password' id = 'Create_PasswordInput' />
                       <TextArea
                         name='password'
                         placeholder={''}
@@ -272,7 +274,7 @@ export default function Create() {
                     </label>
                     <label style={{ marginBottom: '1.5rem' }}>
                       <span>Confirm Password</span>
-                      <input style={{ display: 'none' }} type='password' />
+                      <input style={{ display: 'none' }} type='password' id = 'Create_ConfirmPasswordInput' />
                       <TextArea
                         name='confirmPassword'
                         placeholder={''}
@@ -283,6 +285,7 @@ export default function Create() {
                       <button
                         className={`btn btn-primary btn-lg`}
                         type='submit'
+                        id = 'Create_Submit'
                       >
                         Submit
                       </button>
