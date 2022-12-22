@@ -46,8 +46,8 @@ class PaymentService {
       payment_method_types: ['card'],
       //success_url: `${process.env.CLIENT_URL}/success.html`,
       //cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
-      success_url: 'http://www.example.com/',
-      cancel_url: 'http://www.example.com/',
+      success_url: `${process.env.CLIENT_URL}trainee/payment-accepted?walletUsed=false`,
+      cancel_url: `${process.env.CLIENT_URL}trainee/payment-rejected`,
     });
 
     return session.url;

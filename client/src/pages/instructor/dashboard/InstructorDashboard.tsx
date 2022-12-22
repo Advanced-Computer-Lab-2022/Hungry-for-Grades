@@ -14,7 +14,8 @@ const navLinks = {
   Courses: { path: '/instructor/my-courses', icon: <BsFillBookFill /> },
   'Rating & Reviews': { path: '/instructor/rating-review', icon: <BiNote /> },
   Payment: { path: '/instructor/payment', icon: <AiFillCreditCard /> },
-  Profile: { path: '/instructor/profile', icon: <FiUser /> }
+  Profile: { path: '/instructor/profile', icon: <FiUser /> },
+  Earnings: { path: '/instructor/earnings', icon: <></> }
 };
 
 function InstructorDashboard() {

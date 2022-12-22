@@ -14,8 +14,7 @@ import Input from '@components/inputs/input/Input';
 
 import usePostQuery from '@/hooks/usePostQuery';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
-
-const id = '637969352c3f71696ca34759';
+import { UseUser } from '@/store/userStore';
 
 const validationSchema = Yup.object({
   oldPassword: Yup.string()
@@ -40,6 +39,9 @@ const initialValues: TraineeData = {
 };
 
 export default function ChangePassword() {
+  const user = UseUser();
+  const id = user?._id;
+
   const { mutateAsync: changePassword } = usePostQuery();
 
   const submitAction = useCallback(
@@ -82,7 +84,7 @@ export default function ChangePassword() {
       oldPassword: formik.values.oldPassword,
       newPassword: formik.values.newPassword,
       role: 'Trainee',
-      _id: id
+      _id: id as string
     };
     void submitAction(submittedValues); //need to be revised
   }
@@ -95,6 +97,7 @@ export default function ChangePassword() {
           correctMessage=''
           errorMessage={formik.errors.oldPassword}
           hint=''
+          id={'trainee-current-password'}
           isError={
             formik.touched.oldPassword && formik.errors.oldPassword
               ? true
@@ -105,7 +108,7 @@ export default function ChangePassword() {
           name={'oldPassword'}
           placeholder='Please Enter the Current Password'
           size={0}
-          type='text'
+          type='password'
           value={formik.values.oldPassword}
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
@@ -116,6 +119,7 @@ export default function ChangePassword() {
           correctMessage={''}
           errorMessage={formik.errors.newPassword}
           hint={''}
+          id={'trainee-new-password'}
           isError={
             formik.touched.newPassword && formik.errors.newPassword
               ? true
@@ -137,6 +141,7 @@ export default function ChangePassword() {
           correctMessage={''}
           errorMessage={formik.errors.confirmPassword}
           hint={''}
+          id={'trainee-confirm-password'}
           isError={
             formik.touched.confirmPassword && formik.errors.confirmPassword
               ? true

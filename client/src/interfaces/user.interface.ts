@@ -18,6 +18,7 @@ interface IUser {
   country: string;
   balance?: number;
   currency?: string;
+  biography?: string;
 }
 export type Address = {
   city: string;

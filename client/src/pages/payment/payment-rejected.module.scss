@@ -1,0 +1,30 @@
+.box {
+  padding: 2rem 2.5rem;
+  margin: 2rem auto;
+  width: 26rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+.failure_text {
+  color: #ed1b24;
+  font-weight: 600;
+  font-size: 1.5rem;
+  padding: 0.3rem 0;
+}
+
+.transaction_text {
+  color: rgb(172, 172, 172);
+  font-size: 0.77rem;
+}
+
+.reject_btn {
+  background-color: #ed1b24;
+  color: white;
+  margin-top: 1.5rem;
+  margin-bottom: -1rem;
+}
+
+.reject_btn:hover {
+  background-color: #b31313;
+}

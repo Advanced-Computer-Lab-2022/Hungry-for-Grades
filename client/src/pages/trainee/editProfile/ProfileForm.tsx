@@ -89,6 +89,7 @@ export default function ProfileForm(props: PropsTraineeData) {
           correctMessage=''
           errorMessage={formik.errors.name}
           hint=''
+          id='trainee-name'
           isError={formik.touched.name && formik.errors.name ? true : null}
           isTop={false}
           label={'Name'}
@@ -106,6 +107,7 @@ export default function ProfileForm(props: PropsTraineeData) {
           correctMessage={''}
           errorMessage={formik.errors.email?.address}
           hint={''}
+          id='trainee-email'
           isError={
             formik.touched.email?.address && formik.errors.email?.address
               ? true
@@ -144,6 +146,7 @@ export default function ProfileForm(props: PropsTraineeData) {
           correctMessage={''}
           errorMessage={formik.errors.username}
           hint={''}
+          id='trainee-username'
           isError={
             formik.touched.username && formik.errors.username ? true : null
           }
@@ -163,6 +166,7 @@ export default function ProfileForm(props: PropsTraineeData) {
           correctMessage={''}
           errorMessage={formik.errors.phone}
           hint={''}
+          id='trainee-phone'
           isError={formik.touched.phone && formik.errors.phone ? true : null}
           isTop={false}
           label={'Phone Number'}
