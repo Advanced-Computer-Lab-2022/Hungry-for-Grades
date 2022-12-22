@@ -1,8 +1,8 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionItemHeading,
   AccordionItemButton,
+  AccordionItemHeading,
   AccordionItemPanel
 } from 'react-accessible-accordion';
 import { Link } from 'react-router-dom';
@@ -21,7 +21,7 @@ function Content(props: ICourse) {
         style={{ overflowY: 'scroll', overflowX: 'hidden', height: '100%' }}
       >
         <Accordion allowZeroExpanded>
-          {props.sections.map((sec, sectionIndex) => (
+          {props.sections.map((sec) => (
             <AccordionItem key={sec.title}>
               <AccordionItemHeading>
                 <AccordionItemButton>
@@ -40,7 +40,7 @@ function Content(props: ICourse) {
               <AccordionItemPanel>
                 {sec.lessons ? (
                   <ol className='list-group'>
-                    {sec.lessons.map((l, lessonIndex) => (
+                    {sec.lessons.map((l) => (
                       <Link
                         key={l.title}
                         className='btn btn-light text-start'

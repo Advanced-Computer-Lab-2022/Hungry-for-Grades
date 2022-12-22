@@ -42,9 +42,10 @@ export default function LastStudy() {
             <span className={styles.txt}> {course?._course?.title}</span>
             <div style={{ width: '70%' }}>
               <ProgressBar
-                completed={course?.progress == undefined ? 0 : course?.progress} courseID={''}  />
-            </div>
-            {' '}
+                completed={course?.progress == undefined ? 0 : course?.progress}
+                courseID={''}
+              />
+            </div>{' '}
             <Link
               className={styles.cnt}
               to={`/trainee/view-course/${course?._course?._id}`}

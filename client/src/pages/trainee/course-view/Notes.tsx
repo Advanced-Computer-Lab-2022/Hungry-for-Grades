@@ -357,7 +357,6 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
               role='alert'
             >
               No notes found
-              
             </div>
           </div>
         )}

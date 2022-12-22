@@ -16,12 +16,12 @@ import styles from './navbar.module.scss';
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
-import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@/enums/role.enum';
-import toSmallNumber from '@/utils/toSmallNumber';
-import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
 import { ITrainee } from '@/interfaces/course.interface';
 import { IInstructor } from '@/interfaces/instructor.interface';
+import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import toSmallNumber from '@/utils/toSmallNumber';
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 
 function NavbarComponent() {
   const { data, isError } = useCategoryQuery();
@@ -95,6 +95,7 @@ function NavbarComponent() {
           <Nav className='ml-auto'>
             <Nav.Link>
               <ReactFlagsSelect
+                searchable
                 className={styles.flag__select}
                 placeholder='Country'
                 selected={country}
