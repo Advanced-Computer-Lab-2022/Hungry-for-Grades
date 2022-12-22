@@ -34,6 +34,7 @@ import {
 } from '@/interfaces/course.interface';
 import ProgressStepper from '@/components/progress/progressStepper/ProgressStepper';
 import useMultistepForm from '@/hooks/useMultistepForm';
+import useInstructorId from '@/hooks/useInstuctorId';
 
 // import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 
@@ -57,22 +58,18 @@ const schemas = [
   })
 ];
 
-// TODO: later
-function getCurrentUserID() {
-  //const id = UseParams();
-  //alert(id);
-  //console.log(id);
-  //return id;
-  return '637962792c3f71696ca3473c';
-}
-
 async function submitCourse(
   values: CourseFormValues,
   submitAction: CourseSubmitAction
 ) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const instructorId = useInstructorId();
+  if(!instructorId){
+    return;
+  }
   const course: IAddCourseRequest = {
     ...values.info,
-    instructorID: getCurrentUserID(),
+    instructorID: instructorId,
     level: values.info.level as Level,
     category: 'Web Development',
     captions: [] as string[],
@@ -140,9 +137,9 @@ function CourseForm(props: CourseFormProps) {
       <CourseInfoForm key='CourseInfo' />,
       <CourseOutlineForm key='CourseOutlineForm' />,
       <SectionsForm key='SectionsForm' />
-    ],
-    stepTitles,
-    stepDescriptions
+    ].slice(0, props.isUpdating ? 1 : 3),
+    stepTitles.slice(0, props.isUpdating ? 1 : 3),
+    stepDescriptions.slice(0, props.isUpdating ? 1 : 3)
   );
   const handleSubmit = async (
     values: CourseFormValues,

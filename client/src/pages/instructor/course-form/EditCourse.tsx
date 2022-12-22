@@ -14,6 +14,8 @@ import {
 } from '@/services/axios/dataServices/CoursesDataService';
 
 import { IAddCourseRequest } from '@/interfaces/course.interface';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
+import useInstructorId from '@/hooks/useInstuctorId';
 
 function EditCourse() {
   const country = UseCountry();
@@ -34,6 +36,12 @@ function EditCourse() {
     },
     [navigate, courseid]
   );
+  const redirectToLogin = useRedirectToLogin();
+  const instructorId = useInstructorId();
+  if (!instructorId) {
+    redirectToLogin();
+    return <></>;
+  }
   if (isError) {
     return (
       <h1 className='text-danger text-center'>
@@ -48,6 +56,13 @@ function EditCourse() {
   }
   if (!data) {
     return <></>;
+  }
+  if (!data._instructor.find(ins => ins._id === instructorId)) {
+    return (
+      <h1 className='text-danger text-center'>
+        You are not authorized to edit this course.
+      </h1>
+    );
   }
   const initialValues = {
     info: {
