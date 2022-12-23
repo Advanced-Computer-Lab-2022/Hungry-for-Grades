@@ -1,5 +1,5 @@
 import { UseUser } from '@/store/userStore';
 
-export function useTraineeId(): string | undefined{
+export function useTraineeId(): string | undefined {
   return UseUser()?._id;
 }

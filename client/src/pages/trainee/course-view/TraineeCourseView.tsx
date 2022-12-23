@@ -30,7 +30,7 @@ function LeftView(props: LeftViewProps) {
   const section = props.course.sections.find(s => s._id === props.sectionid);
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
-  if(!traineeId) {
+  if (!traineeId) {
     redirectToLogin();
     return <></>;
   }
@@ -63,10 +63,10 @@ function CourseView() {
   const { courseid, sectionid, itemid, itemType } = useParams();
   const { isError, isLoading, data } = useQuery(
     ['getEnrolledCourseById', courseid, country],
-    () => getEnrolledCourseById(traineeId,courseid)
+    () => getEnrolledCourseById(traineeId, courseid)
   );
   const redirectToLogin = useRedirectToLogin();
-  if(!traineeId) {
+  if (!traineeId) {
     redirectToLogin();
     return <></>;
   }
@@ -74,7 +74,7 @@ function CourseView() {
     return <h1>You are not enrolled in this course</h1>;
   }
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   if (!data) {
     return <></>;

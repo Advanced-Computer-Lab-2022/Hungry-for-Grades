@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './Cart.module.scss';
 
@@ -18,6 +18,7 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 import { getRequest } from '@/services/axios/http-verbs';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import Pagination from '@/components/pagination/Pagination';
+import usePostQuery from '@/hooks/usePostQuery';
 
 async function getCart(country: string, activePage: number, user: IUser) {
   const Courses = TraineeRoutes.GET.getMyCart;
@@ -56,6 +57,7 @@ function getOriginalPrice(
 export default function Cart() {
   const user = UseUser();
 
+  console.log(user);
   const [activePage, setActivePage] = useState(1);
 
   const con = UseCountry();
@@ -63,6 +65,10 @@ export default function Cart() {
   const [whenDeleteCourse, setWhenDeleteCourse] = useState(0);
 
   const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const { mutateAsync: submitPayWithCard } = usePostQuery();
 
   const { isLoading, data, isError, error } = useQuery(
     ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
@@ -112,6 +118,27 @@ export default function Cart() {
   let total = 0;
 
   let currency = '';
+
+  let isHavingLessBalance = false;
+
+  const submitPayWithCardHandler = async () => {
+    const payment = TraineeRoutes.POST.checkout;
+    payment.URL = `/payment/checkout/${encodeURIComponent(
+      user?._id as string
+    )}?country=${con}`;
+    const res = await submitPayWithCard(payment);
+    if (res?.status === 200) {
+      window.location.replace(res?.data?.data);
+    }
+  };
+
+  const submitPayWithBalance = () => {
+    if ((user?.balance as number) >= total) {
+      navigate('../payment-accepted?walletUsed=true');
+    } else {
+      isHavingLessBalance = true;
+    }
+  };
 
   const toShow = cart?.map((course: ICourse) => {
     const oldd: number | undefined = getOriginalPrice(
@@ -227,17 +254,20 @@ export default function Cart() {
                     </span>
                   </div>
                 )}
-                <div>
+                <div className={styles.btns}>
                   <button
-                    className='btn btn-primary btn-lg btn-block'
+                    className='btn btn-primary btn'
+                    disabled={!data?.data?.totalResults}
                     type='button'
+                    onClick={submitPayWithCardHandler}
                   >
-                    Checkout
+                    Pay with Card
                   </button>
                   <button
-                    className='btn btn-primary btn-lg btn-block'
-                    style={{ marginLeft: '2rem' }}
+                    className='btn btn-primary btn'
+                    disabled={!data?.data?.totalResults || isHavingLessBalance}
                     type='button'
+                    onClick={submitPayWithBalance}
                   >
                     Pay with Balance
                   </button>
