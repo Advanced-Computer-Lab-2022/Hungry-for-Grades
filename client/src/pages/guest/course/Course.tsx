@@ -9,6 +9,9 @@ import CourseHeader from './CourseHeader';
 import PreviewVideo from './PreviewVideo';
 
 import CourseReviewList from './CourseReviewList';
+import CoursePreviewBox from './CoursePreviewBox';
+
+import styles from './course.module.scss';
 
 import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
@@ -16,6 +19,7 @@ import { UseCountry } from '@/store/countryStore';
 import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+
 
 function Course() {
   const country = UseCountry();
@@ -47,21 +51,44 @@ function Course() {
   }
 
   return (
-      
-      <div className='container'>
-        <CourseHeader {...data} />
-        <PreviewVideo {...data} />
-        <section>
-          <CourseOverview {...data} />
-        </section>
-        <section>
-          <CourseContent {...data} />
-        </section>
-        <a href='/' id='reviews' style={{display: 'block', position: 'relative', top: '-57px', visibility: 'hidden' }}>Reviews</a>
-        <section>
-          <CourseReviewList id={data._id} />
-        </section>
+    <div>
+      <div className={`${styles['preview-box-container'] ?? ''} mt-4`}>
+        <CoursePreviewBox />
       </div>
+      <div className='bg-dark'>
+        <div className='container'>
+          <div className={`${styles['content-container'] ?? ''}`}>
+            <CourseHeader {...data} />
+          </div>
+        </div>
+      </div>
+      <div className='container'>
+        <div className={`${styles['content-container'] ?? ''}`}>
+          <PreviewVideo {...data} />
+          <section>
+            <CourseOverview {...data} />
+          </section>
+          <section>
+            <CourseContent {...data} />
+          </section>
+          <a
+            href='/'
+            id='reviews'
+            style={{
+              display: 'block',
+              position: 'relative',
+              top: '-57px',
+              visibility: 'hidden'
+            }}
+          >
+            Reviews
+          </a>
+          <section>
+            <CourseReviewList id={data._id} />
+          </section>
+        </div>
+      </div>
+    </div>
   );
 }
 
