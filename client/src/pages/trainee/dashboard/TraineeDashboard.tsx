@@ -15,7 +15,7 @@ const corpLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
-  Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
   Reports: { path: '/trainee/my-reports', icon: <></> }
@@ -27,7 +27,7 @@ const traineeLinks = {
   Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
-  Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
   Reports: { path: '/trainee/my-reports', icon: <></> }
