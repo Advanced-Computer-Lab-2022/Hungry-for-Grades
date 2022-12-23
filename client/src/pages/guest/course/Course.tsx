@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useParams } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
@@ -40,6 +39,7 @@ function Course() {
   const category = data?.category;
   const subCategory = data?.subcategory.at(0);
   if (category && subCategory) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useCacheStoreSetData({
       category: category,
       subCategory: subCategory
@@ -47,19 +47,21 @@ function Course() {
   }
 
   return (
-    <div className='container'>
-      <CourseHeader {...data} />
-      <PreviewVideo {...data} />
-      <section>
-        <CourseOverview {...data} />
-      </section>
-      <section>
-        <CourseContent {...data} />
-      </section>
-      <section>
-        <CourseReviewList id={data._id} />
-      </section>
-    </div>
+      
+      <div className='container'>
+        <CourseHeader {...data} />
+        <PreviewVideo {...data} />
+        <section>
+          <CourseOverview {...data} />
+        </section>
+        <section>
+          <CourseContent {...data} />
+        </section>
+        <a href='/' id='reviews' style={{display: 'block', position: 'relative', top: '-57px', visibility: 'hidden' }}>Reviews</a>
+        <section>
+          <CourseReviewList id={data._id} />
+        </section>
+      </div>
   );
 }
 

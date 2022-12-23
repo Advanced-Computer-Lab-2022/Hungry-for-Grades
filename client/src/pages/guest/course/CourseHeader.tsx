@@ -40,7 +40,7 @@ function CourseHeader(props: ICourse) {
       </div>
       <div className={`text-light`}>
         Duration: &nbsp;
-        {formatDuration(props.duration)}
+        {formatDuration(props.duration * 60)}
       </div>
       <Price {...props.price} />
     </div>
