@@ -79,6 +79,8 @@ export default function Cart() {
     }
   );
 
+  const [isHavingLessBalance, setIsHavingLessBalance] = useState(false);
+
   if (isError || error) {
     return (
       <ErrorMessage
@@ -119,8 +121,6 @@ export default function Cart() {
 
   let currency = '';
 
-  let isHavingLessBalance = false;
-
   const submitPayWithCardHandler = async () => {
     const payment = TraineeRoutes.POST.checkout;
     payment.URL = `/payment/checkout/${encodeURIComponent(
@@ -136,7 +136,7 @@ export default function Cart() {
     if ((user?.balance as number) >= total) {
       navigate('../payment-accepted?walletUsed=true');
     } else {
-      isHavingLessBalance = true;
+      setIsHavingLessBalance(true);
     }
   };
 
@@ -271,6 +271,11 @@ export default function Cart() {
                   >
                     Pay with Balance
                   </button>
+                  {isHavingLessBalance && (
+                    <div className='mt-2 text-danger text-center'>
+                      No enough balance
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

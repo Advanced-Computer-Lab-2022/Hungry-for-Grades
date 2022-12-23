@@ -63,9 +63,6 @@ const LazyTraineeEnrolledCourses = lazy(
 const LazyTraineeDashboard = lazy(
   () => import('@pages/trainee/dashboard/TraineeDashboard')
 );
-const LazyTraineeChangePassword = lazy(
-  () => import('@/pages/trainee/editProfile/change-password/ChangePassword')
-);
 // notes
 const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
 const LazyTraineeNoteEdit = lazy(
@@ -120,12 +117,7 @@ const LazyMyReview = lazy(
 const LazyInstructorEditProfile = lazy(
   () => import('@/pages/InstructorProfile/edit-profile/Profile')
 );
-const LazyInstructorChangePassword = lazy(
-  () =>
-    import(
-      '@/pages/InstructorProfile/edit-profile/change-password/ChangePassword'
-    )
-);
+
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
 );
@@ -237,10 +229,6 @@ function AllRoutes() {
             />
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
-            <Route
-              element={<LazyTraineeChangePassword />}
-              path='change-password'
-            />
 
             <Route path='notes'>
               <Route index element={<LazyTraineeNoteList />} />
@@ -293,10 +281,6 @@ function AllRoutes() {
           <Route element={<LazyInstructorCoursesSection />} path='' />
           <Route element={<LazyMyReview />} path='rating-review' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
-          <Route
-            element={<LazyInstructorChangePassword />}
-            path='change-password'
-          />
         </Route>
 
         {/* Admin Routes */}

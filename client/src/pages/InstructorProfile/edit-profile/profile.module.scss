@@ -1,0 +1,21 @@
+.item__list {
+  font-size: 1rem;
+  background-color: transparent;
+  color: grey;
+  font-weight: 400;
+  padding: 0.5rem 0.65rem;
+  margin: 0.3rem 0;
+  cursor: pointer;
+  max-width: 6rem;
+  width: 100%;
+  border: none !important;
+  text-align: left;
+}
+
+.item__list:hover,
+.active__link {
+  font-weight: 500;
+  background-color: rgb(238, 239, 240);
+  color: black;
+  border-radius: 11px;
+}
