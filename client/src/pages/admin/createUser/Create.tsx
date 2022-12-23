@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 
