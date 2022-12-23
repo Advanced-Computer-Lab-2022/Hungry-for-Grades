@@ -1,0 +1,22 @@
+.input_field {
+  width: 100%;
+  border: 1px solid rgb(217, 218, 219);
+  border-radius: 6px;
+  background-color: white;
+  padding: 0.3rem 0.7rem;
+  color: black;
+}
+
+.img__container {
+  border-radius: 50%;
+  width: 9rem;
+  height: 9rem;
+  object-fit: cover;
+  border: 1px solid #fc3535;
+}
+
+.hr__line {
+  height: 1px;
+  border: 1px solid rgb(217, 218, 219);
+  margin: 0.7rem 0.5rem;
+}
