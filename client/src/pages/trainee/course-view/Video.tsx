@@ -1,4 +1,8 @@
-import { ICourseLesson } from '@/interfaces/course.interface';
+import { useQuery } from '@tanstack/react-query';
+
+import { useTraineeId } from '@/hooks/useTraineeId';
+import { getLessonById } from '@/services/axios/dataServices/CoursesDataService';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -14,11 +18,25 @@ function getEmbedUrl(url: string) {
   }
   return `https://www.youtube.com/embed/${id}`;
 }
-function Video(props: ICourseLesson) {
-  const embeddedUrl = getEmbedUrl(props.videoURL);
+function Video(props: { lessonId: string; courseId: string }) {
+  const userId = useTraineeId();
+  const { data, isError, isLoading } = useQuery(
+    ['getLessonById', props.lessonId, props.courseId, userId],
+    () => getLessonById(props.courseId, props.lessonId, userId)
+  );
+  if(isLoading) {
+    return <Loader />;
+  }
+  if(isError) {
+    return <h1 className='text-danger'>An error has occured while loading page</h1>;
+  }
+  if(!data) {
+    return <></>;
+  }
+  const embeddedUrl = getEmbedUrl(data.videoURL);
   return (
     <>
-      <h2 className='text-dark text-center my-3'>{props.title}</h2>
+      <h2 className='text-dark text-center my-3'>{data.title}</h2>
       <p
         style={{
           position: 'relative',
@@ -40,11 +58,11 @@ function Video(props: ICourseLesson) {
               top: 0,
               border: 0
             }}
-            title={props.title}
+            title={data.title}
           />
         )}
       </p>
-      <p className='m-3'>{props.description}</p>
+      <p className='m-3'>{data.description}</p>
     </>
   );
 }

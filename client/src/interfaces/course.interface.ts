@@ -94,7 +94,7 @@ export type Review = {
   rating: number;
 };
 export type ICourseReview = {
-  _traineeId: string;
+  _traineeId: string | undefined;
   comment: string;
   createdAt: Date;
   rating: number;
