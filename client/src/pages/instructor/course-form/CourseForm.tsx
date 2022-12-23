@@ -64,7 +64,7 @@ async function submitCourse(
 ) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const instructorId = useInstructorId();
-  if(!instructorId){
+  if (!instructorId) {
     return;
   }
   const course: IAddCourseRequest = {

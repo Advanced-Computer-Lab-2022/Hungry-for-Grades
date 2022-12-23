@@ -231,8 +231,6 @@ export default function Create() {
                   <div className='container'>
                     <div className='row'>
                       <div className='col-12 col-lg-5'>
-                        <label>
-                          <span>Name</span>
                           <Input
           correctMessage=''
           errorMessage={formik.errors.name}
@@ -251,11 +249,9 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                        </label>
                       </div>
+                      <div className='col-0 col-lg-2'/>
                       <div className='col-12 col-lg-5'>
-                        <label>
-                          <span>UserName</span>
                           <Input
           correctMessage=''
           errorMessage={formik.errors.userName}
@@ -274,12 +270,10 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                        </label>
                       </div>
                     </div>
                     {chosenTab === 'Corporate' && (
-                      <label>
-                        <span>Corporate</span>
+         
                         <Input
           correctMessage=''
           errorMessage={formik.errors.corporate}
@@ -298,10 +292,8 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                      </label>
                     )}
-                    <label>
-                      <span>Email</span>
+
                       <Input
           correctMessage=''
           errorMessage={formik.errors.email}
@@ -320,9 +312,11 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                    </label>
-                    <label>
-                      <span>Password</span>
+                              <div className='row'>
+
+
+                              <div className='col-12 col-lg-5'>
+
                       <Input
           correctMessage=''
           errorMessage={formik.errors.password}
@@ -341,10 +335,9 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                    </label>
-                    <label style={{ marginBottom: '1.5rem' }}>
-                      <span>Confirm Password</span>
-                      <Input
+        </div>
+        <div className='col-12 col-lg-5'>
+ <Input
           correctMessage=''
           errorMessage={formik.errors.confirmPassword}
           hint=''
@@ -362,7 +355,8 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                    </label>
+                              </div>
+
                     <div className='d-flex flex-row justify-content-end'>
                       <button
                         className={`btn btn-primary btn-lg`}

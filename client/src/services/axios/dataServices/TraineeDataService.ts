@@ -213,11 +213,13 @@ export async function getEnrolledCourseById(
   traineeId: string | undefined,
   courseId: string | undefined
 ): Promise<EnrolledCourse | null> {
-  if(!traineeId || !courseId) {
+  if (!traineeId || !courseId) {
     return null;
   }
   const enrolledCourse = TraineeRoutes.GET.getEnrolledCourseById;
-  enrolledCourse.URL = `/trainee/${encodeURIComponent(traineeId)}/course/${encodeURIComponent(courseId)}`;
+  enrolledCourse.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}`;
   const res = await getRequest<HttpResponse<EnrolledCourse>>(enrolledCourse);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
