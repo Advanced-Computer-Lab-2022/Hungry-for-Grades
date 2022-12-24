@@ -18,27 +18,28 @@ import { UseUser } from '@/store/userStore';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+const date = new Date();
+const year = date.getFullYear();
 const options = [
   {
-    label: '2018',
-    value: '2018'
+    label: year - 4,
+    value: year - 4
   },
   {
-    label: '2019',
-    value: '2019'
+    label: year - 3,
+    value: year - 3
   },
   {
-    label: '2020',
-    value: '2020'
+    label: year - 2,
+    value: year - 2
   },
   {
-    label: '2021',
-    value: '2021'
+    label: year - 1,
+    value: year - 1
   },
   {
-    label: '2022',
-    value: '2022'
+    label: year,
+    value: year
   }
 ];
 

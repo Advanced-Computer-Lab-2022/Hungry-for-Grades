@@ -216,6 +216,45 @@ export default function Cart() {
     );
   });
 
+  const handleSubmit = () => {
+    navigate('/courses');
+  };
+
+  const fontFamily = 'Arial, Helvetica, sans-serif';
+  if (data?.data?.totalResults == 0) {
+    return (
+      <div className='container text-center my-5'>
+        <div
+          className='mb-2'
+          style={{
+            fontFamily: fontFamily,
+            fontWeight: '600',
+            fontSize: '1.3rem'
+          }}
+        >
+          Your cart is empty.
+        </div>
+        <div
+          style={{
+            fontFamily: fontFamily
+          }}
+        >
+          Keep shopping to find the right course for you.
+        </div>
+        <button
+          className='btn btn-primary mt-3'
+          style={{
+            fontFamily: fontFamily
+          }}
+          type='submit'
+          onClick={handleSubmit}
+        >
+          Keep shopping
+        </button>
+      </div>
+    );
+  }
+
   return (
     <section className={styles.shopping_cart}>
       <div className='container'>
