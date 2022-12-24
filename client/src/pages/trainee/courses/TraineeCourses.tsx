@@ -13,6 +13,7 @@ import LoaderCards from '@components/loader/loaderCard/LoaderCards';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
+import { Link } from 'react-router-dom';
 
 export default function MyCourses() {
   const user = UseUser();
@@ -53,7 +54,30 @@ export default function MyCourses() {
   const incoming = data?.data?.data;
 
   if (data?.data?.totalResults == 0) {
-    return <div>You Don;t Have any Courses</div>;
+    return (
+      <div className='container text-center my-5'>
+        <div
+          className='mb-2'
+          style={{
+            fontFamily: 'Arial, Helvetica, sans-serif',
+            fontWeight: '600',
+            fontSize: '1.3rem'
+          }}
+        >
+          Find a course you want to learn today.
+        </div>
+        <div
+          style={{
+            fontFamily: 'Arial, Helvetica, sans-serif'
+          }}
+        >
+          When you enroll in a course, it will appear here.{' '}
+          <Link className='alert-link' to={'../courses'}>
+            Browse now
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   const toShow = incoming?.map(course => {
