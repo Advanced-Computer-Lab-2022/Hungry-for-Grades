@@ -1,13 +1,23 @@
 $previewBoxWidth: 20rem;
+$previewBoxRight: 80px;
 .preview-box-container {
     width: $previewBoxWidth;
     position: fixed;
-    right: 100px;
+    right: $previewBoxRight;
     z-index: 10000;
 }
 
 .content-container {
-    width: calc(100% - $previewBoxWidth);
+    width: calc(100% - $previewBoxWidth - $previewBoxRight/2);
+}
+
+.footer-container {
+    display: none;
+    box-shadow: 0 -2px 4px rgb(0 0 0 / 8%), 0 -4px 12px rgb(0 0 0 / 16%);
+}
+
+.header-preview-video-container {
+    display: none;
 }
 
 @media(max-width: 1024px) {
@@ -17,5 +27,23 @@ $previewBoxWidth: 20rem;
     
     .content-container {
         width: 100%;
-    }   
+    }
+
+    .footer-container {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .header-preview-video-container {
+        display: block;
+    }
+}
+
+@media(max-width: 512px) {
+    .header-preview-video-container {
+        margin-left: -12px;
+    }
 }
