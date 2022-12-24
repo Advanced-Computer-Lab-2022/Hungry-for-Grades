@@ -115,7 +115,7 @@ const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );
 const LazyInstructorEditProfile = lazy(
-  () => import('@/pages/InstructorProfile/edit-profile/Profile')
+  () => import('@/pages/instructor/edit-profile/Profile')
 );
 
 const LazyInstructorDashboard = lazy(
@@ -265,21 +265,23 @@ function AllRoutes() {
           {/* Instructor Dashboard */}
           <Route element={<LazyInstructorDashboard />}>
             <Route
+              index
+              element={<LazyInstructorEarnings />}
+              path='dashboard'
+            />
+            <Route
               element={<LazyInstructorCoursesSection />}
               path='my-courses'
-            />{' '}
-            <Route element={<div />} path='dashboard' />
+            />
+            <Route element={<LazyMyReview />} path='rating-review' />
+
             <Route element={<LazyInstructorEditProfile />} path='profile' />
-            <Route element={<LazyInstructorEarnings />} path='earnings' />
           </Route>
-          <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
-          <Route element={<LazyInstructorCoursesSection />} path='' />
-          <Route element={<LazyMyReview />} path='rating-review' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
         </Route>
 

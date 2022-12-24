@@ -28,7 +28,7 @@ function LineGraph<T>(props: AnalyticsProps<T>) {
           <YAxis />
           <Tooltip />
           <Legend />
-          {props?.graphs.map(line => {
+          {props?.graphs?.map(line => {
             return <Line dataKey={line.name} stroke={line.color} />;
           })}
         </LineChart>

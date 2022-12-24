@@ -26,7 +26,7 @@ function CourseRating(props: Rating) {
       </span>
       {props.reviews ? (
         <a className={`text-light ${styles.reviews ?? ''}`} href='#reviews'>
-          {props.reviews.length} review{props.reviews.length === 1 ?'' : 's'} 
+          {props.reviews.length} review{props.reviews.length === 1 ? '' : 's'}
         </a>
       ) : (
         <></>

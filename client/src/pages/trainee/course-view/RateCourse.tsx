@@ -107,7 +107,7 @@ function RateCourse(props: { courseid: string }) {
       ) : (
         <button
           className='text-secondary mx-2 btn btn-link'
-          style={{textDecoration: 'none'}}
+          style={{ textDecoration: 'none' }}
           type='button'
           onClick={openPopup}
         >
