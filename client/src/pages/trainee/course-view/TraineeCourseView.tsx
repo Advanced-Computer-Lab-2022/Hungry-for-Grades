@@ -34,11 +34,13 @@ function LeftView(props: LeftViewProps) {
   );
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
-  if(isLoading) {
-    return <Loader />
+  if (isLoading) {
+    return <Loader />;
   }
-  if(isError) {
-    return <h1 className='text-danger'>An error has occured while loading page</h1>
+  if (isError) {
+    return (
+      <h1 className='text-danger'>An error has occured while loading page</h1>
+    );
   }
   if (!traineeId) {
     redirectToLogin();
@@ -63,7 +65,7 @@ function LeftView(props: LeftViewProps) {
   if (!props.itemid) {
     return <></>;
   }
-  return <Video courseId={props.course._id} lessonId={props.itemid}/>;
+  return <Video courseId={props.course._id} lessonId={props.itemid} />;
 }
 
 function CourseView() {

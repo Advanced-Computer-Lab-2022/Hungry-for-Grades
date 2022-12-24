@@ -2,70 +2,53 @@ import '../coursesData/nav-button.scss';
 
 import { useState } from 'react';
 
+import ReactSelect from 'react-select';
+
 import UseSearchQuery from './fetchApi';
 
 import { AreaAnalytics } from './analytics/AreaAnalytics';
-import LineAnalytics from './analytics/LineAnalytics';
 import BarAnalytics from './analytics/BarAnalytics';
-
-// eslint-disable-next-line css-modules/no-unused-class
-import styles from './instructor-earnings-analytics.module.scss';
+import LineAnalytics from './analytics/LineAnalytics';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
-import { UseCountry } from '@/store/countryStore';
-import { UseUser } from '@/store/userStore';
 
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const date = new Date();
+const year = date.getFullYear() - 2018 + 1;
 
-const options = [
-  {
-    label: '2018',
-    value: '2018'
-  },
-  {
-    label: '2019',
-    value: '2019'
-  },
-  {
-    label: '2020',
-    value: '2020'
-  },
-  {
-    label: '2021',
-    value: '2021'
-  },
-  {
-    label: '2022',
-    value: '2022'
-  }
-];
+const options = new Array(year).fill(1).map((_, index) => {
+  return {
+    label: `${2018 + index}`,
+    value: `${2018 + index}`
+  };
+});
 
 export default function InstructorCoursesAnalytics() {
-  const user = UseUser();
-  const instructorId = user?._id;
-  const country = UseCountry();
   const [selectedOption, setSelectedOption] = useState<string>('2022');
 
   const {
     data: earningsData,
     isLoading,
-    isError
-  } = UseSearchQuery(instructorId as string, selectedOption, country);
+    isError,
+    error
+  } = UseSearchQuery(selectedOption);
+
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
-      <div key='area-analytics'>
+      <div key='area-analytics-instructor-earnings'>
         <AreaAnalytics
           data={earningsData ? earningsData?.data?.data : emptyData}
         />
       </div>,
-      <div key='line-analytics'>
+      <div key='line-analytics-instructor-earnings'>
         <LineAnalytics
           data={earningsData ? earningsData?.data?.data : emptyData}
         />
       </div>,
-      <div key='bar-analytics'>
+      <div key='bar-analytics-instructor-earnings'>
         <BarAnalytics
           data={earningsData ? earningsData?.data?.data : emptyData}
         />
@@ -74,52 +57,40 @@ export default function InstructorCoursesAnalytics() {
     ['Area', 'Line', 'Bar'],
     ['']
   );
-
   if (isLoading) return <LoaderComponent />;
-  if (isError)
-    return (
-      <div className='container text-center text-danger'>
-        There was an Error occurred while fetching the data, please try again
-        later
-      </div>
-    );
+  if (isError || error) return <ErrorMessage />;
+
   return (
-    <>
-      <div className='container mx-auto mt-5' style={{ maxWidth: '15rem' }}>
-        <select
-          className={`form-select w-100 ${styles.select ?? ''} `}
-          value={selectedOption}
-          onChange={e => setSelectedOption(e.target.value)}
-        >
-          {options.map(option => (
-            <option
-              key={option.value}
-              className={styles.option}
-              value={option.value}
+    <div className='container py-5'>
+      <div className='d-flex justify-content-between'>
+        <div className='container d-flex flex-row justify-content-center mb-4'>
+          {titles?.map((title, index) => (
+            <button
+              key={title}
+              className={`navButton ${
+                currentStepIndex === index ? 'activeNavButton' : ''
+              }`}
+              type='button'
+              onClick={function go() {
+                goTo(index);
+              }}
             >
-              {option.label}
-            </option>
+              {title}
+            </button>
           ))}
-        </select>
-      </div>
-      <div className='container d-flex flex-row justify-content-center mb-4'>
-        {titles?.map((title, index) => (
-          <button
-            key={title}
-            className={`navButton ${
-              currentStepIndex === index ? 'activeNavButton' : ''
-            }`}
-            type='button'
-            onClick={function go() {
-              goTo(index);
+        </div>
+        <div className='w-25'>
+          <ReactSelect
+            options={options}
+            value={options.find(option => option.value === selectedOption)}
+            onChange={function (option) {
+              setSelectedOption(option.value);
             }}
-          >
-            {title}
-          </button>
-        ))}
+          />
+        </div>
       </div>
 
       {step}
-    </>
+    </div>
   );
 }

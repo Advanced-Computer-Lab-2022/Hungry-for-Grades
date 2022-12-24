@@ -57,8 +57,9 @@ export default function LastStudy() {
                   ? 'Start now'
                   : 'Continue now'}{' '}
               </Link>
-              {!(course?.progress === undefined || course.progress === 0) && 
-                <RateCourse courseid={course._course._id} />}
+              {!(course?.progress === undefined || course.progress === 0) && (
+                <RateCourse courseid={course._course._id} />
+              )}
             </div>
           </div>
         </div>

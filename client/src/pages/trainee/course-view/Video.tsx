@@ -24,13 +24,15 @@ function Video(props: { lessonId: string; courseId: string }) {
     ['getLessonById', props.lessonId, props.courseId, userId],
     () => getLessonById(props.courseId, props.lessonId, userId)
   );
-  if(isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
-  if(isError) {
-    return <h1 className='text-danger'>An error has occured while loading page</h1>;
+  if (isError) {
+    return (
+      <h1 className='text-danger'>An error has occured while loading page</h1>
+    );
   }
-  if(!data) {
+  if (!data) {
     return <></>;
   }
   const embeddedUrl = getEmbedUrl(data.videoURL);

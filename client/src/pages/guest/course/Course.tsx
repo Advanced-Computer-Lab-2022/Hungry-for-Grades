@@ -20,7 +20,6 @@ import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
-
 function Course() {
   const country = UseCountry();
   const { courseid } = useParams();

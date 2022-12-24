@@ -28,7 +28,7 @@ function BarGraph<T>(props: AnalyticsProps<T>) {
           <YAxis />
           <Tooltip />
           <Legend />
-          {props?.graphs.map(bar => {
+          {props?.graphs?.map(bar => {
             return <Bar dataKey={bar.name} fill={bar.color} />;
           })}
         </BarChart>
