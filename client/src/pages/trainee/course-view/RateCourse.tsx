@@ -106,7 +106,8 @@ function RateCourse(props: { courseid: string }) {
         </div>
       ) : (
         <button
-          className='btn btn-light text-dark mx-3'
+          className='text-secondary mx-2 btn btn-link'
+          style={{textDecoration: 'none'}}
           type='button'
           onClick={openPopup}
         >

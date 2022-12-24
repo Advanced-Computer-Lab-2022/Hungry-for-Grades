@@ -1,0 +1,21 @@
+$previewBoxWidth: 20rem;
+.preview-box-container {
+    width: $previewBoxWidth;
+    position: fixed;
+    right: 100px;
+    z-index: 10000;
+}
+
+.content-container {
+    width: calc(100% - $previewBoxWidth);
+}
+
+@media(max-width: 1024px) {
+    .preview-box-container {
+        display: none;
+    }
+    
+    .content-container {
+        width: 100%;
+    }   
+}

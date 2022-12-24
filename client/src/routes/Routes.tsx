@@ -63,9 +63,6 @@ const LazyTraineeEnrolledCourses = lazy(
 const LazyTraineeDashboard = lazy(
   () => import('@pages/trainee/dashboard/TraineeDashboard')
 );
-const LazyTraineeChangePassword = lazy(
-  () => import('@/pages/trainee/editProfile/change-password/ChangePassword')
-);
 // notes
 const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
 const LazyTraineeNoteEdit = lazy(
@@ -120,14 +117,13 @@ const LazyMyReview = lazy(
 const LazyInstructorEditProfile = lazy(
   () => import('@/pages/InstructorProfile/edit-profile/Profile')
 );
-const LazyInstructorChangePassword = lazy(
-  () =>
-    import(
-      '@/pages/InstructorProfile/edit-profile/change-password/ChangePassword'
-    )
-);
+
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
+);
+
+const LazyInstructorEarnings = lazy(
+  () => import('@/pages/instructor/earnings/InstructorEarningsAnalytics')
 );
 /**
  * Admin Pages
@@ -157,6 +153,20 @@ const LazyAdminRefunds = lazy(() => import('@/pages/admin/refunds/Refund'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
 // I commented  <Route element={<StudentPage />} path='hussein' /> because it was causing an error
+
+/**
+ * Payment Pages
+ */
+
+const LazySuccessfulPayment = lazy(
+  () => import('@/pages/payment/PaymentAccepted')
+);
+
+const LazyRejectedPayment = lazy(
+  () => import('@/pages/payment/PaymentRejected')
+);
+
+const LazyFailedPayment = lazy(() => import('@/pages/payment/PaymentFailed'));
 
 // landing page
 
@@ -219,10 +229,6 @@ function AllRoutes() {
             />
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
-            <Route
-              element={<LazyTraineeChangePassword />}
-              path='change-password'
-            />
 
             <Route path='notes'>
               <Route index element={<LazyTraineeNoteList />} />
@@ -241,11 +247,17 @@ function AllRoutes() {
               errorElement={<ErrorMessage />}
               path='courses'
             />
-            <Route element={<LazyTraineeCertificate />} path='certificate' />
+            <Route
+              element={<LazyTraineeCertificate />}
+              path='certificate/:courseId'
+            />
             <Route element={<LazyTraineeBoard />} path='board' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
+          <Route element={<LazySuccessfulPayment />} path='payment-accepted' />
+          <Route element={<LazyFailedPayment />} path='payment-failed' />
+          <Route element={<LazyRejectedPayment />} path='payment-rejected' />
         </Route>
 
         {/* Instructor Routes*/}
@@ -258,6 +270,7 @@ function AllRoutes() {
             />{' '}
             <Route element={<div />} path='dashboard' />
             <Route element={<LazyInstructorEditProfile />} path='profile' />
+            <Route element={<LazyInstructorEarnings />} path='earnings' />
           </Route>
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
@@ -268,10 +281,6 @@ function AllRoutes() {
           <Route element={<LazyInstructorCoursesSection />} path='' />
           <Route element={<LazyMyReview />} path='rating-review' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
-          <Route
-            element={<LazyInstructorChangePassword />}
-            path='change-password'
-          />
         </Route>
 
         {/* Admin Routes */}

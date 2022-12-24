@@ -2,7 +2,12 @@ import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
 
-import { ICourseReview, Rating, Review } from '@/interfaces/course.interface';
+import {
+  Review,
+  ICourseReview,
+  Rating,
+  EnrolledCourse
+} from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { SubmittedQuestion } from '@/interfaces/user.interface';
@@ -46,6 +51,12 @@ export const TraineeRoutes = {
       payload: {}
     },
     getSubmittedQuestions: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getEnrolledCourseById: {
       URL: '',
       params: '',
       query: '',
@@ -99,6 +110,20 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {} as Review
+    },
+    checkout: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    },
+    savePayment: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
     }
   },
   DELETE: {
@@ -113,7 +138,7 @@ export const TraineeRoutes = {
 
 export async function getTraineeReviewById(
   courseId: string | undefined,
-  traineeId: string
+  traineeId: string | undefined
 ): Promise<ICourseReview | null> {
   const props: PaginatedRequest = {
     page: 1,
@@ -189,6 +214,27 @@ export async function getSubmittedQuestions(
   const res = await getRequest<HttpResponse<SubmittedQuestion[]>>(
     submittedQuestion
   );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function getEnrolledCourseById(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<EnrolledCourse | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const enrolledCourse = TraineeRoutes.GET.getEnrolledCourseById;
+  enrolledCourse.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}`;
+  const res = await getRequest<HttpResponse<EnrolledCourse>>(enrolledCourse);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }

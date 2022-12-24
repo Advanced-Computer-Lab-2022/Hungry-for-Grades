@@ -13,9 +13,12 @@ import DownView from './DownView';
 // import RateCourse from './RateCourse';
 
 import { UseCountry } from '@/store/countryStore';
-import { getCourseByID } from '@/services/axios/dataServices/CoursesDataService';
 import { ICourse } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
+import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
+import Loader from '@/components/loader/loaderpage/Loader';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
+import { getSectionById } from '@/services/axios/dataServices/CoursesDataService';
 
 type LeftViewProps = {
   sectionid: string | undefined;
@@ -25,13 +28,27 @@ type LeftViewProps = {
 };
 
 function LeftView(props: LeftViewProps) {
-  const section = props.course.sections.find(s => s._id === props.sectionid);
+  const { data, isError, isLoading } = useQuery(
+    ['getSectionById', props.course._id, props.sectionid],
+    () => getSectionById(props.course._id, props.sectionid)
+  );
   const traineeId = useTraineeId();
-  if (!section) {
+  const redirectToLogin = useRedirectToLogin();
+  if(isLoading) {
+    return <Loader />
+  }
+  if(isError) {
+    return <h1 className='text-danger'>An error has occured while loading page</h1>
+  }
+  if (!traineeId) {
+    redirectToLogin();
+    return <></>;
+  }
+  if (!data) {
     return <></>;
   }
   if (props.itemType === 'exercise') {
-    const exercise = section.exercises.find(e => e._id === props.itemid);
+    const exercise = data.exercises.find(e => e._id === props.itemid);
     if (!exercise) {
       return <></>;
     }
@@ -43,43 +60,44 @@ function LeftView(props: LeftViewProps) {
       />
     );
   }
-  const lesson = section.lessons.find(l => l._id === props.itemid);
-  if (!lesson) {
+  if (!props.itemid) {
     return <></>;
   }
-  return <Video {...lesson} />;
+  return <Video courseId={props.course._id} lessonId={props.itemid}/>;
 }
 
 function CourseView() {
   const country = UseCountry();
+  const traineeId = useTraineeId();
   const { courseid, sectionid, itemid, itemType } = useParams();
   const { isError, isLoading, data } = useQuery(
-    ['getCourseByID', courseid, country],
-    () => getCourseByID(courseid, country)
+    ['getEnrolledCourseById', courseid, country],
+    () => getEnrolledCourseById(traineeId, courseid)
   );
+  const redirectToLogin = useRedirectToLogin();
+  if (!traineeId) {
+    redirectToLogin();
+    return <></>;
+  }
   if (isError) {
-    return (
-      <h1 className='text-danger text-center'>
-        An error has occurred while loading course view.
-      </h1>
-    );
+    return <h1>You are not enrolled in this course</h1>;
   }
   if (isLoading) {
-    return <div className='text-info text-center'>Loading course view...</div>;
+    return <Loader />;
   }
   if (!data) {
     return <></>;
   }
-  console.log(data);
+  // console.log(data);
   const leftProps = {
     itemid,
     sectionid,
-    course: data,
+    course: data._course,
     itemType
   };
   const section = sectionid
-    ? data.sections.find(s => s._id === sectionid)
-    : data.sections[0];
+    ? data._course.sections.find(s => s._id === sectionid)
+    : data._course.sections[0];
   if (!section) {
     return <h1 className='text-danger text-center'>Section not found</h1>;
   }
@@ -105,13 +123,13 @@ function CourseView() {
               <LeftView {...leftProps} />
             </div>
             <div>
-              <DownView course={data} itemid={item._id ?? ''} />
+              <DownView course={data._course} itemid={item._id ?? ''} />
             </div>
           </div>
         </div>
         <div className='col-sm-12 col-md-3'>
           {/* <RateCourse /> */}
-          <Content {...data} />
+          <Content {...data._course} />
         </div>
       </div>
     </div>

@@ -1,57 +1,60 @@
-import useSearchQuery from './fetchApi';
-import { updateProfile } from './updateApi';
+import { Outlet } from 'react-router-dom';
 
-import ProfileForm from './ProfileForm';
+import Accounts from './pages/Accounts';
+import EditProfile from './pages/EditProfile';
+import Security from './pages/Security';
 
-import { InstructorData } from './types';
+import styles from './profile.module.scss';
 
-import Form from '@/components/form/Form';
-import { UseUser } from '@/store/userStore';
+import useMultistepForm from '@/hooks/useMultistepForm';
 
 export default function Profile() {
-  const user = UseUser();
-  const instructorId = user?._id;
-
-  const { isLoading, isError, data } = useSearchQuery(instructorId as string);
-  const verifiedData = data?.data?.data;
-
-  async function submitAction(instructorData: InstructorData) {
-    await updateProfile(instructorId as string, instructorData);
-  }
-  if (isError)
-    return (
-      <h1 className='text-danger text-center'>
-        An error has occurred while loading course information.
-      </h1>
-    );
-  if (isLoading) return <div className='text-info text-center'>Loading...</div>;
-
-  if (!data) return <></>;
-
-  const initialValues = {
-    name: verifiedData?.name,
-    email: { address: verifiedData?.email?.address },
-    phone: verifiedData?.phone,
-    username: verifiedData?.username,
-    biography: verifiedData?.biography
-  };
+  const { currentStepIndex, goTo, step, titles } = useMultistepForm(
+    [
+      <div key='edit-profile'>
+        <EditProfile />
+      </div>,
+      <div key='security'>
+        <Security />
+      </div>,
+      <div key='accounts'>
+        <Accounts />
+      </div>
+    ],
+    ['Profile', 'Security', 'Accounts'],
+    ['']
+  );
 
   return (
-    <Form
-      ariaLabel={''}
-      disabled={false}
-      encType={'application/x-www-form-urlencoded'}
-      inputs={undefined}
-      isError={false}
-      isLoading={false}
-      method={'post'}
-    >
-      {
-        <ProfileForm
-          initialValues={initialValues}
-          submitAction={submitAction}
-        />
-      }
-    </Form>
+    <>
+      <div className='py-5' style={{ backgroundColor: '#F8F9FA' }}>
+        <div className='container-xl'>
+          <div className='row gx-3'>
+            <div className='col-xxl-1 col-2'>
+              <div className='d-flex flex-column align-items-end'>
+                {titles?.map((title, index) => (
+                  <button
+                    key={title}
+                    className={`${styles.item__list || ''} ${
+                      currentStepIndex === index
+                        ? styles.active__link || ''
+                        : ''
+                    }`}
+                    type='button'
+                    onClick={function go() {
+                      goTo(index);
+                    }}
+                  >
+                    {title}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className='col-10 px-3 '>{step}</div>
+          </div>
+        </div>
+      </div>
+      <Outlet />
+    </>
   );
 }
