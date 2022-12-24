@@ -10,8 +10,6 @@ import SolveExercise from './SolveExercise';
 
 import DownView from './DownView';
 
-// import RateCourse from './RateCourse';
-
 import { UseCountry } from '@/store/countryStore';
 import { ICourse } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
@@ -73,7 +71,7 @@ function CourseView() {
   const traineeId = useTraineeId();
   const { courseid, sectionid, itemid, itemType } = useParams();
   const { isError, isLoading, data } = useQuery(
-    ['getEnrolledCourseById', courseid, country],
+    ['getEnrolledCourseById', courseid, country, traineeId],
     () => getEnrolledCourseById(traineeId, courseid)
   );
   const redirectToLogin = useRedirectToLogin();
