@@ -1,12 +1,11 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 
-
 import '@pages/instructor/coursesData/nav-button.scss';
-// eslint-disable-next-line css-modules/no-unused-class
-import styles from './create.module.scss';
+
 
 import { ValidationSchema } from '@pages/admin/createUser/ValidationSchema';
 
@@ -20,8 +19,7 @@ import Input from '@/components/inputs/input/Input';
 export default function Create() {
   const { mutateAsync: createUser } = usePostQuery();
 
-
-  const [chosenTab, setChosenTab] = useState<string>('Instructor'); 
+  const [chosenTab, setChosenTab] = useState<string>('Instructor');
 
   async function createAdmin(
     values: {
@@ -154,7 +152,6 @@ export default function Create() {
         confirmPassword: '',
         corporate: ''
       }}
-      
       validationSchema={ValidationSchema}
       onSubmit={async function (
         values: {
@@ -173,21 +170,21 @@ export default function Create() {
       }}
     >
       {formik => (
-          <Form>
-            <div className={`${styles.hero ?? ''} card p-5`}>
-              <div
-                className={`${
-                  styles.cont ?? ''
-                } card card-cascade rounded bg-light shadow`}
-              >
-                <div className={`${styles.form ?? ''} p-4 `}>
-                  <h2>Create a User</h2>
-                  <div
-                    className='container d-flex flex-row justify-content-center mb-4'
-                    style={{
-                      width: '32rem'
-                    }}
-                  >
+        <Form>
+          <div className={`card p-5`} style={{
+            backgroundColor: '#f8f9fa'
+          }}>
+            <div
+              className={` card card-cascade rounded bg-light shadow`}
+            >
+              <div className={`p-4 `}>
+                <div
+                  className='container d-flex flex-row justify-content-center mb-4'
+                  style={{
+                    width: '32rem'
+                  }}
+                >
+               
                     <button
                       className={`navButton ${
                         chosenTab === 'Instructor' ? 'activeNavButton' : ''
@@ -230,7 +227,7 @@ export default function Create() {
                   </div>
                   <div className='container'>
                     <div className='row'>
-                      <div className='col-12 col-lg-5'>
+                      <div className='col-12 col-md-6'>
                           <Input
           correctMessage=''
           errorMessage={formik.errors.name}
@@ -250,8 +247,7 @@ export default function Create() {
           onChangeFunc={formik.handleChange}
         />
                       </div>
-                      <div className='col-0 col-lg-2'/>
-                      <div className='col-12 col-lg-5'>
+          <div className='col-12 col-md-6'>
                           <Input
           correctMessage=''
           errorMessage={formik.errors.userName}
@@ -271,9 +267,9 @@ export default function Create() {
           onChangeFunc={formik.handleChange}
         />
                       </div>
-                    </div>
                     {chosenTab === 'Corporate' && (
-         
+                   <div className='col-12'>
+
                         <Input
           correctMessage=''
           errorMessage={formik.errors.corporate}
@@ -292,7 +288,12 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                    )}
+                              </div>
+          )
+                    
+
+                    }
+                              <div className='col-12'>
 
                       <Input
           correctMessage=''
@@ -312,10 +313,9 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                              <div className='row'>
+</div>
 
-
-                              <div className='col-12 col-lg-5'>
+                              <div className='col-12 col-md-6'>
 
                       <Input
           correctMessage=''
@@ -336,7 +336,8 @@ export default function Create() {
           onChangeFunc={formik.handleChange}
         />
         </div>
-        <div className='col-12 col-lg-5'>
+
+        <div className='col-12 col-md-6'>
  <Input
           correctMessage=''
           errorMessage={formik.errors.confirmPassword}
@@ -355,9 +356,9 @@ export default function Create() {
           onBlurFunc={formik.handleBlur}
           onChangeFunc={formik.handleChange}
         />
-                              </div>
+     </div>
 
-                    <div className='d-flex flex-row justify-content-end'>
+                    <div className='d-flex flex-row justify-content-end mt-3'>
                       <button
                         className={`btn btn-primary btn-lg`}
                         type='submit'
@@ -367,13 +368,20 @@ export default function Create() {
                       </button>
                     </div>
                   </div>
+                
+            
+
+         
+
+             
                 </div>
-                {/*                 <div className={styles.sub_cont}>
+              </div>
+              {/*                 <div className={styles.sub_cont}>
                   <div className={styles.img} />
                 </div> */}
-              </div>
             </div>
-          </Form>
+          </div>
+        </Form>
       )}
     </Formik>
   );

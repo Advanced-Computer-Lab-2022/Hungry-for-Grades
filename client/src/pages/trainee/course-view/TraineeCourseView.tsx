@@ -18,6 +18,9 @@ import { useTraineeId } from '@/hooks/useTraineeId';
 import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
 import Loader from '@/components/loader/loaderpage/Loader';
 import useRedirectToLogin from '@/hooks/useRedirectToLogin';
+import { getSectionById } from '@/services/axios/dataServices/CoursesDataService';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 type LeftViewProps = {
   sectionid: string | undefined;
@@ -27,18 +30,27 @@ type LeftViewProps = {
 };
 
 function LeftView(props: LeftViewProps) {
-  const section = props.course.sections.find(s => s._id === props.sectionid);
+  const { data, isError, isLoading } = useQuery(
+    ['getSectionById', props.course._id, props.sectionid],
+    () => getSectionById(props.course._id, props.sectionid)
+  );
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
+  if (isError) {
+    return <ErrorMessage />;
+  }
   if (!traineeId) {
     redirectToLogin();
     return <></>;
   }
-  if (!section) {
+  if (!data) {
     return <></>;
   }
   if (props.itemType === 'exercise') {
-    const exercise = section.exercises.find(e => e._id === props.itemid);
+    const exercise = data.exercises.find(e => e._id === props.itemid);
     if (!exercise) {
       return <></>;
     }
@@ -50,11 +62,10 @@ function LeftView(props: LeftViewProps) {
       />
     );
   }
-  const lesson = section.lessons.find(l => l._id === props.itemid);
-  if (!lesson) {
+  if (!props.itemid) {
     return <></>;
   }
-  return <Video {...lesson} />;
+  return <Video courseId={props.course._id} lessonId={props.itemid} />;
 }
 
 function CourseView() {

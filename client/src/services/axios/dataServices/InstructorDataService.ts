@@ -23,6 +23,12 @@ export const InstructorRoutes = {
       params: '',
       query: 'limit=3',
       payload: {}
+    },
+    getMonthlyEarnings: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   POST: {
@@ -38,6 +44,12 @@ export const InstructorRoutes = {
     },
     changePassword: {
       URL: '/change-password' as const,
+      params: '',
+      query: '',
+      payload: {}
+    },
+    savePayment: {
+      URL: '',
       params: '',
       query: '',
       payload: {}

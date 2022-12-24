@@ -2,7 +2,7 @@
 import { useRef, useState } from 'react';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';
-import { FiUser, FiLogOut } from 'react-icons/fi';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -10,13 +10,13 @@ import { RiDashboardFill } from 'react-icons/ri';
 
 import styles from './UserDropdown.module.scss';
 
-import { UseTraineeNoteStoreNotes } from '@store/noteStore';
 import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
+import { UseTraineeNoteStoreNotes } from '@store/noteStore';
 
-import { UseUserStoreLogOut, UseUser } from '@store/userStore';
+import { AuthRoutes } from '@/services/axios/dataServices/AuthDataService';
 import { postRequest } from '@/services/axios/http-verbs';
 import { removeInfo } from '@/services/savedInfo/SavedInfo';
-
+import { UseUser, UseUserStoreLogOut } from '@store/userStore';
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
@@ -30,6 +30,7 @@ function MenuHeadersExample() {
     };
     try {
       await postRequest(storeNotes);
+      await postRequest(AuthRoutes.POST.logout);
     } catch (e) {
       console.log(e);
     }

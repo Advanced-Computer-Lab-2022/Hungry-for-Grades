@@ -1,8 +1,7 @@
-import { RiDashboardFill } from 'react-icons/ri';
-import { BsFillBookFill } from 'react-icons/bs';
-import { AiFillCreditCard } from 'react-icons/ai';
 import { BiNote } from 'react-icons/bi';
+import { BsFillBookFill } from 'react-icons/bs';
 import { FiUser } from 'react-icons/fi';
+import { RiDashboardFill } from 'react-icons/ri';
 
 import { Link } from 'react-router-dom';
 
@@ -13,7 +12,6 @@ const navLinks = {
   Dashboard: { path: '/instructor/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/instructor/my-courses', icon: <BsFillBookFill /> },
   'Rating & Reviews': { path: '/instructor/rating-review', icon: <BiNote /> },
-  Payment: { path: '/instructor/payment', icon: <AiFillCreditCard /> },
   Profile: { path: '/instructor/profile', icon: <FiUser /> }
 };
 
