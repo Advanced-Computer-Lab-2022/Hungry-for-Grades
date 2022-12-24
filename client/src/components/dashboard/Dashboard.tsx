@@ -40,9 +40,12 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
               <Container className={styles.list}>
                 <Navbar.Toggle
                   aria-controls='responsive-navbar-nav'
-									className='w-20 '
-                  style={{ backgroundColor: '#d1d7dc',
-								marginRight: '0',marginLeft:'auto' }}
+                  className='w-20 '
+                  style={{
+                    backgroundColor: '#d1d7dc',
+                    marginRight: '0',
+                    marginLeft: 'auto'
+                  }}
                 />
                 <Navbar.Collapse id='responsive-navbar-nav'>
                   <Nav className={`me-auto`}>

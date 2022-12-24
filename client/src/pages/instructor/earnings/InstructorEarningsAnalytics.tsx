@@ -2,7 +2,6 @@ import '../coursesData/nav-button.scss';
 
 import { useState } from 'react';
 
-
 import ReactSelect from 'react-select';
 
 import UseSearchQuery from './fetchApi';
@@ -10,8 +9,6 @@ import UseSearchQuery from './fetchApi';
 import { AreaAnalytics } from './analytics/AreaAnalytics';
 import BarAnalytics from './analytics/BarAnalytics';
 import LineAnalytics from './analytics/LineAnalytics';
-
-
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 
@@ -83,12 +80,13 @@ export default function InstructorCoursesAnalytics() {
           ))}
         </div>
         <div className='w-25'>
-					<ReactSelect
-						options={options}
-						value={options.find(option => option.value === selectedOption)}
-						onChange={function(option) { setSelectedOption(option.value)}}
-					/>
-
+          <ReactSelect
+            options={options}
+            value={options.find(option => option.value === selectedOption)}
+            onChange={function (option) {
+              setSelectedOption(option.value);
+            }}
+          />
         </div>
       </div>
 
