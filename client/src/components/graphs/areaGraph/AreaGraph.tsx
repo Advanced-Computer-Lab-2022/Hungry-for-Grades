@@ -29,7 +29,7 @@ function AreaGraph<T>({ data, graphs }: AnalyticsProps<T>) {
         <XAxis dataKey='title' />
         <YAxis />
         <Tooltip />
-        {graphs.map(area => {
+        {graphs?.map(area => {
           return (
             <Area
               dataKey={area.name}

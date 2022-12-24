@@ -1,15 +1,16 @@
-import PhoneInput from 'react-phone-number-input';
 import { useFormik } from 'formik';
+import PhoneInput from 'react-phone-number-input';
 
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 import styles from './edit-profile.module.scss';
 
 import { updateProfile } from './updateProfileApi';
 
-import { UseUser } from '@/store/userStore';
 import { toastOptions } from '@/components/toast/options';
+import { UseUser } from '@/store/userStore';
+import 'react-phone-number-input/style.css';
 
 type EditProfileData = {
   profileImage: string | undefined;

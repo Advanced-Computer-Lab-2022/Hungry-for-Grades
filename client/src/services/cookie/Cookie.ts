@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/extensions
 class Cookie {
   // to check if cookie exists
   isFound(key: string) {

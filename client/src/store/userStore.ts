@@ -4,9 +4,9 @@ import { devtools } from 'zustand/middleware';
 
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
 
-import { type IUser } from '@interfaces/user.interface';
-import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
 import { Role } from '@/enums/role.enum';
+import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
+import { type IUser } from '@interfaces/user.interface';
 
 export interface IUserStore {
   user: IUser | null;
@@ -16,6 +16,7 @@ export interface IUserStore {
   isAuthenticated: boolean | null;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   isEnrolled: (id: string) => boolean;
+  setBalance: (balance: number) => void;
 }
 
 export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
@@ -27,10 +28,20 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
 
       set({ user, isAuthenticated: true });
     },
+    setBalance: (balance: number) => {
+      const { user } = get();
+      if (user) {
+        user.balance = balance;
+        set({ user });
+      }
+    },
+
     getUser: () => SessionStorage.get<IUser>('user') as IUser | null,
+
     setIsAuthenticated: (isAuthenticated: boolean | null) =>
       set({ isAuthenticated }),
     logOut: () => {
+      SessionStorage.remove('user');
       set({ user: null, isAuthenticated: false });
     },
     isEnrolled: _id => {
@@ -45,6 +56,7 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
 );
 
 export const UseUser = () => useUserStore(state => state.user);
+export const UseUserSetBalance = () => useUserStore(state => state.setBalance);
 
 export const UseSetUser = () => useUserStore(state => state.setUser);
 export const UseUserStoreLogOut = () => useUserStore(state => state.logOut);

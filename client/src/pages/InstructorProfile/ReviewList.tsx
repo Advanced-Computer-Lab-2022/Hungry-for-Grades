@@ -5,10 +5,10 @@ import { useState } from 'react';
 
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
-import { getRequest } from '@/services/axios/http-verbs';
 import Loader from '@/components/loader/loaderpage/Loader';
-import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
 import Pagination from '@/components/pagination/Pagination';
+import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
+import { getRequest } from '@/services/axios/http-verbs';
 
 async function getReviews(id: string, activePage: number) {
   const Inst = InstructorRoutes.GET.getReviews;
@@ -63,15 +63,17 @@ export default function ReviewList(props: { text: string }) {
   );
 
   return (
-    <>
+    <div className='container'>
       <div>{toShow}</div>
       {t1?.totalPages > 1 && (
-        <Pagination
-          activePage={reviewPage}
-          pages={t1.totalPages}
-          setActivePage={setReviewPage}
-        />
+        <div className='d-flex  justify-content-end justify-content-center '>
+          <Pagination
+            activePage={reviewPage}
+            pages={t1.totalPages}
+            setActivePage={setReviewPage}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 }
