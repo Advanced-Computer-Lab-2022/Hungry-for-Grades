@@ -10,14 +10,13 @@ import SolveExercise from './SolveExercise';
 
 import DownView from './DownView';
 
-// import RateCourse from './RateCourse';
-
 import { UseCountry } from '@/store/countryStore';
 import { ICourse } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
 import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
 import Loader from '@/components/loader/loaderpage/Loader';
 import useRedirectToLogin from '@/hooks/useRedirectToLogin';
+import { getSectionById } from '@/services/axios/dataServices/CoursesDataService';
 
 type LeftViewProps = {
   sectionid: string | undefined;
@@ -27,18 +26,29 @@ type LeftViewProps = {
 };
 
 function LeftView(props: LeftViewProps) {
-  const section = props.course.sections.find(s => s._id === props.sectionid);
+  const { data, isError, isLoading } = useQuery(
+    ['getSectionById', props.course._id, props.sectionid],
+    () => getSectionById(props.course._id, props.sectionid)
+  );
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    return (
+      <h1 className='text-danger'>An error has occured while loading page</h1>
+    );
+  }
   if (!traineeId) {
     redirectToLogin();
     return <></>;
   }
-  if (!section) {
+  if (!data) {
     return <></>;
   }
   if (props.itemType === 'exercise') {
-    const exercise = section.exercises.find(e => e._id === props.itemid);
+    const exercise = data.exercises.find(e => e._id === props.itemid);
     if (!exercise) {
       return <></>;
     }
@@ -50,11 +60,10 @@ function LeftView(props: LeftViewProps) {
       />
     );
   }
-  const lesson = section.lessons.find(l => l._id === props.itemid);
-  if (!lesson) {
+  if (!props.itemid) {
     return <></>;
   }
-  return <Video {...lesson} />;
+  return <Video courseId={props.course._id} lessonId={props.itemid} />;
 }
 
 function CourseView() {
@@ -62,7 +71,7 @@ function CourseView() {
   const traineeId = useTraineeId();
   const { courseid, sectionid, itemid, itemType } = useParams();
   const { isError, isLoading, data } = useQuery(
-    ['getEnrolledCourseById', courseid, country],
+    ['getEnrolledCourseById', courseid, country, traineeId],
     () => getEnrolledCourseById(traineeId, courseid)
   );
   const redirectToLogin = useRedirectToLogin();

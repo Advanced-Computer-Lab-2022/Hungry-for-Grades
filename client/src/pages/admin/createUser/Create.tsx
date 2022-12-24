@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 
@@ -230,151 +229,134 @@ export default function Create() {
                 <div className='container'>
                   <div className='row'>
                     <div className='col-12 col-lg-5'>
-                      <label>
-                        <span>Name</span>
-                        <Input
-                          correctMessage=''
-                          errorMessage={formik.errors.name}
-                          hint=''
-                          id='Create_NameInput'
-                          isError={
-                            formik.touched.name && formik.errors.name
-                              ? true
-                              : null
-                          }
-                          isTop={false}
-                          label={'Name'}
-                          name={'name'}
-                          placeholder='Name'
-                          size={0}
-                          type='text'
-                          value={formik.values.name}
-                          onBlurFunc={formik.handleBlur}
-                          onChangeFunc={formik.handleChange}
-                        />
-                      </label>
-                    </div>
-                    <div className='col-12 col-lg-5'>
-                      <label>
-                        <span>UserName</span>
-                        <Input
-                          correctMessage=''
-                          errorMessage={formik.errors.userName}
-                          hint=''
-                          id='Create_UserNameInput'
-                          isError={
-                            formik.touched.userName && formik.errors.userName
-                              ? true
-                              : null
-                          }
-                          isTop={false}
-                          label={'UserName'}
-                          name={'userName'}
-                          placeholder='UserName'
-                          size={0}
-                          type='text'
-                          value={formik.values.userName}
-                          onBlurFunc={formik.handleBlur}
-                          onChangeFunc={formik.handleChange}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  {chosenTab === 'Corporate' && (
-                    <label>
-                      <span>Corporate</span>
                       <Input
                         correctMessage=''
-                        errorMessage={formik.errors.corporate}
+                        errorMessage={formik.errors.name}
                         hint=''
-                        id='Create_CorporateInput'
+                        id='Create_NameInput'
                         isError={
-                          formik.touched.corporate && formik.errors.corporate
+                          formik.touched.name && formik.errors.name
                             ? true
                             : null
                         }
                         isTop={false}
-                        label={'Corporate Name'}
-                        name={'corporate'}
-                        placeholder='Corporate Name'
+                        label={'Name'}
+                        name={'name'}
+                        placeholder='Name'
                         size={0}
                         type='text'
-                        value={formik.values.corporate}
+                        value={formik.values.name}
                         onBlurFunc={formik.handleBlur}
                         onChangeFunc={formik.handleChange}
                       />
-                    </label>
+                    </div>
+                    <div className='col-12 col-lg-5'>
+                      <Input
+                        correctMessage=''
+                        errorMessage={formik.errors.userName}
+                        hint=''
+                        id='Create_UserNameInput'
+                        isError={
+                          formik.touched.userName && formik.errors.userName
+                            ? true
+                            : null
+                        }
+                        isTop={false}
+                        label={'UserName'}
+                        name={'userName'}
+                        placeholder='UserName'
+                        size={0}
+                        type='text'
+                        value={formik.values.userName}
+                        onBlurFunc={formik.handleBlur}
+                        onChangeFunc={formik.handleChange}
+                      />
+                    </div>
+                  </div>
+                  {chosenTab === 'Corporate' && (
+                    <Input
+                      correctMessage=''
+                      errorMessage={formik.errors.corporate}
+                      hint=''
+                      id='Create_CorporateInput'
+                      isError={
+                        formik.touched.corporate && formik.errors.corporate
+                          ? true
+                          : null
+                      }
+                      isTop={false}
+                      label={'Corporate Name'}
+                      name={'corporate'}
+                      placeholder='Corporate Name'
+                      size={0}
+                      type='text'
+                      value={formik.values.corporate}
+                      onBlurFunc={formik.handleBlur}
+                      onChangeFunc={formik.handleChange}
+                    />
                   )}
-                  <label>
-                    <span>Email</span>
-                    <Input
-                      correctMessage=''
-                      errorMessage={formik.errors.email}
-                      hint=''
-                      id='Create_EmailInput'
-                      isError={
-                        formik.touched.email && formik.errors.email
-                          ? true
-                          : null
-                      }
-                      isTop={false}
-                      label={'Email'}
-                      name={'email'}
-                      placeholder='E-mail'
-                      size={0}
-                      type='text'
-                      value={formik.values.email}
-                      onBlurFunc={formik.handleBlur}
-                      onChangeFunc={formik.handleChange}
-                    />
-                  </label>
-                  <label>
-                    <span>Password</span>
-                    <Input
-                      correctMessage=''
-                      errorMessage={formik.errors.password}
-                      hint=''
-                      id='Create_PasswordInput'
-                      isError={
-                        formik.touched.password && formik.errors.password
-                          ? true
-                          : null
-                      }
-                      isTop={false}
-                      label={'Password'}
-                      name={'password'}
-                      placeholder='Password'
-                      size={0}
-                      type='text'
-                      value={formik.values.password}
-                      onBlurFunc={formik.handleBlur}
-                      onChangeFunc={formik.handleChange}
-                    />
-                  </label>
-                  <label style={{ marginBottom: '1.5rem' }}>
-                    <span>Confirm Password</span>
-                    <Input
-                      correctMessage=''
-                      errorMessage={formik.errors.confirmPassword}
-                      hint=''
-                      id='Create_ConfirmPasswordInput'
-                      isError={
-                        formik.touched.confirmPassword &&
-                        formik.errors.confirmPassword
-                          ? true
-                          : null
-                      }
-                      isTop={false}
-                      label={'Confirm Password'}
-                      name={'confirmPassword'}
-                      placeholder='Retype your Password'
-                      size={0}
-                      type='text'
-                      value={formik.values.confirmPassword}
-                      onBlurFunc={formik.handleBlur}
-                      onChangeFunc={formik.handleChange}
-                    />
-                  </label>
+                  <span>Email</span>
+                  <Input
+                    correctMessage=''
+                    errorMessage={formik.errors.email}
+                    hint=''
+                    id='Create_EmailInput'
+                    isError={
+                      formik.touched.email && formik.errors.email ? true : null
+                    }
+                    isTop={false}
+                    label={'Email'}
+                    name={'email'}
+                    placeholder='E-mail'
+                    size={0}
+                    type='text'
+                    value={formik.values.email}
+                    onBlurFunc={formik.handleBlur}
+                    onChangeFunc={formik.handleChange}
+                  />
+
+                  <Input
+                    correctMessage=''
+                    errorMessage={formik.errors.password}
+                    hint=''
+                    id='Create_PasswordInput'
+                    isError={
+                      formik.touched.password && formik.errors.password
+                        ? true
+                        : null
+                    }
+                    isTop={false}
+                    label={'Password'}
+                    name={'password'}
+                    placeholder='Password'
+                    size={0}
+                    type='text'
+                    value={formik.values.password}
+                    onBlurFunc={formik.handleBlur}
+                    onChangeFunc={formik.handleChange}
+                  />
+
+                  <Input
+                    correctMessage=''
+                    errorMessage={formik.errors.confirmPassword}
+                    hint=''
+                    id='Create_ConfirmPasswordInput'
+                    isError={
+                      formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword
+                        ? true
+                        : null
+                    }
+                    isTop={false}
+                    label={'Confirm Password'}
+                    name={'confirmPassword'}
+                    placeholder='Retype your Password'
+                    size={0}
+                    type='text'
+                    value={formik.values.confirmPassword}
+                    onBlurFunc={formik.handleBlur}
+                    onChangeFunc={formik.handleChange}
+                  />
                   <div className='d-flex flex-row justify-content-end'>
                     <button
                       className={`btn btn-primary btn-lg`}

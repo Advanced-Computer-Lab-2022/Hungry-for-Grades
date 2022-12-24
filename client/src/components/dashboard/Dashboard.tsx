@@ -1,4 +1,4 @@
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, Outlet } from 'react-router-dom';
 
 import styles from './dashboard.module.scss';
@@ -16,7 +16,7 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
     <>
       <div>
         <div className={styles.hero}>
-          <div style={{  marginTop: '2rem' }} className='container'>
+          <div className='container' style={{ marginTop: '2rem' }}>
             <div className='d-flex flex-row justify-content-between'>
               <div className={styles.mylearning}>{title}</div>
               <div>{media}</div>
@@ -36,18 +36,35 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
               ))}
             </div>
               */}
-      <Navbar collapseOnSelect expand="lg" className = 'container'  >
-      <Container className = {styles.list}  >
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" style={{backgroundColor:'#d1d7dc'}}/>
-        <Navbar.Collapse id="responsive-navbar-nav"  >
-          <Nav className={`me-auto`} >
-            { Object.keys(navLinks).map((key: string) => (
-            <NavLink  className={navIsActive} key={key} style={{ marginRight: '3rem'}} to={navLinks[key]?.path as string}><span>{navLinks[key]?.icon}&nbsp; {key}</span> </NavLink>
-            ))}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            <Navbar collapseOnSelect className='container' expand='lg'>
+              <Container className={styles.list}>
+                <Navbar.Toggle
+                  aria-controls='responsive-navbar-nav'
+                  className='w-20 '
+                  style={{
+                    backgroundColor: '#d1d7dc',
+                    marginRight: '0',
+                    marginLeft: 'auto'
+                  }}
+                />
+                <Navbar.Collapse id='responsive-navbar-nav'>
+                  <Nav className={`me-auto`}>
+                    {Object.keys(navLinks).map((key: string) => (
+                      <NavLink
+                        key={key}
+                        className={navIsActive}
+                        style={{ marginRight: '3rem' }}
+                        to={navLinks[key]?.path as string}
+                      >
+                        <span>
+                          {navLinks[key]?.icon}&nbsp; {key}
+                        </span>{' '}
+                      </NavLink>
+                    ))}
+                  </Nav>
+                </Navbar.Collapse>
+              </Container>
+            </Navbar>
           </div>
         </div>
       </div>

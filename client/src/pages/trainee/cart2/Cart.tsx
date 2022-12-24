@@ -79,6 +79,8 @@ export default function Cart() {
     }
   );
 
+  const [isHavingLessBalance, setIsHavingLessBalance] = useState(false);
+
   if (isError || error) {
     return (
       <ErrorMessage
@@ -119,8 +121,6 @@ export default function Cart() {
 
   let currency = '';
 
-  let isHavingLessBalance = false;
-
   const submitPayWithCardHandler = async () => {
     const payment = TraineeRoutes.POST.checkout;
     payment.URL = `/payment/checkout/${encodeURIComponent(
@@ -136,7 +136,7 @@ export default function Cart() {
     if ((user?.balance as number) >= total) {
       navigate('../payment-accepted?walletUsed=true');
     } else {
-      isHavingLessBalance = true;
+      setIsHavingLessBalance(true);
     }
   };
 
@@ -216,6 +216,45 @@ export default function Cart() {
     );
   });
 
+  const handleSubmit = () => {
+    navigate('/courses');
+  };
+
+  const fontFamily = 'Arial, Helvetica, sans-serif';
+  if (data?.data?.totalResults == 0) {
+    return (
+      <div className='container text-center my-5'>
+        <div
+          className='mb-2'
+          style={{
+            fontFamily: fontFamily,
+            fontWeight: '600',
+            fontSize: '1.3rem'
+          }}
+        >
+          Your cart is empty.
+        </div>
+        <div
+          style={{
+            fontFamily: fontFamily
+          }}
+        >
+          Keep shopping to find the right course for you.
+        </div>
+        <button
+          className='btn btn-primary mt-3'
+          style={{
+            fontFamily: fontFamily
+          }}
+          type='submit'
+          onClick={handleSubmit}
+        >
+          Keep shopping
+        </button>
+      </div>
+    );
+  }
+
   return (
     <section className={styles.shopping_cart}>
       <div className='container'>
@@ -271,6 +310,11 @@ export default function Cart() {
                   >
                     Pay with Balance
                   </button>
+                  {isHavingLessBalance && (
+                    <div className='mt-2 text-danger text-center'>
+                      No enough balance
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

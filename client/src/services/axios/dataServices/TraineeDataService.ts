@@ -138,7 +138,7 @@ export const TraineeRoutes = {
 
 export async function getTraineeReviewById(
   courseId: string | undefined,
-  traineeId: string
+  traineeId: string | undefined
 ): Promise<ICourseReview | null> {
   const props: PaginatedRequest = {
     page: 1,

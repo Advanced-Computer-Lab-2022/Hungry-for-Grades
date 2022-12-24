@@ -11,7 +11,7 @@ export default function LineAnalytics(props: EarningsAnalytics) {
         title: string;
         Earnings: number;
       }>
-        data={props?.data.map((data, index) => {
+        data={props?.data?.map((data, index) => {
           return {
             title: `Month ${index + 1}`,
             Earnings: data

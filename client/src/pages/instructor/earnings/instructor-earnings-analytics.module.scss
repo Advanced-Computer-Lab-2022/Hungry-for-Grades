@@ -1,0 +1,77 @@
+.select {
+  position: relative;
+  width: 20em;
+  min-height: 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  border-radius: 0.25em;
+  outline: none;
+  -webkit-border-radius: 0.25em;
+  -moz-border-radius: 0.25em;
+  -ms-border-radius: 0.25em;
+  -o-border-radius: 0.25em;
+  &.focus {
+    border-color: hsl(200, 100%, 50%);
+  }
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &:focus-visible,
+  &:focus,
+  &:active,
+  &:hover,
+  &:focus-within {
+    width: 10rem;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+  }
+  .option {
+    font-weight: 700;
+    background-color: var(--primary-background-color);
+    color: var(--primary-color);
+    padding: 10rem !important;
+    box-shadow: 0 0 10px 100px #000 inset;
+    &:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-background-color);
+    }
+    &:active,
+    &:active,
+    &:focus-within,
+    &:focus {
+      background-color: var(--secondary-background-color);
+      color: var(--secondary-color);
+    }
+  }
+  &:focus > option:checked {
+    background: var(--secondary-background-color);
+    color: var(--primary-color);
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
+  }
+  &:focus > .option::selection,
+  &:focus > .option::-moz-selection {
+    background: var(--secondary-background-color);
+    color: var(--primary-color);
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
+  }
+  .option:hover {
+    background: var(--secondary-background-color);
+    color: var(--primary-color);
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
+  }
+}

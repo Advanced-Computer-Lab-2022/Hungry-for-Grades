@@ -5,10 +5,10 @@ import { useState } from 'react';
 
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
-import { getRequest } from '@/services/axios/http-verbs';
 import Loader from '@/components/loader/loaderpage/Loader';
-import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
 import Pagination from '@/components/pagination/Pagination';
+import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
+import { getRequest } from '@/services/axios/http-verbs';
 import { Review } from '@/interfaces/course.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
 
@@ -59,7 +59,7 @@ export default function ReviewList(props: { text: string }) {
   );
 
   return (
-    <>
+    <div className='container'>
       <div>{toShow}</div>
       {data?.data?.totalPages as number > 1 && (
         <Pagination
@@ -68,6 +68,6 @@ export default function ReviewList(props: { text: string }) {
           setActivePage={setReviewPage}
         />
       )}
-    </>
+    </div>
   );
 }
