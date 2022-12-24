@@ -38,7 +38,6 @@ class ReportService {
       if (report) {
         throw new HttpException(422, 'You have asked for refund for this course before');
       }
-
     }
 
     const report = await reportModel.create({ ...reportData });

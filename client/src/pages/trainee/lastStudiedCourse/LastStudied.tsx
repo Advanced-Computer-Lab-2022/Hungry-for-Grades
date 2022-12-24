@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import TraineeNoteList from '../note/TraineeNoteList';
 
+import RateCourse from '../course-view/RateCourse';
+
 import styles from './last-study.module.scss';
 
 import useLastStudiedQuery from './useLastStudied';
@@ -46,14 +48,19 @@ export default function LastStudy() {
                 courseID={''}
               />
             </div>{' '}
-            <Link
-              className={styles.cnt}
-              to={`/trainee/view-course/${course?._course?._id}`}
-            >
-              {course?.progress === undefined || course?.progress === 0
-                ? 'Start now'
-                : 'Continue now'}{' '}
-            </Link>
+            <div className='my-2'>
+              <Link
+                className={`${styles.cnt || ''}`}
+                to={`/trainee/view-course/${course?._course?._id}`}
+              >
+                {course?.progress === undefined || course?.progress === 0
+                  ? 'Start now'
+                  : 'Continue now'}{' '}
+              </Link>
+              {!(course?.progress === undefined || course.progress === 0) && (
+                <RateCourse courseid={course._course._id} />
+              )}
+            </div>
           </div>
         </div>
       )}

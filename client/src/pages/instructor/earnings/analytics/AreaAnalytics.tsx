@@ -6,7 +6,7 @@ type EarningsAnalytics = {
 
 export function AreaAnalytics(props: EarningsAnalytics) {
   console.log(props.data);
-  props?.data.map((data, index) => {
+  props?.data?.map((data, index) => {
     console.log(`${data}, ${index}`);
   });
   return (
