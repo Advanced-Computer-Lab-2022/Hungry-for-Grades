@@ -1,30 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import StarRatings from 'react-star-ratings';
 
 import styles from './CourseCard.module.scss';
 
-import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { ITeachedCourse } from '@/interfaces/instructor.interface';
 
-import StaticStarsRating from '@components/starsRating/StaticStarsRating';
 
-function getOriginalPrice(
-  price: number,
-  discounts: object[]
-): number | undefined {
-  if (!discounts?.length) {
-    return undefined;
-  }
-  const now = new Date();
-  const discount = discounts.find(
-    d => new Date(d.startDate) <= now && new Date(d.endDate) > now
-  );
-  if (!discount) {
-    return undefined;
-  }
-  return (price / (100 - discount.percentage)) * 100;
-}
 
 export default function CourseCard(props: {
-  course: typeof InstructorRoutes.GET.getCourses.response.data[0];
+  course: ITeachedCourse;
   instructorName: string;
 }) {
   const list = props?.course?._course?.captions?.map((language: string) => {
@@ -34,18 +17,13 @@ export default function CourseCard(props: {
       </>
     );
   });
-  const toGo = `/course/:${props.course._course._id.toString() as string}`;
-  const old = getOriginalPrice(
-    props.course._course.price.currentValue,
-    props.course._course.price.discounts
-  );
-  //console.log(props._course.price.currency);
+  const toGo = `/course/:${props.course?._course?._id }`;
   return (
     <div className={styles.course_wrapper}>
       <a href={toGo}>
         <img
           alt='Course'
-          src={props?.course._course.thumbnail}
+          src={props?.course?._course?.thumbnail}
           style={{
             paddingBottom: '1rem',
             width: '100%',
@@ -62,11 +40,11 @@ export default function CourseCard(props: {
             fontSize: '1.3rem'
           }}
         >
-          {props?.course._course.title}
+          {props?.course?._course?.title}
         </h3>
       </a>
       <div style={{ fontSize: '0.8rem', fontWeight: '700', color: '#6a6f73' }}>
-        {props.course._course.category}
+        {props.course?._course?.category}
       </div>
       <div
         style={{
@@ -84,15 +62,18 @@ export default function CourseCard(props: {
         {props.instructorName}{' '}
       </div>
 
-      <StaticStarsRating
-        comment={props.course._course.rating.averageRating.toString()}
-        rating={props.course._course.rating.averageRating}
-      />
+      <StarRatings
+          numberOfStars={5}
+          rating={props?.course?._course?.rating?.averageRating}
+          starDimension='20px'
+          starRatedColor='rgb(229, 152, 25)'
+          starSpacing='0px'
+        />
       <div style={{ fontSize: '1rem', fontWeight: '700' }}>
         {' '}
-        {props?.course._course?.price?.currency}{' '}
-        {props?.course._course.price.currentValue}{' '}
-        {old != undefined && (
+        {props?.course?._course?.price?.currency}{' '}
+        {props?.course?._course?.price.currentValue}{' '}
+        {/*old != props?.course?._course?.price.currentValue && old != undefined  && (
           <span
             style={{
               fontSize: '0.9rem',
@@ -101,9 +82,9 @@ export default function CourseCard(props: {
             }}
           >
             {' '}
-            {props?.course._course?.price?.currency} {old}{' '}
+            {props?.course?._course?.price?.currency} {old}{' '}
           </span>
-        )}
+          )*/}
       </div>
     </div>
   );

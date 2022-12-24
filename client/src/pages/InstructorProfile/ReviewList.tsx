@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
@@ -9,16 +9,17 @@ import Loader from '@/components/loader/loaderpage/Loader';
 import Pagination from '@/components/pagination/Pagination';
 import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
 import { getRequest } from '@/services/axios/http-verbs';
+import { Review } from '@/interfaces/course.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 
 async function getReviews(id: string, activePage: number) {
   const Inst = InstructorRoutes.GET.getReviews;
 
   Inst.params = id;
 
-  Inst.query = `page=${activePage}
-  &limit=${4}`;
+  Inst.query = `page=${activePage}&limit=${4}`;
 
-  return getRequest(Inst);
+  return getRequest<PaginatedResponse<Review>>(Inst);
 }
 
 export default function ReviewList(props: { text: string }) {
@@ -27,7 +28,7 @@ export default function ReviewList(props: { text: string }) {
   const instructorId = props.text;
 
   const { isLoading, data } = useQuery(
-    ['getReviewsNow', reviewPage],
+    ['getReviewsNowwww', reviewPage],
     () => getReviews(instructorId, reviewPage),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -35,28 +36,23 @@ export default function ReviewList(props: { text: string }) {
     }
   );
 
-  console.log(data);
-
   if (isLoading) return <Loader />;
 
-  const t1: typeof InstructorRoutes.GET.getReviews.response = data?.data;
 
-  const reviewList: typeof InstructorRoutes.GET.getReviews.response.data[0][] =
-    t1?.data;
+  const reviewList :Review[] = data?.data?.data as Review[];
 
-  console.log(reviewList);
 
   const toShow = reviewList?.map(
-    (course: typeof InstructorRoutes.GET.getReviews.response.data[0]) => {
+    (review: Review) => {
       return (
         <ReviewContainer
-          key={course._id}
-          comment={course.comment}
-          country={course._trainee.country}
-          createdAt={course.createdAt}
-          img={course._trainee.profileImage}
-          name={course._trainee.name}
-          rating={course.rating}
+          key={review?._trainee?.username}
+          comment={review.comment}
+          country={review._trainee.country}
+          createdAt={review.createdAt.toString() }
+          img={review._trainee.profileImage}
+          name={review._trainee.name}
+          rating={review.rating}
         />
       );
     }
@@ -65,14 +61,12 @@ export default function ReviewList(props: { text: string }) {
   return (
     <div className='container'>
       <div>{toShow}</div>
-      {t1?.totalPages > 1 && (
-        <div className='d-flex  justify-content-end justify-content-center '>
-          <Pagination
-            activePage={reviewPage}
-            pages={t1.totalPages}
-            setActivePage={setReviewPage}
-          />
-        </div>
+      {data?.data?.totalPages as number > 1 && (
+        <Pagination
+          activePage={reviewPage}
+          pages={data?.data?.totalPages as number}
+          setActivePage={setReviewPage}
+        />
       )}
     </div>
   );
