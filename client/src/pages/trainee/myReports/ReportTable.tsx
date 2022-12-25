@@ -86,22 +86,25 @@ export default function ReportsTable() {
   });
 
   return (
-    <div className='fluid-container py-5' style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}>
+    <div
+      className='fluid-container py-5'
+      style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}
+    >
       <div
+        className='container'
         style={{
           marginLeft: '3rem',
           fontSize: '1.4rem',
           fontWeight: '500',
           color: '#A00407',
-          display: 'inline-block',
+          display: 'inline-block'
         }}
-				className='container'
       >
         Reports
       </div>
       <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
         <div className='table-responsive'>
-          <table className={`${styles.container ?? ''} table`} >
+          <table className={`${styles.container ?? ''} table`}>
             <thead>
               <tr
                 style={{
@@ -122,13 +125,12 @@ export default function ReportsTable() {
               {showModal && <FollowModal func={handleClick} report={curr} />}
             </tbody>
           </table>
-
         </div>
-				<Pagination
-            activePage={activePage}
-            pages={data?.data?.totalPages}
-            setActivePage={setActivePage}
-          />
+        <Pagination
+          activePage={activePage}
+          pages={data?.data?.totalPages}
+          setActivePage={setActivePage}
+        />
       </div>
     </div>
   );

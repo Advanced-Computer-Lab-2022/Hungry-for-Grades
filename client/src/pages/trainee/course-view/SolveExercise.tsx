@@ -91,43 +91,45 @@ function SolveExercise(
     [...questions.map(q => q.question), '']
   );
 
-  const submitAnswer = useMutation(async () => {
-    const question = questions[currentStepIndex];
-    if (!question || !question.selectedOption) {
-      return;
-    }
-    await addSubmittedQuestion(
-      props.courseId,
-      props.traineeId,
-      props._id,
-      props.questions[currentStepIndex]?._id,
-      question.selectedOption.answer
-    );
-    
+  const submitAnswer = useMutation(
+    async () => {
+      const question = questions[currentStepIndex];
+      if (!question || !question.selectedOption) {
+        return;
+      }
+      await addSubmittedQuestion(
+        props.courseId,
+        props.traineeId,
+        props._id,
+        props.questions[currentStepIndex]?._id,
+        question.selectedOption.answer
+      );
 
-    const correct = question.selectedOption.isCorrect;
-    const newQuestion = {
-      ...question,
-      answerStatus: correct ? AnswerStatus.Correct : AnswerStatus.Wrong,
-      wrongAttempts: correct ? 0 : 1
-    };
+      const correct = question.selectedOption.isCorrect;
+      const newQuestion = {
+        ...question,
+        answerStatus: correct ? AnswerStatus.Correct : AnswerStatus.Wrong,
+        wrongAttempts: correct ? 0 : 1
+      };
 
-    setQuestions(
-      setArrayElement(questions, question.questionNumber, newQuestion)
-    );
-    next();
-  }, {
-    onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: [
-          'getSubmittedQuestion',
-          props.courseId,
-          props.traineeId,
-          props._id
-        ],
-      });
+      setQuestions(
+        setArrayElement(questions, question.questionNumber, newQuestion)
+      );
+      next();
+    },
+    {
+      onSuccess: () => {
+        queryClient.removeQueries({
+          queryKey: [
+            'getSubmittedQuestion',
+            props.courseId,
+            props.traineeId,
+            props._id
+          ]
+        });
+      }
     }
-  });
+  );
 
   return (
     <div>

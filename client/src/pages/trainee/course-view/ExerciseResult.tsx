@@ -54,7 +54,9 @@ function ExerciseResult(props: ICourseExercise) {
         {data?.map((d, index) => {
           return (
             <div key={d._questionId} className='row m-3'>
-              <h6 className='text-dark'>1. {props.questions[index]?.question}</h6>
+              <h6 className='text-dark'>
+                1. {props.questions[index]?.question}
+              </h6>
               <p className='text-dark'>
                 Your answer was: {d.submittedAnswer}
                 <br />

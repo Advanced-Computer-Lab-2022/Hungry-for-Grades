@@ -36,7 +36,7 @@ export function SectionsForm() {
                 <AccordionItemHeading>
                   <AccordionItemButton>
                     <strong>Section #{index + 1}</strong>
-                    <div className='float-end' style={{marginTop: '-10px'}}>
+                    <div className='float-end' style={{ marginTop: '-10px' }}>
                       <button
                         className='btn btn-danger'
                         type='button'
@@ -85,8 +85,7 @@ export function SectionsForm() {
                   lessons: [] as LessonFormValues[],
                   exercises: [] as ExerciseFormValues[]
                 });
-              }
-            }
+              }}
             >
               Add new section
             </button>

@@ -8,7 +8,6 @@ import { QuestionFormValues } from '../course-form/course-form-types';
 
 import ExamForm from './ExamForm';
 
-
 import { ICourseQuestion } from '@/interfaces/course.interface';
 import {
   createExam,
@@ -54,8 +53,12 @@ function AddExam() {
   if (!data) {
     return <></>;
   }
-  if(!data._instructor.find(i => i._id === instructor)) {
-    return <h1 className='text-danger text-center'>You cannot create an exam for a course you are not teaching</h1>
+  if (!data._instructor.find(i => i._id === instructor)) {
+    return (
+      <h1 className='text-danger text-center'>
+        You cannot create an exam for a course you are not teaching
+      </h1>
+    );
   }
 
   return (
