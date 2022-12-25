@@ -1,11 +1,6 @@
 <div id="top"></div>
 
-## Table of Contents
-- [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
-- [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/Readme.md)
-- [Color Reference](#color-reference)
-- [Tools and Frameworks](#tools-and-frameworks)
-- [Screeshots](#screenshots)
+
 
 
 
@@ -52,6 +47,18 @@
 
 A complete Online Learning System for the CSEN704 Course (Advanced Programming Lab) in GUC (German University in Cairo). An OnlineLearning System is a web application through which individuals can attend pre-recorded courses online. Existing web applications include but are not limited to Coursera, Udemy,
 LinkedIn Learning, Great Learning and Udacity.
+
+
+
+
+## Table of Contents
+- [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
+- [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
+- [Motivation](#motivation)
+- [Installation](#installation)
+- [Authors](#authors)
+
+
 
 ## Motivation
 
