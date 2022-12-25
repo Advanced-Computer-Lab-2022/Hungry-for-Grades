@@ -37,7 +37,7 @@ function LeftView(props: LeftViewProps) {
   }
   if (isError) {
     return (
-      <h1 className='text-danger'>An error has occured while loading page</h1>
+      <h1 className='text-danger text-center'>An error has occured while loading page</h1>
     );
   }
   if (!traineeId) {
@@ -80,7 +80,7 @@ function CourseView() {
     return <></>;
   }
   if (isError) {
-    return <h1>You are not enrolled in this course</h1>;
+    return <h1 className='text-danger text-center'>You are not enrolled in this course</h1>;
   }
   if (isLoading) {
     return <Loader />;
