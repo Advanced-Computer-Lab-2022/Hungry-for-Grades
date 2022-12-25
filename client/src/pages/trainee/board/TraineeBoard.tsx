@@ -64,7 +64,10 @@ function App() {
   }
 
   return (
-    <div className='container paint'>
+		<div style={{
+			backgroundColor: '#f8f9fa'
+		}}>
+    <div className='container paint py-5'  >
       <div className='App'>
         <div className='draw-area'>
           <Menu
@@ -77,6 +80,9 @@ function App() {
             setLineWidth={setLineWidth}
           />
           <canvas
+					style={{
+						backgroundColor: '#fff'
+					}}
             ref={canvasRef}
             className='canvas'
             height={`720px`}
@@ -88,6 +94,7 @@ function App() {
         </div>
       </div>
     </div>
+		</div>
   );
 }
 

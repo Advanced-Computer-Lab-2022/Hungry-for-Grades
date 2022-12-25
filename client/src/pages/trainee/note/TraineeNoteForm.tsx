@@ -57,7 +57,10 @@ function TraineeNoteForm({
   }
 
   return (
-    <Container className='my-4'>
+		<div style={{
+			backgroundColor: '#f8f9fa'
+		}} className='py-5'>
+    <Container  >
       <Form onSubmit={handleSubmit}>
         <Stack gap={4}>
           <Row>
@@ -116,6 +119,7 @@ function TraineeNoteForm({
         </Stack>
       </Form>
     </Container>
+		</div>
   );
 }
 export default TraineeNoteForm;
