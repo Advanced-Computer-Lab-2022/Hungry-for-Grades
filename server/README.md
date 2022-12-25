@@ -48,4 +48,5 @@ We can tolerate some inconsistency in this platform and have eventually consiste
 So having NoSQL database will be better on Scalability, as it is more flexible and with better performance and faster than SQL databases.
 Now when choosing available system, the nodes will be available on any request but the node itself won't be up to date in any moment because it may need some data from other nodes and take time to get these data, and we chose availability so we can't ignore the user request waiting for data (here we lose avaialbility) but we respond with data available and then node will be updated. (this is what is called eventually consistent).
 
-
+    ##screenshots
+<img src="../screenshots/systemDesign/My System Design.png" alt="Sign up User Form" align="center" >
