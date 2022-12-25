@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { QuestionFormValues } from './course-form-types';
+import { QuestionFormValues } from '../course-form/course-form-types';
 
 export type IExamFormContext = {
   setNumberOfQuestions(n: number): void;

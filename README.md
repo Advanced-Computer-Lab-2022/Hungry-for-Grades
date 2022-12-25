@@ -55,16 +55,65 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
 - [Motivation](#motivation)
+- [Objectives](#objectives)
+- [Tools and Frameworks](#tools-and-frameworks)
 - [Installation](#installation)
 - [Authors](#authors)
 
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Motivation
 
 The project was created as a part for the CSEN704 Course (Advanced Programming Lab) in GUC (German University in Cairo). The goals is to learn fullstack web application development using MERN Stack ([MongoDB](https://www.mongodb.com/), [express](https://expressjs.com/), [React](https://reactjs.org/), [Node.js](https://nodejs.org/en/))
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
+
+## Objectives
+- Learn how to properly use the Agile Methodology to plan out a project and develop the software.
+- Learn the process of following a given set of System Requirements to develop a software.
+- Learn to research and master the use of the MERN Stack.
+- Learn how to work together as a team on GitHub.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+## Tools and Frameworks
+This project is fully implemented using the MERN Stack and docker. MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
+- MongoDB is an open source NoSQL database management program. NoSQL is used as an alternative to traditional relational databases. NoSQL databases are quite useful for working with large sets of distributed data. MongoDB is a tool that can manage document-oriented information, store or retrieve information.
+- Express is a Node. js web application server framework, designed for building single-page, multi-page, and hybrid web applications. It is the de facto standard server framework for node.
+- ReactJS is an open-source JavaScript library that is used for building user interfaces specifically for single-page applications. It's used for handling the view layer for web and mobile apps. React also allows us to create reusable UI components.
+NodeJS is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.
+- Docker is a platform designed to help developers build, share, and run modern applications. We handle the tedious setup, so you can focus on the code.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+## How does the MERN stack work?
+- The MERN architecture allows you to easily construct a 3-tier architecture (frontend, backend, database) entirely using JavaScript and JSON.
+<img src='https://camo.githubusercontent.com/0459e71376620f414a1058e965ec3547186b4eb79199f63ad1e51009fea15d5b/68747470733a2f2f776562696d616765732e6d6f6e676f64622e636f6d2f5f636f6d5f6173736574732f636d732f6d65726e2d737461636b2d623971316b6275647a302e706e673f6175746f3d666f726d6174253243636f6d7072657373'>
+
+
+- React.js Front End
+
+The top tier of the MERN stack is React.js, the declarative JavaScript framework for creating dynamic client-side applications in HTML. React lets you build up complex interfaces through simple Components, connect them to data on your backend server, and render them as HTML.
+
+React’s strong suit is handling stateful, data-driven interfaces with minimal code and minimal pain, and it has all the bells and whistles you’d expect from a modern web framework: great support for forms, error handling, events, lists, and more.
+
+- Express.js and Node.js Server Tier
+
+The next level down is the Express.js server-side framework, running inside a Node.js server. Express.js bills itself as a “fast, unopinionated, minimalist web framework for Node.js,” and that is indeed exactly what it is. Express.js has powerful models for URL routing (matching an incoming URL with a server function), and handling HTTP requests and responses.
+
+By making XML HTTP Requests (XHRs) or GETs or POSTs from your React.js front-end, you can connect to Express.js functions that power your application. Those functions in turn use MongoDB’s Node.js drivers, either via callbacks for using Promises, to access and update data in your MongoDB database.
+
+- MongoDB Database Tier
+
+If your application stores any data (user profiles, content, comments, uploads, events, etc.), then you’re going to want a database that’s just as easy to work with as React, Express, and Node.
+
+That’s where MongoDB comes in: JSON documents created in your React.js front end can be sent to the Express.js server, where they can be processed and (assuming they’re valid) stored directly in MongoDB for later retrieval. Again, if you’re building in the cloud, you’ll want to look at Atlas. If you’re looking to set up your own MERN stack, read on!
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
@@ -99,6 +148,7 @@ cd Hungry-for-Grades/server
 yarn
 yarn dev
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
