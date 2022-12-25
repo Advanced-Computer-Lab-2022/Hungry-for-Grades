@@ -61,10 +61,13 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Authors](#authors)
 
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Motivation
 
 The project was created as a part for the CSEN704 Course (Advanced Programming Lab) in GUC (German University in Cairo). The goals is to learn fullstack web application development using MERN Stack ([MongoDB](https://www.mongodb.com/), [express](https://expressjs.com/), [React](https://reactjs.org/), [Node.js](https://nodejs.org/en/))
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 ## Objectives
@@ -73,6 +76,9 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 - Learn to research and master the use of the MERN Stack.
 - Learn how to work together as a team on GitHub.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
 ## Tools and Frameworks
 This project is fully implemented using the MERN Stack and docker. MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
 - MongoDB is an open source NoSQL database management program. NoSQL is used as an alternative to traditional relational databases. NoSQL databases are quite useful for working with large sets of distributed data. MongoDB is a tool that can manage document-oriented information, store or retrieve information.
@@ -80,6 +86,8 @@ This project is fully implemented using the MERN Stack and docker. MERN stands f
 - ReactJS is an open-source JavaScript library that is used for building user interfaces specifically for single-page applications. It's used for handling the view layer for web and mobile apps. React also allows us to create reusable UI components.
 NodeJS is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.
 - Docker is a platform designed to help developers build, share, and run modern applications. We handle the tedious setup, so you can focus on the code.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 ## How does the MERN stack work?
@@ -105,6 +113,7 @@ If your application stores any data (user profiles, content, comments, uploads, 
 
 That’s where MongoDB comes in: JSON documents created in your React.js front end can be sent to the Express.js server, where they can be processed and (assuming they’re valid) stored directly in MongoDB for later retrieval. Again, if you’re building in the cloud, you’ll want to look at Atlas. If you’re looking to set up your own MERN stack, read on!
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
@@ -139,6 +148,7 @@ cd Hungry-for-Grades/server
 yarn
 yarn dev
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
