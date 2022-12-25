@@ -16,7 +16,10 @@ export default function Main() {
   const info = data?.data?.data?.data;
 
   return (
-    <div className={styles.container}>
+		<div className='py-5' style={{
+			backgroundColor:'#F8F9FA'
+		}}>
+    <div className={`${styles.container ?? ''} container`}>
       <div>
         <h2 style={{ fontSize: '1.5rem' }}>Rating:</h2>
         <div>
@@ -42,5 +45,6 @@ export default function Main() {
         </div>
       </div>
     </div>
+		</div>
   );
 }

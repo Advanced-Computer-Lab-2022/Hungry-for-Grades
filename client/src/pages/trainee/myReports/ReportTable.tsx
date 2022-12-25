@@ -47,7 +47,7 @@ export default function ReportsTable() {
 					          <td>{index+1}</td>
 
           <td>{report?.reason}</td>
-          <td>
+          <td className='text-truncate'>
             {report?._course != null ? report?._course.at(0)?.title : 'None'}
           </td>
           <td>{date}</td>
@@ -72,7 +72,7 @@ export default function ReportsTable() {
           )}
           <td>
             <button
-              style={{ fontSize: '0.8rem', color: '#A00407' }}
+              style={{ fontSize: '1rem', color: '#A00407',  }}
               type='button'
               onClick={() => {
                 handleClick();
@@ -126,8 +126,8 @@ export default function ReportsTable() {
                 <th>Reason</th>
                 <th>Course</th>
                 <th>Date</th>
-                <th style={{ paddingLeft: '0.5rem' }}>Status</th>
-                <th>Follow Ups</th>
+                <th >Status</th>
+                <th> &nbsp;  &nbsp; Follow Ups</th>
               </tr>
             </thead>
             <tbody>
