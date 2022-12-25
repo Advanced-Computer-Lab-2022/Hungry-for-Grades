@@ -288,7 +288,8 @@ function AllRoutes() {
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
-          <Route element={<LazyAdminDashboard />} path='dashboard'>
+          <Route element={<LazyAdminDashboard />} >
+          <Route  element={<div />} path='dashboard'/>
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route

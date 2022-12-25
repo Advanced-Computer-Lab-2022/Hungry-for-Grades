@@ -79,19 +79,25 @@ export default function FollowModal(props: {
         </Modal.Header>
         <div className={styles.container}>
           <div className='row'>
-            <section className={styles.chat}>
-              <div className={styles.messages_chat}>{toShow}</div>
+            <section className={styles.chat} >
+              <div className={styles.messages_chat}  style={{
+					minHeight: '500px',
+					overflowY:'scroll',
+					overflowX:'hidden'
+				}}>{toShow}</div>
               <div className={styles.footer_chat}>
                 <input
+                  className='form-control form-control-md mx-3'
                   placeholder='Type your follow up here'
                   type='text'
                   value={value}
-                  onChange={handleChange}
+									onChange={handleChange}
                 />
                 <button
-                  className={styles.submitFollow}
+                  className='btn btn-primary mx-2'
                   type='button'
                   onClick={() => SendMessage()}
+
                 >
                   Send
                 </button>
@@ -103,3 +109,4 @@ export default function FollowModal(props: {
     </div>
   );
 }
+
