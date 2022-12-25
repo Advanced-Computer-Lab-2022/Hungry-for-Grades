@@ -13,6 +13,14 @@ export type Report = {
   status: Status;
 };
 
+export type ReportDTO = {
+  _course: string;
+  _user: string;
+  description: string;
+  reason: Reason;
+  status: Status;
+}
+
 export interface Message {
   content: string;
   createdAt: Date;

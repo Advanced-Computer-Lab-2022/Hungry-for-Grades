@@ -1,47 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 .paint {
-    .App {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
+  .App {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .draw-area {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    background-color: white;
+  }
+  .canvas {
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .Menu {
+    width: 49rem;
+    height: 50px;
+    display: flex;
+    padding: 1rem;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    align-items: center;
+    background-color: #a3a3a32d;
+    margin: auto;
+    margin-top: 10px;
+    input {
+      width: 100px;
+      height: 30px;
+      border: none;
+      margin-right: 0.5rem;
     }
-    .draw-area {
-        width: 1280px;
-        height: 720px;
-        position: relative;
-        background-color: white;
+    label {
+      border: none;
+      margin-left: 0.5rem;
     }
-    .canvas {
-        border: 2px solid var(--primary-color);
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        -ms-border-radius: 5px;
-        -o-border-radius: 5px;
-    }
-    .Menu {
-        width: 720px;
-        height: 50px;
-        display: flex;
-        padding: 1rem;
-        justify-content: space-evenly;
-        border-radius: 5px;
-        align-items: center;
-        background-color: #a3a3a32d;
-        margin: auto;
-        margin-top: 10px;
-        input {
-            width: 100px;
-            height: 30px;
-            border: none;
-            margin-right: 0.5rem;
-        }
-        label {
-            border: none;
-            margin-left: 0.5rem;
-        }
-    }
+  }
 }

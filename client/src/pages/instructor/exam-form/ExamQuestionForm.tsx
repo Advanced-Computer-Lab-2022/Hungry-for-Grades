@@ -1,8 +1,9 @@
 import { Form, Formik, FormikProps } from 'formik';
 import { useCallback, useContext } from 'react';
 
-import { QuestionFormValues } from './course-form-types';
-import { questionSchema } from './course-schemas';
+import { QuestionFormValues } from '../course-form/course-form-types';
+import { questionSchema } from '../course-form/course-schemas';
+
 import { ExamFormContext } from './exam-form-types';
 
 import { ExamAnswerForm } from './ExamAnswerForm';

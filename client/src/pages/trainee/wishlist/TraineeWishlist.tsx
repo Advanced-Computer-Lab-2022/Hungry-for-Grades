@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import useWishQuery from './UseWishQuery';
 
@@ -12,7 +12,7 @@ import { IUser } from '@/interfaces/user.interface';
 
 export default function TraineeWishlist() {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const user = UseUser();
 
   const { data, isLoading, activePage, setActivePage } = useWishQuery(
@@ -47,6 +47,40 @@ export default function TraineeWishlist() {
       </div>
     );
   });
+
+  const handleSubmit = () => {
+    navigate('/courses');
+  };
+
+  const fontFamily = 'Arial, Helvetica, sans-serif';
+
+  if (data?.data?.totalResults == 0) {
+    return (
+      <div className='container text-center my-5'>
+        <div
+          className='mb-2'
+          style={{
+            fontFamily: fontFamily,
+            fontWeight: '600',
+            fontSize: '1.3rem'
+          }}
+        >
+          Your wishlist is empty.
+        </div>
+
+        <button
+          className='btn btn-primary mt-2'
+          style={{
+            fontFamily: fontFamily
+          }}
+          type='submit'
+          onClick={handleSubmit}
+        >
+          Browse courses now
+        </button>
+      </div>
+    );
+  }
 
   return (
     <>

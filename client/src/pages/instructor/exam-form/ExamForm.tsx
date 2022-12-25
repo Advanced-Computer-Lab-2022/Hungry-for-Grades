@@ -4,7 +4,7 @@ import {
   AnswerFormValues,
   getUniqueId,
   QuestionFormValues
-} from './course-form-types';
+} from '../course-form/course-form-types';
 
 import { ExamFormContext, IExamFormContext } from './exam-form-types';
 

@@ -500,19 +500,22 @@ class TraineeService {
     if (!question) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Question does not exist in this exercise');
 
     // check if question is already submitted
-    const submittedQuestion = enrolledCourse._submittedQuestions.find(submittedQuestion => submittedQuestion._questionId.toString() == questionId);
-    if (submittedQuestion) {
-      // update answer
-      submittedQuestion.submittedAnswer = answer;
-    } else {
-      // add submitted question
-      const newSubmittedQuestion: SubmittedQuestion = {
-        _questionId: new mongoose.Types.ObjectId(questionId),
-        submittedAnswer: answer,
-      };
+    const submittedQuestionIndex = enrolledCourse._submittedQuestions.findIndex(
+      submittedQuestion => submittedQuestion._questionId.toString() == questionId,
+    );
 
-      enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+    console.log(`submitted question Index ${submittedQuestionIndex}`);
+    if (submittedQuestionIndex >= 0) {
+      enrolledCourse._submittedQuestions.splice(submittedQuestionIndex, 1);
     }
+    // add submitted question
+    const newSubmittedQuestion: SubmittedQuestion = {
+      _questionId: new mongoose.Types.ObjectId(questionId),
+      submittedAnswer: answer,
+    };
+
+    enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+
     await trainee.save();
   };
 

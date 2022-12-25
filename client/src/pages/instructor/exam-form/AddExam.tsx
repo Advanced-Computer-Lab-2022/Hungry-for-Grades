@@ -4,9 +4,10 @@ import { toast } from 'react-toastify';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { QuestionFormValues } from '../course-form/course-form-types';
+
 import ExamForm from './ExamForm';
 
-import { QuestionFormValues } from './course-form-types';
 
 import { ICourseQuestion } from '@/interfaces/course.interface';
 import {
@@ -15,10 +16,11 @@ import {
 } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import useInstructorId from '@/hooks/useInstuctorId';
 
 function AddExam() {
   const country = UseCountry();
-
+  const instructor = useInstructorId();
   const navigate = useNavigate();
   const { courseid } = useParams();
   const { isError, isLoading, data } = useQuery(
@@ -51,6 +53,9 @@ function AddExam() {
   }
   if (!data) {
     return <></>;
+  }
+  if(!data._instructor.find(i => i._id === instructor)) {
+    return <h1 className='text-danger text-center'>You cannot create an exam for a course you are not teaching</h1>
   }
 
   return (
