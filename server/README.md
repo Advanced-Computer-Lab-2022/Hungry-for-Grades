@@ -1,8 +1,6 @@
 ## Server
 
 
-## hussein
-
 ## Table of Contents
 - [Scaling](#Scaling)
 - [Scaling Scheme](#Scaling-Scheme)
