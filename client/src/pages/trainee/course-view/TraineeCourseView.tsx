@@ -80,7 +80,11 @@ function CourseView() {
     return <></>;
   }
   if (isError) {
-    return <h1 className='text-danger text-center'>You are not enrolled in this course</h1>;
+    return (
+      <h1 className='text-danger text-center'>
+        You are not enrolled in this course
+      </h1>
+    );
   }
   if (isLoading) {
     return <Loader />;

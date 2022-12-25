@@ -31,7 +31,6 @@ export default function LastStudy() {
             className={styles.image_holder}
             loading='lazy'
             src={course?._course?.thumbnail}
-
           />
           <div
             style={{

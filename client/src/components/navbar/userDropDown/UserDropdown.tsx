@@ -30,9 +30,12 @@ function MenuHeadersExample() {
       notes: useTraineeNoteStoreNotes
     };
     try {
-			if(user && user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()){
-      await postRequest(storeNotes);
-		}
+      if (
+        user &&
+        user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()
+      ) {
+        await postRequest(storeNotes);
+      }
       await postRequest(AuthRoutes.POST.logout);
     } catch (e) {
       console.log(e);

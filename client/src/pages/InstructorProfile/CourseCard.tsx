@@ -4,8 +4,6 @@ import styles from './CourseCard.module.scss';
 
 import { ITeachedCourse } from '@/interfaces/instructor.interface';
 
-
-
 export default function CourseCard(props: {
   course: ITeachedCourse;
   instructorName: string;
@@ -17,7 +15,7 @@ export default function CourseCard(props: {
       </>
     );
   });
-  const toGo = `/course/:${props.course?._course?._id }`;
+  const toGo = `/course/:${props.course?._course?._id}`;
   return (
     <div className={styles.course_wrapper}>
       <a href={toGo}>
@@ -63,12 +61,12 @@ export default function CourseCard(props: {
       </div>
 
       <StarRatings
-          numberOfStars={5}
-          rating={props?.course?._course?.rating?.averageRating}
-          starDimension='20px'
-          starRatedColor='rgb(229, 152, 25)'
-          starSpacing='0px'
-        />
+        numberOfStars={5}
+        rating={props?.course?._course?.rating?.averageRating}
+        starDimension='20px'
+        starRatedColor='rgb(229, 152, 25)'
+        starSpacing='0px'
+      />
       <div style={{ fontSize: '1rem', fontWeight: '700' }}>
         {' '}
         {props?.course?._course?.price?.currency}{' '}

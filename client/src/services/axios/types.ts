@@ -81,13 +81,13 @@ export type DELETERoutesType =
   | TraineeRouteType<'DELETE'>
   | NewsLetterRouteType<'DELETE'>
   | CourseRouteType<'DELETE'>
-  |InstructorRouteType<'DELETE'>;
+  | InstructorRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = CourseRouteType<'PUT'>;
-export type PATCHRoutesType = 
-|ReportRouteType<'PATCH'>
-|InstructorRouteType<'PATCH'>;
+export type PATCHRoutesType =
+  | ReportRouteType<'PATCH'>
+  | InstructorRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

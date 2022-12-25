@@ -50,7 +50,7 @@ export const ReportDataService = {
 export async function requestCourse(
   reportData: ReportDTO
 ): Promise<Report | null> {
-  if(!reportData) {
+  if (!reportData) {
     return null;
   }
   const courseRequest = ReportDataService.POST.requestCourse;

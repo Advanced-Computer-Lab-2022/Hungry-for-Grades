@@ -272,19 +272,19 @@ function CourseForm(props: CourseFormProps) {
 
           <h4>Refund Policy</h4>
           <ul>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               A Trainee may request a refund as long as they did not access more
               then 50% of the course content.
             </li>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               In case the trainee did not access any of the course content, they
               are eligible for a full refund.
             </li>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               In case of a refund, the trainee gets 70% of the course cost value
               back content they access is less than 50% of the course content.
             </li>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               In case the trainee access more than 50% of the course content,
               they are not eligible for refund.
             </li>
@@ -292,17 +292,17 @@ function CourseForm(props: CourseFormProps) {
 
           <h4>Revenue sharing</h4>
           <ul>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               80% of the course cost paid by the trainees is shared by the
               instructor(s). The remaining 20% goes to Canadian Chamber of
               Commerce.
             </li>
 
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               The refunded value is deducted from the instructors&apos; revenue
               according to the aforementioned 80%/20% ratio.
             </li>
-            <li style={{listStyle: 'initial'}}>
+            <li style={{ listStyle: 'initial' }}>
               Discounts, offered by The Canadian Chamber of Commerce, from the
               instructors&apos; revenue according to the aforementioned 80%/20%
               ratio.
@@ -317,8 +317,10 @@ function CourseForm(props: CourseFormProps) {
           </p>
 
           <h4>Deleting the course</h4>
-          <p>The instructors can request that their course be deleted. 
-            Any trainees who purchased the course, will receive a full refund and this is deducted from instructors&apos; revenue.
+          <p>
+            The instructors can request that their course be deleted. Any
+            trainees who purchased the course, will receive a full refund and
+            this is deducted from instructors&apos; revenue.
           </p>
         </div>
       </Modal>

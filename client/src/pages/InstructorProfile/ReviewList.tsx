@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
@@ -38,30 +37,26 @@ export default function ReviewList(props: { text: string }) {
 
   if (isLoading) return <Loader />;
 
+  const reviewList: Review[] = data?.data?.data as Review[];
 
-  const reviewList :Review[] = data?.data?.data as Review[];
-
-
-  const toShow = reviewList?.map(
-    (review: Review) => {
-      return (
-        <ReviewContainer
-          key={review?._trainee?.username}
-          comment={review.comment}
-          country={review._trainee.country}
-          createdAt={review.createdAt.toString() }
-          img={review._trainee.profileImage}
-          name={review._trainee.name}
-          rating={review.rating}
-        />
-      );
-    }
-  );
+  const toShow = reviewList?.map((review: Review) => {
+    return (
+      <ReviewContainer
+        key={review?._trainee?.username}
+        comment={review.comment}
+        country={review._trainee.country}
+        createdAt={review.createdAt.toString()}
+        img={review._trainee.profileImage}
+        name={review._trainee.name}
+        rating={review.rating}
+      />
+    );
+  });
 
   return (
     <div className='container'>
       <div>{toShow}</div>
-      {data?.data?.totalPages as number > 1 && (
+      {(data?.data?.totalPages as number) > 1 && (
         <Pagination
           activePage={reviewPage}
           pages={data?.data?.totalPages as number}

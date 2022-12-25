@@ -12,8 +12,9 @@ import { formatDuration } from '@/utils/duration';
 import useCourseButtons from '@/hooks/useCourseButtons';
 
 function CourseHeader(props: ICourse & { videoClassName: string }) {
-  const { requestAccess, viewCourse, addToWishList } =
-    useCourseButtons(props._id);
+  const { requestAccess, viewCourse, addToWishList } = useCourseButtons(
+    props._id
+  );
   return (
     <div className={`py-3 text-light bg-dark rounded-3 mb-3`}>
       <div className='container'>
@@ -55,15 +56,31 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
           {formatDuration(props.duration * 60)}
         </div>
 
-        {addToWishList && <div className={`${props.videoClassName} mt-2`}>
-          <button className='btn btn-light w-100' type='button'><strong>Add to Wishlist</strong></button>
-        </div>}
-        {viewCourse && <div className={`${props.videoClassName} mt-2`}>
-          <button className='btn btn-light w-100' type='button'><strong>Go to course</strong></button>
-        </div>}
-        {requestAccess && <div className={`${props.videoClassName} mt-2`}>
-          <button className='btn btn-light w-100' type='button' onClick={requestAccess}><strong>Request access</strong></button>
-        </div>}
+        {addToWishList && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button className='btn btn-light w-100' type='button'>
+              <strong>Add to Wishlist</strong>
+            </button>
+          </div>
+        )}
+        {viewCourse && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button className='btn btn-light w-100' type='button'>
+              <strong>Go to course</strong>
+            </button>
+          </div>
+        )}
+        {requestAccess && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button
+              className='btn btn-light w-100'
+              type='button'
+              onClick={requestAccess}
+            >
+              <strong>Request access</strong>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

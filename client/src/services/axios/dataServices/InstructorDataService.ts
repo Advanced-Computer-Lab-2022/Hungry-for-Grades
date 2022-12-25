@@ -5,7 +5,7 @@ export const InstructorRoutes = {
       params: '',
       query: '',
       payload: {},
-      response:{}
+      response: {}
     },
     getInstructor: {
       URL: '/instructor',
@@ -19,13 +19,11 @@ export const InstructorRoutes = {
       query: '',
       payload: {}
     },
-    getUserReview:
-    {
-      URL : '',
-      params : '',
-      query : '',
-      payload : {}
-
+    getUserReview: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     },
     getTopInstructors: {
       URL: '/instructor/top-rated' as const,
@@ -63,28 +61,27 @@ export const InstructorRoutes = {
       query: '',
       payload: {}
     },
-    userAddReview : {
-      URL : '/instructor/rating/',
-      params:'',
-      query : '',
-      payload:{}
-    }
-
-  },
-  PATCH : {
-    userUpdateReview:{
-      URL : '/instructor/rating/',
-      params:'',
-      query:'',
-      payload:{}
+    userAddReview: {
+      URL: '/instructor/rating/',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
-  DELETE : {
-    userDeleteReview : {
-      URL : '',
-      params:'',
-      query:'',
-      payload:{}
+  PATCH: {
+    userUpdateReview: {
+      URL: '/instructor/rating/',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  DELETE: {
+    userDeleteReview: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   }
 };

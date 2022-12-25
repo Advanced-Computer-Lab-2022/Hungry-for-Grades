@@ -19,7 +19,7 @@ export type ReportDTO = {
   description: string;
   reason: Reason;
   status: Status;
-}
+};
 
 export interface Message {
   content: string;
