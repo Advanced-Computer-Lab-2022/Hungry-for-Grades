@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import Question from './Question';
 
 import {
@@ -14,7 +16,7 @@ import ExerciseResult from './ExerciseResult';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 import { ICourseExercise } from '@/interfaces/course.interface';
-import ProgressSteps from '@/components/progress/ProgressSteps';
+
 import { addSubmittedQuestion } from '@/services/axios/dataServices/TraineeDataService';
 
 function SolveExercise(
@@ -36,6 +38,7 @@ function SolveExercise(
       wrongAttempts: 0
     }))
   );
+  const queryClient = useQueryClient();
 
   const optionSelected = (
     question: QuestionStatus,
@@ -88,7 +91,7 @@ function SolveExercise(
     [...questions.map(q => q.question), '']
   );
 
-  const submitAnswer = async () => {
+  const submitAnswer = useMutation(async () => {
     const question = questions[currentStepIndex];
     if (!question || !question.selectedOption) {
       return;
@@ -100,6 +103,7 @@ function SolveExercise(
       props.questions[currentStepIndex]?._id,
       question.selectedOption.answer
     );
+    
 
     const correct = question.selectedOption.isCorrect;
     const newQuestion = {
@@ -112,12 +116,22 @@ function SolveExercise(
       setArrayElement(questions, question.questionNumber, newQuestion)
     );
     next();
-  };
+  }, {
+    onSuccess: () => {
+      queryClient.removeQueries({
+        queryKey: [
+          'getSubmittedQuestion',
+          props.courseId,
+          props.traineeId,
+          props._id
+        ],
+      });
+    }
+  });
 
   return (
     <div>
       <form className='form-horizontal small'>
-        <ProgressSteps currentStepIndex={currentStepIndex} steps={stepTitles} />
         <div className='border border-primary p-3 rounded'>
           <div className='float-end'>
             <strong className='text-dark'>
@@ -142,7 +156,7 @@ function SolveExercise(
               <button
                 className='btn btn-primary'
                 type='button'
-                onClick={submitAnswer}
+                onClick={() => submitAnswer.mutate()}
               >
                 {currentStepIndex === questions.length - 1
                   ? 'See result'
