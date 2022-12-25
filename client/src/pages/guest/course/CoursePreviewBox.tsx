@@ -51,7 +51,7 @@ function CoursePreviewBox(props: ICourse) {
               position: 'absolute',
               left: 0,
               top: 0,
-              border: 0,
+              border: 0
             }}
             title={props.title}
           />
@@ -65,7 +65,11 @@ function CoursePreviewBox(props: ICourse) {
       )}
       {addToCart && (
         <div className='my-2 text-center mx-2'>
-          <button className='btn btn-dark my-1 w-100' type='button' onClick={addToCart}>
+          <button
+            className='btn btn-dark my-1 w-100'
+            type='button'
+            onClick={addToCart}
+          >
             <strong>Add to Cart</strong>
           </button>
         </div>
@@ -74,7 +78,8 @@ function CoursePreviewBox(props: ICourse) {
         <div className='my-2 text-center mx-2'>
           <button
             className='btn btn-light border border-2 my-1 w-100'
-            type='button' onClick={addToWishList}
+            type='button'
+            onClick={addToWishList}
           >
             <strong>Add to Wishlist</strong>
           </button>

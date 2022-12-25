@@ -108,9 +108,7 @@ const LazyInstructorCoursesSection = lazy(
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
-const LazyAddExam = lazy(
-  () => import('@/pages/instructor/exam-form/AddExam')
-);
+const LazyAddExam = lazy(() => import('@/pages/instructor/exam-form/AddExam'));
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );
@@ -288,8 +286,8 @@ function AllRoutes() {
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
-          <Route element={<LazyAdminDashboard />} >
-          <Route  element={<div />} path='dashboard'/>
+          <Route element={<LazyAdminDashboard />}>
+            <Route element={<div />} path='dashboard' />
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route

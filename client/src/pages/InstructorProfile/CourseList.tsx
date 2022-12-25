@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -23,7 +22,6 @@ async function getCourses(country: string, currentPage: number, id: string) {
 }
 
 export default function CourseList(props: { text: string; namme: string }) {
-
   const instructorId = props.text;
 
   const [activePage, setActivePage] = useState<number>(1);
@@ -39,31 +37,28 @@ export default function CourseList(props: { text: string; namme: string }) {
     }
   );
 
-
-  const list  = data?.data?.data;
+  const list = data?.data?.data;
 
   if (isLoading) {
     return <LoaderCards numberOfCards={2} />;
   }
 
-  const toShow = list?.map(
-    (course: ITeachedCourse) => {
-      return (
-        <CourseCard
-          key={course?._course?._id}
-          course={course }
-          instructorName={props.namme}
-        />
-      );
-    }
-  );
+  const toShow = list?.map((course: ITeachedCourse) => {
+    return (
+      <CourseCard
+        key={course?._course?._id}
+        course={course}
+        instructorName={props.namme}
+      />
+    );
+  });
 
   return (
     <div className={styles.course_section}>
       <h2>Instructor Courses({data?.data?.totalResults})</h2>
       <div className={styles.course_wrapper} />
       {toShow}
-      {data?.data?.totalPages as number > 1 && (
+      {(data?.data?.totalPages as number) > 1 && (
         <Pagination
           activePage={activePage}
           pages={data?.data?.totalPages as number}

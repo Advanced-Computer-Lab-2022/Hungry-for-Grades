@@ -25,14 +25,18 @@ function MenuHeadersExample() {
   const useTraineeNoteStoreNotes = UseTraineeNoteStoreNotes();
   const user = UseUser();
   async function logout() {
-    const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
-    storeNotes.payload = {
-      notes: useTraineeNoteStoreNotes
-    };
     try {
-			if(user && user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()){
-      await postRequest(storeNotes);
-		}
+      if (
+        user &&
+        user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() &&
+        useTraineeNoteStoreNotes !== null
+      ) {
+        const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
+        storeNotes.payload = {
+          notes: useTraineeNoteStoreNotes
+        };
+        await postRequest(storeNotes);
+      }
       await postRequest(AuthRoutes.POST.logout);
     } catch (e) {
       console.log(e);

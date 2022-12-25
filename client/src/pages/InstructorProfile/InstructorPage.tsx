@@ -1,6 +1,5 @@
 import { AiFillLinkedin, AiFillGithub, AiFillYoutube } from 'react-icons/ai';
 
-
 import { BiWorld } from 'react-icons/bi';
 
 import { useQuery } from '@tanstack/react-query';
@@ -14,7 +13,6 @@ import ReviewSection from './ReviewSection';
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
-
 
 import ReviewList from './ReviewList';
 
@@ -57,8 +55,6 @@ export default function InstructorPage() {
   if (Instructor === undefined || !data?.status) {
     return <ErrorMessage errorMessage={data?.statusText} />;
   }
-
-  
 
   return (
     <div className={styles.page}>
