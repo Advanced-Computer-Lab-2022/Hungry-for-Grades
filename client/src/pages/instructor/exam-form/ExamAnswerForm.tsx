@@ -1,7 +1,7 @@
 import { FieldArray, FormikProps, useFormikContext } from 'formik';
 import { BsFillTrashFill } from 'react-icons/bs';
 
-import { getUniqueId, QuestionFormValues } from './course-form-types';
+import { getUniqueId, QuestionFormValues } from '../course-form/course-form-types';
 
 import ArrayErrorMessage from '@/components/form/ArrayErrorMessage';
 import TextField from '@/components/form/TextField';

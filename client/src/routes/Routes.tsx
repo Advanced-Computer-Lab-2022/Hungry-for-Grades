@@ -109,7 +109,7 @@ const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
 const LazyAddExam = lazy(
-  () => import('@/pages/instructor/course-form/AddExam')
+  () => import('@/pages/instructor/exam-form/AddExam')
 );
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')

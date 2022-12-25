@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react';
 
-import { QuestionFormValues } from './course-form-types';
+import { QuestionFormValues } from '../course-form/course-form-types';
 
 type Step = {
   currentStepIndex: number;
