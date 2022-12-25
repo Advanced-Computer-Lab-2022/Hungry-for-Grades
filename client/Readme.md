@@ -3,7 +3,9 @@
 - [Process](#process)
 - [Color Reference](#color-reference)
 - [Tools and Frameworks](#tools-and-frameworks)
+- [Development Tools and Libraries](#development-tools-and-libraries)
 - [Screeshots](#screenshots)
+- [Help](#help)
 
 
 
@@ -56,11 +58,20 @@
 	- Cypress is the new standard in front-end testing that every developer and QA engineer needs. programmer. Developer-friendly. 
 
 
+## Development Tools and Libraries
+- React Query : Fetch, cache and update data in your React and React Native applications all without touching any "global state".
+- Zustand : A small, fast and scalable bearbones state-management solution using simplified flux principles. Has a comfy api based on hooks,
+- click to component
+
 ## Screenshots
 - Sign up User Form
  <img src="../screenshots/sign up 1.png" alt="Sign up User Form" align="center" >
 
 
+
+
+## Help
+- run ``` yarn run why ``` to understand the commands in the package.json
 
 
 
