@@ -1,5 +1,14 @@
 <div id="top"></div>
 
+## Table of Contents
+- [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
+- [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/Readme.md)
+- [Color Reference](#color-reference)
+- [Tools and Frameworks](#tools-and-frameworks)
+- [Screeshots](#screenshots)
+
+
+
 <!-- badges -->
 <div align="center" >
 
