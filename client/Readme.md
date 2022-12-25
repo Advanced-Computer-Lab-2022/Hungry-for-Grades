@@ -1,14 +1,27 @@
-Roles :
+## Table of Contents
+- [Installation](#installation)
+- [Process](#process)
+- [Color Reference](#color-reference)
+- [Tools and Frameworks](#tools-and-frameworks)
+- [Screeshots](#screenshots)
 
-- UX Designer :research personna wireframes
-- UI Designer : prototypes style guide branding guidelines
-- UX researcher : user behavior from interviews and surveys
-- UX writer : content strategy and copywriting for the product and marketing (website, blog, social media)
 
-process :
 
-- stakeholder interviews : to understand the business goals and user needs,who are customers, product uniqueness, success metrics
-- user research : to understand the user needs and behavior
+## installation
+
+
+
+
+
+## process 
+- Roles :
+
+	- Admin
+	- Trainee
+	- Corporate Trainee
+	- Instructor
+	- stakeholder interviews : to understand the business goals and user needs,who are customers, product uniqueness, success metrics
+	- user research : to understand the user needs and behavior
 - competitive analysis : to understand the competitors and their products like marketing strategy, pricing, features, user experience and business failure and core features of the product
 - user research :
 
@@ -16,7 +29,9 @@ process :
   - user journey mapping : to understand the user journey from the user segmentation
   - user interviews : to understand the user needs and behavior by surveys
   - user personna : to understand the user needs and behavior by surveys
-  - user testing : to understand the user needs and behavior by testing the prototypes
+  - End-to-End Testing : to understand the user needs and behavior by testing the prototypes
+
+
 
 - existing product audit : to understand the existing product and its features
 
@@ -24,7 +39,26 @@ process :
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| Example Color | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) #0a192f |
-| Example Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
-| Example Color | ![#00b48a](https://via.placeholder.com/10/00b48a?text=+) #00b48a |
-| Example Color | ![#00d1a0](https://via.placeholder.com/10/00b48a?text=+) #00d1a0 |
+| --primary-color | ![#a00407](https://via.placeholder.com/10/a00407?text=+) #a00407 |
+| --secondary-color | ![#fc3535](https://via.placeholder.com/10/fc3535?text=+) #fc3535 |
+| --primary-background-light-color | ![#fff](https://via.placeholder.com/10/fff?text=+) #fff |
+| --secondary-background-light-color | ![#fc3535](https://via.placeholder.com/10/fc3535?text=+) #fc3535 |
+
+
+
+## Tools and Frameworks
+- React.js Front End with Typescript
+	- The top tier of the MERN stack is React.js, the declarative JavaScript framework for creating dynamic client-side applications in HTML. React lets you build up complex interfaces through simple Components, connect them to data on your backend server, and render them as HTML.
+
+	- React’s strong suit is handling stateful, data-driven interfaces with minimal code and minimal pain, and it has all the bells and whistles you’d expect from a modern web framework: great support for forms, error handling, events, lists, and more.
+
+- Cypress Front End Testing
+	- Cypress is the new standard in front-end testing that every developer and QA engineer needs. programmer. Developer-friendly. 
+
+
+## Screenshots
+
+
+
+
+
