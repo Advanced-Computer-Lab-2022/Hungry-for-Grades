@@ -3,7 +3,6 @@
     width: 100%;
     font-family: SuisseWorks, Georgia, Times, times new roman, serif, apple color emoji, segoe ui emoji, segoe ui symbol;
     padding-top: 2rem;
-    margin-bottom : 3rem;
 }
 
 .mylearning {
@@ -27,10 +26,12 @@
 }
 
 .listitem:hover {
-    color: #d1d7dc !important;
+    color: var(--secondary-color) !important;
 }
 
 .active__link {
-    border-bottom: 0.3rem solid #d1d7dc;
-    color: #d1d7dc !important;
+    border-bottom: 0.3rem solid var(--primary-color);
+    color: var(--secondary-color) !important;
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
 }

@@ -23,7 +23,7 @@ export default function LastStudy() {
   const course: EnrolledCourse | undefined = data?.data?.data;
 
   return (
-    <section className='container mx-auto'>
+    <section className='container mx-auto py-5'>
       {course && (
         <div className={`${styles.holder ?? ''} mb-5`}>
           <img
@@ -31,6 +31,7 @@ export default function LastStudy() {
             className={styles.image_holder}
             loading='lazy'
             src={course?._course?.thumbnail}
+
           />
           <div
             style={{
@@ -64,6 +65,7 @@ export default function LastStudy() {
           </div>
         </div>
       )}
+
       <TraineeNoteList courseName={course?._course?.title} />
     </section>
   );
