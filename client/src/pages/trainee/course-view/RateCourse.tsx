@@ -12,12 +12,12 @@ import { toast } from 'react-toastify';
 import styles from './rate-course.module.scss';
 
 import { useTraineeId } from '@/hooks/useTraineeId';
-import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import {
   addReviewToCourse,
   getTraineeReviewById
 } from '@/services/axios/dataServices/TraineeDataService';
 import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
@@ -59,7 +59,7 @@ function RateCourse(props: { courseid: string }) {
   if (isLoading) {
     return (
       <div className='container'>
-        <LoaderCards numberOfCards={6} />
+        <Loader />
       </div>
     );
   } else if (isError) {
