@@ -42,7 +42,9 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
         {/* <div className='float-end'>
             <img alt={props.title} height='135px' src={props.thumbnail} width='240px'/>
       </div> */}
-        <small className='pb-2' style={{fontSize: '1.2rem'}}>{props.description}</small>
+        <small className='pb-2' style={{ fontSize: '1.2rem' }}>
+          {props.description}
+        </small>
         <CourseRating {...props.rating} />
         <div className={`text-light`}>
           Created by: &nbsp;
@@ -52,6 +54,7 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
           Duration: &nbsp;
           {formatDuration(props.duration * 60)}
         </div>
+
         {addToWishList && <div className={`${props.videoClassName} mt-2`}>
           <button className='btn btn-light w-100' type='button'><strong>Add to Wishlist</strong></button>
         </div>}

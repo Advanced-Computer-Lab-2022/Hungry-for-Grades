@@ -57,6 +57,7 @@ function CoursePreviewBox(props: ICourse) {
           />
         )}
       </p>
+
       {!viewCourse && (
         <div className='mx-2'>
           <Price {...props.price} />

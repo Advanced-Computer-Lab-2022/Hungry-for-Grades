@@ -141,8 +141,8 @@ export default function AdminHome(props: {
   });
 
   return (
-    <div style={{ overflowX: 'auto' }}>
-      <table className={styles.container}>
+    <div className='fluid-container' style={{ overflowX: 'auto' }}>
+      <table className={`${styles.container ?? ''}  table table-responsive`}>
         <thead>
           <tr
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
