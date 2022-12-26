@@ -10,6 +10,7 @@ import { updateProfile } from './updateProfileApi';
 
 import { UseUser } from '@/store/userStore';
 import { toastOptions } from '@/components/toast/options';
+import 'react-phone-number-input/style.css';
 
 type EditProfileData = {
   profileImage: string | undefined;

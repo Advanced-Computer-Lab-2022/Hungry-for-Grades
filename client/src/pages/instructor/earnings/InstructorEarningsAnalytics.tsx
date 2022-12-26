@@ -106,8 +106,6 @@ export default function InstructorCoursesAnalytics() {
 
         {step}
       </div>
-
-      {step}
     </div>
   );
 }

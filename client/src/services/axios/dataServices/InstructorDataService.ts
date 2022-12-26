@@ -4,7 +4,8 @@ export const InstructorRoutes = {
       URL: '/courses/instructor',
       params: '',
       query: '',
-      payload: {}
+      payload: {},
+      response: {}
     },
     getInstructor: {
       URL: '/instructor',
@@ -13,7 +14,13 @@ export const InstructorRoutes = {
       payload: {}
     },
     getReviews: {
-      URL: '/instructor/rating' as const,
+      URL: '/instructor/rating',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    getUserReview: {
+      URL: '',
       params: '',
       query: '',
       payload: {}
@@ -49,6 +56,28 @@ export const InstructorRoutes = {
       payload: {}
     },
     savePayment: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    userAddReview: {
+      URL: '/instructor/rating/',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  PATCH: {
+    userUpdateReview: {
+      URL: '/instructor/rating/',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  DELETE: {
+    userDeleteReview: {
       URL: '',
       params: '',
       query: '',

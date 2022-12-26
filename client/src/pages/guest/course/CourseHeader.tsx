@@ -9,8 +9,12 @@ import CoursePreviewVideo from './CoursePreviewVideo';
 import { type ICourse } from '@interfaces/course.interface';
 import Instructors from '@/components/courseCard/Instructor';
 import { formatDuration } from '@/utils/duration';
+import useCourseButtons from '@/hooks/useCourseButtons';
 
 function CourseHeader(props: ICourse & { videoClassName: string }) {
+  const { requestAccess, viewCourse, addToWishList } = useCourseButtons(
+    props._id
+  );
   return (
     <div className={`py-3 text-light bg-dark rounded-3 mb-3`}>
       <div className='container'>
@@ -39,7 +43,9 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
         {/* <div className='float-end'>
             <img alt={props.title} height='135px' src={props.thumbnail} width='240px'/>
       </div> */}
-        <small className='pb-2' style={{fontSize: '1.2rem'}}>{props.description}</small>
+        <small className='pb-2' style={{ fontSize: '1.2rem' }}>
+          {props.description}
+        </small>
         <CourseRating {...props.rating} />
         <div className={`text-light`}>
           Created by: &nbsp;
@@ -49,9 +55,32 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
           Duration: &nbsp;
           {formatDuration(props.duration * 60)}
         </div>
-        <div className={`${props.videoClassName} mt-2`}>
-          <button className='btn btn-light w-100' type='button'><strong>Add to Wishlist</strong></button>
-        </div>
+
+        {addToWishList && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button className='btn btn-light w-100' type='button'>
+              <strong>Add to Wishlist</strong>
+            </button>
+          </div>
+        )}
+        {viewCourse && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button className='btn btn-light w-100' type='button'>
+              <strong>Go to course</strong>
+            </button>
+          </div>
+        )}
+        {requestAccess && (
+          <div className={`${props.videoClassName} mt-2`}>
+            <button
+              className='btn btn-light w-100'
+              type='button'
+              onClick={requestAccess}
+            >
+              <strong>Request access</strong>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

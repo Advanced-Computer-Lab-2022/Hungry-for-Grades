@@ -71,7 +71,7 @@ export default function Cart() {
   const { mutateAsync: submitPayWithCard } = usePostQuery();
 
   const { isLoading, data, isError, error } = useQuery(
-    ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
+    ['ASJLHFXYZZZZZZ', con, whenDeleteCourse, location, activePage],
     () => getCart(con, activePage, user as IUser),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -223,40 +223,51 @@ export default function Cart() {
   const fontFamily = 'Arial, Helvetica, sans-serif';
   if (data?.data?.totalResults == 0) {
     return (
-      <div className='container text-center my-5'>
-        <div
-          className='mb-2'
-          style={{
-            fontFamily: fontFamily,
-            fontWeight: '600',
-            fontSize: '1.3rem'
-          }}
-        >
-          Your cart is empty.
+      <div
+        style={{
+          backgroundColor: '#f8f9fa'
+        }}
+      >
+        <div className='container text-center py-5'>
+          <div
+            className='mb-2'
+            style={{
+              fontFamily: fontFamily,
+              fontWeight: '600',
+              fontSize: '1.3rem'
+            }}
+          >
+            Your cart is empty.
+          </div>
+          <div
+            style={{
+              fontFamily: fontFamily
+            }}
+          >
+            Keep shopping to find the right course for you.
+          </div>
+          <button
+            className='btn btn-primary mt-3'
+            style={{
+              fontFamily: fontFamily
+            }}
+            type='submit'
+            onClick={handleSubmit}
+          >
+            Keep shopping
+          </button>
         </div>
-        <div
-          style={{
-            fontFamily: fontFamily
-          }}
-        >
-          Keep shopping to find the right course for you.
-        </div>
-        <button
-          className='btn btn-primary mt-3'
-          style={{
-            fontFamily: fontFamily
-          }}
-          type='submit'
-          onClick={handleSubmit}
-        >
-          Keep shopping
-        </button>
       </div>
     );
   }
 
   return (
-    <section className={styles.shopping_cart}>
+    <section
+      className={`${styles.shopping_cart ?? ''} py-3`}
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <div className='container'>
         <div className={styles.block_heading}>
           <h2>{data?.data?.totalResults} Courses in your Cart</h2>

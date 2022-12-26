@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { mapCourseToCardProps } from '../../guest/landing/types';
 
 import useCoursesQuery from './useCoursesQuery';
@@ -13,7 +15,6 @@ import LoaderCards from '@components/loader/loaderCard/LoaderCards';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 import { IUser } from '@/interfaces/user.interface';
-import { Link } from 'react-router-dom';
 
 export default function MyCourses() {
   const user = UseUser();
@@ -97,7 +98,12 @@ export default function MyCourses() {
   console.log(data);
 
   return (
-    <>
+    <div
+      className='py-3'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
@@ -110,6 +116,6 @@ export default function MyCourses() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }

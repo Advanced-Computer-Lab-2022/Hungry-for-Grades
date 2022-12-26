@@ -29,7 +29,9 @@ function Video(props: { lessonId: string; courseId: string }) {
   }
   if (isError) {
     return (
-      <h1 className='text-danger'>An error has occured while loading page</h1>
+      <h1 className='text-dange text-center'>
+        An error has occured while loading page
+      </h1>
     );
   }
   if (!data) {

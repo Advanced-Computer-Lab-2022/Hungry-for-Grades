@@ -31,7 +31,7 @@ export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
   typeof AdminRoutes['POST']
 >];
 
-export type InstructorRouteType<T extends 'GET' | 'POST'> =
+export type InstructorRouteType<T extends 'GET' | 'POST' | 'PATCH' | 'DELETE'> =
   typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
 export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
@@ -80,11 +80,14 @@ export type POSTRoutesType =
 export type DELETERoutesType =
   | TraineeRouteType<'DELETE'>
   | NewsLetterRouteType<'DELETE'>
-  | CourseRouteType<'DELETE'>;
+  | CourseRouteType<'DELETE'>
+  | InstructorRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = CourseRouteType<'PUT'>;
-export type PATCHRoutesType = ReportRouteType<'PATCH'>;
+export type PATCHRoutesType =
+  | ReportRouteType<'PATCH'>
+  | InstructorRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

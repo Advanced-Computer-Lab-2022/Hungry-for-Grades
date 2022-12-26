@@ -5,8 +5,6 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import '@pages/instructor/coursesData/nav-button.scss';
-// eslint-disable-next-line css-modules/no-unused-class
-import styles from './create.module.scss';
 
 import { ValidationSchema } from '@pages/admin/createUser/ValidationSchema';
 
@@ -172,14 +170,14 @@ export default function Create() {
     >
       {formik => (
         <Form>
-          <div className={`${styles.hero ?? ''} card p-5`}>
-            <div
-              className={`${
-                styles.cont ?? ''
-              } card card-cascade rounded bg-light shadow`}
-            >
-              <div className={`${styles.form ?? ''} p-4 `}>
-                <h2>Create a User</h2>
+          <div
+            className={`card p-5`}
+            style={{
+              backgroundColor: '#f8f9fa'
+            }}
+          >
+            <div className={` card card-cascade rounded bg-light shadow`}>
+              <div className={`p-4 `}>
                 <div
                   className='container d-flex flex-row justify-content-center mb-4'
                   style={{
@@ -228,7 +226,7 @@ export default function Create() {
                 </div>
                 <div className='container'>
                   <div className='row'>
-                    <div className='col-12 col-lg-5'>
+                    <div className='col-12 col-md-6'>
                       <Input
                         correctMessage=''
                         errorMessage={formik.errors.name}
@@ -250,7 +248,7 @@ export default function Create() {
                         onChangeFunc={formik.handleChange}
                       />
                     </div>
-                    <div className='col-12 col-lg-5'>
+                    <div className='col-12 col-md-6'>
                       <Input
                         correctMessage=''
                         errorMessage={formik.errors.userName}
@@ -272,99 +270,109 @@ export default function Create() {
                         onChangeFunc={formik.handleChange}
                       />
                     </div>
-                  </div>
-                  {chosenTab === 'Corporate' && (
-                    <Input
-                      correctMessage=''
-                      errorMessage={formik.errors.corporate}
-                      hint=''
-                      id='Create_CorporateInput'
-                      isError={
-                        formik.touched.corporate && formik.errors.corporate
-                          ? true
-                          : null
-                      }
-                      isTop={false}
-                      label={'Corporate Name'}
-                      name={'corporate'}
-                      placeholder='Corporate Name'
-                      size={0}
-                      type='text'
-                      value={formik.values.corporate}
-                      onBlurFunc={formik.handleBlur}
-                      onChangeFunc={formik.handleChange}
-                    />
-                  )}
-                  <span>Email</span>
-                  <Input
-                    correctMessage=''
-                    errorMessage={formik.errors.email}
-                    hint=''
-                    id='Create_EmailInput'
-                    isError={
-                      formik.touched.email && formik.errors.email ? true : null
-                    }
-                    isTop={false}
-                    label={'Email'}
-                    name={'email'}
-                    placeholder='E-mail'
-                    size={0}
-                    type='text'
-                    value={formik.values.email}
-                    onBlurFunc={formik.handleBlur}
-                    onChangeFunc={formik.handleChange}
-                  />
+                    {chosenTab === 'Corporate' && (
+                      <div className='col-12'>
+                        <Input
+                          correctMessage=''
+                          errorMessage={formik.errors.corporate}
+                          hint=''
+                          id='Create_CorporateInput'
+                          isError={
+                            formik.touched.corporate && formik.errors.corporate
+                              ? true
+                              : null
+                          }
+                          isTop={false}
+                          label={'Corporate Name'}
+                          name={'corporate'}
+                          placeholder='Corporate Name'
+                          size={0}
+                          type='text'
+                          value={formik.values.corporate}
+                          onBlurFunc={formik.handleBlur}
+                          onChangeFunc={formik.handleChange}
+                        />
+                      </div>
+                    )}
+                    <div className='col-12'>
+                      <Input
+                        correctMessage=''
+                        errorMessage={formik.errors.email}
+                        hint=''
+                        id='Create_EmailInput'
+                        isError={
+                          formik.touched.email && formik.errors.email
+                            ? true
+                            : null
+                        }
+                        isTop={false}
+                        label={'Email'}
+                        name={'email'}
+                        placeholder='E-mail'
+                        size={0}
+                        type='text'
+                        value={formik.values.email}
+                        onBlurFunc={formik.handleBlur}
+                        onChangeFunc={formik.handleChange}
+                      />
+                    </div>
 
-                  <Input
-                    correctMessage=''
-                    errorMessage={formik.errors.password}
-                    hint=''
-                    id='Create_PasswordInput'
-                    isError={
-                      formik.touched.password && formik.errors.password
-                        ? true
-                        : null
-                    }
-                    isTop={false}
-                    label={'Password'}
-                    name={'password'}
-                    placeholder='Password'
-                    size={0}
-                    type='text'
-                    value={formik.values.password}
-                    onBlurFunc={formik.handleBlur}
-                    onChangeFunc={formik.handleChange}
-                  />
+                    <div className='col-12 col-md-6'>
+                      <Input
+                        correctMessage=''
+                        errorMessage={formik.errors.password}
+                        hint=''
+                        id='Create_PasswordInput'
+                        isError={
+                          formik.touched.password && formik.errors.password
+                            ? true
+                            : null
+                        }
+                        isTop={false}
+                        label={'Password'}
+                        name={'password'}
+                        placeholder='Password'
+                        size={0}
+                        type='text'
+                        value={formik.values.password}
+                        onBlurFunc={formik.handleBlur}
+                        onChangeFunc={formik.handleChange}
+                      />
+                    </div>
 
-                  <Input
-                    correctMessage=''
-                    errorMessage={formik.errors.confirmPassword}
-                    hint=''
-                    id='Create_ConfirmPasswordInput'
-                    isError={
-                      formik.touched.confirmPassword &&
-                      formik.errors.confirmPassword
-                        ? true
-                        : null
-                    }
-                    isTop={false}
-                    label={'Confirm Password'}
-                    name={'confirmPassword'}
-                    placeholder='Retype your Password'
-                    size={0}
-                    type='text'
-                    value={formik.values.confirmPassword}
-                    onBlurFunc={formik.handleBlur}
-                    onChangeFunc={formik.handleChange}
-                  />
-                  <div className='d-flex flex-row justify-content-end'>
-                    <button
-                      className={`btn btn-primary btn-lg`}
-                      id='Create_Submit'
-                      type='submit'
-                    >
-                      Submit
-                    </button>
+                    <div className='col-12 col-md-6'>
+                      <Input
+                        correctMessage=''
+                        errorMessage={formik.errors.confirmPassword}
+                        hint=''
+                        id='Create_ConfirmPasswordInput'
+                        isError={
+                          formik.touched.confirmPassword &&
+                          formik.errors.confirmPassword
+                            ? true
+                            : null
+                        }
+                        isTop={false}
+                        label={'Confirm Password'}
+                        name={'confirmPassword'}
+                        placeholder='Retype your Password'
+                        size={0}
+                        type='text'
+                        value={formik.values.confirmPassword}
+                        onBlurFunc={formik.handleBlur}
+                        onChangeFunc={formik.handleChange}
+                      />
+                    </div>
+
+                    <div className='d-flex flex-row justify-content-end mt-3'>
+                      <button
+                        className={`btn btn-primary btn-lg`}
+                        id='Create_Submit'
+                        type='submit'
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

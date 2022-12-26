@@ -13,6 +13,14 @@ export type Report = {
   status: Status;
 };
 
+export type ReportDTO = {
+  _course: string;
+  _user: string;
+  description: string;
+  reason: Reason;
+  status: Status;
+};
+
 export interface Message {
   content: string;
   createdAt: Date;
@@ -35,7 +43,8 @@ export type AllReport = {
 export enum Status {
   PENDING = 'Pending',
   REJECTED = 'Rejected',
-  RESOLVED = 'Resolved'
+  RESOLVED = 'Resolved',
+  UNSEEN = 'Unseen'
 }
 
 export enum Reason {

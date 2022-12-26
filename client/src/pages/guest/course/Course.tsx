@@ -6,7 +6,6 @@ import CourseContent from './CourseContent';
 import CourseOverview from './CourseOverview';
 import CourseHeader from './CourseHeader';
 
-
 import CourseReviewList from './CourseReviewList';
 import CoursePreviewBox from './CoursePreviewBox';
 
@@ -58,13 +57,17 @@ function Course() {
       <div className='bg-dark'>
         <div className='container'>
           <div className={`${styles['content-container'] ?? ''}`}>
-            <CourseHeader videoClassName={`${styles['header-preview-video-container'] ?? ''}`} {...data} />
+            <CourseHeader
+              videoClassName={`${
+                styles['header-preview-video-container'] ?? ''
+              }`}
+              {...data}
+            />
           </div>
         </div>
       </div>
       <div className='container'>
         <div className={`${styles['content-container'] ?? ''}`}>
-          
           <section>
             <CourseOverview {...data} />
           </section>

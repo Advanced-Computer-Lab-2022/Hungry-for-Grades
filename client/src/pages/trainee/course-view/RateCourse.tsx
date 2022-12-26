@@ -12,12 +12,13 @@ import { toast } from 'react-toastify';
 import styles from './rate-course.module.scss';
 
 import { useTraineeId } from '@/hooks/useTraineeId';
-import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import {
   addReviewToCourse,
   getTraineeReviewById
 } from '@/services/axios/dataServices/TraineeDataService';
 import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
+import { toastOptions } from '@/components/toast/options';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
@@ -46,7 +47,7 @@ function RateCourse(props: { courseid: string }) {
 
       const res = await addReviewToCourse(props.courseid, r);
       if (res) {
-        toast('Review submitted successfully');
+        toast('Review submitted successfully', toastOptions);
         closePopup();
       }
     },
@@ -59,7 +60,7 @@ function RateCourse(props: { courseid: string }) {
   if (isLoading) {
     return (
       <div className='container'>
-        <LoaderCards numberOfCards={6} />
+        <Loader />
       </div>
     );
   } else if (isError) {

@@ -34,8 +34,7 @@ export default function TraineeWishlist() {
   const toShow = incoming?.map(course => {
     const tt: ICourse = course;
     const courseCardP = mapCourseToCardProps(tt);
-    console.log('Here is a Course');
-    console.log(course);
+
     return (
       <div key={course?._id} className={'col-12 col-md-6 col-lg-4'}>
         <CourseCard
@@ -83,7 +82,12 @@ export default function TraineeWishlist() {
   }
 
   return (
-    <>
+    <div
+      className='py-3'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
@@ -96,6 +100,6 @@ export default function TraineeWishlist() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -114,7 +114,7 @@ function NavbarComponent() {
                 {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
                   <Link
                     className={styles.user__balance}
-                    to={`/${user.role.toLocaleLowerCase()}/balance`}
+                    to={`/${user.role.toLocaleLowerCase()}/dashboard`}
                   >
                     {(user as ITrainee | IInstructor)?.currency
                       ? (user as ITrainee | IInstructor)?.currency

@@ -44,6 +44,7 @@ export default function MakeDiscounts() {
   return (
     <>
       <div
+        className='py-5'
         style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}
       >
         <div

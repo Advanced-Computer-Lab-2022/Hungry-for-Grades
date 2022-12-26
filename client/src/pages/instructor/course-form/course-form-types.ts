@@ -37,7 +37,7 @@ export type AnswerFormValues = {
 
 export type QuestionFormValues = {
   uid: string;
-  _id: string | undefined;
+  _id?: string | undefined;
   answer: string;
   options: AnswerFormValues[];
   question: string;
