@@ -1,4 +1,4 @@
-import { MutateOptions, useQuery } from '@tanstack/react-query';
+import { UseMutateAsyncFunction, useQuery } from '@tanstack/react-query';
 
 import { AxiosResponse } from 'axios';
 
@@ -65,30 +65,18 @@ export async function addtoWishList( // Return type = integer    0 --> No Actual
   addCourseToWishListt: { (course: string): void; (arg0: string): void }, // function addtoWishList from the wishList store
   removeCourseFromWishList: { (_id: string): void }, // function remove from WishList from the wishList store
   removeFromCart: { (_id: string): void; (arg0: string): void }, //function remove from Cart beta3t cart store
-  addToWishListFromTheButton: {
-    // Actual Post Request from MutateAsync
-    (
-      variables: POSTRoutesType,
-      options?: MutateOptions<
-        AxiosResponse<unknown, unknown>,
-        unknown,
-        POSTRoutesType,
-        unknown
-      >
-    ): Promise<AxiosResponse<unknown, unknown>>;
-    (arg0: {
-      URL: string;
-      params: string;
-      query: string;
-      payload: unknown;
-    }): unknown;
-  }
+  addToWishListFromTheButon: UseMutateAsyncFunction<
+    AxiosResponse<unknown, any>,
+    unknown,
+    POSTRoutesType,
+    unknown
+  >
 ) {
   if (!isInWihsList) {
     addCourseToWishListt(course);
     const toBeAdded = TraineeRoutes.POST.addToWishlist;
     toBeAdded.URL = `/trainee/${user?._id}/wishlist/${course}`;
-    await addToWishListFromTheButton(toBeAdded);
+    await addToWishListFromTheButon(toBeAdded);
     toast.success(
       'Course is Added to the Wishlist successfully...',
       toastOptions
@@ -114,24 +102,12 @@ export async function addtoCart( //Returns an integer 0 --> No ACtual Delete 1 -
   addCourseToCart: { (course: string): void; (arg0: string): void }, //store cart function add
   removeCourseFromWishList: { (_id: string): void }, // store wishlist function remove
   removeFromCart: { (_id: string): void; (arg0: string): void }, // store cart remove
-  addToCartFromTheButton: {
-    // Actual Post request adding to the cart
-    (
-      variables: POSTRoutesType,
-      options?: MutateOptions<
-        AxiosResponse<unknown, unknown>,
-        unknown,
-        POSTRoutesType,
-        unknown
-      >
-    ): Promise<AxiosResponse<unknown, unknown>>;
-    (arg0: {
-      URL: string;
-      params: string;
-      query: string;
-      payload: unknown;
-    }): unknown;
-  }
+  addToCartFromTheButton: UseMutateAsyncFunction<
+    AxiosResponse<unknown, any>,
+    unknown,
+    POSTRoutesType,
+    unknown
+  >
 ) {
   if (isInCart) {
     //Now i have to remove it from that cart

@@ -39,13 +39,11 @@ class ReportService {
       if (report) {
         throw new HttpException(422, 'You have asked for refund for this course before');
       }
-
     } else if (reportData.reason === Reason.COUSE_REQUEST) {
       const report = await reportModel.findOne({ reason: Reason.COUSE_REQUEST, _user: `${reportData?._user}`, _course: `${reportData?._course}` });
       if (report) {
         throw new HttpException(404, 'You have requested this course before');
       }
-
     }
 
     const report = await reportModel.create({ ...reportData });
