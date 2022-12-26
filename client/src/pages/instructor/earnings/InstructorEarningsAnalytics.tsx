@@ -98,7 +98,7 @@ export default function InstructorCoursesAnalytics() {
               options={options}
               value={options.find(option => option.value === selectedOption)}
               onChange={function (option) {
-                setSelectedOption(option.value);
+                setSelectedOption(option?.value as string);
               }}
             />
           </div>
