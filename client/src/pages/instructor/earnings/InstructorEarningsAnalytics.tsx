@@ -61,8 +61,18 @@ export default function InstructorCoursesAnalytics() {
   if (isError || error) return <ErrorMessage />;
 
   return (
-    <div className='container py-5'>
-      <div className='d-flex justify-content-between'>
+		<div className='py-5'
+		style={{
+			backgroundColor: '#F8F9FA',
+		}}>
+    <div className='container p-5' style={{
+						          filter: 'drop-shadow(0 0 0.1rem #eee)',
+											borderRadius: '0.25rem',
+											boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
+											backgroundColor: 'white',
+
+					}}>
+      <div className='d-flex justify-content-between' >
         <div className='container d-flex flex-row justify-content-center mb-4'>
           {titles?.map((title, index) => (
             <button
@@ -92,5 +102,6 @@ export default function InstructorCoursesAnalytics() {
 
       {step}
     </div>
+		</div>
   );
 }

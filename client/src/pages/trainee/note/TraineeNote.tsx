@@ -30,10 +30,14 @@ export default function Note() {
   const deleteNote = UseTraineeNoteStoreDeleteNote();
 
   return (
+		<div className='py-5'
+		style={{
+			backgroundColor: '#f8f9fa',
+		}}
+		>
     <Container
-      className='my-3'
       style={{
-        backgroundColor: '#fafafa',
+        backgroundColor: 'white',
         filter: 'drop-shadow(0 0 0.1rem #eee)',
         borderRadius: '0.25rem',
         padding: '1.5rem',
@@ -104,5 +108,6 @@ export default function Note() {
         </ReactMarkdown>
       </div>
     </Container>
+				</div>
   );
 }

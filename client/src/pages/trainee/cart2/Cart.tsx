@@ -223,7 +223,10 @@ export default function Cart() {
   const fontFamily = 'Arial, Helvetica, sans-serif';
   if (data?.data?.totalResults == 0) {
     return (
-      <div className='container text-center my-5'>
+			<div style={{
+				backgroundColor: '#f8f9fa'
+			}}>
+      <div className='container text-center py-5' >
         <div
           className='mb-2'
           style={{
@@ -252,11 +255,14 @@ export default function Cart() {
           Keep shopping
         </button>
       </div>
+			</div>
     );
   }
 
   return (
-    <section className={styles.shopping_cart}>
+    <section className={`${styles.shopping_cart ?? ''} py-3`} style={{
+			backgroundColor: '#f8f9fa'
+		}}>
       <div className='container'>
         <div className={styles.block_heading}>
           <h2>{data?.data?.totalResults} Courses in your Cart</h2>

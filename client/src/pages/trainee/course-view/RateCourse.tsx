@@ -17,7 +17,8 @@ import {
   getTraineeReviewById
 } from '@/services/axios/dataServices/TraineeDataService';
 import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
-import Loader from '@/components/loader/loaderpage/Loader';
+import { toastOptions } from '@/components/toast/options';
+
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
@@ -46,7 +47,7 @@ function RateCourse(props: { courseid: string }) {
 
       const res = await addReviewToCourse(props.courseid, r);
       if (res) {
-        toast('Review submitted successfully');
+        toast('Review submitted successfully',toastOptions);
         closePopup();
       }
     },

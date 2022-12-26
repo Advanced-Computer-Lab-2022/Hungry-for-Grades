@@ -23,7 +23,10 @@ export default function LastStudy() {
   const course: EnrolledCourse | undefined = data?.data?.data;
 
   return (
-    <section className='container mx-auto py-5'>
+		<div style={{
+			backgroundColor: '#f8f9fa'
+		}} className='py-4'>
+    <section className='container mx-auto' >
       {course && (
         <div className={`${styles.holder ?? ''} mb-5`}>
           <img
@@ -55,7 +58,7 @@ export default function LastStudy() {
               >
                 {course?.progress === undefined || course?.progress === 0
                   ? 'Start now'
-                  : 'Continue now'}{' '}
+                  : 'Continue now'}
               </Link>
               {!(course?.progress === undefined || course.progress === 0) && (
                 <RateCourse courseid={course._course._id} />
@@ -64,8 +67,13 @@ export default function LastStudy() {
           </div>
         </div>
       )}
+			<hr className='mb-4' style={{
+				opacity:'0.2',
+				color:'red'
+			}} />
 
       <TraineeNoteList courseName={course?._course?.title} />
     </section>
+		</div>
   );
 }

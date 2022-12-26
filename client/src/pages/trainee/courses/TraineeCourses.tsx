@@ -98,7 +98,10 @@ export default function MyCourses() {
   console.log(data);
 
   return (
-    <>
+    <div className='py-3'
+		style={{
+			backgroundColor: '#f8f9fa'
+		}}>
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
@@ -111,6 +114,6 @@ export default function MyCourses() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
