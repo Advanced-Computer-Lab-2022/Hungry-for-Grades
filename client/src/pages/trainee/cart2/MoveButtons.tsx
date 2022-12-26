@@ -9,7 +9,6 @@ import { POSTRoutesType } from '@/services/axios/types';
 import { UseUser } from '@/store/userStore';
 import { UseCartStoreRemoveCourse } from '@/store/cartStore';
 import { UseWishListAddCourse } from '@/store/wishListStore';
-import { ICart } from '@/interfaces/cart.interface';
 
 function remove(courseId: string, user: IUser) {
   const Courses = TraineeRoutes.DELETE.removeFromCart;
@@ -63,8 +62,8 @@ export default function MoveButtons(props: {
     await refetch();
     await moveToWishListRefetch();
     removeFromCart(props?.id);
-    const icart: ICart = { _id: props?.id, price: props?.price };
-    addToWishlist(icart);
+    const icart = { _id: props?.id, price: props?.price };
+    addToWishlist(icart?._id);
     props?.refreshPage();
     props?.updatePage();
   }

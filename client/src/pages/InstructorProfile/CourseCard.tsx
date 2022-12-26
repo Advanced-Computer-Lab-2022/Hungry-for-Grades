@@ -15,7 +15,7 @@ export default function CourseCard(props: {
       </>
     );
   });
-  const toGo = `/course/:${props.course?._course?._id}`;
+  const toGo = `/course/${props.course?._course?._id}`;
   return (
     <div className={styles.course_wrapper}>
       <a href={toGo}>

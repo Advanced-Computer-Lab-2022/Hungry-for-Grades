@@ -47,7 +47,7 @@ export default function CourseRequest() {
   const [filterV1, setFilterV1] = useState<string>('All');
 
   const f1: FilterElement = {
-    values: ['Resolved', 'Pending', 'Rejected', 'All'],
+    values: ['Resolved', 'Pending', 'Rejected', 'Unseen', 'All'],
     setValue: setFilterV1,
     actualValue: filterV1,
     title: 'Status'
@@ -92,7 +92,7 @@ export default function CourseRequest() {
   return (
     <>
       <div
-			className='py-5'
+        className='py-5'
         style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}
       >
         <div

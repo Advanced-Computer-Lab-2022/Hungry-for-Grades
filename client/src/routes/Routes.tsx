@@ -205,11 +205,15 @@ function AllRoutes() {
             path={path}
           />
         ))}
+        {roles.map((path, index) => (
+          <Route
+            key={`${index + 101} instructor`}
+            element={<LazyInstructorProfileToShow />}
+            path={`${path}instructor/:instructorId`}
+          />
+        ))}
+
         {/* Trainee Routes*/}
-        <Route
-          element={<LazyInstructorProfileToShow />}
-          path='instructor/:instructorId'
-        />
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route
             element={<LazyTraineeViewCourse />}
@@ -287,7 +291,18 @@ function AllRoutes() {
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
           <Route element={<LazyAdminDashboard />}>
-            <Route element={<div />} path='dashboard' />
+            <Route
+              element={
+                <iframe src='https://analytics.google.com/analytics/web/#/p346730613/reports/reportinghub?params=_u..nav%3Dmaui'
+            style={{backgroundColor:'white'}}
+            allow = 'fullscreen'
+            title='GA'
+            height = '90%'
+            width = '80%'
+        sandbox='allow-forms allow-modals allow-scripts allow-popups allow-same-origin' /> 
+              }
+              path='dashboard'
+            />
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route
@@ -306,6 +321,10 @@ function AllRoutes() {
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>
         <Route element={<LazySearchCourses />} path='courses' />
+        <Route
+          element={<LazyInstructorProfileToShow />}
+          path='instructor/:instructorId'
+        />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyLanding />} path='/' />
         <Route element={<Error type={404} />} path='/*' />
