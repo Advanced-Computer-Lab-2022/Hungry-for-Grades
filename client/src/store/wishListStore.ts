@@ -2,49 +2,46 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { type ICartStore, type ICart } from '@interfaces/cart.interface';
+import { type ICartStore } from '@interfaces/cart.interface';
 
 export const useWishListStore = create<
   ICartStore,
   [['zustand/devtools', never]]
 >(
   devtools((set, get) => ({
-    cart: new Set<ICart>([]),
+    cart: new Set<string>([]),
     addCourse: course => {
       //Post axios
       set(state => {
-        const cart = new Set<ICart>([...state.cart, course]);
-        const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
+        const cart = new Set<string>([...state.cart, course]);
         const totalItems = cart.size;
-        return { cart, totalCost, totalItems };
+        return { cart, totalItems };
       });
     },
     removeCourse: _id => {
       //Delete axios
       set(state => {
-        const cart = new Set<ICart>(
-          [...state.cart].filter(item => item._id !== _id)
+        const cart = new Set<string>(
+          [...state.cart].filter(item => item !== _id)
         );
-        const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
         const totalItems = cart.size;
-        return { cart, totalCost, totalItems };
+        return { cart, totalItems };
       });
     },
     setCart: newCart => {
       //Get Req
       // cart = GetRequest
-      const cart = new Set<ICart>(newCart);
-      const totalCost = [...cart].reduce((acc, item) => acc + item.price, 0);
+      const cart = new Set<string>(newCart);
       const totalItems = cart.size;
 
-      set({ cart, totalCost, totalItems });
+      set({ cart, totalItems });
     },
     clearCart: () => {
       //here we do empty car for axios
-      set({ cart: new Set<ICart>([]) });
+      set({ cart: new Set<string>([]) });
     },
     inCart: _id => {
-      return [...get().cart].find(item => item._id === _id) !== undefined;
+      return [...get().cart].some(item => item === _id);
     },
     totalCost: 0,
     totalItems: 0
@@ -54,8 +51,6 @@ export const useWishListStore = create<
 export const UseWishList = () => useWishListStore(state => state.cart);
 export const UseWishListInCart = () => useWishListStore(state => state.inCart);
 
-export const UseWishListTotalCost = () =>
-  useWishListStore(state => state.totalCost);
 export const UseWishListTotalItems = () =>
   useWishListStore(state => state.totalItems);
 export const UseWishListAddCourse = () =>

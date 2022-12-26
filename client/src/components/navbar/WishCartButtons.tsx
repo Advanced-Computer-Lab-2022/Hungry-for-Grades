@@ -4,11 +4,9 @@ import { NavLink } from 'react-router-dom';
 import styles from './wish-cart-buttons.module.scss';
 
 import {
-  UseCartStoreTotalCost,
   UseCartStoreTotalItems
 } from '@store/cartStore';
 import {
-  UseWishListTotalCost,
   UseWishListTotalItems
 } from '@store/wishListStore';
 
@@ -16,9 +14,7 @@ import toSmallNumber from '@utils/toSmallNumber';
 
 function WishCartButtons() {
   const cartCount = UseCartStoreTotalItems();
-  const cartCost = UseCartStoreTotalCost();
   const wishListCount = UseWishListTotalItems();
-  const wishListCost = UseWishListTotalCost();
   return (
     <>
       <div className='d-flex flex-row justify-content-between'>
@@ -28,21 +24,13 @@ function WishCartButtons() {
             {cartCount > 0 && (
               <span
                 className={`${
-                  styles.right ?? ''
+                  styles.rightTop ?? ''
                 } text-white badge rounded-pill bg-secondary`}
               >
                 +{toSmallNumber(cartCount)}
               </span>
             )}
-            {cartCost > 0 && (
-              <span
-                className={`${
-                  styles.rightTop ?? ''
-                } text-white badge rounded-pill bg-secondary`}
-              >
-                +{toSmallNumber(cartCost)}
-              </span>
-            )}
+
           </p>
         </NavLink>
         <NavLink className='mt-2 p-0' to='/trainee/wishlist'>
@@ -51,21 +39,13 @@ function WishCartButtons() {
             {wishListCount > 0 && (
               <span
                 className={`${
-                  styles.right ?? ''
+                  styles.rightTop ?? ''
                 } text-white badge rounded-pill bg-secondary`}
               >
                 +{toSmallNumber(wishListCount)}
               </span>
-            )}{' '}
-            {wishListCost > 0 && (
-              <span
-                className={`${
-                  styles.rightTop ?? ''
-                } text-white badge rounded-pill bg-secondary`}
-              >
-                +{toSmallNumber(wishListCost)}
-              </span>
             )}
+
           </p>
         </NavLink>
       </div>

@@ -15,7 +15,7 @@ export default function toSmallNumber(number: number) {
     return '999+';
   }
   if (number < 10) {
-    return `${number.toFixed(1)}`;
+    return `${number.toFixed(0)}`;
   }
-  return `${number.toFixed(1)}`;
+  return `${number.toFixed(0)}`;
 }
