@@ -217,28 +217,47 @@ class TraineeService {
 
   // add to cart
   public addToCart = async (traineeId: string, courseId: string): Promise<ICourse[]> => {
-    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
-    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _cart: courseId } }, { new: true });
+    //const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _cart: courseId } }, { new: true });
+    const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
-    return trainee._cart;
+    const existingCart = trainee._cart.map(course => course._id.toString());
+    if (existingCart.includes(courseId)) {
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course already in cart');
+    }
+
+    const traineeCart: any[] = trainee._cart;
+    traineeCart.push(courseId);
+
+    await trainee.save();
+    return traineeCart;
   };
   // add to wishlist
   public addToWishlist = async (traineeId: string, courseId: string): Promise<ICourse[]> => {
-    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
-    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _wishlist: courseId } }, { new: true });
+    //const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _wishlist: courseId } }, { new: true });
+    const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
-    return trainee._wishlist;
+
+    const existingWishlist = trainee._wishlist.map(course => course._id.toString());
+    if (existingWishlist.includes(courseId)) {
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course already in wishlist');
+    }
+
+    const traineeWishlist: any[] = trainee._wishlist;
+    traineeWishlist.push(courseId);
+
+    await trainee.save();
+    return traineeWishlist;
   };
 
   //remove from cart
@@ -253,10 +272,10 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     //convert price to local currency
-    const conversionRate = await getConversionRate(country);
-    for (const course of trainee._cart) {
-      course.price = await getCurrentPrice(course.price, conversionRate, country);
-    }
+    // const conversionRate = await getConversionRate(country);
+    // for (const course of trainee._cart) {
+    //   course.price = await getCurrentPrice(course.price, conversionRate, country);
+    // }
     return trainee._cart;
   };
 
@@ -271,10 +290,10 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     //convert price to local currency
-    const conversionRate = await getConversionRate(country);
-    for (const course of trainee._wishlist) {
-      course.price = await getCurrentPrice(course.price, conversionRate, country);
-    }
+    // const conversionRate = await getConversionRate(country);
+    // for (const course of trainee._wishlist) {
+    //   course.price = await getCurrentPrice(course.price, conversionRate, country);
+    // }
 
     return trainee._wishlist;
   };
