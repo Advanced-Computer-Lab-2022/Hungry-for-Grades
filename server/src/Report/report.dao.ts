@@ -33,7 +33,16 @@ class ReportService {
       if (!enrolledCourse) throw new HttpException(422, 'Trainee is not enrolled in this course');
 
       const traineeProgress = enrolledCourse?.progress ?? 0;
-      if (traineeProgress < 50) throw new HttpException(422, 'Refund is not allowed before 50% of the course is completed');
+      if (traineeProgress >= 50) throw new HttpException(404, 'Refund is not allowed after 50% of the course is completed');
+      const report = await reportModel.findOne({ reason: 'Refund', _user: `${reportData?._user}`, _course: `${reportData?._course}` });
+      if (report) {
+        throw new HttpException(422, 'You have asked for refund for this course before');
+      }
+    } else if (reportData.reason === Reason.COUSE_REQUEST) {
+      const report = await reportModel.findOne({ reason: Reason.COUSE_REQUEST, _user: `${reportData?._user}`, _course: `${reportData?._course}` });
+      if (report) {
+        throw new HttpException(404, 'You have requested this course before');
+      }
     }
 
     const report = await reportModel.create({ ...reportData });
