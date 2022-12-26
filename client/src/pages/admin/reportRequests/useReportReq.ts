@@ -20,9 +20,9 @@ function getReportss(
     filterValType == 'All' ? 'Technical,Financial,Other,Refund' : filterValType;
 
   if (filterValStatus != 'All')
-    Reports.query = `startDate=${'1800-01-31T22:00:00.000Z'}&limit=${10}&reason=${reason}&status=${filterValStatus}`;
+    Reports.query = `startDate=${'1800-01-31T22:00:00.000Z'}&limit=${10}&reason=${reason}&status=${filterValStatus}&page=${_activePage}`;
   else
-    Reports.query = `startDate=${'1800-01-31T22:00:00.000Z'}&limit=${10}&reason=${reason}`;
+    Reports.query = `startDate=${'1800-01-31T22:00:00.000Z'}&limit=${10}&reason=${reason}&page=${_activePage}`;
 
   return getRequest<HttpResponse<AllReport[]>>(Reports);
 }

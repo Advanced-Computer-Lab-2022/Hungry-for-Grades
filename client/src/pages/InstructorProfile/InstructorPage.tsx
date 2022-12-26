@@ -116,9 +116,7 @@ export default function InstructorPage() {
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
-              <div className={styles.value}>
-                {Instructor?.rating?.reviews?.length}
-              </div>
+              <div className={styles.value}>{Instructor?.totalReviews}</div>
             </div>
           </div>
 

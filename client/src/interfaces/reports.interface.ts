@@ -43,7 +43,8 @@ export type AllReport = {
 export enum Status {
   PENDING = 'Pending',
   REJECTED = 'Rejected',
-  RESOLVED = 'Resolved'
+  RESOLVED = 'Resolved',
+  UNSEEN = 'Unseen'
 }
 
 export enum Reason {

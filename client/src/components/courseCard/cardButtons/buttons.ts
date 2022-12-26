@@ -66,7 +66,7 @@ export async function addtoWishList( // Return type = integer    0 --> No Actual
   removeCourseFromWishList: { (_id: string): void }, // function remove from WishList from the wishList store
   removeFromCart: { (_id: string): void; (arg0: string): void }, //function remove from Cart beta3t cart store
   addToWishListFromTheButon: UseMutateAsyncFunction<
-    AxiosResponse<unknown, any>,
+    AxiosResponse<unknown, unknown>,
     unknown,
     POSTRoutesType,
     unknown
@@ -103,7 +103,7 @@ export async function addtoCart( //Returns an integer 0 --> No ACtual Delete 1 -
   removeCourseFromWishList: { (_id: string): void }, // store wishlist function remove
   removeFromCart: { (_id: string): void; (arg0: string): void }, // store cart remove
   addToCartFromTheButton: UseMutateAsyncFunction<
-    AxiosResponse<unknown, any>,
+    AxiosResponse<unknown, unknown>,
     unknown,
     POSTRoutesType,
     unknown
