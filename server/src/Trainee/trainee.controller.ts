@@ -171,7 +171,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToWishlist(traineeId, courseId);
-      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to wishlist Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -198,7 +198,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.removeFromWishlist(traineeId, courseId, country);
-      res.json({ data: courses, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: courses, message: 'Removed from wishlist Successfully', success: true });
     } catch (error) {
       next(error);
     }
