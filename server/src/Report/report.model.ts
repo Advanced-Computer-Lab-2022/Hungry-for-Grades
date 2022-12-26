@@ -18,13 +18,9 @@ const reportSchema = new Schema<Report>(
       type: String,
     },
     status: {
-      default: Status.PENDING,
+      default: Status.UNSEEN,
       enum: Object.values(Status),
       type: String,
-    },
-    isSeen: {
-      default: false,
-      type: Boolean,
     },
     followUp: {
       default: [],

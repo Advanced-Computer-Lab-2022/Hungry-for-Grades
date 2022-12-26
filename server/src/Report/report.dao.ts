@@ -33,11 +33,19 @@ class ReportService {
       if (!enrolledCourse) throw new HttpException(422, 'Trainee is not enrolled in this course');
 
       const traineeProgress = enrolledCourse?.progress ?? 0;
-      if (traineeProgress >= 50) throw new HttpException(422, 'Refund is not allowed after 50% of the course is completed');
+
+      if (traineeProgress >= 50) throw new HttpException(404, 'Refund is not allowed after 50% of the course is completed');
       const report = await reportModel.findOne({ reason: 'Refund', _user: `${reportData?._user}`, _course: `${reportData?._course}` });
       if (report) {
         throw new HttpException(422, 'You have asked for refund for this course before');
       }
+
+    } else if (reportData.reason === Reason.COUSE_REQUEST) {
+      const report = await reportModel.findOne({ reason: Reason.COUSE_REQUEST, _user: `${reportData?._user}`, _course: `${reportData?._course}` });
+      if (report) {
+        throw new HttpException(404, 'You have requested this course before');
+      }
+
     }
 
     const report = await reportModel.create({ ...reportData });
@@ -50,7 +58,6 @@ class ReportService {
     const report = await reportModel.findById(reportId);
     if (!report) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Report not found');
 
-    if (!report.isSeen) report.isSeen = true;
     return report;
   };
 
@@ -83,8 +90,6 @@ class ReportService {
       }
     }
 
-    if (!report.isSeen) report.isSeen = true;
-
     await report.save();
     return report;
   }
@@ -104,7 +109,6 @@ class ReportService {
     if (reportFilters._user) matchQuery['_user'] = new mongoose.Types.ObjectId(reportFilters._user);
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
     if (reportFilters.reason) matchQuery['reason'] = { $in: reportFilters.reason };
-    if (reportFilters.isSeen) matchQuery['isSeen'] = reportFilters.isSeen === 'true';
 
     const AndDateQuery = [];
     if (reportFilters.startDate) AndDateQuery.push({ createdAt: { $gte: new Date(reportFilters.startDate) } });
@@ -144,7 +148,7 @@ class ReportService {
           pipeline: [{ $project: { category: 1, subcategory: 1, thumbnail: 1, title: 1 } }],
         },
       },
-      { $project: { __v: 0, _user: 0, updatedAt: 0, isSeen: 0 } },
+      { $project: { __v: 0, _user: 0, updatedAt: 0 } },
     ];
 
     // Sorting by createdAt
@@ -160,10 +164,6 @@ class ReportService {
     const totalReports = reports.length;
     const totalPages = Math.ceil(totalReports / limit);
     const paginatedReports = reports.slice(toBeSkipped, toBeSkipped + limit);
-
-    // mark paginated reports as seen
-    const reportIds = paginatedReports.map(report => report._id);
-    await reportModel.updateMany({ _id: { $in: reportIds } }, { $set: { isSeen: true } });
 
     return {
       data: paginatedReports,
