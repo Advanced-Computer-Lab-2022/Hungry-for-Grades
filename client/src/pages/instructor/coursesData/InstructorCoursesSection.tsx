@@ -40,7 +40,7 @@ function InstructorCoursesSection() {
         subHeading=''
       />
       {!isLoading && !isError && data && (verifiedData?.length as number) > 0 && (
-        <div className='container'>
+        <div className='container mb-5'>
           <div className='d-flex flex-row justify-content-evenly align-items-center mb-5'>
             <button
               className={`navButton ${
