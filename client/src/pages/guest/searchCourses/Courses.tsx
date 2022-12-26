@@ -28,7 +28,8 @@ function SearchCourses() {
   }
 
   return (
-    <section className={styles.courses__page}>
+		<div className='pb-5'>
+    <section className={`${styles.courses__page ?? ''} `}>
       <SearchSection
         heading='Search For Courses'
         selectedFilters={selectedFilters}
@@ -54,6 +55,7 @@ function SearchCourses() {
         </div>
       </section>
     </section>
+		</div>
   );
 }
 
