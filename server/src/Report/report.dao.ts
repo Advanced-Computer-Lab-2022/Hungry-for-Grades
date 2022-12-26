@@ -45,6 +45,8 @@ class ReportService {
       }
     }
 
+    
+
     const report = await reportModel.create({ ...reportData });
     return report;
   }
@@ -55,7 +57,6 @@ class ReportService {
     const report = await reportModel.findById(reportId);
     if (!report) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Report not found');
 
-    if (!report.isSeen) report.isSeen = true;
     return report;
   };
 
@@ -88,8 +89,6 @@ class ReportService {
       }
     }
 
-    if (!report.isSeen) report.isSeen = true;
-
     await report.save();
     return report;
   }
@@ -109,13 +108,15 @@ class ReportService {
     if (reportFilters._user) matchQuery['_user'] = new mongoose.Types.ObjectId(reportFilters._user);
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
     if (reportFilters.reason) matchQuery['reason'] = { $in: reportFilters.reason };
-    if (reportFilters.isSeen) matchQuery['isSeen'] = reportFilters.isSeen === 'true';
+
 
     const AndDateQuery = [];
     if (reportFilters.startDate) AndDateQuery.push({ createdAt: { $gte: new Date(reportFilters.startDate) } });
     if (reportFilters.endDate) AndDateQuery.push({ createdAt: { $lte: new Date(reportFilters.endDate) } });
 
     if (AndDateQuery.length > 0) matchQuery['$and'] = AndDateQuery;
+
+    
 
     const aggregateQuery: any = [
       { $match: matchQuery },
@@ -149,7 +150,7 @@ class ReportService {
           pipeline: [{ $project: { category: 1, subcategory: 1, thumbnail: 1, title: 1 } }],
         },
       },
-      { $project: { __v: 0, _user: 0, updatedAt: 0, isSeen: 0 } },
+      { $project: { __v: 0, _user: 0, updatedAt: 0 } },
     ];
 
     // Sorting by createdAt
@@ -165,10 +166,6 @@ class ReportService {
     const totalReports = reports.length;
     const totalPages = Math.ceil(totalReports / limit);
     const paginatedReports = reports.slice(toBeSkipped, toBeSkipped + limit);
-
-    // mark paginated reports as seen
-    const reportIds = paginatedReports.map(report => report._id);
-    await reportModel.updateMany({ _id: { $in: reportIds } }, { $set: { isSeen: true } });
 
     return {
       data: paginatedReports,
