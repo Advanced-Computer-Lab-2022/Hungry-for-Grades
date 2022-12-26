@@ -21,15 +21,17 @@
     font-size: 1.1rem;
     color: white !important;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
     cursor: pointer;
 }
 
 .listitem:hover {
-    color: #d1d7dc !important;
+    color: var(--secondary-color) !important;
 }
 
 .active__link {
-    border-bottom: 0.4rem solid #d1d7dc;
-    color: #d1d7dc !important;
+    border-bottom: 0.3rem solid var(--primary-color);
+    color: var(--secondary-color) !important;
+    filter: contrast(1.5);
+    -webkit-filter: contrast(1.5);
 }

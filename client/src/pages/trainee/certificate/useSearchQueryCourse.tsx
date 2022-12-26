@@ -7,19 +7,17 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 import { HttpResponse } from '@/interfaces/response.interface';
 import { EnrolledCourse } from '@/interfaces/course.interface';
 
-const traineeId = '637969352c3f71696ca34759';
-const courseId = '637a03cf301cbd719dff6039';
-
-async function searchRequest() {
+async function searchRequest(traineeId: string, courseId: string) {
   const course = TraineeRoutes.GET.getEnrolledCourse;
   course.URL = `/trainee/${traineeId}/course/${courseId}`;
+  console.log(course);
   return getRequest<HttpResponse<EnrolledCourse>>(course);
 }
 
-export default function useSearchQuery() {
+export default function useSearchQuery(traineeId: string, courseId: string) {
   return {
     ...useQuery(['search-trainee-course', traineeId, courseId], () =>
-      searchRequest()
+      searchRequest(traineeId, courseId)
     )
   };
 }

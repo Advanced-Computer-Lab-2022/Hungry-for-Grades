@@ -1,8 +1,8 @@
 import {
   Accordion,
   AccordionItem,
-  AccordionItemHeading,
   AccordionItemButton,
+  AccordionItemHeading,
   AccordionItemPanel
 } from 'react-accessible-accordion';
 import { Link } from 'react-router-dom';
@@ -21,7 +21,7 @@ function Content(props: ICourse) {
         style={{ overflowY: 'scroll', overflowX: 'hidden', height: '100%' }}
       >
         <Accordion allowZeroExpanded>
-          {props.sections.map((sec, sectionIndex) => (
+          {props.sections.map(sec => (
             <AccordionItem key={sec.title}>
               <AccordionItemHeading>
                 <AccordionItemButton>
@@ -40,11 +40,13 @@ function Content(props: ICourse) {
               <AccordionItemPanel>
                 {sec.lessons ? (
                   <ol className='list-group'>
-                    {sec.lessons.map((l, lessonIndex) => (
+                    {sec.lessons.map(l => (
                       <Link
                         key={l.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/lesson/${sectionIndex}/${lessonIndex}`}
+                        to={`/trainee/view-course/${props._id}/lesson/${
+                          sec._id ?? ''
+                        }/${l._id ?? ''}`}
                       >
                         <li className='list-item'>
                           <strong>{l.title}</strong>{' '}
@@ -58,11 +60,13 @@ function Content(props: ICourse) {
                 )}
                 {sec.exercises ? (
                   <ol className='list-group'>
-                    {sec.exercises.map((e, exerciseIndex) => (
+                    {sec.exercises.map(e => (
                       <Link
                         key={e.title}
                         className='btn btn-light text-start'
-                        to={`/trainee/view-course/${props._id}/exercise/${sectionIndex}/${exerciseIndex}`}
+                        to={`/trainee/view-course/${props._id}/exercise/${
+                          sec._id ?? ''
+                        }/${e._id ?? ''}`}
                       >
                         <li className='list-item'>
                           <strong>{e.title}</strong>{' '}

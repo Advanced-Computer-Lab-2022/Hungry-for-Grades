@@ -54,6 +54,9 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
   }, [notes, title, selectedTags, selectedCourseNames]);
 
   return (
+		<div className='py-5' style={{
+			backgroundColor: '#f8f9fa'
+		}}>
     <Container className='my-3'>
       <Row className='align-items-center mb-4'>
         <Col>
@@ -208,6 +211,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
         show={showSettings}
       />
     </Container>
+		</div>
   );
 }
 

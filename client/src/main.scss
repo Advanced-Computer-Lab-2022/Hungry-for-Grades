@@ -1,7 +1,7 @@
 @import 'index.css';
 $dark: #520e0e;
 $light: #fff;
-$primary: #A00407;
+$primary: #a00407;
 $secondary: #d37070;
 $grey: #aaa;
 $tooltip-bg: $secondary;
@@ -15,18 +15,18 @@ primary --> second blue
 secondary --> samawy fate7 gedan
 */
 
-@import "node_modules/bootstrap/scss/bootstrap";
-@import "node_modules/react-toastify/scss/main";
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/react-toastify/scss/main';
 body {
+  min-height: 100vh;
+  #root {
     min-height: 100vh;
-    #root {
-        min-height: 100vh;
-        /*
+    /*
 		display: flex;
         flex-direction: column; */
-        margin: 0%;
-        padding: 0%;
-    }
+    margin: 0%;
+    padding: 0%;
+  }
 }
 
-@import  "./accordion.scss";
+@import './accordion.scss';

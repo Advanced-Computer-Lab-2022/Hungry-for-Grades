@@ -14,7 +14,9 @@ import {
   IAddCourseRequest,
   ICourse,
   ICourseFilters,
+  ICourseLesson,
   ICourseQuestion,
+  ICourseSection,
   Review
 } from '@interfaces/course.interface';
 
@@ -86,6 +88,18 @@ export const CoursesRoutes = {
       payload: ''
     },
     getCourseExam: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getSectionById: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getLessonById: {
       URL: '',
       params: '',
       query: '',
@@ -282,4 +296,47 @@ export async function getCourseReviews(
     throw new Error(`server returned error ${res.data.message}`);
   }
   return res.data;
+}
+
+export async function getSectionById(
+  courseId: string | undefined,
+  sectionId: string | undefined
+): Promise<ICourseSection | null> {
+  if (!courseId || !sectionId) {
+    return null;
+  }
+  const courseSection = CoursesRoutes.GET.getSectionById;
+  courseSection.URL = `/courses/${encodeURIComponent(
+    courseId
+  )}/section/${encodeURIComponent(sectionId)}`;
+  const res = await getRequest<HttpResponse<ICourseSection>>(courseSection);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function getLessonById(
+  courseId: string | undefined,
+  lessonId: string | undefined,
+  userId: string | undefined
+): Promise<ICourseLesson | null> {
+  if (!courseId || !lessonId || !userId) {
+    return null;
+  }
+  const courseLesson = CoursesRoutes.GET.getLessonById;
+  courseLesson.URL = `/courses/${encodeURIComponent(
+    courseId
+  )}/lesson/${encodeURIComponent(lessonId)}/user/${encodeURIComponent(userId)}`;
+  const res = await getRequest<HttpResponse<ICourseLesson>>(courseLesson);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
 }

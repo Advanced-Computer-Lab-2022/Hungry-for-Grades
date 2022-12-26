@@ -9,7 +9,6 @@ class SessionStorage {
 
   get<T>(key: string): T | string | null {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
-    console.log(key);
     const value = this.storage.getItem(key);
     if (
       value &&

@@ -1,45 +1,38 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
+import { useParams } from 'react-router-dom';
 
 import CourseRating from '../../guest/course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
 import useSearchQueryCourse from './useSearchQueryCourse';
-import useSearchQueryTrainee from './useSearchQueryTrainee';
 
 import { formatDuration } from '@/utils/duration';
 import ErrorMessage from '@components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
 
 export default function CertificateGenerator() {
-  const { isLoading, isError, data: courseData } = useSearchQueryCourse();
-  const { isLoading: traineeIsLoading, data: traineeData } =
-    useSearchQueryTrainee();
-  const verifiedTraineeData = traineeData?.data?.data;
+  const { courseId } = useParams<{ courseId: string }>();
+  const traineeData = UseUser();
+  const {
+    isLoading,
+    isError,
+    data: courseData
+  } = useSearchQueryCourse(traineeData?._id as string, courseId as string);
   const verifiedCourseData = courseData?.data?.data?._course;
   const courseTitle = verifiedCourseData?.title;
-  const date = courseData?.data?.data.dateOfCompletion; //needs to be revised
-  // date = date?.split('T')[0];
+  let date = courseData?.data?.data.dateOfCompletion?.toString();
+  date = date?.split('T')[0];
   const instructorName = verifiedCourseData?._instructor[0]?.name;
-
-  if (isError) return <ErrorMessage />;
-
   const [imageURL, setImageURL] = useState('');
-  const img = useMemo(() => new Image(), []);
+
+  const img = document.createElement('img');
   img.src = '/Certificate.png';
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      !traineeIsLoading &&
-      verifiedCourseData &&
-      verifiedTraineeData
-    ) {
+    if (!isLoading && verifiedCourseData) {
       const canvas = document.createElement('canvas');
-      console.log(canvas);
       const context: CanvasRenderingContext2D | null = canvas?.getContext('2d');
       if (context === null) return;
       context.canvas.width = 770;
@@ -48,7 +41,7 @@ export default function CertificateGenerator() {
         context.drawImage(img, 0, 0);
         context.font = 'bold 34px open sans';
         context.fillStyle = 'black';
-        context.fillText(verifiedTraineeData?.name, 80, 282);
+        context.fillText(traineeData?.name as string, 80, 282);
         const spaceIndexes: number[] = [];
         for (let i = 0; i < (courseTitle ? courseTitle.length : 0); i++)
           if (courseTitle && courseTitle[i] === ' ') spaceIndexes.push(i);
@@ -75,7 +68,6 @@ export default function CertificateGenerator() {
           const numberOfLines = Math.ceil(
             courseTitle ? courseTitle.length / 40 : 0
           );
-          console.log(spaceIndexes);
           let lastSpaceIndex = 0;
           for (let i = 0; i < numberOfLines; i++) {
             const spaceFlag =
@@ -108,7 +100,16 @@ export default function CertificateGenerator() {
         setImageURL(canvas?.toDataURL());
       };
     }
-  }, [courseData]);
+  }, [
+    courseData,
+    courseTitle,
+    date,
+    img,
+    instructorName,
+    isLoading,
+    traineeData,
+    verifiedCourseData
+  ]);
 
   const handleDownloadPDF = () => {
     const pdf = new jsPDF({
@@ -122,22 +123,23 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('certificate.pdf');
   };
+  if (isError) return <ErrorMessage />;
   if (isLoading) return <div>Loading...</div>;
   return (
-    <div className='container mt-4'>
+    <div className='container-md mt-4'>
       <div className='row gx-5'>
-        <div className='col-12 col-md-8 border-end border-2 pt-3 pb-3'>
+        <div className='col-12 col-md-8 border-end border-2 py-3'>
           <div className='d-flex justify-content-center'>
             <img
               alt='Course Certificate'
               className='img-responsive'
               src={imageURL}
-              style={{ maxWidth: '65vw' }}
+              style={{ maxWidth: '65vw', width: '100%' }}
             />
           </div>
         </div>
-        <div className='col-sm-12 col-md-4 pt-3'>
-          <div className='container mx-auto'>
+        <div className='col-sm-12 col-md-4 pt-3 d-flex justify-content-md-start justify-content-center'>
+          <div>
             <div className='h5'>Certificate Recipient:</div>
             <div className='d-flex flex-col'>
               <span className='py-1 me-2'>
@@ -151,10 +153,10 @@ export default function CertificateGenerator() {
 
               <div>
                 <div className={`${styles.nameFnt || ''} pt-1`}>
-                  {verifiedTraineeData?.name}
+                  {traineeData?.name}
                 </div>
                 <div className={styles.userNameFnt}>
-                  {verifiedTraineeData?.username}
+                  {traineeData?.username}
                 </div>
               </div>
             </div>

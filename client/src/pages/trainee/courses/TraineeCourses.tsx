@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { mapCourseToCardProps } from '../../guest/landing/types';
 
 import useCoursesQuery from './useCoursesQuery';
@@ -53,7 +55,30 @@ export default function MyCourses() {
   const incoming = data?.data?.data;
 
   if (data?.data?.totalResults == 0) {
-    return <div>You Don;t Have any Courses</div>;
+    return (
+      <div className='container text-center my-5'>
+        <div
+          className='mb-2'
+          style={{
+            fontFamily: 'Arial, Helvetica, sans-serif',
+            fontWeight: '600',
+            fontSize: '1.3rem'
+          }}
+        >
+          Find a course you want to learn today.
+        </div>
+        <div
+          style={{
+            fontFamily: 'Arial, Helvetica, sans-serif'
+          }}
+        >
+          When you enroll in a course, it will appear here.{' '}
+          <Link className='alert-link' to={'../courses'}>
+            Browse now
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   const toShow = incoming?.map(course => {
@@ -73,7 +98,10 @@ export default function MyCourses() {
   console.log(data);
 
   return (
-    <>
+    <div className='py-3'
+		style={{
+			backgroundColor: '#f8f9fa'
+		}}>
       <div className='container'>
         <div className='row'>{toShow}</div>
       </div>
@@ -86,6 +114,6 @@ export default function MyCourses() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }

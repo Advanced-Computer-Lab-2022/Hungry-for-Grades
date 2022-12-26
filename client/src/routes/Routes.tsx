@@ -63,9 +63,6 @@ const LazyTraineeEnrolledCourses = lazy(
 const LazyTraineeDashboard = lazy(
   () => import('@pages/trainee/dashboard/TraineeDashboard')
 );
-const LazyTraineeChangePassword = lazy(
-  () => import('@/pages/trainee/editProfile/change-password/ChangePassword')
-);
 // notes
 const LazyTraineeNote = lazy(() => import('@/pages/trainee/note/TraineeNote'));
 const LazyTraineeNoteEdit = lazy(
@@ -111,23 +108,20 @@ const LazyInstructorCoursesSection = lazy(
 const LazyTraineeCertificate = lazy(
   () => import('@/pages/trainee/certificate/CertificateGenerator')
 );
-const LazyAddExam = lazy(
-  () => import('@/pages/instructor/course-form/AddExam')
-);
+const LazyAddExam = lazy(() => import('@/pages/instructor/exam-form/AddExam'));
 const LazyMyReview = lazy(
   () => import('@/pages/instructor/reviewAndRating/Main')
 );
 const LazyInstructorEditProfile = lazy(
-  () => import('@/pages/InstructorProfile/edit-profile/Profile')
+  () => import('@/pages/instructor/edit-profile/Profile')
 );
-const LazyInstructorChangePassword = lazy(
-  () =>
-    import(
-      '@/pages/InstructorProfile/edit-profile/change-password/ChangePassword'
-    )
-);
+
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
+);
+
+const LazyInstructorEarnings = lazy(
+  () => import('@/pages/instructor/earnings/InstructorEarningsAnalytics')
 );
 /**
  * Admin Pages
@@ -147,10 +141,30 @@ const LazyAdminReports = lazy(
 const LazyAdminCourseRequests = lazy(
   () => import('@/pages/admin/corporateRequests/CourseRequest')
 );
+
+const LazyAdminCourseDiscounts = lazy(
+  () => import('@/pages/admin/addDiscounts/MakeDiscounts')
+);
+
+const LazyAdminRefunds = lazy(() => import('@/pages/admin/refunds/Refund'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
 // I commented  <Route element={<StudentPage />} path='hussein' /> because it was causing an error
+
+/**
+ * Payment Pages
+ */
+
+const LazySuccessfulPayment = lazy(
+  () => import('@/pages/payment/PaymentAccepted')
+);
+
+const LazyRejectedPayment = lazy(
+  () => import('@/pages/payment/PaymentRejected')
+);
+
+const LazyFailedPayment = lazy(() => import('@/pages/payment/PaymentFailed'));
 
 // landing page
 
@@ -203,7 +217,7 @@ function AllRoutes() {
           />
           <Route
             element={<LazyTraineeViewCourse />}
-            path='view-course/:courseid/:itemType/:sectionNumber/:itemNumber'
+            path='view-course/:courseid/:itemType/:sectionid/:itemid'
           />
           {/* Trainee Dashboard */}
           <Route element={<LazyTraineeDashboard />}>
@@ -213,10 +227,6 @@ function AllRoutes() {
             />
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
-            <Route
-              element={<LazyTraineeChangePassword />}
-              path='change-password'
-            />
 
             <Route path='notes'>
               <Route index element={<LazyTraineeNoteList />} />
@@ -235,11 +245,17 @@ function AllRoutes() {
               errorElement={<ErrorMessage />}
               path='courses'
             />
-            <Route element={<LazyTraineeCertificate />} path='certificate' />
+            <Route
+              element={<LazyTraineeCertificate />}
+              path='certificate/:courseId'
+            />
             <Route element={<LazyTraineeBoard />} path='board' />
 
             <Route element={<LazySolveExam />} path='exam/:courseid/' />
           </Route>
+          <Route element={<LazySuccessfulPayment />} path='payment-accepted' />
+          <Route element={<LazyFailedPayment />} path='payment-failed' />
+          <Route element={<LazyRejectedPayment />} path='payment-rejected' />
         </Route>
 
         {/* Instructor Routes*/}
@@ -247,37 +263,42 @@ function AllRoutes() {
           {/* Instructor Dashboard */}
           <Route element={<LazyInstructorDashboard />}>
             <Route
+              index
+              element={<LazyInstructorEarnings />}
+              path='dashboard'
+            />
+            <Route
               element={<LazyInstructorCoursesSection />}
               path='my-courses'
-            />{' '}
-            <Route element={<div />} path='dashboard' />
+            />
+            <Route element={<LazyMyReview />} path='rating-review' />
+
             <Route element={<LazyInstructorEditProfile />} path='profile' />
           </Route>
-          <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyAddCourse />} path='add-course' />
           <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
-          <Route element={<LazyInstructorCoursesSection />} path='' />
-          <Route element={<LazyMyReview />} path='rating-review' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
-          <Route
-            element={<LazyInstructorChangePassword />}
-            path='change-password'
-          />
         </Route>
 
         {/* Admin Routes */}
         <Route element={<AdminRoutes />} path='admin'>
           {/* Admin Dashboard */}
-          <Route element={<LazyAdminDashboard />} path='dashboard'>
+          <Route element={<LazyAdminDashboard />}>
+            <Route element={<div />} path='dashboard' />
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route
               element={<LazyAdminCourseRequests />}
               path='course-requests'
             />
+            <Route
+              element={<LazyAdminCourseDiscounts />}
+              path='courses-discounts'
+            />
+            <Route element={<LazyAdminRefunds />} path='refunds' />
           </Route>
         </Route>
       </Route>

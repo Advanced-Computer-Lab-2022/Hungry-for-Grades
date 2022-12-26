@@ -6,11 +6,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useParams } from 'react-router-dom';
 
+import { AxiosResponse } from 'axios';
+
+import ReviewSection from './ReviewSection';
+
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
-
-import ReviewSection from './ReviewSection';
 
 import ReviewList from './ReviewList';
 
@@ -19,8 +21,6 @@ import Loader from '@components/loader/loaderpage/Loader';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
 import { getRequest } from '@/services/axios/http-verbs';
-
-import { HttpResponse } from '@/interfaces/response.interface';
 
 import { IInstructor } from '@/interfaces/instructor.interface';
 
@@ -31,7 +31,7 @@ async function getInstructor(id: string) {
 
   Inst.params = id;
 
-  return getRequest<HttpResponse<IInstructor>>(Inst);
+  return getRequest<AxiosResponse<IInstructor>>(Inst);
 }
 
 export default function InstructorPage() {
@@ -40,7 +40,7 @@ export default function InstructorPage() {
   console.log(instructorId);
 
   const { isLoading, data } = useQuery(
-    ['getInstructorNow', instructorId],
+    ['getInstructorNowww', instructorId],
     () => getInstructor(instructorId as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -50,11 +50,11 @@ export default function InstructorPage() {
 
   const Instructor = data?.data?.data;
 
-  if (Instructor == undefined) {
-    return <ErrorMessage errorMessage={data?.data?.message} />;
-  }
-
   if (isLoading) return <Loader />;
+
+  if (Instructor === undefined || !data?.status) {
+    return <ErrorMessage errorMessage={data?.statusText} />;
+  }
 
   return (
     <div className={styles.page}>
@@ -66,8 +66,8 @@ export default function InstructorPage() {
             src={Instructor?.profileImage}
           />
           <div className={styles.social_wrapper}>
-            {Instructor?.socialMedia?.linkedin?.length > 0 && (
-              <a href={Instructor?.socialMedia?.linkedin}>
+            {Instructor?.socialMedia?.linkin?.length > 0 && (
+              <a href={Instructor?.socialMedia?.linkin}>
                 {' '}
                 <AiFillLinkedin style={{ fontSize: '2rem' }} />{' '}
               </a>
@@ -113,9 +113,7 @@ export default function InstructorPage() {
             <div>
               <div className={styles.property}>Reviews</div>
               <div className={styles.value}>
-                {Instructor?.rating?.reviews?.length > 0
-                  ? Instructor?.rating?.reviews?.length
-                  : 0}
+                {Instructor?.rating?.reviews?.length}
               </div>
             </div>
           </div>
@@ -125,7 +123,7 @@ export default function InstructorPage() {
         </div>
       </div>
       <CourseList namme={Instructor?.name} text={instructorId as string} />
-      <ReviewSection />
+      <ReviewSection instructrID={instructorId as string} />
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
         <ReviewList text={instructorId as string} />

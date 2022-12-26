@@ -59,6 +59,11 @@ export default function AdminHome(props: {
       >
         <td>
           <input
+            className={
+              report?.status == 'Resolved' || report?.status == 'Rejected'
+                ? ''
+                : 'form-check-input'
+            }
             disabled={isDisabled}
             id={'CheckBox' + (138191 * 10501 + -10 + 1912 + i).toString()}
             style={{
@@ -116,26 +121,32 @@ export default function AdminHome(props: {
   });
 
   return (
-    <div style={{ overflowX: 'auto' }}>
-      <table className={styles.container}>
-        <thead>
-          <tr
-            style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
-          >
-            <th>
-              <MdIndeterminateCheckBox
-                style={{ color: '#DC3535', fontSize: '1.5rem' }}
-              />
-            </th>
-            <th>Corporate Trainee</th>
-            <th>Requested Course</th>
-            <th>Date</th>
-            <th style={{ paddingLeft: '0.5rem' }}>Status</th>
-            <th style={{ paddingLeft: '3rem' }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{toShow}</tbody>
-      </table>
+    <div className='pb-5'>
+      <div className='table-responsive'>
+        <table className={`${styles.container ?? 'table'}`}>
+          <thead>
+            <tr
+              style={{
+                fontWeight: '600',
+                fontSize: '1rem',
+                paddingLeft: '1rem'
+              }}
+            >
+              <th>
+                <MdIndeterminateCheckBox
+                  style={{ color: '#DC3535', fontSize: '1.5rem' }}
+                />
+              </th>
+              <th>Corporate Trainee</th>
+              <th>Requested Course</th>
+              <th>Date</th>
+              <th style={{ paddingLeft: '0.5rem' }}>Status</th>
+              <th style={{ paddingLeft: '3rem' }}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{toShow}</tbody>
+        </table>
+      </div>
     </div>
   );
 }

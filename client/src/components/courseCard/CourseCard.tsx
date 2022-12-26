@@ -24,7 +24,6 @@ import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
 import { UseUser } from '@/store/userStore';
 import { Role } from '@/enums/role.enum';
 import { ITrainee } from '@/interfaces/course.interface';
-
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function CourseCardPreview({
@@ -139,12 +138,27 @@ function CourseCard(courseProps: {
                   />
                 </div>
                 <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-                  <strong>Duration: {formatDuration(props.duration)}</strong>
+                  <strong>
+                    Duration: {formatDuration(props.duration * 60)}
+                  </strong>
                 </div>
                 <CourseRating {...props.rating} />
+                {courseProps.enrolled && (
+                  <div className='my-2'>
+                    <Link
+                      className='btn btn-primary text-light'
+                      to={`/trainee/view-course/${props.id}`}
+                    >
+                      View Course
+                    </Link>
+                  </div>
+                )}
                 {courseProps.percent == -1 && <Price {...props.price} />}
                 {courseProps.percent != -1 && (
-                  <ProgressBar completed={courseProps.percent} />
+                  <ProgressBar
+                    completed={courseProps.percent}
+                    courseID={courseProps?.pprops?.id}
+                  />
                 )}
               </div>
               {(useUser === null ||

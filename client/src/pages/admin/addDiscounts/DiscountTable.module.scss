@@ -1,0 +1,35 @@
+
+.container {
+    
+    width:100rem;
+    height: fit-content;
+    //margin-left: 1rem;
+    //padding: 20px;
+    font-family: udemy sans,sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+    font-weight: 400;
+    line-height: 1.2;
+    border-collapse:collapse;
+    font-size: 1.1rem;
+    background-color: white;
+}
+
+
+.container tr
+{
+        border-bottom: rgb(239, 239, 239) 1.5px;
+        border-style: solid;
+        height: 3.5rem;
+        white-space:nowrap;
+        //display: table;
+        width:100%;
+}
+
+.container
+{
+    input[type=checkbox] {
+        accent-color: #DC3535;
+      }
+}
+
+
+

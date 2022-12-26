@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+
+import ReportForm from '@/components/footer/ReportForm';
 type ErrorMessageProps = {
   errorMessage: string;
   link: string;
@@ -10,8 +12,6 @@ function ErrorMessage({
   link = '',
   linkTitle = ''
 }: Partial<ErrorMessageProps>) {
-  /*if (errorMessage)
-    return <div className='text-danger text-center'>{errorMessage} </div>;*/
   return (
     <div className='alert alert-danger container mt-3' role='alert'>
       {errorMessage == '' && (
@@ -20,9 +20,13 @@ function ErrorMessage({
             Sorry for the Inconvenience , Please report this Problem through
             this
           </span>
-          <Link className='alert-link' to='/report'>
-            Link
-          </Link>
+          <span
+            style={{
+              fontWeight: 'bold'
+            }}
+          >
+            <ReportForm />
+          </span>
         </>
       )}
       {errorMessage?.length > 0 && errorMessage}
