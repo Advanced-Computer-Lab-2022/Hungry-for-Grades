@@ -127,7 +127,9 @@ export default function InstructorPage() {
         </div>
       </div>
       <CourseList namme={Instructor?.name} text={instructorId as string} />
-      { user?.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() && <ReviewSection instructrID={instructorId as string} />}
+      {user?.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() && (
+        <ReviewSection instructrID={instructorId as string} />
+      )}
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
         <ReviewList text={instructorId as string} />

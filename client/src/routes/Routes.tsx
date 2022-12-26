@@ -212,7 +212,7 @@ function AllRoutes() {
             path={`${path}instructor/:instructorId`}
           />
         ))}
-        
+
         {/* Trainee Routes*/}
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route

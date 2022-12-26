@@ -126,10 +126,10 @@ export const TraineeRoutes = {
       response: {}
     },
     addToCart: {
-      URL:'',
-      params:'',
-      query:'',
-      payload:{}
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   DELETE: {
@@ -139,11 +139,11 @@ export const TraineeRoutes = {
       query: '',
       payload: {}
     },
-    renoveFromWishList : {
-      URL : '',
+    renoveFromWishList: {
+      URL: '',
       params: '',
-      query : '',
-      payload : {}
+      query: '',
+      payload: {}
     }
   }
 };

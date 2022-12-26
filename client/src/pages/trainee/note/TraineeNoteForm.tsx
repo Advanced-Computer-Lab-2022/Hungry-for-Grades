@@ -57,69 +57,76 @@ function TraineeNoteForm({
   }
 
   return (
-		<div style={{
-			backgroundColor: '#f8f9fa'
-		}} className='py-5'>
-    <Container  >
-      <Form onSubmit={handleSubmit}>
-        <Stack gap={4}>
-          <Row>
-            <Col>
-              <Form.Group controlId='title'>
-                <Form.Label>Title</Form.Label>
-                <Form.Control ref={titleRef} required defaultValue={title} />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group controlId='tags'>
-                <Form.Label>Tags</Form.Label>
-                <CreatableReactSelect
-                  isMulti
-                  options={availableTags.map(tag => {
-                    return { label: tag.label, value: tag.id };
-                  })}
-                  value={[...selectedTags].map(tag => {
-                    return { label: tag.label, value: tag.id };
-                  })}
-                  onChange={function onChange(newTags) {
-                    setSelectedTags(
-                      newTags.map(tag => {
-                        return { label: tag.label, id: tag.value };
-                      })
-                    );
-                  }}
-                  onCreateOption={function onCreate(label) {
-                    const newTag = createTag(label);
-                    setSelectedTags(prev => [...prev, newTag]);
-                  }}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Form.Group controlId='markdown'>
-            <Form.Label>Body</Form.Label>
-            <Form.Control
-              ref={markdownRef}
-              required
-              as='textarea'
-              defaultValue={markdown}
-              rows={15}
-            />
-          </Form.Group>
-          <Stack className='justify-content-end' direction='horizontal' gap={2}>
-            <Button type='submit' variant='primary'>
-              Save
-            </Button>
-            <Link to='..'>
-              <Button type='button' variant='outline-secondary'>
-                Cancel
+    <div
+      className='py-5'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Stack gap={4}>
+            <Row>
+              <Col>
+                <Form.Group controlId='title'>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control ref={titleRef} required defaultValue={title} />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId='tags'>
+                  <Form.Label>Tags</Form.Label>
+                  <CreatableReactSelect
+                    isMulti
+                    options={availableTags.map(tag => {
+                      return { label: tag.label, value: tag.id };
+                    })}
+                    value={[...selectedTags].map(tag => {
+                      return { label: tag.label, value: tag.id };
+                    })}
+                    onChange={function onChange(newTags) {
+                      setSelectedTags(
+                        newTags.map(tag => {
+                          return { label: tag.label, id: tag.value };
+                        })
+                      );
+                    }}
+                    onCreateOption={function onCreate(label) {
+                      const newTag = createTag(label);
+                      setSelectedTags(prev => [...prev, newTag]);
+                    }}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group controlId='markdown'>
+              <Form.Label>Body</Form.Label>
+              <Form.Control
+                ref={markdownRef}
+                required
+                as='textarea'
+                defaultValue={markdown}
+                rows={15}
+              />
+            </Form.Group>
+            <Stack
+              className='justify-content-end'
+              direction='horizontal'
+              gap={2}
+            >
+              <Button type='submit' variant='primary'>
+                Save
               </Button>
-            </Link>
+              <Link to='..'>
+                <Button type='button' variant='outline-secondary'>
+                  Cancel
+                </Button>
+              </Link>
+            </Stack>
           </Stack>
-        </Stack>
-      </Form>
-    </Container>
-		</div>
+        </Form>
+      </Container>
+    </div>
   );
 }
 export default TraineeNoteForm;

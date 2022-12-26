@@ -19,8 +19,7 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
     removeCourse: _id => {
       //Delete axios
       set(state => {
-        const cart =
-          [...state.cart].filter(item => item !== _id);
+        const cart = [...state.cart].filter(item => item !== _id);
         const totalItems = cart.length;
         return { cart, totalItems };
       });
@@ -35,10 +34,10 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
     },
     clearCart: () => {
       //here we do empty car for axios
-      set({ cart:[],totalItems:0 });
+      set({ cart: [], totalItems: 0 });
     },
     inCart: _id => {
-      return [...get().cart].some(item => item === _id) ;
+      return [...get().cart].some(item => item === _id);
     },
     totalCost: 0,
     totalItems: 0

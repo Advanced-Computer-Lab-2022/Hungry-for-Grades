@@ -54,164 +54,167 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
   }, [notes, title, selectedTags, selectedCourseNames]);
 
   return (
-		<div className='py-5' style={{
-			backgroundColor: '#f8f9fa'
-		}}>
-    <Container className='my-3'>
-      <Row className='align-items-center mb-4'>
-        <Col>
-          <h2 className='text-dark text-left mb-2 text-truncate'>
-            {courseName ? 'Course ' : ''} Notes
-          </h2>
-        </Col>
-        <Col xs='auto'>
-          <Stack direction='horizontal' gap={2}>
-            <Link
-              to={`/trainee/notes/form?courseName=${
-                courseName ?? ''
-              }&lessonId=${lessonId ?? ''}`}
-            >
-              <Button variant='primary'>Create</Button>
-            </Link>
-            <Button
-              variant='outline-secondary'
-              onClick={function open() {
-                setEditTagsModalIsOpen(true);
-              }}
-            >
-              Edit Tags
-            </Button>
-
-            <Button
-              variant=''
-              onClick={function open() {
-                setShowSettings(true);
-              }}
-            >
-              <AiFillSetting
-                style={{
-                  fontSize: '1.3rem',
-                  color: '#6c757d'
-                }}
-              />
-            </Button>
-          </Stack>
-        </Col>
-      </Row>
-      <Form>
-        <Row className='mb-4'>
+    <div
+      className='py-5'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
+      <Container className='my-3'>
+        <Row className='align-items-center mb-4'>
           <Col>
-            <Form.Group controlId='title'>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                type='text'
-                value={title}
-                onChange={function onChange(e) {
-                  setTitle(e.target.value);
-                }}
-              />
-            </Form.Group>
+            <h2 className='text-dark text-left mb-2 text-truncate'>
+              {courseName ? 'Course ' : ''} Notes
+            </h2>
           </Col>
-          <Col>
-            <Form.Group controlId='tags'>
-              <Form.Label>Tags</Form.Label>
-              <ReactSelect
-                isMulti
-                options={
-                  availableTags?.map(tag => {
-                    return { label: tag.label, value: tag.id };
-                  }) ?? []
-                }
-                value={
-                  selectedTags?.map(tag => {
-                    return { label: tag.label, value: tag.id };
-                  }) ?? []
-                }
-                onChange={function onChange(tags) {
-                  setSelectedTags(
-                    tags?.map(tag => {
-                      return { label: tag.label, id: tag.value };
-                    })
-                  );
-                }}
-              />
-            </Form.Group>
-          </Col>
-          <Col className='col-12 col-md-6 col-lg-4'>
-            <Form.Group controlId='courses'>
-              <Form.Label>Courses</Form.Label>
-              <ReactSelect
-                isMulti
-                options={
-                  courseNames?.map(course => {
-                    return { label: course, value: course };
-                  }) ?? []
-                }
-                value={
-                  selectedCourseNames?.map(course => {
-                    return { label: course, value: course };
-                  }) ?? []
-                }
-                onChange={function onChange(coursesSelect) {
-                  setSelectedCourseNames(() =>
-                    coursesSelect?.map(course => {
-                      return course.value;
-                    })
-                  );
-                }}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-      </Form>
-      <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
-        {filteredNotes?.map(note => (
-          <Col key={note.id}>
-            <Link to={`/trainee/notes/${note.id}`}>
-              <NoteCard
-                courseName={note.courseName}
-                id={note.id}
-                tags={note.tags}
-                title={note.title}
-              />
-            </Link>
-          </Col>
-        ))}
-        {filteredNotes?.length === 0 && (
-          <div className='container mt-5'>
-            <div
-              className='alert alert-danger d-flex justify-content-center'
-              role='alert'
-            >
-              No notes{' '}
-              {notes && notes.length > 0 ? 'for this Course where found' : ''}
-              found,
+          <Col xs='auto'>
+            <Stack direction='horizontal' gap={2}>
               <Link
                 to={`/trainee/notes/form?courseName=${
                   courseName ?? ''
                 }&lessonId=${lessonId ?? ''}`}
               >
-                <span className='alert-link'> Create Note</span>
+                <Button variant='primary'>Create</Button>
               </Link>
+              <Button
+                variant='outline-secondary'
+                onClick={function open() {
+                  setEditTagsModalIsOpen(true);
+                }}
+              >
+                Edit Tags
+              </Button>
+
+              <Button
+                variant=''
+                onClick={function open() {
+                  setShowSettings(true);
+                }}
+              >
+                <AiFillSetting
+                  style={{
+                    fontSize: '1.3rem',
+                    color: '#6c757d'
+                  }}
+                />
+              </Button>
+            </Stack>
+          </Col>
+        </Row>
+        <Form>
+          <Row className='mb-4'>
+            <Col>
+              <Form.Group controlId='title'>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type='text'
+                  value={title}
+                  onChange={function onChange(e) {
+                    setTitle(e.target.value);
+                  }}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId='tags'>
+                <Form.Label>Tags</Form.Label>
+                <ReactSelect
+                  isMulti
+                  options={
+                    availableTags?.map(tag => {
+                      return { label: tag.label, value: tag.id };
+                    }) ?? []
+                  }
+                  value={
+                    selectedTags?.map(tag => {
+                      return { label: tag.label, value: tag.id };
+                    }) ?? []
+                  }
+                  onChange={function onChange(tags) {
+                    setSelectedTags(
+                      tags?.map(tag => {
+                        return { label: tag.label, id: tag.value };
+                      })
+                    );
+                  }}
+                />
+              </Form.Group>
+            </Col>
+            <Col className='col-12 col-md-6 col-lg-4'>
+              <Form.Group controlId='courses'>
+                <Form.Label>Courses</Form.Label>
+                <ReactSelect
+                  isMulti
+                  options={
+                    courseNames?.map(course => {
+                      return { label: course, value: course };
+                    }) ?? []
+                  }
+                  value={
+                    selectedCourseNames?.map(course => {
+                      return { label: course, value: course };
+                    }) ?? []
+                  }
+                  onChange={function onChange(coursesSelect) {
+                    setSelectedCourseNames(() =>
+                      coursesSelect?.map(course => {
+                        return course.value;
+                      })
+                    );
+                  }}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+        <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
+          {filteredNotes?.map(note => (
+            <Col key={note.id}>
+              <Link to={`/trainee/notes/${note.id}`}>
+                <NoteCard
+                  courseName={note.courseName}
+                  id={note.id}
+                  tags={note.tags}
+                  title={note.title}
+                />
+              </Link>
+            </Col>
+          ))}
+          {filteredNotes?.length === 0 && (
+            <div className='container mt-5'>
+              <div
+                className='alert alert-danger d-flex justify-content-center'
+                role='alert'
+              >
+                No notes{' '}
+                {notes && notes.length > 0 ? 'for this Course where found' : ''}
+                found,
+                <Link
+                  to={`/trainee/notes/form?courseName=${
+                    courseName ?? ''
+                  }&lessonId=${lessonId ?? ''}`}
+                >
+                  <span className='alert-link'> Create Note</span>
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
-      </Row>
-      <EditTagsModal
-        availableTags={availableTags}
-        handleClose={function close() {
-          setEditTagsModalIsOpen(false);
-        }}
-        show={editTagsModalIsOpen}
-      />
-      <SettingsModal
-        handleClose={function close() {
-          setShowSettings(false);
-        }}
-        show={showSettings}
-      />
-    </Container>
-		</div>
+          )}
+        </Row>
+        <EditTagsModal
+          availableTags={availableTags}
+          handleClose={function close() {
+            setEditTagsModalIsOpen(false);
+          }}
+          show={editTagsModalIsOpen}
+        />
+        <SettingsModal
+          handleClose={function close() {
+            setShowSettings(false);
+          }}
+          show={showSettings}
+        />
+      </Container>
+    </div>
   );
 }
 

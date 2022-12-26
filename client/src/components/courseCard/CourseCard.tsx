@@ -23,7 +23,7 @@ import { formatDuration } from '@/utils/duration';
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
 import { UseUser } from '@/store/userStore';
 import { Role } from '@/enums/role.enum';
-import { ITrainee } from '@/interfaces/course.interface';
+import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -72,6 +72,29 @@ function CourseCard(courseProps: {
 }) {
   const useUser = UseUser();
   const props = courseProps.pprops;
+
+  let isActualEnrolled = courseProps.enrolled;
+
+  //const isEnrolledActually = UseUser();
+
+  function isActuallyEnrolled() {
+    for (
+      let i = 0;
+      i < ((useUser as ITrainee)?._enrolledCourses as EnrolledCourse[])?.length;
+      ++i
+    ) {
+      if (
+        (((useUser as ITrainee)?._enrolledCourses as EnrolledCourse[])[i]
+          ?._course as unknown as string) == courseProps?.pprops?.id
+      ) {
+        isActualEnrolled = true;
+        break;
+      }
+    }
+  }
+
+  isActuallyEnrolled();
+
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>
@@ -90,7 +113,7 @@ function CourseCard(courseProps: {
         >
           <Link
             to={`${
-              !courseProps.enrolled
+              !isActualEnrolled
                 ? `/course/${props.id}`
                 : `/trainee/view-course/${props.id}/`
             }`}
@@ -113,7 +136,7 @@ function CourseCard(courseProps: {
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
             <Link
               to={`${
-                !courseProps.enrolled
+                !isActualEnrolled
                   ? `/course/${props.id}`
                   : `/trainee/view-course/${props.id}/`
               }`}
@@ -144,7 +167,7 @@ function CourseCard(courseProps: {
                   </strong>
                 </div>
                 <CourseRating {...props.rating} />
-                {courseProps.enrolled && (
+                {isActualEnrolled && (
                   <div className='my-2'>
                     <Link
                       className='btn btn-primary text-light'
@@ -163,15 +186,16 @@ function CourseCard(courseProps: {
                 )}
               </div>
               {(useUser === null ||
-                (useUser.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() &&
-                  !(useUser as ITrainee)?.isCorporate)) && (
-                <div>
-                  <CourseCardButtons
-                    _id={props.id}
-                    price={props.price.currentValue}
-                  />
-                </div>
-              )}
+                ((useUser.role.toLocaleLowerCase() ===
+                  Role.TRAINEE.toLocaleLowerCase() ||
+                  useUser.role.toLocaleLowerCase() ===
+                    Role.NONE.toLocaleLowerCase()) &&
+                  !(useUser as ITrainee)?.isCorporate)) &&
+                !isActualEnrolled && (
+                  <div>
+                    <CourseCardButtons id={courseProps?.pprops?.id} />
+                  </div>
+                )}
             </div>
           </div>
         </article>
