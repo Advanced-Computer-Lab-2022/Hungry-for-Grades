@@ -45,8 +45,6 @@ class ReportService {
       }
     }
 
-    
-
     const report = await reportModel.create({ ...reportData });
     return report;
   }
@@ -109,14 +107,11 @@ class ReportService {
     if (reportFilters.status) matchQuery['status'] = reportFilters.status;
     if (reportFilters.reason) matchQuery['reason'] = { $in: reportFilters.reason };
 
-
     const AndDateQuery = [];
     if (reportFilters.startDate) AndDateQuery.push({ createdAt: { $gte: new Date(reportFilters.startDate) } });
     if (reportFilters.endDate) AndDateQuery.push({ createdAt: { $lte: new Date(reportFilters.endDate) } });
 
     if (AndDateQuery.length > 0) matchQuery['$and'] = AndDateQuery;
-
-    
 
     const aggregateQuery: any = [
       { $match: matchQuery },

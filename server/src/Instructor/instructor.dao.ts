@@ -153,7 +153,10 @@ class InstructorService {
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
 
-    const instructor = await instructorModel.findById(instructorID);
+    const instructor = await instructorModel.findById(instructorID).populate({
+      path: 'rating.reviews._trainee',
+      select: 'name country profileImage',
+    });
     if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
     const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
