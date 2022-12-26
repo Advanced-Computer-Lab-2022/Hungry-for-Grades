@@ -9,7 +9,7 @@ import { HiShoppingCart } from 'react-icons/hi';
 
 import styles from './course-card-buttons.module.scss';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 
 import {
   UseCartStoreInCart,
@@ -23,30 +23,24 @@ import {
 } from '@store/wishListStore';
 import { ICart } from '@/interfaces/cart.interface';
 
+import { addtoWishList, addtoCart } from './buttons';
+import { IUser } from '@/interfaces/user.interface';
+import usePostQuery from '@/hooks/usePostQuery';
+
 function CourseCardButtons(props: ICart) {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
-  const isInCart = UseCartStoreInCart()(props._id);
+  const isInCart = UseCartStoreInCart()(props?._id);
   const addCourseToWishList = UseWishListAddCourse();
   const removeCourseToWishList = UseWishListRemoveCourse();
   const isInWishList = UseWishListInCart()(props._id);
   const addCourseToCart = UseCartStoreAddCourse();
   const removeCourseToCart = UseCartStoreRemoveCourse();
+  const user = UseUser();
+  const { mutateAsync: addToWishListFromTheButton } = usePostQuery();
+  const { mutateAsync: addToCartFromTheButton } = usePostQuery();
 
   console.log(isInCart);
-  function addtoWishList(course: ICart) {
-    if (!isInCart) {
-      addCourseToWishList(course);
-    } else {
-      removeCourseToWishList(course._id);
-    }
-  }
-  function addtoCart(course: ICart) {
-    if (!isInWishList) {
-      addCourseToCart(course);
-    } else {
-      removeCourseToCart(course._id);
-    }
-  }
+  
 
   return (
     <>
@@ -56,7 +50,7 @@ function CourseCardButtons(props: ICart) {
             className={styles.button}
             type='button'
             onClick={() => {
-              addtoWishList(props);
+              addtoWishList(props, isInCart, isInWishList,user as IUser, addCourseToWishList, removeCourseToWishList, removeCourseToCart,addToWishListFromTheButton);
             }}
           >
             {isInWishList && <AiFillHeart className={styles.icon} />}
@@ -65,7 +59,7 @@ function CourseCardButtons(props: ICart) {
           <button
             className={styles.button}
             type='button'
-            onClick={() => addtoCart(props)}
+            onClick={() => addtoCart(props, isInCart, isInWishList, user, addCourseToCart, removeCourseToWishList, removeCourseToCart, addToCartFromTheButton)}
           >
             {isInCart && <HiShoppingCart className={styles.icon} />}
             {!isInCart && <AiOutlineShoppingCart className={styles.icon} />}

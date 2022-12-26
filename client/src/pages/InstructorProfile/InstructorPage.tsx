@@ -25,6 +25,8 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { IInstructor } from '@/interfaces/instructor.interface';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
+import { Role } from '@/enums/role.enum';
 
 async function getInstructor(id: string) {
   const Inst = InstructorRoutes.GET.getInstructor;
@@ -38,6 +40,8 @@ export default function InstructorPage() {
   const { instructorId } = useParams();
 
   console.log(instructorId);
+
+  const user = UseUser();
 
   const { isLoading, data } = useQuery(
     ['getInstructorNowww', instructorId],
@@ -123,7 +127,7 @@ export default function InstructorPage() {
         </div>
       </div>
       <CourseList namme={Instructor?.name} text={instructorId as string} />
-      <ReviewSection instructrID={instructorId as string} />
+      { user?.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() && <ReviewSection instructrID={instructorId as string} />}
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
         <ReviewList text={instructorId as string} />

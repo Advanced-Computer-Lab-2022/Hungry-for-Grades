@@ -205,11 +205,15 @@ function AllRoutes() {
             path={path}
           />
         ))}
+        {roles.map((path, index) => (
+          <Route
+            key={`${index + 101} instructor`}
+            element={<LazyInstructorProfileToShow />}
+            path={`${path}instructor/:instructorId`}
+          />
+        ))}
+        
         {/* Trainee Routes*/}
-        <Route
-          element={<LazyInstructorProfileToShow />}
-          path='instructor/:instructorId'
-        />
         <Route element={<TraineeRoutes />} path='trainee'>
           <Route
             element={<LazyTraineeViewCourse />}
@@ -306,6 +310,10 @@ function AllRoutes() {
       {/*Guest Routes */}
       <Route element={<PublicRoutes />}>
         <Route element={<LazySearchCourses />} path='courses' />
+        <Route
+          element={<LazyInstructorProfileToShow />}
+          path='instructor/:instructorId'
+        />
         <Route element={<LazyCourse />} path='course/:courseid' />
         <Route element={<LazyLanding />} path='/' />
         <Route element={<Error type={404} />} path='/*' />
