@@ -6,12 +6,12 @@ import { type ICartStore } from '@/interfaces/cart.interface';
 
 export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
   devtools((set, get) => ({
-    cart: new Set<string>([]),
+    cart: [],
     addCourse: course => {
       //Post axios
       set(state => {
-        const cart = new Set<string>([...state.cart, course]);
-        const totalItems = cart.size;
+        const cart = [...state.cart, course];
+        const totalItems = cart.length;
         console.log(cart);
         return { cart, totalItems };
       });
@@ -19,24 +19,23 @@ export const useCartStore = create<ICartStore, [['zustand/devtools', never]]>(
     removeCourse: _id => {
       //Delete axios
       set(state => {
-        const cart = new Set<string>(
-          [...state.cart].filter(item => item !== _id)
-        );
-        const totalItems = cart.size;
+        const cart =
+          [...state.cart].filter(item => item !== _id);
+        const totalItems = cart.length;
         return { cart, totalItems };
       });
     },
     setCart: newCart => {
       //Get Req
       // cart = GetRequest
-      const cart = new Set<string>(newCart);
-      const totalItems = cart.size;
+      const cart = newCart;
+      const totalItems = cart.length;
 
       set({ cart, totalItems });
     },
     clearCart: () => {
       //here we do empty car for axios
-      set({ cart: new Set<string>([]) });
+      set({ cart:[],totalItems:0 });
     },
     inCart: _id => {
       return [...get().cart].some(item => item === _id) ;

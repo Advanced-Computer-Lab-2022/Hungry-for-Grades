@@ -1,7 +1,7 @@
 
 
 export interface ICartStore {
-  cart: Set<string>;
+  cart: string[];
   addCourse: (courseId: string) => void;
   removeCourse: (_id: string) => void;
   setCart: (ids: string[]) => void;
