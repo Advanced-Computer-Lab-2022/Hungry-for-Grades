@@ -13,6 +13,20 @@ export type Report = {
   status: Status;
 };
 
+export type ReportDTO = {
+  _course: string;
+  _user: string;
+  description: string;
+  reason: Reason;
+  status: Status;
+};
+
+export interface Message {
+  content: string;
+  createdAt: Date;
+  isAdmin: boolean;
+}
+
 export type AllReport = {
   _course: ICourse[];
   _id: string;
@@ -23,6 +37,7 @@ export type AllReport = {
   role: Role;
   status: Status;
   createdAt: Date;
+  followUp: Message[];
 };
 
 export enum Status {

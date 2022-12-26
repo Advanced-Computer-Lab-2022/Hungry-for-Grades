@@ -16,12 +16,12 @@ import styles from './navbar.module.scss';
 import { UpdateCountry, UseCountry } from '@store/countryStore';
 
 import SearchBar from '@/components/navbar/searchBar/SearchBar';
-import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 import { Role } from '@/enums/role.enum';
-import toSmallNumber from '@/utils/toSmallNumber';
-import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
 import { ITrainee } from '@/interfaces/course.interface';
 import { IInstructor } from '@/interfaces/instructor.interface';
+import useCategoryQuery from '@/pages/guest/searchCourses/searchSection/filtersInput/useCategoryQuery';
+import toSmallNumber from '@/utils/toSmallNumber';
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 
 function NavbarComponent() {
   const { data, isError } = useCategoryQuery();
@@ -95,6 +95,7 @@ function NavbarComponent() {
           <Nav className='ml-auto'>
             <Nav.Link>
               <ReactFlagsSelect
+                searchable
                 className={styles.flag__select}
                 placeholder='Country'
                 selected={country}
@@ -107,14 +108,17 @@ function NavbarComponent() {
             {user && useUserIsAuthenticated ? (
               <div className='d-flex flex-row justify-content-evenly mt-2'>
                 {user.role.toLocaleLowerCase() ===
-                  Role.TRAINEE.toLocaleLowerCase() && <WishCartButtons />}
+                  Role.TRAINEE.toLocaleLowerCase() &&
+                  !(user as ITrainee).isCorporate && <WishCartButtons />}
 
-                {user.role !== Role.ADMIN && (
+                {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
                   <Link
                     className={styles.user__balance}
-                    to={`/${user.role.toLocaleLowerCase()}/balance`}
+                    to={`/${user.role.toLocaleLowerCase()}/dashboard`}
                   >
-                    {(user as ITrainee | IInstructor)?.currency}
+                    {(user as ITrainee | IInstructor)?.currency
+                      ? (user as ITrainee | IInstructor)?.currency
+                      : 'USD'}
                     {toSmallNumber(user.balance as number)}
                   </Link>
                 )}

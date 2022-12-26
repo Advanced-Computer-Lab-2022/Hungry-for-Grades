@@ -18,7 +18,16 @@ interface IUser {
   country: string;
   balance?: number;
   currency?: string;
+  biography?: string;
+  socialMedia?: {
+    facebook?: string;
+    github?: string;
+    personalWebsite?: string;
+    linkedin?: string;
+    youtube?: string;
+  };
 }
+
 export type Address = {
   city: string;
   country: string;

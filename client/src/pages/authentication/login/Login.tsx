@@ -81,7 +81,7 @@ function Login() {
         }
         //session
         SessionStorage.set('accessToken', token.accessToken);
-        updateCountry(user.country);
+        updateCountry('US');
         if (rememberMe) {
           LocalStorage.set('rememberme', true);
         } else {

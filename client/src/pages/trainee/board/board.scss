@@ -12,7 +12,6 @@
         width: 1280px;
         height: 720px;
         position: relative;
-        background-color: white;
     }
     .canvas {
         border: 2px solid var(--primary-color);
@@ -23,7 +22,7 @@
         -o-border-radius: 5px;
     }
     .Menu {
-        width: 720px;
+        width: 49rem;
         height: 50px;
         display: flex;
         padding: 1rem;

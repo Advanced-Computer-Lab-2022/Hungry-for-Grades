@@ -1,13 +1,14 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import { Country } from 'country-state-city';
 import ReactCountryFlag from 'react-country-flag';
+import StarRatings from 'react-star-ratings';
 
 import styles from './ReviewContainer.module.scss';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function getRemainingTime(d: string) {
-  const curr = new Date();
-  const d2 = new Date(d);
-  const diff = Math.abs(curr - d2) / 86400000;
+  const curr = new Date(),
+    d2 = new Date(d);
+  const diff = Math.abs(curr.valueOf() - d2.valueOf()) / 86400000;
   if (diff / 1 < 1) {
     const hours = diff / 24;
     if (hours < 1) {
@@ -61,7 +62,7 @@ export default function ReviewContainer(props: {
           <div className={styles.reviewer_name}>
             <div className={styles.name}>{props.name}</div>
           </div>
-          {toCountry.length > 0 && (
+          {toCountry?.length > 0 && (
             <div className={styles.reviewer_country}>
               <ReactCountryFlag
                 svg
@@ -76,9 +77,12 @@ export default function ReviewContainer(props: {
             </div>
           )}
           <div className={styles.rating_date_container}>
-            <div
-              className={styles.Stars}
-              style={{ '--rating': props.rating } as React.CSSProperties}
+            <StarRatings
+              numberOfStars={5}
+              rating={props?.rating}
+              starDimension='20px'
+              starRatedColor='rgb(229, 152, 25)'
+              starSpacing='0px'
             />
             <>&nbsp;&nbsp;</>
             <span

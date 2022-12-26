@@ -7,6 +7,8 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
+import { PaymentRoutes } from './dataServices/PaymenrDataService';
+
 import { ReportDataService } from '@services/axios/dataServices/ReportDataService';
 
 /**
@@ -29,7 +31,7 @@ export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
   typeof AdminRoutes['POST']
 >];
 
-export type InstructorRouteType<T extends 'GET' | 'POST'> =
+export type InstructorRouteType<T extends 'GET' | 'POST' | 'PATCH' | 'DELETE'> =
   typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
 export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
@@ -43,6 +45,11 @@ export type ReportRouteType<T extends 'GET' | 'POST' | 'PATCH'> =
 
 export type CourseRouteType<T extends 'GET' | 'POST' | 'PUT' | 'DELETE'> =
   typeof CoursesRoutes[T][keyof Partial<typeof CoursesRoutes[T]>];
+
+export type PaymentRouteType = typeof PaymentRoutes['POST'][keyof Partial<
+  typeof PaymentRoutes['POST']
+>];
+
 /**
  * All GET routes that are available for the  data service
  */
@@ -63,7 +70,8 @@ export type POSTRoutesType =
   | TraineeRouteType<'POST'>
   | NewsLetterRouteType<'POST'>
   | InstructorRouteType<'POST'>
-  | ReportRouteType<'POST'>;
+  | ReportRouteType<'POST'>
+  | PaymentRouteType;
 
 /**
  * All Delete Requests
@@ -72,11 +80,14 @@ export type POSTRoutesType =
 export type DELETERoutesType =
   | TraineeRouteType<'DELETE'>
   | NewsLetterRouteType<'DELETE'>
-  | CourseRouteType<'DELETE'>;
+  | CourseRouteType<'DELETE'>
+  | InstructorRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
  */
 export type PUTRoutesType = CourseRouteType<'PUT'>;
-export type PATCHRoutesType = ReportRouteType<'PATCH'>;
+export type PATCHRoutesType =
+  | ReportRouteType<'PATCH'>
+  | InstructorRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

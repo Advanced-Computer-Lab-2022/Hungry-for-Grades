@@ -4,9 +4,14 @@
 
 .image_holder {
     width: 17rem;
-    object-fit: cover;
+    object-fit: fill;
     height: 10rem;
     margin-right: 2rem;
+    border-radius: 0.2rem;
+    -webkit-border-radius: 0.2rem;
+    -moz-border-radius: 0.2rem;
+    -ms-border-radius: 0.2rem;
+    -o-border-radius: 0.2rem;
 }
 
 .txt {

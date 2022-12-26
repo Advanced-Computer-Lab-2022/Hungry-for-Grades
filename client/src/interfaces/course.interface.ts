@@ -49,6 +49,20 @@ export interface IAddCourseRequest extends IBaseCourse {
   instructorID: string;
 }
 
+export type Announcement = {
+  _id: string;
+  createdAt: Date;
+  description: string;
+  title: string;
+};
+
+export type FrequentlyAskedQuestion = {
+  _id: string;
+  answer: string;
+  question: string;
+  votes: number;
+};
+
 export interface ICourse extends IBaseCourse {
   _id: string;
   _instructor: Instructor[];
@@ -58,6 +72,8 @@ export interface ICourse extends IBaseCourse {
     average: number;
     totalAttempts: number;
   };
+  announcements: Announcement[];
+  frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 }
 
 export type CourseDiscount = {
@@ -78,7 +94,7 @@ export type Review = {
   rating: number;
 };
 export type ICourseReview = {
-  _traineeId: string;
+  _traineeId: string | undefined;
   comment: string;
   createdAt: Date;
   rating: number;

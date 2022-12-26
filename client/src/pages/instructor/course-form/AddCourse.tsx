@@ -7,11 +7,15 @@ import CourseForm from './CourseForm';
 
 import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
 import { IAddCourseRequest } from '@/interfaces/course.interface';
+import useInstructorId from '@/hooks/useInstuctorId';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 // TODO: later
 
 function AddCourse() {
   const navigate = useNavigate();
+  const redirectToLogin = useRedirectToLogin();
+  const instructorId = useInstructorId();
 
   const initialValues = {
     info: {
@@ -38,6 +42,11 @@ function AddCourse() {
     },
     [navigate]
   );
+  if (!instructorId) {
+    redirectToLogin();
+    return <></>;
+  }
+
   return (
     <CourseForm
       initialValues={initialValues}

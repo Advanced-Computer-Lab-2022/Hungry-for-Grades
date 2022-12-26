@@ -1,12 +1,12 @@
 import * as yup from 'yup';
 
 export const ValidationSchema = yup.object().shape({
-  Name: yup
+  name: yup
     .string()
     .min(2, 'Name must be at least 2 charactres')
     .required('Name is Required'),
 
-  username: yup
+  userName: yup
     .string()
     .matches(/^[A-Za-z0-9]+$/, 'Your Username must be alphabetical characters')
     .min(6, 'User Name must be at least 6 characters')
@@ -21,5 +21,5 @@ export const ValidationSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Confirm password is required'),
-  corporate: yup.string().required('Corporate Name is Required')
+  corporate: yup.string()
 });

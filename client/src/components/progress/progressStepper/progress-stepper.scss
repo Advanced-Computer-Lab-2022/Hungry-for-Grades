@@ -15,8 +15,13 @@ $hover-color: var(--secondary-background-color);
                     display: block;
                     height: 10px;
                     margin: -5px;
-                    padding-left: 2.5rem;
+                    padding-left: 3.5rem;
+                    margin-left: 1rem;
                     font-weight: 400;
+                }
+                .title {
+                    margin-left: 0.5rem;
+                    padding-left: 0.5rem;
                 }
                 display: block;
                 float: left;
@@ -41,9 +46,13 @@ $hover-color: var(--secondary-background-color);
                     border: 3px solid $text-color;
                     color: $text-color;
                     border-radius: 50%;
-                    padding: 0.2rem 0.4rem;
+                    padding: 0.2rem 0.55rem;
                     background-color: #fff;
-                    margin-right: 0.1rem;
+                    margin-right: 0.2rem;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    -ms-border-radius: 50%;
+                    -o-border-radius: 50%;
                 }
                 .icon {
                     font-size: 2.2rem !important;
@@ -131,9 +140,8 @@ $hover-color: var(--secondary-background-color);
     border: 3px solid var(--primary-color);
     color: var(--primary-color);
     border-radius: 50%;
-    padding: 0.2rem 0.4rem;
+    padding: 0.2rem 0.55rem;
     background-color: #fff;
-    margin-right: 0.1rem;
 }
 
 #crumbs .active div {

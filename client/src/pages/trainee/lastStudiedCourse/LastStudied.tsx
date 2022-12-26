@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import TraineeNoteList from '../note/TraineeNoteList';
 
+import RateCourse from '../course-view/RateCourse';
+
 import styles from './last-study.module.scss';
 
 import useLastStudiedQuery from './useLastStudied';
@@ -21,7 +23,10 @@ export default function LastStudy() {
   const course: EnrolledCourse | undefined = data?.data?.data;
 
   return (
-    <section className='container mx-auto'>
+		<div style={{
+			backgroundColor: '#f8f9fa'
+		}} className='py-4'>
+    <section className='container mx-auto' >
       {course && (
         <div className={`${styles.holder ?? ''} mb-5`}>
           <img
@@ -43,22 +48,32 @@ export default function LastStudy() {
             <div style={{ width: '70%' }}>
               <ProgressBar
                 completed={course?.progress == undefined ? 0 : course?.progress}
+                courseID={''}
               />
+            </div>{' '}
+            <div className='my-2'>
+              <Link
+                className={`${styles.cnt || ''}`}
+                to={`/trainee/view-course/${course?._course?._id}`}
+              >
+                {course?.progress === undefined || course?.progress === 0
+                  ? 'Start now'
+                  : 'Continue now'}
+              </Link>
+              {!(course?.progress === undefined || course.progress === 0) && (
+                <RateCourse courseid={course._course._id} />
+              )}
             </div>
-            {/* 						meteiny fix link
-             */}{' '}
-            <Link
-              className={styles.cnt}
-              to={`/trainee/view-course/${course?._course?._id}`}
-            >
-              {course?.progress === undefined || course?.progress === 0
-                ? 'Start now'
-                : 'Continue now'}{' '}
-            </Link>
           </div>
         </div>
       )}
+			<hr className='mb-4' style={{
+				opacity:'0.2',
+				color:'red'
+			}} />
+
       <TraineeNoteList courseName={course?._course?.title} />
     </section>
+		</div>
   );
 }
