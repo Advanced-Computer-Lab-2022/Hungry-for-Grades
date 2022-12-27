@@ -154,6 +154,7 @@ function CourseForm(props: CourseFormProps) {
     }
   };
   return (
+		<div className='py-5' >
     <div className='container'>
       <h1 className='text-center text-dark mt-2'>
         {props.isUpdating ? 'Edit' : 'Create'} Course
@@ -325,6 +326,7 @@ function CourseForm(props: CourseFormProps) {
         </div>
       </Modal>
     </div>
+		</div>
   );
 }
 
