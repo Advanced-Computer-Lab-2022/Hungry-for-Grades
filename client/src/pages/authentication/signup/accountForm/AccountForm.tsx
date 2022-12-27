@@ -10,6 +10,7 @@ import Input from '@components/inputs/input/Input';
 import Button from '@/components/buttons/button/Button';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import Modal from '@components/modal/Modal';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
 function AccountForm({
   email,
   password,
@@ -96,7 +97,7 @@ function AccountForm({
         />
       </div>
       <div className='col-12 col-md-6  my-3'>
-        <Input
+        <PasswordInput
           key='password'
           correctMessage=''
           errorMessage={formik.errors.password}
@@ -117,7 +118,7 @@ function AccountForm({
         />
       </div>
       <div className='col-12 col-md-6  my-3'>
-        <Input
+        <PasswordInput
           key='confirmPassword'
           correctMessage=''
           errorMessage={formik.errors.confirmPassword}

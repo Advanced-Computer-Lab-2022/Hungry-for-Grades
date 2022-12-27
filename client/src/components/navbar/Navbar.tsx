@@ -5,6 +5,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactFlagsSelect from 'react-flags-select';
 import { Link, NavLink } from 'react-router-dom';
 
+import { BiWallet } from 'react-icons/bi';
+
 import ReportForm from '../footer/ReportForm';
 
 import UserDropdown from './userDropDown/UserDropdown';
@@ -116,6 +118,7 @@ function NavbarComponent() {
                     className={styles.user__balance}
                     to={`/${user.role.toLocaleLowerCase()}/dashboard`}
                   >
+                    <BiWallet />
                     {(user as ITrainee | IInstructor)?.currency
                       ? (user as ITrainee | IInstructor)?.currency
                       : 'USD'}

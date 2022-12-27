@@ -29,6 +29,7 @@ import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 import { toastOptions } from '@/components/toast/options';
 import { UseTraineeNoteStoreSetNotes } from '@/store/noteStore';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
@@ -145,7 +146,7 @@ function Login() {
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
               />,
-              <Input
+              <PasswordInput
                 key={'password-1'}
                 correctMessage={''}
                 errorMessage={formik.errors.password as string}
