@@ -12,8 +12,8 @@ import LineAnalytics from './analytics/LineAnalytics';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = new Date();
