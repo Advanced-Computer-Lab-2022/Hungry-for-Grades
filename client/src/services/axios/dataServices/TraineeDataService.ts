@@ -124,10 +124,22 @@ export const TraineeRoutes = {
       query: '',
       payload: {},
       response: {}
+    },
+    addToCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   DELETE: {
     removeFromCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    renoveFromWishList: {
       URL: '',
       params: '',
       query: '',

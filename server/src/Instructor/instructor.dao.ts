@@ -12,13 +12,42 @@ import { CreateInstructorDTO } from './instructor.dto';
 
 class InstructorService {
   public async findInstructorById(instructorID: string): Promise<IInstructor> {
-    if (isEmpty(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is empty');
-
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
 
-    const instructor: IInstructor = await instructorModel.findById(instructorID).select('-password -bankAccount -rating.reviews -balance');
+    let queryResult: any[];
+    try {
+      queryResult = await instructorModel.aggregate([
+        {
+          $match: {
+            _id: new mongoose.Types.ObjectId(instructorID),
+          },
+        },
+        {
+          $addFields: {
+            totalReviews: { $size: '$rating.reviews' },
+          },
+        },
+        {
+          $project: {
+            password: 0,
+            bankAccount: 0,
+            'rating.reviews': 0,
+            // _teachedCourses:0,
+            lastLogin: 0,
+            __v: 0,
+          },
+        },
+      ]);
+    } catch (error) {
+      throw new HttpException(500, 'Internal error occured while fetching from database');
+    }
+
+    if (queryResult.length === 0) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor not found');
+
+    const instructor = queryResult[0] as IInstructor;
     return instructor;
   }
+
   public async findInstructors(): Promise<IInstructor[]> {
     const instructors: IInstructor[] = await instructorModel.find().select('-password -bankAccount -rating.reviews -_teachedCourses -balance');
     return instructors;
@@ -153,7 +182,10 @@ class InstructorService {
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
 
-    const instructor = await instructorModel.findById(instructorID);
+    const instructor = await instructorModel.findById(instructorID).populate({
+      path: 'rating.reviews._trainee',
+      select: 'name country profileImage',
+    });
     if (!instructor) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Instructor doesn't exist");
 
     const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);

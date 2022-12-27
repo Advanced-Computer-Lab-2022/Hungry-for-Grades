@@ -46,7 +46,10 @@ export const useWishListStore = create<
   }))
 );
 
+export const UseWishListStore = () => useWishListStore(state => state);
+
 export const UseWishList = () => useWishListStore(state => state.cart);
+
 export const UseWishListInCart = () => useWishListStore(state => state.inCart);
 
 export const UseWishListTotalItems = () =>

@@ -9,7 +9,7 @@ function Price(props: IPrice) {
 
   if (originalPrice) {
     return (
-      <div className={styles['fnt-md-b']}>
+      <div className={`${styles['fnt-md-b'] || ''} mt-1`}>
         {formatCurrency(props.currentValue, props.currency)}{' '}
         <small className={`${styles['original-price'] ?? ''}`}>
           {formatCurrency(originalPrice, props.currency)}
@@ -18,7 +18,7 @@ function Price(props: IPrice) {
     );
   }
   return (
-    <div className={styles['fnt-md-b']}>
+    <div className={`${styles['fnt-md-b'] || ''} mt-1`}>
       {formatCurrency(props.currentValue, props.currency)}
     </div>
   );

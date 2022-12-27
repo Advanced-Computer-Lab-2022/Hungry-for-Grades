@@ -71,7 +71,7 @@ export default function Cart() {
   const { mutateAsync: submitPayWithCard } = usePostQuery();
 
   const { isLoading, data, isError, error } = useQuery(
-    ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
+    ['ASJLHFXYZZZZZZ', con, whenDeleteCourse, location, activePage],
     () => getCart(con, activePage, user as IUser),
     {
       cacheTime: 1000 * 60 * 60 * 24,

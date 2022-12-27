@@ -16,6 +16,8 @@ import { useReportReq } from './useReportReq';
 
 import styles from './ReportReq.module.scss';
 
+import Pagination from '@/components/pagination/Pagination';
+
 import Loader from '@/components/loader/loaderpage/Loader';
 import { toastOptions } from '@/components/toast/options';
 import usePatchQuery from '@/hooks/usePatchQuery';
@@ -51,14 +53,14 @@ export default function ReportReq() {
   const [filterV2, setFilterV2] = useState<string>('All');
 
   const f1: FilterElement = {
-    values: ['Resolved', 'Pending', 'Rejected', 'All'],
+    values: ['Resolved', 'Pending', 'Rejected', 'Unseen', 'All'],
     setValue: setFilterV1,
     actualValue: filterV1,
     title: 'Status'
   };
 
   const f2: FilterElement = {
-    values: ['Financial', 'Technical', 'Refund', 'Other', 'All'],
+    values: ['Financial', 'Technical', 'Other', 'All'],
     setValue: setFilterV2,
     actualValue: filterV2,
     title: 'Report Problem'
@@ -66,7 +68,13 @@ export default function ReportReq() {
 
   const filters: FilterAdmin = { att: [f1, f2] };
 
-  const { data, isLoading } = useReportReq(update, filterV1, filterV2);
+  const { data, isLoading, activePage, setActivePage } = useReportReq(
+    update,
+    filterV1,
+    filterV2
+  );
+
+  console.log(data);
 
   const { mutateAsync: updateReport } = usePatchQuery();
 
@@ -103,7 +111,7 @@ export default function ReportReq() {
   return (
     <>
       <div
-        className=' py-5'
+        className='py-5'
         style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}
       >
         <div
@@ -112,8 +120,7 @@ export default function ReportReq() {
             fontSize: '1.4rem',
             fontWeight: '500',
             color: '#A00407',
-            display: 'inline-block',
-            marginTop: '2rem'
+            display: 'inline-block'
           }}
         >
           Reported Problems
@@ -174,6 +181,11 @@ export default function ReportReq() {
             updateTable={setUpdate}
           />
         </div>
+        <Pagination
+          activePage={activePage}
+          pages={data?.data?.totalPages}
+          setActivePage={setActivePage}
+        />
       </div>
     </>
   );

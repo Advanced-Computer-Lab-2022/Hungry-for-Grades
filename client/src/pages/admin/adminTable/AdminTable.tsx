@@ -95,6 +95,11 @@ export default function AdminHome(props: {
             <div className={styles.statusRej}>Rejected</div>
           </td>
         )}
+        {report?.status == Status.UNSEEN && (
+          <td>
+            <div className={styles.statusUnseen}>Unseen</div>
+          </td>
+        )}
         {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
           <td>No Actions Required</td>
         )}
@@ -114,6 +119,15 @@ export default function AdminHome(props: {
             >
               Decline
             </button>
+            {report?.status == Status.UNSEEN && (
+              <button
+                className={styles.aprove}
+                type='button'
+                onClick={() => handleAction(Status?.PENDING, report)}
+              >
+                Mark as Pending
+              </button>
+            )}
           </td>
         )}
       </tr>

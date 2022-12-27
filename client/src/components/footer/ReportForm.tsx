@@ -33,7 +33,7 @@ function ReportForm() {
       _user: useUser?._id,
       description: des,
       reason: res,
-      status: 'Pending'
+      status: 'Unseen'
     };
 
     await submitReport(Courses as POSTRoutesType);
