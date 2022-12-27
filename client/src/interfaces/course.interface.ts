@@ -1,7 +1,6 @@
 import { INote } from './note.interface';
 import { PaginatedRequest } from './request.interface';
 
-
 import {
   CreditCard,
   IUser,
@@ -184,7 +183,7 @@ export type EnrolledCourse = {
 };
 
 export interface ITrainee extends IUser {
-  _cart: string[]; 
+  _cart: string[];
   _enrolledCourses?: EnrolledCourse[];
   _lastViewedCourse?: ICourse | string;
   _wishlist: string[];
