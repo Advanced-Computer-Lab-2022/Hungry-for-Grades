@@ -64,37 +64,39 @@ function App() {
   }
 
   return (
-		<div style={{
-			backgroundColor: '#f8f9fa'
-		}}>
-    <div className='container paint py-5'  >
-      <div className='App'>
-        <div className='draw-area'>
-          <Menu
-            canvasRef={canvasRef}
-            lineColor={lineColor}
-            lineOpacity={lineOpacity}
-            lineWidth={lineWidth}
-            setLineColor={setLineColor}
-            setLineOpacity={setLineOpacity}
-            setLineWidth={setLineWidth}
-          />
-          <canvas
-					style={{
-						backgroundColor: '#fff'
-					}}
-            ref={canvasRef}
-            className='canvas'
-            height={`720px`}
-            width={`1280px`}
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={endDrawing}
-          />
+    <div
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
+      <div className='container paint py-5'>
+        <div className='App'>
+          <div className='draw-area'>
+            <Menu
+              canvasRef={canvasRef}
+              lineColor={lineColor}
+              lineOpacity={lineOpacity}
+              lineWidth={lineWidth}
+              setLineColor={setLineColor}
+              setLineOpacity={setLineOpacity}
+              setLineWidth={setLineWidth}
+            />
+            <canvas
+              ref={canvasRef}
+              className='canvas'
+              height={`720px`}
+              style={{
+                backgroundColor: 'white'
+              }}
+              width={`1280px`}
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={endDrawing}
+            />
+          </div>
         </div>
       </div>
     </div>
-		</div>
   );
 }
 

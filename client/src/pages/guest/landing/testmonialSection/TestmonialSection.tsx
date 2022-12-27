@@ -53,7 +53,8 @@ function TestmonialSection() {
                 What They Think <em>About Us</em>
               </h2>
               <p>
-						Honest endorsement of our services that usually comes from our customers
+                Honest endorsement of our services that usually comes from our
+                customers
               </p>
             </div>
           </div>

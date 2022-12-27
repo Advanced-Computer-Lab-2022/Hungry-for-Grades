@@ -36,7 +36,7 @@ export default function ReportsTable() {
 
   if (arr == undefined) return <ErrorMessage />;
 
-  const toShow = arr?.map((report: AllReport,index) => {
+  const toShow = arr?.map((report: AllReport, index) => {
     const date = report?.createdAt.toString().substring(0, 10);
     return (
       <>
@@ -44,7 +44,7 @@ export default function ReportsTable() {
           key={report?._id}
           style={{ fontSize: '1rem', fontWeight: '450', color: '#393E46' }}
         >
-					          <td>{index+1}</td>
+          <td>{index + 1}</td>
 
           <td>{report?.reason}</td>
           <td className='text-truncate'>
@@ -72,7 +72,7 @@ export default function ReportsTable() {
           )}
           <td>
             <button
-              style={{ fontSize: '1rem', color: '#A00407',  }}
+              style={{ fontSize: '1rem', color: '#A00407' }}
               type='button'
               onClick={() => {
                 handleClick();
@@ -88,10 +88,7 @@ export default function ReportsTable() {
   });
 
   return (
-    <div
-      className=' py-5'
-      style={{ backgroundColor: '#F5F7F8' }}
-    >
+    <div className=' py-5' style={{ backgroundColor: '#F5F7F8' }}>
       <div
         className='container'
         style={{
@@ -104,15 +101,21 @@ export default function ReportsTable() {
       >
         Reports
       </div>
-      <div className='p-5' style={{
-				marginLeft:'3rem',
-			}}  >
+      <div
+        className='p-5'
+        style={{
+          marginLeft: '3rem'
+        }}
+      >
         <div className='table-responsive'>
-          <table className={`${styles.container ?? ''} table`} style={{
-						          filter: 'drop-shadow(0 0 0.1rem #eee)',
-											borderRadius: '0.25rem',
-											boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
-					}}>
+          <table
+            className={`${styles.container ?? ''} table`}
+            style={{
+              filter: 'drop-shadow(0 0 0.1rem #eee)',
+              borderRadius: '0.25rem',
+              boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)'
+            }}
+          >
             <thead>
               <tr
                 style={{
@@ -121,13 +124,13 @@ export default function ReportsTable() {
                   paddingLeft: '1rem'
                 }}
               >
-								                <th>#</th>
+                <th>#</th>
 
                 <th>Reason</th>
                 <th>Course</th>
                 <th>Date</th>
-                <th >Status</th>
-                <th> &nbsp;  &nbsp; Follow Ups</th>
+                <th>Status</th>
+                <th> &nbsp; &nbsp; Follow Ups</th>
               </tr>
             </thead>
             <tbody>

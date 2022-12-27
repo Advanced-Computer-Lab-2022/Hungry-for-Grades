@@ -20,7 +20,6 @@ import {
 import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
 import { toastOptions } from '@/components/toast/options';
 
-
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 
 function RateCourse(props: { courseid: string }) {
@@ -48,7 +47,7 @@ function RateCourse(props: { courseid: string }) {
 
       const res = await addReviewToCourse(props.courseid, r);
       if (res) {
-        toast('Review submitted successfully',toastOptions);
+        toast('Review submitted successfully', toastOptions);
         closePopup();
       }
     },
