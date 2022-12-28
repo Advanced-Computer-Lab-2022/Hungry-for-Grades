@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-non-literal-regexp */
 import { Button, Modal, Stack, Col, Form, Row } from 'react-bootstrap';
 
 import { useState } from 'react';
@@ -50,16 +51,24 @@ function EditMusicsModal({ handleClose, show }: EditMusicsModalProps) {
                 <Button
                   variant='outline-primary'
                   onClick={function onClick() {
-                    if (addMusic.musicUrl.trim() !== '' && !addMusic.error) {
+										const regex = new RegExp('https?:\/\/(?=.*' + '' + ').+\.mp3', 'i');
+
+                    if (addMusic.musicUrl.trim() !== '' && !addMusic.error && addMusic.musicUrl.match(regex)) {
                       setMusics([...musics, addMusic.musicUrl]);
                       setAddMusic({
                         musicUrl: '',
                         error: ''
                       });
                     }
+                    else{
+                      setAddMusic({
+                        musicUrl: addMusic.musicUrl,
+                        error: 'Please enter a valid MP3 url'
+                      });
+                    }
                   }}
                 >
-                  Add
+                  +
                 </Button>
               </Col>
             </Row>

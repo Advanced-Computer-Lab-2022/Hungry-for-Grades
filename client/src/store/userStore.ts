@@ -45,7 +45,6 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
     setIsAuthenticated: (isAuthenticated: boolean | null) =>
       set({ isAuthenticated }),
     logOut: () => {
-      SessionStorage.remove('user');
       set({ user: null, isAuthenticated: false });
     },
     setProgressBar: (bar: number) => set({ ProgressBar: bar }),

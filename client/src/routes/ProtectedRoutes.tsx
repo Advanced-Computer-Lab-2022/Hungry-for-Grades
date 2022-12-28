@@ -16,6 +16,7 @@ import { UseWishListSetCart } from '@/store/wishListStore';
 import { UseSetUser, UseUserIsAuthenticated } from '@store/userStore';
 
 import { removeInfo } from '@services/savedInfo/SavedInfo';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
 
@@ -28,7 +29,7 @@ function ProtectedRoutes() {
   const useCartStoreSetCart = UseCartStoreSetCart();
   const useWishListSetCart = UseWishListSetCart();
 
-  if (!isLoading && !isError && data && data.data && data.data.data) {
+  if (!isLoading && !isError && data && data.data && data.data.data && LocalStorage.get('role')) {
     const userData = data?.data?.data;
 
     useSetUser(userData);
