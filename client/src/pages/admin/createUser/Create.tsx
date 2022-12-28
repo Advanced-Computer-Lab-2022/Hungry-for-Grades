@@ -21,9 +21,9 @@ import usePostQuery from '@/hooks/usePostQuery';
 import { toastOptions } from '@/components/toast/options';
 import Input from '@/components/inputs/input/Input';
 
-const style={
-	fontSize: '1.1rem',
-	marginLeft: '0.2rem'
+const style = {
+  fontSize: '1.1rem',
+  marginLeft: '0.2rem'
 };
 
 export default function Create() {
@@ -207,7 +207,7 @@ export default function Create() {
                     }}
                   >
                     Corporate Trainee
-                    <MdSchool style={style}/>
+                    <MdSchool style={style} />
                   </button>
                   <button
                     className={`navButton ${
@@ -235,9 +235,7 @@ export default function Create() {
                     }}
                   >
                     Admin
-                    <RiAdminFill
-                      style={style}
-                    />
+                    <RiAdminFill style={style} />
                   </button>
                 </div>
                 <div className='container'>

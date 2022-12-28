@@ -31,17 +31,17 @@ const options = new Array(year).fill(1).map((_, index) => {
     value: `${2018 + index}`
   };
 });
-const style={
-	fontSize: '1.5rem',
-	marginBottom: '0.2rem',
-	marginLeft: '0.2rem',
-	color: 'var(--primary-color)',
+const style = {
+  fontSize: '1.5rem',
+  marginBottom: '0.2rem',
+  marginLeft: '0.2rem',
+  color: 'var(--primary-color)'
 };
-const backStyle=  {
-	filter: 'drop-shadow(0 0 0.1rem #eee)',
-	borderRadius: '0.25rem',
-	boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
-	backgroundColor: 'white'
+const backStyle = {
+  filter: 'drop-shadow(0 0 0.1rem #eee)',
+  borderRadius: '0.25rem',
+  boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
+  backgroundColor: 'white'
 };
 export default function InstructorCoursesAnalytics() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
@@ -84,45 +84,43 @@ export default function InstructorCoursesAnalytics() {
         backgroundColor: '#F8F9FA'
       }}
     >
-			<div className='container mb-4'>
-				<div className='row'>
-					<div className='col-md-4 mb-4'>
-						<div className='card' style={backStyle}>
-							<div className='card-body'>
-								<h5 className='card-title'>Total Earnings <FaRegMoneyBillAlt style={style}/></h5>
-								<p className='card-text'>
-									1
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className='col-md-4 mb-4'>
-						<div className='card ' style={backStyle}>
-							<div className='card-body'>
-								<h5 className='card-title'>Total Courses <BsBookFill style={style}/></h5>
-								<p className='card-text'>
-							2
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className='col-md-4 mb-4'>
-						<div className='card' style={backStyle}>
-							<div className='card-body'>
-								<h5 className='card-title'>Total Students <IoSchool style={style}/></h5>
-								<p className='card-text'>
-3								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+      <div className='container mb-4'>
+        <div className='row'>
+          <div className='col-md-4 mb-4'>
+            <div className='card' style={backStyle}>
+              <div className='card-body'>
+                <h5 className='card-title'>
+                  Total Earnings <FaRegMoneyBillAlt style={style} />
+                </h5>
+                <p className='card-text'>1</p>
+              </div>
+            </div>
+          </div>
+          <div className='col-md-4 mb-4'>
+            <div className='card ' style={backStyle}>
+              <div className='card-body'>
+                <h5 className='card-title'>
+                  Total Courses <BsBookFill style={style} />
+                </h5>
+                <p className='card-text'>2</p>
+              </div>
+            </div>
+          </div>
+          <div className='col-md-4 mb-4'>
+            <div className='card' style={backStyle}>
+              <div className='card-body'>
+                <h5 className='card-title'>
+                  Total Students <IoSchool style={style} />
+                </h5>
+                <p className='card-text'>3 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div
-        className='container p-5'
-style={backStyle}
-      >
-        <div className='d-flex justify-content-between' >
+      <div className='container p-5' style={backStyle}>
+        <div className='d-flex justify-content-between'>
           <div className='container d-flex flex-row justify-content-center mb-4'>
             {titles?.map((title, index) => (
               <button

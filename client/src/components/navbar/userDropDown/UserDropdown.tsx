@@ -32,7 +32,7 @@ function MenuHeadersExample() {
         user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() &&
         useTraineeNoteStoreNotes !== null
       ) {
-				LocalStorage.set('loggingOut', 'true');
+        LocalStorage.set('loggingOut', 'true');
         const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
         storeNotes.payload = {
           notes: useTraineeNoteStoreNotes
@@ -126,7 +126,7 @@ function MenuHeadersExample() {
                     removeInfo();
                     useUserStoreLogOut();
                     removeInfo();
-										LocalStorage.set('loggingOut', 'false');
+                    LocalStorage.set('loggingOut', 'false');
                   }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out

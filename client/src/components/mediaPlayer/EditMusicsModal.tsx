@@ -46,7 +46,6 @@ function EditMusicsModal({ handleClose, show }: EditMusicsModalProps) {
                   }}
                 />
               </Col>
-              {addMusic.error && <p>{addMusic.error}</p>}
               <Col xs='auto'>
                 <Button
                   variant='outline-primary'
@@ -77,6 +76,8 @@ function EditMusicsModal({ handleClose, show }: EditMusicsModalProps) {
                   +
                 </Button>
               </Col>
+							{addMusic.error && <p className='ml-3 text-danger'>{addMusic.error}</p>}
+
             </Row>
             {musics?.map((music, index) => (
               <Row key={`music-${index * 2}`}>

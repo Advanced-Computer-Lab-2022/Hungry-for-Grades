@@ -113,7 +113,7 @@ export default function AdminHome(props: {
               Accept
             </button>
             <button
-              className={`${styles.decline ??' btn-danger'}`}
+              className={`${styles.decline ?? ' btn-danger'}`}
               type='button'
               onClick={() => handleAction(Status?.REJECTED, report)}
             >
