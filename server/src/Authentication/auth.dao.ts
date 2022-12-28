@@ -6,12 +6,12 @@ import { type ICookie } from '@Authentication/auth.interface';
 import { type ITokenPayload } from '@Token/token.interface';
 import { generateTokens } from '@Token/token.util';
 import { IUser } from '@/User/user.interface';
-import { findUserModelByRole } from '@/User/user.util';
+import { findUserModelByRole, MapUserRoleToAuth } from '@/User/user.util';
 
 import traineeModel from '@/Trainee/trainee.model';
 import { compare, genSalt, hash } from 'bcrypt';
 
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import instructorModel from '@/Instructor/instructor.model';
 import adminModel from '@/Admin/admin.model';
 import { IAdmin } from '@/Admin/admin.interface';
@@ -21,10 +21,12 @@ import InstructorService from '@/Instructor/instructor.dao';
 import AdminService from '@/Admin/admin.dao';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 import { Types } from 'mongoose';
+import { ITrainee } from '@/Trainee/trainee.interface';
+
 class AuthService {
   instructorService = new InstructorService();
 
-  public async signup(userData: UserDTO, role: Role, isCorporate = false): Promise<any> {
+  public async signup(userData: UserDTO, role: UserRole, isCorporate = false): Promise<any> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'userData is empty');
 
     // check if email and username already exists
@@ -73,29 +75,30 @@ class AuthService {
     findUser: IUser;
     firstLogin: boolean;
     refreshToken: string;
-    role: Role;
+    role: UserRole;
   }> {
     if (isEmpty(userData)) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'user data is empty');
 
     let userModel: typeof traineeModel | typeof instructorModel | typeof adminModel, findInstructor: IInstructor, findAdmin: IAdmin;
-    let role: Role;
+
+    let role: UserRole;
     const query = {
       $or: [{ 'email.address': userData?.email?.address ?? '' }, { username: userData?.username ?? '' }],
     };
 
     const findTrainee = await traineeModel.findOne(query).select('-active');
     userModel = findTrainee ? traineeModel : null;
-    role = findTrainee ? Role.TRAINEE : null;
+    role = findTrainee ? UserRole.TRAINEE : null;
 
     if (!userModel) {
       findInstructor = await instructorModel.findOne(query).select('-active');
       userModel = findInstructor ? instructorModel : null;
-      role = findInstructor ? Role.INSTRUCTOR : null;
+      role = findInstructor ? UserRole.INSTRUCTOR : null;
     }
     if (!userModel) {
       findAdmin = await adminModel.findOne(query).select('-active');
       userModel = findAdmin ? adminModel : null;
-      role = findAdmin ? Role.ADMIN : null;
+      role = findAdmin ? UserRole.ADMIN : null;
     }
 
     if (!userModel) throw new HttpException(HttpStatusCodes.CONFLICT, "Email or Username doesn't exist. Please Sign Up First");
@@ -114,9 +117,10 @@ class AuthService {
     await userModel.updateOne({ _id: findUser._id }, { $set: { active: true, lastLogin: new Date() } });
 
     // generate token
+    const isCorporate = role == UserRole.TRAINEE ? findTrainee.isCorporate : null;
     const TokenPayload = {
       _id: findUser._id,
-      role,
+      role: MapUserRoleToAuth(role, isCorporate),
     };
     const { accessToken, refreshToken } = await generateTokens(TokenPayload);
 
@@ -151,7 +155,7 @@ class AuthService {
   }
 
   // change any user password
-  public async changePassword(userId: string, role: Role, oldPassword: string, newPassword: string): Promise<IUser> {
+  public async changePassword(userId: string, role: UserRole, oldPassword: string, newPassword: string): Promise<IUser> {
     if (!Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid ObjectId');
 
     const userModel = findUserModelByRole(role);
@@ -183,9 +187,9 @@ class AuthService {
     const username = user.name;
     const userId = user._id.toString();
 
-    let role: Role = Role.TRAINEE;
-    if (instructor) role = Role.INSTRUCTOR;
-    if (admin) role = Role.ADMIN;
+    let role: UserRole = UserRole.TRAINEE;
+    if (instructor) role = UserRole.INSTRUCTOR;
+    if (admin) role = UserRole.ADMIN;
 
     //send email
     sendResetPasswordEmail(userEmail, username, userId, role);

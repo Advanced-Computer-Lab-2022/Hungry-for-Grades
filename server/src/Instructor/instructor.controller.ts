@@ -70,9 +70,11 @@ class InstructorController {
   public addReviewToInstructor = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
     try {
       const instructorID: string = req.params.instructorID as string;
+      const traineeID: string = req.params.traineeID as string;
+      console.log(traineeID);
       const userReview: Review = req.body;
 
-      const instructorRating: Rating = await this.instructorService.addReviewToInstructor(instructorID, userReview);
+      const instructorRating: Rating = await this.instructorService.addReviewToInstructor(instructorID, traineeID, userReview);
 
       res.json({
         data: instructorRating,
