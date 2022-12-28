@@ -1,5 +1,5 @@
 import { ICourse } from '@/Course/course.interface';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import { PaginatedRequest } from '@/Utils/PaginationResponse';
 import { Types } from 'mongoose';
@@ -26,7 +26,7 @@ export interface Report {
   description: string;
   followUp: Message[];
   reason: Reason;
-  role: Role;
+  role: UserRole;
   status: Status;
 }
 

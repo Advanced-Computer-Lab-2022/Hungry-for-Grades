@@ -54,9 +54,9 @@ class ReportController {
   };
 
   // get all reports controller
-  public getAllReports = async (req: Request<{}, {}, {}, IReportFilters>, res: Response<HttpResponse<Report[]>>, next: NextFunction) => {
+  public getAllReports = async (req: Request, res: Response<HttpResponse<Report[]>>, next: NextFunction) => {
     try {
-      const reportFilters = req.query;
+      const reportFilters = req.query as unknown as IReportFilters;
       //default page and limit
       if (!reportFilters.page) reportFilters.page = 1;
       else reportFilters.page = parseInt(`${reportFilters.page}`);

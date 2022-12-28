@@ -1,12 +1,10 @@
-import { IAdmin } from '@/Admin/admin.interface';
 import { Routes } from '@/Common/Interfaces/routes.interface';
-import authMiddleware from '@/Middlewares/auth.middleware';
-import roleMiddleware from '@/Middlewares/role.middleware';
-import userMiddleware from '@/Middlewares/user.middleware';
-import { Role } from '@/User/user.enum';
-// import validationMiddleware from '@middlewares/validation.middleware';
+import { authenticateUser, allowedRoles } from '@/Middlewares/auth.middleware';
 import { Router } from 'express';
 import AdminController from './admin.controller';
+import express from 'express';
+import { AuthRole } from '@/Authentication/auth.interface';
+const app = express();
 
 class AdminRoute implements Routes {
   public path = '/admin';
@@ -18,15 +16,15 @@ class AdminRoute implements Routes {
   }
 
   private initializeRoutes() {
-    // @desc get all admins
-    this.router.get('/', this.adminController.getAllAdmins);
-    // @desc get admin info by accesstoken
-    this.router.get('/info', authMiddleware, roleMiddleware([Role.ADMIN]), userMiddleware, this.adminController.getAdminInfo);
-    this.router.post('/', this.adminController.createAdmin);
-    this.router.post('/instructor', this.adminController.createInstructor);
-    this.router.post('/corporateTrainee', this.adminController.createCorporateTrainee);
-    this.router.get('/email', this.adminController.getAdminByEmail);
-    this.router.get('/username', this.adminController.getAdminByUsername);
+    //  this.router.use(authenticateUser);
+    //  this.router.use(allowedRoles([AuthRole.ADMIN]));
+
+    this.router.get('/', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.getAllAdmins);
+    this.router.post('/', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.createAdmin);
+    this.router.post('/instructor', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.createInstructor);
+    this.router.post('/corporateTrainee', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.createCorporateTrainee);
+    this.router.get('/email', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.getAdminByEmail);
+    this.router.get('/username', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.adminController.getAdminByUsername);
   }
 }
 

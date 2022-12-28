@@ -12,7 +12,7 @@ import {
   COMPANY_EMAIL,
   COMPANY_PHONE,
 } from '@/Config';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 
 export function sendVerificationEmail(traineeEmail: string, username: string, code: number) {
   const emailBody = getVerifyEmailHTML(username, code);
@@ -31,12 +31,12 @@ function getVerifyEmailHTML(username: string, code: number): string {
   return htmlToSend;
 }
 
-export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: Role) {
+export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: UserRole) {
   const emailBody = getForgetPasswordHTML(username, userId, role);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Password Reset');
 }
 
-export function getForgetPasswordHTML(username: string, userId: string, role: Role): string {
+export function getForgetPasswordHTML(username: string, userId: string, role: UserRole): string {
   const filePath = path.join(__dirname, '/templates/ForgetPassword.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
