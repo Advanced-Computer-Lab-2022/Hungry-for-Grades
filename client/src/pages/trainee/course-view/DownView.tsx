@@ -7,7 +7,6 @@ import QandA from './QandA';
 import Announcements from './Announcement';
 import Notes from './Notes';
 
-
 import useMultistepForm from '@/hooks/useMultistepForm';
 import { ICourse } from '@/interfaces/course.interface';
 type DownViewProps = {

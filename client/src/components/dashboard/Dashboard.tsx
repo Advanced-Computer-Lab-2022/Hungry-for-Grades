@@ -44,8 +44,7 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
                   style={{
                     backgroundColor: '#d1d7dc',
                     marginRight: '0',
-                    marginLeft: 'auto',
-
+                    marginLeft: 'auto'
                   }}
                 />
                 <Navbar.Collapse id='responsive-navbar-nav'>
