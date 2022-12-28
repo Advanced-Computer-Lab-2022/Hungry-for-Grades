@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, Outlet } from 'react-router-dom';
 
 import styles from './dashboard.module.scss';
+import TermsModal from './TermsModal';
 
 import { type DashboardPropsType } from './types';
+
+import LocalStorage from '@/services/localStorage/LocalStorage';
 
 function navIsActive({ isActive }: { isActive: boolean }) {
   return `${isActive ? styles.active__link ?? '' : ''} ${
@@ -12,6 +16,11 @@ function navIsActive({ isActive }: { isActive: boolean }) {
 }
 
 function Dashboard({ navLinks, title, media }: DashboardPropsType) {
+  const firstLogin = LocalStorage.get('firstLogin');
+  const [openModal, setOpenModal] = useState(false);
+  if (firstLogin === 'true' && openModal === false) {
+    setOpenModal(true);
+  }
   return (
     <>
       <div>
@@ -21,21 +30,6 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
               <div className={styles.mylearning}>{title}</div>
               <div>{media}</div>
             </div>
-            {/*
-            <div className={styles.list}>
-              {Object.keys(navLinks).map((key: string) => (
-                <div key={key} style={{ marginRight: '3.2rem' }}>
-                  <NavLink
-                    className={navIsActive}
-                    style={{ color: 'inherit' }}
-                    to={navLinks[key]?.path as string}
-                  >
-                    <span className=''>{navLinks[key]?.icon}</span> &nbsp;{key}
-                  </NavLink>
-                </div>
-              ))}
-            </div>
-              */}
             <Navbar collapseOnSelect className='container' expand='lg'>
               <Container className={styles.list}>
                 <Navbar.Toggle
@@ -68,6 +62,13 @@ function Dashboard({ navLinks, title, media }: DashboardPropsType) {
           </div>
         </div>
       </div>
+      <TermsModal
+        handleClose={function () {
+          setOpenModal(false);
+          LocalStorage.set('firstLogin', 'false');
+        }}
+        show={openModal}
+      />
       <Outlet />
     </>
   );

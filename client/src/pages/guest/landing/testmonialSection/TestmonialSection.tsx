@@ -53,9 +53,8 @@ function TestmonialSection() {
                 What They Think <em>About Us</em>
               </h2>
               <p>
-                Suspendisse vitae laoreet mauris. Fusce a nisi dapibus, euismod
-                purus non, convallis odio. Donec vitae magna ornare,
-                pellentesque ex vitae, aliquet urna.
+                Honest endorsement of our services that usually comes from our
+                customers
               </p>
             </div>
           </div>

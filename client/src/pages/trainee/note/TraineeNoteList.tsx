@@ -107,6 +107,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
               <Form.Group controlId='title'>
                 <Form.Label>Title</Form.Label>
                 <Form.Control
+                  placeholder='Search Notes by title'
                   type='text'
                   value={title}
                   onChange={function onChange(e) {
@@ -125,6 +126,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
                       return { label: tag.label, value: tag.id };
                     }) ?? []
                   }
+                  placeholder='Filter Notes by tags'
                   value={
                     selectedTags?.map(tag => {
                       return { label: tag.label, value: tag.id };
@@ -150,6 +152,7 @@ function TraineeNoteList({ lessonId, courseName }: Partial<NoteListProps>) {
                       return { label: course, value: course };
                     }) ?? []
                   }
+                  placeholder='Filter Notes by course name'
                   value={
                     selectedCourseNames?.map(course => {
                       return { label: course, value: course };

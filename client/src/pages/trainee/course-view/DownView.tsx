@@ -1,3 +1,5 @@
+import Board from '../board/Board';
+
 import Navigation from './Navigation';
 
 import Overview from './Overview';
@@ -23,6 +25,7 @@ function DownView({ itemid, course }: DownViewProps) {
         courseName={course.title}
         lessonId={itemid}
       />,
+      <Board key={`Board${itemid}`} />,
       <Announcements key={`Announcements${itemid}`} {...course} />
     ],
     titles,
@@ -30,7 +33,7 @@ function DownView({ itemid, course }: DownViewProps) {
   );
 
   return (
-    <section className='container-fluid'>
+    <section className='container-fluid mb-5'>
       <div className='row'>
         <div className='col-12'>
           <div className='card'>
@@ -38,7 +41,14 @@ function DownView({ itemid, course }: DownViewProps) {
               <div className='row'>
                 <div className='col-12'>
                   <Navigation goTo={goTo} />
-                  <div className='container'>{step}</div>
+                  <div
+                    className='container'
+                    style={{
+                      backgroundColor: 'white'
+                    }}
+                  >
+                    {step}
+                  </div>
                 </div>
               </div>
             </div>

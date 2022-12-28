@@ -12,8 +12,8 @@ import LineAnalytics from './analytics/LineAnalytics';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = new Date();
@@ -98,7 +98,7 @@ export default function InstructorCoursesAnalytics() {
               options={options}
               value={options.find(option => option.value === selectedOption)}
               onChange={function (option) {
-                setSelectedOption(option.value);
+                setSelectedOption(option?.value as string);
               }}
             />
           </div>

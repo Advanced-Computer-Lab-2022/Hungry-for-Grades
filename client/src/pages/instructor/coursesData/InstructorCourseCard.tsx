@@ -127,7 +127,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
               </div>
             </div>
           </div>
-          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <hr className={styles.hr} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div className={styles.partOne}>Enrolled students</div>
@@ -152,7 +152,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
               </div>
             </div>
           </div>
-          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <hr className={styles.hr} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div

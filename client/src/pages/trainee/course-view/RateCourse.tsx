@@ -11,14 +11,14 @@ import { toast } from 'react-toastify';
 
 import styles from './rate-course.module.scss';
 
+import Loader from '@/components/loader/loaderpage/Loader';
+import { toastOptions } from '@/components/toast/options';
 import { useTraineeId } from '@/hooks/useTraineeId';
+import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
 import {
   addReviewToCourse,
   getTraineeReviewById
 } from '@/services/axios/dataServices/TraineeDataService';
-import { ICourseReview, ITrainee } from '@/interfaces/course.interface';
-import { toastOptions } from '@/components/toast/options';
-import Loader from '@/components/loader/loaderpage/Loader';
 
 const ratingNames = ['Awful', 'Poor', 'Average', 'Very good', 'Excellent'];
 

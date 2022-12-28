@@ -293,13 +293,15 @@ function AllRoutes() {
           <Route element={<LazyAdminDashboard />}>
             <Route
               element={
-                <iframe src='https://analytics.google.com/analytics/web/#/p346730613/reports/reportinghub?params=_u..nav%3Dmaui'
-            style={{backgroundColor:'white'}}
-            allow = 'fullscreen'
-            title='GA'
-            height = '90%'
-            width = '80%'
-        sandbox='allow-forms allow-modals allow-scripts allow-popups allow-same-origin' /> 
+                <iframe
+                  allow='fullscreen'
+                  height='90%'
+                  sandbox='allow-forms allow-modals allow-scripts allow-popups allow-same-origin'
+                  src='https://analytics.google.com/analytics/web/#/p346730613/reports/reportinghub?params=_u..nav%3Dmaui'
+                  style={{ backgroundColor: 'white' }}
+                  title='GA'
+                  width='80%'
+                />
               }
               path='dashboard'
             />
