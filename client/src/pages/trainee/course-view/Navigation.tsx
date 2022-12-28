@@ -40,6 +40,16 @@ function Navigation({ goTo }: { goTo: (step: number) => void }) {
             goTo(3);
           }}
         >
+          Board{' '}
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link
+          eventKey='link-5'
+          onClick={function click() {
+            goTo(4);
+          }}
+        >
           Announcements
         </Nav.Link>
       </Nav.Item>

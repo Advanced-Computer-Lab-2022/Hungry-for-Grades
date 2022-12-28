@@ -154,179 +154,183 @@ function CourseForm(props: CourseFormProps) {
     }
   };
   return (
-		<div className='py-5' >
-    <div className='container'>
-      <h1 className='text-center text-dark mt-2'>
-        {props.isUpdating ? 'Edit' : 'Create'} Course
-      </h1>
-      <Formik
-        initialValues={props.initialValues}
-        // eslint-disable-next-line security/detect-object-injection
-        validationSchema={isLastStep ? courseSchema : schemas[currentStepIndex]}
-        // eslint-disable-next-line react/jsx-no-bind
-        onSubmit={handleSubmit}
-      >
-        {formikProps => {
-          return (
-            <Form className='form-horizontal small'>
-              <ProgressStepper
-                currentStepIndex={currentStepIndex}
-                goTo={goTo}
-                steps={stepTitles}
-                subtitles={stepDescriptions}
-              />
-              <div className='border border-primary p-3 rounded mb-3'>
-                <div className='float-end'>
-                  <strong className='text-dark'>
-                    {currentStepIndex + 1}/{steps.length}
-                  </strong>
-                </div>
-                <h3 className='text-dark'>{title}</h3>
-                <h5 className='text-dark'>{subtitle}</h5>
-                {step}
-                <div className='form-group text-end my-3'>
-                  {isLastStep && (
-                    <>
-                      <div className='d-flex flex-raw'>
-                        {!props.isUpdating && (
-                          <div className='form-check'>
-                            <Field
-                              className='form-check-input'
-                              id='terms'
-                              name='terms'
-                              type='checkbox'
-                            />
-                            <label
-                              className='form-check-label'
-                              htmlFor='invalidCheck'
-                            >
-                              I read and agree to the{' '}
-                              <button
-                                className={`btn btn-link d-inline p-0 m-0 border-0 ${
-                                  styles['terms-link'] ?? ''
-                                }`}
-                                type='button'
-                                onClick={openTerms}
+    <div className='py-5'>
+      <div className='container'>
+        <h1 className='text-center text-dark mt-2'>
+          {props.isUpdating ? 'Edit' : 'Create'} Course
+        </h1>
+        <Formik
+          initialValues={props.initialValues}
+          // eslint-disable-next-line security/detect-object-injection
+          validationSchema={
+            isLastStep ? courseSchema : schemas[currentStepIndex]
+          }
+          // eslint-disable-next-line react/jsx-no-bind
+          onSubmit={handleSubmit}
+        >
+          {formikProps => {
+            return (
+              <Form className='form-horizontal small'>
+                <ProgressStepper
+                  currentStepIndex={currentStepIndex}
+                  goTo={goTo}
+                  steps={stepTitles}
+                  subtitles={stepDescriptions}
+                />
+                <div className='border border-primary p-3 rounded mb-3'>
+                  <div className='float-end'>
+                    <strong className='text-dark'>
+                      {currentStepIndex + 1}/{steps.length}
+                    </strong>
+                  </div>
+                  <h3 className='text-dark'>{title}</h3>
+                  <h5 className='text-dark'>{subtitle}</h5>
+                  {step}
+                  <div className='form-group text-end my-3'>
+                    {isLastStep && (
+                      <>
+                        <div className='d-flex flex-raw'>
+                          {!props.isUpdating && (
+                            <div className='form-check'>
+                              <Field
+                                className='form-check-input'
+                                id='terms'
+                                name='terms'
+                                type='checkbox'
+                              />
+                              <label
+                                className='form-check-label'
+                                htmlFor='invalidCheck'
                               >
-                                Terms and Conditions
-                              </button>
-                            </label>
-                          </div>
-                        )}
-                      </div>
-                      <div className='text-start'>
-                        <ErrorMessage
-                          className={styles['terms-error']}
-                          component='div'
-                          name='terms'
-                        />
-                      </div>
-                    </>
-                  )}
-                  {currentStepIndex > 0 && (
-                    <button
-                      className='btn btn-secondary mx-2'
-                      type='button'
-                      onClick={prev}
-                    >
-                      Prev
-                    </button>
-                  )}
-                  {isLastStep && (
-                    <>
+                                I read and agree to the{' '}
+                                <button
+                                  className={`btn btn-link d-inline p-0 m-0 border-0 ${
+                                    styles['terms-link'] ?? ''
+                                  }`}
+                                  type='button'
+                                  onClick={openTerms}
+                                >
+                                  Terms and Conditions
+                                </button>
+                              </label>
+                            </div>
+                          )}
+                        </div>
+                        <div className='text-start'>
+                          <ErrorMessage
+                            className={styles['terms-error']}
+                            component='div'
+                            name='terms'
+                          />
+                        </div>
+                      </>
+                    )}
+                    {currentStepIndex > 0 && (
                       <button
-                        className='btn btn-primary'
-                        disabled={formikProps.isSubmitting}
-                        type='submit'
+                        className='btn btn-secondary mx-2'
+                        type='button'
+                        onClick={prev}
                       >
-                        Submit
+                        Prev
                       </button>
-                    </>
-                  )}
-                  {!isLastStep && (
-                    <button className='btn btn-primary' type='submit'>
-                      Next
-                    </button>
-                  )}
+                    )}
+                    {isLastStep && (
+                      <>
+                        <button
+                          className='btn btn-primary'
+                          disabled={formikProps.isSubmitting}
+                          type='submit'
+                        >
+                          Submit
+                        </button>
+                      </>
+                    )}
+                    {!isLastStep && (
+                      <button className='btn btn-primary' type='submit'>
+                        Next
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
-      <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
-        <div className={styles['close-button-container'] ?? ''}>
-          <button
-            className={styles['close-button']}
-            type='button'
-            onClick={closeTerms}
-          >
-            <BsFillXCircleFill />
-          </button>
-        </div>
-        <div className={`container ${styles['scroll-container'] ?? ''}`}>
-          <h3>Terms and Conditions</h3>
-          <p>
-            Please read the following terms and conditions carefully before
-            proceeding.
-          </p>
+              </Form>
+            );
+          }}
+        </Formik>
+        <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
+          <div className={styles['close-button-container'] ?? ''}>
+            <button
+              className={styles['close-button']}
+              type='button'
+              onClick={closeTerms}
+            >
+              <BsFillXCircleFill />
+            </button>
+          </div>
+          <div className={`container ${styles['scroll-container'] ?? ''}`}>
+            <h3>Terms and Conditions</h3>
+            <p>
+              Please read the following terms and conditions carefully before
+              proceeding.
+            </p>
 
-          <h4>Refund Policy</h4>
-          <ul>
-            <li style={{ listStyle: 'initial' }}>
-              A Trainee may request a refund as long as they did not access more
-              then 50% of the course content.
-            </li>
-            <li style={{ listStyle: 'initial' }}>
-              In case the trainee did not access any of the course content, they
-              are eligible for a full refund.
-            </li>
-            <li style={{ listStyle: 'initial' }}>
-              In case of a refund, the trainee gets 70% of the course cost value
-              back content they access is less than 50% of the course content.
-            </li>
-            <li style={{ listStyle: 'initial' }}>
-              In case the trainee access more than 50% of the course content,
-              they are not eligible for refund.
-            </li>
-          </ul>
+            <h4>Refund Policy</h4>
+            <ul>
+              <li style={{ listStyle: 'initial' }}>
+                A Trainee may request a refund as long as they did not access
+                more then 50% of the course content.
+              </li>
+              <li style={{ listStyle: 'initial' }}>
+                In case the trainee did not access any of the course content,
+                they are eligible for a full refund.
+              </li>
+              <li style={{ listStyle: 'initial' }}>
+                In case of a refund, the trainee gets 70% of the course cost
+                value back content they access is less than 50% of the course
+                content.
+              </li>
+              <li style={{ listStyle: 'initial' }}>
+                In case the trainee access more than 50% of the course content,
+                they are not eligible for refund.
+              </li>
+            </ul>
 
-          <h4>Revenue sharing</h4>
-          <ul>
-            <li style={{ listStyle: 'initial' }}>
-              80% of the course cost paid by the trainees is shared by the
-              instructor(s). The remaining 20% goes to Canadian Chamber of
-              Commerce.
-            </li>
+            <h4>Revenue sharing</h4>
+            <ul>
+              <li style={{ listStyle: 'initial' }}>
+                80% of the course cost paid by the trainees is shared by the
+                instructor(s). The remaining 20% goes to Canadian Chamber of
+                Commerce.
+              </li>
 
-            <li style={{ listStyle: 'initial' }}>
-              The refunded value is deducted from the instructors&apos; revenue
-              according to the aforementioned 80%/20% ratio.
-            </li>
-            <li style={{ listStyle: 'initial' }}>
-              Discounts, offered by The Canadian Chamber of Commerce, from the
-              instructors&apos; revenue according to the aforementioned 80%/20%
-              ratio.
-            </li>
-          </ul>
+              <li style={{ listStyle: 'initial' }}>
+                The refunded value is deducted from the instructors&apos;
+                revenue according to the aforementioned 80%/20% ratio.
+              </li>
+              <li style={{ listStyle: 'initial' }}>
+                Discounts, offered by The Canadian Chamber of Commerce, from the
+                instructors&apos; revenue according to the aforementioned
+                80%/20% ratio.
+              </li>
+            </ul>
 
-          <h4>Content Resposibility</h4>
-          <p>
-            The content of the courses you create are your responsibility. The
-            Canadian Chamber of Commerce reserves the right to delete any
-            inappropriate content that violates our code of content or the law.
-          </p>
+            <h4>Content Resposibility</h4>
+            <p>
+              The content of the courses you create are your responsibility. The
+              Canadian Chamber of Commerce reserves the right to delete any
+              inappropriate content that violates our code of content or the
+              law.
+            </p>
 
-          <h4>Deleting the course</h4>
-          <p>
-            The instructors can request that their course be deleted. Any
-            trainees who purchased the course, will receive a full refund and
-            this is deducted from instructors&apos; revenue.
-          </p>
-        </div>
-      </Modal>
+            <h4>Deleting the course</h4>
+            <p>
+              The instructors can request that their course be deleted. Any
+              trainees who purchased the course, will receive a full refund and
+              this is deducted from instructors&apos; revenue.
+            </p>
+          </div>
+        </Modal>
+      </div>
     </div>
-		</div>
   );
 }
 
