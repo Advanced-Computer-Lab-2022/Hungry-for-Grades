@@ -8,6 +8,7 @@ export function removeInfo() {
   SessionStorage.remove('cart');
   SessionStorage.remove('wishlist');
   SessionStorage.remove('user');
+  SessionStorage.remove('roleS');
   SessionStorage.remove('accessToken');
   LocalStorage.remove('refreshToken');
   LocalStorage.remove('role');

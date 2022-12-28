@@ -4,7 +4,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { RiDashboardFill } from 'react-icons/ri';
 
@@ -37,13 +37,18 @@ function MenuHeadersExample() {
         };
         await postRequest(storeNotes);
       }
-      await postRequest(AuthRoutes.POST.logout);
     } catch (e) {
       console.log(e);
     }
-    removeInfo();
-    useUserStoreLogOut();
-    useNavigate()('/auth/login', { replace: true });
+
+		try{
+			await postRequest(AuthRoutes.POST.logout);
+
+		}
+		catch(e){
+			console.log(e);
+		}
+
   }
   return (
     user && (
@@ -117,8 +122,11 @@ function MenuHeadersExample() {
                     fontWeight: 'normal'
                   }}
                   type='button'
-                  onClick={async function x() {
+                  onClick={async function () {
                     await logout();
+										removeInfo();
+										useUserStoreLogOut();
+										removeInfo();
                   }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out
