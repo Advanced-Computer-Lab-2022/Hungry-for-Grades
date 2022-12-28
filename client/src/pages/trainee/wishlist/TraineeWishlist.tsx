@@ -89,6 +89,12 @@ export default function TraineeWishlist() {
       }}
     >
       <div className='container'>
+        <h2 className='text-dark text-left mb-2 mt-2 ml-5'>
+          {' '}
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in the whishlist
+        </h2>
+
         <div className='row'>{toShow}</div>
       </div>
       {(data?.data?.totalPages as number) > 1 && (
