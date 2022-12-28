@@ -46,21 +46,26 @@ function EditMusicsModal({ handleClose, show }: EditMusicsModalProps) {
                   }}
                 />
               </Col>
-              {addMusic.error && <p>{addMusic.error}</p>}
               <Col xs='auto'>
                 <Button
                   variant='outline-primary'
                   onClick={function onClick() {
-										const regex = new RegExp('https?:\/\/(?=.*' + '' + ').+\.mp3', 'i');
+                    const regex = new RegExp(
+                      'https?://(?=.*' + '' + ').+.mp3',
+                      'i'
+                    );
 
-                    if (addMusic.musicUrl.trim() !== '' && !addMusic.error && addMusic.musicUrl.match(regex)) {
+                    if (
+                      addMusic.musicUrl.trim() !== '' &&
+                      !addMusic.error &&
+                      addMusic.musicUrl.match(regex)
+                    ) {
                       setMusics([...musics, addMusic.musicUrl]);
                       setAddMusic({
                         musicUrl: '',
                         error: ''
                       });
-                    }
-                    else{
+                    } else {
                       setAddMusic({
                         musicUrl: addMusic.musicUrl,
                         error: 'Please enter a valid MP3 url'
@@ -71,6 +76,8 @@ function EditMusicsModal({ handleClose, show }: EditMusicsModalProps) {
                   +
                 </Button>
               </Col>
+							{addMusic.error && <p className='ml-3 text-danger'>{addMusic.error}</p>}
+
             </Row>
             {musics?.map((music, index) => (
               <Row key={`music-${index * 2}`}>
