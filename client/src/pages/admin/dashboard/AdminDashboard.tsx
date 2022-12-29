@@ -17,7 +17,7 @@ const navLinks = {
   Discounts: { path: '/admin/courses-discounts', icon: <TbDiscount2/> },
   Refunds: { path: '/admin/refunds', icon: <RiRefund2Fill/> },
   Newsletter: { path: '/admin/newsletter', icon: <FaRegNewspaper/> },
-	'Send Email':{path:'admin/send-email',icon:<AiOutlineMail/>}
+	'Send Email':{path:'/admin/send-email',icon:<AiOutlineMail/>}
   //Profile: { path: '/admin/profile', icon: <FiUser /> }
 };
 

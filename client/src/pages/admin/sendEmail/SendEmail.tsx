@@ -9,7 +9,11 @@ type UserType = {
 };
 function SendEmail() {
   // table of users emails to send emails
-  const users: UserType[] = [];
+  const users: UserType[] = [{
+	email: '',
+	role: 'admin'
+
+  }];
   const [usersFilter, setUserFilters] = useState<UserSearchFiltersType>({
     email: '',
     role: '',
@@ -17,6 +21,15 @@ function SendEmail() {
   });
 
   return (
+	<div className='py-4'
+	style={{
+		backgroundColor: '#f8f9fa'
+	}}
+	>
+	<div
+	  className='container'
+
+	>
     <div className='table-responsive'>
       <div className='d-flex justify-content-between align-items-center mb-3'>
         <div className='d-flex align-items-center'>
@@ -54,11 +67,12 @@ function SendEmail() {
         </div>
       </div>
 
-      <table className='table align-middle mb-0 bg-white'>
+      <table className='table align-middle mb-0 bg-light table-striped'>
         <thead className='bg-light'>
           <tr>
             <th>Email</th>
             <th>Role</th>
+            <th>Send Email</th>
           </tr>
         </thead>
         <tbody>
@@ -73,8 +87,10 @@ function SendEmail() {
           ))}
         </tbody>
       </table>
-      {}
+
     </div>
+	</div>
+	</div>
   );
 }
 

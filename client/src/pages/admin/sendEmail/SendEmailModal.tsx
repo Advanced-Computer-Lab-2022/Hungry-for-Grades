@@ -64,8 +64,8 @@ function SendEmailModal({email}:{email:string}) {
         closeText={'close'}
         deleteText={'Reject'}
         doneText={'report'}
-        header='Report'
-        id={'modalReport'}
+        header={`Send Email to ${email}`}
+        id={'modalSendEmail'}
         isDelete={false}
         onDone={async function onDone() {
           await formik.submitForm();

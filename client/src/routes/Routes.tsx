@@ -138,6 +138,10 @@ const LazyAdminDashboard = lazy(
 const LazyAdminReports = lazy(
   () => import('@/pages/admin/reportRequests/ReportReq')
 );
+const LazyAdminSendEmail = lazy(
+  () => import('@/pages/admin/sendEmail/SendEmail')
+);
+
 
 const LazyAdminCourseRequests = lazy(
   () => import('@/pages/admin/corporateRequests/CourseRequest')
@@ -309,6 +313,7 @@ function AllRoutes() {
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route element={<LazyAdminNewsLetter />} path='newsletter' />
+            <Route element={<LazyAdminSendEmail />} path='send-email' />
             <Route
               element={<LazyAdminCourseRequests />}
               path='course-requests'
