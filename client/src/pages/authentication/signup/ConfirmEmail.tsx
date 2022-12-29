@@ -57,8 +57,10 @@ function ConfirmEmail({
         console.log('verifiedCode');
         console.log(verifiedCode);
       })
-      .catch(() => {
+      .catch((err) => {
         console.log('error');
+        console.log(err);
+
       });
   }, [mutateAsync]);
 
