@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { AllReport, Reason } from '@/interfaces/reports.interface';
-import { HttpResponse } from '@/interfaces/response.interface';
+import {  PaginatedResponse } from '@/interfaces/response.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 
@@ -21,7 +21,7 @@ function getReports(_activePage: number, filterVal: string) {
       Reason.REFUND
     }&page=${_activePage}`;
 
-  return getRequest<HttpResponse<AllReport[]>>(Reports);
+  return getRequest<PaginatedResponse<AllReport[]>>(Reports);
 }
 
 export function useRefundQuery(updates: number, filterVal: string) {

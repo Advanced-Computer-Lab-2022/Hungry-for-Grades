@@ -72,11 +72,10 @@ function Login() {
       const response = await login(loginRoute);
 
       if (response && response.status === 200) {
-        const { token, user, role ,firstLogin} = response?.data?.data;
+        const { token, user, role, firstLogin } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase() as Role;
         useSetUser({ ...user, role: userRole });
-					LocalStorage.set('firstLogin', firstLogin);
-
+        LocalStorage.set('firstLogin', firstLogin);
 
         if (role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()) {
           useCartStoreSetCart((user as ITrainee)?._cart);

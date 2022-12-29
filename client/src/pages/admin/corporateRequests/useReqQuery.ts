@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { AllReport } from '@/interfaces/reports.interface';
-import { HttpResponse } from '@/interfaces/response.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 
@@ -13,11 +13,11 @@ function getReports(_activePage: number, filterVal: string) {
   const Reports = ReportDataService.GET.getReports;
 
   if (filterVal != 'All')
-    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}&status=${filterVal}`;
+    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}&status=${filterVal}&page=${_activePage}`;
   else
-    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}`;
+    Reports.query = `startDate=${'1900-01-31T22:00:00.000Z'}&limit=${10}&reason=${'Course_Request'}&page=${_activePage}`;
 
-  return getRequest<HttpResponse<AllReport[]>>(Reports);
+  return getRequest<PaginatedResponse<AllReport[]>>(Reports);
 }
 
 export function useReqQuery(updates: number, filterVal: string) {

@@ -66,6 +66,9 @@ export default function AdminHome(props: {
   const toShow = props.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
+    const reportDate = report?.createdAt
+      ?.toString()
+      .substring(0, 10);
     return (
       <tr
         key={report?._id}
@@ -82,7 +85,7 @@ export default function AdminHome(props: {
               width: '1.4rem',
               height: '1.2rem',
               alignItems: 'center',
-              marginTop: '1rem',
+              //here was marginTop 1rem
               marginLeft: '0.1rem'
             }}
             type='checkbox'
@@ -91,7 +94,7 @@ export default function AdminHome(props: {
         </td>
         <td>{report?.traineeInfo.at(0)?.name}</td>
         <td>{report?.reason}</td>
-        <td>15/04/2001</td>
+        <td>{reportDate}</td>
         {report?.status == 'Pending' && (
           <td>
             <div className={styles.statusP}>Pending</div>

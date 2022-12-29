@@ -61,7 +61,7 @@ export default function Refund() {
     for (let i = 0; i < arrSet?.length; ++i) {
       const currId: string = arrSet[i]?._id as string;
 
-      const courseId: string = arrSet[i]?._course?.at(0)?._id as string;
+      //const courseId: string = arrSet[i]?._course?.at(0)?._id as string;
 
       const Rep = ReportDataService.PATCH.updateReport;
 
@@ -72,7 +72,7 @@ export default function Refund() {
       };
 
       await updateReport(Rep);
-      if (status == Status.RESOLVED) {
+     /* if (status == Status.RESOLVED) {
         const Reffund = PaymentRoutes.POST.Refund;
 
         Reffund.URL = `/payment/refund/trainee/${
@@ -80,7 +80,7 @@ export default function Refund() {
         }/course/${courseId}`;
 
         await makeTheRefund(Reffund);
-      }
+      }*/
     }
     setSet(new Set());
     toast.success('Actions are applied successfully...', toastOptions);
@@ -108,6 +108,7 @@ export default function Refund() {
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
             ref={target}
+            disabled = {set.size == 0}
             style={{
               backgroundColor: '#A00407',
               color: 'white',
@@ -150,18 +151,20 @@ export default function Refund() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <RefundTable
-            data={data?.data?.data as AllReport[]}
+            data={data?.data?.data as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
             num={update}
             st={set as Set<AllReport>}
             updateTable={updateTable}
           />
+          { data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
           <Pagination
             activePage={activePage}
             pages={data?.data?.totalPages}
             setActivePage={setActivePage}
           />
+          }
         </div>
       </div>
     </>

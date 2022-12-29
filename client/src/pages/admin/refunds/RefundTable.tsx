@@ -63,6 +63,9 @@ export default function RefundTable(props: {
   const toShow = props?.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == Status.PENDING ? false : true;
+    const reportDate = report?.createdAt
+      ?.toString()
+      .substring(0, 10);
     return (
       <tr
         key={report?._id}
@@ -76,7 +79,7 @@ export default function RefundTable(props: {
               width: '1.4rem',
               height: '1.2rem',
               alignItems: 'center',
-              marginTop: '1rem',
+              //Here was marginTop 1rem
               marginLeft: '0.1rem'
             }}
             type='checkbox'
@@ -85,7 +88,7 @@ export default function RefundTable(props: {
         </td>
         <td>{report?.traineeInfo.at(0)?.name}</td>
         <td>{report?._course.at(0)?.title}</td>
-        <td>15/04/2001</td>
+        <td>{reportDate}</td>
         {report?.status == 'Pending' && (
           <td>
             <div className={styles.statusP}>Pending</div>
@@ -143,7 +146,6 @@ export default function RefundTable(props: {
             <th>Date</th>
             <th style={{ paddingLeft: '0.5rem' }}>Status</th>
             <th style={{ paddingLeft: '3rem' }}>Actions</th>
-            <th>Report</th>
           </tr>
         </thead>
         <tbody>{toShow}</tbody>

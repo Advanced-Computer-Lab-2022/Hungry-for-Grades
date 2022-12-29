@@ -29,7 +29,14 @@ function ProtectedRoutes() {
   const useCartStoreSetCart = UseCartStoreSetCart();
   const useWishListSetCart = UseWishListSetCart();
 
-  if (!isLoading && !isError && data && data.data && data.data.data && LocalStorage.get('role')) {
+  if (
+    !isLoading &&
+    !isError &&
+    data &&
+    data.data &&
+    data.data.data &&
+    LocalStorage.get('role')
+  ) {
     const userData = data?.data?.data;
 
     useSetUser(userData);

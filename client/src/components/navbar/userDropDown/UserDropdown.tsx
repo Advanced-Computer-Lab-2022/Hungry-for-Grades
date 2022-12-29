@@ -41,14 +41,11 @@ function MenuHeadersExample() {
       console.log(e);
     }
 
-		try{
-			await postRequest(AuthRoutes.POST.logout);
-
-		}
-		catch(e){
-			console.log(e);
-		}
-
+    try {
+      await postRequest(AuthRoutes.POST.logout);
+    } catch (e) {
+      console.log(e);
+    }
   }
   return (
     user && (
@@ -124,9 +121,9 @@ function MenuHeadersExample() {
                   type='button'
                   onClick={async function () {
                     await logout();
-										removeInfo();
-										useUserStoreLogOut();
-										removeInfo();
+                    removeInfo();
+                    useUserStoreLogOut();
+                    removeInfo();
                   }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out
