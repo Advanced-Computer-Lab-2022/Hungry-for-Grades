@@ -173,7 +173,7 @@ export default function ReportReq() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <AdminTable2
-            data={arr as AllReport[]}
+            data={arr as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
             num={update}
@@ -181,11 +181,13 @@ export default function ReportReq() {
             updateTable={setUpdate}
           />
         </div>
-        <Pagination
-          activePage={activePage}
-          pages={data?.data?.totalPages}
-          setActivePage={setActivePage}
-        />
+        {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            pages={data?.data?.totalPages}
+            setActivePage={setActivePage}
+          />
+        )}
       </div>
     </>
   );

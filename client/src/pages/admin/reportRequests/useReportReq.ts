@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { AllReport } from '@/interfaces/reports.interface';
-import { HttpResponse } from '@/interfaces/response.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 
@@ -24,7 +24,7 @@ function getReportss(
   else
     Reports.query = `startDate=${'1800-01-31T22:00:00.000Z'}&limit=${10}&reason=${reason}&page=${_activePage}`;
 
-  return getRequest<HttpResponse<AllReport[]>>(Reports);
+  return getRequest<PaginatedResponse<AllReport[]>>(Reports);
 }
 
 export function useReportReq(
