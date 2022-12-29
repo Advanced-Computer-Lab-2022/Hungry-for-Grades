@@ -33,7 +33,7 @@ export default function MyCourses() {
     return (
       <ErrorMessage
         errorMessage='You Dont have any courses Yet'
-        link='youtube.com'
+        link='/trainee/courses'
         linkTitle={'Go Check some courses now'}
       />
     );

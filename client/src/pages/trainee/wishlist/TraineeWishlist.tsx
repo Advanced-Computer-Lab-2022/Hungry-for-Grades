@@ -55,16 +55,23 @@ export default function TraineeWishlist() {
 
   if (data?.data?.totalResults == 0) {
     return (
+			<div  >
       <div className='container text-center my-5'>
         <div
           className='mb-2'
           style={{
             fontFamily: fontFamily,
             fontWeight: '600',
-            fontSize: '1.3rem'
+            fontSize: '1.3rem',
           }}
         >
-          Your wishlist is empty.
+          <p>Your wishlist is empty.</p>
+					<small style={{
+						fontFamily: fontFamily,
+						fontWeight: '400',
+						fontSize: '1rem'
+					}}>Keep shopping to find the right course for you.
+</small>
         </div>
 
         <button
@@ -78,6 +85,7 @@ export default function TraineeWishlist() {
           Browse courses now
         </button>
       </div>
+			</div>
     );
   }
 
