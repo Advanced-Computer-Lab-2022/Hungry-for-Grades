@@ -1,7 +1,7 @@
 import { RiDashboardFill, RiRefund2Fill } from 'react-icons/ri';
 
 import { VscReport } from 'react-icons/vsc';
-import { AiOutlineUserAdd } from 'react-icons/ai';
+import { AiOutlineMail, AiOutlineUserAdd } from 'react-icons/ai';
 
 import {TbDiscount2} from 'react-icons/tb'
 import {FcInvite} from 'react-icons/fc'
@@ -17,6 +17,7 @@ const navLinks = {
   Discounts: { path: '/admin/courses-discounts', icon: <TbDiscount2/> },
   Refunds: { path: '/admin/refunds', icon: <RiRefund2Fill/> },
   Newsletter: { path: '/admin/newsletter', icon: <FaRegNewspaper/> },
+	'Send Email':{path:'admin/send-email',icon:<AiOutlineMail/>}
   //Profile: { path: '/admin/profile', icon: <FiUser /> }
 };
 
