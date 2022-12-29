@@ -65,7 +65,7 @@ export const TraineeRoutes = {
   },
   POST: {
     storeNotes: {
-      URL: '/trainee/notes' as const,
+      URL: '' ,
       params: '',
       query: '',
       payload: {}

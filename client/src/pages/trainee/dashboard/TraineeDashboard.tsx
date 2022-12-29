@@ -5,6 +5,7 @@ import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 import { FaPaintBrush } from 'react-icons/fa';
+import { VscReport } from 'react-icons/vsc';
 
 import Dashboard from '@/components/dashboard/Dashboard';
 import MusicPlayer from '@/components/mediaPlayer/Music';
@@ -18,7 +19,7 @@ const corpLinks = {
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <></> }
+  Reports: { path: '/trainee/my-reports', icon: <VscReport /> }
 };
 
 const traineeLinks = {
@@ -30,7 +31,7 @@ const traineeLinks = {
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <></> }
+  Reports: { path: '/trainee/my-reports', icon:<VscReport />}
 };
 
 function TraineeDashboard() {

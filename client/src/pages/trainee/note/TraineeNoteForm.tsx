@@ -70,16 +70,21 @@ function TraineeNoteForm({
               <Col>
                 <Form.Group controlId='title'>
                   <Form.Label>Title</Form.Label>
-                  <Form.Control ref={titleRef} required defaultValue={title} placeholder='Write Note Title' />
+                  <Form.Control
+                    ref={titleRef}
+                    required
+                    defaultValue={title}
+                    placeholder='Write Note Title'
+                  />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId='tags'>
                   <Form.Label>Tags</Form.Label>
                   <CreatableReactSelect
-										isClearable
+                    isClearable
                     isMulti
-										options={availableTags.map(tag => {
+                    options={availableTags.map(tag => {
                       return { label: tag.label, value: tag.id };
                     })}
                     placeholder='Add Tags'
@@ -109,7 +114,7 @@ function TraineeNoteForm({
                 as='textarea'
                 defaultValue={markdown}
                 placeholder='Write Note Body'
-								rows={15}
+                rows={15}
               />
             </Form.Group>
             <Stack
