@@ -1,4 +1,4 @@
-import {  useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { AiFillPlusCircle } from 'react-icons/ai';
 
@@ -56,7 +56,10 @@ export default function CourseRequest() {
 
   const filters: FilterAdmin = { att: [f1] };
 
-  const { data, isLoading, activePage, setActivePage } = useReqQuery(update, filterV1);
+  const { data, isLoading, activePage, setActivePage } = useReqQuery(
+    update,
+    filterV1
+  );
 
   const { mutateAsync: updateReport } = usePatchQuery();
 
@@ -113,7 +116,7 @@ export default function CourseRequest() {
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
             ref={target}
-            disabled = {set?.size == 0}
+            disabled={set?.size == 0}
             style={{
               backgroundColor: '#A00407',
               color: 'white',
@@ -166,9 +169,14 @@ export default function CourseRequest() {
             st={set as Set<AllReport>}
             updateTable={setUpdate}
           />
-          { data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-            <Pagination activePage={activePage} pages={data?.data?.totalPages} setActivePage={setActivePage} />
-          }
+          {data?.data?.totalPages != undefined &&
+            data?.data?.totalPages > 1 && (
+              <Pagination
+                activePage={activePage}
+                pages={data?.data?.totalPages}
+                setActivePage={setActivePage}
+              />
+            )}
         </div>
       </div>
     </>

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { AllReport, Reason } from '@/interfaces/reports.interface';
-import {  PaginatedResponse } from '@/interfaces/response.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 

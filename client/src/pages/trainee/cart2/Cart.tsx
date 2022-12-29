@@ -145,7 +145,7 @@ export default function Cart() {
       course?.price?.discounts
     );
     currency = course?.price?.currency;
-    totalOldd += ((oldd == undefined)? course?.price?.currentValue:oldd);
+    totalOldd += oldd == undefined ? course?.price?.currentValue : oldd;
     total += course?.price?.currentValue;
     return (
       <>
@@ -278,13 +278,14 @@ export default function Cart() {
           <div className='row'>
             <div className='col-md-12 col-lg-8'>
               <div className={styles.items}>{toShow} </div>
-              { data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-              <Pagination
-                activePage={activePage}
-                pages={data?.data?.totalPages}
-                setActivePage={setActivePage}
-              />
-              }
+              {data?.data?.totalPages != undefined &&
+                data?.data?.totalPages > 1 && (
+                  <Pagination
+                    activePage={activePage}
+                    pages={data?.data?.totalPages}
+                    setActivePage={setActivePage}
+                  />
+                )}
             </div>
             <div className='col-md-12 col-lg-4'>
               <div className={styles.summary}>

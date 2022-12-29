@@ -4,21 +4,25 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 
 import { toast } from 'react-toastify';
 
+import Filter from '../adminTable/Filter';
+
 import RefundTable from './RefundTable';
 
 import styles from './Refund.module.scss';
 
 import { useRefundQuery } from './useRefunds';
 
-import { AllReport, FilterAdmin, FilterElement, Status } from '@/interfaces/reports.interface';
+import {
+  AllReport,
+  FilterAdmin,
+  FilterElement,
+  Status
+} from '@/interfaces/reports.interface';
 import { toastOptions } from '@/components/toast/options';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import usePatchQuery from '@/hooks/usePatchQuery';
 import Pagination from '@/components/pagination/Pagination';
 import Loader from '@/components/loader/loaderpage/Loader';
-import { UseUser } from '@/store/userStore';
-import usePostQuery from '@/hooks/usePostQuery';
-import Filter from '../adminTable/Filter';
 
 export default function Refund() {
   const [set, setSet] = useState(new Set());
@@ -48,8 +52,6 @@ export default function Refund() {
     update,
     filterV1
   );
-
-  
 
   const filters: FilterAdmin = { att: [f1] };
 
@@ -83,9 +85,8 @@ export default function Refund() {
       Rep.payload = {
         status: status
       };
-
       await updateReport(Rep);
-     /* if (status == Status.RESOLVED) {
+      /* if (status == Status.RESOLVED) {
         const Reffund = PaymentRoutes.POST.Refund;
 
         Reffund.URL = `/payment/refund/trainee/${
@@ -121,7 +122,7 @@ export default function Refund() {
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
             ref={target}
-            disabled = {set.size == 0}
+            disabled={set.size == 0}
             style={{
               backgroundColor: '#A00407',
               color: 'white',
@@ -174,13 +175,14 @@ export default function Refund() {
             st={set as Set<AllReport>}
             updateTable={updateTable}
           />
-          { data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-          <Pagination
-            activePage={activePage}
-            pages={data?.data?.totalPages}
-            setActivePage={setActivePage}
-          />
-          }
+          {data?.data?.totalPages != undefined &&
+            data?.data?.totalPages > 1 && (
+              <Pagination
+                activePage={activePage}
+                pages={data?.data?.totalPages}
+                setActivePage={setActivePage}
+              />
+            )}
         </div>
       </div>
     </>

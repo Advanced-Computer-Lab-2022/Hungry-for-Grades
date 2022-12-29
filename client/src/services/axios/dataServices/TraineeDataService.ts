@@ -65,7 +65,7 @@ export const TraineeRoutes = {
   },
   POST: {
     storeNotes: {
-      URL: '' ,
+      URL: '',
       params: '',
       query: '',
       payload: {}
@@ -140,6 +140,14 @@ export const TraineeRoutes = {
       payload: {}
     },
     renoveFromWishList: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  PATCH: {
+    updateProfile: {
       URL: '',
       params: '',
       query: '',

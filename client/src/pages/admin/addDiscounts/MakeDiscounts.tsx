@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 
 import DiscountTable from './DiscountTable';
@@ -62,7 +62,7 @@ export default function MakeDiscounts() {
         </div>
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
-            disabled = {set.size == 0}
+            disabled={set.size == 0}
             style={{
               backgroundColor: '#A00407',
               color: 'white',
@@ -84,10 +84,14 @@ export default function MakeDiscounts() {
             funR={removeFoo}
             st={set as Set<ICourse>}
           />
-          {
-            data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-          <Pagination activePage={activePage} pages={data?.data?.totalPages} setActivePage={setActivePage} />
-          }
+          {data?.data?.totalPages != undefined &&
+            data?.data?.totalPages > 1 && (
+              <Pagination
+                activePage={activePage}
+                pages={data?.data?.totalPages}
+                setActivePage={setActivePage}
+              />
+            )}
         </div>
         {showModal && (
           <DiscountModal

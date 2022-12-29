@@ -52,9 +52,7 @@ export default function AdminHome(props: {
   const toShow = props.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
-    const reportDate = report?.createdAt
-      ?.toString()
-      .substring(0, 10);
+    const reportDate = report?.createdAt?.toString().substring(0, 10);
     return (
       <tr
         key={report?._id}

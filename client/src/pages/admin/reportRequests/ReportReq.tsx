@@ -181,13 +181,13 @@ export default function ReportReq() {
             updateTable={setUpdate}
           />
         </div>
-        { data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-        <Pagination
-          activePage={activePage}
-          pages={data?.data?.totalPages}
-          setActivePage={setActivePage}
-        />
-         }
+        {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            pages={data?.data?.totalPages}
+            setActivePage={setActivePage}
+          />
+        )}
       </div>
     </>
   );

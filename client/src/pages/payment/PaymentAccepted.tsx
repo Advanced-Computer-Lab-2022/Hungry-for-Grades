@@ -5,12 +5,11 @@ import PaymentFailed from './PaymentFailed';
 
 import usePostQuery from './postApi';
 
-import { UseUser, UseUserDeductBalance } from '@/store/userStore';
+import { UseUser } from '@/store/userStore';
 import successIcon from 'src/assets/success.png';
 import Loader from '@/components/loader/loaderpage/Loader';
 import { UseCountry } from '@/store/countryStore';
 export default function PaymentAccepted() {
-  const deductBalance = UseUserDeductBalance();
   const navigate = useNavigate();
   const user = UseUser();
   const traineeId = user?._id as string;
@@ -25,6 +24,7 @@ export default function PaymentAccepted() {
     searchParams.get('walletUsed') as string
   );
 
+  console.log('El Data ahy');
   console.log(data);
 
   if (isError) return <PaymentFailed />;
@@ -34,7 +34,6 @@ export default function PaymentAccepted() {
   }
 
   const routeChange = () => {
-    deductBalance(data.data.amount);
     navigate('/enrolled-courses');
   };
   return (
@@ -44,7 +43,7 @@ export default function PaymentAccepted() {
       </div>
       <div className={styles.success_text}>Payment Successful!</div>
       <div className={styles.transaction_text}>
-        Transaction Id:&nbsp;{data.data._id}
+        Transaction Id:&nbsp;{data?.data?._id}
       </div>
       <hr className='my-4' />
       <div className='d-flex justify-content-between'>
