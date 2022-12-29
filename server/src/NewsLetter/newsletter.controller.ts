@@ -1,7 +1,6 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { isEmpty } from '@/Utils/util';
 import { HttpResponse } from '@/Utils/HttpResponse';
-import { logger } from '@/Utils/logger';
 import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 import { INewsletter } from './newsletter.interface';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';

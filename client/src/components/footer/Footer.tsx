@@ -35,14 +35,15 @@ function Footer() {
           </div>
 
           <div>
-            <a
+            {COMPANY_FACEBOOK && <a
               className='text-white me-4'
               href={COMPANY_FACEBOOK}
               rel='noopener noreferrer'
               target='_blank'
             >
               <FaFacebookF />
-            </a>
+            </a>}
+						{COMPANY_TWITTER &&
             <a
               className='text-white me-4'
               href={COMPANY_TWITTER}
@@ -50,16 +51,17 @@ function Footer() {
               target='_blank'
             >
               <FaTwitter />
-            </a>
+            </a>}
 
-            <a
+           {COMPANY_LINKEDIN && <a
               className='text-white me-4'
               href={COMPANY_LINKEDIN}
               rel='noopener noreferrer'
               target='_blank'
             >
               <FaLinkedinIn />
-            </a>
+            </a>}
+						{COMPANY_INSTAGRAM &&
             <a
               className='text-white me-4'
               href={COMPANY_INSTAGRAM}
@@ -67,7 +69,8 @@ function Footer() {
               target='_blank'
             >
               <FaInstagram />
-            </a>
+            </a>}
+						{COMPANY_YOUTUBE &&
             <a
               className='text-white me-4'
               href={COMPANY_YOUTUBE}
@@ -76,6 +79,9 @@ function Footer() {
             >
               <FaYoutube />
             </a>
+						}
+
+						{COMPANY_GOOGLE_PLAY &&
             <a
               className='text-white me-4'
               href={COMPANY_GOOGLE_PLAY}
@@ -83,7 +89,8 @@ function Footer() {
               target='_blank'
             >
               <FaGooglePlay />
-            </a>
+            </a>}
+						{COMPANY_APP_STORE &&
             <a
               className='text-white me-4'
               href={COMPANY_APP_STORE}
@@ -91,7 +98,7 @@ function Footer() {
               target='_blank'
             >
               <FaApple />
-            </a>
+            </a>}
           </div>
         </section>
 

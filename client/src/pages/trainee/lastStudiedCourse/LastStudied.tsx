@@ -30,7 +30,7 @@ export default function LastStudy() {
       }}
     >
       <section className='container mx-auto'>
-        {course && (
+        {course ? (
           <div className={`${styles.holder ?? ''} mb-5`}>
             <img
               alt={course?._course?.title}
@@ -71,7 +71,15 @@ export default function LastStudy() {
               </div>
             </div>
           </div>
-        )}
+        ):
+				<div className='text-center'>
+					<div className='text-2xl font-bold my-2 mb-4'>You have not enrolled in any course yet</div>
+					<Link className='btn btn-primary' to='/trainee/courses'>
+						{' '}
+						Enroll now
+					</Link>
+				</div>
+						}
         <hr
           className='mb-4'
           style={{
