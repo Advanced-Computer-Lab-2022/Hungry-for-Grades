@@ -10,15 +10,15 @@ import styles from './Refund.module.scss';
 
 import { useRefundQuery } from './useRefunds';
 
-import { AllReport, Status } from '@/interfaces/reports.interface';
+import { AllReport, FilterAdmin, FilterElement, Status } from '@/interfaces/reports.interface';
 import { toastOptions } from '@/components/toast/options';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import usePatchQuery from '@/hooks/usePatchQuery';
 import Pagination from '@/components/pagination/Pagination';
 import Loader from '@/components/loader/loaderpage/Loader';
-import { PaymentRoutes } from '@/services/axios/dataServices/PaymenrDataService';
 import { UseUser } from '@/store/userStore';
 import usePostQuery from '@/hooks/usePostQuery';
+import Filter from '../adminTable/Filter';
 
 export default function Refund() {
   const [set, setSet] = useState(new Set());
@@ -27,18 +27,31 @@ export default function Refund() {
 
   const target = useRef(null);
 
-  const user = UseUser();
+  //const user = UseUser();
 
   const [visible, setVisible] = useState<boolean>(false);
 
   const { mutateAsync: updateReport } = usePatchQuery();
 
-  const { mutateAsync: makeTheRefund } = usePostQuery();
+  //const { mutateAsync: makeTheRefund } = usePostQuery();
+
+  const [filterV1, setFilterV1] = useState<string>('All');
+
+  const f1: FilterElement = {
+    values: ['Resolved', 'Pending', 'Rejected', 'Unseen', 'All'],
+    setValue: setFilterV1,
+    actualValue: filterV1,
+    title: 'Status'
+  };
 
   const { data, isLoading, activePage, setActivePage } = useRefundQuery(
     update,
-    'All'
+    filterV1
   );
+
+  
+
+  const filters: FilterAdmin = { att: [f1] };
 
   if (isLoading) {
     return <Loader />;
@@ -147,6 +160,9 @@ export default function Refund() {
               </div>
             )}
           </Overlay>
+        </div>
+        <div style={{ marginLeft: '3rem', marginTop: '2rem' }}>
+          <Filter elements={filters} fun={setSet} />
         </div>
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
