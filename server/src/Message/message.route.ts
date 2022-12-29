@@ -1,5 +1,5 @@
+import { authenticateUser } from '@/Middlewares/auth.middleware';
 import { Routes } from '@Common/Interfaces/routes.interface';
-import authMiddleware from '@/Middlewares/auth.middleware';
 
 import { Router } from 'express';
 import MessageController from './message.controller';
@@ -15,7 +15,7 @@ class MessageRoute implements Routes {
 
   private initializeRoutes() {
     this.router.post('/addmsg/', this.messageController.addMessage);
-    this.router.post('/getmsg/', authMiddleware, this.messageController.getMessages);
+    this.router.post('/getmsg/', authenticateUser, this.messageController.getMessages);
   }
 }
 
