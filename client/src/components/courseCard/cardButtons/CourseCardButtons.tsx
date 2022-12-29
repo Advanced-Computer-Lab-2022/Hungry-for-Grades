@@ -101,7 +101,6 @@ function CourseCardButtons(props: { id: string }) {
                 removeCourseToCart,
                 addToCartFromTheButton
               );
-              alert(xx);
               if (xx == 1) {
                 await actualDeleteCart();
               } else if (xx == 2) {

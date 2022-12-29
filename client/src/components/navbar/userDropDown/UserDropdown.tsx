@@ -37,6 +37,7 @@ function MenuHeadersExample() {
         storeNotes.payload = {
           notes: useTraineeNoteStoreNotes
         };
+        storeNotes.URL = `trainee/${user._id}/notes`;
         await postRequest(storeNotes);
       }
     } catch (e) {

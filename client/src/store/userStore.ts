@@ -18,7 +18,7 @@ export interface IUserStore {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   isEnrolled: (id: string) => boolean;
   setBalance: (balance: number) => void;
-	deductBalance:(deduction:number)=>void;
+  deductBalance: (deduction: number) => void;
   setProgressBar: (ProgressBar: number) => void;
   getProgressBar: () => number | null;
 }
@@ -40,14 +40,13 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
         set({ user });
       }
     },
-		deductBalance:(deduction:number)=>{
-			const {user}=get();
-			if(user){
-				(user as ITrainee).balance-=deduction;
-				set({user});
-			}
-		}
-,
+    deductBalance: (deduction: number) => {
+      const { user } = get();
+      if (user) {
+        (user as ITrainee).balance -= deduction;
+        set({ user });
+      }
+    },
     getUser: () => SessionStorage.get<IUser>('user') as IUser | null,
 
     setIsAuthenticated: (isAuthenticated: boolean | null) =>
@@ -71,7 +70,8 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
 export const UseUser = () => useUserStore(state => state.user);
 
 export const UseUserSetBalance = () => useUserStore(state => state.setBalance);
-export const UseUserDeductBalance = () => useUserStore(state => state.deductBalance);
+export const UseUserDeductBalance = () =>
+  useUserStore(state => state.deductBalance);
 export const UseUserSetProgressBar = () =>
   useUserStore(state => state.setProgressBar);
 export const UseUserGetProgressBar = () =>
