@@ -13,7 +13,8 @@ const navLinks = {
   'Course Requests': { path: '/admin/course-requests', icon:<FcInvite/> },
   Reports: { path: '/admin/reports', icon: <VscReport/>  },
   Discounts: { path: '/admin/courses-discounts', icon: <TbDiscount2/> },
-  Refunds: { path: '/admin/refunds', icon: <RiRefund2Fill/> }
+  Refunds: { path: '/admin/refunds', icon: <RiRefund2Fill/> },
+  Newsletter: { path: '/admin/newsletter', icon: <RiRefund2Fill/> },
   //Profile: { path: '/admin/profile', icon: <FiUser /> }
 };
 
