@@ -1,5 +1,5 @@
 import { HttpException } from '@/Exceptions/HttpException';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
@@ -95,7 +95,7 @@ class TraineeService {
   public addIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
-    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
+    const createdTrainee = await this.authService.signup(traineeData, UserRole.TRAINEE);
     return createdTrainee;
   };
 

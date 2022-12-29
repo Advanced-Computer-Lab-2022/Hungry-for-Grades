@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Gender, Role } from './user.enum';
+import { Gender, UserRole } from './user.enum';
 
 export interface IUser {
   _id: Types.ObjectId;
@@ -17,6 +17,6 @@ export interface IUser {
   password: string;
   phone: string;
   profileImage: string;
-  role?: Role;
+  role?: UserRole;
   username: string;
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './Cart.module.scss';
 
 import MoveButtons from './MoveButtons';
@@ -80,7 +81,9 @@ export default function Cart() {
   );
 
   const [isHavingLessBalance, setIsHavingLessBalance] = useState(false);
-
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
   if (isError || error) {
     return (
       <ErrorMessage
@@ -107,10 +110,6 @@ export default function Cart() {
 
   function updateActiveOnDelete() {
     if (activePage > 1) setActivePage(activePage - 1);
-  }
-
-  if (isLoading) {
-    return <LoaderComponent />;
   }
 
   const cart = data?.data?.data;
@@ -263,15 +262,18 @@ export default function Cart() {
 
   return (
     <section
-      className={`${styles.shopping_cart ?? ''} py-3`}
+      className={`${styles.shopping_cart ?? ''} py-5`}
       style={{
         backgroundColor: '#f8f9fa'
       }}
     >
       <div className='container'>
-        <div className={styles.block_heading}>
-          <h2>{data?.data?.totalResults} Courses in your Cart</h2>
-        </div>
+        <h2 className='text-dark text-left mb-4 mt-2 ml-5'>
+          {' '}
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in the cart
+        </h2>
+
         <div className={styles.content}>
           <div className='row'>
             <div className='col-md-12 col-lg-8'>

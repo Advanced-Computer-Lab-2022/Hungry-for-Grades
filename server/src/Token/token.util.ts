@@ -8,7 +8,8 @@ import { findUserModelByRole } from '@/User/user.util';
 
 export const generateTokens = async (tokenPayload: ITokenPayload): Promise<ITokenService> => {
   try {
-    const accessToken = sign(tokenPayload, ACCESS_TOKEN_PRIVATE_KEY, { expiresIn: '14m' });
+    //const accessToken = sign(tokenPayload, ACCESS_TOKEN_PRIVATE_KEY, { expiresIn: '14m' });
+    const accessToken = sign(tokenPayload, ACCESS_TOKEN_PRIVATE_KEY, { expiresIn: '20d' });
     const refreshToken = sign(tokenPayload, REFRESH_TOKEN_PRIVATE_KEY, { expiresIn: '30d' });
 
     const userToken = await UserToken.findOne({ userId: tokenPayload._id });

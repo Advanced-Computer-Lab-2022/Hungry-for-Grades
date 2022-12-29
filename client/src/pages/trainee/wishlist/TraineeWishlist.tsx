@@ -55,28 +55,39 @@ export default function TraineeWishlist() {
 
   if (data?.data?.totalResults == 0) {
     return (
-      <div className='container text-center my-5'>
-        <div
-          className='mb-2'
-          style={{
-            fontFamily: fontFamily,
-            fontWeight: '600',
-            fontSize: '1.3rem'
-          }}
-        >
-          Your wishlist is empty.
-        </div>
+      <div>
+        <div className='container text-center my-5'>
+          <div
+            className='mb-2'
+            style={{
+              fontFamily: fontFamily,
+              fontWeight: '600',
+              fontSize: '1.3rem'
+            }}
+          >
+            <p>Your wishlist is empty.</p>
+            <small
+              style={{
+                fontFamily: fontFamily,
+                fontWeight: '400',
+                fontSize: '1rem'
+              }}
+            >
+              Keep shopping to find the right course for you.
+            </small>
+          </div>
 
-        <button
-          className='btn btn-primary mt-2'
-          style={{
-            fontFamily: fontFamily
-          }}
-          type='submit'
-          onClick={handleSubmit}
-        >
-          Browse courses now
-        </button>
+          <button
+            className='btn btn-primary mt-2'
+            style={{
+              fontFamily: fontFamily
+            }}
+            type='submit'
+            onClick={handleSubmit}
+          >
+            Browse courses now
+          </button>
+        </div>
       </div>
     );
   }
@@ -89,6 +100,11 @@ export default function TraineeWishlist() {
       }}
     >
       <div className='container'>
+        <h2 className='text-dark text-left mb-2 mt-2 ml-5'>
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in the whishlist
+        </h2>
+
         <div className='row'>{toShow}</div>
       </div>
       {(data?.data?.totalPages as number) > 1 && (

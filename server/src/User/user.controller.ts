@@ -4,8 +4,9 @@ import { IInstructor } from '@/Instructor/instructor.interface';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import { NextFunction, Response } from 'express';
 import { IAdmin } from '@/Admin/admin.interface';
-import { Role } from './user.enum';
+import { UserRole } from './user.enum';
 import { getConversionRate, getCurrencyFromCountry } from '@/Course/course.common';
+import { MapAuthRoleToUser } from './user.util';
 
 // import { type filters } from './user.type';
 class UsersController {
@@ -14,7 +15,7 @@ class UsersController {
   // @desc gets Instructor info by accessToken
   public getUserInfo = async (
     req: RequestWithTokenPayloadAndUser,
-    res: Response<HttpResponse<(IInstructor | ITrainee | IAdmin) & { currency: string; role: Role }>>,
+    res: Response<HttpResponse<(IInstructor | ITrainee | IAdmin) & { currency: string; role: UserRole }>>,
     next: NextFunction,
   ): Promise<void> => {
     try {
@@ -25,7 +26,7 @@ class UsersController {
       if ((<ITrainee | IInstructor>req.user).balance) {
         (<ITrainee | IInstructor>req.user).balance = conversionRate * (<ITrainee | IInstructor>req.user).balance;
       }
-      res.json({ data: { ...req.user, role: req.tokenPayload.role, currency }, message: 'Completed Successfully', success: true });
+      res.json({ data: { ...req.user, role: MapAuthRoleToUser(req.tokenPayload.role), currency }, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

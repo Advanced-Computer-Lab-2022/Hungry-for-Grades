@@ -18,6 +18,7 @@ import { postRequest } from '@/services/axios/http-verbs';
 import { removeInfo } from '@/services/savedInfo/SavedInfo';
 import { UseUser, UseUserStoreLogOut } from '@store/userStore';
 import { Role } from '@/enums/role.enum';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
@@ -31,10 +32,12 @@ function MenuHeadersExample() {
         user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() &&
         useTraineeNoteStoreNotes !== null
       ) {
+        LocalStorage.set('loggingOut', 'true');
         const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
         storeNotes.payload = {
           notes: useTraineeNoteStoreNotes
         };
+        storeNotes.URL = `trainee/${user._id}/notes`;
         await postRequest(storeNotes);
       }
     } catch (e) {
@@ -124,6 +127,7 @@ function MenuHeadersExample() {
                     removeInfo();
                     useUserStoreLogOut();
                     removeInfo();
+                    LocalStorage.set('loggingOut', 'false');
                   }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out

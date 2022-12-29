@@ -94,7 +94,6 @@ export default function DiscountModal(props: {
                   toast.error('an Error has occured...', toastOptions);
                   console.log(_error);
                 });
-              alert('What Happened');
             }
             props.updateFunc();
             props.handleClose();
@@ -103,10 +102,11 @@ export default function DiscountModal(props: {
           {formik => (
             <Form>
               <Input
-                isTop
+							isTop
                 correctMessage={''}
                 errorMessage={formik.errors.endDate}
                 hint={''}
+                id={'enddate-232131232142'}
                 isError={
                   formik.touched.endDate && formik.errors.endDate ? true : null
                 }
@@ -121,22 +121,19 @@ export default function DiscountModal(props: {
               />
 
               <Input
-                isTop
-                correctMessage={''}
-                errorMessage={formik.errors.percent}
-                hint={''}
-                isError={
-                  formik.touched.percent && formik.errors.percent ? true : null
-                }
-                label={'Percentage'}
-                name={'percent'}
-                placeholder='Percentage'
-                size={0}
-                type='number'
-                value={formik.values.percent}
-                onBlurFunc={formik.handleBlur}
-                onChangeFunc={formik.handleChange}
-              />
+								isTop
+								correctMessage={''}
+								errorMessage={formik.errors.percent}
+								hint={''}
+								id={'percentage-12'}
+								isError={formik.touched.percent && formik.errors.percent ? true : null}
+								label={'Percentage'}
+								name={'percent'}
+								placeholder='Percentage'
+								size={0}
+								type='number'
+								value={formik.values.percent}
+								onBlurFunc={formik.handleBlur} onChangeFunc={formik.handleChange}              />
               <hr />
 
               <button

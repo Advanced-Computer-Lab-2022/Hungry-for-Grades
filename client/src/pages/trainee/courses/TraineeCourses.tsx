@@ -33,7 +33,7 @@ export default function MyCourses() {
     return (
       <ErrorMessage
         errorMessage='You Dont have any courses Yet'
-        link='youtube.com'
+        link='/trainee/courses'
         linkTitle={'Go Check some courses now'}
       />
     );
@@ -105,6 +105,12 @@ export default function MyCourses() {
       }}
     >
       <div className='container'>
+        <h2 className='text-dark text-left mb-2 mt-2 ml-5'>
+          {' '}
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in your courses
+        </h2>
+
         <div className='row'>{toShow}</div>
       </div>
       {data?.data?.totalPages > 1 && (

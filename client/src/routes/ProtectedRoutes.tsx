@@ -35,7 +35,8 @@ function ProtectedRoutes() {
     data &&
     data.data &&
     data.data.data &&
-    LocalStorage.get('role')
+    (LocalStorage.get('loggingOut') === null ||
+      LocalStorage.get('loggingOut') !== 'true')
   ) {
     const userData = data?.data?.data;
 

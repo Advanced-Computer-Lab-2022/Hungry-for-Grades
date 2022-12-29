@@ -51,7 +51,6 @@ class NewsLetterService {
     } catch (error) {
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
-    //logger.info(OqueryResult);
     const totalEmails: number = count && count?.length > 0 ? count[0].count : 0;
     const totalPages = Math.ceil(totalEmails / pageLimit);
 

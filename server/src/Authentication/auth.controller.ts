@@ -1,7 +1,7 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
 import { UserDTO, UserLoginDTO } from '@/User/user.dto';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import AuthService from '@Authentication/auth.dao';
@@ -15,7 +15,7 @@ class AuthController {
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: UserDTO = req.body;
-      const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
+      const signUpUserData: IUser = await this.authService.signup(userData, UserRole.TRAINEE);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
@@ -34,7 +34,7 @@ class AuthController {
     res: Response<
       HttpResponse<{
         firstLogin: boolean;
-        role: Role;
+        role: UserRole;
         token: {
           accessToken: string;
           refreshToken: string;
