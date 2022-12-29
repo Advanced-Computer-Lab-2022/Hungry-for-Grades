@@ -48,7 +48,7 @@ function AdminNewsletter() {
 		  subject,
 		  body,
 	  }
-	  EmailRoute.query=``;
+	  EmailRoute.query=`all=${selectedRole.label === 'All'?1:0}&role=${selectedRole.value}`;
 	  try{
 	  await sendEmail(EmailRoute);
 	  toast.success('Email sent successfully',toastOptions);
