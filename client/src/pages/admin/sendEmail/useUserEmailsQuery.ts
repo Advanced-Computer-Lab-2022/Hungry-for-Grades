@@ -41,7 +41,10 @@ async function searchRequest(
 	`.trim();
   getSubscribersSearchFilter.query = searchQuery;
 
-  return getRequest<PaginatedResponse<ICourse>>(getSubscribersSearchFilter);
+  return getRequest<PaginatedResponse<{
+		email: string;
+		role: string;
+	}>>(getSubscribersSearchFilter);
 }
 
 function useUserEmailsQuery(filters:UserSearchFiltersType ) {
