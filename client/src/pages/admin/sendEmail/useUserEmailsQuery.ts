@@ -35,7 +35,7 @@ async function searchRequest(
   const searchQuery = `
 	&sort=${filters.sort}
 	&role=${filters.role}
-	&limit=${12}
+	&limit=${9}
 	&page=${page}
 	&email=${filters.email}
 	`.trim();
