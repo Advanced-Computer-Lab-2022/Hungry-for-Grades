@@ -163,7 +163,6 @@ class TraineeRoute implements Routes {
     this.router.get(
       '/:traineeId',
       authenticateUser,
-      allowedRoles([AuthRole.INDIVIDUAL_TRAINEE, AuthRole.CORPORATE_TRAINEE]),
       this.traineeController.getTraineeById,
     );
     this.router.patch(
