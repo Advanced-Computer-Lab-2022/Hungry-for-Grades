@@ -9,6 +9,8 @@ import {
 
 import { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 import useValidation from './useValidation';
 
 import { type ChangePasswordProps } from './types';
@@ -16,10 +18,11 @@ import { type ChangePasswordProps } from './types';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
-import Input from '@components/inputs/input/Input';
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 
 import '../login/login.scss';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
+import { toastOptions } from '@/components/toast/options';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ChangePassword() {
@@ -48,9 +51,10 @@ function ChangePassword() {
         _id: userId as string,
         newPassword
       };
-
+			toast.success('Password changed successfully',toastOptions);
       return true;
     } catch (err) {
+			toast.error(err.message,toastOptions);
       console.log(err);
       return false;
     }
@@ -72,11 +76,12 @@ function ChangePassword() {
             encType={'application/x-www-form-urlencoded'}
             id='changePasswordForm'
             inputs={[
-              <Input
-                key={`password-132143243242`}
+              <PasswordInput
+							key={`password-132143243242`}
                 correctMessage={''}
                 errorMessage={formik?.errors?.newPassword as string}
                 hint={''}
+                id='change-password-1'
                 isError={
                   formik.touched.newPassword && formik.errors.newPassword
                     ? true
@@ -92,11 +97,13 @@ function ChangePassword() {
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
               />,
-              <Input
-                key={`password-2231321321`}
+              <PasswordInput
+								key={`password-2231321321`}
+
                 correctMessage={''}
                 errorMessage={formik.errors.confirmPassword as string}
                 hint={''}
+                id='confirm-password-2'
                 isError={
                   formik.touched.confirmPassword &&
                   formik.errors.confirmPassword
@@ -140,7 +147,7 @@ function ChangePassword() {
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Change Password'
                 name='changePassword'
-                type='button'
+								type='button'
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>
