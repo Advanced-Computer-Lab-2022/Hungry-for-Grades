@@ -27,7 +27,6 @@ function SendEmailModal({email}:{email:string}) {
 	  EmailRoute.query=`email=${email}`;
 
 	try{
-
 		await sendEmail(EmailRoute);
 
     toast.success(
@@ -62,7 +61,7 @@ function SendEmailModal({email}:{email:string}) {
         isFooter
         closeText={'close'}
         deleteText={'Reject'}
-        doneText={'report'}
+        doneText={'Send Email'}
         header={`Send Email to ${email}`}
         id={'modalSendEmail'}
         isDelete={false}

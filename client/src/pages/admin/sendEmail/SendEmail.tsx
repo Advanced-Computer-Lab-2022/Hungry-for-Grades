@@ -9,6 +9,7 @@ import useUserEmailsQuery from './useUserEmailsQuery';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import Pagination from '@/components/pagination/Pagination';
+
 const roles=	[
 	{ value: 'admin', label: 'Admin' },
 	{ value: 'trainee', label: 'Trainee' },
@@ -43,7 +44,7 @@ function SendEmail() {
 	  className='container'
 	>
 
-   <div className='table-responsive'>
+   <div className='table-responsive custom-table-responsive'>
       <div className='d-flex justify-content-between align-items-center mb-3'>
           <div className='me-3'>
             <label className='form-label' htmlFor='email'>
@@ -81,28 +82,36 @@ function SendEmail() {
 
       </div>
 			{!isLoading &&  !isError && data && (<>
-      <table className='table align-middle mb-0 bg-light table-striped'   style={{
+      <table className='table align-middle mb-0 bg-light table-striped'
+			  >
+        <thead className='bg-light'>
+          <tr style={{
               filter: 'drop-shadow(0 0 0.1rem #eee)',
               borderRadius: '0.25rem',
-              boxShadow: ' 0 5px 2px 0 rgba(0, 0, 0, 0.2)',
+              boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
             }}>
-        <thead className='bg-light'>
-          <tr>
-            <th>Email</th>
+            <th>&nbsp; Email</th>
             <th>Role</th>
             <th>Send Email</th>
           </tr>
         </thead>
-        <tbody>
-          {data.data.data.map(user => (
-            <tr key={user.email} className='my-4'>
-              <td>{user.email}</td>
+        <tbody >
+          {data.data.data.map((user) => (
+						<>
+												     <tr className="spacer"><td colSpan="100" /></tr>
+
+            <tr key={user.email} className='my-4' style={{
+              filter: 'drop-shadow(0 0 0.1rem #eee)',
+              borderRadius: '0.25rem',
+              boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+            }}>
+              <td className='pl-3'> &nbsp; {user.email}</td>
               <td>{user.role}</td>
-              <td>
+              <td className='pt-3'>
                 <SendEmailModal email={user.email} />
               </td>
             </tr>
-          ))}
+												</> ))}
 					{
 						data.data.data.length === 0 && (
 							<tr>
