@@ -82,27 +82,32 @@ function SendEmail() {
 
       </div>
 			{!isLoading &&  !isError && data && (<>
-      <table className='table align-middle mb-0 bg-light table-striped'   style={{
+      <table className='table align-middle mb-0 bg-light table-striped'
+			  >
+        <thead className='bg-light'>
+          <tr style={{
               filter: 'drop-shadow(0 0 0.1rem #eee)',
               borderRadius: '0.25rem',
               boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
             }}>
-        <thead className='bg-light'>
-          <tr>
-            <th>Email</th>
+            <th>&nbsp; Email</th>
             <th>Role</th>
             <th>Send Email</th>
           </tr>
         </thead>
-        <tbody>
-          {data.data.data.map((user,index) => (
+        <tbody >
+          {data.data.data.map((user) => (
 						<>
-												     { data.data.data.length !==index &&      <tr className="spacer"><td colSpan="100" /></tr>}
+												     <tr className="spacer"><td colSpan="100" /></tr>
 
-            <tr key={user.email} className='my-4'>
-              <td>{user.email}</td>
+            <tr key={user.email} className='my-4' style={{
+              filter: 'drop-shadow(0 0 0.1rem #eee)',
+              borderRadius: '0.25rem',
+              boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+            }}>
+              <td className='pl-3'> &nbsp; {user.email}</td>
               <td>{user.role}</td>
-              <td>
+              <td className='pt-3'>
                 <SendEmailModal email={user.email} />
               </td>
             </tr>

@@ -107,14 +107,14 @@ export default function AdminHome(props: {
         {!(report?.status == 'Resolved' || report?.status == 'Rejected') && (
           <td>
             <button
-              className={styles.aprove}
+              className='btn btn-outline-primary mx-2'
               type='button'
               onClick={() => handleAction(Status?.RESOLVED, report)}
             >
               Accept
             </button>
             <button
-              className={`${styles.decline ?? ' btn-danger'}`}
+              className='btn btn-primary'
               type='button'
               onClick={() => handleAction(Status?.REJECTED, report)}
             >
