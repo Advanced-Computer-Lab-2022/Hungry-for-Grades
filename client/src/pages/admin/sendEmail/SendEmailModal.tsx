@@ -46,13 +46,11 @@ function SendEmailModal({email}:{email:string}) {
     <>
       <p>
         <a
-          className='btn btn-primary btn-lg'
+          className='btn btn-primary'
           data-bs-target={`#modalSendEmail`}
           data-bs-toggle='modal'
           href='#?'
-          style={{
-            color: 'inherit'
-          }}
+
 		  type='button'
         >
           Send Email

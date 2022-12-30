@@ -1,3 +1,4 @@
+import { NewsLetterRoutes } from './../../../services/axios/dataServices/NewsLetterDataService';
 import { useQuery } from '@tanstack/react-query';
 
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -27,20 +28,23 @@ async function searchRequest(
 
   oldFilters = filters;
 
-  const getCoursesSearchFilter = Object.assign(
+  const getSubscribersSearchFilter = Object.assign(
     {},
-    CoursesRoutes.GET.getCoursesSearchFilter
+    NewsLetterRoutes.GET.getAllSubscribers
   );
   const searchQuery = `
 	&sort=${filters.sort}
 	&role=${filters.role}
-	&limit=${18}
+	&limit=${12}
 	&page=${page}
 	&email=${filters.email}
 	`.trim();
-  getCoursesSearchFilter.query = searchQuery;
+  getSubscribersSearchFilter.query = searchQuery;
 
-  return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<{
+		email: string;
+		role: string;
+	}>>(getSubscribersSearchFilter);
 }
 
 function useUserEmailsQuery(filters:UserSearchFiltersType ) {

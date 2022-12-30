@@ -26,7 +26,7 @@ export const NewsLetterRoutes = {
     getAllSubscribers: {
       URL: '/newsletter/subscribers' as const,
       params: '' as const,
-      query: '' as const,
+      query: '',
       options: {},
 
       payload: {}

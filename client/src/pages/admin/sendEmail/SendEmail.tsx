@@ -1,24 +1,37 @@
 import { useState } from 'react';
 
+import Select from 'react-select';
+
 import SendEmailModal from './SendEmailModal';
 import { type UserSearchFiltersType } from './types';
+import useUserEmailsQuery from './useUserEmailsQuery';
 
-type UserType = {
-  email: string;
-  role: string;
-};
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+import Pagination from '@/components/pagination/Pagination';
+const roles=	[
+	{ value: 'admin', label: 'Admin' },
+	{ value: 'trainee', label: 'Trainee' },
+	{ value: 'guest', label: 'Guest' }
+];
+
 function SendEmail() {
   // table of users emails to send emails
-  const users: UserType[] = [{
-	email: '',
-	role: 'admin'
-
-  }];
-  const [usersFilter, setUserFilters] = useState<UserSearchFiltersType>({
+	const [usersFilter, setUserFilters] = useState<UserSearchFiltersType>({
     email: '',
     role: '',
     sort: 0
   });
+	const {
+		data,
+		isLoading,
+		isError,
+		activePage,
+		setActivePage,
+	} = useUserEmailsQuery(usersFilter);
+
+
+
 
   return (
 	<div className='py-4'
@@ -28,11 +41,10 @@ function SendEmail() {
 	>
 	<div
 	  className='container'
-
 	>
-    <div className='table-responsive'>
+
+   <div className='table-responsive'>
       <div className='d-flex justify-content-between align-items-center mb-3'>
-        <div className='d-flex align-items-center'>
           <div className='me-3'>
             <label className='form-label' htmlFor='email'>
               Email
@@ -48,26 +60,32 @@ function SendEmail() {
               }
             />
           </div>
-          <div className='me-3'>
+          <div className='me-3 w-50'>
             <label className='form-label' htmlFor='role'>
               Role
             </label>
-            <input
-              className='form-control'
+            <Select
               id='role'
+							options={roles
+							}
               placeholder='Role'
-              type='text'
-              value={usersFilter.role}
-              onChange={e =>
-                setUserFilters({ ...usersFilter, role: e.target.value })
-              }
+              value={roles.find((role)=>{
+								return usersFilter.role ===role.value;
+							})}
+              onChange={function (option) {
+								if(option)
+                setUserFilters({ ...usersFilter, role: option.value });
+              }}
             />
           </div>
 
-        </div>
       </div>
-
-      <table className='table align-middle mb-0 bg-light table-striped'>
+			{!isLoading &&  !isError && data && (<>
+      <table className='table align-middle mb-0 bg-light table-striped'   style={{
+              filter: 'drop-shadow(0 0 0.1rem #eee)',
+              borderRadius: '0.25rem',
+              boxShadow: ' 0 5px 2px 0 rgba(0, 0, 0, 0.2)',
+            }}>
         <thead className='bg-light'>
           <tr>
             <th>Email</th>
@@ -76,8 +94,8 @@ function SendEmail() {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
-            <tr key={user.email}>
+          {data.data.data.map(user => (
+            <tr key={user.email} className='my-4'>
               <td>{user.email}</td>
               <td>{user.role}</td>
               <td>
@@ -85,10 +103,33 @@ function SendEmail() {
               </td>
             </tr>
           ))}
+					{
+						data.data.data.length === 0 && (
+							<tr>
+								<td className='text-center' colSpan={3}>
+									No data found
+								</td>
+							</tr>
+						)
+					}
+
         </tbody>
       </table>
+			{data?.data?.totalResults > 0 && (
+                  <Pagination
+                    activePage={activePage}
+                    pages={data?.data?.totalPages}
+                    setActivePage={setActivePage}
+                  />
+                )}
+			</>
+		)}
 
     </div>
+		{isError && <ErrorMessage/>}
+		{isLoading && <LoaderComponent/>}
+
+
 	</div>
 	</div>
   );
