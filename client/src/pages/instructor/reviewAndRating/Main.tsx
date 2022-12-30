@@ -43,8 +43,7 @@ export default function Main() {
           <hr style={{ color: 'white' }} />
           <div>
             <h2 style={{ fontSize: '1.5rem' }}>Reviews:</h2>
-
-            <ReviewList text={'637962792c3f71696ca3473c'} />
+            <ReviewList text={user?._id as string} />
           </div>
         </div>
       </div>

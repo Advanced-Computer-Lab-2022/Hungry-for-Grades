@@ -6,6 +6,13 @@ export const PaymentRoutes = {
       query: '',
       options: {},
       payload: {}
+    },
+    savePayment: {
+      URL: '',
+      params: '',
+      query: '',
+      options: {},
+      payload: {}
     }
   }
 };

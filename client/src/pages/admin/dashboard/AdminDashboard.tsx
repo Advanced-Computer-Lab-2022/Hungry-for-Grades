@@ -3,8 +3,8 @@ import { RiDashboardFill, RiRefund2Fill } from 'react-icons/ri';
 import { VscReport } from 'react-icons/vsc';
 import { AiOutlineMail, AiOutlineUserAdd } from 'react-icons/ai';
 
-import {TbDiscount2} from 'react-icons/tb'
-import {FcInvite} from 'react-icons/fc'
+import { TbDiscount2 } from 'react-icons/tb';
+import { FcInvite } from 'react-icons/fc';
 
 import { FaRegNewspaper } from 'react-icons/fa';
 
