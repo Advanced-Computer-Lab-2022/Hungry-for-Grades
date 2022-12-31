@@ -197,7 +197,7 @@ export default function AdminHome(props: {
     )})):(
 			<tr>
   <td colSpan={6} style={{ textAlign: 'center' }}>
-          No Course Requests Found
+          No Reports are Found
         </td>
 
 			</tr>
