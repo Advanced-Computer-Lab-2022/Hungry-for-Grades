@@ -20,8 +20,9 @@ import useMultistepForm from '@/hooks/useMultistepForm';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
-import { UseUser } from '@/store/userStore';
+import { UseUser  } from '@/store/userStore';
 import { IInstructor } from '@/interfaces/instructor.interface';
+import { UseCountry  } from '@/store/countryStore';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = new Date();
@@ -47,13 +48,16 @@ const backStyle = {
 };
 export default function InstructorCoursesAnalytics() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
+	const useUser = UseUser();
+  const instructorId = useUser?._id as string;
+  const country = UseCountry();
 
   const {
     data: earningsData,
     isLoading,
     isError,
     error
-  } = UseSearchQuery(selectedOption);
+  } = UseSearchQuery(selectedOption,instructorId,country);
 
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
@@ -79,10 +83,12 @@ export default function InstructorCoursesAnalytics() {
   if (isLoading) return <LoaderComponent />;
   if (isError || error) return <ErrorMessage />;
 
-  const useUser = UseUser();
-  const teachedCoursesCount = (useUser as IInstructor)?._teachedCourses?.length;
-  const averageRating = (useUser as IInstructor)?.rating?.averageRating;
-  const balance = (useUser as IInstructor)?.balance;
+
+
+	const teachedCoursesCount=(useUser as IInstructor)?._teachedCourses?.length;
+	const averageRating=(useUser as IInstructor)?.rating?.averageRating;
+	const balance=(useUser as IInstructor)?.balance;
+
   return (
     <div
       className='py-5'

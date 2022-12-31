@@ -650,3 +650,15 @@ class TraineeService {
   };
 }
 export default TraineeService;
+
+/*
+
+Object : UserID COurseID Q A
+GET : 
+API : Ask userID, CourseID Q POST A ""
+API : Answer PATCH COURSEID USERID A --> asjifaskjf
+
+
+
+
+*/

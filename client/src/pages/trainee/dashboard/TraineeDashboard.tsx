@@ -25,13 +25,13 @@ const corpLinks = {
 const traineeLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
-  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
+  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
+  Reports: { path: '/trainee/my-reports', icon: <VscReport /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <VscReport /> }
 };
 
 function TraineeDashboard() {

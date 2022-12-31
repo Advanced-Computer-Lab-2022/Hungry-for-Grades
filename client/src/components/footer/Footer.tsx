@@ -189,7 +189,7 @@ function Footer() {
                   </a>
                 </p>
 
-                <ReportForm />
+                <ReportForm courseID={''} />
 
                 <p>
                   <a className='text-white' href='#!'>

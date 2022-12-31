@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import styles from './reportsTable.module.scss';
 
 import useGetReports from './useGetReports';
@@ -20,14 +22,18 @@ export default function ReportsTable() {
     user as IUser
   );
 
+  const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const arr = data?.data?.data;
 
   const [curr, setCurr] = useState<AllReport>(arr?.[0] as AllReport);
 
-  function handleClick() {
-    setShowModal(!showModal);
+  function handleClick(id : string) {
+   // setShowModal(!showModal);
+   navigate(`../followup/${id}?trainee=true`);
+   //navigate('../payment-accepted?walletUsed=true');
   }
 
   if (isLoading) {
@@ -75,7 +81,7 @@ export default function ReportsTable() {
               style={{ fontSize: '1rem', color: '#A00407' }}
               type='button'
               onClick={() => {
-                handleClick();
+                handleClick(report?._id);
                 setCurr(report);
               }}
             >
@@ -134,16 +140,20 @@ export default function ReportsTable() {
               </tr>
             </thead>
             <tbody>
+              <>
               {toShow}
               {showModal && <FollowModal func={handleClick} report={curr} />}
+              </>
             </tbody>
           </table>
         </div>
+        {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
         <Pagination
           activePage={activePage}
           pages={data?.data?.totalPages}
           setActivePage={setActivePage}
         />
+        }
       </div>
     </div>
   );

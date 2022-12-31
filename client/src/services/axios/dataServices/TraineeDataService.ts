@@ -1,3 +1,5 @@
+import jsPDF from 'jspdf';
+
 import { getRequest, postRequest } from '../http-verbs';
 
 import { getCourseReviews } from './CoursesDataService';
@@ -130,6 +132,13 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    sendCertificateByMail : {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {
+      }
     }
   },
   DELETE: {
