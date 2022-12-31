@@ -122,7 +122,7 @@ function ForgotPassword() {
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/auth/signup' onClick={navigateToSignup}>
+                <Link id='forget-password-signup-link' to='/auth/signup' onClick={navigateToSignup}>
                   Sign Up
                 </Link>
               </span>

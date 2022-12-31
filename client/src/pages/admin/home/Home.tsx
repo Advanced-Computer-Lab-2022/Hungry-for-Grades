@@ -4,17 +4,13 @@ import { useState } from 'react';
 
 import ReactSelect from 'react-select';
 
-import { BsBookFill } from 'react-icons/bs';
-
-import { FaRegMoneyBillAlt } from 'react-icons/fa';
-
-import { AiFillStar } from 'react-icons/ai';
-
 import UseSearchQuery from './UseDataQuery';
 
 import AreaAnalytics from './analytics/AreaAnalytics';
 import BarAnalytics from './analytics/BarAnalytics';
 import LineAnalytics from './analytics/LineAnalytics';
+
+import Trainees from './trainees/Trainees';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
 
@@ -48,41 +44,12 @@ const backStyle = {
 export default function Home() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
 
-  const {
-    data: earningsData,
-    isLoading,
-    isError,
-    error
-  } = UseSearchQuery(selectedOption);
-
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
-    [
-      <div key='area-analytics-instructor-earnings'>
-        <AreaAnalytics
-          data={earningsData ? earningsData?.data?.data : emptyData}
-        />
-      </div>,
-      <div key='line-analytics-instructor-earnings'>
-        <LineAnalytics
-          data={earningsData ? earningsData?.data?.data : emptyData}
-        />
-      </div>,
-      <div key='bar-analytics-instructor-earnings'>
-        <BarAnalytics
-          data={earningsData ? earningsData?.data?.data : emptyData}
-        />
-      </div>
-    ],
-    ['Area', 'Line', 'Bar'],
+    [<Trainees key='123' />],
+    ['Trainees', 'Line', 'Bar'],
     ['']
   );
-  if (isLoading) return <LoaderComponent />;
-  if (isError || error) return <ErrorMessage />;
 
-  const useUser = UseUser();
-  const teachedCoursesCount = (useUser as IInstructor)?._teachedCourses?.length;
-  const averageRating = (useUser as IInstructor)?.rating?.averageRating;
-  const balance = (useUser as IInstructor)?.balance;
   return (
     <div
       className='py-5'
@@ -90,41 +57,6 @@ export default function Home() {
         backgroundColor: '#F8F9FA'
       }}
     >
-      <div className='container mb-4'>
-        <div className='row'>
-          <div className='col-md-4 mb-4'>
-            <div className='card' style={backStyle}>
-              <div className='card-body'>
-                <h5 className='card-title'>
-                  Total Balance <FaRegMoneyBillAlt style={style} />
-                </h5>
-                <p className='card-text'>{balance}</p>
-              </div>
-            </div>
-          </div>
-          <div className='col-md-4 mb-4'>
-            <div className='card ' style={backStyle}>
-              <div className='card-body'>
-                <h5 className='card-title'>
-                  Total Courses <BsBookFill style={style} />
-                </h5>
-                <p className='card-text'>{teachedCoursesCount}</p>
-              </div>
-            </div>
-          </div>
-          <div className='col-md-4 mb-4'>
-            <div className='card' style={backStyle}>
-              <div className='card-body'>
-                <h5 className='card-title'>
-                  Average Rating <AiFillStar style={style} />
-                </h5>
-                <p className='card-text'>{averageRating}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className='container p-5' style={backStyle}>
         <div className='d-flex justify-content-between'>
           <div className='container d-flex flex-row justify-content-center mb-4'>
@@ -143,19 +75,9 @@ export default function Home() {
               </button>
             ))}
           </div>
-          <div className='w-25'>
-            <ReactSelect
-              options={options}
-              value={options.find(option => option.value === selectedOption)}
-              onChange={function (option) {
-                setSelectedOption(option?.value as string);
-              }}
-            />
-          </div>
         </div>
-
-        {step}
       </div>
+      <div className='container mb-4'>{step}</div>
     </div>
   );
 }
