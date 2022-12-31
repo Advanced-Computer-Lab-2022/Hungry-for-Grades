@@ -8,14 +8,13 @@ import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
-import jsPDF from 'jspdf';
+
 import { Types } from 'mongoose';
 import path from 'path';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
+;
 
-import fs from 'fs';
-import PDFDocument from 'pdfkit';
 
 class TraineeController {
   public traineeService = new TraineeService();
