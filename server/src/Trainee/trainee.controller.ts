@@ -393,7 +393,6 @@ class TraineeController {
       const courseId = req.params.courseId as string;
 
       const certificatePDFBase64=req.body.certificate;// Base 64 encoded
-      console.log(certificatePDFBase64);
 
       //const certificateFile = req.files.certificate as UploadedFile;
 

@@ -65,9 +65,12 @@ export default function (courseid: string) {
           };
           const res = await requestCourse(reportData);
           if (res) {
-            toast.success('Request access submitted successfully',toastOptions);
+            toast.success(
+              'Request access submitted successfully',
+              toastOptions
+            );
           } else {
-            toast.error('Unsuccessful Request',toastOptions);
+            toast.error('Unsuccessful Request', toastOptions);
           }
         }
       : undefined;

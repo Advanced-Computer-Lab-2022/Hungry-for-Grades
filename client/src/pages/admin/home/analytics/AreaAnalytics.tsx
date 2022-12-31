@@ -19,7 +19,7 @@ type EarningsAnalytics = {
   data: number[];
 };
 
- function AreaAnalytics(props: EarningsAnalytics) {
+function AreaAnalytics(props: EarningsAnalytics) {
   console.log(props.data);
   props?.data?.map((data, index) => {
     console.log(`${data}, ${index}`);

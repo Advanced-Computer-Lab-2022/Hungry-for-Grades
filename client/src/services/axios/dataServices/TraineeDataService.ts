@@ -185,13 +185,15 @@ export async function addReviewToCourse(
     return null;
   }
   const newReview = TraineeRoutes.POST.addReviewToCourse;
-	newReview.URL=`courses/rating/${encodeURIComponent(courseId)}/trainee/${traineeReview._trainee._id}`;
+  newReview.URL = `courses/rating/${encodeURIComponent(courseId)}/trainee/${
+    traineeReview._trainee._id
+  }`;
   newReview.payload = traineeReview;
   const res = await postRequest<HttpResponse<Rating>>(newReview);
-	if(res.status === 409){
-		return null;
-	}
-	if (res.statusText !== 'OK') {
+  if (res.status === 409) {
+    return null;
+  }
+  if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
   if (!res.data.success) {

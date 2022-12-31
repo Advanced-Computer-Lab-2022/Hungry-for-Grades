@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { HttpResponse } from '@/interfaces/response.interface';
 import usePostQuery from '@/hooks/usePostQuery';
 
-import {NewsLetterRoutes} from '@services/axios/dataServices/NewsLetterDataService';
+import { NewsLetterRoutes } from '@services/axios/dataServices/NewsLetterDataService';
 import { toastOptions } from '@/components/toast/options';
 
 type Options = {
@@ -23,9 +23,7 @@ const userRoles: Options[] = [
 ];
 
 function AdminNewsletter() {
-	const {  mutateAsync:sendEmail } = usePostQuery<
-    HttpResponse<null>
-  >();
+  const { mutateAsync: sendEmail } = usePostQuery<HttpResponse<null>>();
   const subjectRef = useRef<HTMLInputElement>(null);
   const markdownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedRole, setSelectedRole] = useState<{
@@ -41,24 +39,24 @@ function AdminNewsletter() {
     const subject = subjectRef?.current?.value || '';
     const body = markdownRef?.current?.value || '';
 
-
     if (subject && body) {
-		const EmailRoute= Object.assign({}, NewsLetterRoutes.POST.sendEmail);
-      EmailRoute.payload={
-		  subject,
-		  body,
-	  }
-	  EmailRoute.query=`all=${selectedRole.label === 'All'?1:0}&role=${selectedRole.value}`;
-	  try{
-	  await sendEmail(EmailRoute);
-	  toast.success('Email sent successfully',toastOptions);
-	}
-	  catch(error){
-		  console.log(error)
-toast.error('Error sending email',toastOptions);
+      const EmailRoute = Object.assign({}, NewsLetterRoutes.POST.sendEmail);
+      EmailRoute.payload = {
+        subject,
+        body
+      };
+      EmailRoute.query = `all=${selectedRole.label === 'All' ? 1 : 0}&role=${
+        selectedRole.value
+      }`;
+      try {
+        await sendEmail(EmailRoute);
+        toast.success('Email sent successfully', toastOptions);
+      } catch (error) {
+        console.log(error);
+        toast.error('Error sending email', toastOptions);
+      }
     }
   }
-}
 
   return (
     <div
@@ -85,7 +83,6 @@ toast.error('Error sending email',toastOptions);
                 <Form.Group controlId='tags'>
                   <Form.Label>User Roles</Form.Label>
                   <Select
-
                     id='userRoles-select'
                     name='roles'
                     options={userRoles}

@@ -35,70 +35,78 @@ function Footer() {
           </div>
 
           <div>
-            {COMPANY_FACEBOOK && <a
-              className='text-white me-4'
-              href={COMPANY_FACEBOOK}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaFacebookF />
-            </a>}
-						{COMPANY_TWITTER &&
-            <a
-              className='text-white me-4'
-              href={COMPANY_TWITTER}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaTwitter />
-            </a>}
+            {COMPANY_FACEBOOK && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_FACEBOOK}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaFacebookF />
+              </a>
+            )}
+            {COMPANY_TWITTER && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_TWITTER}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaTwitter />
+              </a>
+            )}
 
-           {COMPANY_LINKEDIN && <a
-              className='text-white me-4'
-              href={COMPANY_LINKEDIN}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaLinkedinIn />
-            </a>}
-						{COMPANY_INSTAGRAM &&
-            <a
-              className='text-white me-4'
-              href={COMPANY_INSTAGRAM}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaInstagram />
-            </a>}
-						{COMPANY_YOUTUBE &&
-            <a
-              className='text-white me-4'
-              href={COMPANY_YOUTUBE}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaYoutube />
-            </a>
-						}
+            {COMPANY_LINKEDIN && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_LINKEDIN}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaLinkedinIn />
+              </a>
+            )}
+            {COMPANY_INSTAGRAM && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_INSTAGRAM}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaInstagram />
+              </a>
+            )}
+            {COMPANY_YOUTUBE && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_YOUTUBE}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaYoutube />
+              </a>
+            )}
 
-						{COMPANY_GOOGLE_PLAY &&
-            <a
-              className='text-white me-4'
-              href={COMPANY_GOOGLE_PLAY}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaGooglePlay />
-            </a>}
-						{COMPANY_APP_STORE &&
-            <a
-              className='text-white me-4'
-              href={COMPANY_APP_STORE}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaApple />
-            </a>}
+            {COMPANY_GOOGLE_PLAY && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_GOOGLE_PLAY}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaGooglePlay />
+              </a>
+            )}
+            {COMPANY_APP_STORE && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_APP_STORE}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaApple />
+              </a>
+            )}
           </div>
         </section>
 

@@ -63,104 +63,110 @@ export default function AdminHome(props: {
   }
 
   let i = 0;
-  const toShow =props.data && props.data?.length ? props.data?.map((report: AllReport) => {
-    i++;
-    const isDisabled = report?.status == 'Pending' ? false : true;
-    const reportDate = report?.createdAt?.toString().substring(0, 10);
-    return (
-      <tr
-        key={report?._id}
-        style={{ fontSize: '1rem', fontWeight: '450', color: '#393E46' }}
-      >
-        <td>
-          <input
-            disabled={isDisabled}
-            id={
-              'CheckBox' +
-              (1381124191 * 1050510891 + -10 + 1124912 + i * i).toString()
-            }
-            style={{
-              width: '1.4rem',
-              height: '1.2rem',
-              alignItems: 'center',
-              //here was marginTop 1rem
-              marginLeft: '0.1rem'
-            }}
-            type='checkbox'
-            onClick={() => handleMultipleRows(report)}
-          />
-        </td>
-        <td>{report?.traineeInfo.at(0)?.name}</td>
-        <td>{report?.reason}</td>
-        <td>{reportDate}</td>
-        {report?.status == 'Pending' && (
-          <td>
-            <div className={styles.statusP}>Pending</div>
-          </td>
-        )}
-        {report?.status == 'Resolved' && (
-          <td>
-            <div className={styles.statusResolved}>Resolved</div>
-          </td>
-        )}
-        {report?.status == 'Rejected' && (
-          <td>
-            <div className={styles.statusRej}>Rejected</div>
-          </td>
-        )}
-        {report?.status == Status.UNSEEN && (
-          <td>
-            <div className={styles.statusUnseen}>Unseen</div>
-          </td>
-        )}
-        {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td>No Actions Required</td>
-        )}
-        {!(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td className='col'>
-            {report?.status == Status.UNSEEN && (
-              <button
-                className={`${styles.aprove || ''}`}
-                type='button'
-                onClick={() => handleAction(Status?.PENDING, report)}
-              >
-                Mark as Pending
-              </button>
+  const toShow =
+    props.data && props.data?.length ? (
+      props.data?.map((report: AllReport) => {
+        i++;
+        const isDisabled = report?.status == 'Pending' ? false : true;
+        const reportDate = report?.createdAt?.toString().substring(0, 10);
+        return (
+          <tr
+            key={report?._id}
+            style={{ fontSize: '1rem', fontWeight: '450', color: '#393E46' }}
+          >
+            <td>
+              <input
+                disabled={isDisabled}
+                id={
+                  'CheckBox' +
+                  (1381124191 * 1050510891 + -10 + 1124912 + i * i).toString()
+                }
+                style={{
+                  width: '1.4rem',
+                  height: '1.2rem',
+                  alignItems: 'center',
+                  //here was marginTop 1rem
+                  marginLeft: '0.1rem'
+                }}
+                type='checkbox'
+                onClick={() => handleMultipleRows(report)}
+              />
+            </td>
+            <td>{report?.traineeInfo.at(0)?.name}</td>
+            <td>{report?.reason}</td>
+            <td>{reportDate}</td>
+            {report?.status == 'Pending' && (
+              <td>
+                <div className={styles.statusP}>Pending</div>
+              </td>
             )}
-            <button
-              className={`${styles.aprove || ''}`}
-              type='button'
-              onClick={() => handleAction(Status?.RESOLVED, report)}
-            >
-              Mark as Resolved
-            </button>
-          </td>
-        )}
-        <td>
-          {report?.description != '' && (
-            <button
-              style={{ border: 'none' }}
-              type='button'
-              onClick={() => {
-                setShowDescription(true);
-                setDescription(report?.description);
-              }}
-            >
-              <HiOutlineDocumentReport className={styles.report_description} />
-            </button>
-          )}
-          {report?.description == '' && 'No Description'}
+            {report?.status == 'Resolved' && (
+              <td>
+                <div className={styles.statusResolved}>Resolved</div>
+              </td>
+            )}
+            {report?.status == 'Rejected' && (
+              <td>
+                <div className={styles.statusRej}>Rejected</div>
+              </td>
+            )}
+            {report?.status == Status.UNSEEN && (
+              <td>
+                <div className={styles.statusUnseen}>Unseen</div>
+              </td>
+            )}
+            {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
+              <td>No Actions Required</td>
+            )}
+            {!(
+              report?.status == 'Resolved' || report?.status == 'Rejected'
+            ) && (
+              <td className='col'>
+                {report?.status == Status.UNSEEN && (
+                  <button
+                    className={`${styles.aprove || ''}`}
+                    type='button'
+                    onClick={() => handleAction(Status?.PENDING, report)}
+                  >
+                    Mark as Pending
+                  </button>
+                )}
+                <button
+                  className={`${styles.aprove || ''}`}
+                  type='button'
+                  onClick={() => handleAction(Status?.RESOLVED, report)}
+                >
+                  Mark as Resolved
+                </button>
+              </td>
+            )}
+            <td>
+              {report?.description != '' && (
+                <button
+                  style={{ border: 'none' }}
+                  type='button'
+                  onClick={() => {
+                    setShowDescription(true);
+                    setDescription(report?.description);
+                  }}
+                >
+                  <HiOutlineDocumentReport
+                    className={styles.report_description}
+                  />
+                </button>
+              )}
+              {report?.description == '' && 'No Description'}
+            </td>
+          </tr>
+        );
+      })
+    ) : (
+      <tr>
+        <td colSpan={7} style={{ textAlign: 'center' }}>
+          No Course Requests Found
         </td>
       </tr>
     );
-  }):
-  (
-		<tr>
-		<td colSpan={7} style={{ textAlign: 'center' }}>
-			No Course Requests Found
-		</td>
-	</tr>);
-
 
   return (
     <div className='fluid-container' style={{ overflowX: 'auto' }}>

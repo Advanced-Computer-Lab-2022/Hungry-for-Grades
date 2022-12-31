@@ -13,7 +13,7 @@ import { UseCountry } from '@/store/countryStore';
 function MostPopularCoursesSection() {
   const country = UseCountry();
   const { data, isLoading, isError } = useQuery(['topRated', country], () =>
-    getTopRatedCourses(country,0)
+    getTopRatedCourses(country, 0)
   );
   const coursesMapped = data?.data.map(mapCourseToCardProps);
   if (isLoading) {
