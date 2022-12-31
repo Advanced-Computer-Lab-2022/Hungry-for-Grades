@@ -46,7 +46,6 @@ function ForgotPassword() {
 				error: 'Error sending email',
 				...toastOptions
 			},toastOptions);
-      console.log('success');
       return true;
     } catch (err) {
       console.log(err);
