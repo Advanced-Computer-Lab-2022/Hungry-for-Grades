@@ -142,19 +142,18 @@ export default function CertificateGenerator() {
     const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
-    const tmp = pdf.output('datauri');
-    console.log(tmp);
+    const tmp = pdf.output('datauristring');
     
     const mail = TraineeRoutes.POST.sendCertificateByMail;
 
+    //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
     mail.URL = `/trainee/${traineeData?._id as string}/course/${courseId as string}/certificate`;
     
-    mail.payload={
-      certificate:tmp
-    }
+    mail.payload={certificate: tmp}
 
-    await sendMail(mail);
+    const { data } = await sendMail(mail);
 
+    console.log(data);
   }
 
   if (isError) return <ErrorMessage />;

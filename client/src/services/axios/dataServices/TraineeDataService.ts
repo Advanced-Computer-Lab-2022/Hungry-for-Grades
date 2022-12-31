@@ -138,11 +138,6 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {
-        //imgURL : ''
-      },
-      headers:
-      {
-        'Content-Type':''
       }
     }
   },
