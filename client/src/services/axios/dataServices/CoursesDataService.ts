@@ -155,7 +155,7 @@ export async function getCourses(
 
 export function getTopRatedCourses(
   country: string,
-	sortBy:number
+  sortBy: number
 ): Promise<PaginatedResponse<ICourse>> {
   return getCourses({
     page: 1,

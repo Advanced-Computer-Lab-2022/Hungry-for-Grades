@@ -68,6 +68,7 @@ export default function AdminHome(props: {
   }
 
   let i = 0;
+
   const toShow =props.data && props.data?.length ? props.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
@@ -183,6 +184,7 @@ export default function AdminHome(props: {
             </button>
           )}
           {report?.description == '' && 'No Description'}
+
         </td>
         <td>
         <button style={{color:'#a00407'}} type='button' onClick={()=>navigate(`../followup/${report?._id}?trainee=false`)}>
@@ -192,14 +194,6 @@ export default function AdminHome(props: {
       </tr>
 
     );
-  }):
-  (
-		<tr>
-		<td colSpan={7} style={{ textAlign: 'center' }}>
-			No Course Requests Found
-		</td>
-	</tr>);
-
 
   return (
     <div className='fluid-container' style={{ overflowX: 'auto' }}>

@@ -19,7 +19,7 @@ async function searchRequest(
 
 export default function UseDataQuery(year: string) {
   const user = UseUser() as IUser;
-  const instructorId = user?._id ;
+  const instructorId = user?._id;
   const country = UseCountry();
 
   return {

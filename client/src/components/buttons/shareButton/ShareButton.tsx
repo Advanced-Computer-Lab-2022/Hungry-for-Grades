@@ -50,15 +50,17 @@ import QRCodeGenerator from './QrcodeGenerator';
 import Modal from '@/components/modal/Modal';
 
 function ShareButton({ link }: { link: string }) {
-  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL ;
-  const endLink = `${CLIENT_URL}${link}`;
-  const [ qrcodeImg,setqrcodeImg]=useState('');
-  useEffect(() => {
-    QRCodeGenerator(endLink).then((data:string) => {
-		setqrcodeImg( data);
-    }).catch(()=>{
 
-	});
+  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL;
+
+  const endLink = `${CLIENT_URL}${link}`;
+  const [qrcodeImg, setqrcodeImg] = useState('');
+  useEffect(() => {
+    QRCodeGenerator(endLink)
+      .then((data: string) => {
+        setqrcodeImg(data);
+      })
+      .catch(() => {});
   }, [endLink]);
 
   return (

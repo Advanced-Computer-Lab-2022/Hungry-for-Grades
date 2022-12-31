@@ -108,8 +108,7 @@ function ForgotPassword() {
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Forgot Password'
                 name='forgotPassword'
-								type='button'
-
+                type='button'
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>
