@@ -18,6 +18,7 @@ import { AllReport, Status } from '@/interfaces/reports.interface';
 import usePatchQuery from '@/hooks/usePatchQuery';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { toastOptions } from '@/components/toast/options';
+import { GrEbay } from 'react-icons/gr';
 
 export default function AdminHome(props: {
   data: AllReport[];
@@ -99,32 +100,60 @@ export default function AdminHome(props: {
         <td>{reportDate}</td>
         {report?.status == 'Pending' && (
           <td>
-            <div className={styles.statusP}>Pending</div>
+            <div className='alert alert-warning' style={{
+						textAlign:'center',
+						width:'fit-content',
+						height:'fit-content',
+						padding:'0.5rem',
+						border:'1px solid'
+						}}>Pending</div>
           </td>
         )}
         {report?.status == 'Resolved' && (
           <td>
-            <div className={styles.statusResolved}>Resolved</div>
+            <div className='alert alert-success' style={{
+						textAlign:'center',
+						width:'fit-content',
+						height:'fit-content',
+						padding:'0.5rem',
+						border:'1px solid'
+						}}>Resolved</div>
           </td>
         )}
         {report?.status == 'Rejected' && (
           <td>
-            <div className={styles.statusRej}>Rejected</div>
+            <div className='alert alert-danger' style={{
+						textAlign:'center',
+						width:'fit-content',
+						height:'fit-content',
+						padding:'0.5rem',
+						border:'1px solid'
+						}}>Rejected</div>
           </td>
         )}
         {report?.status == Status.UNSEEN && (
           <td>
-            <div className={styles.statusUnseen}>Unseen</div>
+            <div className='alert alert-info' style={{
+						textAlign:'center',
+						width:'fit-content',
+						height:'fit-content',
+						padding:'0.5rem',
+						border:'1px solid'
+						}}>Unseen</div>
           </td>
         )}
         {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td>No Actions Required</td>
+          <td style={{
+						textAlign:'center'
+					}}>No Actions Required</td>
         )}
         {!(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td className='col'>
+          <td className='col' style={{
+						textAlign:'center'
+					}}>
             {report?.status == Status.UNSEEN && (
               <button
-                className={`${styles.aprove || ''}`}
+                className={`btn btn-outline-primary mx-2`}
                 type='button'
                 onClick={() => handleAction(Status?.PENDING, report)}
               >
@@ -132,7 +161,7 @@ export default function AdminHome(props: {
               </button>
             )}
             <button
-              className={`${styles.aprove || ''}`}
+              className={`btn btn-primary`}
               type='button'
               onClick={() => handleAction(Status?.RESOLVED, report)}
             >
@@ -161,7 +190,7 @@ export default function AdminHome(props: {
         </button>
       </td>
       </tr>
-      
+
     );
   }):
   (
@@ -188,7 +217,7 @@ export default function AdminHome(props: {
             <th>Report Type</th>
             <th>Date</th>
             <th style={{ paddingLeft: '0.5rem' }}>Status</th>
-            <th style={{ paddingLeft: '3rem' }}>Actions</th>
+            <th style={{ textAlign:'center' }}>Actions</th>
             <th>Description</th>
             <th style={{paddingLeft:'1.8rem'}}>Follow Ups</th>
           </tr>

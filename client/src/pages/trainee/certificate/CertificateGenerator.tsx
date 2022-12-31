@@ -13,6 +13,7 @@ import ErrorMessage from '@components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -143,12 +144,12 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
     const tmp = pdf.output('datauristring');
-    
+
     const mail = TraineeRoutes.POST.sendCertificateByMail;
 
     //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
     mail.URL = `/trainee/${traineeData?._id as string}/course/${courseId as string}/certificate`;
-    
+
     mail.payload={certificate: tmp}
 
     const { data } = await sendMail(mail);
@@ -157,7 +158,7 @@ export default function CertificateGenerator() {
   }
 
   if (isError) return <ErrorMessage />;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoaderComponent/>;
   return (
     <div className='container-md mt-4'>
       <div className='row gx-5'>
