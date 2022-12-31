@@ -71,7 +71,7 @@ function useSearchQuery(filters: SelectFiltersType) {
       ['search-instructor-courses', filters, activePage, country],
       () =>
         searchRequest(
-          useUser?._id,
+          useUser?._id as string,
           filters,
           activePage,
           setActivePage,

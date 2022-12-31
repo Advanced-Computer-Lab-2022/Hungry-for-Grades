@@ -49,7 +49,7 @@ export default function AdminHome(props: {
   }
 
   let i = 0;
-  const toShow = props.data?.map((report: AllReport) => {
+  const toShow = props.data && props.data?.length ? props.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
     const reportDate = report?.createdAt?.toString().substring(0, 10);
@@ -133,7 +133,12 @@ export default function AdminHome(props: {
         )}
       </tr>
     );
-  });
+  }):(
+	<tr>
+		<td colSpan={6} style={{ textAlign: 'center' }}>
+			No Course Requests Found
+		</td>
+	</tr>);
 
   return (
     <div className='pb-5'>
@@ -160,6 +165,7 @@ export default function AdminHome(props: {
             </tr>
           </thead>
           <tbody>{toShow}</tbody>
+
         </table>
       </div>
     </div>
