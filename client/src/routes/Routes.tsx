@@ -314,7 +314,7 @@ function AllRoutes() {
                   title='GA'
                   width='80%'
                 /> */
-                <div />
+                <LazyAdminHome />
               }
               path='dashboard'
             />
