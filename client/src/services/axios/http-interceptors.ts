@@ -1,4 +1,3 @@
-import { toastOptions } from '@/components/toast/options';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -6,12 +5,16 @@ import axios, {
   AxiosResponse
 } from 'axios';
 
+
 import SessionStorage from '../sessionStorage/SessionStorage';
 
 import { removeInfo } from '../savedInfo/SavedInfo';
 
+
+
+
 import LocalStorage from '@/services/localStorage/LocalStorage';
-import { toast } from 'react-toastify';
+
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -63,12 +66,7 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
   const rememberMe = LocalStorage.get('rememberMe');
   console.log(error);
 
-	if( error.response &&
-    error.response.status === 403 ){
-      removeInfo();
-      window.location.replace(loginRoute);
-			toast.error("You're role doesn't give you authorization",toastOptions);
-		}
+
 
   if (
     error.response &&
@@ -102,7 +100,6 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
       removeInfo();
 
       window.location.replace(loginRoute);
-			toast.error('You are not authorized',toastOptions);
 
 
       return Promise.reject(_error);

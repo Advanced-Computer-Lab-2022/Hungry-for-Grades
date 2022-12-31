@@ -187,7 +187,7 @@ function AllRoutes() {
 
     <Routes>
       {/* Authentication Routes  */}
-      <Route element={<AuthRoutes />} path='/auth'>
+      <Route element={<AuthRoutes />} path='auth'>
         <Route element={<LazyLogin />} path='login' />
         <Route element={<LazySignup />} path='signup' />
         <Route element={<LazyForgotPassword />} path='forgot-password' />
@@ -195,6 +195,7 @@ function AllRoutes() {
           element={<LazyChangePassword />}
           path='change-password/:userId'
         />
+
       </Route>
       <Route element={<ProtectedRoutes />}>
         {roles.map((path, index) => (

@@ -88,6 +88,7 @@ export default function InstructorCoursesAnalytics() {
 	const teachedCoursesCount=(useUser as IInstructor)?._teachedCourses?.length;
 	const averageRating=(useUser as IInstructor)?.rating?.averageRating;
 	const balance=(useUser as IInstructor)?.balance;
+	const currency=(useUser as IInstructor)?.currency ?? 'USD';
   return (
     <div
       className='py-5'
@@ -103,7 +104,7 @@ export default function InstructorCoursesAnalytics() {
                 <h5 className='card-title'>
                   Total Balance <FaRegMoneyBillAlt style={style} />
                 </h5>
-                <p className='card-text'>{balance}</p>
+                <p className='card-text'>{currency} &nbsp;{balance}</p>
               </div>
             </div>
           </div>

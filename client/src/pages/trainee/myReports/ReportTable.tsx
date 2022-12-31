@@ -42,7 +42,7 @@ export default function ReportsTable() {
 
   if (arr == undefined) return <ErrorMessage />;
 
-  const toShow = arr?.map((report: AllReport, index) => {
+  const toShow =arr && arr.length>0? (arr?.map((report: AllReport, index) => {
     const date = report?.createdAt.toString().substring(0, 10);
     return (
       <>
@@ -91,7 +91,14 @@ export default function ReportsTable() {
         </tr>
       </>
     );
-  });
+  })):
+	(
+		<tr>
+			<td className='text-center' colSpan={6}>
+				No Reports
+			</td>
+		</tr>
+	);
 
   return (
     <div className=' py-5' style={{ backgroundColor: '#F5F7F8' }}>
