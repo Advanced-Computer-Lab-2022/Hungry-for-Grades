@@ -43,11 +43,23 @@ import {
 
 import { BsShareFill } from 'react-icons/bs';
 
+import { useEffect, useState } from 'react';
+
+import QRCodeGenerator from './QrcodeGenerator';
+
 import Modal from '@/components/modal/Modal';
 
 function ShareButton({ link }: { link: string }) {
   const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL as string;
   const endLink = `${CLIENT_URL}${link}`;
+  const [ qrcodeImg,setqrcodeImg]=useState('');
+  useEffect(() => {
+    QRCodeGenerator(endLink).then((data:string) => {
+		setqrcodeImg( data);
+    }).catch(()=>{
+
+	});
+  }, [endLink]);
 
   return (
     <>
@@ -74,8 +86,13 @@ function ShareButton({ link }: { link: string }) {
         isFooter={false}
       >
         <div className='d-flex flex-column justify-content-center align-items-center'>
-          <div className='d-flex flex-row justify-content-center align-items-center'>
-            QRCODE
+          <div className='d-flex flex-row justify-content-center align-items-center mb-5'>
+            <img
+              alt='file'
+              className='img-fluid ml-1'
+              src={qrcodeImg}
+              style={{ border: '1px solid black', color: 'aqua' }}
+            />
           </div>
           <div className='d-flex flex-row justify-content-center align-items-center flex-wrap'>
             <EmailShareButton url={endLink}>

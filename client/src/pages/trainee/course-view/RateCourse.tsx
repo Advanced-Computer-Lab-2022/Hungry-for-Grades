@@ -1,13 +1,15 @@
 import { Form, Formik } from 'formik';
 import { useCallback, useState } from 'react';
-import { BsFillXCircleFill } from 'react-icons/bs';
-import Modal from 'react-modal';
+//import Modal from 'react-modal';
+
 
 import StarRatingComponent from 'react-star-rating-component';
 
 import { useQuery } from '@tanstack/react-query';
 
 import { toast } from 'react-toastify';
+
+import { Modal } from 'react-bootstrap';
 
 import styles from './rate-course.module.scss';
 
@@ -46,7 +48,11 @@ function RateCourse(props: { courseid: string }) {
       };
 
       const res = await addReviewToCourse(props.courseid, r);
-      if (res) {
+      if(res === null){
+				toast.error('Error submitting review', toastOptions);
+				closePopup();
+			}
+			if (res) {
         toast('Review submitted successfully', toastOptions);
         closePopup();
       }
@@ -115,16 +121,12 @@ function RateCourse(props: { courseid: string }) {
           <div>Rate course</div>
         </button>
       )}
-      <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
-        <div className={styles['close-button-container'] ?? ''}>
-          <button
-            className={styles['close-button']}
-            type='button'
-            onClick={closePopup}
-          >
-            <BsFillXCircleFill />
-          </button>
-        </div>
+      <Modal  show={modalOpen} onHide={closePopup}>
+			<Modal.Header closeButton>
+			<Modal.Title>Enter Your Review</Modal.Title>
+      </Modal.Header>
+
+									<Modal.Body>
         <Formik initialValues={initialValues} onSubmit={submitRating}>
           {formikProps => (
             <Form>
@@ -169,15 +171,16 @@ function RateCourse(props: { courseid: string }) {
                     }}
                   />
                 </div>
-                <div className='text-end m-4'>
+								<Modal.Footer>
                   <button className='btn btn-primary' type='submit'>
                     Submit Review
                   </button>
-                </div>
+								</Modal.Footer>
               </div>
             </Form>
           )}
         </Formik>
+				</Modal.Body>
       </Modal>
     </>
   );

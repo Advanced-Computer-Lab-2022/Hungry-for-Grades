@@ -154,12 +154,13 @@ export async function getCourses(
 }
 
 export function getTopRatedCourses(
-  country: string
+  country: string,
+	sortBy:number
 ): Promise<PaginatedResponse<ICourse>> {
   return getCourses({
     page: 1,
     limit: 3,
-    sortBy: 1,
+    sortBy: sortBy, // 0 :most purchased , 1 : most rated
     country
   });
 }
