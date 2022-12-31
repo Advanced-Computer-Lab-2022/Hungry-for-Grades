@@ -1,6 +1,7 @@
-import { AiFillStar } from 'react-icons/ai';
-import { BsBookFill } from 'react-icons/bs';
-import { FaRegMoneyBillAlt } from 'react-icons/fa';
+import styles from '../card.module.scss'
+import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
+
+import { MdSchool } from 'react-icons/md';
 
 import UseDataQuery from './UseDataQuery';
 
@@ -33,30 +34,30 @@ function Trainees() {
       {' '}
       <div className='row'>
         <div className='col-md-4 mb-4'>
-          <div className='card' style={backStyle}>
-            <div className='card-body'>
-              <h5 className='card-title'>
-                Active Trainees <FaRegMoneyBillAlt style={style} />
-              </h5>
-              <p className='card-text'>{active}</p>
-            </div>
-          </div>
-        </div>
-        <div className='col-md-4 mb-4'>
-          <div className='card ' style={backStyle}>
-            <div className='card-body'>
-              <h5 className='card-title'>
-                In Active Trainees <BsBookFill style={style} />
-              </h5>
-              <p className='card-text'>{inactive}</p>
-            </div>
-          </div>
-        </div>
-        <div className='col-md-4 mb-4'>
-          <div className='card' style={backStyle}>
+          <div className={`${styles.card ?? ''} card` }style={backStyle}>
             <div className='card-body'>
               <h4 className='card-title'>
-                Total Trainees <AiFillStar style={style} />
+                Active Trainees <HiStatusOnline style={style} />
+              </h4>
+              <h5 className='card-text'>{active}</h5>
+            </div>
+          </div>
+        </div>
+        <div className='col-md-4 mb-4'>
+          <div className={`${styles.card ?? ''} card` } style={backStyle}>
+            <div className='card-body'>
+              <h4 className='card-title'>
+                In Active Trainees <HiStatusOffline style={style} />
+              </h4>
+              <h5 className='card-text'>{inactive}</h5>
+            </div>
+          </div>
+        </div>
+        <div className='col-md-4 mb-4'>
+          <div className={`${styles.card ?? ''} card` } style={backStyle}>
+            <div className='card-body'>
+              <h4 className='card-title'>
+                Total Trainees <MdSchool style={style} />
               </h4>
               <h5 className='card-text'>{active + inactive}</h5>
             </div>

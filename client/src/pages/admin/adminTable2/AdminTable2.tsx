@@ -10,6 +10,7 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+
 import DescriptionModal from '../reportRequests/DescriptionModal';
 
 import styles from './AdminTable2.module.scss';
@@ -68,8 +69,8 @@ export default function AdminHome(props: {
 
   let i = 0;
 
-  const toShow =props.data && props.data?.length ? props.data?.map((report: AllReport) => {
-
+  const toShow =props.data && props.data?.length ?(
+	 props.data?.map((report: AllReport) => {
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
     const reportDate = report?.createdAt?.toString().substring(0, 10);
@@ -192,8 +193,15 @@ export default function AdminHome(props: {
         </button>
       </td>
       </tr>
-    )})
-    
+
+    )})):(
+			<tr>
+  <td colSpan={6} style={{ textAlign: 'center' }}>
+          No Reports are Found
+        </td>
+
+			</tr>
+		);
 
   return (
     <div className='fluid-container' style={{ overflowX: 'auto' }}>

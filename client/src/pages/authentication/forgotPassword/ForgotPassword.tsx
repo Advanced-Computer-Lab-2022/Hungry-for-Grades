@@ -40,17 +40,12 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      await toast.promise(
-        mutateAsync(forgetPasswordRoute),
-        {
-          pending: 'Sending email...',
-          success: 'Email sent successfully',
-          error: 'Error sending email',
-          ...toastOptions
-        },
-        toastOptions
-      );
-      console.log('success');
+      await toast.promise(mutateAsync(forgetPasswordRoute),{
+				pending: 'Sending email...',
+				success: 'Email sent successfully',
+				error: 'Error sending email',
+				...toastOptions
+			},toastOptions);
       return true;
     } catch (err) {
       console.log(err);
