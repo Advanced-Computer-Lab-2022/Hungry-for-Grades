@@ -10,10 +10,10 @@ import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { getTopRatedCourses } from '@/services/axios/dataServices/CoursesDataService';
 import { UseCountry } from '@/store/countryStore';
 
-function TopRatedCourses() {
+function MostPopularCoursesSection() {
   const country = UseCountry();
   const { data, isLoading, isError } = useQuery(['topRated', country], () =>
-    getTopRatedCourses(country,1)
+    getTopRatedCourses(country,0)
   );
   const coursesMapped = data?.data.map(mapCourseToCardProps);
   if (isLoading) {
@@ -27,7 +27,7 @@ function TopRatedCourses() {
   } else if (coursesMapped) {
     return (
       <section className='container' id='rated-courses'>
-        <h2 className='text-dark text-left mb-2'>Top Rated Courses</h2>
+        <h2 className='text-dark text-left mb-2'>Most Popular Courses</h2>
         <div className='row'>
           {coursesMapped?.map(course => (
             <div key={course.id} className='col-12 col-md-6 col-lg-4'>
@@ -51,4 +51,4 @@ function TopRatedCourses() {
   return <></>;
 }
 
-export default TopRatedCourses;
+export default MostPopularCoursesSection;

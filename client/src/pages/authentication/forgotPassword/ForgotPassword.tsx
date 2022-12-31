@@ -104,10 +104,12 @@ function ForgotPassword() {
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
+                correctMessage={`please check your email to change your password `}
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Forgot Password'
                 name='forgotPassword'
-                type='button'
+								type='button'
+
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>

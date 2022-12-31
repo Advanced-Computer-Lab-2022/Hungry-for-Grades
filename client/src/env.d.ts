@@ -12,6 +12,7 @@ type ImportMetaEnv = {
   readonly VITE_TEMP_TOKEN: string;
   readonly VITE_STORAGE_KEYS_PREFIX: string;
   readonly VITE_APP_LOGO_URL: string;
+  readonly VITE_APP_CLIENT_URL: string;
 
   // Company
   readonly VITE_COMPANY_NAME: string;
