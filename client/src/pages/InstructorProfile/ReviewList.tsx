@@ -10,6 +10,7 @@ import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
 import { getRequest } from '@/services/axios/http-verbs';
 import { Review } from '@/interfaces/course.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
+import { useLocation } from 'react-router-dom';
 
 async function getReviews(id: string, activePage: number) {
   const Inst = InstructorRoutes.GET.getReviews;
@@ -24,10 +25,12 @@ async function getReviews(id: string, activePage: number) {
 export default function ReviewList(props: { text: string }) {
   const [reviewPage, setReviewPage] = useState<number>(1);
 
+  const locationn = useLocation();
+
   const instructorId = props.text;
 
   const { isLoading, data } = useQuery(
-    ['getReviewsNowwww', reviewPage],
+    ['getReviewsNowwww', reviewPage, locationn],
     () => getReviews(instructorId, reviewPage),
     {
       cacheTime: 1000 * 60 * 60 * 24,

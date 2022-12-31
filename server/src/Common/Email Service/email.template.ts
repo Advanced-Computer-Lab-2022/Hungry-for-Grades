@@ -62,7 +62,7 @@ export function getDiscountHTML(): string {
   return htmlToSend;
 }
 
-export function sendCertificateEmail(traineeEmail: string, username: string, courseName: string, examGrade: string) {
+export function sendCertificateEmail(traineeEmail: string, username: string, courseName: string, examGrade: string, content) {
   const emailBody = getCertificateEmailHTML(username, courseName, examGrade);
   const certificateAttachment = prepareCertificateAttachment('Certificate.pdf');
   sendEmail(traineeEmail, emailBody, 'You officially graduated!!!', certificateAttachment);

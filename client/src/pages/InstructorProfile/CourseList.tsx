@@ -29,7 +29,7 @@ export default function CourseList(props: { text: string; namme: string }) {
   const country = UseCountry();
 
   const { isLoading, data } = useQuery(
-    ['getmineeeeee', country, activePage],
+    ['getmineeeeee', country, activePage, location],
     () => getCourses(country, activePage, instructorId),
     {
       cacheTime: 1000 * 60 * 60 * 24,

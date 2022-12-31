@@ -8,6 +8,8 @@ import { HiOutlineDocumentReport } from 'react-icons/hi';
 
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import DescriptionModal from '../reportRequests/DescriptionModal';
 
 import styles from './AdminTable2.module.scss';
@@ -28,6 +30,8 @@ export default function AdminHome(props: {
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
   const [description, setDescription] = useState('');
+
+  const navigate = useNavigate();
 
   function closeModal() {
     setShowDescription(false);
@@ -151,7 +155,13 @@ export default function AdminHome(props: {
           )}
           {report?.description == '' && 'No Description'}
         </td>
+        <td>
+        <button style={{color:'#a00407'}} type='button' onClick={()=>navigate(`../followup/${report?._id}?trainee=false`)}>
+          Follow ups
+        </button>
+      </td>
       </tr>
+      
     );
   });
 
@@ -173,6 +183,7 @@ export default function AdminHome(props: {
             <th style={{ paddingLeft: '0.5rem' }}>Status</th>
             <th style={{ paddingLeft: '3rem' }}>Actions</th>
             <th>Description</th>
+            <th style={{paddingLeft:'1.8rem'}}>Follow Ups</th>
           </tr>
         </thead>
         <tbody>
