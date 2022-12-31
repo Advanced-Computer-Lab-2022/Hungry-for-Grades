@@ -93,7 +93,7 @@ function ShareButton({ link }: { link: string }) {
               alt='file'
               className='img-fluid ml-1'
               src={qrcodeImg}
-              style={{ border: '1px solid black', color: 'var(--primary-color)' }}
+              style={{ border: '2px solid var(--primary-color)', color: 'var(--primary-color)',borderRadius:'5px' }}
             />
           </div>
           <div className='d-flex flex-row justify-content-center align-items-center flex-wrap'>

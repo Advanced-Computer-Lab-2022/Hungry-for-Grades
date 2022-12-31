@@ -88,7 +88,7 @@ export default function InstructorCoursesAnalytics() {
 	const teachedCoursesCount=(useUser as IInstructor)?._teachedCourses?.length;
 	const averageRating=(useUser as IInstructor)?.rating?.averageRating;
 	const balance=(useUser as IInstructor)?.balance;
-
+	const currency=(useUser as IInstructor)?.currency ?? 'USD';
   return (
     <div
       className='py-5'
@@ -101,30 +101,30 @@ export default function InstructorCoursesAnalytics() {
           <div className='col-md-4 mb-4'>
             <div className='card' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
+                <h4 className='card-title'>
                   Total Balance <FaRegMoneyBillAlt style={style} />
-                </h5>
-                <p className='card-text'>{balance}</p>
+                </h4>
+                <h5 className='card-text text-start'>{currency} &nbsp;{balance}</h5>
               </div>
             </div>
           </div>
           <div className='col-md-4 mb-4'>
             <div className='card ' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
+                <h4 className='card-title'>
                   Total Courses <BsBookFill style={style} />
-                </h5>
-                <p className='card-text'>{teachedCoursesCount}</p>
+                </h4>
+                <h5 className='card-text'>{teachedCoursesCount} Courses</h5>
               </div>
             </div>
           </div>
           <div className='col-md-4 mb-4'>
             <div className='card' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
+                <h4 className='card-title'>
                   Average Rating <AiFillStar style={style} />
-                </h5>
-                <p className='card-text'>{averageRating}</p>
+                </h4>
+                <h5 className='card-text'>{averageRating} Rating</h5>
               </div>
             </div>
           </div>
