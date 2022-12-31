@@ -33,7 +33,7 @@ export default function MyCourses() {
     return (
       <ErrorMessage
         errorMessage='You Dont have any courses Yet'
-        link='youtube.com'
+        link='/trainee/courses'
         linkTitle={'Go Check some courses now'}
       />
     );
@@ -54,7 +54,9 @@ export default function MyCourses() {
 
   const incoming = data?.data?.data;
 
-  if (data?.data?.totalResults == 0) {
+  console.log(incoming);
+
+  if (incoming.length == 0) {
     return (
       <div className='container text-center my-5'>
         <div
@@ -82,7 +84,8 @@ export default function MyCourses() {
   }
 
   const toShow = incoming?.map(course => {
-    const tt: ICourse = course._course;
+    if (course?._course == null) return <></>;
+    const tt: ICourse = course?._course;
     const courseCardP = mapCourseToCardProps(tt);
     return (
       <div key={course?._course?._id} className={'col-12 col-md-6 col-lg-4'}>
@@ -98,11 +101,19 @@ export default function MyCourses() {
   console.log(data);
 
   return (
-    <div className='py-3'
-		style={{
-			backgroundColor: '#f8f9fa'
-		}}>
+    <div
+      className='py-3'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <div className='container'>
+        <h2 className='text-dark text-left mb-2 mt-2 ml-5'>
+          {' '}
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in your courses
+        </h2>
+
         <div className='row'>{toShow}</div>
       </div>
       {data?.data?.totalPages > 1 && (

@@ -12,7 +12,7 @@ import { ICourse } from '@/interfaces/course.interface';
 function getCourses(_activePage: number) {
   const Courses = CoursesRoutes.GET.getCourses;
 
-  Courses.query = `page=${_activePage}`;
+  Courses.query = `page=${_activePage}&limit=${10}`;
 
   return getRequest<PaginatedResponse<ICourse>>(Courses);
 }

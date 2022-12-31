@@ -135,10 +135,10 @@ class CourseController {
   //add review to course controller
   public addReviewToCourse = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
     try {
-      const { courseId } = req.params;
+      const { courseId, traineeId } = req.params;
       const userReview: Review = req.body;
 
-      const courseRating: Rating = await this.courseService.addReviewToCourse(courseId, userReview);
+      const courseRating: Rating = await this.courseService.addReviewToCourse(courseId, traineeId, userReview);
 
       res.json({
         data: courseRating,
@@ -621,14 +621,15 @@ class CourseController {
   };
 
   // get lesson by id controller
-  public getLessonById = async (req: Request, res: Response<HttpResponse<Lesson>>, next: NextFunction) => {
+  public getLessonById = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
     try {
       const { userId, courseId, lessonId } = req.params;
 
-      const lesson = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
+      const lessonWithProgress = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
+
 
       res.json({
-        data: lesson,
+        data: lessonWithProgress,
         message: 'Lesson Fetched Successfully',
         success: true,
       });
@@ -743,15 +744,11 @@ class CourseController {
   };
 
   // add discount to serveral courses with filters
-  public addDiscountToCoursesWithFilters = async (
-    req: Request<{}, {}, Discount, CourseFilters>,
-    res: Response<HttpResponse<string[]>>,
-    next: NextFunction,
-  ) => {
+  public addDiscountToCoursesWithFilters = async (req: Request, res: Response<HttpResponse<string[]>>, next: NextFunction) => {
     try {
-      const discountData: Discount = req.body;
+      const discountData: Discount = req.body as Discount;
+      const requestFilters: CourseFilters = req.query as unknown as CourseFilters;
 
-      const requestFilters: CourseFilters = req.query;
       const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
       const failedCoursesErrors = await this.courseService.addDiscountToCourses(newFilters, discountData);
 

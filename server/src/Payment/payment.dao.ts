@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { STRIPE_PRIVATE_KEY } from '@/Config';
 import Stripe from 'stripe';
 import CourseService from '@/Course/course.dao';
@@ -10,7 +9,6 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { logger } from '@/Utils/logger';
 import InstructorService from '@/Instructor/instructor.dao';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 
 const stripe = new Stripe(STRIPE_PRIVATE_KEY, { apiVersion: '2022-11-15' });
 

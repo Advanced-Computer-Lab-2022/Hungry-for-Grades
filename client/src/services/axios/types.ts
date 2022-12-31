@@ -34,7 +34,7 @@ export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
 export type InstructorRouteType<T extends 'GET' | 'POST' | 'PATCH' | 'DELETE'> =
   typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
-export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
+export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE' | 'PATCH'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];
 
 export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
@@ -89,5 +89,6 @@ export type DELETERoutesType =
 export type PUTRoutesType = CourseRouteType<'PUT'>;
 export type PATCHRoutesType =
   | ReportRouteType<'PATCH'>
-  | InstructorRouteType<'PATCH'>;
+  | InstructorRouteType<'PATCH'>
+  | TraineeRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

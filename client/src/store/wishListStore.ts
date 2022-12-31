@@ -9,7 +9,7 @@ export const useWishListStore = create<
   [['zustand/devtools', never]]
 >(
   devtools((set, get) => ({
-    cart:[],
+    cart: [],
     addCourse: course => {
       //Post axios
       set(state => {
@@ -21,8 +21,7 @@ export const useWishListStore = create<
     removeCourse: _id => {
       //Delete axios
       set(state => {
-        const cart =
-          [...state.cart].filter(item => item !== _id);
+        const cart = [...state.cart].filter(item => item !== _id);
         const totalItems = cart.length;
         return { cart, totalItems };
       });
@@ -37,7 +36,7 @@ export const useWishListStore = create<
     },
     clearCart: () => {
       //here we do empty car for axios
-      set({ cart: [], totalItems:0});
+      set({ cart: [], totalItems: 0 });
     },
     inCart: _id => {
       return [...get().cart].some(item => item === _id);
@@ -47,7 +46,10 @@ export const useWishListStore = create<
   }))
 );
 
+export const UseWishListStore = () => useWishListStore(state => state);
+
 export const UseWishList = () => useWishListStore(state => state.cart);
+
 export const UseWishListInCart = () => useWishListStore(state => state.inCart);
 
 export const UseWishListTotalItems = () =>

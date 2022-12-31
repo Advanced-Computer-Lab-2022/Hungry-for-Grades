@@ -3,12 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './wish-cart-buttons.module.scss';
 
-import {
-  UseCartStoreTotalItems
-} from '@store/cartStore';
-import {
-  UseWishListTotalItems
-} from '@store/wishListStore';
+import { UseCartStoreTotalItems } from '@store/cartStore';
+import { UseWishListTotalItems } from '@store/wishListStore';
 
 import toSmallNumber from '@utils/toSmallNumber';
 
@@ -30,7 +26,6 @@ function WishCartButtons() {
                 +{toSmallNumber(cartCount)}
               </span>
             )}
-
           </p>
         </NavLink>
         <NavLink className='mt-2 p-0' to='/trainee/wishlist'>
@@ -45,7 +40,6 @@ function WishCartButtons() {
                 +{toSmallNumber(wishListCount)}
               </span>
             )}
-
           </p>
         </NavLink>
       </div>

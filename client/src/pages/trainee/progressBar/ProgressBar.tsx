@@ -1,5 +1,7 @@
 import { toast } from 'react-toastify';
 
+import { useNavigate } from 'react-router-dom';
+
 import styles from './ProgressBar.module.scss';
 
 import { toastOptions } from '@/components/toast/options';
@@ -10,12 +12,15 @@ import { UseUser } from '@/store/userStore';
 import { Reason, Status } from '@/interfaces/reports.interface';
 import { Role } from '@/enums/role.enum';
 import { ITrainee } from '@/interfaces/course.interface';
+import ReportForm from '@/components/footer/ReportForm';
 
 export default function ProgressBar(props: {
   completed: number;
   courseID: string;
 }) {
   const user = UseUser();
+
+  const navigate = useNavigate();
 
   const { mutateAsync: submitReport } = usePostQuery();
 
@@ -47,22 +52,31 @@ export default function ProgressBar(props: {
     user?.role.toLocaleLowerCase() == Role.TRAINEE.toLocaleLowerCase() &&
     !(user as ITrainee)?.isCorporate;
 
+  function handleCertificate() {
+    navigate(`../certificate/${props?.courseID}`);
+  }
+
   return (
-    <div className={styles.cover}>
-      <div
-        className={styles.actual}
-        style={
-          {
-            '--rating': props.completed,
-            '--color': color
-          } as React.CSSProperties
-        }
-      />
+    <>
+      <div className={`${styles.cover || ''} d-flex`}>
+        <div
+          className={styles.actual}
+          style={
+            {
+              '--rating': props.completed,
+              '--color': color
+            } as React.CSSProperties
+          }
+        />
+      </div>
       <div style={{ fontSize: '0.8rem', fontWeight: '600', color: '#B2B2B2' }}>
         {props.completed}% Completed
+      </div>
+      <div className='d-flex mt-0'>
         {check && (
           <button
             className={styles.refund}
+            disabled={props.completed <= 50}
             style={{ color: colorRefund }}
             type='button'
             onClick={() => clickSubmit()}
@@ -70,7 +84,30 @@ export default function ProgressBar(props: {
             Ask for Refund
           </button>
         )}
+
+        {props?.completed >= 0 && (
+          <button
+            className={`${styles.refund || ''} m-3`}
+            type='button'
+            onClick={() => handleCertificate()}
+          >
+            Certificate
+          </button>
+        )}
+        <div className={styles.seperator} />
+        <div
+          className='pt-3'
+          style={{
+            marginLeft: '1rem',
+            fontSize: '0.9rem',
+            alignItems: 'center',
+            color: '#A00407',
+            fontWeight: '600'
+          }}
+        >
+          <ReportForm courseID={props.courseID} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

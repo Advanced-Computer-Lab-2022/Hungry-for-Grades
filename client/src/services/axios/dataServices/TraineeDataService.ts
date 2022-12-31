@@ -66,7 +66,7 @@ export const TraineeRoutes = {
   },
   POST: {
     storeNotes: {
-      URL: '/trainee/notes' as const,
+      URL: '',
       params: '',
       query: '',
       payload: {}
@@ -113,7 +113,7 @@ export const TraineeRoutes = {
       payload: {} as object
     },
     addReviewToCourse: {
-      URL: 'courses/rating' as const,
+      URL: 'courses/rating',
       params: '',
       query: '',
       payload: {} as Review
@@ -131,6 +131,12 @@ export const TraineeRoutes = {
       query: '',
       payload: {},
       response: {}
+    },
+    sendCertificateByMail: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   DELETE: {
@@ -141,6 +147,20 @@ export const TraineeRoutes = {
       payload: {}
     },
     removeFromCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    renoveFromWishList: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  PATCH: {
+    updateProfile: {
       URL: '',
       params: '',
       query: '',
@@ -178,9 +198,14 @@ export async function addReviewToCourse(
     return null;
   }
   const newReview = TraineeRoutes.POST.addReviewToCourse;
-  newReview.params = encodeURIComponent(courseId);
+  newReview.URL = `courses/rating/${encodeURIComponent(courseId)}/trainee/${
+    traineeReview._trainee._id
+  }`;
   newReview.payload = traineeReview;
   const res = await postRequest<HttpResponse<Rating>>(newReview);
+  if (res.status === 409) {
+    return null;
+  }
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -261,11 +286,13 @@ export async function addToCart(
   traineeId: string | undefined,
   courseId: string | undefined
 ): Promise<ICourse[] | null> {
-  if(!traineeId || !courseId) {
+  if (!traineeId || !courseId) {
     return null;
   }
   const cart = TraineeRoutes.POST.addToWishlist;
-  cart.URL = `/trainee/${encodeURIComponent(traineeId)}/cart/${encodeURIComponent(courseId)}`;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
   const res = await postRequest<HttpResponse<ICourse[]>>(cart);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
@@ -280,11 +307,13 @@ export async function addToWishlist(
   traineeId: string | undefined,
   courseId: string | undefined
 ): Promise<ICourse[] | null> {
-  if(!traineeId || !courseId) {
+  if (!traineeId || !courseId) {
     return null;
   }
   const wishlist = TraineeRoutes.POST.addToWishlist;
-  wishlist.URL = `/trainee/${encodeURIComponent(traineeId)}/wishlist/${encodeURIComponent(courseId)}`;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
   const res = await postRequest<HttpResponse<ICourse[]>>(wishlist);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
@@ -300,11 +329,13 @@ export async function removeFromCart(
   courseId: string | undefined,
   country: string | undefined
 ): Promise<ICourse[] | null> {
-  if(!traineeId || !courseId || !country) {
+  if (!traineeId || !courseId || !country) {
     return null;
   }
   const cart = TraineeRoutes.DELETE.removeFromWishlist;
-  cart.URL = `/trainee/${encodeURIComponent(traineeId)}/cart/${encodeURIComponent(courseId)}`;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
   cart.query = createQueryString(country);
   const res = await deleteRequest<HttpResponse<ICourse[]>>(cart);
   if (res.statusText !== 'OK') {
@@ -321,11 +352,13 @@ export async function removeFromWishlist(
   courseId: string | undefined,
   country: string | undefined
 ): Promise<ICourse[] | null> {
-  if(!traineeId || !courseId || !country) {
+  if (!traineeId || !courseId || !country) {
     return null;
   }
   const wishlist = TraineeRoutes.DELETE.removeFromWishlist;
-  wishlist.URL = `/trainee/${encodeURIComponent(traineeId)}/wishlist/${encodeURIComponent(courseId)}`;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
   wishlist.query = createQueryString(country);
   const res = await deleteRequest<HttpResponse<ICourse[]>>(wishlist);
   if (res.statusText !== 'OK') {

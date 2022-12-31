@@ -1,4 +1,6 @@
+import { AuthRole } from '@/Authentication/auth.interface';
 import { Routes } from '@/Common/Interfaces/routes.interface';
+import { allowedRoles, authenticateUser } from '@/Middlewares/auth.middleware';
 import { Router } from 'express';
 import PaymentController from './payment.controller';
 
@@ -12,12 +14,18 @@ class PaymentRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post('/checkout/:traineeId', this.paymentController.checkout);
-    this.router.post('/success/:traineeId', this.paymentController.savePayment);
+    this.router.post('/checkout/:traineeId', authenticateUser, allowedRoles([AuthRole.INDIVIDUAL_TRAINEE]), this.paymentController.checkout);
+    this.router.post('/success/:traineeId', authenticateUser, allowedRoles([AuthRole.INDIVIDUAL_TRAINEE]), this.paymentController.savePayment);
+
     this.router.get('/monthly-revenue/:instructorId', this.paymentController.monthlyRevenue);
 
-    this.router.delete('/:paymentId', this.paymentController.deletePayment);
-    this.router.post('/refund/trainee/:traineeId/course/:courseId', this.paymentController.refund);
+    this.router.delete('/:paymentId', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.paymentController.deletePayment);
+    this.router.post(
+      '/refund/trainee/:traineeId/course/:courseId',
+      authenticateUser,
+      allowedRoles([AuthRole.INDIVIDUAL_TRAINEE]),
+      this.paymentController.refund,
+    );
   }
 }
 

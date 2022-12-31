@@ -8,10 +8,13 @@ import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
+
 import { Types } from 'mongoose';
 import path from 'path';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
+;
+
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -387,22 +390,27 @@ class TraineeController {
   };
 
   // send certificate by mail controller
-  public sendCertificate = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
+  public sendCertificate = async (req: Request, res: Response<HttpResponse<any>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
-      const certificateFile = req.files.certificate as UploadedFile;
+
+      const certificatePDFBase64=req.body.certificate;// Base 64 encoded
+
+
+
+      //const certificateFile = req.files.certificate as UploadedFile;
 
       // Assuming certificate is pdf file
-      const filePath = path.join(__dirname, '../Uploads/certificate.pdf');
-      certificateFile.mv(filePath, err => {
-        if (err) {
-          throw new HttpException(500, 'Error sending certificate');
-        }
-      });
+      //const filePath = path.join(__dirname, '../Uploads/certificate.pdf');
+      // certificateFile.mv(filePath, err => {
+      //   if (err) {
+      //     throw new HttpException(500, 'Error sending certificate');
+      //   }
+      // });
 
-      await this.traineeService.sendCertificateByEmail(traineeId, courseId);
+      await this.traineeService.sendCertificateByEmail(traineeId, courseId, certificatePDFBase64);
       res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

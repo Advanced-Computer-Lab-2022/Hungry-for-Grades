@@ -1,13 +1,15 @@
 .fnt-md-b {
-    font-family: udemy sans, -apple-system, BlinkMacSystemFont, Roboto, segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.0125rem;
-    font-size: 1.5rem;
+  font-family: udemy sans, -apple-system, BlinkMacSystemFont, Roboto, segoe ui,
+    Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.0125rem;
+  font-size: 1.3rem;
 }
 .original-price {
-    text-decoration: line-through;
-    color: var(--bs-secodary);
-    margin-left: 0.5rem;
-    font-size: smaller;
+  text-decoration: line-through;
+  color: var(--bs-secodary);
+  margin-left: 0.5rem;
+  font-size: smaller;
 }

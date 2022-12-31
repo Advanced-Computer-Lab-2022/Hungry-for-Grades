@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 
+import { toast } from 'react-toastify';
+
 import { type ConfirmEmailProps } from './types';
 
 import Button from '@/components/buttons/button/Button';
@@ -10,8 +12,8 @@ import { ChangeEvent } from '@/components/common.types';
 import usePostQuery from '@/hooks/usePostQuery';
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
-import { IUser } from '@/interfaces/user.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
+import { toastOptions } from '@/components/toast/options';
 let verifiedCode: string;
 
 function ConfirmEmail({
@@ -23,7 +25,7 @@ function ConfirmEmail({
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
   const { mutateAsync, isError, isSuccess, error } =
-    usePostQuery<HttpResponse<IUser>>();
+    usePostQuery<HttpResponse<string>>();
 
   const [wrongMessage, setWrongMessage] = useState<string>('');
 
@@ -49,16 +51,34 @@ function ConfirmEmail({
   }
 
   useEffect(() => {
+    const id = toast.loading(
+      'Please wait while we send you a code to your email address',
+      toastOptions
+    );
     getVerifiedCode()
       .then(response => {
         console.log('response');
         console.log(response);
-        verifiedCode = `${response?.data as string}`;
+        verifiedCode = `${response?.data}`;
         console.log('verifiedCode');
         console.log(verifiedCode);
+        toast.update(id, {
+          render: 'We sent you a code to your email address',
+          type: 'success',
+          isLoading: false,
+          ...toastOptions
+        });
       })
-      .catch(() => {
+      .catch(err => {
+        toast.update(id, {
+          render: 'unable to send verification code',
+          type: 'error',
+          isLoading: false,
+          ...toastOptions
+        });
+
         console.log('error');
+        console.log(err);
       });
   }, [mutateAsync]);
 
@@ -68,8 +88,10 @@ function ConfirmEmail({
         <div className='alert alert-info'>
           We sent you a code to your
           <a
-            className='link-info text-dark'
+            className='link-secondary text-dark'
             href='https://mail.google.com/mail'
+            rel='noopener noreferrer'
+            target='_blank'
           >
             {' '}
             email address
@@ -84,13 +106,30 @@ function ConfirmEmail({
           href='/'
           onClick={e => {
             setWrongMessage('');
+            const id = toast.loading(
+              'Please wait while we are re-sending you a code to your email address',
+              toastOptions
+            );
             e.preventDefault();
             getVerifiedCode()
               .then(response => {
-                verifiedCode = `${response?.data as string}`;
+                verifiedCode = `${response?.data}`;
+
+                toast.update(id, {
+                  render: 'We sent you a code to your email address',
+                  type: 'success',
+                  isLoading: false,
+                  ...toastOptions
+                });
               })
               .catch(err => {
-                console.log('error');
+                toast.update(id, {
+                  render: 'unable to send verification code',
+                  type: 'error',
+                  isLoading: false,
+                  ...toastOptions
+                });
+
                 console.log(err);
               });
           }}
@@ -125,6 +164,27 @@ function ConfirmEmail({
                   ...code.slice(index + 1)
                 ]);
                 setWrongMessage('');
+              }}
+              // focus on next element
+              onKeyDownFunc={function keyDown(
+                e: React.KeyboardEvent<HTMLInputElement>
+              ) {
+                if (e.key === 'Backspace' && e.target.value === '') {
+                  const prevInput = document.getElementById(
+                    `code-${index * 4 - 4}`
+                  ) as HTMLInputElement;
+                  if (prevInput) {
+                    prevInput.focus();
+                  }
+                }
+                if (e.key === 'ArrowRight' && e.target.value !== '') {
+                  const nextInput = document.getElementById(
+                    `code-${index * 4 + 4}`
+                  ) as HTMLInputElement;
+                  if (nextInput) {
+                    nextInput.focus();
+                  }
+                }
               }}
             />
           </div>

@@ -21,7 +21,13 @@
         height: 3.5rem;
         white-space:nowrap;
         //display: table;
+        
         width:100%;
+}
+
+.container td
+{
+        padding-top:1.2rem;
 }
 
 .container
@@ -79,6 +85,19 @@
     width:5rem;
     text-align: center;
     padding-top: 0.5rem;
+}
+
+.statusUnseen
+{
+    font-weight:500;
+    font-size:0.8rem;
+    background-color:#c1c1c1;
+    color:rgb(63, 63, 63);
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+
 }
 
 .report_description

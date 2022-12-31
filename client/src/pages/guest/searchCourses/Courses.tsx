@@ -28,32 +28,34 @@ function SearchCourses() {
   }
 
   return (
-    <section className={styles.courses__page}>
-      <SearchSection
-        heading='Search For Courses'
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-        subHeading='Find the best courses for you'
-      />
-      <section className={styles.courses__section}>
-        <div className='container'>
-          {isLoading && <LoaderCards numberOfCards={12} />}
-          {error && <div>error</div>}
-          {data && (
-            <>
-              <CoursesSection {...data?.data} />
-              {data?.data?.totalResults > 0 && (
-                <Pagination
-                  activePage={activePage}
-                  pages={data?.data?.totalPages}
-                  setActivePage={setActivePage}
-                />
-              )}
-            </>
-          )}
-        </div>
+    <div className='pb-5'>
+      <section className={`${styles.courses__page ?? ''} `}>
+        <SearchSection
+          heading='Search For Courses'
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          subHeading='Find the best courses for you'
+        />
+        <section className={styles.courses__section}>
+          <div className='container'>
+            {isLoading && <LoaderCards numberOfCards={12} />}
+            {error && <div>error</div>}
+            {data && (
+              <>
+                <CoursesSection {...data?.data} />
+                {data?.data?.totalResults > 0 && (
+                  <Pagination
+                    activePage={activePage}
+                    pages={data?.data?.totalPages}
+                    setActivePage={setActivePage}
+                  />
+                )}
+              </>
+            )}
+          </div>
+        </section>
       </section>
-    </section>
+    </div>
   );
 }
 

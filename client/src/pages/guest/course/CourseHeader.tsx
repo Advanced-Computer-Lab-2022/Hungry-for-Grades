@@ -10,11 +10,14 @@ import { type ICourse } from '@interfaces/course.interface';
 import Instructors from '@/components/courseCard/Instructor';
 import { formatDuration } from '@/utils/duration';
 import useCourseButtons from '@/hooks/useCourseButtons';
+import { addtoWishList } from '@/components/courseCard/cardButtons/buttons';
+import { IUser } from '@/interfaces/user.interface';
 
 function CourseHeader(props: ICourse & { videoClassName: string }) {
   const { requestAccess, viewCourse, addToWishList } = useCourseButtons(
     props._id
   );
+
   return (
     <div className={`py-3 text-light bg-dark rounded-3 mb-3`}>
       <div className='container'>

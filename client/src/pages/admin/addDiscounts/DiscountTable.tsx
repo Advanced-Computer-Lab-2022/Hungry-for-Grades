@@ -45,7 +45,7 @@ export default function DiscountTable(props: {
               width: '1.4rem',
               height: '1.2rem',
               alignItems: 'center',
-              marginTop: '1rem',
+              //here was a marginTop 1rem
               marginLeft: '0.1rem'
             }}
             type='checkbox'

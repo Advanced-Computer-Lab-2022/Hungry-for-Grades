@@ -2,7 +2,7 @@ import { Formik, Form } from 'formik';
 
 import { Modal } from 'react-bootstrap';
 
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 import { advancedSchema } from './ValidationSchema';
@@ -12,6 +12,10 @@ import { UpdateValidation } from './UpdateValidation';
 import { toastOptions } from '@/components/toast/options';
 
 import Input from '@/components/inputs/input/Input';
+import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { postRequest } from '@/services/axios/http-verbs';
+import { CourseDiscount } from '@/interfaces/course.interface';
+import { HttpResponse } from '@/interfaces/response.interface';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -21,6 +25,11 @@ export default function DiscountModal(props: {
   updateFlag: string;
   updateFunc: () => void;
 }) {
+  function handleAll() {
+    props.updateFunc();
+    props.handleClose();
+  }
+
   return (
     <Modal show onHide={props.handleClose}>
       <Modal.Header closeButton>
@@ -32,33 +41,33 @@ export default function DiscountModal(props: {
           validationSchema={
             props.updateFlag != '' ? UpdateValidation : advancedSchema
           }
+          // eslint-disable-next-line sonarjs/cognitive-complexity
           onSubmit={async function (values) {
             const startDatee = new Date();
-            const De: Date | string =
-              values.endDate == '' ? '' : new Date(values.endDate);
-            //alert(De);
-            const per: number = values.percent;
-            //alert(per);
-            //const URL = `${APP_BASE_API_URL}/courses/${props.id}/discount`;
-            //alert(URL);
             if (props.updateFlag == '') {
-              await axios
-                .post(`${APP_BASE_API_URL}/courses/${props.id}/discount`, {
-                  startDate: startDatee,
-                  endDate: De,
-                  percentage: per
-                })
-                .then(_response => {
-                  toast.success(
-                    'Discount is Added Successfully...',
-                    toastOptions
-                  );
-                  console.log(_response);
-                })
-                .catch(_error => {
-                  toast.error('an Error has occurred please try again...');
-                  console.log(_error);
-                });
+              const ddiscount = InstructorRoutes.POST.addDiscount;
+              ddiscount.URL = `/courses/${props.id}/discount`;
+              ddiscount.payload = {
+                startDate: startDatee,
+                endDate: values.endDate,
+                percentage: values.percent
+              };
+              const data = await postRequest<HttpResponse<CourseDiscount[]>>(
+                ddiscount
+              );
+              console.log(data);
+              if (!data?.status) {
+                toast.error(
+                  (
+                    data as unknown as AxiosError<
+                      HttpResponse<CourseDiscount[]>
+                    >
+                  )?.response?.data?.message,
+                  toastOptions
+                );
+              } else {
+                toast.success('Discount is Added Successfully', toastOptions);
+              }
             } else {
               let toBeUpdated = {};
               if (values.endDate != '') {
@@ -78,6 +87,9 @@ export default function DiscountModal(props: {
                 }
               }
               //alert('UPDATE ' + toBeUpdated.endDate + " " + toBeUpdated.percent)
+
+              //here i have my patch request that i want to do
+
               await axios
                 .patch(
                   `${APP_BASE_API_URL}/courses/${props.id}/discount/${props.updateFlag}`,
@@ -94,10 +106,8 @@ export default function DiscountModal(props: {
                   toast.error('an Error has occured...', toastOptions);
                   console.log(_error);
                 });
-              alert('What Happened');
             }
-            props.updateFunc();
-            props.handleClose();
+            handleAll();
           }}
         >
           {formik => (
@@ -107,6 +117,7 @@ export default function DiscountModal(props: {
                 correctMessage={''}
                 errorMessage={formik.errors.endDate}
                 hint={''}
+                id={'enddate-232131232142'}
                 isError={
                   formik.touched.endDate && formik.errors.endDate ? true : null
                 }
@@ -125,6 +136,7 @@ export default function DiscountModal(props: {
                 correctMessage={''}
                 errorMessage={formik.errors.percent}
                 hint={''}
+                id={'percentage-12'}
                 isError={
                   formik.touched.percent && formik.errors.percent ? true : null
                 }

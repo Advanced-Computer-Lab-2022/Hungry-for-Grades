@@ -1,5 +1,3 @@
-
-
 export interface ICartStore {
   cart: string[];
   addCourse: (courseId: string) => void;

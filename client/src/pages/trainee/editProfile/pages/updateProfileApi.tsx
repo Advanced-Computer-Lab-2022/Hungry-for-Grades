@@ -1,9 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+
+import { useQuery } from '@tanstack/react-query';
 
 import { HttpResponse } from '@/interfaces/response.interface';
 import { IInstructor } from '@/interfaces/instructor.interface';
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import { patchRequest } from '@/services/axios/http-verbs';
 
 type EditProfileData = {
   profileImage: string | undefined;
@@ -12,20 +14,37 @@ type EditProfileData = {
   username: string | undefined;
   phone: string | undefined;
 };
+//AxiosResponse<HttpResponse<IInstructor>>
 
 export async function updateProfile(
-  instructorId: string,
-  instructorData: EditProfileData
-): Promise<AxiosResponse<HttpResponse<IInstructor>>> {
+  traineeId: string,
+  traineeData: EditProfileData
+) {
   const data = {
-    profileImage: instructorData.profileImage,
-    name: instructorData.name,
-    email: { address: instructorData.email },
-    phone: instructorData.phone,
-    username: instructorData.username
+    profileImage: traineeData.profileImage,
+    name: traineeData.name,
+    email: { address: traineeData.email },
+    phone: traineeData.phone,
+    username: traineeData.username
   };
-  return axios.patch(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(instructorId)}`,
-    data
+  const trainee = TraineeRoutes.PATCH.updateProfile;
+  trainee.URL = `/trainee/${encodeURIComponent(traineeId)}`;
+  trainee.payload = data;
+  const res = await patchRequest<AxiosResponse<HttpResponse<IInstructor>>>(
+    trainee
   );
+  console.log(res);
+
+  return res;
+}
+
+export default function usePatchQuery(
+  traineeId: string,
+  traineeData: EditProfileData
+) {
+  return {
+    ...useQuery(['updateProfileee', traineeId, traineeData], () =>
+      updateProfile(traineeId, traineeData)
+    )
+  };
 }

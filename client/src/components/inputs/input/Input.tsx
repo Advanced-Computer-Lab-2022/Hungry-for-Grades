@@ -6,7 +6,7 @@ function Input(props: InputProps) {
     <div className={`form-group row ${props.className || ''}`}>
       <label
         className={`${props.isTop ? 'col-sm-4' : ''} col-form-label py-3`}
-        htmlFor={id + `-${props.name}`}
+        htmlFor={id}
       >
         {props.label}
       </label>
@@ -22,7 +22,7 @@ function Input(props: InputProps) {
                 : 'is-valid text-success'
               : ''
           } `}
-          id={id + `-${props.name}`}
+          id={id}
           max={props.max}
           min={props.min}
           name={props.name}
@@ -33,6 +33,7 @@ function Input(props: InputProps) {
           value={props.value}
           onBlur={props.onBlurFunc}
           onChange={props.onChangeFunc}
+          onKeyDown={props.onKeyDownFunc}
         />
 
         <div className='invalid-feedback px-3' id={id}>

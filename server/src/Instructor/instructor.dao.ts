@@ -2,6 +2,7 @@ import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { FrequentlyAskedQuestionDTO } from '@/Course/course.dto';
 import { HttpException } from '@/Exceptions/HttpException';
 import instructorModel from '@/Instructor/instructor.model';
+import { ITrainee } from '@/Trainee/trainee.interface';
 import traineeModel from '@/Trainee/trainee.model';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -72,25 +73,25 @@ class InstructorService {
   }
 
   // add rating to instructor
-  public async addReviewToInstructor(instructorID: string, userReview: Review): Promise<Rating> {
-    if (isEmpty(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor id is empty');
+  public async addReviewToInstructor(instructorID: string, traineeID: string, userReview: Review): Promise<Rating> {
     if (!mongoose.Types.ObjectId.isValid(instructorID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Instructor Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
 
-    const traineeInfo = userReview._trainee;
-    if (!mongoose.Types.ObjectId.isValid(traineeInfo._id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
-    if (!(await traineeModel.findById(traineeInfo._id))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    if (!(await traineeModel.findById(traineeID))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     const instructor = await instructorModel.findById(instructorID);
     if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
 
+    userReview._trainee = traineeID as unknown as ITrainee;
     const totalReviews = instructor.rating.reviews.length;
     const newRating = (instructor.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
     instructor.rating.averageRating = Math.round(newRating * 100) / 100; // round to 2 d.p.
     instructor.rating.reviews.push(userReview);
 
     await instructor.save();
+
     //Get Trainee Info
-    userReview._trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
+    userReview._trainee = await traineeModel.findById(traineeID).select('name country profileImage');
 
     return {
       averageRating: instructor.rating.averageRating,
@@ -160,6 +161,7 @@ class InstructorService {
     const instructor = await instructorModel.findById(instructorID);
     if (!instructor) throw new HttpException(HttpStatusCodes.CONFLICT, "Instructor doesn't exist");
 
+    //console.log("review ", review._trainee);
     const reviewIndex = instructor.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeID);
     if (reviewIndex === -1) return;
 
@@ -218,7 +220,6 @@ class InstructorService {
   // get instructor by username
   public getInstructorByUsername = async (instructorUsername: string): Promise<IInstructor> => {
     if (isEmpty(instructorUsername)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Username is empty');
-
     const instructor: IInstructor = await instructorModel.findOne({ username: instructorUsername }).select('-password');
     return instructor;
   };

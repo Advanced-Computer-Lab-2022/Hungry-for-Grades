@@ -5,6 +5,7 @@ import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
 import { FaPaintBrush } from 'react-icons/fa';
+import { VscReport } from 'react-icons/vsc';
 
 import Dashboard from '@/components/dashboard/Dashboard';
 import MusicPlayer from '@/components/mediaPlayer/Music';
@@ -18,19 +19,19 @@ const corpLinks = {
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <></> }
+  Reports: { path: '/trainee/my-reports', icon: <VscReport /> }
 };
 
 const traineeLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
-  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
+  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
-  Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <></> }
+  Reports: { path: '/trainee/my-reports', icon: <VscReport /> },
+  Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 
 function TraineeDashboard() {

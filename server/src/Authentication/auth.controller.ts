@@ -1,7 +1,7 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
 import { UserDTO, UserLoginDTO } from '@/User/user.dto';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import AuthService from '@Authentication/auth.dao';
@@ -15,7 +15,7 @@ class AuthController {
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: UserDTO = req.body;
-      const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
+      const signUpUserData: IUser = await this.authService.signup(userData, UserRole.TRAINEE);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
@@ -34,7 +34,7 @@ class AuthController {
     res: Response<
       HttpResponse<{
         firstLogin: boolean;
-        role: Role;
+        role: UserRole;
         token: {
           accessToken: string;
           refreshToken: string;
@@ -111,7 +111,9 @@ class AuthController {
   public forgetPassword = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
     try {
       const { email } = req.body;
-      await this.authService.sendResetPasswordEmail(email);
+      const {cookie}=await this.authService.sendResetPasswordEmail(email);
+      res.cookie(cookie.name, cookie.value, cookie.options);
+      
       res.status(HttpStatusCodes.CREATED).json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
@@ -130,10 +132,14 @@ class AuthController {
   };
 
   // Change Password
-  public changePassword = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
+  public changePassword = async (req: RequestWithTokenPayload, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
     try {
-      const { _id, role, oldPassword, newPassword } = req.body;
-      const user = await this.authService.changePassword(_id, role, oldPassword, newPassword);
+      const { oldPassword, newPassword } = req.body; 
+      // old Password only if isReset=false 
+      const isReset=(req.query.isReset as string)==='true'; 
+    
+      const {_id,role}=req.tokenPayload;
+      const user = await this.authService.changePassword(_id.toString()??'', role, oldPassword, newPassword, isReset);
       res.status(HttpStatusCodes.CREATED).json({ data: user, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

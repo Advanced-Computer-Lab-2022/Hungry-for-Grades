@@ -2,11 +2,19 @@ import { postRequest } from '../http-verbs';
 
 import { Report, ReportDTO } from '@/interfaces/reports.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
+import { AxiosResponse } from 'axios';
 
 export const ReportDataService = {
   GET: {
     getReports: {
       URL: '/report/' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    },
+    getReportById: {
+      URL: '',
       params: '',
       query: '',
       payload: {},
@@ -49,7 +57,7 @@ export const ReportDataService = {
 
 export async function requestCourse(
   reportData: ReportDTO
-): Promise<Report | null> {
+): Promise<AxiosResponse<HttpResponse<Report>, any> | null> {
   if (!reportData) {
     return null;
   }
@@ -62,5 +70,5 @@ export async function requestCourse(
   if (!res.data.success) {
     throw new Error(`server returned error ${res.data.message}`);
   }
-  return res.data?.data;
+  return res;
 }

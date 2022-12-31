@@ -4,7 +4,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { RiDashboardFill } from 'react-icons/ri';
 
@@ -18,6 +18,7 @@ import { postRequest } from '@/services/axios/http-verbs';
 import { removeInfo } from '@/services/savedInfo/SavedInfo';
 import { UseUser, UseUserStoreLogOut } from '@store/userStore';
 import { Role } from '@/enums/role.enum';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 function MenuHeadersExample() {
   const [show, setShow] = useState<boolean>(false);
   const target = useRef(null);
@@ -31,19 +32,23 @@ function MenuHeadersExample() {
         user.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() &&
         useTraineeNoteStoreNotes !== null
       ) {
+        LocalStorage.set('loggingOut', 'true');
         const storeNotes = Object.assign({}, TraineeRoutes.POST.storeNotes);
         storeNotes.payload = {
           notes: useTraineeNoteStoreNotes
         };
+        storeNotes.URL = `trainee/${user._id}/notes`;
         await postRequest(storeNotes);
       }
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
       await postRequest(AuthRoutes.POST.logout);
     } catch (e) {
       console.log(e);
     }
-    removeInfo();
-    useUserStoreLogOut();
-    useNavigate()('/auth/login', { replace: true });
   }
   return (
     user && (
@@ -117,8 +122,12 @@ function MenuHeadersExample() {
                     fontWeight: 'normal'
                   }}
                   type='button'
-                  onClick={async function x() {
+                  onClick={async function () {
                     await logout();
+                    removeInfo();
+                    useUserStoreLogOut();
+                    removeInfo();
+                    LocalStorage.set('loggingOut', 'false');
                   }}
                 >
                   <FiLogOut className={styles.nav__icon} /> Log Out

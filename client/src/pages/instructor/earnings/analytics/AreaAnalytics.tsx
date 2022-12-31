@@ -1,5 +1,20 @@
 import AreaGraph from '@/components/graphs/areaGraph/AreaGraph';
 
+const Months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 type EarningsAnalytics = {
   data: number[];
 };
@@ -16,7 +31,7 @@ export function AreaAnalytics(props: EarningsAnalytics) {
     }>
       data={props?.data.map((data, index) => {
         return {
-          title: `Month ${index + 1}`,
+          title: `${Months[index] || ''}`,
           Earnings: data
         };
       })}

@@ -21,6 +21,7 @@ import categories from '@Course/category.json';
 import traineeModel from '@/Trainee/trainee.model';
 import TraineeService from '@/Trainee/trainee.dao';
 import { logger } from '@/Utils/logger';
+import { ITrainee } from '@/Trainee/trainee.interface';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -321,21 +322,23 @@ class CourseService {
     return categoryList;
   };
 
-  public addReviewToCourse = async (courseId: string, userReview: Review): Promise<Rating> => {
+  public addReviewToCourse = async (courseId: string, traineeId: string, userReview: Review): Promise<Rating> => {
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
-    const traineeInfo = userReview._trainee;
-    if (!mongoose.Types.ObjectId.isValid(traineeInfo._id)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
-    const trainee = await traineeModel.findById(traineeInfo._id).select('name country profileImage');
+    if (!(await traineeModel.findById(traineeId))) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const trainee = await traineeModel.findById(traineeId).select('name country profileImage');
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User does not exist');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
 
     // check if the user already reviewed the course
-    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeInfo._id.toString());
-    if (!userReviewIndex) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
+    const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeId);
+    if (userReviewIndex) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
 
+    userReview._trainee = traineeId as unknown as ITrainee;
     const totalReviews = course.rating.reviews.length;
     const newRating = (course.rating.averageRating * totalReviews + userReview.rating) / (totalReviews + 1);
     course.rating.averageRating = Math.round(newRating * 100) / 100;
@@ -844,10 +847,10 @@ class CourseService {
     return lesson;
   }
   // get lesson by id
-  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<Lesson> {
+  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<any> {
     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
-    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseID);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
@@ -859,10 +862,19 @@ class CourseService {
     if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
 
     const traineeService = new TraineeService();
-    await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID);
+    const updatedProgress=await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID)??0;
     await traineeService.markLastVisitedCourse(userID, courseID);
 
-    return lesson;
+    const result:any={
+      _id:lesson._id,
+      description:lesson.description,
+      title:lesson.title,
+      duration:lesson.duration,
+      videoURL:lesson.videoURL,
+      progress:updatedProgress,
+    };
+    
+    return result;
   }
 
   // get exercise by id

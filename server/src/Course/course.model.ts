@@ -39,7 +39,6 @@ const courseSchema = new Schema<ICourse>(
     },
     description: requiredString,
     duration: {
-      required: true,
       type: Number,
     },
     exam: [

@@ -29,4 +29,5 @@ export interface IInstructor extends IUser {
     address: string;
     isValidated: boolean;
   };
+  totalReviews: number;
 }

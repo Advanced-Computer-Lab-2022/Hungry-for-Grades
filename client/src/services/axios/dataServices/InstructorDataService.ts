@@ -43,11 +43,7 @@ export const InstructorRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: {
-        startDate: '',
-        endDate: '',
-        percentage: 0
-      }
+      payload: {}
     },
     changePassword: {
       URL: '/change-password' as const,
@@ -62,7 +58,7 @@ export const InstructorRoutes = {
       payload: {}
     },
     userAddReview: {
-      URL: '/instructor/rating/',
+      URL: '',
       params: '',
       query: '',
       payload: {}
@@ -71,6 +67,12 @@ export const InstructorRoutes = {
   PATCH: {
     userUpdateReview: {
       URL: '/instructor/rating/',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    updateDiscount: {
+      URL: '',
       params: '',
       query: '',
       payload: {}

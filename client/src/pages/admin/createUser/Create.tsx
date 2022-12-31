@@ -6,6 +6,12 @@ import { toast } from 'react-toastify';
 
 import '@pages/instructor/coursesData/nav-button.scss';
 
+import { RiAdminFill } from 'react-icons/ri';
+
+import { GiTeacher } from 'react-icons/gi';
+
+import { MdSchool } from 'react-icons/md';
+
 import { ValidationSchema } from '@pages/admin/createUser/ValidationSchema';
 
 import { AdminRoutes } from '@/services/axios/dataServices/AdminDataService';
@@ -14,6 +20,11 @@ import usePostQuery from '@/hooks/usePostQuery';
 
 import { toastOptions } from '@/components/toast/options';
 import Input from '@/components/inputs/input/Input';
+
+const style = {
+  fontSize: '1.1rem',
+  marginLeft: '0.2rem'
+};
 
 export default function Create() {
   const { mutateAsync: createUser } = usePostQuery();
@@ -179,24 +190,11 @@ export default function Create() {
             <div className={` card card-cascade rounded bg-light shadow`}>
               <div className={`p-4 `}>
                 <div
-                  className='container d-flex flex-row justify-content-center mb-4'
+                  className='container d-flex justify-content-center mb-4'
                   style={{
                     width: '32rem'
                   }}
                 >
-                  <button
-                    className={`navButton ${
-                      chosenTab === 'Instructor' ? 'activeNavButton' : ''
-                    }`}
-                    id='Create_ChooseInstructorTab'
-                    type='button'
-                    onClick={() => {
-                      setChosenTab('Instructor');
-                      formik.resetForm();
-                    }}
-                  >
-                    Instructor
-                  </button>
                   <button
                     className={`navButton ${
                       chosenTab === 'Corporate' ? 'activeNavButton' : ''
@@ -209,6 +207,21 @@ export default function Create() {
                     }}
                   >
                     Corporate Trainee
+                    <MdSchool style={style} />
+                  </button>
+                  <button
+                    className={`navButton ${
+                      chosenTab === 'Instructor' ? 'activeNavButton' : ''
+                    }`}
+                    id='Create_ChooseInstructorTab'
+                    type='button'
+                    onClick={() => {
+                      setChosenTab('Instructor');
+                      formik.resetForm();
+                    }}
+                  >
+                    Instructor
+                    <GiTeacher style={style} />
                   </button>
                   <button
                     className={`navButton ${
@@ -222,6 +235,7 @@ export default function Create() {
                     }}
                   >
                     Admin
+                    <RiAdminFill style={style} />
                   </button>
                 </div>
                 <div className='container'>
@@ -376,9 +390,6 @@ export default function Create() {
                   </div>
                 </div>
               </div>
-              {/*                 <div className={styles.sub_cont}>
-                  <div className={styles.img} />
-                </div> */}
             </div>
           </div>
         </Form>

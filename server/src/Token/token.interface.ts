@@ -1,4 +1,5 @@
-import { Role } from '@/User/user.enum';
+import { AuthRole } from '@/Authentication/auth.interface';
+import { UserRole } from '@/User/user.enum';
 import { type Document, Schema, Types } from 'mongoose';
 
 export interface IToken extends Document {
@@ -9,7 +10,7 @@ export interface IToken extends Document {
 
 export interface ITokenPayload {
   _id: Types.ObjectId;
-  role: Role;
+  role: AuthRole;
 }
 
 export interface ITokenService {

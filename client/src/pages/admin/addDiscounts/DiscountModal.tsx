@@ -33,11 +33,8 @@ export default function DiscountModal(props: {
             const startDatee = new Date();
             const De: Date | string =
               values.endDate == '' ? '' : new Date(values.endDate);
-            //alert(De);
             const per: number = values.percent;
-            //alert(per);
             //const URL = `${APP_BASE_API_URL}/courses/${props.id}/discount`;
-            //alert(URL);
 
             for (let i = 0; i < arr?.length; ++i) {
               await axios.post(

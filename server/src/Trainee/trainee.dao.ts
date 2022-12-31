@@ -1,5 +1,5 @@
 import { HttpException } from '@/Exceptions/HttpException';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
@@ -95,7 +95,7 @@ class TraineeService {
   public addIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
     if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
-    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
+    const createdTrainee = await this.authService.signup(traineeData, UserRole.TRAINEE);
     return createdTrainee;
   };
 
@@ -431,7 +431,7 @@ class TraineeService {
   };
 
   // Updates trainee's progress in a course only if trainee is enrolled in that course
-  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<void> => {
+  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<number> => {
     const course = await this.courseService.getCourseById(courseId);
 
     //get total number of lessons in course
@@ -454,8 +454,10 @@ class TraineeService {
     // Update Progress for Student in enrolled course
     enrolledCourse.progress = (enrolledCourse._visitedLessons.length / totalLessonsCount) * 100;
     enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
+   
 
     await trainee.save();
+    return enrolledCourse.progress;
   };
 
   public markLastVisitedCourse = async (traineeId: string, courseId: string): Promise<void> => {
@@ -522,8 +524,7 @@ class TraineeService {
     const submittedQuestionIndex = enrolledCourse._submittedQuestions.findIndex(
       submittedQuestion => submittedQuestion._questionId.toString() == questionId,
     );
-
-    console.log(`submitted question Index ${submittedQuestionIndex}`);
+    
     if (submittedQuestionIndex >= 0) {
       enrolledCourse._submittedQuestions.splice(submittedQuestionIndex, 1);
     }
@@ -639,13 +640,25 @@ class TraineeService {
   };
 
   // send certificate by email
-  public sendCertificateByEmail = async (traineeId: string, courseId: string): Promise<void> => {
+  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF:string): Promise<void> => {
     const trainee = await traineeModel.findById(traineeId);
 
     const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
-    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+    //if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
 
-    await sendCertificateEmail(trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
+    await sendCertificateEmail(certificatePDF,trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;
+
+/*
+
+Object : UserID COurseID Q A
+GET : 
+API : Ask userID, CourseID Q POST A ""
+API : Answer PATCH COURSEID USERID A --> asjifaskjf
+
+
+
+
+*/

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './Cart.module.scss';
 
 import MoveButtons from './MoveButtons';
@@ -71,7 +72,7 @@ export default function Cart() {
   const { mutateAsync: submitPayWithCard } = usePostQuery();
 
   const { isLoading, data, isError, error } = useQuery(
-    ['ASJLHFXYZZ', con, whenDeleteCourse, location, activePage],
+    ['ASJLHFXYZZZZZZ', con, whenDeleteCourse, location, activePage],
     () => getCart(con, activePage, user as IUser),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -80,7 +81,9 @@ export default function Cart() {
   );
 
   const [isHavingLessBalance, setIsHavingLessBalance] = useState(false);
-
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
   if (isError || error) {
     return (
       <ErrorMessage
@@ -107,10 +110,6 @@ export default function Cart() {
 
   function updateActiveOnDelete() {
     if (activePage > 1) setActivePage(activePage - 1);
-  }
-
-  if (isLoading) {
-    return <LoaderComponent />;
   }
 
   const cart = data?.data?.data;
@@ -146,7 +145,7 @@ export default function Cart() {
       course?.price?.discounts
     );
     currency = course?.price?.currency;
-    totalOldd += oldd == undefined ? 0 : oldd;
+    totalOldd += oldd == undefined ? course?.price?.currentValue : oldd;
     total += course?.price?.currentValue;
     return (
       <>
@@ -223,59 +222,70 @@ export default function Cart() {
   const fontFamily = 'Arial, Helvetica, sans-serif';
   if (data?.data?.totalResults == 0) {
     return (
-			<div style={{
-				backgroundColor: '#f8f9fa'
-			}}>
-      <div className='container text-center py-5' >
-        <div
-          className='mb-2'
-          style={{
-            fontFamily: fontFamily,
-            fontWeight: '600',
-            fontSize: '1.3rem'
-          }}
-        >
-          Your cart is empty.
+      <div
+        style={{
+          backgroundColor: '#f8f9fa'
+        }}
+      >
+        <div className='container text-center py-5'>
+          <div
+            className='mb-2'
+            style={{
+              fontFamily: fontFamily,
+              fontWeight: '600',
+              fontSize: '1.3rem'
+            }}
+          >
+            Your cart is empty.
+          </div>
+          <div
+            style={{
+              fontFamily: fontFamily
+            }}
+          >
+            Keep shopping to find the right course for you.
+          </div>
+          <button
+            className='btn btn-primary mt-3'
+            style={{
+              fontFamily: fontFamily
+            }}
+            type='submit'
+            onClick={handleSubmit}
+          >
+            Keep shopping
+          </button>
         </div>
-        <div
-          style={{
-            fontFamily: fontFamily
-          }}
-        >
-          Keep shopping to find the right course for you.
-        </div>
-        <button
-          className='btn btn-primary mt-3'
-          style={{
-            fontFamily: fontFamily
-          }}
-          type='submit'
-          onClick={handleSubmit}
-        >
-          Keep shopping
-        </button>
       </div>
-			</div>
     );
   }
 
   return (
-    <section className={`${styles.shopping_cart ?? ''} py-3`} style={{
-			backgroundColor: '#f8f9fa'
-		}}>
+    <section
+      className={`${styles.shopping_cart ?? ''} py-5`}
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <div className='container'>
-        <div className={styles.block_heading}>
-          <h2>{data?.data?.totalResults} Courses in your Cart</h2>
-        </div>
+        <h2 className='text-dark text-left mb-4 mt-2 ml-5'>
+          {' '}
+          {data?.data?.totalResults} Course
+          {data?.data?.totalResults > 1 ? 's' : ''} in the cart
+        </h2>
+
         <div className={styles.content}>
           <div className='row'>
             <div className='col-md-12 col-lg-8'>
               <div className={styles.items}>{toShow} </div>
-              <Pagination
-                activePage={activePage}
-                pages={data?.data?.totalPages}
-                setActivePage={setActivePage}
-              />
+              {data?.data?.totalPages != undefined &&
+                data?.data?.totalPages > 1 && (
+                  <Pagination
+                    activePage={activePage}
+                    pages={data?.data?.totalPages}
+                    setActivePage={setActivePage}
+                  />
+                )}
             </div>
             <div className='col-md-12 col-lg-4'>
               <div className={styles.summary}>

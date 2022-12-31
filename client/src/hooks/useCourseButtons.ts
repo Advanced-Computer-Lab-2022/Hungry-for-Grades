@@ -17,6 +17,7 @@ import { UseCountry } from '@/store/countryStore';
 import { useUserStore } from '@/store/userStore';
 import { Reason, ReportDTO, Status } from '@/interfaces/reports.interface';
 import { requestCourse } from '@/services/axios/dataServices/ReportDataService';
+import { toastOptions } from '@/components/toast/options';
 
 export default function (courseid: string) {
   const userStore = useUserStore();
@@ -113,13 +114,18 @@ export default function (courseid: string) {
             _user: user._id,
             description: '',
             reason: Reason.COUSE_REQUEST,
-            status: Status.PENDING
+            status: Status.UNSEEN
           };
           const res = await requestCourse(reportData);
-          if (res) {
-            toast('Request access submitted successfully');
+
+          console.log(res);
+          if (res?.status) {
+            toast.success(
+              'Request access submitted successfully',
+              toastOptions
+            );
           } else {
-            toast('You have already requested');
+            toast.error('Unsuccessful Request', toastOptions);
           }
         }
       : undefined;

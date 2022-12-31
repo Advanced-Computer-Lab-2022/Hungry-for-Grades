@@ -26,6 +26,7 @@ import usePatchQuery from '@/hooks/usePatchQuery';
 import { toastOptions } from '@/components/toast/options';
 
 import Filter from '@pages/admin/adminTable/Filter';
+import Pagination from '@/components/pagination/Pagination';
 
 export default function CourseRequest() {
   const [set, setSet] = useState(new Set());
@@ -47,7 +48,7 @@ export default function CourseRequest() {
   const [filterV1, setFilterV1] = useState<string>('All');
 
   const f1: FilterElement = {
-    values: ['Resolved', 'Pending', 'Rejected', 'All'],
+    values: ['Resolved', 'Pending', 'Rejected', 'Unseen', 'All'],
     setValue: setFilterV1,
     actualValue: filterV1,
     title: 'Status'
@@ -55,7 +56,10 @@ export default function CourseRequest() {
 
   const filters: FilterAdmin = { att: [f1] };
 
-  const { data, isLoading } = useReqQuery(update, filterV1);
+  const { data, isLoading, activePage, setActivePage } = useReqQuery(
+    update,
+    filterV1
+  );
 
   const { mutateAsync: updateReport } = usePatchQuery();
 
@@ -64,6 +68,8 @@ export default function CourseRequest() {
   }
 
   const arr = data?.data?.data;
+
+  console.log(arr);
 
   function test() {
     setVisible(!visible);
@@ -92,7 +98,7 @@ export default function CourseRequest() {
   return (
     <>
       <div
-			className='py-5'
+        className='py-5'
         style={{ backgroundColor: '#F5F7F8', width: '100%', height: '100%' }}
       >
         <div
@@ -110,6 +116,7 @@ export default function CourseRequest() {
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
             ref={target}
+            disabled={set?.size == 0}
             style={{
               backgroundColor: '#A00407',
               color: 'white',
@@ -155,13 +162,21 @@ export default function CourseRequest() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <AdminTable
-            data={arr as AllReport[]}
+            data={arr as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
             num={update}
             st={set as Set<AllReport>}
             updateTable={setUpdate}
           />
+          {data?.data?.totalPages != undefined &&
+            data?.data?.totalPages > 1 && (
+              <Pagination
+                activePage={activePage}
+                pages={data?.data?.totalPages}
+                setActivePage={setActivePage}
+              />
+            )}
         </div>
       </div>
     </>

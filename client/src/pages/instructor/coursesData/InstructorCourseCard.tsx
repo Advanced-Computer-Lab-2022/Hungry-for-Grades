@@ -16,6 +16,7 @@ import { formatCurrency } from '@/utils/currency';
 import { deleteCourse } from '@/services/axios/dataServices/CoursesDataService';
 import { CourseDiscount } from '@/interfaces/course.interface';
 import { ITeachedCourse } from '@/interfaces/instructor.interface';
+import ShareButton from '@/components/buttons/shareButton/ShareButton';
 
 function getOriginalPrice(
   price: number,
@@ -127,7 +128,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
               </div>
             </div>
           </div>
-          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <hr className={styles.hr} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div className={styles.partOne}>Enrolled students</div>
@@ -152,7 +153,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
               </div>
             </div>
           </div>
-          <hr className={styles.hr} style={{ top: '-0.1875rem' }} />
+          <hr className={styles.hr} />
           <div className={`col ${styles.altCol || ''}`}>
             <div className={styles.sec}>
               <div
@@ -180,13 +181,8 @@ function InstructorCourseCard(props: ITeachedCourse) {
             Discounts
           </button>
         </Link>
-        <a
-          className='btn btn-primary btn-lg'
-          href={'https://www.linkedin.com/feed/'}
-        >
-          Share
-          <BsShareFill />
-        </a>
+
+        <ShareButton link={`course/${courseId}`} />
         <Link
           className='btn btn-primary btn-lg'
           to={`/instructor/edit-course/${data?._id}`}

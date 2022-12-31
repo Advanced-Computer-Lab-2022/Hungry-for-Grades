@@ -29,6 +29,7 @@ import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 import { toastOptions } from '@/components/toast/options';
 import { UseTraineeNoteStoreSetNotes } from '@/store/noteStore';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
@@ -71,9 +72,11 @@ function Login() {
       const response = await login(loginRoute);
 
       if (response && response.status === 200) {
-        const { token, user, role } = response?.data?.data;
+        const { token, user, role, firstLogin } = response?.data?.data;
         const userRole: Role = role.toLocaleLowerCase() as Role;
         useSetUser({ ...user, role: userRole });
+        LocalStorage.set('firstLogin', firstLogin);
+
         if (role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()) {
           useCartStoreSetCart((user as ITrainee)?._cart);
           useWishListSetCart((user as ITrainee)?._wishlist);
@@ -145,7 +148,7 @@ function Login() {
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
               />,
-              <Input
+              <PasswordInput
                 key={'password-1'}
                 correctMessage={''}
                 errorMessage={formik.errors.password as string}

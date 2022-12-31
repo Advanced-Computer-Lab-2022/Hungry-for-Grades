@@ -24,6 +24,9 @@ export default function PaymentAccepted() {
     searchParams.get('walletUsed') as string
   );
 
+  console.log('El Data ahy');
+  console.log(data);
+
   if (isError) return <PaymentFailed />;
 
   if (isLoading) {
@@ -40,7 +43,7 @@ export default function PaymentAccepted() {
       </div>
       <div className={styles.success_text}>Payment Successful!</div>
       <div className={styles.transaction_text}>
-        Transaction Id:&nbsp;{data.data._id}
+        Transaction Id:&nbsp;{data?.data?._id}
       </div>
       <hr className='my-4' />
       <div className='d-flex justify-content-between'>
