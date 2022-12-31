@@ -11,6 +11,8 @@ import useSearchQueryCourse from './useSearchQueryCourse';
 import { formatDuration } from '@/utils/duration';
 import ErrorMessage from '@components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
+import usePostQuery from '@/hooks/usePostQuery';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -29,6 +31,8 @@ export default function CertificateGenerator() {
 
   const img = document.createElement('img');
   img.src = '/Certificate.png';
+
+  const {mutateAsync : sendMail} = usePostQuery();
 
   useEffect(() => {
     if (!isLoading && verifiedCourseData) {
@@ -123,6 +127,35 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('certificate.pdf');
   };
+
+  async function sendOnMail()
+  {
+
+    const pdf : jsPDF = new jsPDF({
+      orientation: 'landscape',
+      unit: 'cm',
+      format: [29.7, 21]
+    });
+
+    const imgProperties = pdf.getImageProperties(imageURL);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    const tmp = pdf.output('datauristring');
+    
+    const mail = TraineeRoutes.POST.sendCertificateByMail;
+
+    //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
+    mail.URL = `/trainee/${traineeData?._id as string}/course/${courseId as string}/certificate`;
+    
+    mail.payload={certificate: tmp}
+
+    const { data } = await sendMail(mail);
+
+    console.log(data);
+  }
+
   if (isError) return <ErrorMessage />;
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -213,8 +246,12 @@ export default function CertificateGenerator() {
             >
               Download
             </button>
-            <button className='btn btn-primary' type='submit'>
+            <button className='btn btn-primary me-2' type='submit'>
               Share
+            </button>
+            <button className='btn btn-primary' type='submit'
+            onClick={()=>sendOnMail()}>
+              Send by Mail
             </button>
           </div>
         </div>

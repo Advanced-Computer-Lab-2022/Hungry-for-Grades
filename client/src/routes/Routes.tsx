@@ -157,6 +157,8 @@ const LazyAdminCourseDiscounts = lazy(
 );
 
 const LazyAdminRefunds = lazy(() => import('@/pages/admin/refunds/Refund'));
+
+const LazyChat = lazy(() => import('@/pages/trainee/followUps/FollowUp'));
 /*const LazyContact=lazy(()=> import('../contact/Contact'));
 const LazySkills=lazy(()=> import('../skills/Skills'));
  */
@@ -182,6 +184,7 @@ const roles = ['/trainee/', '/admin/', '/instructor/'];
 
 function AllRoutes() {
   return (
+
     <Routes>
       {/* Authentication Routes  */}
       <Route element={<AuthRoutes />} path='/auth'>
@@ -239,6 +242,7 @@ function AllRoutes() {
               element={<LazyTraineeEnrolledCourses />}
               path='enrolled-courses'
             />
+            <Route element={<LazyChat />} path='followup/:reportId' />
             <Route element={<LazyTraineeLastStudied />} path='dashboard' />
             <Route element={<LazyUserProfile />} path='profile' />
 
@@ -281,6 +285,7 @@ function AllRoutes() {
               element={<LazyInstructorEarnings />}
               path='dashboard'
             />
+            <Route element={<LazyChat />} path='followup/:reportId' />
             <Route
               element={<LazyInstructorCoursesSection />}
               path='my-courses'
@@ -316,6 +321,7 @@ function AllRoutes() {
               }
               path='dashboard'
             />
+            <Route element={<LazyChat />} path='followup/:reportId' />
             <Route element={<LazyAdduser />} path='create-user' />
             <Route element={<LazyAdminReports />} path='reports' />
             <Route element={<LazyAdminNewsLetter />} path='newsletter' />

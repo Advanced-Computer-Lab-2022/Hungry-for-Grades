@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { getRequest } from '@/services/axios/http-verbs';
-import { HttpResponse } from '@/interfaces/response.interface';
+import {  PaginatedResponse } from '@/interfaces/response.interface';
 import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { AllReport } from '@/interfaces/reports.interface';
@@ -12,7 +12,7 @@ async function getReports(activePage: number, user: IUser) {
 
   Reports.query = `page=${activePage}&limit=${10}&_user=${user?._id}`;
 
-  return getRequest<HttpResponse<AllReport[]>>(Reports);
+  return getRequest<PaginatedResponse<AllReport[]>>(Reports);
 }
 const useCoursesQuery = (user: IUser) => {
   const [activePage, setActivePage] = useState<number>(1);
