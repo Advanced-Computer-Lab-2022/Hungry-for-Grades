@@ -14,6 +14,8 @@ import { UseUser } from '@/store/userStore';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import { toast } from 'react-toastify';
+import { toastOptions } from '@/components/toast/options';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -152,9 +154,12 @@ export default function CertificateGenerator() {
 
     mail.payload={certificate: tmp}
 
-    const { data } = await sendMail(mail);
+    await toast.promise(  sendMail(mail),{
+			loading: 'Sending Certificate',
+			success: 'Certificate Sent',
+			error: 'Error Sending Certificate'
+		},toastOptions);
 
-    console.log(data);
   }
 
   if (isError) return <ErrorMessage />;
