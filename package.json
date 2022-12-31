@@ -31,6 +31,7 @@
   "dependencies": {
     "@types/prop-types": "^15.7.5",
     "country-flag-icons": "^1.5.5",
+    "pdfkit": "^0.13.0",
     "react-country-flag": "^3.0.2",
     "react-datepicker": "^4.8.0",
     "stripe": "^11.1.0"

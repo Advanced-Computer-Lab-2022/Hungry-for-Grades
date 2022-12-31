@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { toast } from 'react-toastify';
 
+import { useLocation } from 'react-router-dom';
+
 import AddReview from './AddReview';
 
 import { UseUser } from '@/store/userStore';
@@ -43,8 +45,10 @@ export default function ReviewSection(props: { instructrID: string }) {
     setShowForm(false);
   }
 
+  const locationn = useLocation();
+
   const { data, isLoading, isError, error } = useQuery(
-    ['person-get-my-instructor-reviewwwww', location, update],
+    ['person-get-my-instructor-reviewwwww', locationn, update],
     () => getMyReview(user?._id as string, props?.instructrID),
     {
       cacheTime: 1000 * 60 * 60 * 24,

@@ -8,10 +8,14 @@ import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
+import jsPDF from 'jspdf';
 import { Types } from 'mongoose';
 import path from 'path';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
+
+import fs from 'fs';
+import PDFDocument from 'pdfkit';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -387,12 +391,15 @@ class TraineeController {
   };
 
   // send certificate by mail controller
-  public sendCertificate = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
+  public sendCertificate = async (req: Request, res: Response<HttpResponse<any>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
+
       const certificatePDFBase64=req.body.certificate;// Base 64 encoded
+
+
 
       //const certificateFile = req.files.certificate as UploadedFile;
 
