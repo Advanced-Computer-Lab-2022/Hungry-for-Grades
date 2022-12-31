@@ -97,7 +97,7 @@ function CourseCard(courseProps: {
 
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
-      <Tooltip {...ps}>
+      <Tooltip {...ps}  >
         <CourseCardOverlay {...props} />
       </Tooltip>
     );
@@ -105,7 +105,7 @@ function CourseCard(courseProps: {
 
   return (
     <>
-      <OverlayTrigger overlay={renderCouseCardOverlay} placement='auto'>
+      <OverlayTrigger overlay={renderCouseCardOverlay}  placement='auto'>
         <article
           className={`${
             styles.course__card ?? ''
