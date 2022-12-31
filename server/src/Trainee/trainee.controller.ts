@@ -392,17 +392,20 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
-      const certificateFile = req.files.certificate as UploadedFile;
+      const certificatePDFBase64=req.body.certificate;// Base 64 encoded
+      console.log(certificatePDFBase64);
+
+      //const certificateFile = req.files.certificate as UploadedFile;
 
       // Assuming certificate is pdf file
-      const filePath = path.join(__dirname, '../Uploads/certificate.pdf');
-      certificateFile.mv(filePath, err => {
-        if (err) {
-          throw new HttpException(500, 'Error sending certificate');
-        }
-      });
+      //const filePath = path.join(__dirname, '../Uploads/certificate.pdf');
+      // certificateFile.mv(filePath, err => {
+      //   if (err) {
+      //     throw new HttpException(500, 'Error sending certificate');
+      //   }
+      // });
 
-      await this.traineeService.sendCertificateByEmail(traineeId, courseId);
+      await this.traineeService.sendCertificateByEmail(traineeId, courseId, certificatePDFBase64);
       res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

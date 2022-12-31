@@ -86,7 +86,7 @@ class App {
     this.app.use(helmet());
     this.app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
     this.app.use(compression());
-    this.app.use(express.json());
+    this.app.use(express.json({ limit: '5mb'}));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
     this.app.use('/assets', express.static(path.join(__dirname, 'public/assets')));

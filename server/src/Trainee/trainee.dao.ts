@@ -639,13 +639,13 @@ class TraineeService {
   };
 
   // send certificate by email
-  public sendCertificateByEmail = async (traineeId: string, courseId: string): Promise<void> => {
+  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF:string): Promise<void> => {
     const trainee = await traineeModel.findById(traineeId);
 
     const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
-    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+    //if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
 
-    await sendCertificateEmail(trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
+    await sendCertificateEmail(certificatePDF,trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;
