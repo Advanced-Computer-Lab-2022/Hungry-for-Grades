@@ -123,9 +123,14 @@ const LazyInstructorDashboard = lazy(
 const LazyInstructorEarnings = lazy(
   () => import('@/pages/instructor/earnings/InstructorEarningsAnalytics')
 );
+
+
 /**
  * Admin Pages
  */
+const LazyAdminHome = lazy(
+  () => import('@/pages/admin/home/Home')
+);
 const LazyAdduser = lazy(() => import('@/pages/admin/createUser/Create'));
 const LazyAdminNewsLetter = lazy(() => import('@/pages/admin/newsletter/Newsletter'));
 const LazyDiscounts = lazy(
@@ -298,7 +303,7 @@ function AllRoutes() {
           <Route element={<LazyAdminDashboard />}>
             <Route
               element={
-                <iframe
+              /*   <iframe
                   allow='fullscreen'
                   height='90%'
                   sandbox='allow-forms allow-modals allow-scripts allow-popups allow-same-origin'
@@ -306,7 +311,8 @@ function AllRoutes() {
                   style={{ backgroundColor: 'white' }}
                   title='GA'
                   width='80%'
-                />
+                /> */
+								<div/>
               }
               path='dashboard'
             />

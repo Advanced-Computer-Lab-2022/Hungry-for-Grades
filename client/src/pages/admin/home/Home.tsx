@@ -1,4 +1,4 @@
-import '../coursesData/nav-button.scss';
+import './nav-button.scss';
 
 import { useState } from 'react';
 
@@ -11,9 +11,9 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
 import { AiFillStar } from 'react-icons/ai';
 
-import UseSearchQuery from './fetchApi';
+import UseSearchQuery from './UseDataQuery';
 
-import { AreaAnalytics } from './analytics/AreaAnalytics';
+import AreaAnalytics  from './analytics/AreaAnalytics';
 import BarAnalytics from './analytics/BarAnalytics';
 import LineAnalytics from './analytics/LineAnalytics';
 
@@ -46,7 +46,7 @@ const backStyle = {
   boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
   backgroundColor: 'white'
 };
-export default function InstructorCoursesAnalytics() {
+export default function Home() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
 
   const {
