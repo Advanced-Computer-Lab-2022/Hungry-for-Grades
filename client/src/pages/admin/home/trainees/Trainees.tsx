@@ -1,4 +1,4 @@
-import styles from '../card.module.scss'
+import styles from '../card.module.scss';
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
 import { MdSchool } from 'react-icons/md';
@@ -34,7 +34,7 @@ function Trainees() {
       {' '}
       <div className='row'>
         <div className='col-md-4 mb-4'>
-          <div className={`${styles.card ?? ''} card` }style={backStyle}>
+          <div className={`${styles.card ?? ''} card`} style={backStyle}>
             <div className='card-body'>
               <h4 className='card-title'>
                 Active Trainees <HiStatusOnline style={style} />
@@ -44,7 +44,7 @@ function Trainees() {
           </div>
         </div>
         <div className='col-md-4 mb-4'>
-          <div className={`${styles.card ?? ''} card` } style={backStyle}>
+          <div className={`${styles.card ?? ''} card`} style={backStyle}>
             <div className='card-body'>
               <h4 className='card-title'>
                 In Active Trainees <HiStatusOffline style={style} />
@@ -54,7 +54,7 @@ function Trainees() {
           </div>
         </div>
         <div className='col-md-4 mb-4'>
-          <div className={`${styles.card ?? ''} card` } style={backStyle}>
+          <div className={`${styles.card ?? ''} card`} style={backStyle}>
             <div className='card-body'>
               <h4 className='card-title'>
                 Total Trainees <MdSchool style={style} />

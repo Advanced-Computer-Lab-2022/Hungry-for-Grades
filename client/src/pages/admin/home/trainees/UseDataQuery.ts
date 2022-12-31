@@ -4,23 +4,19 @@ import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataSe
 import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
 
-
 async function searchRequest() {
-	const traineeActiveRoute = InstructorRoutes.GET.getMonthlyEarnings;
-	traineeActiveRoute.URL = `/trainee/active`;
-	return getRequest<HttpResponse<{
-		active: number,
-		inactive: number
-
-	}>>(traineeActiveRoute);
+  const traineeActiveRoute = InstructorRoutes.GET.getMonthlyEarnings;
+  traineeActiveRoute.URL = `/trainee/active`;
+  return getRequest<
+    HttpResponse<{
+      active: number;
+      inactive: number;
+    }>
+  >(traineeActiveRoute);
 }
 
 export default function UseDataQuery() {
-
-
-	return {
-		...useQuery(['admin-trainee-data'], () =>
-			searchRequest()
-		)
-	};
+  return {
+    ...useQuery(['admin-trainee-data'], () => searchRequest())
+  };
 }

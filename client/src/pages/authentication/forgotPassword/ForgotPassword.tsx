@@ -40,12 +40,16 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      await toast.promise(mutateAsync(forgetPasswordRoute),{
-				pending: 'Sending email...',
-				success: 'Email sent successfully',
-				error: 'Error sending email',
-				...toastOptions
-			},toastOptions);
+      await toast.promise(
+        mutateAsync(forgetPasswordRoute),
+        {
+          pending: 'Sending email...',
+          success: 'Email sent successfully',
+          error: 'Error sending email',
+          ...toastOptions
+        },
+        toastOptions
+      );
       return true;
     } catch (err) {
       console.log(err);
@@ -121,7 +125,11 @@ function ForgotPassword() {
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link id='forget-password-signup-link' to='/auth/signup' onClick={navigateToSignup}>
+                <Link
+                  id='forget-password-signup-link'
+                  to='/auth/signup'
+                  onClick={navigateToSignup}
+                >
                   Sign Up
                 </Link>
               </span>
