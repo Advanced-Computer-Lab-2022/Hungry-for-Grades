@@ -51,10 +51,10 @@ function ChangePassword() {
         _id: userId as string,
         newPassword
       };
-			toast.success('Password changed successfully',toastOptions);
+      toast.success('Password changed successfully', toastOptions);
       return true;
     } catch (err) {
-			toast.error(err.message,toastOptions);
+      toast.error(err.message, toastOptions);
       console.log(err);
       return false;
     }
@@ -77,7 +77,7 @@ function ChangePassword() {
             id='changePasswordForm'
             inputs={[
               <PasswordInput
-							key={`password-132143243242`}
+                key={`password-132143243242`}
                 correctMessage={''}
                 errorMessage={formik?.errors?.newPassword as string}
                 hint={''}
@@ -98,8 +98,7 @@ function ChangePassword() {
                 onChangeFunc={formik.handleChange}
               />,
               <PasswordInput
-								key={`password-2231321321`}
-
+                key={`password-2231321321`}
                 correctMessage={''}
                 errorMessage={formik.errors.confirmPassword as string}
                 hint={''}
@@ -147,7 +146,7 @@ function ChangePassword() {
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Change Password'
                 name='changePassword'
-								type='button'
+                type='button'
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>

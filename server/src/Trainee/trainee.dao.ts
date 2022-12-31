@@ -431,7 +431,7 @@ class TraineeService {
   };
 
   // Updates trainee's progress in a course only if trainee is enrolled in that course
-  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<void> => {
+  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<number> => {
     const course = await this.courseService.getCourseById(courseId);
 
     //get total number of lessons in course
@@ -454,8 +454,10 @@ class TraineeService {
     // Update Progress for Student in enrolled course
     enrolledCourse.progress = (enrolledCourse._visitedLessons.length / totalLessonsCount) * 100;
     enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
+   
 
     await trainee.save();
+    return enrolledCourse.progress;
   };
 
   public markLastVisitedCourse = async (traineeId: string, courseId: string): Promise<void> => {
@@ -522,8 +524,7 @@ class TraineeService {
     const submittedQuestionIndex = enrolledCourse._submittedQuestions.findIndex(
       submittedQuestion => submittedQuestion._questionId.toString() == questionId,
     );
-
-    console.log(`submitted question Index ${submittedQuestionIndex}`);
+    
     if (submittedQuestionIndex >= 0) {
       enrolledCourse._submittedQuestions.splice(submittedQuestionIndex, 1);
     }

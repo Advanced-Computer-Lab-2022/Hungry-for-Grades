@@ -182,7 +182,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
           </button>
         </Link>
 
-				<ShareButton link={`course/${courseId}`}/>
+        <ShareButton link={`course/${courseId}`} />
         <Link
           className='btn btn-primary btn-lg'
           to={`/instructor/edit-course/${data?._id}`}

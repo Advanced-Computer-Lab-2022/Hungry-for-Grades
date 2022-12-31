@@ -8,7 +8,6 @@ import { BsBookFill } from 'react-icons/bs';
 
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
-
 import { AiFillStar } from 'react-icons/ai';
 
 import UseSearchQuery from './fetchApi';
@@ -83,6 +82,7 @@ export default function InstructorCoursesAnalytics() {
   );
   if (isLoading) return <LoaderComponent />;
   if (isError || error) return <ErrorMessage />;
+
 
 
 	const teachedCoursesCount=(useUser as IInstructor)?._teachedCourses?.length;

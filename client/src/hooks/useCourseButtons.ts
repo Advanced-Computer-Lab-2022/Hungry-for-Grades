@@ -65,11 +65,12 @@ export default function (courseid: string) {
             status: Status.UNSEEN
           };
           const res = await requestCourse(reportData);
+
           console.log(res)
           if (res?.status) {
             toast.success('Request access submitted successfully',toastOptions);
           } else {
-            toast.error('Unsuccessful Request',toastOptions);
+            toast.error('Unsuccessful Request', toastOptions);
           }
         }
       : undefined;
