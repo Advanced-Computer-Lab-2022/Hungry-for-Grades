@@ -1,8 +1,10 @@
-import { MdIndeterminateCheckBox } from 'react-icons/md';
+import { MdIndeterminateCheckBox, MdSelectAll } from 'react-icons/md';
 
 // NEED TO BE REVISED
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
+
+import { useState } from 'react';
 
 import styles from './table.module.scss';
 
@@ -18,14 +20,37 @@ export default function AdminHome(props: {
   funR: (x: AllReport) => void;
   updateTable: (x: number) => void;
   num: number;
+  clearSet: () => void;
 }) {
+
+  const [all, setAll] = useState<boolean>(false);
+
   function handleMultipleRows(report: AllReport) {
     if (props?.st.has(report)) {
       //then we are removing it now
+      setAll(false);
       props?.funR(report);
     } else {
       props?.funA(report);
     }
+  }
+
+
+  function SelectAll()
+  {
+    if(!all)
+    {
+      for(let i =0; i < props?.data?.length; ++i)
+      {
+        if(props?.data[i]?.status != Status.REJECTED && props?.data[i]?.status != Status.RESOLVED)
+        props?.funA(props?.data[i] as AllReport);
+      }
+
+    }
+    else{
+      props?.clearSet();
+    }
+    setAll(!all);
   }
 
   const { mutateAsync: updateReport } = usePatchQuery();
@@ -60,6 +85,7 @@ export default function AdminHome(props: {
       >
         <td>
           <input
+            checked = {(all || props?.st?.has(report)) && !isDisabled}
             className={
               report?.status == 'Resolved' || report?.status == 'Rejected'
                 ? ''
@@ -147,11 +173,26 @@ export default function AdminHome(props: {
                 paddingLeft: '1rem'
               }}
             >
-              <th>
+              {/*<th>
                 <MdIndeterminateCheckBox
                   style={{ color: '#DC3535', fontSize: '1.5rem' }}
-                />
-              </th>
+            />
+            </th>*/}
+            <th>
+            <input 
+            checked={all}
+            className='form-check-input'
+            style={{
+              width: '1.4rem',
+              height: '1.2rem',
+              alignItems: 'center',
+              //here was marginTop 1rem
+              marginLeft: '0.1rem'
+            }}
+            type='checkbox'
+            onClick={() => SelectAll()}
+          />
+          </th>
               <th>Corporate Trainee</th>
               <th>Requested Course</th>
               <th>Date</th>
