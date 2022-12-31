@@ -2,7 +2,7 @@ import { HttpException } from '@/Exceptions/HttpException';
 import { UserDTO, UserLoginDTO } from '@/User/user.dto';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from '@/Utils/util';
-import { type ICookie } from '@Authentication/auth.interface';
+import { AuthRole, type ICookie } from '@Authentication/auth.interface';
 import { type ITokenPayload } from '@Token/token.interface';
 import { generateTokens } from '@Token/token.util';
 import { IUser } from '@/User/user.interface';
@@ -22,6 +22,7 @@ import AdminService from '@/Admin/admin.dao';
 import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 import { Types } from 'mongoose';
 import { ITrainee } from '@/Trainee/trainee.interface';
+import { access } from 'fs';
 
 class AuthService {
   instructorService = new InstructorService();
@@ -155,7 +156,7 @@ class AuthService {
   }
 
   // change any user password
-  public async changePassword(userId: string, role: UserRole, oldPassword: string, newPassword: string): Promise<IUser> {
+  public async changePassword(userId: string, role: AuthRole, oldPassword: string, newPassword: string, isReset:boolean): Promise<IUser> {
     if (!Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid ObjectId');
 
     const userModel = findUserModelByRole(role);
@@ -164,19 +165,23 @@ class AuthService {
     const user = await userModel.findById(userId).lean();
     if (!user) throw new HttpException(HttpStatusCodes.BAD_REQUEST, `No matching user found`);
 
-    const isPasswordMatching: boolean = await compare(oldPassword, user.password);
-    if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Current Password is invalid. Please try again');
+    if (!isReset)
+    {
+      const isPasswordMatching: boolean = await compare(oldPassword, user.password);
+      if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Current Password is invalid. Please try again');
+    }
 
     const salt = await genSalt();
     newPassword = await hash(newPassword, salt);
 
-    const updatedUser = await userModel.findByIdAndUpdate(userId, { password: newPassword });
-
+   const updatedUser = await userModel.findByIdAndUpdate(userId, { password: newPassword });
     return updatedUser;
   }
 
   //forget pass
-  public sendResetPasswordEmail = async (userEmail: string): Promise<void> => {
+  public sendResetPasswordEmail = async (userEmail: string): Promise<{
+    cookie:ICookie
+  }> => {
     userEmail = userEmail.toLowerCase();
     const trainee = await new TraineeService().getTraineeByEmail(userEmail);
     const instructor = await new InstructorService().getInstructorByEmail(userEmail);
@@ -191,8 +196,19 @@ class AuthService {
     if (instructor) role = UserRole.INSTRUCTOR;
     if (admin) role = UserRole.ADMIN;
 
+    // generate token
+    const isCorporate = role == UserRole.TRAINEE ? trainee.isCorporate : null;
+    const TokenPayload = {
+      _id: user._id,
+      role: MapUserRoleToAuth(role, isCorporate),
+    };
+    const { accessToken, refreshToken } = await generateTokens(TokenPayload);
+    const cookie = this.createCookie(refreshToken);
+
     //send email
-    sendResetPasswordEmail(userEmail, username, userId, role);
+    sendResetPasswordEmail(userEmail, username, userId, role, accessToken);
+
+    return {cookie};
   };
 
   public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
