@@ -51,11 +51,13 @@ function ChangePassword() {
         _id: userId as string,
         newPassword
       };
-      toast.success('Password changed successfully', toastOptions);
+
+	/* 		await toast.promise(
+				{}
+			); */
       return true;
     } catch (err) {
-      toast.error(err.message, toastOptions);
-      console.log(err);
+
       return false;
     }
   }, [formik, searchParams, userId]);

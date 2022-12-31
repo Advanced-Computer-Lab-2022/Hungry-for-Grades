@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 import { type ForgotPasswordProps } from './types';
 
 import useValidation from './useValidation';
@@ -15,7 +17,7 @@ import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
-import { toast } from 'react-toastify';
+import { toastOptions } from '@/components/toast/options';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -41,8 +43,9 @@ function ForgotPassword() {
       await toast.promise(mutateAsync(forgetPasswordRoute),{
 				pending: 'Sending email...',
 				success: 'Email sent successfully',
-				error: 'Error sending email'
-			});
+				error: 'Error sending email',
+				...toastOptions
+			},toastOptions);
       console.log('success');
       return true;
     } catch (err) {
@@ -111,7 +114,7 @@ function ForgotPassword() {
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
-                correctMessage={`please check your email to change your password `}
+                correctMessage={''}
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Forgot Password'
                 name='forgotPassword'
