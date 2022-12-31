@@ -71,7 +71,6 @@ function ForgotPassword() {
             id='forgotPasswordForm'
             inputs={[
               <Input
-
                 key='forgot-password-2'
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}

@@ -182,7 +182,6 @@ const roles = ['/trainee/', '/admin/', '/instructor/'];
 
 function AllRoutes() {
   return (
-
     <Routes>
       {/* Authentication Routes  */}
       <Route element={<AuthRoutes />} path='auth'>
@@ -193,7 +192,6 @@ function AllRoutes() {
           element={<LazyChangePassword />}
           path='change-password/:userId'
         />
-
       </Route>
       <Route element={<ProtectedRoutes />}>
         {roles.map((path, index) => (

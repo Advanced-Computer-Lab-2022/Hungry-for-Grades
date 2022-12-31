@@ -51,20 +51,31 @@ function ConfirmEmail({
   }
 
   useEffect(() => {
-		const id = toast.loading('Please wait while we send you a code to your email address',toastOptions)
+    const id = toast.loading(
+      'Please wait while we send you a code to your email address',
+      toastOptions
+    );
     getVerifiedCode()
       .then(response => {
-
         console.log('response');
         console.log(response);
-        verifiedCode = `${response?.data }`;
+        verifiedCode = `${response?.data}`;
         console.log('verifiedCode');
         console.log(verifiedCode);
-				toast.update(id, { render:'We sent you a code to your email address', type: 'success', isLoading: false ,...toastOptions});
-
+        toast.update(id, {
+          render: 'We sent you a code to your email address',
+          type: 'success',
+          isLoading: false,
+          ...toastOptions
+        });
       })
-      .catch((err) => {
-				toast.update(id, { render:'unable to send verification code', type: 'error', isLoading: false ,...toastOptions});
+      .catch(err => {
+        toast.update(id, {
+          render: 'unable to send verification code',
+          type: 'error',
+          isLoading: false,
+          ...toastOptions
+        });
 
         console.log('error');
         console.log(err);
@@ -79,8 +90,8 @@ function ConfirmEmail({
           <a
             className='link-secondary text-dark'
             href='https://mail.google.com/mail'
-						rel='noopener noreferrer'
-						target='_blank'
+            rel='noopener noreferrer'
+            target='_blank'
           >
             {' '}
             email address
@@ -95,16 +106,29 @@ function ConfirmEmail({
           href='/'
           onClick={e => {
             setWrongMessage('');
-						const id = toast.loading('Please wait while we are re-sending you a code to your email address',toastOptions);
+            const id = toast.loading(
+              'Please wait while we are re-sending you a code to your email address',
+              toastOptions
+            );
             e.preventDefault();
             getVerifiedCode()
               .then(response => {
-                verifiedCode = `${response?.data }`;
+                verifiedCode = `${response?.data}`;
 
-								toast.update(id, { render:'We sent you a code to your email address', type: 'success', isLoading: false ,...toastOptions});
+                toast.update(id, {
+                  render: 'We sent you a code to your email address',
+                  type: 'success',
+                  isLoading: false,
+                  ...toastOptions
+                });
               })
               .catch(err => {
-								toast.update(id, { render:'unable to send verification code', type: 'error', isLoading: false ,...toastOptions});
+                toast.update(id, {
+                  render: 'unable to send verification code',
+                  type: 'error',
+                  isLoading: false,
+                  ...toastOptions
+                });
 
                 console.log(err);
               });

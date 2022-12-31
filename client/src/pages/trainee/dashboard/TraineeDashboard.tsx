@@ -31,7 +31,7 @@ const traineeLinks = {
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Reports: { path: '/trainee/my-reports', icon: <VscReport /> },
-  Profile: { path: '/trainee/profile', icon: <FiUser /> },
+  Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 
 function TraineeDashboard() {

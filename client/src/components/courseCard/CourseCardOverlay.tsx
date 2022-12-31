@@ -5,10 +5,13 @@ import { CourseCardProps } from '@/pages/guest/landing/types';
 
 function CourseCardOverlay(props: CourseCardProps) {
   return (
-    <div className='text-dark text-start p-2 bg-light card shadow' style={{
-			width:'100%',
-			height:'100%'
-		}}>
+    <div
+      className='text-dark text-start p-2 bg-light card shadow'
+      style={{
+        width: '100%',
+        height: '100%'
+      }}
+    >
       <h4>{props.title}</h4>
       <CourseCardPreview
         image={props.image}

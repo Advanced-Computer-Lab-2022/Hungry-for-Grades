@@ -4,7 +4,6 @@ import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataSe
 import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
 
-
 async function searchRequest(
   instructorId: string,
   year: string,
@@ -15,9 +14,11 @@ async function searchRequest(
   return getRequest<HttpResponse<number[]>>(instructor);
 }
 
-export default function UseSearchQuery(year: string,instructorId:string,country:string) {
-
-
+export default function UseSearchQuery(
+  year: string,
+  instructorId: string,
+  country: string
+) {
   return {
     ...useQuery(['fetch-revenue-213123', instructorId, year, country], () =>
       searchRequest(instructorId, year, country)

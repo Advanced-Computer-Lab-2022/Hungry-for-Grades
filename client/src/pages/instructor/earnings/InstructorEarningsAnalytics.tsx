@@ -20,9 +20,9 @@ import useMultistepForm from '@/hooks/useMultistepForm';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
-import { UseUser  } from '@/store/userStore';
+import { UseUser } from '@/store/userStore';
 import { IInstructor } from '@/interfaces/instructor.interface';
-import { UseCountry  } from '@/store/countryStore';
+import { UseCountry } from '@/store/countryStore';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = new Date();
@@ -48,7 +48,7 @@ const backStyle = {
 };
 export default function InstructorCoursesAnalytics() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
-	const useUser = UseUser();
+  const useUser = UseUser();
   const instructorId = useUser?._id as string;
   const country = UseCountry();
 
@@ -57,7 +57,7 @@ export default function InstructorCoursesAnalytics() {
     isLoading,
     isError,
     error
-  } = UseSearchQuery(selectedOption,instructorId,country);
+  } = UseSearchQuery(selectedOption, instructorId, country);
 
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
@@ -83,12 +83,10 @@ export default function InstructorCoursesAnalytics() {
   if (isLoading) return <LoaderComponent />;
   if (isError || error) return <ErrorMessage />;
 
-
-
-	const teachedCoursesCount=(useUser as IInstructor)?._teachedCourses?.length;
-	const averageRating=(useUser as IInstructor)?.rating?.averageRating;
-	const balance=(useUser as IInstructor)?.balance;
-	const currency=(useUser as IInstructor)?.currency ?? 'USD';
+  const teachedCoursesCount = (useUser as IInstructor)?._teachedCourses?.length;
+  const averageRating = (useUser as IInstructor)?.rating?.averageRating;
+  const balance = (useUser as IInstructor)?.balance;
+  const currency = (useUser as IInstructor)?.currency ?? 'USD';
   return (
     <div
       className='py-5'
@@ -104,7 +102,9 @@ export default function InstructorCoursesAnalytics() {
                 <h4 className='card-title'>
                   Total Balance <FaRegMoneyBillAlt style={style} />
                 </h4>
-                <h5 className='card-text text-start'>{currency} &nbsp;{balance}</h5>
+                <h5 className='card-text text-start'>
+                  {currency} &nbsp;{balance}
+                </h5>
               </div>
             </div>
           </div>

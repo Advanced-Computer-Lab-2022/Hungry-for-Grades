@@ -6,10 +6,10 @@ import { logger } from '@/Utils/logger';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
+
 import { Types } from 'mongoose';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
-
 class TraineeController {
   public traineeService = new TraineeService();
 

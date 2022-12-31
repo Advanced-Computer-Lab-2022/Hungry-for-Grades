@@ -18,11 +18,17 @@ const useQueryBased = (
   sub: string,
   activePage: number,
   con: string,
-  locationn : Location
+  locationn: Location
 ) => {
   return {
     ...useQuery(
-      ['based-on-choices-guestt-and-allTheFamily', activePage, con, location, locationn],
+      [
+        'based-on-choices-guestt-and-allTheFamily',
+        activePage,
+        con,
+        location,
+        locationn
+      ],
       () => getBasedOn(cat, sub, activePage, con),
       {
         cacheTime: 1000 * 60 * 60 * 24,

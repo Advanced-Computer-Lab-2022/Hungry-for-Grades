@@ -52,55 +52,62 @@ export default function ProgressBar(props: {
     user?.role.toLocaleLowerCase() == Role.TRAINEE.toLocaleLowerCase() &&
     !(user as ITrainee)?.isCorporate;
 
-  function handleCertificate()
-  {
+  function handleCertificate() {
     navigate(`../certificate/${props?.courseID}`);
   }
 
-
   return (
     <>
-    <div className={`${styles.cover||''} d-flex`}>
-      <div
-        className={styles.actual}
-        style={
-          {
-            '--rating': props.completed,
-            '--color': color
-          } as React.CSSProperties
-        }
-      />
-    </div>
-    <div style={{ fontSize: '0.8rem', fontWeight: '600', color: '#B2B2B2'}}>
-        {props.completed}% Completed
-
+      <div className={`${styles.cover || ''} d-flex`}>
+        <div
+          className={styles.actual}
+          style={
+            {
+              '--rating': props.completed,
+              '--color': color
+            } as React.CSSProperties
+          }
+        />
       </div>
-    <div className = "d-flex mt-0">
-    {check
-      && (
-      <button
-        className={styles.refund}
-        disabled={props.completed <= 50}
-        style={{ color: colorRefund }}
-        type='button'
-        onClick={() => clickSubmit()}
-      >
-        Ask for Refund
-      </button>
-    )}
+      <div style={{ fontSize: '0.8rem', fontWeight: '600', color: '#B2B2B2' }}>
+        {props.completed}% Completed
+      </div>
+      <div className='d-flex mt-0'>
+        {check && (
+          <button
+            className={styles.refund}
+            disabled={props.completed <= 50}
+            style={{ color: colorRefund }}
+            type='button'
+            onClick={() => clickSubmit()}
+          >
+            Ask for Refund
+          </button>
+        )}
 
-    {props?.completed >= 0 &&
-    <button className={`${styles.refund||''} m-3`} type='button'
-    onClick={()=>handleCertificate()}>
-      Certificate
-    </button>
-    }
-		<div className={styles.seperator} />
-		 <div className = 'pt-3' style={{marginLeft:'1rem', fontSize:'0.9rem', alignItems:'center', color:'#A00407', fontWeight:'600'}}>
-      <ReportForm courseID={props.courseID} />
-    </div>
-    </div>
-
+        {props?.completed >= 0 && (
+          <button
+            className={`${styles.refund || ''} m-3`}
+            type='button'
+            onClick={() => handleCertificate()}
+          >
+            Certificate
+          </button>
+        )}
+        <div className={styles.seperator} />
+        <div
+          className='pt-3'
+          style={{
+            marginLeft: '1rem',
+            fontSize: '0.9rem',
+            alignItems: 'center',
+            color: '#A00407',
+            fontWeight: '600'
+          }}
+        >
+          <ReportForm courseID={props.courseID} />
+        </div>
+      </div>
     </>
   );
 }

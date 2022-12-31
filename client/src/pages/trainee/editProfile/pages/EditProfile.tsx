@@ -46,13 +46,16 @@ export default function EditProfile() {
   const imgURL = user?.profileImage;
 
   async function submitAction(traineeData: EditProfileData) {
-    const response = await toast.promise(updateProfile(user?._id as string, traineeData),{
-			pending:'Updating profile',
-			success:'Profile updated successfully',
-			error:'Error occurred during updating profile'
-
-		},toastOptions);
-     if(response.status !== 200) {
+    const response = await toast.promise(
+      updateProfile(user?._id as string, traineeData),
+      {
+        pending: 'Updating profile',
+        success: 'Profile updated successfully',
+        error: 'Error occurred during updating profile'
+      },
+      toastOptions
+    );
+    if (response.status !== 200) {
       toast.error('Error occurred during updating profile', toastOptions);
     }
     console.log(response);

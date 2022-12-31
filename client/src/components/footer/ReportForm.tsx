@@ -14,7 +14,7 @@ import usePostQuery from '@/hooks/usePostQuery';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { POSTRoutesType } from '@/services/axios/types';
 
-function ReportForm(props:{courseID : string}) {
+function ReportForm(props: { courseID: string }) {
   const { formik } = useValidation();
   const useUser = UseUser();
   const reason = [
@@ -29,7 +29,7 @@ function ReportForm(props:{courseID : string}) {
     const Courses = ReportDataService.POST.makeReport;
 
     Courses.payload = {
-      _course: props.courseID == ''? null:props.courseID,
+      _course: props.courseID == '' ? null : props.courseID,
       _user: useUser?._id,
       description: des,
       reason: res,

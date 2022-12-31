@@ -37,7 +37,7 @@ export default function CertificateGenerator() {
   const img = document.createElement('img');
   img.src = '/Certificate.png';
 
-  const {mutateAsync : sendMail} = usePostQuery();
+  const { mutateAsync: sendMail } = usePostQuery();
 
   useEffect(() => {
     if (!isLoading && verifiedCourseData) {
@@ -133,10 +133,8 @@ export default function CertificateGenerator() {
     pdf.save('certificate.pdf');
   };
 
-  async function sendOnMail()
-  {
-
-    const pdf : jsPDF = new jsPDF({
+  async function sendOnMail() {
+    const pdf: jsPDF = new jsPDF({
       orientation: 'landscape',
       unit: 'cm',
       format: [29.7, 21]
@@ -152,20 +150,25 @@ export default function CertificateGenerator() {
     const mail = TraineeRoutes.POST.sendCertificateByMail;
 
     //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
-    mail.URL = `/trainee/${traineeData?._id as string}/course/${courseId as string}/certificate`;
+    mail.URL = `/trainee/${traineeData?._id as string}/course/${
+      courseId as string
+    }/certificate`;
 
-    mail.payload={certificate: tmp}
+    mail.payload = { certificate: tmp };
 
-    await toast.promise(  sendMail(mail),{
-			pending: 'Sending Certificate',
-			success: 'Certificate Sent',
-			error: 'Error Sending Certificate'
-		},toastOptions);
-
+    await toast.promise(
+      sendMail(mail),
+      {
+        pending: 'Sending Certificate',
+        success: 'Certificate Sent',
+        error: 'Error Sending Certificate'
+      },
+      toastOptions
+    );
   }
 
   if (isError) return <ErrorMessage />;
-  if (isLoading) return <LoaderComponent/>;
+  if (isLoading) return <LoaderComponent />;
   return (
     <div className='container-md mt-4'>
       <div className='row gx-5'>
@@ -254,9 +257,12 @@ export default function CertificateGenerator() {
             >
               Download
             </button>
-						<ShareButton link={`course/${courseId as string}`}/>
-            <button className='btn btn-primary' type='submit'
-            onClick={()=>sendOnMail()}>
+            <ShareButton link={`course/${courseId as string}`} />
+            <button
+              className='btn btn-primary'
+              type='submit'
+              onClick={() => sendOnMail()}
+            >
               Send by Mail
             </button>
           </div>

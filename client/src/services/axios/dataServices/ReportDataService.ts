@@ -13,13 +13,12 @@ export const ReportDataService = {
       payload: {},
       response: {}
     },
-    getReportById
-    :{
-      URL:'',
-      params:'',
-      query:'',
-      payload:{},
-      response:{}
+    getReportById: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
     }
   },
   POST: {

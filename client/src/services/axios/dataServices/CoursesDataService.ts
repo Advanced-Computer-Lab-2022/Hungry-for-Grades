@@ -22,7 +22,7 @@ import {
 
 import { PaginatedRequest } from '@/interfaces/request.interface';
 
-function createQueryString(params: unknown): string {
+export function createQueryString(params: unknown): string {
   if (!params) {
     return '';
   }
