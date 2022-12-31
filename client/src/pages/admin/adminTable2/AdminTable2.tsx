@@ -18,7 +18,6 @@ import { AllReport, Status } from '@/interfaces/reports.interface';
 import usePatchQuery from '@/hooks/usePatchQuery';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { toastOptions } from '@/components/toast/options';
-import { GrEbay } from 'react-icons/gr';
 
 export default function AdminHome(props: {
   data: AllReport[];
@@ -70,6 +69,7 @@ export default function AdminHome(props: {
   let i = 0;
 
   const toShow =props.data && props.data?.length ? props.data?.map((report: AllReport) => {
+
     i++;
     const isDisabled = report?.status == 'Pending' ? false : true;
     const reportDate = report?.createdAt?.toString().substring(0, 10);
@@ -192,8 +192,8 @@ export default function AdminHome(props: {
         </button>
       </td>
       </tr>
-
-    );
+    )})
+    
 
   return (
     <div className='fluid-container' style={{ overflowX: 'auto' }}>

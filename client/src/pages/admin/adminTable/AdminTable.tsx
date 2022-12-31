@@ -22,7 +22,6 @@ export default function AdminHome(props: {
   num: number;
   clearSet: () => void;
 }) {
-
   const [all, setAll] = useState<boolean>(false);
 
   function handleMultipleRows(report: AllReport) {
@@ -35,19 +34,16 @@ export default function AdminHome(props: {
     }
   }
 
-
-  function SelectAll()
-  {
-    if(!all)
-    {
-      for(let i =0; i < props?.data?.length; ++i)
-      {
-        if(props?.data[i]?.status != Status.REJECTED && props?.data[i]?.status != Status.RESOLVED)
-        props?.funA(props?.data[i] as AllReport);
+  function SelectAll() {
+    if (!all) {
+      for (let i = 0; i < props?.data?.length; ++i) {
+        if (
+          props?.data[i]?.status != Status.REJECTED &&
+          props?.data[i]?.status != Status.RESOLVED
+        )
+          props?.funA(props?.data[i] as AllReport);
       }
-
-    }
-    else{
+    } else {
       props?.clearSet();
     }
     setAll(!all);
@@ -87,8 +83,8 @@ export default function AdminHome(props: {
           >
             <td>
               <input
-                checked = {(all || props?.st?.has(report)) && !isDisabled}
-            className={
+                checked={(all || props?.st?.has(report)) && !isDisabled}
+                className={
                   report?.status == 'Resolved' || report?.status == 'Rejected'
                     ? ''
                     : 'form-check-input'
@@ -189,21 +185,21 @@ export default function AdminHome(props: {
                   style={{ color: '#DC3535', fontSize: '1.5rem' }}
             />
             </th>*/}
-            <th>
-            <input 
-            checked={all}
-            className='form-check-input'
-            style={{
-              width: '1.4rem',
-              height: '1.2rem',
-              alignItems: 'center',
-              //here was marginTop 1rem
-              marginLeft: '0.1rem'
-            }}
-            type='checkbox'
-            onClick={() => SelectAll()}
-          />
-          </th>
+              <th>
+                <input
+                  checked={all}
+                  className='form-check-input'
+                  style={{
+                    width: '1.4rem',
+                    height: '1.2rem',
+                    alignItems: 'center',
+                    //here was marginTop 1rem
+                    marginLeft: '0.1rem'
+                  }}
+                  type='checkbox'
+                  onClick={() => SelectAll()}
+                />
+              </th>
               <th>Corporate Trainee</th>
               <th>Requested Course</th>
               <th>Date</th>

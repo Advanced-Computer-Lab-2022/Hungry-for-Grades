@@ -31,8 +31,7 @@ import Pagination from '@/components/pagination/Pagination';
 export default function CourseRequest() {
   const [set, setSet] = useState(new Set());
 
-  function clearSet()
-  {
+  function clearSet() {
     setSet(new Set());
   }
 
@@ -173,7 +172,7 @@ export default function CourseRequest() {
             num={update}
             st={set as Set<AllReport>}
             updateTable={setUpdate}
-            clearSet = {clearSet}
+            clearSet={clearSet}
           />
           {data?.data?.totalPages != undefined &&
             data?.data?.totalPages > 1 && (

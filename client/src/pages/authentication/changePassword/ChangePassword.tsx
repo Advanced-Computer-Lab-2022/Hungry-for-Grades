@@ -70,7 +70,7 @@ function ChangePassword() {
         toastOptions
       );
 
-			SessionStorage.remove('accessToken');
+      SessionStorage.remove('accessToken');
 
       return true;
     } catch (err) {
@@ -167,19 +167,20 @@ function ChangePassword() {
                 type='button'
                 onClickFunc={handleSubmit}
               />
-<div className='d-flex flex-row justify-content-between'>
-              <span className='d-flex flex-row justify-content-end'>
-                have an account? &nbsp;
-                <Link to='/auth/login' onClick={navigateToSignup}>
-                  Login
-                </Link>
-              </span>   <span className='d-flex flex-row justify-content-end'>
-                Don&apos;t have an account? &nbsp;
-                <Link to='/auth/signup' onClick={navigateToSignup}>
-                  Sign Up
-                </Link>
-              </span>
-							</div>
+              <div className='d-flex flex-row justify-content-between'>
+                <span className='d-flex flex-row justify-content-end'>
+                  have an account? &nbsp;
+                  <Link to='/auth/login' onClick={navigateToSignup}>
+                    Login
+                  </Link>
+                </span>{' '}
+                <span className='d-flex flex-row justify-content-end'>
+                  Don&apos;t have an account? &nbsp;
+                  <Link to='/auth/signup' onClick={navigateToSignup}>
+                    Sign Up
+                  </Link>
+                </span>
+              </div>
             </div>
             <div />
           </Form>
