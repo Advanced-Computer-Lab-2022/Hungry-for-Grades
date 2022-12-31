@@ -128,6 +128,26 @@ function ConfirmEmail({
                 ]);
                 setWrongMessage('');
               }}
+							// focus on next element
+							onKeyDownFunc={function keyDown(e:  React.KeyboardEvent<HTMLInputElement>) {
+
+								if (e.key === 'Backspace' && e.target.value === '') {
+									const prevInput = document.getElementById(`code-${index * 4 - 4}`) as HTMLInputElement;
+									if (prevInput) {
+										prevInput.focus();
+									}
+								}
+								if (e.key === 'ArrowRight' && e.target.value !== '') {
+									const nextInput = document.getElementById(
+										`code-${index * 4 + 4}`
+									) as HTMLInputElement;
+									if (nextInput) {
+										nextInput.focus();
+									}
+								}
+
+
+							}}
             />
           </div>
         ))}

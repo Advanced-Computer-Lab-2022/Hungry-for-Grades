@@ -1,6 +1,10 @@
 .card {
     transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
     cursor: pointer;
+    -webkit-transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+    -moz-transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+    -ms-transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
+    -o-transition: translate ease-in-out 100ms, box-shadow ease-in-out 100ms;
 }
 
 .card:hover,

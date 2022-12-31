@@ -62,9 +62,9 @@ export function getDiscountHTML(): string {
   return htmlToSend;
 }
 
-export function sendCertificateEmail(traineeEmail: string, username: string, courseName: string, examGrade: string, content) {
+export function sendCertificateEmail(certificatePDF:string,traineeEmail: string, username: string, courseName: string, examGrade: string) {
   const emailBody = getCertificateEmailHTML(username, courseName, examGrade);
-  const certificateAttachment = prepareCertificateAttachment('Certificate.pdf');
+  const certificateAttachment = prepareCertificateAttachment(certificatePDF);
   sendEmail(traineeEmail, emailBody, 'You officially graduated!!!', certificateAttachment);
 }
 
@@ -88,14 +88,19 @@ export function getCertificateEmailHTML(username: string, courseName: string, ex
   return htmlToSend;
 }
 
-function prepareCertificateAttachment(filename: string) {
+function prepareCertificateAttachment(certificatePDF:string) {
   const certificateAttachment: any[] = [
     {
-      filename,
-      //content:fs.createReadStream(path.join(__dirname,'../../Uploads/certificate.png')), // image
-      path: path.join(__dirname, '../../Uploads/certificate.pdf'), // pdf
-      contentType: 'application/pdf',
-    },
+      filename:'certificate.pdf',
+       path: certificatePDF,
+      // 
+    }
+    // {
+    //   filename,
+    //   //content:fs.createReadStream(path.join(__dirname,'../../Uploads/certificate.png')), // image
+    //   path: path.join(__dirname, '../../Uploads/certificate.pdf'), // pdf
+    //   contentType: 'application/pdf',
+    // },
   ];
   return certificateAttachment;
 }

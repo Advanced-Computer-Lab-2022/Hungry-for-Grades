@@ -160,12 +160,7 @@ class TraineeRoute implements Routes {
     );
 
     // CRUD Trainee
-    this.router.get(
-      '/:traineeId',
-      authenticateUser,
-      allowedRoles([AuthRole.INDIVIDUAL_TRAINEE, AuthRole.CORPORATE_TRAINEE]),
-      this.traineeController.getTraineeById,
-    );
+    this.router.get('/:traineeId', authenticateUser, this.traineeController.getTraineeById);
     this.router.patch(
       '/:traineeId',
       authenticateUser,
