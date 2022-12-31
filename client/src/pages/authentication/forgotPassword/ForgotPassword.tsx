@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 import { type ForgotPasswordProps } from './types';
 
 import useValidation from './useValidation';
@@ -15,6 +17,7 @@ import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
+import { toastOptions } from '@/components/toast/options';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -37,7 +40,12 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      await mutateAsync(forgetPasswordRoute);
+      await toast.promise(mutateAsync(forgetPasswordRoute),{
+				pending: 'Sending email...',
+				success: 'Email sent successfully',
+				error: 'Error sending email',
+				...toastOptions
+			},toastOptions);
       console.log('success');
       return true;
     } catch (err) {
@@ -63,10 +71,11 @@ function ForgotPassword() {
             id='forgotPasswordForm'
             inputs={[
               <Input
-                key='password-2'
+                key='forgot-password-2'
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
+                id='forgot-password-2'
                 isError={
                   formik.touched.email && formik.errors.email ? true : null
                 }
@@ -104,17 +113,16 @@ function ForgotPassword() {
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
-                correctMessage={`please check your email to change your password `}
+                correctMessage={''}
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Forgot Password'
                 name='forgotPassword'
-								type='button'
-
+                type='button'
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/signup' onClick={navigateToSignup}>
+                <Link id='forget-password-signup-link' to='/auth/signup' onClick={navigateToSignup}>
                   Sign Up
                 </Link>
               </span>

@@ -13,7 +13,7 @@ export const NewsLetterRoutes = {
     sendEmail: {
       URL: '/newsletter' as const,
       params: '' as const,
-      query: '' ,
+      query: '',
       options: {},
 
       payload: {

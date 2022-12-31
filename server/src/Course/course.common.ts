@@ -1,8 +1,10 @@
 import { logger } from '@/Utils/logger';
-import { Discount, Price } from '@Course/course.interface';
+import { Discount, Lesson, Price } from '@Course/course.interface';
 import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
+
+
 
 export function getPriceAfterDiscount(price: Price) {
   const discountsAvailable = getCourseDiscounts(price);

@@ -3,9 +3,9 @@ import * as Yup from 'yup';
 
 function useValidation() {
   const formik = useFormik<{
-		subject: string;
-		body: string;
-	}>({
+    subject: string;
+    body: string;
+  }>({
     initialValues: {
       subject: '',
       body: ''

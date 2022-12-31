@@ -30,10 +30,10 @@ export default function ReportsTable() {
 
   const [curr, setCurr] = useState<AllReport>(arr?.[0] as AllReport);
 
-  function handleClick(id : string) {
-   // setShowModal(!showModal);
-   navigate(`../followup/${id}?trainee=true`);
-   //navigate('../payment-accepted?walletUsed=true');
+  function handleClick(id: string) {
+    // setShowModal(!showModal);
+    navigate(`../followup/${id}?trainee=true`);
+    //navigate('../payment-accepted?walletUsed=true');
   }
 
   if (isLoading) {
@@ -42,56 +42,69 @@ export default function ReportsTable() {
 
   if (arr == undefined) return <ErrorMessage />;
 
-  const toShow = arr?.map((report: AllReport, index) => {
-    const date = report?.createdAt.toString().substring(0, 10);
-    return (
-      <>
-        <tr
-          key={report?._id}
-          style={{ fontSize: '1rem', fontWeight: '450', color: '#393E46' }}
-        >
-          <td>{index + 1}</td>
-
-          <td>{report?.reason}</td>
-          <td className='text-truncate'>
-            {report?._course != null ? report?._course.at(0)?.title : 'None'}
-          </td>
-          <td>{date}</td>
-          {report?.status == 'Pending' && (
-            <td>
-              <div className={styles.statusP}>Pending</div>
-            </td>
-          )}
-          {report?.status == 'Resolved' && (
-            <td>
-              <div className={styles.statusResolved}>Resolved</div>
-            </td>
-          )}
-          {report?.status == 'Rejected' && (
-            <td>
-              <div
-                className={`alert alert-danger mt-3 ${styles.statusRej || ''}`}
-              >
-                Rejected
-              </div>
-            </td>
-          )}
-          <td>
-            <button
-              style={{ fontSize: '1rem', color: '#A00407' }}
-              type='button'
-              onClick={() => {
-                handleClick(report?._id);
-                setCurr(report);
-              }}
+  const toShow =
+    arr && arr.length > 0 ? (
+      arr?.map((report: AllReport, index) => {
+        const date = report?.createdAt.toString().substring(0, 10);
+        return (
+          <>
+            <tr
+              key={report?._id}
+              style={{ fontSize: '1rem', fontWeight: '450', color: '#393E46' }}
             >
-              Follow Ups
-            </button>
-          </td>
-        </tr>
-      </>
+              <td>{index + 1}</td>
+
+              <td>{report?.reason}</td>
+              <td className='text-truncate'>
+                {report?._course != null
+                  ? report?._course.at(0)?.title
+                  : 'None'}
+              </td>
+              <td>{date}</td>
+              {report?.status == 'Pending' && (
+                <td>
+                  <div className={styles.statusP}>Pending</div>
+                </td>
+              )}
+              {report?.status == 'Resolved' && (
+                <td>
+                  <div className={styles.statusResolved}>Resolved</div>
+                </td>
+              )}
+              {report?.status == 'Rejected' && (
+                <td>
+                  <div
+                    className={`alert alert-danger mt-3 ${
+                      styles.statusRej || ''
+                    }`}
+                  >
+                    Rejected
+                  </div>
+                </td>
+              )}
+              <td>
+                <button
+                  style={{ fontSize: '1rem', color: '#A00407' }}
+                  type='button'
+                  onClick={() => {
+                    handleClick(report?._id);
+                    setCurr(report);
+                  }}
+                >
+                  Follow Ups
+                </button>
+              </td>
+            </tr>
+          </>
+        );
+      })
+    ) : (
+      <tr>
+        <td className='text-center' colSpan={6}>
+          No Reports
+        </td>
+      </tr>
     );
-  });
 
   return (
     <div className=' py-5' style={{ backgroundColor: '#F5F7F8' }}>
@@ -141,19 +154,19 @@ export default function ReportsTable() {
             </thead>
             <tbody>
               <>
-              {toShow}
-              {showModal && <FollowModal func={handleClick} report={curr} />}
+                {toShow}
+                {showModal && <FollowModal func={handleClick} report={curr} />}
               </>
             </tbody>
           </table>
         </div>
-        {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 &&
-        <Pagination
-          activePage={activePage}
-          pages={data?.data?.totalPages}
-          setActivePage={setActivePage}
-        />
-        }
+        {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            pages={data?.data?.totalPages}
+            setActivePage={setActivePage}
+          />
+        )}
       </div>
     </div>
   );

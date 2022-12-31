@@ -23,13 +23,20 @@ import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import '../login/login.scss';
 import PasswordInput from '@/components/inputs/input/PasswordInput';
 import { toastOptions } from '@/components/toast/options';
+import SessionStorage from '@/services/sessionStorage/SessionStorage';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ChangePassword() {
   const [searchParams] = useSearchParams();
   const { userId } = useParams();
 
-  const { isError, error } = usePostQuery();
+  const token = searchParams.get('token') as string;
+
+  if (!token) {
+    useNavigate()('/auth/forget-password');
+  }
+
+  const { isError, error, mutateAsync } = usePostQuery();
   const navigate = useNavigate();
   const { formik } = useValidation();
 
@@ -45,20 +52,31 @@ function ChangePassword() {
         {},
         AuthRoutes.POST.changePassword
       );
-
+      changePasswordRoute.query = `isReset=true`;
       changePasswordRoute.payload = {
         role: searchParams.get('role') as string,
         _id: userId as string,
         newPassword
       };
-			toast.success('Password changed successfully',toastOptions);
+      SessionStorage.set('accessToken', token);
+      await toast.promise(
+        mutateAsync(changePasswordRoute),
+        {
+          pending: 'Changing Password',
+          success: 'Password Changed Successfully',
+          error: 'Error Changing Password',
+          ...toastOptions
+        },
+        toastOptions
+      );
+
+			SessionStorage.remove('accessToken');
+
       return true;
     } catch (err) {
-			toast.error(err.message,toastOptions);
-      console.log(err);
       return false;
     }
-  }, [formik, searchParams, userId]);
+  }, [formik, mutateAsync, searchParams, token, userId]);
 
   return (
     <div className='changePassword d-flex flex-row justify-content-between'>
@@ -77,7 +95,7 @@ function ChangePassword() {
             id='changePasswordForm'
             inputs={[
               <PasswordInput
-							key={`password-132143243242`}
+                key={`password-132143243242`}
                 correctMessage={''}
                 errorMessage={formik?.errors?.newPassword as string}
                 hint={''}
@@ -98,8 +116,7 @@ function ChangePassword() {
                 onChangeFunc={formik.handleChange}
               />,
               <PasswordInput
-								key={`password-2231321321`}
-
+                key={`password-2231321321`}
                 correctMessage={''}
                 errorMessage={formik.errors.confirmPassword as string}
                 hint={''}
@@ -147,15 +164,22 @@ function ChangePassword() {
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Change Password'
                 name='changePassword'
-								type='button'
+                type='button'
                 onClickFunc={handleSubmit}
               />
+<div className='d-flex flex-row justify-content-between'>
               <span className='d-flex flex-row justify-content-end'>
+                have an account? &nbsp;
+                <Link to='/auth/login' onClick={navigateToSignup}>
+                  Login
+                </Link>
+              </span>   <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/signup' onClick={navigateToSignup}>
+                <Link to='/auth/signup' onClick={navigateToSignup}>
                   Sign Up
                 </Link>
               </span>
+							</div>
             </div>
             <div />
           </Form>

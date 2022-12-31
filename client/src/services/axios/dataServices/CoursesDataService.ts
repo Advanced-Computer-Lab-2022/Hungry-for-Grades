@@ -22,7 +22,7 @@ import {
 
 import { PaginatedRequest } from '@/interfaces/request.interface';
 
-function createQueryString(params: unknown): string {
+export function createQueryString(params: unknown): string {
   if (!params) {
     return '';
   }
@@ -155,7 +155,7 @@ export async function getCourses(
 
 export function getTopRatedCourses(
   country: string,
-	sortBy:number
+  sortBy: number
 ): Promise<PaginatedResponse<ICourse>> {
   return getCourses({
     page: 1,

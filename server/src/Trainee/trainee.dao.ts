@@ -10,10 +10,9 @@ import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
 import mongoose, { Types } from 'mongoose';
 import courseModel from '@/Course/course.model';
-import { ICourse, Lesson, Price } from '@/Course/course.interface';
+import { ICourse, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
 import CourseService from '@/Course/course.dao';
-import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 import { sendCertificateEmail } from '@/Common/Email Service/email.template';
 
 class TraineeService {
@@ -43,7 +42,18 @@ class TraineeService {
     return trainee;
   };
   public getTrainees = async (): Promise<ITrainee[]> => {
-    return await traineeModel.find().select('-password');
+    const trainees = await traineeModel.find().select('-password ');
+
+    return trainees;
+  };
+  // get how many trainees are active
+  public getActiveTrainees = async (): Promise<number> => {
+    return await traineeModel.count({ active: true });
+  };
+
+  // get how many trainees are inactive
+  public getInactiveTrainees = async (): Promise<number> => {
+    return await traineeModel.count({ active: false });
   };
 
   public getTraineeByEmail = async (traineeEmail: string): Promise<ITrainee> => {
@@ -431,7 +441,7 @@ class TraineeService {
   };
 
   // Updates trainee's progress in a course only if trainee is enrolled in that course
-  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<void> => {
+  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<number> => {
     const course = await this.courseService.getCourseById(courseId);
 
     //get total number of lessons in course
@@ -456,6 +466,7 @@ class TraineeService {
     enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
 
     await trainee.save();
+    return enrolledCourse.progress;
   };
 
   public markLastVisitedCourse = async (traineeId: string, courseId: string): Promise<void> => {
@@ -523,7 +534,6 @@ class TraineeService {
       submittedQuestion => submittedQuestion._questionId.toString() == questionId,
     );
 
-    console.log(`submitted question Index ${submittedQuestionIndex}`);
     if (submittedQuestionIndex >= 0) {
       enrolledCourse._submittedQuestions.splice(submittedQuestionIndex, 1);
     }
@@ -639,13 +649,13 @@ class TraineeService {
   };
 
   // send certificate by email
-  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF:string): Promise<void> => {
+  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF: string): Promise<void> => {
     const trainee = await traineeModel.findById(traineeId);
 
     const enrolledCourse = await this.getEnrolledCourseById(traineeId, courseId);
     //if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
 
-    await sendCertificateEmail(certificatePDF,trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
+    await sendCertificateEmail(certificatePDF, trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;
@@ -653,7 +663,7 @@ export default TraineeService;
 /*
 
 Object : UserID COurseID Q A
-GET : 
+GET :
 API : Ask userID, CourseID Q POST A ""
 API : Answer PATCH COURSEID USERID A --> asjifaskjf
 

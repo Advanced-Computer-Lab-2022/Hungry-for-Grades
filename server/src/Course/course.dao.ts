@@ -847,10 +847,10 @@ class CourseService {
     return lesson;
   }
   // get lesson by id
-  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<Lesson> {
+  public async getLessonByIdAndUpdateProgress(courseID: string, lessonID: string, userID: string): Promise<any> {
     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
     if (!mongoose.Types.ObjectId.isValid(lessonID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
-    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Lesson Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(userID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'User Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseID);
     if (!course) throw new HttpException(HttpStatusCodes.CONFLICT, "Course doesn't exist");
@@ -862,10 +862,19 @@ class CourseService {
     if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
 
     const traineeService = new TraineeService();
-    await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID);
+    const updatedProgress = (await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID)) ?? 0;
     await traineeService.markLastVisitedCourse(userID, courseID);
 
-    return lesson;
+    const result: any = {
+      _id: lesson._id,
+      description: lesson.description,
+      title: lesson.title,
+      duration: lesson.duration,
+      videoURL: lesson.videoURL,
+      progress: updatedProgress,
+    };
+
+    return result;
   }
 
   // get exercise by id

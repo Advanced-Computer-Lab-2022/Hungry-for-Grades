@@ -74,7 +74,7 @@ export default function Based() {
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}
-            pages={data?.data?.totalPages }
+            pages={data?.data?.totalPages}
             setActivePage={setActivePage}
           />
         </div>

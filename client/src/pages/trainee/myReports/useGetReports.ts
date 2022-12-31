@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { getRequest } from '@/services/axios/http-verbs';
-import {  PaginatedResponse } from '@/interfaces/response.interface';
+import { PaginatedResponse } from '@/interfaces/response.interface';
 import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { AllReport } from '@/interfaces/reports.interface';

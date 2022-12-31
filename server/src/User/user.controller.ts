@@ -10,7 +10,7 @@ import { MapAuthRoleToUser } from './user.util';
 
 // import { type filters } from './user.type';
 class UsersController {
-  //public userService = new userService();
+  //  public userService = new userService();
 
   // @desc gets Instructor info by accessToken
   public getUserInfo = async (
@@ -31,19 +31,19 @@ class UsersController {
       next(error);
     }
   };
-  //   public getUsers = async (req: Request<{}, {}, {}, filters>, res: Response<PaginatedResponse<IUser>>, next: NextFunction) => {
-  //     try {
-  //       const filter: filters = req.query;
-  //       const users: PaginatedData<IUser> = await this.userService.findAllUser(filter);
-  //       res.status(HttpStatusCodes.OK).json({
-  //         ...users,
-  //         message: `found ${users.pageSize} users at page ${users.page}`,
-  //         success: true,
-  //       });
-  //     } catch (error) {
-  //       next(error);
-  //     }
-  //   };
+  /*   public getUsers = async (req: Request<{}, {}, {}, filters>, res: Response<PaginatedResponse<IUser>>, next: NextFunction) => {
+    try {
+      const filter: filters = req.query;
+      const users: PaginatedData<IUser> = await this.userService.findAllUser(filter);
+      res.status(HttpStatusCodes.OK).json({
+        ...users,
+        message: `found ${users.pageSize} users at page ${users.page}`,
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }; */
   //   public getUserById = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction) => {
   //     try {
   //       const userId: string = req.params.id;

@@ -8,7 +8,7 @@ import { BsBookFill } from 'react-icons/bs';
 
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 
-import { IoSchool } from 'react-icons/io5';
+import { AiFillStar } from 'react-icons/ai';
 
 import UseSearchQuery from './fetchApi';
 
@@ -20,6 +20,9 @@ import useMultistepForm from '@/hooks/useMultistepForm';
 
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import { UseUser } from '@/store/userStore';
+import { IInstructor } from '@/interfaces/instructor.interface';
+import { UseCountry } from '@/store/countryStore';
 
 const emptyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const date = new Date();
@@ -45,13 +48,16 @@ const backStyle = {
 };
 export default function InstructorCoursesAnalytics() {
   const [selectedOption, setSelectedOption] = useState<string>('2022');
+  const useUser = UseUser();
+  const instructorId = useUser?._id as string;
+  const country = UseCountry();
 
   const {
     data: earningsData,
     isLoading,
     isError,
     error
-  } = UseSearchQuery(selectedOption);
+  } = UseSearchQuery(selectedOption, instructorId, country);
 
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
@@ -77,6 +83,10 @@ export default function InstructorCoursesAnalytics() {
   if (isLoading) return <LoaderComponent />;
   if (isError || error) return <ErrorMessage />;
 
+  const teachedCoursesCount = (useUser as IInstructor)?._teachedCourses?.length;
+  const averageRating = (useUser as IInstructor)?.rating?.averageRating;
+  const balance = (useUser as IInstructor)?.balance;
+  const currency = (useUser as IInstructor)?.currency ?? 'USD';
   return (
     <div
       className='py-5'
@@ -89,30 +99,32 @@ export default function InstructorCoursesAnalytics() {
           <div className='col-md-4 mb-4'>
             <div className='card' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
-                  Total Earnings <FaRegMoneyBillAlt style={style} />
+                <h4 className='card-title'>
+                  Total Balance <FaRegMoneyBillAlt style={style} />
+                </h4>
+                <h5 className='card-text text-start'>
+                  {currency} &nbsp;{balance}
                 </h5>
-                <p className='card-text'>1</p>
               </div>
             </div>
           </div>
           <div className='col-md-4 mb-4'>
             <div className='card ' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
+                <h4 className='card-title'>
                   Total Courses <BsBookFill style={style} />
-                </h5>
-                <p className='card-text'>2</p>
+                </h4>
+                <h5 className='card-text'>{teachedCoursesCount} Courses</h5>
               </div>
             </div>
           </div>
           <div className='col-md-4 mb-4'>
             <div className='card' style={backStyle}>
               <div className='card-body'>
-                <h5 className='card-title'>
-                  Total Students <IoSchool style={style} />
-                </h5>
-                <p className='card-text'>3 </p>
+                <h4 className='card-title'>
+                  Average Rating <AiFillStar style={style} />
+                </h4>
+                <h5 className='card-text'>{averageRating} Rating</h5>
               </div>
             </div>
           </div>

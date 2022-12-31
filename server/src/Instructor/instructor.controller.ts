@@ -71,7 +71,6 @@ class InstructorController {
     try {
       const instructorID: string = req.params.instructorID as string;
       const traineeID: string = req.params.traineeID as string;
-      console.log(traineeID);
       const userReview: Review = req.body;
 
       const instructorRating: Rating = await this.instructorService.addReviewToInstructor(instructorID, traineeID, userReview);
@@ -244,6 +243,28 @@ class InstructorController {
 
       res.json({
         ...topRatedInstructorsPaginatedResponse,
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets active instructors
+  public getActiveInstructors = async (
+    req: Request,
+    res: Response<HttpResponse<{ active: number; inactive: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const activeInstructorsCount: number = await this.instructorService.getActiveInstructors();
+      const inactiveInstructorsCount: number = await this.instructorService.getInactiveInstructors();
+      res.json({
+        data: {
+          active: activeInstructorsCount,
+          inactive: inactiveInstructorsCount,
+        },
         message: 'Completed Successfully',
         success: true,
       });

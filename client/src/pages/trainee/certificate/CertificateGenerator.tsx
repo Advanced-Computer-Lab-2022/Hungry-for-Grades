@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { useParams } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 import CourseRating from '../../guest/course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
@@ -13,6 +15,9 @@ import ErrorMessage from '@components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import { toastOptions } from '@/components/toast/options';
+import ShareButton from '@/components/buttons/shareButton/ShareButton';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -32,7 +37,7 @@ export default function CertificateGenerator() {
   const img = document.createElement('img');
   img.src = '/Certificate.png';
 
-  const {mutateAsync : sendMail} = usePostQuery();
+  const { mutateAsync: sendMail } = usePostQuery();
 
   useEffect(() => {
     if (!isLoading && verifiedCourseData) {
@@ -128,10 +133,8 @@ export default function CertificateGenerator() {
     pdf.save('certificate.pdf');
   };
 
-  async function sendOnMail()
-  {
-
-    const pdf : jsPDF = new jsPDF({
+  async function sendOnMail() {
+    const pdf: jsPDF = new jsPDF({
       orientation: 'landscape',
       unit: 'cm',
       format: [29.7, 21]
@@ -143,21 +146,29 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
     const tmp = pdf.output('datauristring');
-    
+
     const mail = TraineeRoutes.POST.sendCertificateByMail;
 
     //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
-    mail.URL = `/trainee/${traineeData?._id as string}/course/${courseId as string}/certificate`;
-    
-    mail.payload={certificate: tmp}
+    mail.URL = `/trainee/${traineeData?._id as string}/course/${
+      courseId as string
+    }/certificate`;
 
-    const { data } = await sendMail(mail);
+    mail.payload = { certificate: tmp };
 
-    console.log(data);
+    await toast.promise(
+      sendMail(mail),
+      {
+        pending: 'Sending Certificate',
+        success: 'Certificate Sent',
+        error: 'Error Sending Certificate'
+      },
+      toastOptions
+    );
   }
 
   if (isError) return <ErrorMessage />;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoaderComponent />;
   return (
     <div className='container-md mt-4'>
       <div className='row gx-5'>
@@ -246,11 +257,12 @@ export default function CertificateGenerator() {
             >
               Download
             </button>
-            <button className='btn btn-primary me-2' type='submit'>
-              Share
-            </button>
-            <button className='btn btn-primary' type='submit'
-            onClick={()=>sendOnMail()}>
+            <ShareButton link={`course/${courseId as string}`} />
+            <button
+              className='btn btn-primary'
+              type='submit'
+              onClick={() => sendOnMail()}
+            >
               Send by Mail
             </button>
           </div>

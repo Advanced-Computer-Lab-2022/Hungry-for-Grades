@@ -5,14 +5,19 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { ITrainee } from '@/interfaces/course.interface';
-import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
+import {
+  addToWishlist,
+  getEnrolledCourseById,
+  addToCart,
+  removeFromCart,
+  removeFromWishlist
+} from '@/services/axios/dataServices/TraineeDataService';
 import { UseCountry } from '@/store/countryStore';
 
 import { useUserStore } from '@/store/userStore';
-import { Reason, Report, ReportDTO, Status } from '@/interfaces/reports.interface';
+import { Reason, ReportDTO, Status } from '@/interfaces/reports.interface';
 import { requestCourse } from '@/services/axios/dataServices/ReportDataService';
 import { toastOptions } from '@/components/toast/options';
-import { HttpResponse } from '@/interfaces/response.interface';
 
 export default function (courseid: string) {
   const userStore = useUserStore();
@@ -26,21 +31,68 @@ export default function (courseid: string) {
     () => getEnrolledCourseById(traineeId, courseid)
   );
 
+  const removeFromWishList =
+    user &&
+    user.role === 'Trainee' &&
+    !user.isCorporate &&
+    !isLoading &&
+    isError
+      ? async () => {
+          const res = await removeFromWishlist(user._id, courseid, country);
+          if (res) {
+            toast('Course removed from Wishlist successfully');
+          } else {
+            toast('Course is not in Wishlist');
+          }
+        }
+      : undefined;
+
   const addToWishList =
     user &&
     user.role === 'Trainee' &&
     !user.isCorporate &&
     !isLoading &&
     isError
-      ? () => {}
+      ? async () => {
+          const res = await addToWishlist(user._id, courseid);
+          if (res) {
+            toast('Course added to Wishlist successfully');
+          } else {
+            toast('Course is already in Wishlist');
+          }
+        }
       : undefined;
-  const addToCart =
+
+  const addCart =
     user &&
     user.role === 'Trainee' &&
     !user.isCorporate &&
     !isLoading &&
     isError
-      ? () => {}
+      ? async () => {
+          const res = await addToCart(user._id, courseid);
+          if (res) {
+            toast('Course added to Cart successfully');
+          } else {
+            toast('Course is already in Cart');
+          }
+        }
+      : undefined;
+
+  const removeCart =
+    user &&
+    user.role === 'Trainee' &&
+    !user.isCorporate &&
+    !isLoading &&
+    isError
+      ? async () => {
+          const res = await removeFromCart(user._id, courseid, country);
+          if (res) {
+            toast('Course removed from Cart successfully');
+          } else {
+            toast('Course is not in Cart');
+          }
+        }
       : undefined;
 
   const viewCourse =
@@ -65,11 +117,15 @@ export default function (courseid: string) {
             status: Status.UNSEEN
           };
           const res = await requestCourse(reportData);
-          console.log(res)
+
+          console.log(res);
           if (res?.status) {
-            toast.success('Request access submitted successfully',toastOptions);
+            toast.success(
+              'Request access submitted successfully',
+              toastOptions
+            );
           } else {
-            toast.error('Unsuccessful Request',toastOptions);
+            toast.error('Unsuccessful Request', toastOptions);
           }
         }
       : undefined;
@@ -78,7 +134,9 @@ export default function (courseid: string) {
     user,
     traineeId,
     addToWishList,
-    addToCart,
+    addToCart: addCart,
+    removeFromCart: removeCart,
+    removeFromWishList,
     viewCourse,
     requestAccess
   };

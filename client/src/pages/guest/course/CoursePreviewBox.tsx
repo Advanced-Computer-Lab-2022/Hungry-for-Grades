@@ -12,11 +12,24 @@ import { ICourse } from '@/interfaces/course.interface';
 import Price from '@/components/courseCard/Price';
 import { formatDuration } from '@/utils/duration';
 import useCourseButtons from '@/hooks/useCourseButtons';
-import { useWishListDeleteQuery, useCartDeleteQuery, addtoWishList, addtoCart } from '@/components/courseCard/cardButtons/buttons';
+import {
+  useWishListDeleteQuery,
+  useCartDeleteQuery,
+  addtoWishList,
+  addtoCart
+} from '@/components/courseCard/cardButtons/buttons';
 import usePostQuery from '@/hooks/usePostQuery';
-import { UseCartStoreInCart, UseCartStoreAddCourse, UseCartStoreRemoveCourse } from '@/store/cartStore';
+import {
+  UseCartStoreInCart,
+  UseCartStoreAddCourse,
+  UseCartStoreRemoveCourse
+} from '@/store/cartStore';
 import { UseUser } from '@/store/userStore';
-import { UseWishListAddCourse, UseWishListRemoveCourse, UseWishListInCart } from '@/store/wishListStore';
+import {
+  UseWishListAddCourse,
+  UseWishListRemoveCourse,
+  UseWishListInCart
+} from '@/store/wishListStore';
 import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { Reason, Status } from '@/interfaces/reports.interface';
@@ -64,22 +77,27 @@ function CoursePreviewBox(props: ICourse) {
     props?._id
   );
 
-  async function requestAcessHussein()
-  {
+  async function requestAcessHussein() {
     const req = ReportDataService.POST.makeReport;
-    req.payload = 
-    {
-      _course:props?._id,
-      _user:user?._id,
-      reason:Reason.COUSE_REQUEST,
-      status:Status.UNSEEN
-    }
+    req.payload = {
+      _course: props?._id,
+      _user: user?._id,
+      reason: Reason.COUSE_REQUEST,
+      status: Status.UNSEEN
+    };
 
     const ress = await makeCourseRequest(req);
 
-    if(!ress?.status) toast.error('You have already requested access to this course before', toastOptions);
-    else toast.success('YOur request is sent to the admin successfully', toastOptions);
-
+    if (!ress?.status)
+      toast.error(
+        'You have already requested access to this course before',
+        toastOptions
+      );
+    else
+      toast.success(
+        'YOur request is sent to the admin successfully',
+        toastOptions
+      );
   }
 
   const emberUrl = getEmbedUrl(props.previewVideoURL);
@@ -177,8 +195,7 @@ function CoursePreviewBox(props: ICourse) {
           <button
             className='btn btn-dark my-1 w-100'
             type='button'
-            onClick={async ()=>
-            {
+            onClick={async () => {
               await requestAcessHussein();
             }}
           >

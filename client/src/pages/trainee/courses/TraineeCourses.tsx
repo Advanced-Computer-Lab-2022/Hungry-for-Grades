@@ -54,7 +54,7 @@ export default function MyCourses() {
 
   const incoming = data?.data?.data;
 
-  console.log(incoming)
+  console.log(incoming);
 
   if (incoming.length == 0) {
     return (
@@ -84,7 +84,7 @@ export default function MyCourses() {
   }
 
   const toShow = incoming?.map(course => {
-    if(course?._course == null) return <></>;
+    if (course?._course == null) return <></>;
     const tt: ICourse = course?._course;
     const courseCardP = mapCourseToCardProps(tt);
     return (
