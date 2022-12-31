@@ -1,6 +1,4 @@
-
-.cover
-{
+.cover {
     margin-top: 1rem;
     width: 80%;
     background-color: #EDEDED;
@@ -8,21 +6,25 @@
     border-radius: 20px;
 }
 
-.actual
-{
-    width : calc((var(--rating))/100 * 100%)  ;
+.actual {
+    width: calc((var(--rating))/100 * 100%);
     //DA0037
-    
     background-color: var(--color);
     height: 0.3rem;
     border-radius: 20px;
 }
 
-.refund
-{
-    border : none;
-    font-size:0.8rem;
-    display:inline-block;
-    color:#A00407;
+.refund {
+    border: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    color: #A00407;
     padding: 0;
+}
+
+.seperator {
+    display: inline-block;
+    width: 2px;
+    max-height: 10% !important;
+    background-color: var(--secondary-color);
 }

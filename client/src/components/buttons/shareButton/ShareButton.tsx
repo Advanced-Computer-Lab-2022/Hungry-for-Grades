@@ -50,7 +50,7 @@ import QRCodeGenerator from './QrcodeGenerator';
 import Modal from '@/components/modal/Modal';
 
 function ShareButton({ link }: { link: string }) {
-  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL as string;
+  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL ;
   const endLink = `${CLIENT_URL}${link}`;
   const [ qrcodeImg,setqrcodeImg]=useState('');
   useEffect(() => {
@@ -91,7 +91,7 @@ function ShareButton({ link }: { link: string }) {
               alt='file'
               className='img-fluid ml-1'
               src={qrcodeImg}
-              style={{ border: '1px solid black', color: 'aqua' }}
+              style={{ border: '1px solid black', color: 'var(--primary-color)' }}
             />
           </div>
           <div className='d-flex flex-row justify-content-center align-items-center flex-wrap'>

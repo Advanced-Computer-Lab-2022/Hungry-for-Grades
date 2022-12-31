@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { useParams } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 import CourseRating from '../../guest/course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
@@ -14,8 +16,8 @@ import { UseUser } from '@/store/userStore';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
-import { toast } from 'react-toastify';
 import { toastOptions } from '@/components/toast/options';
+import ShareButton from '@/components/buttons/shareButton/ShareButton';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -155,7 +157,7 @@ export default function CertificateGenerator() {
     mail.payload={certificate: tmp}
 
     await toast.promise(  sendMail(mail),{
-			loading: 'Sending Certificate',
+			pending: 'Sending Certificate',
 			success: 'Certificate Sent',
 			error: 'Error Sending Certificate'
 		},toastOptions);
@@ -252,9 +254,7 @@ export default function CertificateGenerator() {
             >
               Download
             </button>
-            <button className='btn btn-primary me-2' type='submit'>
-              Share
-            </button>
+						<ShareButton link={`course/${courseId as string}`}/>
             <button className='btn btn-primary' type='submit'
             onClick={()=>sendOnMail()}>
               Send by Mail
