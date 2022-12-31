@@ -250,6 +250,28 @@ class InstructorController {
       next(error);
     }
   };
+
+  // @desc gets active instructors
+  public getActiveInstructors = async (
+    req: Request,
+    res: Response<HttpResponse<{ active: number; inactive: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const activeInstructorsCount: number = await this.instructorService.getActiveInstructors();
+      const inactiveInstructorsCount: number = await this.instructorService.getInactiveInstructors();
+      res.json({
+        data: {
+          active: activeInstructorsCount,
+          inactive: inactiveInstructorsCount,
+        },
+        message: 'Completed Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default InstructorController;

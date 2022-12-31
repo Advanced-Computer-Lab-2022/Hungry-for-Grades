@@ -627,7 +627,6 @@ class CourseController {
 
       const lessonWithProgress = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
 
-
       res.json({
         data: lessonWithProgress,
         message: 'Lesson Fetched Successfully',

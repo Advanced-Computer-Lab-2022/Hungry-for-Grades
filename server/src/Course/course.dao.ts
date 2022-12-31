@@ -862,18 +862,18 @@ class CourseService {
     if (!lesson) throw new HttpException(HttpStatusCodes.CONFLICT, "Lesson doesn't exist");
 
     const traineeService = new TraineeService();
-    const updatedProgress=await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID)??0;
+    const updatedProgress = (await traineeService.updateTraineeProgressInCourseIfEnrolled(userID, courseID, lessonID)) ?? 0;
     await traineeService.markLastVisitedCourse(userID, courseID);
 
-    const result:any={
-      _id:lesson._id,
-      description:lesson.description,
-      title:lesson.title,
-      duration:lesson.duration,
-      videoURL:lesson.videoURL,
-      progress:updatedProgress,
+    const result: any = {
+      _id: lesson._id,
+      description: lesson.description,
+      title: lesson.title,
+      duration: lesson.duration,
+      videoURL: lesson.videoURL,
+      progress: updatedProgress,
     };
-    
+
     return result;
   }
 

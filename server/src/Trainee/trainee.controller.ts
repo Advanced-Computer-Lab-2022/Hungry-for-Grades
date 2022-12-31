@@ -1,21 +1,14 @@
 import { RequestWithTokenPayload, RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
 import { ICourse } from '@/Course/course.interface';
-import { HttpException } from '@/Exceptions/HttpException';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { logger } from '@/Utils/logger';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
-import { UploadedFile } from 'express-fileupload';
-import jsPDF from 'jspdf';
 import { Types } from 'mongoose';
-import path from 'path';
 import { CartDTO, WishlistDTO } from './trainee.dto';
 import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
-
-import fs from 'fs';
-import PDFDocument from 'pdfkit';
 
 class TraineeController {
   public traineeService = new TraineeService();
@@ -39,10 +32,36 @@ class TraineeController {
   };
 
   // @desc gets all Trainees info
-  public getAllTrainees = async (req: Response, res: Response<HttpResponse<ITrainee[]>>, next: NextFunction): Promise<void> => {
+  public getTrainees = async (
+    req: Request,
+    res: Response<HttpResponse<{ trainees: ITrainee[]; count: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
       const traineesData: ITrainee[] = await this.traineeService.getTrainees();
-      res.json({ data: traineesData, message: 'Completed Successfully', success: true });
+      res.json({ data: { trainees: traineesData, count: traineesData.length }, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets all Trainees info
+  public getActiveTrainees = async (
+    req: Request,
+    res: Response<HttpResponse<{ active: number; inactive: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const activetraineesCount: number = await this.traineeService.getActiveTrainees();
+      const inactivetraineesCount: number = await this.traineeService.getInactiveTrainees();
+      res.json({
+        data: {
+          active: activetraineesCount,
+          inactive: inactivetraineesCount,
+        },
+        message: 'Completed Successfully',
+        success: true,
+      });
     } catch (error) {
       next(error);
     }
@@ -396,10 +415,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
-
-      const certificatePDFBase64=req.body.certificate;// Base 64 encoded
-
-
+      const certificatePDFBase64 = req.body.certificate; // Base 64 encoded
 
       //const certificateFile = req.files.certificate as UploadedFile;
 

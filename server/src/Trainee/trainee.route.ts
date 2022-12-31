@@ -17,7 +17,8 @@ class TraineeRoute implements Routes {
   }
 
   private initializeRoutes() {
-    //this.router.get('/', this.traineeController.getAllTrainees);
+    this.router.get('/', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.traineeController.getTrainees);
+    this.router.get('/active', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.traineeController.getActiveTrainees);
     this.router.post('/signup', this.traineeController.createTrainee);
     //this.router.get('/info', authenticateUser, allowedRoles([AuthRole.INDIVIDUAL_TRAINEE]), userMiddleware, this.traineeController.getTraineeInfo);
 
