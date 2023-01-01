@@ -144,6 +144,7 @@ export type ICourseLesson = {
   duration: number;
   title: string;
   videoURL: string;
+  progress?: number;
 };
 
 export type ICourseQuestion = {

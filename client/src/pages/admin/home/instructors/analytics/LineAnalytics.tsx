@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import LineGraph from '@/components/graphs/lineGraph/LineGraph';
 
 type AnalyticData = {
@@ -38,7 +39,7 @@ export default function LineAnalytics(props: CourseAnalyticsProps) {
       />
       <LineGraph<{
         title: string;
-        AverageRating: number;
+        'Average Rating': number;
       }>
         data={props?.data.map(data => {
           return {
