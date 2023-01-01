@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import {  useQuery } from '@tanstack/react-query';
 
 import { FiSend } from 'react-icons/fi';
 
@@ -17,6 +17,8 @@ import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { ITrainee } from '@/interfaces/course.interface';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 async function getReport(id: string) {
   const report = ReportDataService.GET.getReportById;
@@ -36,13 +38,6 @@ async function getReport(id: string) {
   };
 }
 
-/*
-
-i want it as a modal ??
-Make the Modal Here and take the report with you
-
-
-*/
 
 export default function FollowUp(props: {
   report: AllReport;
@@ -51,19 +46,13 @@ export default function FollowUp(props: {
 }) {
   const user = UseUser();
 
-  //const param = useParams();
-
-  //const [searchParams] = useSearchParams();
 
   const [txt, setTxt] = useState<string>('');
 
   const [update, setUpdate] = useState(0);
 
-  //const reportID = param?.reportId;
-  //const trainee = searchParams.get('trainee') as string;
-
   const { data } = useQuery(
-    ['get me a report right nowwwwwwwwx', update, location, props?.report?._id],
+    ['follow-ups', update, location, props?.report?._id],
     () => getReport(props?.report?._id),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -77,18 +66,14 @@ export default function FollowUp(props: {
     props?.func();
   }
 
-  const { mutateAsync: sendMessage } = usePostQuery();
+  const { mutateAsync: sendMessage,isLoading,isError } = usePostQuery();
 
-  /*if(isLoading)
-  {
-    return <Loader />
-  }*/
 
-  //console.log(data);
+
+
 
   const report = data?.report as unknown as AllReport;
 
-  //console.log(report);
 
   let i = -1;
   const img =
@@ -96,7 +81,7 @@ export default function FollowUp(props: {
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
-  const toShow = report?.followUp?.length ? (
+  const toShow = report?.followUp?.length>0 ? (
     report?.followUp?.map((message: Message) => {
       const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
@@ -182,7 +167,9 @@ export default function FollowUp(props: {
           Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
         </div>*/}
             <div className={styles.message_holder}>
-              {toShow}
+							{isError && <ErrorMessage />	}
+							{isLoading && <LoaderComponent />}
+              {!isError && !isLoading && report && toShow}
               <div id='scroll-here' />
             </div>
           </div>
