@@ -77,7 +77,7 @@ function CoursePreviewBox(props: ICourse) {
     props?._id
   );
 
-  async function requestAcessHussein() {
+  async function requestAccessToCourse() {
     const req = ReportDataService.POST.makeReport;
     req.payload = {
       _course: props?._id,
@@ -86,7 +86,9 @@ function CoursePreviewBox(props: ICourse) {
       status: Status.UNSEEN
     };
 
-    const ress = await makeCourseRequest(req);
+    const ress = await toast.promise(makeCourseRequest(req),{
+			'pending':'requesting access to this course ...'
+		},toastOptions);
 
     if (!ress?.status)
       toast.error(
@@ -198,7 +200,7 @@ function CoursePreviewBox(props: ICourse) {
             className='btn btn-dark my-1 w-100'
             type='button'
             onClick={async () => {
-              await requestAcessHussein();
+              await requestAccessToCourse();
             }}
           >
             <strong>Request access</strong>

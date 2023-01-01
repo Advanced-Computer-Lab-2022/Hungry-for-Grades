@@ -45,9 +45,6 @@ function ForgotPassword() {
         mutateAsync(forgetPasswordRoute),
         {
           pending: 'Sending email...',
-          success: 'Email sent successfully',
-          error: 'Error sending email',
-          ...toastOptions
         },
         toastOptions
       );
@@ -55,7 +52,10 @@ function ForgotPassword() {
       if (!response.status) {
         toast.error(response.data.message, toastOptions);
         return;
-      }
+      }else{
+				toast.success('Email sent successfully to change the password',
+				 toastOptions);
+			}
       return true;
     } catch (err) {
       console.log(err);

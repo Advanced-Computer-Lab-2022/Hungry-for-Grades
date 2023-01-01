@@ -113,8 +113,7 @@ function Signup() {
         mutateAsync(signup),
         {
           pending: 'Signing up ...',
-          success: `Welcome ${name}`,
-          error: 'Error signing up'
+
         },
         toastOptions
       );
@@ -123,7 +122,10 @@ function Signup() {
         toast.error(response.data.message, toastOptions);
 
         return;
-      }
+      }else{
+				toast.success(`Welcome ${name}`, toastOptions);
+
+			}
 
       navigate('/auth/login', {
         state: {

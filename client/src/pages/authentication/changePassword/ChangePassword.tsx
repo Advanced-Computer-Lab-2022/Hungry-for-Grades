@@ -64,9 +64,6 @@ function ChangePassword() {
         mutateAsync(changePasswordRoute),
         {
           pending: 'Changing Password',
-          success: 'Password Changed Successfully',
-          error: 'Error Changing Password',
-          ...toastOptions
         },
         toastOptions
       );
@@ -75,7 +72,10 @@ function ChangePassword() {
       if (!response.status) {
         toast.error(response.data.message, toastOptions);
         return;
-      }
+      }else{
+				toast.success('Password Changed Successfully', toastOptions);
+				navigate('/auth/login');
+			}
 
       return true;
     } catch (err) {
@@ -83,7 +83,7 @@ function ChangePassword() {
 
       return false;
     }
-  }, [formik, mutateAsync, searchParams, token, userId]);
+  }, [formik, mutateAsync, navigate, searchParams, token, userId]);
 
   return (
     <div className='changePassword d-flex flex-row justify-content-between'>

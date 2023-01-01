@@ -67,12 +67,12 @@ export default function Create() {
       createUser(AdminRoutee),
       {
         pending: 'Creating Admin User',
-        success: 'Admin Is Created Successfully'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
+			toast.success('Admin Is Created Successfully',toastOptions)
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -113,12 +113,12 @@ export default function Create() {
       createUser(AdminRoutee),
       {
         pending: 'Creating Instructor User',
-        success: 'Instructor Is Created Successfully'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
+      toast.success('Instructor Is Created Successfully',toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -160,12 +160,13 @@ export default function Create() {
       createUser(AdminRoutee),
       {
         pending: 'Creating Corporate Trainee User',
-        success: 'Corporate Trainee Is Created Successfully'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
+			toast.success('Corporate Trainee Is Created Successfully',toastOptions);
+
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }

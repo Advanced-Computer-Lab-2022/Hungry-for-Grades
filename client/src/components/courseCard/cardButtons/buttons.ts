@@ -76,7 +76,10 @@ export async function addtoWishList( // Return type = integer    0 --> No Actual
     addCourseToWishListt(course);
     const toBeAdded = TraineeRoutes.POST.addToWishlist;
     toBeAdded.URL = `/trainee/${user?._id}/wishlist/${course}`;
-    await addToWishListFromTheButon(toBeAdded);
+    await toast.promise(addToWishListFromTheButon(toBeAdded),{
+			pending: 'Adding to the WishList...',
+
+		},toastOptions);
     toast.success(
       'Course is Added to the Wishlist successfully...',
       toastOptions
@@ -119,7 +122,9 @@ export async function addtoCart( //Returns an integer 0 --> No ACtual Delete 1 -
     addCourseToCart(course); //added to the store
     const Course = TraineeRoutes.POST.addToCart;
     Course.URL = `/trainee/${user?._id}/cart/${course}`;
-    await addToCartFromTheButton(Course);
+    await toast.promise(addToCartFromTheButton(Course),{
+			pending: 'Adding to the Cart...',
+		},toastOptions);
     toast.success('Course is Added to the Cart successfully...', toastOptions);
     if (isInWishList) {
       //Remove it from the wishlist
