@@ -29,8 +29,8 @@ function WishCartButtons() {
 			{progressBar && courseid && location.pathname.includes(`/trainee/view-course/`)&& (
 				<Link to={progressBar ===100?`/trainee/certificate/${courseid}`:location.pathname} >
 					<div style={{
-						width:'3.2rem',
-						height:'3.2rem',
+						width:'3rem',
+						height:'3rem',
 					}}>
       <CircularProgressbarWithChildren  background backgroundPadding={3} className='progressbar' maxValue={100}  minValue={0}
 			styles={buildStyles({
@@ -45,14 +45,17 @@ function WishCartButtons() {
 				<div className='position-relative'>
 			<BsFillTrophyFill style={{
 				color: 'var(--primary-color)',
-				fontSize: '1.8rem',
+				fontSize: '1.5rem',
 				fill:'50%'
 			}}/>
-			<p className='position-absolute text-secondary '
+			<p className='position-absolute text-white bg-secondary badge rounded-pill'
 			style={{
 
-				fontSize:'1rem',
-				fontWeight:'800'
+				fontSize:'0.8rem',
+				fontWeight:'800',
+				top:'115%',
+				left:'-25%',
+
 			}}
 
 			>			{progressBar}%
