@@ -1,14 +1,20 @@
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
-
 import { GiTeacher } from 'react-icons/gi';
 
 import styles from '../card.module.scss';
 
 import UseDataQuery from './UseDataQuery';
 
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import UseDataAnalyticsQuery from './UseDataAnalyticsQuery';
+
+import AreaAnalytics from './analytics/AreaAnalytics';
+import LineAnalytics from './analytics/LineAnalytics';
+import BarAnalytics from './analytics/BarAnalytics';
+
+import useMultistepForm from '@/hooks/useMultistepForm';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 const style = {
   fontSize: '1.5rem',
   marginBottom: '0.2rem',
@@ -23,10 +29,70 @@ const backStyle = {
 };
 function Trainees() {
   const { data, isLoading, isError } = UseDataQuery();
-  if (isLoading) {
+  const {
+    data: analytics,
+    isLoading: isLoadingAnalytics,
+    isError: isErrorAnalytics
+  } = UseDataAnalyticsQuery();
+
+	console.log(analytics);
+	
+
+  const { currentStepIndex, goTo, step, titles } = useMultistepForm(
+    [
+      <div key='area-analytics-instructor-earnings'>
+        <AreaAnalytics
+          data={
+            analytics
+              ? analytics?.data?.data?.map(instructor => {
+                  return {
+                    Earnings: instructor.balance ,
+										title:instructor.name,
+										'Average Rating':instructor.rating.averageRating
+                  };
+                })
+              : []
+          }
+        />
+      </div>,
+      <div key='line-analytics-instructor-earnings'>
+        <LineAnalytics
+         data={
+					analytics
+						? analytics?.data?.data?.map(instructor => {
+								return {
+									Earnings: instructor.balance ,
+									title:instructor.name,
+									'Average Rating':instructor.rating.averageRating
+								};
+							})
+						: []
+				}
+        />
+      </div>,
+      <div key='bar-analytics-instructor-earnings'>
+        <BarAnalytics
+       data={
+				analytics
+					? analytics?.data?.data?.map(instructor => {
+							return {
+								Earnings: instructor.balance ,
+								title:instructor.name,
+								'Average Rating':instructor.rating.averageRating
+							};
+						})
+					: []
+			}
+        />
+      </div>
+    ],
+    ['Area', 'Line', 'Bar'],
+    ['']
+  );
+  if (isLoading || isLoadingAnalytics) {
     return <LoaderComponent />;
   }
-  if (isError) {
+  if (isError || isErrorAnalytics) {
     return <ErrorMessage />;
   }
 
@@ -65,6 +131,28 @@ function Trainees() {
             </div>
           </div>
         </div>
+				<div className='d-flex justify-content-between'>
+          <div className='container d-flex flex-row justify-content-center mb-4'>
+            {titles?.map((title, index) => (
+              <button
+                key={title}
+                className={`navButton ${
+                  currentStepIndex === index ? 'activeNavButton' : ''
+                }`}
+                type='button'
+                onClick={function go() {
+                  goTo(index);
+                }}
+              >
+                {title}
+              </button>
+            ))}
+          </div>
+        </div>
+				<div className={`${styles.card ?? ''} container p-5`} style={backStyle}>
+				<h3 className='text-dark text-left m-2 mb-4'>Top Instructors</h3>
+				<div>{step}</div>
+				</div>
       </div>
     </>
   );
