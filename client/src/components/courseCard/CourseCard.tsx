@@ -156,9 +156,9 @@ function CourseCard(courseProps: {
                   />
                 </div>
                 <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-                  <strong>
+                 {props.duration && <strong>
                     Duration: {formatDuration(props.duration * 60)}
-                  </strong>
+                  </strong>}
                 </div>
                 <CourseRating {...props.rating} />
                 {isActualEnrolled && (

@@ -1,8 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from '@tanstack/react-query';
 
 import { useTraineeId } from '@/hooks/useTraineeId';
 import { getLessonById } from '@/services/axios/dataServices/CoursesDataService';
 import Loader from '@/components/loader/loaderpage/Loader';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUserSetProgressBar } from '@/store/userStore';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -20,27 +24,36 @@ function getEmbedUrl(url: string) {
 }
 function Video(props: { lessonId: string; courseId: string }) {
   const userId = useTraineeId();
+  const useUserSetProgressBar = UseUserSetProgressBar();
+
   const { data, isError, isLoading } = useQuery(
     ['getLessonById', props.lessonId, props.courseId, userId],
     () => getLessonById(props.courseId, props.lessonId, userId)
   );
   if (isLoading) {
-    return <Loader />;
+    return (
+		<div className='d-flex justify-content-center align-items-center'
+		style={{
+			minHeight:'20rem',
+			minWidth:'100%',
+		}}
+		><LoaderComponent />
+		</div>);
   }
   if (isError) {
-    return (
-      <h1 className='text-dange text-center'>
-        An error has occured while loading page
-      </h1>
-    );
+    return <ErrorMessage />;
   }
+
   if (!data) {
     return <></>;
+  }
+  if (data) {
+    useUserSetProgressBar(data.progress as number);
   }
   const embeddedUrl = getEmbedUrl(data.videoURL);
   return (
     <>
-      <h2 className='text-dark text-center my-3'>{data.title}</h2>
+      <h2 className='text-dark text-center my-3'>{data?.title}</h2>
       <p
         style={{
           position: 'relative',
@@ -49,6 +62,10 @@ function Video(props: { lessonId: string; courseId: string }) {
           margin: '0 auto'
         }}
       >
+				<div style={{
+					minHeight:'100%',
+					minWidth:'100%',
+				}}>
         {embeddedUrl && (
           <iframe
             allowFullScreen
@@ -62,11 +79,12 @@ function Video(props: { lessonId: string; courseId: string }) {
               top: 0,
               border: 0
             }}
-            title={data.title}
+            title={data?.title}
           />
-        )}
+					)}
+					</div>
       </p>
-      <p className='m-3'>{data.description}</p>
+      <p className='m-3'>{data?.description}</p>
     </>
   );
 }
