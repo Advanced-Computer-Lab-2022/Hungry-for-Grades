@@ -1,4 +1,4 @@
-import { MdIndeterminateCheckBox } from 'react-icons/md';
+import { useState } from 'react';
 
 import styles from './DiscountTable.module.scss';
 
@@ -9,14 +9,30 @@ export default function DiscountTable(props: {
   funA: (x: ICourse) => void;
   funR: (x: ICourse) => void;
   st: Set<ICourse>;
+  clearSet: () => void;
 }) {
+  const [all, setAll] = useState<boolean>(false);
+
   function handleMultipleRows(cc: ICourse) {
     if (props?.st.has(cc)) {
       //then we are removing it now
+      setAll(false);
       props?.funR(cc);
     } else {
       props?.funA(cc);
     }
+  }
+
+  function SelectAll() {
+    if (!all) {
+      for (let i = 0; i < props?.data?.length; ++i) {
+        if ((props?.data[i]?.price?.discounts?.length as number) == 0)
+          props?.funA(props?.data[i] as ICourse);
+      }
+    } else {
+      props?.clearSet();
+    }
+    setAll(!all);
   }
 
   let i = 0;
@@ -37,6 +53,7 @@ export default function DiscountTable(props: {
       >
         <td>
           <input
+            checked={(all || props?.st?.has(course)) && !isDisabled}
             disabled={isDisabled}
             id={'CheckBoasdx'.concat(
               (138191 * 10501 + -10 + 1912 + i).toString()
@@ -79,8 +96,18 @@ export default function DiscountTable(props: {
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
           >
             <th>
-              <MdIndeterminateCheckBox
-                style={{ color: '#DC3535', fontSize: '1.5rem' }}
+              <input
+                checked={all}
+                className='form-check-input'
+                style={{
+                  width: '1.4rem',
+                  height: '1.2rem',
+                  alignItems: 'center',
+                  //here was marginTop 1rem
+                  marginLeft: '0.1rem'
+                }}
+                type='checkbox'
+                onClick={() => SelectAll()}
               />
             </th>
             <th>Course </th>

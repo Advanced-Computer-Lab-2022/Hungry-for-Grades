@@ -6,11 +6,9 @@ import { NewsLetterRoutes } from '../../../services/axios/dataServices/NewsLette
 
 import { type UserSearchFiltersType } from './types';
 
-import { CoursesRoutes } from '@services/axios/dataServices/CoursesDataService';
 import { getRequest } from '@services/axios/http-verbs';
 import { customComparator } from '@/utils/comparator';
 import { PaginatedResponse } from '@/interfaces/response.interface';
-import { ICourse } from '@/interfaces/course.interface';
 
 let oldFilters: UserSearchFiltersType;
 

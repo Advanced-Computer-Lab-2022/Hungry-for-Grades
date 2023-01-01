@@ -1,3 +1,4 @@
+/* eslint-disable css-modules/no-unused-class */
 import { Form, Formik } from 'formik';
 import { useCallback, useState } from 'react';
 //import Modal from 'react-modal';
