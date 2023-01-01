@@ -18,7 +18,7 @@ import { UseCountry } from '@/store/countryStore';
 
 import { UseCacheStoreSetData } from '@/store/cacheStore';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 function Course() {
   const country = UseCountry();
@@ -34,7 +34,7 @@ function Course() {
     return <ErrorMessage />;
   }
   if (isLoading) {
-    return <LoaderComponent />;
+    return <Loader />;
   }
   if (!data) {
     return <></>;

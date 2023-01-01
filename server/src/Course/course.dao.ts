@@ -306,17 +306,17 @@ class CourseService {
     );
 
     // delete course from trainee's enrolled courses
-    const traineesAffected=await traineeModel.find({ _enrolledCourses: { $elemMatch: { _course: deletedCourse._id }  }});
-    const paymentService=new PaymentService();
-    const traineeService=new TraineeService();
-    const reportService=new ReportService();
+    const traineesAffected = await traineeModel.find({ _enrolledCourses: { $elemMatch: { _course: deletedCourse._id } } });
+    const paymentService = new PaymentService();
+    const traineeService = new TraineeService();
+    const reportService = new ReportService();
 
     for (const trainee of traineesAffected) {
       await paymentService.refundPayment(trainee._id.toString(), courseId);
-        //unroll trainee from course
-        await traineeService.unrollTrainee(trainee._id.toString(), courseId);
+      //unroll trainee from course
+      await traineeService.unrollTrainee(trainee._id.toString(), courseId);
     }
-    
+
     // delete all reports involving this course
     await reportService.deleteReportsRelatedToCourse(courseId);
     return deletedCourse;

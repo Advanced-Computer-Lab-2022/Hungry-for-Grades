@@ -99,12 +99,12 @@ const instructorSchema = new Schema<IInstructor>(
       },
     },
     speciality: {
-      default:"",
+      default: '',
       type: String,
     },
     title: {
-      type:String,
-      default:""
+      type: String,
+      default: '',
     },
     username: {
       match: [/^[a-zA-Z0-9]+$/, ' username is invalid'],
