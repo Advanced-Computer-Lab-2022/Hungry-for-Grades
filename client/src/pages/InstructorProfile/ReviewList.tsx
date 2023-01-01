@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
 import Loader from '@/components/loader/loaderpage/Loader';
@@ -24,10 +26,12 @@ async function getReviews(id: string, activePage: number) {
 export default function ReviewList(props: { text: string }) {
   const [reviewPage, setReviewPage] = useState<number>(1);
 
+  const locationn = useLocation();
+
   const instructorId = props.text;
 
   const { isLoading, data } = useQuery(
-    ['getReviewsNowwww', reviewPage],
+    ['getReviewsNowwww', reviewPage, locationn],
     () => getReviews(instructorId, reviewPage),
     {
       cacheTime: 1000 * 60 * 60 * 24,

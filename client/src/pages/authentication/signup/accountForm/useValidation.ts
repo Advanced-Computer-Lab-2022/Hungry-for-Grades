@@ -16,20 +16,17 @@ function useValidation({ email, password, terms, username }: AccountFormProps) {
       email: Yup.string()
         .email('Invalid Email address')
         .min(6, 'Email address is Too Short!')
-        .max(50, 'Email address is Too Long!')
         .required('Email address is Required'),
       password: Yup.string()
-        .min(6, 'Too Short!')
-        .max(50, 'Too Long!')
+        .min(9, 'Password is Too Short!')
         .required('Password is Required'),
       confirmPassword: Yup.string()
-        .min(6, 'Too Short!')
-        .max(50, 'Too Long!')
+        .min(9, 'Too Short!')
         .required('Confirm Password is Required')
         .oneOf([Yup.ref('password'), null], 'Passwords must match'),
       terms: Yup.boolean().oneOf([true], 'Terms must be accepted'),
       username: Yup.string()
-        .min(1, 'Username is Too Short!')
+        .min(9, 'Username is Too Short!')
         .max(50, 'Username is Too Long!')
         .matches(/^[a-zA-Z]+$/, 'Username must be only letters')
         .required('Username is Required')

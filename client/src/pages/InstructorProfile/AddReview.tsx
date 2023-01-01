@@ -34,7 +34,9 @@ export default function AddReview(props: {
     if (!props?.isUpdating) {
       const rev = InstructorRoutes.POST.userAddReview;
 
-      rev.URL = `/instructor/rating/${props.instructorID}`;
+      rev.URL = `/instructor/rating/${props.instructorID}/trainee/${
+        user?._id as string
+      }`;
 
       rev.payload = {
         _trainee: {

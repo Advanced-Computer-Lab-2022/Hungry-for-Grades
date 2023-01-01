@@ -58,7 +58,7 @@ export const InstructorRoutes = {
       payload: {}
     },
     userAddReview: {
-      URL: '/instructor/rating/',
+      URL: '',
       params: '',
       query: '',
       payload: {}
@@ -72,6 +72,12 @@ export const InstructorRoutes = {
       payload: {}
     },
     updateDiscount: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    updateProfile: {
       URL: '',
       params: '',
       query: '',

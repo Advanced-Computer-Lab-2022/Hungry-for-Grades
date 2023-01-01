@@ -46,7 +46,7 @@ export default function CarouselComponent() {
   ];
   return (
     <div className='container'>
-      <h2 className='text-dark text-left mb-4'>Our Sponsors</h2>
+      <h2 className='text-dark text-left mb-4'>Our Members</h2>
       <Carousel breakPoints={breakpoints} className='my-5'>
         {items.map(item => (
           <div key={item.id}>

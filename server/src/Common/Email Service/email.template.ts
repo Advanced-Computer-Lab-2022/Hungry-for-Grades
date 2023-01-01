@@ -1,6 +1,6 @@
 import handlebars from 'handlebars';
 import path from 'path';
-import fs from 'fs';
+import fs, { access } from 'fs';
 import { sendEmail } from './nodemailer.service';
 import {
   COMPANY_FACEBOOK,
@@ -31,12 +31,12 @@ function getVerifyEmailHTML(username: string, code: number): string {
   return htmlToSend;
 }
 
-export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: UserRole) {
-  const emailBody = getForgetPasswordHTML(username, userId, role);
+export function sendResetPasswordEmail(traineeEmail: string, username: string, userId: string, role: UserRole, accessToken: string) {
+  const emailBody = getForgetPasswordHTML(username, userId, role, accessToken);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Password Reset');
 }
 
-export function getForgetPasswordHTML(username: string, userId: string, role: UserRole): string {
+export function getForgetPasswordHTML(username: string, userId: string, role: UserRole, accessToken: string): string {
   const filePath = path.join(__dirname, '/templates/ForgetPassword.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
@@ -45,7 +45,7 @@ export function getForgetPasswordHTML(username: string, userId: string, role: Us
     instagram: COMPANY_INSTAGRAM,
     linkedin: COMPANY_LINKEDIN,
     logo: COMPANY_LOGO,
-    redirectURL: `${CLIENT_URL}auth/change-password/${userId}?role=${role}`,
+    redirectURL: `${CLIENT_URL}auth/change-password/${userId}?role=${role}&token=${accessToken}`,
     twitter: COMPANY_TWITTER,
     username,
   };
@@ -62,9 +62,9 @@ export function getDiscountHTML(): string {
   return htmlToSend;
 }
 
-export function sendCertificateEmail(traineeEmail: string, username: string, courseName: string, examGrade: string) {
+export function sendCertificateEmail(certificatePDF: string, traineeEmail: string, username: string, courseName: string, examGrade: string) {
   const emailBody = getCertificateEmailHTML(username, courseName, examGrade);
-  const certificateAttachment = prepareCertificateAttachment('Certificate.pdf');
+  const certificateAttachment = prepareCertificateAttachment(certificatePDF);
   sendEmail(traineeEmail, emailBody, 'You officially graduated!!!', certificateAttachment);
 }
 
@@ -88,14 +88,19 @@ export function getCertificateEmailHTML(username: string, courseName: string, ex
   return htmlToSend;
 }
 
-function prepareCertificateAttachment(filename: string) {
+function prepareCertificateAttachment(certificatePDF: string) {
   const certificateAttachment: any[] = [
     {
-      filename,
-      //content:fs.createReadStream(path.join(__dirname,'../../Uploads/certificate.png')), // image
-      path: path.join(__dirname, '../../Uploads/certificate.pdf'), // pdf
-      contentType: 'application/pdf',
+      filename: 'certificate.pdf',
+      path: certificatePDF,
+      //
     },
+    // {
+    //   filename,
+    //   //content:fs.createReadStream(path.join(__dirname,'../../Uploads/certificate.png')), // image
+    //   path: path.join(__dirname, '../../Uploads/certificate.pdf'), // pdf
+    //   contentType: 'application/pdf',
+    // },
   ];
   return certificateAttachment;
 }

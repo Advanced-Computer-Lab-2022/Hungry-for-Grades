@@ -6,12 +6,36 @@ import { CgInfinity } from 'react-icons/cg';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
+import { toast } from 'react-toastify';
+
 import styles from './course-preview-box.module.scss';
 
 import { ICourse } from '@/interfaces/course.interface';
 import Price from '@/components/courseCard/Price';
 import { formatDuration } from '@/utils/duration';
 import useCourseButtons from '@/hooks/useCourseButtons';
+import {
+  useWishListDeleteQuery,
+  useCartDeleteQuery,
+  addtoWishList,
+  addtoCart
+} from '@/components/courseCard/cardButtons/buttons';
+import usePostQuery from '@/hooks/usePostQuery';
+import {
+  UseCartStoreInCart,
+  UseCartStoreAddCourse,
+  UseCartStoreRemoveCourse
+} from '@/store/cartStore';
+import { UseUser } from '@/store/userStore';
+import {
+  UseWishListAddCourse,
+  UseWishListRemoveCourse,
+  UseWishListInCart
+} from '@/store/wishListStore';
+import { IUser } from '@/interfaces/user.interface';
+import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
+import { Reason, Status } from '@/interfaces/reports.interface';
+import { toastOptions } from '@/components/toast/options';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -29,6 +53,53 @@ function getEmbedUrl(url: string) {
 }
 
 function CoursePreviewBox(props: ICourse) {
+  const isInCart = UseCartStoreInCart()(props?._id);
+  const addCourseToWishList = UseWishListAddCourse();
+  const removeCourseToWishList = UseWishListRemoveCourse();
+  const isInWishList = UseWishListInCart()(props?._id);
+  const addCourseToCart = UseCartStoreAddCourse();
+  const removeCourseToCart = UseCartStoreRemoveCourse();
+  const user = UseUser();
+  //Actual Post Requests
+  const { mutateAsync: addToWishListFromTheButton } = usePostQuery();
+  const { mutateAsync: addToCartFromTheButton } = usePostQuery();
+  const { mutateAsync: makeCourseRequest } = usePostQuery();
+
+  //console.log(isInCart);
+
+  //Actual Delete
+  const { refetch: actualDeleteWishList } = useWishListDeleteQuery(
+    user?._id as string,
+    props?._id
+  );
+  const { refetch: actualDeleteCart } = useCartDeleteQuery(
+    user?._id as string,
+    props?._id
+  );
+
+  async function requestAcessHussein() {
+    const req = ReportDataService.POST.makeReport;
+    req.payload = {
+      _course: props?._id,
+      _user: user?._id,
+      reason: Reason.COUSE_REQUEST,
+      status: Status.UNSEEN
+    };
+
+    const ress = await makeCourseRequest(req);
+
+    if (!ress?.status)
+      toast.error(
+        'You have already requested access to this course before',
+        toastOptions
+      );
+    else
+      toast.success(
+        'YOur request is sent to the admin successfully',
+        toastOptions
+      );
+  }
+
   const emberUrl = getEmbedUrl(props.previewVideoURL);
   const { requestAccess, viewCourse, addToCart, addToWishList } =
     useCourseButtons(props._id);
@@ -68,7 +139,23 @@ function CoursePreviewBox(props: ICourse) {
           <button
             className='btn btn-dark my-1 w-100'
             type='button'
-            onClick={addToCart}
+            onClick={async () => {
+              const xx = await addtoCart(
+                props?._id,
+                isInCart,
+                isInWishList,
+                user as IUser,
+                addCourseToCart,
+                removeCourseToWishList,
+                removeCourseToCart,
+                addToCartFromTheButton
+              );
+              if (xx == 1) {
+                await actualDeleteCart();
+              } else if (xx == 2) {
+                await actualDeleteWishList();
+              }
+            }}
           >
             <strong>Add to Cart</strong>
           </button>
@@ -79,7 +166,25 @@ function CoursePreviewBox(props: ICourse) {
           <button
             className='btn btn-light border border-2 my-1 w-100'
             type='button'
-            onClick={addToWishList}
+            onClick={async () => {
+              const xx = await addtoWishList(
+                props?._id,
+                isInCart,
+                isInWishList,
+                user as IUser,
+                addCourseToWishList,
+                removeCourseToWishList,
+                removeCourseToCart,
+                addToWishListFromTheButton
+              );
+              if (xx == 1) {
+                await actualDeleteCart();
+              } else if (xx == 2) {
+                //alert('I will Delete Back ' + props?.id);
+                await actualDeleteWishList();
+                //alert('Done');
+              }
+            }}
           >
             <strong>Add to Wishlist</strong>
           </button>
@@ -90,7 +195,9 @@ function CoursePreviewBox(props: ICourse) {
           <button
             className='btn btn-dark my-1 w-100'
             type='button'
-            onClick={requestAccess}
+            onClick={async () => {
+              await requestAcessHussein();
+            }}
           >
             <strong>Request access</strong>
           </button>

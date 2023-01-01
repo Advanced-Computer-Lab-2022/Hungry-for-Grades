@@ -1,5 +1,5 @@
 import { PaginatedRequest } from '@/Utils/PaginationResponse';
-import { Level } from './course.interface';
+import { Lesson, Level } from './course.interface';
 export interface CourseFilters extends PaginatedRequest {
   category: string;
   country: string; // ISO Code

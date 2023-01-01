@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 import { type ForgotPasswordProps } from './types';
 
 import useValidation from './useValidation';
@@ -15,11 +17,13 @@ import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
+import { toastOptions } from '@/components/toast/options';
+import { HttpResponse } from '@/interfaces/response.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ForgotPassword() {
-  const { isError, error, mutateAsync } = usePostQuery();
+  const { isError, error, mutateAsync } = usePostQuery<HttpResponse<null>>();
   const { formik } = useValidation();
   const navigate = useNavigate();
 
@@ -37,8 +41,21 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      await mutateAsync(forgetPasswordRoute);
-      console.log('success');
+      const response = await toast.promise(
+        mutateAsync(forgetPasswordRoute),
+        {
+          pending: 'Sending email...',
+          success: 'Email sent successfully',
+          error: 'Error sending email',
+          ...toastOptions
+        },
+        toastOptions
+      );
+
+      if (!response.status) {
+        toast.error(response.data.message, toastOptions);
+        return;
+      }
       return true;
     } catch (err) {
       console.log(err);
@@ -63,10 +80,11 @@ function ForgotPassword() {
             id='forgotPasswordForm'
             inputs={[
               <Input
-                key='password-2'
+                key='forgot-password-2'
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
+                id='forgot-password-2'
                 isError={
                   formik.touched.email && formik.errors.email ? true : null
                 }
@@ -104,17 +122,20 @@ function ForgotPassword() {
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
-                correctMessage={`please check your email to change your password `}
+                correctMessage={''}
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Forgot Password'
                 name='forgotPassword'
-								type='button'
-
+                type='button'
                 onClickFunc={handleSubmit}
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/signup' onClick={navigateToSignup}>
+                <Link
+                  id='forget-password-signup-link'
+                  to='/auth/signup'
+                  onClick={navigateToSignup}
+                >
                   Sign Up
                 </Link>
               </span>

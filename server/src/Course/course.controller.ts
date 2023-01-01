@@ -621,14 +621,14 @@ class CourseController {
   };
 
   // get lesson by id controller
-  public getLessonById = async (req: Request, res: Response<HttpResponse<Lesson>>, next: NextFunction) => {
+  public getLessonById = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
     try {
       const { userId, courseId, lessonId } = req.params;
 
-      const lesson = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
+      const lessonWithProgress = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
 
       res.json({
-        data: lesson,
+        data: lessonWithProgress,
         message: 'Lesson Fetched Successfully',
         success: true,
       });

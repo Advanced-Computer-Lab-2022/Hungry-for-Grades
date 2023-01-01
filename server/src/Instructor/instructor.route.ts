@@ -17,6 +17,7 @@ class InstructorsRoute implements Routes {
   private initializeRoutes() {
     // Protected endpoints
     this.router.get('/', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.instructorController.getAllInstructors);
+    this.router.get('/active', authenticateUser, allowedRoles([AuthRole.ADMIN]), this.instructorController.getActiveInstructors);
     this.router.get(
       '/username',
       authenticateUser,

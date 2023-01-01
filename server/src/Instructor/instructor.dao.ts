@@ -238,7 +238,7 @@ class InstructorService {
     const instructors = await instructorModel
       .find()
       .sort({ 'rating.averageRating': -1 })
-      .select('name profileImage rating.averageRating speciality title country biography');
+      .select('name profileImage rating.averageRating speciality title country biography balance');
 
     const toBeSkipped = (page - 1) * pageLimit;
     const totalInstructors = instructors.length;
@@ -293,6 +293,16 @@ class InstructorService {
     course.earning += netProfit;
 
     await instructor.save();
+  };
+
+  // get how many instructors are active
+  public getActiveInstructors = async (): Promise<number> => {
+    return await instructorModel.count({ active: true });
+  };
+
+  // get how many instructors are inactive
+  public getInactiveInstructors = async (): Promise<number> => {
+    return await instructorModel.count({ active: false });
   };
 }
 export default InstructorService;

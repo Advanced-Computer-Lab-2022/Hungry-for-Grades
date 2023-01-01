@@ -60,6 +60,7 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
   const rememberMe = LocalStorage.get('rememberMe');
   console.log(error);
+
   if (
     error.response &&
     error.response.status === 401 &&
@@ -90,6 +91,7 @@ async function onResponseError(error: AxiosError): Promise<AxiosError> {
       }
     } catch (_error) {
       removeInfo();
+
       window.location.replace(loginRoute);
 
       return Promise.reject(_error);

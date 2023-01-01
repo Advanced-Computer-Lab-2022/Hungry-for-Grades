@@ -6,40 +6,31 @@ import Modal from '@components/modal/Modal';
 
 import { toastOptions } from '@components/toast/options';
 
-
-
 import usePostQuery from '@/hooks/usePostQuery';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { NewsLetterRoutes } from '@/services/axios/dataServices/NewsLetterDataService';
 
-function SendEmailModal({email}:{email:string}) {
+function SendEmailModal({ email }: { email: string }) {
   const { formik } = useValidation();
 
-
-  const {  mutateAsync:sendEmail } = usePostQuery<HttpResponse<null>>();
+  const { mutateAsync: sendEmail } = usePostQuery<HttpResponse<null>>();
 
   async function clickSubmit(subject: string, body: string) {
-	const EmailRoute= Object.assign({}, NewsLetterRoutes.POST.sendEmail);
-      EmailRoute.payload={
-		  subject,
-		  body,
-	  }
-	  EmailRoute.query=`email=${email}`;
+    const EmailRoute = Object.assign({}, NewsLetterRoutes.POST.sendEmail);
+    EmailRoute.payload = {
+      subject,
+      body
+    };
+    EmailRoute.query = `email=${email}`;
 
-	try{
-		await sendEmail(EmailRoute);
+    try {
+      await sendEmail(EmailRoute);
 
-    toast.success(
-      `Email sent to ${email} Successfully`,
-      toastOptions
-    );}
-	catch(error){
-		toast.error(
-	  `Error sending email to ${email}`,
-	  toastOptions
-	);
+      toast.success(`Email sent to ${email} Successfully`, toastOptions);
+    } catch (error) {
+      toast.error(`Error sending email to ${email}`, toastOptions);
+    }
   }
-}
 
   return (
     <>
@@ -49,8 +40,7 @@ function SendEmailModal({email}:{email:string}) {
           data-bs-target={`#modalSendEmail`}
           data-bs-toggle='modal'
           href='#?'
-
-		  type='button'
+          type='button'
         >
           Send Email
         </a>
@@ -76,21 +66,21 @@ function SendEmailModal({email}:{email:string}) {
               <label className='label col-form-label py-3' htmlFor='report'>
                 Subject
               </label>
-			  <input
-			  		className='form-control'
-					id='subject'
-					name='subject'
-					placeholder='Enter Your Subject'
-					value={formik.values.subject}
-					onChange={formik.handleChange}
-							/>
-
+              <input
+                className='form-control'
+                id='subject'
+                name='subject'
+                placeholder='Enter Your Subject'
+                value={formik.values.subject}
+                onChange={formik.handleChange}
+              />
             </div>
           </div>
           <div className='col-12 my-2'>
             <div className='form-group'>
               <label className='label col-form-label py-3' htmlFor='report'>
-Body              </label>
+                Body{' '}
+              </label>
               <textarea
                 className='form-control'
                 id='body'

@@ -2,7 +2,7 @@
 
 import { AiFillEdit } from 'react-icons/ai';
 
-import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
+import { BsFillTrashFill } from 'react-icons/bs';
 
 import { Link } from 'react-router-dom';
 
@@ -182,7 +182,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
           </button>
         </Link>
 
-				<ShareButton link={`course/${courseId}`}/>
+        <ShareButton link={`course/${courseId}`} />
         <Link
           className='btn btn-primary btn-lg'
           to={`/instructor/edit-course/${data?._id}`}

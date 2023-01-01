@@ -33,7 +33,7 @@ function Input(props: InputProps) {
           value={props.value}
           onBlur={props.onBlurFunc}
           onChange={props.onChangeFunc}
-					onKeyDown={props.onKeyDownFunc}
+          onKeyDown={props.onKeyDownFunc}
         />
 
         <div className='invalid-feedback px-3' id={id}>

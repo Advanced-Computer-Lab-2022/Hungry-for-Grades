@@ -54,7 +54,9 @@ export default function MyCourses() {
 
   const incoming = data?.data?.data;
 
-  if (data?.data?.totalResults == 0) {
+  console.log(incoming);
+
+  if (incoming.length == 0) {
     return (
       <div className='container text-center my-5'>
         <div
@@ -82,7 +84,8 @@ export default function MyCourses() {
   }
 
   const toShow = incoming?.map(course => {
-    const tt: ICourse = course._course;
+    if (course?._course == null) return <></>;
+    const tt: ICourse = course?._course;
     const courseCardP = mapCourseToCardProps(tt);
     return (
       <div key={course?._course?._id} className={'col-12 col-md-6 col-lg-4'}>

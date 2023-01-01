@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
-import { UseUser } from '@/store/userStore';
-import { UseCountry } from '@/store/countryStore';
 
 async function searchRequest(
   instructorId: string,
@@ -16,11 +14,11 @@ async function searchRequest(
   return getRequest<HttpResponse<number[]>>(instructor);
 }
 
-export default function UseSearchQuery(year: string) {
-  const user = UseUser();
-  const instructorId = user?._id as string;
-  const country = UseCountry();
-
+export default function UseSearchQuery(
+  year: string,
+  instructorId: string,
+  country: string
+) {
   return {
     ...useQuery(['fetch-revenue-213123', instructorId, year, country], () =>
       searchRequest(instructorId, year, country)

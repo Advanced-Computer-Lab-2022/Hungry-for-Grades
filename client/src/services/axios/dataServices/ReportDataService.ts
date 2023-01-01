@@ -1,3 +1,5 @@
+import { AxiosResponse } from 'axios';
+
 import { postRequest } from '../http-verbs';
 
 import { Report, ReportDTO } from '@/interfaces/reports.interface';
@@ -7,6 +9,13 @@ export const ReportDataService = {
   GET: {
     getReports: {
       URL: '/report/' as const,
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    },
+    getReportById: {
+      URL: '',
       params: '',
       query: '',
       payload: {},
@@ -49,7 +58,8 @@ export const ReportDataService = {
 
 export async function requestCourse(
   reportData: ReportDTO
-): Promise<Report | null> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<AxiosResponse<HttpResponse<Report>, any> | null> {
   if (!reportData) {
     return null;
   }
@@ -62,5 +72,5 @@ export async function requestCourse(
   if (!res.data.success) {
     throw new Error(`server returned error ${res.data.message}`);
   }
-  return res.data?.data;
+  return res;
 }

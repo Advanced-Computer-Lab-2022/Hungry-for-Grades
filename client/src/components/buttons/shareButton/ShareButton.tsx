@@ -50,15 +50,16 @@ import QRCodeGenerator from './QrcodeGenerator';
 import Modal from '@/components/modal/Modal';
 
 function ShareButton({ link }: { link: string }) {
-  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL as string;
-  const endLink = `${CLIENT_URL}${link}`;
-  const [ qrcodeImg,setqrcodeImg]=useState('');
-  useEffect(() => {
-    QRCodeGenerator(endLink).then((data:string) => {
-		setqrcodeImg( data);
-    }).catch(()=>{
+  const CLIENT_URL = import.meta.env.VITE_APP_CLIENT_URL;
 
-	});
+  const endLink = `${CLIENT_URL}${link}`;
+  const [qrcodeImg, setqrcodeImg] = useState('');
+  useEffect(() => {
+    QRCodeGenerator(endLink)
+      .then((data: string) => {
+        setqrcodeImg(data);
+      })
+      .catch(() => {});
   }, [endLink]);
 
   return (
@@ -91,7 +92,11 @@ function ShareButton({ link }: { link: string }) {
               alt='file'
               className='img-fluid ml-1'
               src={qrcodeImg}
-              style={{ border: '1px solid black', color: 'aqua' }}
+              style={{
+                border: '2px solid var(--primary-color)',
+                color: 'var(--primary-color)',
+                borderRadius: '5px'
+              }}
             />
           </div>
           <div className='d-flex flex-row justify-content-center align-items-center flex-wrap'>

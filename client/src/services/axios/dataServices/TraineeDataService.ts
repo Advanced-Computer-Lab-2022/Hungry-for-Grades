@@ -1,12 +1,13 @@
-import { getRequest, postRequest } from '../http-verbs';
+import { deleteRequest, getRequest, postRequest } from '../http-verbs';
 
-import { getCourseReviews } from './CoursesDataService';
+import { createQueryString, getCourseReviews } from './CoursesDataService';
 
 import {
   Review,
   ICourseReview,
   Rating,
-  EnrolledCourse
+  EnrolledCourse,
+  ICourse
 } from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
@@ -93,6 +94,12 @@ export const TraineeRoutes = {
       query: '',
       payload: {}
     },
+    addToCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
     changePassword: {
       URL: '/change-password' as const,
       params: '',
@@ -125,7 +132,7 @@ export const TraineeRoutes = {
       payload: {},
       response: {}
     },
-    addToCart: {
+    sendCertificateByMail: {
       URL: '',
       params: '',
       query: '',
@@ -133,6 +140,12 @@ export const TraineeRoutes = {
     }
   },
   DELETE: {
+    removeFromWishlist: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
     removeFromCart: {
       URL: '',
       params: '',
@@ -260,6 +273,94 @@ export async function getEnrolledCourseById(
     traineeId
   )}/course/${encodeURIComponent(courseId)}`;
   const res = await getRequest<HttpResponse<EnrolledCourse>>(enrolledCourse);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function addToCart(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const cart = TraineeRoutes.POST.addToWishlist;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
+  const res = await postRequest<HttpResponse<ICourse[]>>(cart);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function addToWishlist(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const wishlist = TraineeRoutes.POST.addToWishlist;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
+  const res = await postRequest<HttpResponse<ICourse[]>>(wishlist);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function removeFromCart(
+  traineeId: string | undefined,
+  courseId: string | undefined,
+  country: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId || !country) {
+    return null;
+  }
+  const cart = TraineeRoutes.DELETE.removeFromWishlist;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
+  cart.query = createQueryString(country);
+  const res = await deleteRequest<HttpResponse<ICourse[]>>(cart);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function removeFromWishlist(
+  traineeId: string | undefined,
+  courseId: string | undefined,
+  country: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId || !country) {
+    return null;
+  }
+  const wishlist = TraineeRoutes.DELETE.removeFromWishlist;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
+  wishlist.query = createQueryString(country);
+  const res = await deleteRequest<HttpResponse<ICourse[]>>(wishlist);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }

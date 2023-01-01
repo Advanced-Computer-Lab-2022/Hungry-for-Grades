@@ -15,6 +15,7 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
   const { requestAccess, viewCourse, addToWishList } = useCourseButtons(
     props._id
   );
+
   return (
     <div className={`py-3 text-light bg-dark rounded-3 mb-3`}>
       <div className='container'>
