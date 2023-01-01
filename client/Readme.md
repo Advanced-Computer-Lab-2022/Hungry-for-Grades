@@ -12,9 +12,9 @@
 ## installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
 
-- `yarn install`
+- to install packages : `yarn install`
 
-- `yarn dev`
+- to run the frontend : `yarn dev`
 
 ## process
 
