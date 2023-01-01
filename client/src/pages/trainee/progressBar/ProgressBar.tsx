@@ -76,7 +76,7 @@ export default function ProgressBar(props: {
         {check && (
           <button
             className={styles.refund}
-            disabled={props.completed <= 50}
+            disabled={props.completed > 50}
             style={{ color: colorRefund }}
             type='button'
             onClick={() => clickSubmit()}

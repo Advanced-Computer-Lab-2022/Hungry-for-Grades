@@ -14,25 +14,16 @@ type Data = {
   success: boolean;
 };
 
-export async function savePayment(
+export function savePayment(
   traineeId: string,
   country: string,
   walletUsed: string
-): Promise<Data> {
+) {
   const payment = PaymentRoutes.POST.savePayment;
   payment.URL = `/payment/success/${encodeURIComponent(traineeId)}`;
-  payment.query = country = `${country}
+  payment.query = `country=${country}
     &walletUsed=${walletUsed}`;
-  const res = await postRequest<HttpResponse<Data>>(payment);
-  console.log(res);
-  if (!res.data.success) {
-    throw new Error(`server returned error ${res.data.message}`);
-  }
-  if (walletUsed == 'true') {
-    const deductBalance = UseUserDeductBalance();
-    deductBalance(res.data.data.data.amount);
-  }
-  return res.data.data;
+  return postRequest<HttpResponse<Data>>(payment);
 }
 
 export default function usePostQuery(

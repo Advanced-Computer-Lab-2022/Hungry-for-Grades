@@ -18,7 +18,7 @@ export interface IUserStore {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   isEnrolled: (id: string) => boolean;
   setBalance: (balance: number) => void;
-  deductBalance: (deduction: number) => void;
+  deductBalance: (deduction: number, wallet: boolean) => void;
   setProgressBar: (ProgressBar: number) => void;
   getProgressBar: () => number | null;
 }
@@ -40,9 +40,9 @@ export const useUserStore = create<IUserStore, [['zustand/devtools', never]]>(
         set({ user });
       }
     },
-    deductBalance: (deduction: number) => {
+    deductBalance: (deduction: number, wallet: boolean) => {
       const { user } = get();
-      if (user) {
+      if (user && wallet) {
         (user as ITrainee).balance -= deduction;
         set({ user });
       }
