@@ -18,8 +18,8 @@ const corpLinks = {
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
+  Reports: { path: '/trainee/reports', icon: <VscReport /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> },
-  Reports: { path: '/trainee/my-reports', icon: <VscReport /> }
 };
 
 const traineeLinks = {
@@ -30,7 +30,7 @@ const traineeLinks = {
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
-  Reports: { path: '/trainee/my-reports', icon: <VscReport /> },
+  Reports: { path: '/trainee/reports', icon: <VscReport /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 
