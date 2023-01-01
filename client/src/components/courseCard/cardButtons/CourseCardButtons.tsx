@@ -75,9 +75,9 @@ function CourseCardButtons(props: { id: string }) {
                 removeCourseToCart,
                 addToWishListFromTheButton
               );
-              if (xx == 1) {
+              if (xx === 1) {
                 await actualDeleteCart();
-              } else if (xx == 2) {
+              } else if (xx === 2) {
                 //alert('I will Delete Back ' + props?.id);
                 await actualDeleteWishList();
                 //alert('Done');
@@ -101,9 +101,9 @@ function CourseCardButtons(props: { id: string }) {
                 removeCourseToCart,
                 addToCartFromTheButton
               );
-              if (xx == 1) {
+              if (xx === 1) {
                 await actualDeleteCart();
-              } else if (xx == 2) {
+              } else if (xx === 2) {
                 await actualDeleteWishList();
               }
             }}

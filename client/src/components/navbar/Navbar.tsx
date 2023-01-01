@@ -42,10 +42,10 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
-						id='courses-navlink'
               className={function activate({ isActive }) {
                 return isActive ? 'nav-link active' : 'nav-link';
               }}
+              id='courses-navlink'
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
@@ -57,10 +57,10 @@ function NavbarComponent() {
                     <div className={styles.category__parent__link}>
                       <Link
                         className={styles.category__link}
+                        id={`category-${category.label}`}
                         to={`/courses?category=${encodeURIComponent(
                           category.label
                         )}`}
-												id={`category-${category.label}`}
                       >
                         {category.label}
                       </Link>
@@ -73,8 +73,7 @@ function NavbarComponent() {
                           <Link
                             key={subCat.label}
                             className=''
-														id={`subcategory-${category.label}`}
-
+                            id={`subcategory-${category.label}`}
                             to={`/courses?category=${encodeURIComponent(
                               category.label
                             )}&subCategory=${encodeURIComponent(subCat.label)}`}

@@ -19,7 +19,7 @@ const corpLinks = {
   //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
   Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
   Reports: { path: '/trainee/reports', icon: <VscReport /> },
-  Profile: { path: '/trainee/profile', icon: <FiUser /> },
+  Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
 
 const traineeLinks = {

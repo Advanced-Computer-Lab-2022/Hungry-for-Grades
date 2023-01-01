@@ -1,69 +1,69 @@
 {
-    "name": "my_courses",
-    "version": "1.0.0",
-    "description": "courses platform",
-    "license": "ISC",
-    "author": "omar sherif ali",
-    "homepage": "https://github.com/omar-sherif9992/myCourses#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/omar-sherif9992/myCourses.git"
-    },
-    "bugs": {
-        "url": "https://github.com/omar-sherif9992/myCourses/issues"
-    },
-    "main": "index.js",
-    "scripts": {
-        "check": "echo 'check' || npm-check --skip-unused --update-all",
-        "dev": "yarn run installall && concurrently \"cd server && yarn run dev\" \"cd client && yarn run dev\"",
-        "husky-setup": "npx husky set .husky/pre-commit 'yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint && cd ../server && yarn run lint'",
-        "installall": "concurrently \"yarn install\" \"cd server && yarn install\" \"cd client && yarn install\"",
-        "lint": "concurrently \"cd server && yarn run lint\" \"cd client && yarn run lint\"",
-        "lint:packages": "prettier-package-json --write ./package.json ./server/package.json ./client/package.json",
-        "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
-        "test": "concurrently \"yarn dev\" \"cd 'end-to-end testing' && npx cypress open\""
-    },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
-    },
-    "dependencies": {
-        "@types/prop-types": "^15.7.5",
-        "country-flag-icons": "^1.5.5",
-        "pdfkit": "^0.13.0",
-        "react-country-flag": "^3.0.2",
-        "react-datepicker": "^4.8.0",
-        "stripe": "^11.1.0"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^17.1.2",
-        "@commitlint/config-conventional": "^17.1.0",
-        "@types/regenerator-runtime": "^0.13.1",
-        "@typescript-eslint/parser": "^5.41.0",
-        "commitizen": "^4.2.5",
-        "concurrently": "^7.5.0",
-        "cypress": "^12.1.0",
-        "cz-conventional-changelog": "3.3.0",
-        "eslint": "^8.26.0",
-        "eslint-plugin-perf-standard": "^1.0.3",
-        "eslint-plugin-sort-keys-fix": "^1.1.2",
-        "eslint-plugin-typescript-sort-keys": "^2.1.0",
-        "husky": "^8.0.1",
-        "lint-staged": "^13.0.3",
-        "npm-check": "^6.0.1",
-        "nvm-shield": "^1.0.6",
-        "prettier": "^2.7.1",
-        "prettier-package-json": "^2.7.0",
-        "typescript": "^4.8.4"
-    },
-    "keywords": [
-        "courses"
-    ],
-    "engines": {
-        "node": ">= 16",
-        "npm": "please-use-yarn",
-        "yarn": ">= 1.22.1"
-    },
-    "engineStrict": true
+  "name": "my_courses",
+  "version": "1.0.0",
+  "description": "courses platform",
+  "license": "ISC",
+  "author": "omar sherif ali",
+  "homepage": "https://github.com/omar-sherif9992/myCourses#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omar-sherif9992/myCourses.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omar-sherif9992/myCourses/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "check": "echo 'check' || npm-check --skip-unused --update-all",
+    "dev": "yarn run installall && concurrently \"cd server && yarn run dev\" \"cd client && yarn run dev\"",
+    "husky-setup": "npx husky set .husky/pre-commit 'yarn run node-shield && yarn run check &&  yarn run lint:packages && cd client && yarn run lint && cd ../server && yarn run lint'",
+    "installall": "concurrently \"yarn install\" \"cd server && yarn install\" \"cd client && yarn install\"",
+    "lint": "concurrently \"cd server && yarn run lint\" \"cd client && yarn run lint\"",
+    "lint:packages": "prettier-package-json --write ./package.json ./server/package.json ./client/package.json",
+    "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
+    "test": "concurrently \"yarn dev\" \"cd 'end-to-end testing' && npx cypress open\""
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@types/prop-types": "^15.7.5",
+    "country-flag-icons": "^1.5.5",
+    "pdfkit": "^0.13.0",
+    "react-country-flag": "^3.0.2",
+    "react-datepicker": "^4.8.0",
+    "stripe": "^11.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@types/regenerator-runtime": "^0.13.1",
+    "@typescript-eslint/parser": "^5.41.0",
+    "commitizen": "^4.2.5",
+    "concurrently": "^7.5.0",
+    "cypress": "^12.1.0",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^8.26.0",
+    "eslint-plugin-perf-standard": "^1.0.3",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "npm-check": "^6.0.1",
+    "nvm-shield": "^1.0.6",
+    "prettier": "^2.7.1",
+    "prettier-package-json": "^2.7.0",
+    "typescript": "^4.8.4"
+  },
+  "keywords": [
+    "courses"
+  ],
+  "engines": {
+    "node": ">= 16",
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.22.1"
+  },
+  "engineStrict": true
 }

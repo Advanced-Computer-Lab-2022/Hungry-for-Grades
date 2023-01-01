@@ -290,10 +290,12 @@ function AllRoutes() {
             <Route element={<LazyMyReview />} path='rating-review' />
 
             <Route element={<LazyInstructorEditProfile />} path='profile' />
-						<Route element={<LazyInstructorReports />} path='reports' />
-
+            <Route element={<LazyInstructorReports />} path='reports' />
           </Route>
-          <Route element={<LazyInstructorEditCourse />} path='edit-course/:courseid' />
+          <Route
+            element={<LazyInstructorEditCourse />}
+            path='edit-course/:courseid'
+          />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyInstructorAddCourse />} path='add-course' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />

@@ -97,7 +97,7 @@ function CoursePreviewBox(props: ICourse) {
       );
     else
       toast.success(
-        'YOur request is sent to the admin successfully',
+        'Your request is sent to the admin successfully',
         toastOptions
       );
   }
@@ -159,7 +159,8 @@ function CoursePreviewBox(props: ICourse) {
               }
             }}
           >
-            <strong>Add to Cart</strong>
+            {!isInCart && <strong>Add to Cart</strong>}
+            {isInCart && <strong>Remove from Cart</strong>}
           </button>
         </div>
       )}
@@ -188,7 +189,8 @@ function CoursePreviewBox(props: ICourse) {
               }
             }}
           >
-            <strong>Add to Wishlist</strong>
+            {!isInWishList && <strong>Add to Wishlist</strong>}
+            {isInWishList && <strong>Remove from Wishlist</strong>}
           </button>
         </div>
       )}
