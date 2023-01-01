@@ -11,7 +11,7 @@ async function searchRequest() {
     InstructorRoutes.GET.getTopInstructors
   );
   const searchQuery = `
-	&limit=${3}
+	&limit=${5}
 	&page=${1}
 	`.trim();
   getTopInstructors.query = searchQuery;
