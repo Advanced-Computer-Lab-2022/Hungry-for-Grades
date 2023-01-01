@@ -38,14 +38,14 @@ const queryClient = new QueryClient({
 
 // eslint-disable-next-line xss/no-mixed-html
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <>
+  <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RoutedApp />
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     <ClickToComponent />
-  </>
+  </React.StrictMode>
 );
 /* // eslint-disable-next-line no-console
 reportWebVitals(console.table);
