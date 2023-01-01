@@ -4,6 +4,7 @@
 - [installation](#installation)
 - [Development Tools and Libraries](#development-tools-and-libraries)
 - [Screenshots](#screenshots)
+- [video](#video)
 
 ## installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
@@ -21,3 +22,8 @@
 
 
 ## Screenshots
+- Navigation testing
+  <img src="../screenshots/testing/navigation.png" alt="navigation" align="center" >
+
+## video
+- checkout cypress/videos folder
