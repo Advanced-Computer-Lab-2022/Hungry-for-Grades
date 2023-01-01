@@ -54,7 +54,7 @@ LinkedIn Learning, Great Learning and Udacity.
 ## Table of Contents
 - [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
-- [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/end-to-end testing/README.md)
+- [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
 - [Objectives](#objectives)
 - [Tools and Frameworks](#tools-and-frameworks)
