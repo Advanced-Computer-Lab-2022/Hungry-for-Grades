@@ -166,13 +166,13 @@ export default function CourseRequest() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <AdminTable
+            clearSet={clearSet}
             data={arr as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
             num={update}
             st={set as Set<AllReport>}
             updateTable={setUpdate}
-            clearSet={clearSet}
           />
           {data?.data?.totalPages != undefined &&
             data?.data?.totalPages > 1 && (

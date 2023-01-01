@@ -10,8 +10,6 @@ import { type ICourse } from '@interfaces/course.interface';
 import Instructors from '@/components/courseCard/Instructor';
 import { formatDuration } from '@/utils/duration';
 import useCourseButtons from '@/hooks/useCourseButtons';
-import { addtoWishList } from '@/components/courseCard/cardButtons/buttons';
-import { IUser } from '@/interfaces/user.interface';
 
 function CourseHeader(props: ICourse & { videoClassName: string }) {
   const { requestAccess, viewCourse, addToWishList } = useCourseButtons(

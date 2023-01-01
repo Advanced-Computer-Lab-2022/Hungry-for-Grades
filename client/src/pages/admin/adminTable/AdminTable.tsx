@@ -1,11 +1,10 @@
-import { MdIndeterminateCheckBox, MdSelectAll } from 'react-icons/md';
-
 // NEED TO BE REVISED
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
 
 import { useState } from 'react';
 
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './table.module.scss';
 
 import { AllReport, Status } from '@/interfaces/reports.interface';
@@ -72,10 +71,12 @@ export default function AdminHome(props: {
   let i = 0;
   const toShow =
     props.data && props.data?.length ? (
+      // eslint-disable-next-line sonarjs/cognitive-complexity
       props.data?.map((report: AllReport) => {
         i++;
         const isDisabled = report?.status == 'Pending' ? false : true;
         const reportDate = report?.createdAt?.toString().substring(0, 10);
+        const styleContent = 'style-content';
         return (
           <tr
             key={report?._id}
@@ -107,40 +108,86 @@ export default function AdminHome(props: {
             <td>{reportDate}</td>
             {report?.status == 'Pending' && (
               <td>
-                <div className={styles.statusP}>Pending</div>
+                <div
+                  className='alert alert-warning'
+                  style={{
+                    textAlign: 'center',
+                    width: styleContent,
+                    height: styleContent,
+                    padding: '0.5rem',
+                    border: '1px solid'
+                  }}
+                >
+                  Pending
+                </div>
               </td>
             )}
             {report?.status == 'Resolved' && (
               <td>
-                <div className={styles.statusResolved}>Resolved</div>
+                <div
+                  className='alert alert-success'
+                  style={{
+                    textAlign: 'center',
+                    width: styleContent,
+                    height: styleContent,
+                    padding: '0.5rem',
+                    border: '1px solid'
+                  }}
+                >
+                  Resolved
+                </div>
               </td>
             )}
             {report?.status == 'Rejected' && (
               <td>
-                <div className={styles.statusRej}>Rejected</div>
+                <div
+                  className='alert alert-danger'
+                  style={{
+                    textAlign: 'center',
+                    width: styleContent,
+                    height: styleContent,
+                    padding: '0.5rem',
+                    border: '1px solid'
+                  }}
+                >
+                  Rejected
+                </div>
               </td>
             )}
             {report?.status == Status.UNSEEN && (
               <td>
-                <div className={styles.statusUnseen}>Unseen</div>
+                <div
+                  className='alert alert-info'
+                  style={{
+                    textAlign: 'center',
+                    width: styleContent,
+                    height: styleContent,
+                    padding: '0.5rem',
+                    border: '1px solid'
+                  }}
+                >
+                  Unseen
+                </div>
               </td>
             )}
             {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-              <td>No Actions Required</td>
+              <td style={{ textAlign: 'center' }}>No Actions Required</td>
             )}
             {!(
               report?.status == 'Resolved' || report?.status == 'Rejected'
             ) && (
-              <td>
+              <td className='col' style={{ textAlign: 'center' }}>
                 <button
                   className='btn btn-outline-primary mx-2'
+                  style={{ textAlign: 'center' }}
                   type='button'
                   onClick={() => handleAction(Status?.RESOLVED, report)}
                 >
                   Accept
                 </button>
                 <button
-                  className='btn btn-primary'
+                  className='btn btn-primary mx-2'
+                  style={{ textAlign: 'center' }}
                   type='button'
                   onClick={() => handleAction(Status?.REJECTED, report)}
                 >
@@ -148,7 +195,8 @@ export default function AdminHome(props: {
                 </button>
                 {report?.status == Status.UNSEEN && (
                   <button
-                    className={styles.aprove}
+                    className='btn btn-secondary'
+                    style={{ textAlign: 'center' }}
                     type='button'
                     onClick={() => handleAction(Status?.PENDING, report)}
                   >
@@ -204,7 +252,7 @@ export default function AdminHome(props: {
               <th>Requested Course</th>
               <th>Date</th>
               <th style={{ paddingLeft: '0.5rem' }}>Status</th>
-              <th style={{ paddingLeft: '3rem' }}>Actions</th>
+              <th style={{ textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>{toShow}</tbody>

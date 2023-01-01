@@ -32,7 +32,7 @@ export default function ProgressBar(props: {
       _user: user?._id,
       description: '',
       reason: Reason.REFUND,
-      status: Status.PENDING
+      status: Status.UNSEEN
     };
 
     const response = await submitReport(Courses as POSTRoutesType);
@@ -48,6 +48,7 @@ export default function ProgressBar(props: {
 
   const color = props.completed <= 30 ? 'red' : '#00ABB3';
   const colorRefund = props.completed > 50 ? '#B2B2B2' : '#A00407';
+  const colorCertificate = props.completed != 100 ? '#B2B2B2' : '#A00407';
   const check =
     user?.role.toLocaleLowerCase() == Role.TRAINEE.toLocaleLowerCase() &&
     !(user as ITrainee)?.isCorporate;
@@ -76,7 +77,7 @@ export default function ProgressBar(props: {
         {check && (
           <button
             className={styles.refund}
-            disabled={props.completed <= 50}
+            disabled={props.completed > 50}
             style={{ color: colorRefund }}
             type='button'
             onClick={() => clickSubmit()}
@@ -88,6 +89,8 @@ export default function ProgressBar(props: {
         {props?.completed >= 0 && (
           <button
             className={`${styles.refund || ''} m-3`}
+            disabled={props.completed != 100}
+            style={{ color: colorCertificate }}
             type='button'
             onClick={() => handleCertificate()}
           >

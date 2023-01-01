@@ -2,7 +2,7 @@
 
 import { AiFillEdit } from 'react-icons/ai';
 
-import { BsFillTrashFill, BsShareFill } from 'react-icons/bs';
+import { BsFillTrashFill } from 'react-icons/bs';
 
 import { Link } from 'react-router-dom';
 

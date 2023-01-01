@@ -1,20 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
-
 import { FiSend } from 'react-icons/fi';
 
 import { useState } from 'react';
 
+import { Modal } from 'react-bootstrap';
+
 import styles from './FollowUp.module.scss';
 
-import { Message, Report } from '@/interfaces/reports.interface';
+import { AllReport, Message, Report } from '@/interfaces/reports.interface';
 import { UseUser } from '@/store/userStore';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { getRequest } from '@/services/axios/http-verbs';
 
 import usePostQuery from '@/hooks/usePostQuery';
-import Loader from '@/components/loader/loaderpage/Loader';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { ITrainee } from '@/interfaces/course.interface';
@@ -37,31 +36,46 @@ async function getReport(id: string) {
   };
 }
 
-export default function FollowUp() {
+/*
+
+i want it as a modal ??
+Make the Modal Here and take the report with you
+
+
+*/
+
+export default function FollowUp(props: {
+  report: AllReport;
+  func: () => void;
+  trainee: string;
+}) {
   const user = UseUser();
 
-  const param = useParams();
+  //const param = useParams();
 
-  const [searchParams] = useSearchParams();
+  //const [searchParams] = useSearchParams();
 
   const [txt, setTxt] = useState<string>('');
 
   const [update, setUpdate] = useState(0);
 
-  const loc = useLocation();
-
-  const reportID = param?.reportId;
-  const trainee = searchParams.get('trainee') as string;
+  //const reportID = param?.reportId;
+  //const trainee = searchParams.get('trainee') as string;
 
   const { data } = useQuery(
-    ['get me a report right nowwwww', loc, update],
-    () => getReport(reportID as string),
+    ['get me a report right nowwwwwwwwx', update, location, props?.report?._id],
+    () => getReport(props?.report?._id),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000,
       enabled: true // 1 second
     }
   );
+
+  function closeModal() {
+    setUpdate(update + 1);
+    props?.func();
+  }
 
   const { mutateAsync: sendMessage } = usePostQuery();
 
@@ -70,20 +84,20 @@ export default function FollowUp() {
     return <Loader />
   }*/
 
-  console.log(data);
+  //console.log(data);
 
-  const report = data?.report;
+  const report = data?.report as unknown as AllReport;
 
-  console.log(report);
+  //console.log(report);
 
   let i = -1;
   const img =
-    trainee == 'true'
+    props?.trainee == 'true'
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
   const toShow = report?.followUp?.map((message: Message) => {
-    const sender: boolean = (trainee == 'true') !== message?.isAdmin;
+    const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
     return (
       <div key={++i} className='row my-2'>
@@ -119,26 +133,30 @@ export default function FollowUp() {
   async function SendMessage() {
     const message = ReportDataService.POST.sendMessage;
 
-    message.URL = `/report/${report?._id as string}/user/${
-      user?._id as string
-    }`;
+    message.URL = `/report/${report?._id}/user/${user?._id as string}`;
 
     message.payload = {
       content: `${txt}`
     };
 
-    await sendMessage(message);
+    const dd = await sendMessage(message);
+    console.log(dd);
     setUpdate(update + 1);
     setTxt('');
   }
 
   return (
     <>
-      <div
-        className='container'
-        style={{ maxWidth: '40rem', margin: '3rem auto' }}
-      >
-        <div
+      <Modal show onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Follow Up</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div
+            className='container'
+            style={{ maxWidth: '40rem', margin: '3rem auto' }}
+          >
+            {/*<div
           className='text-center'
           style={{
             fontSize: '1.5rem',
@@ -147,25 +165,27 @@ export default function FollowUp() {
             marginBottom: '2rem'
           }}
         >
-          Follow Ups with the {trainee == 'true' ? 'Admin' : 'User'}
-        </div>
-        <div className={styles.message_holder}>{toShow}</div>
+          Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
+        </div>*/}
+            <div className={styles.message_holder}>{toShow}</div>
 
-        <div className={styles.send_message}>
-          <textarea
-            className={styles.message}
-            value={txt}
-            onChange={e => setTxt(e.target.value)}
-          />
-          <button
-            style={{ border: 'none' }}
-            type='button'
-            onClick={() => SendMessage()}
-          >
-            <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
-          </button>
-        </div>
-      </div>
+            <div className={styles.send_message}>
+              <textarea
+                className={styles.message}
+                value={txt}
+                onChange={e => setTxt(e.target.value)}
+              />
+              <button
+                style={{ border: 'none' }}
+                type='button'
+                onClick={() => SendMessage()}
+              >
+                <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
+              </button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

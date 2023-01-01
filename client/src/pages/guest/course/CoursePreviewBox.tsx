@@ -6,6 +6,8 @@ import { CgInfinity } from 'react-icons/cg';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
+import { toast } from 'react-toastify';
+
 import styles from './course-preview-box.module.scss';
 
 import { ICourse } from '@/interfaces/course.interface';
@@ -33,8 +35,6 @@ import {
 import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { Reason, Status } from '@/interfaces/reports.interface';
-import { postRequest } from '@/services/axios/http-verbs';
-import { toast } from 'react-toastify';
 import { toastOptions } from '@/components/toast/options';
 
 function parseYoutubeUrl(url: string) {

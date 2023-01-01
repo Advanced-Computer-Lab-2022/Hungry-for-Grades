@@ -29,6 +29,10 @@ export default function Refund() {
 
   const [update, setUpdate] = useState(0);
 
+  function clearSet() {
+    setSet(new Set());
+  }
+
   const target = useRef(null);
 
   //const user = UseUser();
@@ -117,7 +121,7 @@ export default function Refund() {
             marginTop: '2rem'
           }}
         >
-          Reported Problems
+          Refund Requests
         </div>
         <div style={{ display: 'inline-block', marginLeft: '75%' }}>
           <button
@@ -168,6 +172,7 @@ export default function Refund() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <RefundTable
+            clearSet={clearSet}
             data={data?.data?.data as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}
