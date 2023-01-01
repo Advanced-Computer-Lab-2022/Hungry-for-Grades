@@ -1,4 +1,9 @@
-import { deleteRequest, getRequest, postRequest } from '../http-verbs';
+import {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest
+} from '../http-verbs';
 
 import { createQueryString, getCourseReviews } from './CoursesDataService';
 
@@ -7,7 +12,8 @@ import {
   ICourseReview,
   Rating,
   EnrolledCourse,
-  ICourse
+  ICourse,
+  ReviewDTO
 } from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
@@ -157,10 +163,22 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    deleteCourseReview: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   PATCH: {
     updateProfile: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    updateCourseReview: {
       URL: '',
       params: '',
       query: '',
@@ -198,9 +216,9 @@ export async function addReviewToCourse(
     return null;
   }
   const newReview = TraineeRoutes.POST.addReviewToCourse;
-  newReview.URL = `courses/rating/${encodeURIComponent(courseId)}/trainee/${
-    traineeReview._trainee._id
-  }`;
+  newReview.URL = `courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${encodeURIComponent(traineeReview._trainee._id)}`;
   newReview.payload = traineeReview;
   const res = await postRequest<HttpResponse<Rating>>(newReview);
   if (res.status === 409) {
@@ -368,4 +386,47 @@ export async function removeFromWishlist(
     throw new Error(`server returned error ${res.data.message}`);
   }
   return res.data?.data;
+}
+
+export async function updateCourseReview(
+  courseId: string | undefined,
+  traineeId: string | undefined,
+  reviewData: ReviewDTO
+): Promise<Review | null> {
+  if (!courseId || !traineeId || !reviewData) {
+    return null;
+  }
+  const updatedReview = TraineeRoutes.PATCH.updateCourseReview;
+  updatedReview.URL = `/courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${traineeId}`;
+  updatedReview.payload = reviewData;
+  const res = await patchRequest<HttpResponse<Review>>(updatedReview);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function deleteCourseReview(
+  courseId: string | undefined,
+  traineeId: string | undefined
+): Promise<void> {
+  if (!courseId || !traineeId) {
+    return;
+  }
+  const deletedReview = TraineeRoutes.DELETE.deleteCourseReview;
+  deletedReview.URL = `/courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${encodeURIComponent(traineeId)}`;
+  const res = await deleteRequest<HttpResponse<object>>(deletedReview);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
 }

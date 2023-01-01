@@ -336,7 +336,7 @@ class CourseService {
 
     // check if the user already reviewed the course
     const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeId);
-    if (userReviewIndex) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
+    if (userReviewIndex >= 0) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
 
     userReview._trainee = traineeId as unknown as ITrainee;
     const totalReviews = course.rating.reviews.length;
@@ -417,8 +417,12 @@ class CourseService {
     const userReview = course.rating.reviews[userReviewIndex];
 
     const totalReviews = course.rating.reviews.length;
-    const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
-    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    if (totalReviews !== 1) {
+      const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+      course.rating.averageRating = Math.round(newRating * 100) / 100;
+    } else {
+      course.rating.averageRating = 0;
+    }
     course.rating.reviews.splice(userReviewIndex, 1);
 
     await course.save();
