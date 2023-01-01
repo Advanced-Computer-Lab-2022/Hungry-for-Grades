@@ -58,8 +58,7 @@ export const ReportDataService = {
 
 export async function requestCourse(
   reportData: ReportDTO
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<AxiosResponse<HttpResponse<Report>, any> | null> {
+): Promise<AxiosResponse<HttpResponse<Report>, unknown> | null> {
   if (!reportData) {
     return null;
   }

@@ -22,6 +22,10 @@ export default function MakeDiscounts() {
     setUpdate(update + 1);
   }
 
+  function clearSet() {
+    setSet(new Set());
+  }
+
   const { data, isLoading, activePage, setActivePage } = useGetCourses(update);
 
   const arr: ICourse[] = data?.data?.data as ICourse[];
@@ -79,6 +83,7 @@ export default function MakeDiscounts() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <DiscountTable
+            clearSet={clearSet}
             data={arr}
             funA={addFoo}
             funR={removeFoo}

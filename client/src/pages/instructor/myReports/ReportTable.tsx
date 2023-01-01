@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import FollowUp from '../followUps/FollowUp';
-
 // eslint-disable-next-line css-modules/no-unused-class
 import styles from './reportsTable.module.scss';
 
 import useGetReports from './useGetReports';
+
+import FollowUp from '@pages/trainee/followUps/FollowUp';
 
 import Loader from '@/components/loader/loaderpage/Loader';
 import { AllReport, Status } from '@/interfaces/reports.interface';

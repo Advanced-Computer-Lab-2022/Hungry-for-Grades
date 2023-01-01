@@ -250,23 +250,23 @@ export default function CertificateGenerator() {
                   )}
               </div>
             </div>
-						<div className='d-flex flex-md-row flex-sm-column  gap-md-2 flex-wrap mb-md-4'>
-            <button
-              className='btn btn-primary btn-lg '
-              type='submit'
-              onClick={handleDownloadPDF}
-            >
-              Download
-            </button>
-            <ShareButton link={`course/${courseId as string}`} />
-            <button
-              className='btn btn-primary btn-lg mx-2'
-              type='submit'
-              onClick={() => sendOnMail()}
-            >
-               Mail
-            </button>
-						</div>
+            <div className='d-flex flex-md-row flex-sm-column  gap-md-2 flex-wrap mb-md-4'>
+              <button
+                className='btn btn-primary btn-lg '
+                type='submit'
+                onClick={handleDownloadPDF}
+              >
+                Download
+              </button>
+              <ShareButton link={`course/${courseId as string}`} />
+              <button
+                className='btn btn-primary btn-lg'
+                type='submit'
+                onClick={() => sendOnMail()}
+              >
+                Mail
+              </button>
+            </div>
           </div>
         </div>
       </div>
