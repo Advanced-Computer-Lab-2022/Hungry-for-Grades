@@ -134,7 +134,7 @@ function Login() {
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
-                id='input-sadasd'
+                id='login-email-input'
                 isError={
                   formik.touched.email && formik.errors.email ? true : null
                 }
@@ -149,11 +149,11 @@ function Login() {
                 onChangeFunc={formik.handleChange}
               />,
               <PasswordInput
-                key={'password-1'}
+                key={'login-password-1'}
                 correctMessage={''}
                 errorMessage={formik.errors.password as string}
                 hint={''}
-                id='input-sadasssosd993d'
+                id='login-password-1'
                 isError={
                   formik.touched.password && formik.errors.password
                     ? true
@@ -205,6 +205,7 @@ function Login() {
                 backgroundColor='primary-bg'
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Login'
+								id='login-submit'
                 name='login'
                 type='button'
                 onClickFunc={handleSubmit}
