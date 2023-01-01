@@ -177,7 +177,7 @@ export default function AdminHome(props: {
               report?.status == 'Resolved' || report?.status == 'Rejected'
             ) && (
               <td className='col' style={{ textAlign: 'center' }}>
-								{report?.status == Status.UNSEEN && (
+                {report?.status == Status.UNSEEN && (
                   <button
                     className='btn btn-outline-secondary'
                     style={{ textAlign: 'center' }}
@@ -203,7 +203,6 @@ export default function AdminHome(props: {
                 >
                   Decline
                 </button>
-
               </td>
             )}
           </tr>

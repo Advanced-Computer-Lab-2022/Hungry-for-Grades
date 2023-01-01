@@ -91,7 +91,7 @@ function NavbarComponent() {
                 <>
                   <NavDropdown.Divider />
                   <NavDropdown.Item>
-                    <ReportForm />
+                    <ReportForm courseID='' />
                   </NavDropdown.Item>
                 </>
               )}

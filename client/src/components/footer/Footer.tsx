@@ -154,7 +154,7 @@ function Footer() {
                   <a
                     className='text-white'
                     href='https://cancham.org.eg/en/services.html'
-										rel='noopener noreferrer'
+                    rel='noopener noreferrer'
                     target='_blank'
                   >
                     Services
@@ -165,7 +165,7 @@ function Footer() {
                   <a
                     className='text-white'
                     href='https://cancham.org.eg/en/membership.html'
-										rel='noopener noreferrer'
+                    rel='noopener noreferrer'
                     target='_blank'
                   >
                     Membership
@@ -188,7 +188,7 @@ function Footer() {
                   <a
                     className='text-white'
                     href='https://cancham.org.eg/en/about_us.html'
-										rel='noopener noreferrer'
+                    rel='noopener noreferrer'
                     target='_blank'
                   >
                     About us
@@ -196,7 +196,6 @@ function Footer() {
                 </p>
 
                 <ReportForm courseID={''} />
-
               </div>
 
               <div className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
