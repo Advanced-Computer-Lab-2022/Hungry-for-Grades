@@ -89,8 +89,9 @@ function ShareButton({ link }: { link: string }) {
         <div className='d-flex flex-column justify-content-center align-items-center'>
           <div className='d-flex flex-row justify-content-center align-items-center mb-5'>
             <img
-              alt='file'
+						alt='file'
               className='img-fluid ml-1'
+              loading='lazy'
               src={qrcodeImg}
               style={{
                 border: '2px solid var(--primary-color)',

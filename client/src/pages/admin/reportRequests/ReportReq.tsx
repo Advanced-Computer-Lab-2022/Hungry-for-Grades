@@ -105,7 +105,9 @@ export default function ReportReq() {
         status: status
       };
 
-      await updateReport(Rep);
+      await toast.promise(updateReport(Rep),{
+				pending: 'Applying...',
+			},toastOptions);
     }
     setSet(new Set());
     toast.success('Actions are applied successfully...', toastOptions);

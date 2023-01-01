@@ -49,8 +49,15 @@ function AdminNewsletter() {
         selectedRole.value
       }`;
       try {
-        await sendEmail(EmailRoute);
-        toast.success('Email sent successfully', toastOptions);
+        const response=await toast.promise(sendEmail(EmailRoute),{
+					pending: 'Sending email...',
+				},toastOptions);
+				if(!response.status){
+					toast.error('Error sending email', toastOptions);
+					return;
+				}
+				else{
+        toast.success('Email sent successfully', toastOptions);}
       } catch (error) {
         console.log(error);
         toast.error('Error sending email', toastOptions);
