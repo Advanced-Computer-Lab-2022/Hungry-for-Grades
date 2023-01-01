@@ -153,7 +153,7 @@ class TraineeService {
         path: '_instructor',
         select: 'name rating.averageRating profileImage title speciality',
       },
-      select: '-rating.reviews -announcements -captions -coupouns  -outline -exam',
+      select: '-rating.reviews -captions -coupouns -exam',
     });
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist or is not enrolled in this course');
 
