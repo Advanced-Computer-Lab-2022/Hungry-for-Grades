@@ -96,7 +96,9 @@ export default function FollowUp(props: {
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
-  const toShow = report?.followUp?.map((message: Message) => {
+  const toShow = report?.followUp?.length ?report?.followUp?.map((message: Message) => {
+
+
     const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
     return (
@@ -128,7 +130,11 @@ export default function FollowUp(props: {
         </div>
       </div>
     );
-  });
+  }):(
+		<div className='text-center alert alert-primary' style={{ fontSize: '1.5rem', fontWeight: '500', marginTop: '2rem' }}>
+			No Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
+		</div>
+	)
 
   async function SendMessage() {
     const message = ReportDataService.POST.sendMessage;
@@ -143,7 +149,10 @@ export default function FollowUp(props: {
     console.log(dd);
     setUpdate(update + 1);
     setTxt('');
+		// scroll down
+
   }
+
 
   return (
     <>
@@ -153,9 +162,12 @@ export default function FollowUp(props: {
         </Modal.Header>
         <Modal.Body>
           <div
-            className='container'
-            style={{ maxWidth: '40rem', margin: '3rem auto' }}
+						className='container'
+            id='body-scroll'
+            style={{ maxWidth: '40rem', margin: '0rem auto' }}
           >
+						   <a href="#scroll-here" id='body-here' >
+										Scroll Down</a>
             {/*<div
           className='text-center'
           style={{
@@ -167,9 +179,18 @@ export default function FollowUp(props: {
         >
           Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
         </div>*/}
-            <div className={styles.message_holder}>{toShow}</div>
+            <div className={styles.message_holder}>{toShow}
+						<div id="scroll-here" />
+						</div>
 
-            <div className={styles.send_message}>
+
+          </div>
+
+
+        </Modal.Body>
+				<Modal.Footer>
+
+				<div className={styles.send_message}>
               <textarea
                 className={styles.message}
                 value={txt}
@@ -183,8 +204,7 @@ export default function FollowUp(props: {
                 <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
               </button>
             </div>
-          </div>
-        </Modal.Body>
+				</Modal.Footer>
       </Modal>
     </>
   );

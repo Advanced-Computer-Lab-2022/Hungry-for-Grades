@@ -71,7 +71,7 @@ function SendEmail() {
           </div>
           {!isLoading && !isError && data && (
             <>
-              <table className='table align-middle mb-0 bg-light table-striped'>
+              <table className='table align-middle mb-0 bg-light table-striped table-hover'>
                 <thead className='bg-light'>
                   <tr
                     style={{
