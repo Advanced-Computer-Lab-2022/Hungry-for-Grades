@@ -51,7 +51,7 @@ function AdminNewsletter() {
       try {
         const response=await toast.promise(sendEmail(EmailRoute),{
 					pending: 'Sending email...',
-				});
+				},toastOptions);
 				if(!response.status){
 					toast.error('Error sending email', toastOptions);
 					return;
