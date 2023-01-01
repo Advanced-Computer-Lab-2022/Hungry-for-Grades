@@ -150,7 +150,12 @@ yarn dev
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## API Documentation
+Check out our API documentation on Postman by clicking [here](https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344)
+<br/><br/>
+
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
+
 
 - [Omar Sherif Ali](https://www.github.com/omar-sherif9992)
 - [Omar Sherif Elmeteny](https://github.com/omar-elmeteny)
