@@ -194,7 +194,9 @@ class CoursesRoute implements Routes {
 
     this.router.get('/:id', this.courseController.getCourseById); // guest
     this.router.put('/:id', authenticateUser, allowedRoles([AuthRole.INSTRUCTOR]), this.courseController.updateCourse);
-    this.router.delete('/:id', authenticateUser, allowedRoles([AuthRole.INSTRUCTOR]), this.courseController.deleteCourse);
+    this.router.delete('/:id',
+    authenticateUser, allowedRoles([AuthRole.INSTRUCTOR]), 
+    this.courseController.deleteCourse);
   }
 }
 

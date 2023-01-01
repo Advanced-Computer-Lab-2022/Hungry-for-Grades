@@ -22,6 +22,9 @@ import traineeModel from '@/Trainee/trainee.model';
 import TraineeService from '@/Trainee/trainee.dao';
 import { logger } from '@/Utils/logger';
 import { ITrainee } from '@/Trainee/trainee.interface';
+import PaymentService from '@/Payment/payment.dao';
+import ReportService from '@/Report/report.dao';
+import { report } from 'process';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -301,6 +304,21 @@ class CourseService {
       { _teachedCourses: { $elemMatch: { _course: deletedCourse._id } } },
       { $pull: { _teachedCourses: { _course: deletedCourse._id } } },
     );
+
+    // delete course from trainee's enrolled courses
+    const traineesAffected=await traineeModel.find({ _enrolledCourses: { $elemMatch: { _course: deletedCourse._id }  }});
+    const paymentService=new PaymentService();
+    const traineeService=new TraineeService();
+    const reportService=new ReportService();
+
+    for (const trainee of traineesAffected) {
+      await paymentService.refundPayment(trainee._id.toString(), courseId);
+        //unroll trainee from course
+        await traineeService.unrollTrainee(trainee._id.toString(), courseId);
+    }
+    
+    // delete all reports involving this course
+    await reportService.deleteReportsRelatedToCourse(courseId);
     return deletedCourse;
   };
 
