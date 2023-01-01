@@ -156,15 +156,21 @@ export default function CertificateGenerator() {
 
     mail.payload = { certificate: tmp };
 
-    await toast.promise(
+    const response = await toast.promise(
       sendMail(mail),
       {
-        pending: 'Sending Certificate',
-        success: 'Certificate Sent',
-        error: 'Error Sending Certificate'
+        pending: 'Sending Certificate to your email ....'
       },
       toastOptions
     );
+    if (!response?.status) {
+      toast.success(
+        'Certificate Sent to your email successfully',
+        toastOptions
+      );
+    } else {
+      toast.error('Error Sending Certificate', toastOptions);
+    }
   }
 
   if (isError) return <ErrorMessage />;
