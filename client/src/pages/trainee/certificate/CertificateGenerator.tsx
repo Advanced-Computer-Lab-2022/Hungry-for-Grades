@@ -250,7 +250,11 @@ export default function CertificateGenerator() {
                   formatDuration(
                     verifiedCourseData?.sections.reduce(
                       (s, l) =>
-                        s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+                        s +
+                        l.lessons.reduce(
+                          (s2, l2) => s2 + (l2.duration ?? 0),
+                          0
+                        ),
                       0
                     )
                   )}

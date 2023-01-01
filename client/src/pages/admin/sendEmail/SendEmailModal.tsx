@@ -24,10 +24,13 @@ function SendEmailModal({ email }: { email: string }) {
     EmailRoute.query = `email=${email}`;
 
     try {
-      const response = await toast.promise(sendEmail(EmailRoute),{
-				pending: `Sending email to ${email}...`,
-
-			},toastOptions);
+      const response = await toast.promise(
+        sendEmail(EmailRoute),
+        {
+          pending: `Sending email to ${email}...`
+        },
+        toastOptions
+      );
       if (!response.status) {
         toast.error(`Error sending email to ${email}`, toastOptions);
         return;

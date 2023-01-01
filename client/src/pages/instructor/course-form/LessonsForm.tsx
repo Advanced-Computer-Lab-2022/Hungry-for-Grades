@@ -70,14 +70,6 @@ export function LessonsForm(
                           name={`sections.${props.sectionIndex}.lessons.${index}.videoURL`}
                         />
                       </div>
-                      <div className='col-12'>
-                        <TextField
-                          formik={props as FormikProps<unknown>}
-                          id={`sections.${props.sectionIndex}.lessons.${index}.duration`}
-                          label={`Duration in minutes`}
-                          name={`sections.${props.sectionIndex}.lessons.${index}.duration`}
-                        />
-                      </div>
                     </div>
                   </AccordionItemPanel>
                 </AccordionItem>

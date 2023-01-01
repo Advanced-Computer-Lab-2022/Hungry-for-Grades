@@ -92,7 +92,6 @@ async function submitCourse(
       })),
       lessons: s.lessons.map(l => ({
         _id: l._id,
-        duration: parseInt(l.duration, 10),
         videoURL: l.videoURL,
         title: l.title,
         description: l.description
@@ -103,16 +102,7 @@ async function submitCourse(
       currency: 'CAD',
       discounts: [] as CourseDiscount[]
     },
-    keywords: [] as string[],
-    duration: values.sections.reduce(
-      (sum, sec) =>
-        sum +
-        sec.lessons.reduce(
-          (sum2, les) => sum2 + parseInt(les.duration as unknown as string, 10),
-          0
-        ),
-      0
-    )
+    keywords: [] as string[]
   };
 
   await submitAction(course);

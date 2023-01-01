@@ -38,7 +38,7 @@ interface IBaseCourse {
   subcategory: string[];
   thumbnail: string;
   title: string;
-  duration: number;
+  duration?: number;
   outline: string[];
   sections: ICourseSection[];
 }
@@ -143,7 +143,7 @@ export type Instructor = {
 export type ICourseLesson = {
   _id?: string;
   description: string;
-  duration: number;
+  duration?: number;
   title: string;
   videoURL: string;
   progress?: number;

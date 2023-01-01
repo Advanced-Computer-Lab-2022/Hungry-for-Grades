@@ -32,7 +32,6 @@ async function getCart(country: string, activePage: number, user: IUser) {
 }
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
-
 function getOriginalPrice(
   price: number,
   discounts: CourseDiscount[]
@@ -141,7 +140,6 @@ export default function Cart() {
     }
   };
 
-
   const toShow = cart?.map((course: ICourse) => {
     const oldd: number | undefined = getOriginalPrice(
       course?.price?.currentValue,
@@ -156,16 +154,16 @@ export default function Cart() {
           <div className='row'>
             <div className='col-md-3'>
               <img
-	alt='course'
-	className='img-fluid mx-auto d-block image'
+                alt='course'
+                className='img-fluid mx-auto d-block image'
                 loading='lazy'
-								src={course?.thumbnail}
+                src={course?.thumbnail}
                 style={{
-									objectFit:'cover'
-								}}
+                  objectFit: 'cover'
+                }}
                 onError={e => {
-		e.currentTarget.src = COMPANY_LOGO;
-	}}
+                  e.currentTarget.src = COMPANY_LOGO;
+                }}
               />
             </div>
             <div className='col-md-8'>

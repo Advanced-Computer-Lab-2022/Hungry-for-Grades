@@ -92,9 +92,13 @@ export default function CourseRequest() {
         status: status
       };
 
-      await toast.promise(updateReport(Rep),{
-				pending: 'Applying...',
-			},toastOptions);
+      await toast.promise(
+        updateReport(Rep),
+        {
+          pending: 'Applying...'
+        },
+        toastOptions
+      );
     }
     setSet(new Set());
     toast.success('Actions are applied successfully...', toastOptions);

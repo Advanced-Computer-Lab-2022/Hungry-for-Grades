@@ -86,7 +86,6 @@ function EditCourse() {
       lessons: s.lessons.map(l => ({
         _id: l._id,
         uid: getUniqueId(),
-        duration: l.duration.toString(),
         videoURL: l.videoURL,
         title: l.title,
         description: l.description

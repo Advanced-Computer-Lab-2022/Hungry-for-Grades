@@ -72,9 +72,9 @@ export default function Create() {
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-			actions.resetForm();
+      actions.resetForm();
 
-			toast.success('Admin Is Created Successfully',toastOptions)
+      toast.success('Admin Is Created Successfully', toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
@@ -119,8 +119,8 @@ export default function Create() {
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-			actions.resetForm();
-      toast.success('Instructor Is Created Successfully',toastOptions);
+      actions.resetForm();
+      toast.success('Instructor Is Created Successfully', toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
@@ -166,10 +166,8 @@ export default function Create() {
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-			toast.success('Corporate Trainee Is Created Successfully',toastOptions);
-			actions.resetForm();
-
-
+      toast.success('Corporate Trainee Is Created Successfully', toastOptions);
+      actions.resetForm();
     } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
