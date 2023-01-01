@@ -83,7 +83,7 @@ function ChangePassword() {
 
       return false;
     }
-  }, [formik, mutateAsync, searchParams, token, userId]);
+  }, [formik, mutateAsync, navigate, searchParams, token, userId]);
 
   return (
     <div className='changePassword d-flex flex-row justify-content-between'>
