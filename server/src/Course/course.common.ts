@@ -4,8 +4,6 @@ import CC from 'currency-converter-lt';
 import CountryToCurrency from 'iso-country-currency';
 import { CourseFilters, CourseFiltersDefault } from './course.types';
 
-
-
 export function getPriceAfterDiscount(price: Price) {
   const discountsAvailable = getCourseDiscounts(price);
   let result = 0;

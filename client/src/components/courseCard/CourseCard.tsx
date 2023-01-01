@@ -113,9 +113,7 @@ function CourseCard(courseProps: {
         >
           <Link
             to={`${
-              !isActualEnrolled
-                ? `/course/${props.id}`
-                : `/trainee/view-course/${props.id}/`
+                 `/course/${props.id}`
             }`}
           >
             <div className={`${styles.course__img__container ?? ''}`}>

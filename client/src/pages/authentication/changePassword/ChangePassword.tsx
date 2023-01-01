@@ -24,6 +24,7 @@ import '../login/login.scss';
 import PasswordInput from '@/components/inputs/input/PasswordInput';
 import { toastOptions } from '@/components/toast/options';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
+import { HttpResponse } from '@/interfaces/response.interface';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ChangePassword() {
@@ -36,7 +37,7 @@ function ChangePassword() {
     useNavigate()('/auth/forget-password');
   }
 
-  const { isError, error, mutateAsync } = usePostQuery();
+  const { isError, error, mutateAsync } = usePostQuery<HttpResponse<null>>();
   const navigate = useNavigate();
   const { formik } = useValidation();
 
@@ -59,7 +60,7 @@ function ChangePassword() {
         newPassword
       };
       SessionStorage.set('accessToken', token);
-      await toast.promise(
+      const response=await toast.promise(
         mutateAsync(changePasswordRoute),
         {
           pending: 'Changing Password',
@@ -70,10 +71,16 @@ function ChangePassword() {
         toastOptions
       );
 
-			SessionStorage.remove('accessToken');
+      SessionStorage.remove('accessToken');
+			if(!response.status ){
+        toast.error(response.data.message, toastOptions);
+				return;
+			}
 
       return true;
     } catch (err) {
+			SessionStorage.remove('accessToken');
+
       return false;
     }
   }, [formik, mutateAsync, searchParams, token, userId]);
@@ -167,19 +174,20 @@ function ChangePassword() {
                 type='button'
                 onClickFunc={handleSubmit}
               />
-<div className='d-flex flex-row justify-content-between'>
-              <span className='d-flex flex-row justify-content-end'>
-                have an account? &nbsp;
-                <Link to='/auth/login' onClick={navigateToSignup}>
-                  Login
-                </Link>
-              </span>   <span className='d-flex flex-row justify-content-end'>
-                Don&apos;t have an account? &nbsp;
-                <Link to='/auth/signup' onClick={navigateToSignup}>
-                  Sign Up
-                </Link>
-              </span>
-							</div>
+              <div className='d-flex flex-row justify-content-between'>
+                <span className='d-flex flex-row justify-content-end'>
+                  have an account? &nbsp;
+                  <Link to='/auth/login' onClick={navigateToSignup}>
+                    Login
+                  </Link>
+                </span>{' '}
+                <span className='d-flex flex-row justify-content-end'>
+                  Don&apos;t have an account? &nbsp;
+                  <Link to='/auth/signup' onClick={navigateToSignup}>
+                    Sign Up
+                  </Link>
+                </span>
+              </div>
             </div>
             <div />
           </Form>

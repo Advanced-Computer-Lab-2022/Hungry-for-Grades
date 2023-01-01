@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 
 import Loader from '@/components/loader/loaderpage/Loader';
@@ -10,7 +12,6 @@ import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
 import { getRequest } from '@/services/axios/http-verbs';
 import { Review } from '@/interfaces/course.interface';
 import { PaginatedResponse } from '@/interfaces/response.interface';
-import { useLocation } from 'react-router-dom';
 
 async function getReviews(id: string, activePage: number) {
   const Inst = InstructorRoutes.GET.getReviews;

@@ -156,7 +156,7 @@ class AuthService {
   }
 
   // change any user password
-  public async changePassword(userId: string, role: AuthRole, oldPassword: string, newPassword: string, isReset:boolean): Promise<IUser> {
+  public async changePassword(userId: string, role: AuthRole, oldPassword: string, newPassword: string, isReset: boolean): Promise<IUser> {
     if (!Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Invalid ObjectId');
 
     const userModel = findUserModelByRole(role);
@@ -165,8 +165,7 @@ class AuthService {
     const user = await userModel.findById(userId).lean();
     if (!user) throw new HttpException(HttpStatusCodes.BAD_REQUEST, `No matching user found`);
 
-    if (!isReset)
-    {
+    if (!isReset) {
       const isPasswordMatching: boolean = await compare(oldPassword, user.password);
       if (!isPasswordMatching) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Current Password is invalid. Please try again');
     }
@@ -174,13 +173,15 @@ class AuthService {
     const salt = await genSalt();
     newPassword = await hash(newPassword, salt);
 
-   const updatedUser = await userModel.findByIdAndUpdate(userId, { password: newPassword });
+    const updatedUser = await userModel.findByIdAndUpdate(userId, { password: newPassword });
     return updatedUser;
   }
 
   //forget pass
-  public sendResetPasswordEmail = async (userEmail: string): Promise<{
-    cookie:ICookie
+  public sendResetPasswordEmail = async (
+    userEmail: string,
+  ): Promise<{
+    cookie: ICookie;
   }> => {
     userEmail = userEmail.toLowerCase();
     const trainee = await new TraineeService().getTraineeByEmail(userEmail);
@@ -208,7 +209,7 @@ class AuthService {
     //send email
     sendResetPasswordEmail(userEmail, username, userId, role, accessToken);
 
-    return {cookie};
+    return { cookie };
   };
 
   public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {

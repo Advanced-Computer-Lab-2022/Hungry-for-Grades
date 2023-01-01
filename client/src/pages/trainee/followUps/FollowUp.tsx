@@ -14,7 +14,6 @@ import { ReportDataService } from '@/services/axios/dataServices/ReportDataServi
 import { getRequest } from '@/services/axios/http-verbs';
 
 import usePostQuery from '@/hooks/usePostQuery';
-import Loader from '@/components/loader/loaderpage/Loader';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { ITrainee } from '@/interfaces/course.interface';

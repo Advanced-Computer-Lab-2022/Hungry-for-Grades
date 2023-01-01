@@ -238,11 +238,8 @@ function UserForm({
           id='userform-next'
           isDisabled={
             !formik.isValid ||
-            formik.values.firstName === '' ||
-            formik.values.lastName === '' ||
-            formik.values.birthDate === '' ||
-            formik.values.phone === '' ||
-            formik.values.country === ''
+						!formik.dirty
+
           }
           label={'next'}
           name={'next'}

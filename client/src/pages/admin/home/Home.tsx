@@ -1,13 +1,10 @@
 import './nav-button.scss';
 
-
-
-
 import Trainees from './trainees/Trainees';
 
+import Instructors from './instructors/Instructors';
+
 import useMultistepForm from '@/hooks/useMultistepForm';
-
-
 
 const backStyle = {
   filter: 'drop-shadow(0 0 0.1rem #eee)',
@@ -16,10 +13,9 @@ const backStyle = {
   backgroundColor: 'white'
 };
 export default function Home() {
-
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
-    [<Trainees key='123' />],
-    ['Trainees', 'Instructors', 'Bar'],
+    [<Trainees key='123' />,<Instructors key='instructors-admin-dashboard'/>],
+    ['Trainees', 'Instructors'],
     ['']
   );
 
@@ -49,7 +45,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      <div className='container mb-4'>{step}</div>
+        <div className='container mb-4'>{step}</div>
       </div>
     </div>
   );
