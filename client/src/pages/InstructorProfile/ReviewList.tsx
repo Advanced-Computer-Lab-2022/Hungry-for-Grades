@@ -43,7 +43,7 @@ export default function ReviewList(props: { text: string }) {
 
   const reviewList: Review[] = data?.data?.data as Review[];
 
-  const toShow = reviewList?.map((review: Review) => {
+  const toShow = reviewList && reviewList?.length?(reviewList?.map((review: Review) => {
     return (
       <ReviewContainer
         key={review?._trainee?.username}
@@ -55,7 +55,11 @@ export default function ReviewList(props: { text: string }) {
         rating={review.rating}
       />
     );
-  });
+  })):(
+		<div className='alert alert-danger'>
+			No Reviews Yet
+		</div>
+	);
 
   return (
     <div className='container'>

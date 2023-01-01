@@ -1,14 +1,20 @@
 ## Table of Contents
 
-- [Installation](#installation)
-- [Process](#process)
+- [Table of Contents](#table-of-contents)
+- [installation](#installation)
+- [process](#process)
 - [Color Reference](#color-reference)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Development Tools and Libraries](#development-tools-and-libraries)
-- [Screeshots](#screenshots)
+- [Screenshots](#screenshots)
 - [Help](#help)
 
 ## installation
+- clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
+
+- to install packages : `yarn install`
+
+- to run the frontend : `yarn dev`
 
 ## process
 
@@ -118,7 +124,7 @@
     <img src="../screenshots/Trainee profile security.png" alt="Trainee profile security" align="center" >
 
     <img src="../screenshots/Trainee invalid password.png" alt="Trainee invalid password" align="center" >
-    
+
     <img src="../screenshots/Trainee Correct password.png" alt="Trainee correct password" align="center" >
   Trainee Board
     <img src="../screenshots/Trainee board.png" alt="Trainee board" align="center" >
