@@ -1,49 +1,52 @@
 /* eslint-disable security/detect-object-injection */
 import create from 'zustand';
-import {persist, devtools } from 'zustand/middleware';
+import { persist, devtools } from 'zustand/middleware';
 
 import { type ICartStore } from '@/interfaces/cart.interface';
 
-export const useCartStore = create<ICartStore, [['zustand/devtools', never], ['zustand/persist', ICartStore]]>(
+export const useCartStore = create<
+  ICartStore,
+  [['zustand/devtools', never], ['zustand/persist', ICartStore]]
+>(
   devtools(
-		persist(
-		(set, get) => ({
-    cart: [],
-    addCourse: course => {
-      //Post axios
-      set(state => {
-        const cart = [...state.cart, course];
+    persist((set, get) => ({
+      cart: [],
+      addCourse: course => {
+        //Post axios
+        set(state => {
+          const cart = [...state.cart, course];
+          const totalItems = cart.length;
+          console.log(cart);
+          return { cart, totalItems };
+        });
+      },
+      removeCourse: _id => {
+        //Delete axios
+        set(state => {
+          const cart = [...state.cart].filter(item => item !== _id);
+          const totalItems = cart.length;
+          return { cart, totalItems };
+        });
+      },
+      setCart: newCart => {
+        //Get Req
+        // cart = GetRequest
+        const cart = newCart;
         const totalItems = cart.length;
-        console.log(cart);
-        return { cart, totalItems };
-      });
-    },
-    removeCourse: _id => {
-      //Delete axios
-      set(state => {
-        const cart = [...state.cart].filter(item => item !== _id);
-        const totalItems = cart.length;
-        return { cart, totalItems };
-      });
-    },
-    setCart: newCart => {
-      //Get Req
-      // cart = GetRequest
-      const cart = newCart;
-      const totalItems = cart.length;
 
-      set({ cart, totalItems });
-    },
-    clearCart: () => {
-      //here we do empty car for axios
-      set({ cart: [], totalItems: 0 });
-    },
-    inCart: _id => {
-      return [...get().cart].some(item => item === _id);
-    },
-    totalCost: 0,
-    totalItems: 0
-  })))
+        set({ cart, totalItems });
+      },
+      clearCart: () => {
+        //here we do empty car for axios
+        set({ cart: [], totalItems: 0 });
+      },
+      inCart: _id => {
+        return [...get().cart].some(item => item === _id);
+      },
+      totalCost: 0,
+      totalItems: 0
+    }))
+  )
 );
 
 export const UseCartStoreCart = () => useCartStore(state => state.cart); //To get the Cart contents

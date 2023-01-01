@@ -35,9 +35,13 @@ export default function ProgressBar(props: {
       status: Status.UNSEEN
     };
 
-    const response = await toast.promise(submitReport(Courses as POSTRoutesType),{
-			pending: 'Sending Report...',
-		},toastOptions);
+    const response = await toast.promise(
+      submitReport(Courses as POSTRoutesType),
+      {
+        pending: 'Sending Report...'
+      },
+      toastOptions
+    );
     if (response?.status) {
       toast.success('Refund is Requested Successfully...', toastOptions);
     } else {

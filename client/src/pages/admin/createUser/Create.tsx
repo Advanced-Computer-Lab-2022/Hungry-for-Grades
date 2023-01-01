@@ -66,13 +66,13 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Admin User',
+        pending: 'Creating Admin User'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-			toast.success('Admin Is Created Successfully',toastOptions)
+      toast.success('Admin Is Created Successfully', toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -112,13 +112,13 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Instructor User',
+        pending: 'Creating Instructor User'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-      toast.success('Instructor Is Created Successfully',toastOptions);
+      toast.success('Instructor Is Created Successfully', toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -159,14 +159,13 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Corporate Trainee User',
+        pending: 'Creating Corporate Trainee User'
       },
       toastOptions
     );
     const success = response?.response?.data?.success;
     if (success == undefined) {
-			toast.success('Corporate Trainee Is Created Successfully',toastOptions);
-
+      toast.success('Corporate Trainee Is Created Successfully', toastOptions);
     } else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }

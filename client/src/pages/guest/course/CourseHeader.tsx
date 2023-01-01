@@ -20,7 +20,6 @@ import {
 import { toastOptions } from '@/components/toast/options';
 import usePostQuery from '@/hooks/usePostQuery';
 import { Reason, Status } from '@/interfaces/reports.interface';
-import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import {
   UseCartStoreInCart,
@@ -32,8 +31,10 @@ import {
   UseWishListRemoveCourse,
   UseWishListInCart
 } from '@/store/wishListStore';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 function CourseHeader(props: ICourse & { videoClassName: string }) {
+  const redirectToLogin = useRedirectToLogin();
   const { requestAccess, viewCourse, addToWishList } = useCourseButtons(
     props._id
   );
@@ -129,11 +130,15 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
               className='btn btn-light w-100'
               type='button'
               onClick={async () => {
+                if (!user) {
+                  redirectToLogin();
+                  return;
+                }
                 const xx = await addtoWishList(
                   props?._id,
                   isInCart,
                   isInWishList,
-                  user as IUser,
+                  user,
                   addCourseToWishList,
                   removeCourseToWishList,
                   removeCourseToCart,

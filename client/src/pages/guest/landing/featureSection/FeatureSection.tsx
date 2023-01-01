@@ -25,7 +25,8 @@ function FeatureSection() {
                     Trendy Courses
                   </h4>
                   <p>
-									Education is the key to all the locked doors of the unknown. Find Out Your Favorite courses
+                    Education is the key to all the locked doors of the unknown.
+                    Find Out Your Favorite courses
                   </p>
                   <a className='main-button' href='#rated-courses'>
                     Read More
@@ -39,9 +40,7 @@ function FeatureSection() {
                   <h2>02</h2>
                   <img alt='' src='/features-icon-2.png' />
                   <h4>Top Rated Instructors</h4>
-                  <p>
-                   Get to see our Top Instructors
-                  </p>
+                  <p>Get to see our Top Instructors</p>
                   <a className='main-button' href='#rated-instructors'>
                     Discover More
                   </a>
@@ -54,9 +53,7 @@ function FeatureSection() {
                   <h2>03</h2>
                   <img alt='' src='/features-icon-3.png' />
                   <h4>Signup to our Newsletter</h4>
-                  <p>
-                    Get to know about our latest courses and updates
-                  </p>
+                  <p>Get to know about our latest courses and updates</p>
                   <a className='main-button' href='#newsletter'>
                     Sign Up
                   </a>

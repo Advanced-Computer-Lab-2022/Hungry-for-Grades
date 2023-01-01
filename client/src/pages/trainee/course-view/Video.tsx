@@ -6,7 +6,6 @@ import { getLessonById } from '@/services/axios/dataServices/CoursesDataService'
 import Loader from '@/components/loader/loaderpage/Loader';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import { UseUserSetProgressBar } from '@/store/userStore';
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -32,13 +31,16 @@ function Video(props: { lessonId: string; courseId: string }) {
   );
   if (isLoading) {
     return (
-		<div className='d-flex justify-content-center align-items-center'
-		style={{
-			minHeight:'20rem',
-			minWidth:'100%',
-		}}
-		><LoaderComponent />
-		</div>);
+      <div
+        className='d-flex justify-content-center align-items-center'
+        style={{
+          minHeight: '20rem',
+          minWidth: '100%'
+        }}
+      >
+        <Loader />
+      </div>
+    );
   }
   if (isError) {
     return <ErrorMessage />;
@@ -62,27 +64,29 @@ function Video(props: { lessonId: string; courseId: string }) {
           margin: '0 auto'
         }}
       >
-				<div style={{
-					minHeight:'100%',
-					minWidth:'100%',
-				}}>
-        {embeddedUrl && (
-          <iframe
-            allowFullScreen
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-            src={embeddedUrl}
-            style={{
-              height: `100%`,
-              position: 'absolute',
-              width: '100%',
-              left: 0,
-              top: 0,
-              border: 0
-            }}
-            title={data?.title}
-          />
-					)}
-					</div>
+        <div
+          style={{
+            minHeight: '100%',
+            minWidth: '100%'
+          }}
+        >
+          {embeddedUrl && (
+            <iframe
+              allowFullScreen
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              src={embeddedUrl}
+              style={{
+                height: `100%`,
+                position: 'absolute',
+                width: '100%',
+                left: 0,
+                top: 0,
+                border: 0
+              }}
+              title={data?.title}
+            />
+          )}
+        </div>
       </p>
       <p className='m-3'>{data?.description}</p>
     </>

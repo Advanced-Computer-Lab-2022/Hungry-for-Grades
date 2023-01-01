@@ -5,13 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { ITrainee } from '@/interfaces/course.interface';
-import {
-  addToWishlist,
-  getEnrolledCourseById,
-  addToCart,
-  removeFromCart,
-  removeFromWishlist
-} from '@/services/axios/dataServices/TraineeDataService';
+import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
 import { UseCountry } from '@/store/countryStore';
 
 import { useUserStore } from '@/store/userStore';
@@ -32,68 +26,24 @@ export default function (courseid: string) {
     () => getEnrolledCourseById(traineeId, courseid)
   );
 
-  const removeFromWishList =
-    user &&
-    user.role === 'Trainee' &&
-    !user.isCorporate &&
-    !isLoading &&
-    isError
-      ? async () => {
-          const res = await removeFromWishlist(user._id, courseid, country);
-          if (res) {
-            toast('Course removed from Wishlist successfully');
-          } else {
-            toast('Course is not in Wishlist');
-          }
-        }
-      : undefined;
-
   const addToWishList =
-    user &&
-    user.role === 'Trainee' &&
-    !user.isCorporate &&
-    !isLoading &&
-    isError
-      ? async () => {
-          const res = await addToWishlist(user._id, courseid);
-          if (res) {
-            toast('Course added to Wishlist successfully');
-          } else {
-            toast('Course is already in Wishlist');
-          }
-        }
+    (user &&
+      user.role === 'Trainee' &&
+      !user.isCorporate &&
+      !isLoading &&
+      isError) ||
+    !user
+      ? async () => {}
       : undefined;
 
   const addCart =
-    user &&
-    user.role === 'Trainee' &&
-    !user.isCorporate &&
-    !isLoading &&
-    isError
-      ? async () => {
-          const res = await addToCart(user._id, courseid);
-          if (res) {
-            toast('Course added to Cart successfully');
-          } else {
-            toast('Course is already in Cart');
-          }
-        }
-      : undefined;
-
-  const removeCart =
-    user &&
-    user.role === 'Trainee' &&
-    !user.isCorporate &&
-    !isLoading &&
-    isError
-      ? async () => {
-          const res = await removeFromCart(user._id, courseid, country);
-          if (res) {
-            toast('Course removed from Cart successfully');
-          } else {
-            toast('Course is not in Cart');
-          }
-        }
+    (user &&
+      user.role === 'Trainee' &&
+      !user.isCorporate &&
+      !isLoading &&
+      isError) ||
+    !user
+      ? async () => {}
       : undefined;
 
   const viewCourse =
@@ -136,8 +86,6 @@ export default function (courseid: string) {
     traineeId,
     addToWishList,
     addToCart: addCart,
-    removeFromCart: removeCart,
-    removeFromWishList,
     viewCourse,
     requestAccess
   };

@@ -20,9 +20,10 @@ import {
   UseWishListRemoveCourse,
   UseWishListInCart
 } from '@/store/wishListStore';
-import { IUser } from '@/interfaces/user.interface';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 function CourseFooter(props: ICourse) {
+  const redirectToLogin = useRedirectToLogin();
   const { addToCart, viewCourse } = useCourseButtons(props._id);
   const isInCart = UseCartStoreInCart()(props?._id);
   const removeCourseToWishList = UseWishListRemoveCourse();
@@ -58,11 +59,15 @@ function CourseFooter(props: ICourse) {
             style={{ width: '140px' }}
             type='button'
             onClick={async () => {
+              if (!user) {
+                redirectToLogin();
+                return;
+              }
               const xx = await addtoCart(
                 props?._id,
                 isInCart,
                 isInWishList,
-                user as IUser,
+                user,
                 addCourseToCart,
                 removeCourseToWishList,
                 removeCourseToCart,

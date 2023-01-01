@@ -1,4 +1,4 @@
-import {  useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { FiSend } from 'react-icons/fi';
 
@@ -38,14 +38,12 @@ async function getReport(id: string) {
   };
 }
 
-
 export default function FollowUp(props: {
   report: AllReport;
   func: () => void;
   trainee: string;
 }) {
   const user = UseUser();
-
 
   const [txt, setTxt] = useState<string>('');
 
@@ -66,14 +64,9 @@ export default function FollowUp(props: {
     props?.func();
   }
 
-  const { mutateAsync: sendMessage,isLoading,isError } = usePostQuery();
-
-
-
-
+  const { mutateAsync: sendMessage, isLoading, isError } = usePostQuery();
 
   const report = data?.report as unknown as AllReport;
-
 
   let i = -1;
   const img =
@@ -81,48 +74,49 @@ export default function FollowUp(props: {
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
-  const toShow = report?.followUp?.length>0 ? (
-    report?.followUp?.map((message: Message) => {
-      const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
+  const toShow =
+    report?.followUp?.length > 0 ? (
+      report?.followUp?.map((message: Message) => {
+        const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
-      return (
-        <div key={++i} className='row my-2'>
-          <div className='col-1'>
-            {!sender && (
-              <img
-                alt={'Some Dude'}
-                height='35'
-                src={img}
-                style={{ borderRadius: '50px' }}
-                width='40'
-              />
-            )}
-          </div>
-          <div
-            className={`col-11 d-flex ${
-              sender ? 'justify-content-end' : 'justify-content-start'
-            }`}
-          >
+        return (
+          <div key={++i} className='row my-2'>
+            <div className='col-1'>
+              {!sender && (
+                <img
+                  alt={'Some Dude'}
+                  height='35'
+                  src={img}
+                  style={{ borderRadius: '50px' }}
+                  width='40'
+                />
+              )}
+            </div>
             <div
-              className={` ${
-                sender ? styles.sender || '' : styles.receiver || ''
+              className={`col-11 d-flex ${
+                sender ? 'justify-content-end' : 'justify-content-start'
               }`}
-              style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
             >
-              {message.content}
+              <div
+                className={` ${
+                  sender ? styles.sender || '' : styles.receiver || ''
+                }`}
+                style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
+              >
+                {message.content}
+              </div>
             </div>
           </div>
-        </div>
-      );
-    })
-  ) : (
-    <div
-      className='text-center alert alert-primary'
-      style={{ fontSize: '1.5rem', fontWeight: '500', marginTop: '2rem' }}
-    >
-      No Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
-    </div>
-  );
+        );
+      })
+    ) : (
+      <div
+        className='text-center alert alert-primary'
+        style={{ fontSize: '1.5rem', fontWeight: '500', marginTop: '2rem' }}
+      >
+        No Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
+      </div>
+    );
 
   async function SendMessage() {
     const message = ReportDataService.POST.sendMessage;
@@ -167,8 +161,8 @@ export default function FollowUp(props: {
           Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
         </div>*/}
             <div className={styles.message_holder}>
-							{isError && <ErrorMessage />	}
-							{isLoading && <LoaderComponent />}
+              {isError && <ErrorMessage />}
+              {isLoading && <LoaderComponent />}
               {!isError && !isLoading && report && toShow}
               <div id='scroll-here' />
             </div>
