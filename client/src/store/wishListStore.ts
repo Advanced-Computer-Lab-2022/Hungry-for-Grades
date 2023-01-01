@@ -1,14 +1,16 @@
 /* eslint-disable security/detect-object-injection */
 import create from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { persist,devtools } from 'zustand/middleware';
 
 import { type ICartStore } from '@interfaces/cart.interface';
 
 export const useWishListStore = create<
   ICartStore,
-  [['zustand/devtools', never]]
+  [['zustand/devtools', never],['zustand/persist', ICartStore]]
 >(
-  devtools((set, get) => ({
+  devtools(
+		persist(
+			(set, get) => ({
     cart: [],
     addCourse: course => {
       //Post axios
@@ -43,7 +45,7 @@ export const useWishListStore = create<
     },
     totalCost: 0,
     totalItems: 0
-  }))
+  })))
 );
 
 export const UseWishListStore = () => useWishListStore(state => state);
