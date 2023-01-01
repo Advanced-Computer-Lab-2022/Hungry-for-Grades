@@ -19,6 +19,7 @@ import { Reason, ReportDTO, Status } from '@/interfaces/reports.interface';
 import { requestCourse } from '@/services/axios/dataServices/ReportDataService';
 import { toastOptions } from '@/components/toast/options';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function (courseid: string) {
   const userStore = useUserStore();
   const user = userStore.getUser() as ITrainee | null;

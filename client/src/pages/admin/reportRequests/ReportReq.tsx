@@ -82,6 +82,10 @@ export default function ReportReq() {
     return <Loader />;
   }
 
+  function clearSet() {
+    setSet(new Set());
+  }
+
   const arr = data?.data?.data;
 
   function test() {
@@ -173,6 +177,7 @@ export default function ReportReq() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <AdminTable2
+            clearSet={clearSet}
             data={arr as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}

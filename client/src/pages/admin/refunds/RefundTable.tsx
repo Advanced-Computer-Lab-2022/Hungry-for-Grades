@@ -1,7 +1,8 @@
-import { MdIndeterminateCheckBox } from 'react-icons/md';
-
 import { toast } from 'react-toastify';
 
+import { useState } from 'react';
+
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './RefundTable.module.scss';
 
 import { toastOptions } from '@/components/toast/options';
@@ -18,7 +19,10 @@ export default function RefundTable(props: {
   funR: (x: AllReport) => void;
   updateTable: (x: number) => void;
   num: number;
+  clearSet: () => void;
 }) {
+  const [all, setAll] = useState<boolean>(false);
+
   const { mutateAsync: makeTheRefund } = usePostQuery();
 
   function handleMultipleRows(report: AllReport) {
@@ -28,6 +32,21 @@ export default function RefundTable(props: {
     } else {
       props?.funA(report);
     }
+  }
+
+  function SelectAll() {
+    if (!all) {
+      for (let i = 0; i < props?.data?.length; ++i) {
+        if (
+          props?.data[i]?.status != Status.REJECTED &&
+          props?.data[i]?.status != Status.RESOLVED
+        )
+          props?.funA(props?.data[i] as AllReport);
+      }
+    } else {
+      props?.clearSet();
+    }
+    setAll(!all);
   }
 
   const { mutateAsync: updateReport } = usePatchQuery();
@@ -64,6 +83,7 @@ export default function RefundTable(props: {
     i++;
     const isDisabled = report?.status == Status.PENDING ? false : true;
     const reportDate = report?.createdAt?.toString().substring(0, 10);
+    const styleContent = 'fit-content';
     return (
       <tr
         key={report?._id}
@@ -71,6 +91,7 @@ export default function RefundTable(props: {
       >
         <td>
           <input
+            checked={(all || props?.st?.has(report)) && !isDisabled}
             disabled={isDisabled}
             id={'CheckBox' + (138191 * 10501 + -10 + 1912 + i).toString()}
             style={{
@@ -89,38 +110,99 @@ export default function RefundTable(props: {
         <td>{reportDate}</td>
         {report?.status == 'Pending' && (
           <td>
-            <div className={styles.statusP}>Pending</div>
+            <div
+              className='alert alert-warning'
+              style={{
+                textAlign: 'center',
+                width: styleContent,
+                height: styleContent,
+                padding: '0.5rem',
+                border: '1px solid'
+              }}
+            >
+              Pending
+            </div>
           </td>
         )}
         {report?.status == 'Resolved' && (
           <td>
-            <div className={styles.statusResolved}>Resolved</div>
+            <div
+              className='alert alert-success'
+              style={{
+                textAlign: 'center',
+                width: styleContent,
+                height: styleContent,
+                padding: '0.5rem',
+                border: '1px solid'
+              }}
+            >
+              Resolved
+            </div>
           </td>
         )}
         {report?.status == 'Rejected' && (
           <td>
-            <div className={styles.statusRej}>Rejected</div>
+            <div
+              className='alert alert-danger'
+              style={{
+                textAlign: 'center',
+                width: styleContent,
+                height: styleContent,
+                padding: '0.5rem',
+                border: '1px solid'
+              }}
+            >
+              Rejected
+            </div>
+          </td>
+        )}
+        {report?.status == Status.UNSEEN && (
+          <td>
+            <div
+              className='alert alert-info'
+              style={{
+                textAlign: 'center',
+                width: styleContent,
+                height: styleContent,
+                padding: '0.5rem',
+                border: '1px solid'
+              }}
+            >
+              Unseen
+            </div>
           </td>
         )}
         {(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td>No Actions Required</td>
+          <td style={{ textAlign: 'center' }}>No Actions Required</td>
         )}
         {!(report?.status == 'Resolved' || report?.status == 'Rejected') && (
-          <td>
+          <td className='col' style={{ textAlign: 'center' }}>
             <button
-              className={styles.aprove}
+              className='btn btn-outline-primary mx-2'
+              style={{ textAlign: 'center' }}
               type='button'
               onClick={() => handleAction(Status?.RESOLVED, report)}
             >
               Accept
             </button>
             <button
-              className={styles.decline}
+              className='btn btn-primary mx-2'
+              style={{ textAlign: 'center' }}
               type='button'
               onClick={() => handleAction(Status?.REJECTED, report)}
             >
               Decline
             </button>
+            {report?.status == Status.UNSEEN && (
+              <button
+                className='btn btn-secondary'
+                style={{ textAlign: 'center' }}
+                type='button'
+                onClick={() => handleAction(Status?.PENDING, report)}
+              >
+                Mark as Pending
+              </button>
+            )}
           </td>
         )}
       </tr>
@@ -135,15 +217,25 @@ export default function RefundTable(props: {
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
           >
             <th>
-              <MdIndeterminateCheckBox
-                style={{ color: '#DC3535', fontSize: '1.5rem' }}
+              <input
+                checked={all}
+                className='form-check-input'
+                style={{
+                  width: '1.4rem',
+                  height: '1.2rem',
+                  alignItems: 'center',
+                  //here was marginTop 1rem
+                  marginLeft: '0.1rem'
+                }}
+                type='checkbox'
+                onClick={() => SelectAll()}
               />
             </th>
             <th>Trainee</th>
             <th>Course To Refund</th>
             <th>Date</th>
             <th style={{ paddingLeft: '0.5rem' }}>Status</th>
-            <th style={{ paddingLeft: '3rem' }}>Actions</th>
+            <th style={{ textAlign: 'center' }}>Actions</th>
           </tr>
         </thead>
         <tbody>{toShow}</tbody>

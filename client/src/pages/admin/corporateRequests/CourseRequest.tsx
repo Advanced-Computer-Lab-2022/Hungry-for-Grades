@@ -31,6 +31,10 @@ import Pagination from '@/components/pagination/Pagination';
 export default function CourseRequest() {
   const [set, setSet] = useState(new Set());
 
+  function clearSet() {
+    setSet(new Set());
+  }
+
   const [update, setUpdate] = useState(0);
 
   const target = useRef(null);
@@ -162,6 +166,7 @@ export default function CourseRequest() {
 
         <div style={{ marginLeft: '3rem', marginTop: '1.5rem' }}>
           <AdminTable
+            clearSet={clearSet}
             data={arr as unknown as AllReport[]}
             funA={addFoo}
             funR={removeFoo}

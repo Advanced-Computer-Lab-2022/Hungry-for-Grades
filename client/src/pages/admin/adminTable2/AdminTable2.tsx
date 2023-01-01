@@ -1,5 +1,3 @@
-import { MdIndeterminateCheckBox } from 'react-icons/md';
-
 // NEED TO BE REVISED
 // eslint-disable-next-line css-modules/no-unused-class
 import { toast } from 'react-toastify';
@@ -12,12 +10,14 @@ import { useNavigate } from 'react-router-dom';
 
 import DescriptionModal from '../reportRequests/DescriptionModal';
 
+// eslint-disable-next-line css-modules/no-unused-class
 import styles from './AdminTable2.module.scss';
 
 import { AllReport, Status } from '@/interfaces/reports.interface';
 import usePatchQuery from '@/hooks/usePatchQuery';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { toastOptions } from '@/components/toast/options';
+import FollowUp from '@/pages/trainee/followUps/FollowUp';
 
 export default function AdminHome(props: {
   data: AllReport[];
@@ -26,7 +26,14 @@ export default function AdminHome(props: {
   funR: (x: AllReport) => void;
   updateTable: (x: number) => void;
   num: number;
+  clearSet: () => void;
 }) {
+  const [all, setAll] = useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [curr, setCurr] = useState<AllReport>();
+
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
   const [description, setDescription] = useState('');
@@ -40,10 +47,16 @@ export default function AdminHome(props: {
   function handleMultipleRows(report: AllReport) {
     if (props?.st.has(report)) {
       //then we are removing it now
+      setAll(false);
       props?.funR(report);
     } else {
       props?.funA(report);
     }
+  }
+
+  function handleClick()
+  {
+    setShowModal(!showModal);
   }
 
   const { mutateAsync: updateReport } = usePatchQuery();
@@ -66,14 +79,34 @@ export default function AdminHome(props: {
     props?.updateTable(props?.num + 1);
   }
 
+  function SelectAll() {
+    if (!all) {
+      for (let i = 0; i < props?.data?.length; ++i) {
+        if (
+          props?.data[i]?.status != Status.REJECTED &&
+          props?.data[i]?.status != Status.RESOLVED
+        )
+          props?.funA(props?.data[i] as AllReport);
+      }
+    } else {
+      props?.clearSet();
+    }
+    setAll(!all);
+  }
+
   let i = 0;
 
   const toShow =
     props.data && props.data?.length ? (
+      // eslint-disable-next-line sonarjs/cognitive-complexity
       props.data?.map((report: AllReport) => {
         i++;
-        const isDisabled = report?.status == 'Pending' ? false : true;
+        const isDisabled =
+          report?.status == 'Pending' || report?.status == 'Unseen'
+            ? false
+            : true;
         const reportDate = report?.createdAt?.toString().substring(0, 10);
+        const styleContent = 'fit-content';
         return (
           <tr
             key={report?._id}
@@ -81,6 +114,7 @@ export default function AdminHome(props: {
           >
             <td>
               <input
+                checked={(all || props?.st?.has(report)) && !isDisabled}
                 disabled={isDisabled}
                 id={
                   'CheckBox' +
@@ -106,8 +140,8 @@ export default function AdminHome(props: {
                   className='alert alert-warning'
                   style={{
                     textAlign: 'center',
-                    width: 'fit-content',
-                    height: 'fit-content',
+                    width: styleContent,
+                    height: styleContent,
                     padding: '0.5rem',
                     border: '1px solid'
                   }}
@@ -122,8 +156,8 @@ export default function AdminHome(props: {
                   className='alert alert-success'
                   style={{
                     textAlign: 'center',
-                    width: 'fit-content',
-                    height: 'fit-content',
+                    width: styleContent,
+                    height: styleContent,
                     padding: '0.5rem',
                     border: '1px solid'
                   }}
@@ -138,8 +172,8 @@ export default function AdminHome(props: {
                   className='alert alert-danger'
                   style={{
                     textAlign: 'center',
-                    width: 'fit-content',
-                    height: 'fit-content',
+                    width: styleContent,
+                    height: styleContent,
                     padding: '0.5rem',
                     border: '1px solid'
                   }}
@@ -154,8 +188,8 @@ export default function AdminHome(props: {
                   className='alert alert-info'
                   style={{
                     textAlign: 'center',
-                    width: 'fit-content',
-                    height: 'fit-content',
+                    width: styleContent,
+                    height: styleContent,
                     padding: '0.5rem',
                     border: '1px solid'
                   }}
@@ -221,8 +255,13 @@ export default function AdminHome(props: {
               <button
                 style={{ color: '#a00407' }}
                 type='button'
-                onClick={() =>
-                  navigate(`../followup/${report?._id}?trainee=false`)
+                onClick={() =>{
+                  
+                  setShowModal(!showModal)
+                  setCurr(report)
+                }
+
+
                 }
               >
                 Follow ups
@@ -247,8 +286,18 @@ export default function AdminHome(props: {
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
           >
             <th>
-              <MdIndeterminateCheckBox
-                style={{ color: '#DC3535', fontSize: '1.5rem' }}
+              <input
+                checked={all}
+                className='form-check-input'
+                style={{
+                  width: '1.4rem',
+                  height: '1.2rem',
+                  alignItems: 'center',
+                  //here was marginTop 1rem
+                  marginLeft: '0.1rem'
+                }}
+                type='checkbox'
+                onClick={() => SelectAll()}
               />
             </th>
             <th>User</th>
@@ -268,6 +317,8 @@ export default function AdminHome(props: {
               handleClose={closeModal}
             />
           )}
+          {showModal && 
+          <FollowUp func={ handleClick } report = {curr as AllReport} trainee={'false'} />}
         </tbody>
       </table>
     </div>
