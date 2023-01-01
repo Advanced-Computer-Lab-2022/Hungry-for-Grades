@@ -63,10 +63,12 @@ export default function Create() {
       },
       role: 'Admin'
     };
-    const response = await createUser(AdminRoutee);
+    const response = await toast.promise(createUser(AdminRoutee),{
+			'pending':'Creating Admin User',
+			'success':'Admin Is Created Successfully',
+		},toastOptions);
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Admin Created Successfully', toastOptions);
+    if (success == undefined){}
     else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -103,10 +105,12 @@ export default function Create() {
       },
       role: 'Instructor'
     };
-    const response = await createUser(AdminRoutee);
+    const response = await toast.promise(createUser(AdminRoutee),{
+			'pending':'Creating Instructor User',
+			'success':'Instructor Is Created Successfully',
+		},toastOptions);
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Instructor Created Successfully', toastOptions);
+    if (success == undefined){}
     else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }
@@ -144,10 +148,12 @@ export default function Create() {
       corporate: values.corporate,
       role: 'Trainee'
     };
-    const response = await createUser(AdminRoutee);
+		const response = await toast.promise(createUser(AdminRoutee),{
+			'pending':'Creating Corporate Trainee User',
+			'success':'Corporate Trainee Is Created Successfully',
+		},toastOptions);
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Corporate Trainee Created Successfully', toastOptions);
+    if (success == undefined){}
     else toast.error(response?.response?.data?.message, toastOptions);
     actions.resetForm();
   }

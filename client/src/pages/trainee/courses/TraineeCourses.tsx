@@ -58,6 +58,10 @@ export default function MyCourses() {
 
   if (incoming.length == 0) {
     return (
+			<div className='py-3'
+      style={{
+        backgroundColor: '#f8f9fa'
+      }}>
       <div className='container text-center my-5'>
         <div
           className='mb-2'
@@ -80,6 +84,7 @@ export default function MyCourses() {
           </Link>
         </div>
       </div>
+			</div>
     );
   }
 

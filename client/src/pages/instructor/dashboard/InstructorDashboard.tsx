@@ -5,6 +5,8 @@ import { RiDashboardFill } from 'react-icons/ri';
 
 import { Link } from 'react-router-dom';
 
+import { VscReport } from 'react-icons/vsc';
+
 import styles from './instructor-dashboard.module.scss';
 
 import Dashboard from '@/components/dashboard/Dashboard';
@@ -12,7 +14,7 @@ const navLinks = {
   Dashboard: { path: '/instructor/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/instructor/my-courses', icon: <BsFillBookFill /> },
   'Rating & Reviews': { path: '/instructor/rating-review', icon: <BiNote /> },
-  Reports: { path: 'instructor/my-reports' },
+  Reports: { path: 'instructor/report' ,icon:<VscReport/>},
   Profile: { path: '/instructor/profile', icon: <FiUser /> }
 };
 

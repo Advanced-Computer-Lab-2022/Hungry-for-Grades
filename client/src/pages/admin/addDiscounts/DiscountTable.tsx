@@ -90,7 +90,7 @@ export default function DiscountTable(props: {
 
   return (
     <div style={{ overflowX: 'auto' }}>
-      <table className={styles.container}>
+      <table className={`${styles.container ?? ''} table table-hover`}>
         <thead>
           <tr
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
