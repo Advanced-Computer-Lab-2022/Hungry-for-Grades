@@ -72,15 +72,33 @@ export default function LastStudy() {
             </div>
           </div>
         ) : (
-          <div className='text-center'>
-            <div className='text-2xl font-bold my-2 mb-4'>
-              You have not enrolled in any course yet
-            </div>
-            <Link className='btn btn-primary' to='/trainee/courses'>
-              {' '}
-              Enroll now
-            </Link>
-          </div>
+					<div className='py-3'
+					style={{
+						backgroundColor: '#f8f9fa'
+					}}>
+					<div className='container text-center my-5'>
+						<div
+							className='mb-2'
+							style={{
+								fontFamily: 'Arial, Helvetica, sans-serif',
+								fontWeight: '600',
+								fontSize: '1.3rem'
+							}}
+						>
+							Find a course you want to learn today.
+						</div>
+						<div
+							style={{
+								fontFamily: 'Arial, Helvetica, sans-serif'
+							}}
+						>
+							When you enroll in a course, it will appear here.{' '}
+							<Link className='alert-link' to={'../courses'}>
+								Browse now
+							</Link>
+						</div>
+					</div>
+					</div>
         )}
         <hr
           className='mb-4'
