@@ -5,7 +5,10 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
 
 async function searchRequest() {
-  const instructorActiveRoute = Object.assign({}, InstructorRoutes.GET.getTopInstructors);
+  const instructorActiveRoute = Object.assign(
+    {},
+    InstructorRoutes.GET.getTopInstructors
+  );
 
   return getRequest<
     HttpResponse<{

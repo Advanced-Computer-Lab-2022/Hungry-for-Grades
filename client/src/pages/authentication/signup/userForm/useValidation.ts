@@ -36,8 +36,8 @@ function useValidation({
         .min(new Date(1900, 1, 1), 'Birth Date is Too Old!')
         .max(new Date(), 'Birth Date is Wrong')
         .required('Birth Date is Required'),
-      phone: Yup.string().required('Phone is Required'),
-      country: Yup.string(),
+      phone: Yup.string(),
+      country: Yup.string()
     }),
     onSubmit: (_, actions) => {
       actions.setSubmitting(true);

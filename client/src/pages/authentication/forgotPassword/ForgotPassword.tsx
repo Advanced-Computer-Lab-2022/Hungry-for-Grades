@@ -41,7 +41,7 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      const response=await toast.promise(
+      const response = await toast.promise(
         mutateAsync(forgetPasswordRoute),
         {
           pending: 'Sending email...',
@@ -52,11 +52,10 @@ function ForgotPassword() {
         toastOptions
       );
 
-
-			if(!response.status ){
+      if (!response.status) {
         toast.error(response.data.message, toastOptions);
-				return;
-			}
+        return;
+      }
       return true;
     } catch (err) {
       console.log(err);

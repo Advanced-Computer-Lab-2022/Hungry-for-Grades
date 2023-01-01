@@ -3,9 +3,9 @@ import { AxiosResponse } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 
 import { HttpResponse } from '@/interfaces/response.interface';
-import { IInstructor } from '@/interfaces/instructor.interface';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { patchRequest } from '@/services/axios/http-verbs';
+import { ITrainee } from '@/interfaces/course.interface';
 
 type EditProfileData = {
   profileImage: string | undefined;
@@ -14,7 +14,6 @@ type EditProfileData = {
   username: string | undefined;
   phone: string | undefined;
 };
-//AxiosResponse<HttpResponse<IInstructor>>
 
 export async function updateProfile(
   traineeId: string,
@@ -30,7 +29,7 @@ export async function updateProfile(
   const trainee = TraineeRoutes.PATCH.updateProfile;
   trainee.URL = `/trainee/${encodeURIComponent(traineeId)}`;
   trainee.payload = data;
-  const res = await patchRequest<AxiosResponse<HttpResponse<IInstructor>>>(
+  const res = await patchRequest<AxiosResponse<HttpResponse<ITrainee>>>(
     trainee
   );
   console.log(res);
@@ -43,7 +42,7 @@ export default function usePatchQuery(
   traineeData: EditProfileData
 ) {
   return {
-    ...useQuery(['updateProfileee', traineeId, traineeData], () =>
+    ...useQuery(['update-trainee-profile', traineeId, traineeData], () =>
       updateProfile(traineeId, traineeData)
     )
   };

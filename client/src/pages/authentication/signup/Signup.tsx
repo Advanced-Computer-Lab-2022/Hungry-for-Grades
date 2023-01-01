@@ -109,21 +109,21 @@ function Signup() {
         },
         name
       };
-      const response=await toast.promise(
+      const response = await toast.promise(
         mutateAsync(signup),
         {
-					pending: 'Signing up ...',
+          pending: 'Signing up ...',
           success: `Welcome ${name}`,
-					error: 'Error signing up'
+          error: 'Error signing up'
         },
         toastOptions
       );
 
-			if(!response.status ){
+      if (!response.status) {
         toast.error(response.data.message, toastOptions);
 
-				return;
-			}
+        return;
+      }
 
       navigate('/auth/login', {
         state: {

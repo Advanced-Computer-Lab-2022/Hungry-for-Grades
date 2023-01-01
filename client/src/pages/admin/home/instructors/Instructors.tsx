@@ -1,6 +1,5 @@
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
-
 import { GiTeacher } from 'react-icons/gi';
 
 import styles from '../card.module.scss';

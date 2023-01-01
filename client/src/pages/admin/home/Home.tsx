@@ -14,7 +14,7 @@ const backStyle = {
 };
 export default function Home() {
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
-    [<Trainees key='123' />,<Instructors key='instructors-admin-dashboard'/>],
+    [<Trainees key='123' />, <Instructors key='instructors-admin-dashboard' />],
     ['Trainees', 'Instructors'],
     ['']
   );
