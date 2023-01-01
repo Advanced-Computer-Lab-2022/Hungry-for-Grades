@@ -9,7 +9,7 @@
 // import mongoose from 'mongoose';
 // import { filters } from './user.type';
 
- /* class UserService {
+/* class UserService {
 
    public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
      const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
@@ -110,4 +110,3 @@ for (const key in filters) {
 //   // }
 // }
 // export default UserService;
- */

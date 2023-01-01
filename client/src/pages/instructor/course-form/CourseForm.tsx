@@ -35,6 +35,7 @@ import {
 import ProgressStepper from '@/components/progress/progressStepper/ProgressStepper';
 import useMultistepForm from '@/hooks/useMultistepForm';
 import useInstructorId from '@/hooks/useInstuctorId';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 // import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 
@@ -60,10 +61,9 @@ const schemas = [
 
 async function submitCourse(
   values: CourseFormValues,
-  submitAction: CourseSubmitAction
+  submitAction: CourseSubmitAction,
+  instructorId: string | undefined
 ) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const instructorId = useInstructorId();
   if (!instructorId) {
     return;
   }
@@ -122,6 +122,8 @@ function CourseForm(props: CourseFormProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const openTerms = useCallback(() => setModalOpen(true), [setModalOpen]);
   const closeTerms = useCallback(() => setModalOpen(false), [setModalOpen]);
+  const instructorId = useInstructorId();
+  const redirectToLogin = useRedirectToLogin();
   const {
     currentStepIndex,
     steps,
@@ -141,12 +143,15 @@ function CourseForm(props: CourseFormProps) {
     stepTitles.slice(0, props.isUpdating ? 1 : 3),
     stepDescriptions.slice(0, props.isUpdating ? 1 : 3)
   );
+  if (!instructorId) {
+    redirectToLogin();
+  }
   const handleSubmit = async (
     values: CourseFormValues,
     actions: FormikHelpers<CourseFormValues>
   ) => {
     if (isLastStep) {
-      await submitCourse(values, props.submitAction);
+      await submitCourse(values, props.submitAction, instructorId);
     } else {
       actions.setTouched({});
       actions.setSubmitting(false);

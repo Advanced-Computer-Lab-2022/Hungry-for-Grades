@@ -17,8 +17,9 @@ function ArrayErrorMessage(props: ArrayErrorMessageProps) {
     }
     return (
       <div className='text-danger small'>
-        {errors.map(e => (
-          <span key={e as string}>{e as string}</span>
+        {errors.map((e, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <span key={index}>{e as string}</span>
         ))}
       </div>
     );

@@ -6,8 +6,6 @@ import { HiOutlineDocumentReport } from 'react-icons/hi';
 
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import DescriptionModal from '../reportRequests/DescriptionModal';
 
 // eslint-disable-next-line css-modules/no-unused-class
@@ -37,8 +35,6 @@ export default function AdminHome(props: {
   const [showDescription, setShowDescription] = useState<boolean>(false);
 
   const [description, setDescription] = useState('');
-
-  const navigate = useNavigate();
 
   function closeModal() {
     setShowDescription(false);

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import BarGraph from '@/components/graphs/barGraph/BarGraph';
 
 type AnalyticData = {
@@ -38,7 +39,7 @@ export default function LineAnalytics(props: CourseAnalyticsProps) {
       />
       <BarGraph<{
         title: string;
-        AverageRating: number;
+        'Average Rating': number;
       }>
         data={props?.data.map(data => {
           return {
