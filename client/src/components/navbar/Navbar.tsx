@@ -42,6 +42,7 @@ function NavbarComponent() {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='' style={{ marginRight: '2rem' }}>
             <NavLink
+						id='courses-navlink'
               className={function activate({ isActive }) {
                 return isActive ? 'nav-link active' : 'nav-link';
               }}
@@ -49,7 +50,7 @@ function NavbarComponent() {
             >
               <span style={{ color: 'inherit' }}>Courses</span>
             </NavLink>
-            <NavDropdown id='basic-nav-dropdown' title='Explore'>
+            <NavDropdown id='explore-nav-dropdown' title='Explore'>
               {!isError &&
                 data?.data?.map(category => (
                   <NavDropdown.Item key={category.label}>
@@ -59,6 +60,7 @@ function NavbarComponent() {
                         to={`/courses?category=${encodeURIComponent(
                           category.label
                         )}`}
+												id={`category-${category.label}`}
                       >
                         {category.label}
                       </Link>
@@ -71,6 +73,8 @@ function NavbarComponent() {
                           <Link
                             key={subCat.label}
                             className=''
+														id={`subcategory-${category.label}`}
+
                             to={`/courses?category=${encodeURIComponent(
                               category.label
                             )}&subCategory=${encodeURIComponent(subCat.label)}`}

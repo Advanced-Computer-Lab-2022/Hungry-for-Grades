@@ -14,7 +14,7 @@ const navLinks = {
   Dashboard: { path: '/instructor/dashboard', icon: <RiDashboardFill /> },
   Courses: { path: '/instructor/my-courses', icon: <BsFillBookFill /> },
   'Rating & Reviews': { path: '/instructor/rating-review', icon: <BiNote /> },
-  Reports: { path: 'instructor/report' ,icon:<VscReport/>},
+  Reports: { path: '/instructor/report' ,icon:<VscReport/>},
   Profile: { path: '/instructor/profile', icon: <FiUser /> }
 };
 
