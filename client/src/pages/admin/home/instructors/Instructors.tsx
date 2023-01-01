@@ -27,7 +27,7 @@ const backStyle = {
   boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
   backgroundColor: 'white'
 };
-function Trainees() {
+function Instructors() {
   const { data, isLoading, isError } = UseDataQuery();
   const {
     data: analytics,
@@ -98,7 +98,7 @@ function Trainees() {
   const { active, inactive } = data?.data.data;
   return (
     <>
-      {' '}
+
       <div className='row'>
         <div className='col-md-4 mb-4'>
           <div className={`${styles.card ?? ''} card`} style={backStyle}>
@@ -157,4 +157,4 @@ function Trainees() {
   );
 }
 
-export default Trainees;
+export default Instructors;

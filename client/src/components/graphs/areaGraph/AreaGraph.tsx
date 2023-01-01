@@ -10,7 +10,11 @@ import {
 } from 'recharts';
 
 import { AnalyticsProps } from '../types';
-
+function tickFormatter(value: string) {
+  const limit = 10; // put your maximum character
+  if (value.length < limit) return value;
+  return `${value.substring(0, limit)}...`;
+}
 function AreaGraph<T>({ data, graphs }: AnalyticsProps<T>) {
   return (
     <ResponsiveContainer height={300} width='100%'>
@@ -26,7 +30,7 @@ function AreaGraph<T>({ data, graphs }: AnalyticsProps<T>) {
         width={500}
       >
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='title' />
+        <XAxis dataKey='title' tickFormatter={tickFormatter} />
         <YAxis />
         <Tooltip />
         {graphs?.map(area => {
