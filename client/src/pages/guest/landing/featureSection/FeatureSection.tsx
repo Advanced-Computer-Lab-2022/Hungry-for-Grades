@@ -25,8 +25,7 @@ function FeatureSection() {
                     Trendy Courses
                   </h4>
                   <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
+									Education is the key to all the locked doors of the unknown. Find Out Your Favorite courses
                   </p>
                   <a className='main-button' href='#rated-courses'>
                     Read More
@@ -41,8 +40,7 @@ function FeatureSection() {
                   <img alt='' src='/features-icon-2.png' />
                   <h4>Top Rated Instructors</h4>
                   <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
+                   Get to see our Top Instructors
                   </p>
                   <a className='main-button' href='#rated-instructors'>
                     Discover More
@@ -57,8 +55,7 @@ function FeatureSection() {
                   <img alt='' src='/features-icon-3.png' />
                   <h4>Signup to our Newsletter</h4>
                   <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
+                    Get to know about our latest courses and updates
                   </p>
                   <a className='main-button' href='#newsletter'>
                     Sign Up
