@@ -60,7 +60,7 @@ function ChangePassword() {
         newPassword
       };
       SessionStorage.set('accessToken', token);
-      const response=await toast.promise(
+      const response = await toast.promise(
         mutateAsync(changePasswordRoute),
         {
           pending: 'Changing Password',
@@ -72,14 +72,14 @@ function ChangePassword() {
       );
 
       SessionStorage.remove('accessToken');
-			if(!response.status ){
+      if (!response.status) {
         toast.error(response.data.message, toastOptions);
-				return;
-			}
+        return;
+      }
 
       return true;
     } catch (err) {
-			SessionStorage.remove('accessToken');
+      SessionStorage.remove('accessToken');
 
       return false;
     }

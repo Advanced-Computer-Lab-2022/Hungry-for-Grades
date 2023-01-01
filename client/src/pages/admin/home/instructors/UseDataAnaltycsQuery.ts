@@ -7,9 +7,9 @@ import { HttpResponse } from '@/interfaces/response.interface';
 async function searchRequest() {
   const instructorActiveRoute = Object.assign(
     {},
-    InstructorRoutes.GET.getMonthlyEarnings
+    InstructorRoutes.GET.getTopInstructors
   );
-  instructorActiveRoute.URL = `/instructor/active`;
+
   return getRequest<
     HttpResponse<{
       active: number;
@@ -20,6 +20,6 @@ async function searchRequest() {
 
 export default function UseDataQuery() {
   return {
-    ...useQuery(['admin-instructors-data'], () => searchRequest())
+    ...useQuery(['admin-trainee-data'], () => searchRequest())
   };
 }

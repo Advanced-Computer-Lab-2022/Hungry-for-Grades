@@ -111,11 +111,7 @@ function CourseCard(courseProps: {
             styles.course__card ?? ''
           } card card-cascade rounded bg-light shadow my-5`}
         >
-          <Link
-            to={`${
-                 `/course/${props.id}`
-            }`}
-          >
+          <Link to={`${`/course/${props.id}`}`}>
             <div className={`${styles.course__img__container ?? ''}`}>
               <img
                 alt={props.title}
