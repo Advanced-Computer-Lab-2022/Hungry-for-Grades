@@ -96,39 +96,48 @@ export default function FollowUp(props: {
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
-  const toShow = report?.followUp?.map((message: Message) => {
-    const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
+  const toShow = report?.followUp?.length ? (
+    report?.followUp?.map((message: Message) => {
+      const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
-    return (
-      <div key={++i} className='row my-2'>
-        <div className='col-1'>
-          {!sender && (
-            <img
-              alt={'Some Dude'}
-              height='35'
-              src={img}
-              style={{ borderRadius: '50px' }}
-              width='40'
-            />
-          )}
-        </div>
-        <div
-          className={`col-11 d-flex ${
-            sender ? 'justify-content-end' : 'justify-content-start'
-          }`}
-        >
+      return (
+        <div key={++i} className='row my-2'>
+          <div className='col-1'>
+            {!sender && (
+              <img
+                alt={'Some Dude'}
+                height='35'
+                src={img}
+                style={{ borderRadius: '50px' }}
+                width='40'
+              />
+            )}
+          </div>
           <div
-            className={` ${
-              sender ? styles.sender || '' : styles.receiver || ''
+            className={`col-11 d-flex ${
+              sender ? 'justify-content-end' : 'justify-content-start'
             }`}
-            style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
           >
-            {message.content}
+            <div
+              className={` ${
+                sender ? styles.sender || '' : styles.receiver || ''
+              }`}
+              style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
+            >
+              {message.content}
+            </div>
           </div>
         </div>
-      </div>
-    );
-  });
+      );
+    })
+  ) : (
+    <div
+      className='text-center alert alert-primary'
+      style={{ fontSize: '1.5rem', fontWeight: '500', marginTop: '2rem' }}
+    >
+      No Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
+    </div>
+  );
 
   async function SendMessage() {
     const message = ReportDataService.POST.sendMessage;
@@ -143,6 +152,7 @@ export default function FollowUp(props: {
     console.log(dd);
     setUpdate(update + 1);
     setTxt('');
+    // scroll down
   }
 
   return (
@@ -154,8 +164,12 @@ export default function FollowUp(props: {
         <Modal.Body>
           <div
             className='container'
-            style={{ maxWidth: '40rem', margin: '3rem auto' }}
+            id='body-scroll'
+            style={{ maxWidth: '40rem', margin: '0 auto' }}
           >
+            <a href='#scroll-here' id='body-here'>
+              Scroll Down
+            </a>
             {/*<div
           className='text-center'
           style={{
@@ -167,24 +181,28 @@ export default function FollowUp(props: {
         >
           Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
         </div>*/}
-            <div className={styles.message_holder}>{toShow}</div>
-
-            <div className={styles.send_message}>
-              <textarea
-                className={styles.message}
-                value={txt}
-                onChange={e => setTxt(e.target.value)}
-              />
-              <button
-                style={{ border: 'none' }}
-                type='button'
-                onClick={() => SendMessage()}
-              >
-                <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
-              </button>
+            <div className={styles.message_holder}>
+              {toShow}
+              <div id='scroll-here' />
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <div className={styles.send_message}>
+            <textarea
+              className={styles.message}
+              value={txt}
+              onChange={e => setTxt(e.target.value)}
+            />
+            <button
+              style={{ border: 'none' }}
+              type='button'
+              onClick={() => SendMessage()}
+            >
+              <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
+            </button>
+          </div>
+        </Modal.Footer>
       </Modal>
     </>
   );

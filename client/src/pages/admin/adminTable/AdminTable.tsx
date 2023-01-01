@@ -177,6 +177,16 @@ export default function AdminHome(props: {
               report?.status == 'Resolved' || report?.status == 'Rejected'
             ) && (
               <td className='col' style={{ textAlign: 'center' }}>
+                {report?.status == Status.UNSEEN && (
+                  <button
+                    className='btn btn-outline-secondary'
+                    style={{ textAlign: 'center' }}
+                    type='button'
+                    onClick={() => handleAction(Status?.PENDING, report)}
+                  >
+                    Mark as Pending
+                  </button>
+                )}
                 <button
                   className='btn btn-outline-primary mx-2'
                   style={{ textAlign: 'center' }}
@@ -193,16 +203,6 @@ export default function AdminHome(props: {
                 >
                   Decline
                 </button>
-                {report?.status == Status.UNSEEN && (
-                  <button
-                    className='btn btn-secondary'
-                    style={{ textAlign: 'center' }}
-                    type='button'
-                    onClick={() => handleAction(Status?.PENDING, report)}
-                  >
-                    Mark as Pending
-                  </button>
-                )}
               </td>
             )}
           </tr>
@@ -219,7 +219,7 @@ export default function AdminHome(props: {
   return (
     <div className='pb-5'>
       <div className='table-responsive'>
-        <table className={`${styles.container ?? 'table'}`}>
+        <table className={`${styles.container ?? ''} table table-hover`}>
           <thead>
             <tr
               style={{

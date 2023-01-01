@@ -58,26 +58,33 @@ export default function MyCourses() {
 
   if (incoming.length == 0) {
     return (
-      <div className='container text-center my-5'>
-        <div
-          className='mb-2'
-          style={{
-            fontFamily: 'Arial, Helvetica, sans-serif',
-            fontWeight: '600',
-            fontSize: '1.3rem'
-          }}
-        >
-          Find a course you want to learn today.
-        </div>
-        <div
-          style={{
-            fontFamily: 'Arial, Helvetica, sans-serif'
-          }}
-        >
-          When you enroll in a course, it will appear here.{' '}
-          <Link className='alert-link' to={'../courses'}>
-            Browse now
-          </Link>
+      <div
+        className='py-3'
+        style={{
+          backgroundColor: '#f8f9fa'
+        }}
+      >
+        <div className='container text-center my-5'>
+          <div
+            className='mb-2'
+            style={{
+              fontFamily: 'Arial, Helvetica, sans-serif',
+              fontWeight: '600',
+              fontSize: '1.3rem'
+            }}
+          >
+            Find a course you want to learn today.
+          </div>
+          <div
+            style={{
+              fontFamily: 'Arial, Helvetica, sans-serif'
+            }}
+          >
+            When you enroll in a course, it will appear here.{' '}
+            <Link className='alert-link' to={'../courses'}>
+              Browse now
+            </Link>
+          </div>
         </div>
       </div>
     );
