@@ -121,7 +121,7 @@ function CourseHeader(props: ICourse & { videoClassName: string }) {
         </div>
         <div className={`text-light`}>
           Duration: &nbsp;
-          {formatDuration(props.duration * 60)}
+          {formatDuration((props.duration ?? 0) * 60)}
         </div>
 
         {addToWishList && (

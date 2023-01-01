@@ -239,7 +239,9 @@ function CoursePreviewBox(props: ICourse) {
         <br />
         <MdOndemandVideo />
         &nbsp;
-        <span>{formatDuration(props.duration * 60)} on-demand video</span>
+        <span>
+          {formatDuration((props.duration ?? 0) * 60)} on-demand video
+        </span>
         <br />
         <CgInfinity />
         &nbsp;

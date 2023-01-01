@@ -42,7 +42,7 @@ function CourseCardPreview({
       alt={title}
       className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
       loading='lazy'
-			src={image && image.length > 0 ? image : COMPANY_LOGO}
+      src={image && image.length > 0 ? image : COMPANY_LOGO}
       onError={e => {
         e.currentTarget.src = COMPANY_LOGO;
       }}

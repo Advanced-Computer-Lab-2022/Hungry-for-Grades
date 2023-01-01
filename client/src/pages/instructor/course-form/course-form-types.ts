@@ -25,7 +25,6 @@ export type LessonFormValues = {
   uid: string;
   _id: string | undefined;
   description: string;
-  duration: string;
   title: string;
   videoURL: string;
 };

@@ -31,7 +31,10 @@ function Content(props: ICourse) {
                     <small>
                       {sec.lessons.length} lessons{' | '}
                       {formatDuration(
-                        sec.lessons.reduce((sum, l) => sum + l.duration, 0)
+                        sec.lessons.reduce(
+                          (sum, l) => sum + (l.duration ?? 0),
+                          0
+                        )
                       )}
                     </small>
                   </p>
@@ -50,7 +53,9 @@ function Content(props: ICourse) {
                       >
                         <li className='list-item'>
                           <strong>{l.title}</strong>{' '}
-                          <p className='small'>{formatDuration(l.duration)}</p>
+                          <p className='small'>
+                            {formatDuration(l.duration ?? 0)}
+                          </p>
                         </li>
                       </Link>
                     ))}

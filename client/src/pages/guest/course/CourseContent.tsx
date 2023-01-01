@@ -22,7 +22,8 @@ function CourseContent(props: ICourse) {
         • &nbsp;
         {formatDuration(
           props.sections.reduce(
-            (s, l) => s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+            (s, l) =>
+              s + l.lessons.reduce((s2, l2) => s2 + (l2.duration ?? 0), 0),
             0
           )
         )}
@@ -40,7 +41,10 @@ function CourseContent(props: ICourse) {
                     <small>
                       {sec.lessons.length} lessons •{' '}
                       {formatDuration(
-                        sec.lessons.reduce((sum, l) => sum + l.duration, 0)
+                        sec.lessons.reduce(
+                          (sum, l) => sum + (l.duration ?? 0),
+                          0
+                        )
                       )}{' '}
                       • {sec.exercises.length} exercises
                     </small>
@@ -56,7 +60,7 @@ function CourseContent(props: ICourse) {
                     <li key={l.title} className='list-item'>
                       <strong>Lesson #{index + 1}:</strong> {l.title}{' '}
                       <span className='float-end small'>
-                        {formatDuration(l.duration)}
+                        {formatDuration(l.duration ?? 0)}
                       </span>
                     </li>
                   ))}

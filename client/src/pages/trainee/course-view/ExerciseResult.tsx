@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import { getSubmittedQuestions } from '@/services/axios/dataServices/TraineeDataService';
-import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { ICourseExercise } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 function ExerciseResult(props: ICourseExercise) {
   const traineeId = useTraineeId();
@@ -16,7 +16,7 @@ function ExerciseResult(props: ICourseExercise) {
   if (isLoading) {
     return (
       <div className='container'>
-        <LoaderCards numberOfCards={6} />
+        <Loader />
       </div>
     );
   } else if (isError) {

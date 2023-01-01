@@ -70,9 +70,13 @@ export default function RefundTable(props: {
       report?.traineeInfo?.at(0)?._id as string
     }/course/${report?._course?.at(0)?._id as string}`;
 
-    await toast.promise(makeTheRefund(Reffund),{
-			pending: 'Applying Actions...',
-		},toastOptions);
+    await toast.promise(
+      makeTheRefund(Reffund),
+      {
+        pending: 'Applying Actions...'
+      },
+      toastOptions
+    );
 
     toast.success('Actions are applied successfully...', toastOptions);
 

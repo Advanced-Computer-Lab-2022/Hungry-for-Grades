@@ -50,9 +50,13 @@ export default function EditProfile() {
   const imgURL = user?.profileImage;
 
   async function submitAction(instructorData: EditProfileData) {
-    const response = await toast.promise(updateProfile(user?._id as string, instructorData),{
-			pending: 'Updating profile...',
-		},toastOptions);
+    const response = await toast.promise(
+      updateProfile(user?._id as string, instructorData),
+      {
+        pending: 'Updating profile...'
+      },
+      toastOptions
+    );
     if (response.status === 200) {
       toast.success('Profile updated successfully', toastOptions);
     } else {

@@ -74,13 +74,7 @@ export const lessonsSchema = array()
             excludeEmptyString: true
           }
         )
-        .label('Video Url'),
-      duration: number()
-        .required()
-        .min(1)
-        .max(1000)
-        .label('Duration in Minutes')
-        .integer()
+        .label('Video Url')
     })
   );
 
