@@ -42,7 +42,7 @@ export default function ReportsTable() {
   console.log(arr);
 
   const toShow =
-    arr != undefined && arr.length>0? (
+    arr != undefined && arr.length > 0 ? (
       arr?.map((report: AllReport, index) => {
         const styleContent = 'fit-content';
         const date = report?.createdAt.toString().substring(0, 10);
