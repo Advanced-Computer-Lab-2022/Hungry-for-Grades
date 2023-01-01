@@ -35,4 +35,3 @@ export type Category = {
   name: string;
   subcategory: string[];
 };
-

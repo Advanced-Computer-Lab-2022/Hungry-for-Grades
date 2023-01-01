@@ -76,6 +76,12 @@ export const InstructorRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    updateProfile: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   DELETE: {

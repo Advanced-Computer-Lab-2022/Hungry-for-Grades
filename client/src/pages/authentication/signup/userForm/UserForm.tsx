@@ -236,14 +236,7 @@ function UserForm({
         <Button
           backgroundColor={'primary-bg'}
           id='userform-next'
-          isDisabled={
-            !formik.isValid ||
-            formik.values.firstName === '' ||
-            formik.values.lastName === '' ||
-            formik.values.birthDate === '' ||
-            formik.values.phone === '' ||
-            formik.values.country === ''
-          }
+          isDisabled={!formik.isValid || !formik.dirty}
           label={'next'}
           name={'next'}
           type={'button'}

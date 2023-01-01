@@ -5,21 +5,21 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
 
 async function searchRequest() {
-  const traineeActiveRoute = Object.assign(
+  const instructorActiveRoute = Object.assign(
     {},
     InstructorRoutes.GET.getMonthlyEarnings
   );
-  traineeActiveRoute.URL = `/trainee/active`;
+  instructorActiveRoute.URL = `/instructor/active`;
   return getRequest<
     HttpResponse<{
       active: number;
       inactive: number;
     }>
-  >(traineeActiveRoute);
+  >(instructorActiveRoute);
 }
 
 export default function UseDataQuery() {
   return {
-    ...useQuery(['admin-trainee-data'], () => searchRequest())
+    ...useQuery(['admin-instructors-data'], () => searchRequest())
   };
 }

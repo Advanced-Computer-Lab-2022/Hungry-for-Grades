@@ -27,6 +27,7 @@ import './signup.scss';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
 import { toastOptions } from '@/components/toast/options';
+import { HttpResponse } from '@/interfaces/response.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -46,7 +47,7 @@ const titles = ['User Form', 'Account Form', 'Confirm Email'];
 
 function Signup() {
   const [data, setData] = useState<SignupData>(INITIAL_DATA);
-  const { mutateAsync } = usePostQuery();
+  const { mutateAsync } = usePostQuery<HttpResponse<null>>();
   const navigate = useNavigate();
   function updateData(newData: UpdateSignupData) {
     setData(prev => {
@@ -108,14 +109,21 @@ function Signup() {
         },
         name
       };
-      await toast.promise(
+      const response = await toast.promise(
         mutateAsync(signup),
         {
-          pending: 'Pending',
-          success: `Welcome ${name}`
+          pending: 'Signing up ...',
+          success: `Welcome ${name}`,
+          error: 'Error signing up'
         },
         toastOptions
       );
+
+      if (!response.status) {
+        toast.error(response.data.message, toastOptions);
+
+        return;
+      }
 
       navigate('/auth/login', {
         state: {

@@ -32,7 +32,7 @@ export async function savePayment(
     const deductBalance = UseUserDeductBalance();
     deductBalance(res.data.data.data.amount);
   }
-  return res.data;
+  return res.data.data;
 }
 
 export default function usePostQuery(
