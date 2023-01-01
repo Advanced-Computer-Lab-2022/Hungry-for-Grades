@@ -116,7 +116,7 @@ function NavbarComponent() {
                   Role.TRAINEE.toLocaleLowerCase() &&
                   !(user as ITrainee).isCorporate && <WishCartButtons />}
 
-                {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
+                {user.role.toLocaleLowerCase() !== Role.ADMIN.toLocaleLowerCase() && !(user as ITrainee).isCorporate && (
                   <Link
                     className={styles.user__balance}
                     to={`/${user.role.toLocaleLowerCase()}/dashboard`}
