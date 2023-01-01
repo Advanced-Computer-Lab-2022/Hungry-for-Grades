@@ -85,12 +85,14 @@ export type IPrice = {
   currentValue: number;
   discounts: Array<CourseDiscount>;
 };
-export type Review = {
-  _trainee: ITrainee;
+export type ReviewDTO = {
   comment: string;
-  createdAt: Date;
   rating: number;
 };
+export type Review = {
+  _trainee: ITrainee;
+  createdAt: Date;
+} & ReviewDTO;
 export type ICourseReview = {
   _traineeId: string | undefined;
   comment: string;

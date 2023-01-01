@@ -5,7 +5,7 @@ import * as yt from 'youtube-info-streams';
 import { getYoutubeVideoID } from './course.common';
 import categories from '@Course/category.json';
 
-//course schema
+//course 
 const courseSchema = new Schema<ICourse>(
   {
     _instructor: [
@@ -181,7 +181,7 @@ courseSchema.pre('save', async function (next) {
     if (this.isModified('exam')) {
       this.exam.forEach(question => {
         if (!question.options.includes(question.answer)) {
-          throw new Error('Answer is not included inside options array in exam');
+          throw new Error(`Answer '${question.answer}' is not included inside options array in exam`);
         }
       });
     }
@@ -190,7 +190,7 @@ courseSchema.pre('save', async function (next) {
       section.exercises.forEach(exercise => {
         exercise.questions.forEach(question => {
           if (!question.options.includes(question.answer)) {
-            throw new Error('Answer is not included inside options array in sections exercises');
+            throw new Error(`Answer '${question.answer}' is not included inside options array in sections exercises`);
           }
         });
       });

@@ -99,6 +99,11 @@ class ReportService {
     return report;
   };
 
+  public deleteReportsRelatedToCourse = async (courseId: string) => {
+    const reports = await reportModel.deleteMany({ _course: courseId });
+    return reports;
+  };
+
   // get all reports with pagination and filters
   public getAllReports = async (reportFilters: IReportFilters): Promise<PaginatedData<Report>> => {
     //prepare match query
