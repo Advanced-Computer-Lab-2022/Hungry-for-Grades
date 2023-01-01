@@ -38,7 +38,7 @@
   <p align="center">
     An Educational Website !
     <br />
-	  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API Documentation</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
+	  ·<a href="https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R">Published API Documentation</a>  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API WorkSpace</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
     <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20onCart&body=Dear%20Omar%20Sherif%2C%0A%0A%3D%3D%3E%20name%0A%3D%3D%3E%20email%0A%3D%3D%3E%20phone%20number%0A%3D%3D%3E%20github%20link%0A%0A%0A%0ANeeded%20Skills%3A%0A%0A1-Familiar%20with%20Python%0A2-Familiar%20with%20BeautifulSoup%0A3-Familiar%20with%20csv%0A4-Familiar%20with%20pandas%20%0A%0AI%20acquire%20all%20those%20needed%20Skills.%0A%0Aregards">Be a Contributer</a>
   </p>

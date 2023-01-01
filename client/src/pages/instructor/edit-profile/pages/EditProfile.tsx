@@ -29,8 +29,7 @@ const validationSchema = Yup.object({
     .required('Name is Required'),
   biography: Yup.string()
     .min(1, 'Biography is Too Short!')
-    .max(5000, 'Biography is Too Long!')
-    .required('Biography is Required'),
+    .max(5000, 'Biography is Too Long!'),
   email: Yup.string()
     .email('Invalid Email address')
     .min(6, 'Email address is Too Short!')
@@ -41,7 +40,7 @@ const validationSchema = Yup.object({
     .max(50, 'Username is Too Long!')
     .matches(/^[a-zA-Z]+$/, 'Username must be only letters')
     .required('Username is Required'),
-  phone: Yup.string().required('Phone is Required')
+  phone: Yup.string()
 });
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -51,7 +50,9 @@ export default function EditProfile() {
   const imgURL = user?.profileImage;
 
   async function submitAction(instructorData: EditProfileData) {
-    const response = await updateProfile(user?._id as string, instructorData);
+    const response = await toast.promise(updateProfile(user?._id as string, instructorData),{
+			pending: 'Updating profile...',
+		},toastOptions);
     if (response.status === 200) {
       toast.success('Profile updated successfully', toastOptions);
     } else {

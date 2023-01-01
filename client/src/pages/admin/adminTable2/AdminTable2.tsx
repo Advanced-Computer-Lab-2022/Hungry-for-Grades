@@ -270,8 +270,8 @@ export default function AdminHome(props: {
     );
 
   return (
-    <div className='fluid-container' style={{ overflowX: 'auto' }}>
-      <table className={`${styles.container ?? ''}  table table-responsive`}>
+    <div className='fluid-container table-responsive' style={{ overflowX: 'auto' }}>
+      <table className={`${styles.container ?? ''}  table table-responsive table-hover`}>
         <thead>
           <tr
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
