@@ -54,8 +54,7 @@ export default function AdminHome(props: {
     }
   }
 
-  function handleClick()
-  {
+  function handleClick() {
     setShowModal(!showModal);
   }
 
@@ -255,14 +254,10 @@ export default function AdminHome(props: {
               <button
                 style={{ color: '#a00407' }}
                 type='button'
-                onClick={() =>{
-                  
-                  setShowModal(!showModal)
-                  setCurr(report)
-                }
-
-
-                }
+                onClick={() => {
+                  setShowModal(!showModal);
+                  setCurr(report);
+                }}
               >
                 Follow ups
               </button>
@@ -317,8 +312,13 @@ export default function AdminHome(props: {
               handleClose={closeModal}
             />
           )}
-          {showModal && 
-          <FollowUp func={ handleClick } report = {curr as AllReport} trainee={'false'} />}
+          {showModal && (
+            <FollowUp
+              func={handleClick}
+              report={curr as AllReport}
+              trainee={'false'}
+            />
+          )}
         </tbody>
       </table>
     </div>

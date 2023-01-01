@@ -22,8 +22,6 @@ export default function PaymentAccepted() {
     country,
     searchParams.get('walletUsed') as string
   );
-  console.log(data);
-  console.log(data?.data.data);
   if (isError) {
     console.log(error);
     return <PaymentFailed />;

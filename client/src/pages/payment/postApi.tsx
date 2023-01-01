@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { PaymentRoutes } from '@/services/axios/dataServices/PaymenrDataService';
 import { postRequest } from '@/services/axios/http-verbs';
-import { UseUserDeductBalance } from '@/store/userStore';
 
 type Data = {
   data: {
