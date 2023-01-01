@@ -5,14 +5,14 @@ import { getRequest } from '@/services/axios/http-verbs';
 import { HttpResponse } from '@/interfaces/response.interface';
 
 async function searchRequest() {
-  const traineeActiveRoute =Object.assign({}, InstructorRoutes.GET.getMonthlyEarnings);
-  traineeActiveRoute.URL = `/trainee/active`;
+  const instructorActiveRoute = Object.assign({}, InstructorRoutes.GET.getTopInstructors);
+
   return getRequest<
     HttpResponse<{
       active: number;
       inactive: number;
     }>
-  >(traineeActiveRoute);
+  >(instructorActiveRoute);
 }
 
 export default function UseDataQuery() {

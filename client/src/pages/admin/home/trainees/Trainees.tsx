@@ -1,7 +1,8 @@
-import styles from '../card.module.scss';
 import { HiStatusOffline, HiStatusOnline } from 'react-icons/hi';
 
 import { MdSchool } from 'react-icons/md';
+
+import styles from '../card.module.scss';
 
 import UseDataQuery from './UseDataQuery';
 

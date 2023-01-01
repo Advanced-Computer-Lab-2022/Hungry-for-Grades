@@ -18,11 +18,12 @@ import Input from '@components/inputs/input/Input';
 
 import '../login/login.scss';
 import { toastOptions } from '@/components/toast/options';
+import { HttpResponse } from '@/interfaces/response.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function ForgotPassword() {
-  const { isError, error, mutateAsync } = usePostQuery();
+  const { isError, error, mutateAsync } = usePostQuery<HttpResponse<null>>();
   const { formik } = useValidation();
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ function ForgotPassword() {
       forgetPasswordRoute.payload = {
         email
       };
-      await toast.promise(
+      const response=await toast.promise(
         mutateAsync(forgetPasswordRoute),
         {
           pending: 'Sending email...',
@@ -50,6 +51,12 @@ function ForgotPassword() {
         },
         toastOptions
       );
+
+
+			if(!response.status ){
+        toast.error(response.data.message, toastOptions);
+				return;
+			}
       return true;
     } catch (err) {
       console.log(err);
