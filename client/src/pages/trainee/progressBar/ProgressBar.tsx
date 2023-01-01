@@ -48,16 +48,18 @@ export default function ProgressBar(props: {
     !(user as ITrainee)?.isCorporate;
 
   return (
-    <div className={styles.cover}>
-      <div
-        className={styles.actual}
-        style={
-          {
-            '--rating': props.completed,
-            '--color': color
-          } as React.CSSProperties
-        }
-      />
+    <div>
+      <div className={styles.cover}>
+        <div
+          className={styles.actual}
+          style={
+            {
+              '--rating': props.completed,
+              '--color': color
+            } as React.CSSProperties
+          }
+        />
+      </div>
       <div style={{ fontSize: '0.8rem', fontWeight: '600', color: '#B2B2B2' }}>
         {props.completed}% Completed
         {check && (

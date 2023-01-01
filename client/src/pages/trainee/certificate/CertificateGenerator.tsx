@@ -11,6 +11,7 @@ import useSearchQueryCourse from './useSearchQueryCourse';
 import { formatDuration } from '@/utils/duration';
 import ErrorMessage from '@components/error/message/ErrorMessage';
 import { UseUser } from '@/store/userStore';
+import axios from 'axios';
 
 export default function CertificateGenerator() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -123,6 +124,30 @@ export default function CertificateGenerator() {
     pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('certificate.pdf');
   };
+  async function handleSendMail() {
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'cm',
+      format: [29.7, 21]
+    });
+    const imgProperties = pdf.getImageProperties(imageURL);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    const image = document.createElement('img');
+    image.src = imageURL;
+    const formData = new FormData();
+    console.log(pdf.output('blob'));
+    formData.append('certificate', pdf.output('blob'));
+    const res = await axios.post(
+      `/trainee/${traineeData?._id as string}/course/${
+        courseId as string
+      }/certificate`,
+      formData
+    );
+    console.log(res);
+  }
+
   if (isError) return <ErrorMessage />;
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -131,7 +156,7 @@ export default function CertificateGenerator() {
         <div className='col-12 col-md-8 border-end border-2 py-3'>
           <div className='d-flex justify-content-center'>
             <img
-              alt='Course Certificate'
+              alt='Course Certificate img'
               className='img-responsive'
               src={imageURL}
               style={{ maxWidth: '65vw', width: '100%' }}
@@ -213,7 +238,11 @@ export default function CertificateGenerator() {
             >
               Download
             </button>
-            <button className='btn btn-primary' type='submit'>
+            <button
+              className='btn btn-primary'
+              type='submit'
+              onClick={handleSendMail}
+            >
               Share
             </button>
           </div>

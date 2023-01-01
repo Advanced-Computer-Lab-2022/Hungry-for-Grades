@@ -1,0 +1,20 @@
+.kXteup:hover:enabled,
+.kXteup:focus:enabled {
+  background-color: #fc3535;
+}
+
+.rec-dot_active,
+rec-dot:hover,
+rect-dot:focus {
+  background-color: #fc3535;
+  box-shadow: 0 0 1px 3px #a00407;
+}
+
+.cVXxbE:hover,
+.cVXxbE:focus {
+  box-shadow: 0 0 1px 3px #a00407;
+}
+
+.ezKHIn:hover {
+  box-shadow: 0 0 1px 3px #fc3535;
+}
