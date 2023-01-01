@@ -63,7 +63,7 @@ function ChangePassword() {
       const response = await toast.promise(
         mutateAsync(changePasswordRoute),
         {
-          pending: 'Changing Password',
+          pending: 'Changing Password'
         },
         toastOptions
       );
@@ -72,10 +72,10 @@ function ChangePassword() {
       if (!response.status) {
         toast.error(response.data.message, toastOptions);
         return;
-      }else{
-				toast.success('Password Changed Successfully', toastOptions);
-				navigate('/auth/login');
-			}
+      } else {
+        toast.success('Password Changed Successfully', toastOptions);
+        navigate('/auth/login');
+      }
 
       return true;
     } catch (err) {

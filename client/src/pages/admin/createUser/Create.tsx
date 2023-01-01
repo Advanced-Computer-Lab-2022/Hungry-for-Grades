@@ -66,7 +66,7 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Admin User',
+        pending: 'Creating Admin User'
       },
       toastOptions
     );
@@ -113,7 +113,7 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Instructor User',
+        pending: 'Creating Instructor User'
       },
       toastOptions
     );
@@ -160,7 +160,7 @@ export default function Create() {
     const response = await toast.promise(
       createUser(AdminRoutee),
       {
-        pending: 'Creating Corporate Trainee User',
+        pending: 'Creating Corporate Trainee User'
       },
       toastOptions
     );

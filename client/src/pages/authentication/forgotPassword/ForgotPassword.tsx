@@ -44,7 +44,7 @@ function ForgotPassword() {
       const response = await toast.promise(
         mutateAsync(forgetPasswordRoute),
         {
-          pending: 'Sending email...',
+          pending: 'Sending email...'
         },
         toastOptions
       );
@@ -52,10 +52,12 @@ function ForgotPassword() {
       if (!response.status) {
         toast.error(response.data.message, toastOptions);
         return;
-      }else{
-				toast.success('Email sent successfully to change the password',
-				 toastOptions);
-			}
+      } else {
+        toast.success(
+          'Email sent successfully to change the password',
+          toastOptions
+        );
+      }
       return true;
     } catch (err) {
       console.log(err);

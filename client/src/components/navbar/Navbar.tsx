@@ -116,18 +116,20 @@ function NavbarComponent() {
                   Role.TRAINEE.toLocaleLowerCase() &&
                   !(user as ITrainee).isCorporate && <WishCartButtons />}
 
-                {user.role.toLocaleLowerCase() !== Role.ADMIN.toLocaleLowerCase() && !(user as ITrainee).isCorporate && (
-                  <Link
-                    className={styles.user__balance}
-                    to={`/${user.role.toLocaleLowerCase()}/dashboard`}
-                  >
-                    <BiWallet />
-                    {(user as ITrainee | IInstructor)?.currency
-                      ? (user as ITrainee | IInstructor)?.currency
-                      : 'USD'}
-                    {toSmallNumber(user.balance as number)}
-                  </Link>
-                )}
+                {user.role.toLocaleLowerCase() !==
+                  Role.ADMIN.toLocaleLowerCase() &&
+                  !(user as ITrainee).isCorporate && (
+                    <Link
+                      className={styles.user__balance}
+                      to={`/${user.role.toLocaleLowerCase()}/dashboard`}
+                    >
+                      <BiWallet />
+                      {(user as ITrainee | IInstructor)?.currency
+                        ? (user as ITrainee | IInstructor)?.currency
+                        : 'USD'}
+                      {toSmallNumber(user.balance as number)}
+                    </Link>
+                  )}
 
                 <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                   <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>

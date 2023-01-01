@@ -112,8 +112,7 @@ function Signup() {
       const response = await toast.promise(
         mutateAsync(signup),
         {
-          pending: 'Signing up ...',
-
+          pending: 'Signing up ...'
         },
         toastOptions
       );
@@ -122,10 +121,9 @@ function Signup() {
         toast.error(response.data.message, toastOptions);
 
         return;
-      }else{
-				toast.success(`Welcome ${name}`, toastOptions);
-
-			}
+      } else {
+        toast.success(`Welcome ${name}`, toastOptions);
+      }
 
       navigate('/auth/login', {
         state: {
