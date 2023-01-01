@@ -119,6 +119,9 @@ const LazyInstructorEditProfile = lazy(
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
 );
+const LazyInstructorReports = lazy(
+  () => import('@/pages/instructor/myReports/ReportTable')
+);
 
 const LazyInstructorEarnings = lazy(
   () => import('@/pages/instructor/earnings/InstructorEarningsAnalytics')
@@ -291,6 +294,7 @@ function AllRoutes() {
           <Route element={<LazyInstructorEditCourse />} path='edit-course/:courseid' />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
           <Route element={<LazyInstructorAddCourse />} path='add-course' />
+          <Route element={<LazyInstructorReports />} path='reports' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
         </Route>
