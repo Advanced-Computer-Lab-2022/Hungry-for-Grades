@@ -10,6 +10,7 @@
 - [Help](#help)
 
 ## installation
+
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
 
 - to install packages : `yarn install`
