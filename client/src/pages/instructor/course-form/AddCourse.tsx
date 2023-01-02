@@ -9,6 +9,7 @@ import { createCourse } from '@/services/axios/dataServices/CoursesDataService';
 import { IAddCourseRequest } from '@/interfaces/course.interface';
 import useInstructorId from '@/hooks/useInstuctorId';
 import useRedirectToLogin from '@/hooks/useRedirectToLogin';
+import { UseCountry } from '@/store/countryStore';
 
 // TODO: later
 
@@ -16,6 +17,7 @@ function AddCourse() {
   const navigate = useNavigate();
   const redirectToLogin = useRedirectToLogin();
   const instructorId = useInstructorId();
+  const country = UseCountry();
 
   const initialValues = {
     info: {
@@ -34,13 +36,13 @@ function AddCourse() {
 
   const submitAction = useMemo(
     () => async (course: IAddCourseRequest) => {
-      const result = await createCourse(course);
+      const result = await createCourse(course, country);
       if (result) {
         toast('Course was added successfully.');
         navigate(`/course/${result._id}`);
       }
     },
-    [navigate]
+    [navigate, country]
   );
   if (!instructorId) {
     redirectToLogin();
