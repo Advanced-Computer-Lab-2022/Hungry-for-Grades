@@ -123,8 +123,8 @@ class AuthController {
   // send verification email
   public sendVerificationEmail = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
     try {
-      const { email, username } = req.body;
-      const verificationCode: Number = await this.authService.sendVerificationEmail(email, username);
+      const { email, username,name } = req.body;
+      const verificationCode: Number = await this.authService.sendVerificationEmail(email, username,name);
       res.status(HttpStatusCodes.CREATED).json({ data: verificationCode, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
