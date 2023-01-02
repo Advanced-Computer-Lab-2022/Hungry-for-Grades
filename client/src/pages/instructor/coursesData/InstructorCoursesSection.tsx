@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 import InstructorCourseCard from './InstructorCourseCard';
 
 import useSearchQuery from './useSearchQuery';
@@ -15,6 +17,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { SelectFiltersType } from '@pages/guest/searchCourses/types';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import useMultistepForm from '@/hooks/useMultistepForm';
+
 function InstructorCoursesSection() {
   const { currentStepIndex, goTo } = useMultistepForm(
     [<></>, <></>],
@@ -26,8 +29,10 @@ function InstructorCoursesSection() {
     React.Dispatch<React.SetStateAction<SelectFiltersType>>
   ];
 
+  const location = useLocation();
+
   const { isLoading, isError, data, activePage, setActivePage } =
-    useSearchQuery(selectedFilters);
+    useSearchQuery(selectedFilters, location);
   const verifiedData = data?.data?.data;
   if (isError) return <ErrorMessage errorMessage={data?.data?.message} />;
   console.log(verifiedData);

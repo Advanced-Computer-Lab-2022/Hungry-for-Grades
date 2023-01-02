@@ -90,6 +90,12 @@ export const InstructorRoutes = {
       params: '',
       query: '',
       payload: {}
+    },
+    deleteDiscount: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   }
 };
