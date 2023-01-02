@@ -1,8 +1,9 @@
 /// <reference types="cypress" />
 
 
-const baseUrl = 'http://localhost:8000/';
-describe('cancham Landing Page', () => {
+const baseUrl = 'http://localhost:8000/auth/login';
+
+describe('cancham Login page', () => {
 
     beforeEach(() => {
         // the url is written in the config file
@@ -11,54 +12,31 @@ describe('cancham Landing Page', () => {
 
     context('login navigation button are working', () => {
 
-        it('login button', () => {
-            cy.get('#login-navlink').click();
-            cy.url().should('include', '/auth/login');
-            cy.get('#login-to-landing-page-navlink').click();
-            cy.url().should('eq', baseUrl);
-        })
-    })
+        it('login with wrongly typed info', () => {
+            cy.get(':nth-child(1) > .col-sm-12 > .form-control').clear({ force: true }).type('wrong email');
+            cy.get('#login-password-1-password').clear({ force: true }).type('wrong');
+            cy.get(':nth-child(1) > .col-sm-12 > .form-control').click();
 
-    context('Signup ', () => {
-
-        it('Signup button', () => {
-
-            cy.get('#signup-navlink').click();
-            cy.url().should('include', '/auth/signup');
-
-        })
+            cy.get(':nth-child(1) > .col-sm-12 > .invalid-feedback > .alert-link').should('contain', 'Invalid Email address');
+            cy.get(':nth-child(1) > .col-sm-12 > .invalid-feedback > .alert-link').should('contain', 'Invalid Password');
+        });
     });
 
-    context('Courses ', () => {
+    context('login navigation as trainee', () => {
 
-        it('course button', () => {
+        it('login with correct typed info and exists', () => {
+            cy.get(':nth-child(1) > .col-sm-12 > .form-control').clear({ force: true }).type('trainee@gmail.com');
+            cy.get('#login-password-1-password').clear({ force: true }).type('traineetest');
+            cy.get('#login-submit').click();
+            cy.get(':nth-child(1) > .col-sm-12 > .invalid-feedback > .alert-link').should('contain', 'Invalid Email address');
+            cy.get(':nth-child(1) > .col-sm-12 > .invalid-feedback > .alert-link').should('contain', 'Invalid Password');
+            cy.url().should('include', '/trainee/dashboard');
+        });
 
-            cy.get('#courses-navlink').click();
-            cy.url().should('include', '/courses');
-
-        })
-    });
-
-
-    context('Explore categories ', () => {
-
-        it('course button', () => {
-            cy.get('#explore-nav-dropdown').click();
-
-
-        })
     });
 
 
 
-    context('Explore categories ', () => {
-
-        it('course button', () => {
-            cy.get('#explore-nav-dropdown').click();
-
-
-        })
-    });
 
     /* 
 

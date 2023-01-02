@@ -45,6 +45,7 @@ async function searchRequest(
 	&priceHigh=${
     filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
   }
+	&rating=${filters.rating}
 	&sortBy=${filters.sortBy}
 	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
 	&durationHigh=${filters.durationHigh * 24 * 30}
