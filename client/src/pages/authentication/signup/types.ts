@@ -33,6 +33,7 @@ export type ConfirmEmailProps = {
   email: string;
   firstName: string;
   lastName: string;
+	username:string;
 };
 
 export type SignupData = UserFormProps & AccountFormProps;
