@@ -131,7 +131,6 @@ export default function FollowUp(props: {
     console.log(dd);
     setUpdate(update + 1);
     setTxt('');
-    // scroll down
   }
 
   return (
@@ -141,14 +140,7 @@ export default function FollowUp(props: {
           <Modal.Title>Follow Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div
-            className='container'
-            id='body-scroll'
-            style={{ maxWidth: '40rem', margin: '0 auto' }}
-          >
-            <a href='#scroll-here' id='body-here'>
-              Scroll Down
-            </a>
+          <div className='container mx-auto' style={{ maxWidth: '40rem' }}>
             {/*<div
           className='text-center'
           style={{
