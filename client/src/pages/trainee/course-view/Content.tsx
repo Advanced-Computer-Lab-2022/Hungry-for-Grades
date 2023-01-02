@@ -7,10 +7,30 @@ import {
 } from 'react-accessible-accordion';
 import { Link } from 'react-router-dom';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { type ICourse } from '@/interfaces/course.interface';
 import { formatDuration } from '@/utils/duration';
+import { useTraineeId } from '@/hooks/useTraineeId';
+import { getViewedLessons } from '@/services/axios/dataServices/TraineeDataService';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 function Content(props: ICourse) {
+  const traineeId = useTraineeId();
+  const { data, isLoading, isError } = useQuery(
+    ['getViewedLessons', traineeId, props._id],
+    () => getViewedLessons(props._id, traineeId)
+  );
+  if (isError) {
+    return (
+      <h1 className='text-center text-danger'>
+        An error occured while loading the page
+      </h1>
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className='my-3 py-5'>
       <div className={`text-dark border row`}>
@@ -52,6 +72,13 @@ function Content(props: ICourse) {
                         }/${l._id ?? ''}`}
                       >
                         <li className='list-item'>
+                          {data && data?.find(id => id === l._id) && (
+                            <input checked className='form-check-input' type='checkbox' />
+                          )}
+                          {data && !data?.find(id => id === l._id) && (
+                            <input checked={false} className='form-check-input' type='checkbox' />
+                          )}
+                          &nbsp;
                           <strong>{l.title}</strong>{' '}
                           <p className='small'>
                             {formatDuration(l.duration ?? 0)}

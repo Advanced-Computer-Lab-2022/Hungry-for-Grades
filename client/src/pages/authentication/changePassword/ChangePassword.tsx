@@ -174,7 +174,7 @@ function ChangePassword() {
                 type='button'
                 onClickFunc={handleSubmit}
               />
-              <div className='d-flex flex-row justify-content-between'>
+              <div className='d-flex flex-column justify-content-between'>
                 <span className='d-flex flex-row justify-content-end'>
                   have an account? &nbsp;
                   <Link to='/auth/login' onClick={navigateToSignup}>

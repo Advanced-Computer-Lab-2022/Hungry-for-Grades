@@ -147,7 +147,10 @@ function AccountForm({
           data-bs-toggle='modal'
           href='/'
           id='accountform-modalTerms'
-          type='button'
+          style={{
+						textDecoration: 'underline',
+					}}
+					type='button'
         >
           <CheckBoxInput
             checked={formik.values.terms}

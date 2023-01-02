@@ -35,7 +35,7 @@ export default function LineAnalytics(props: CourseAnalyticsProps) {
             'Enrolled Trainees': data['Enrolled Trainees']
           };
         })}
-        graphs={[{ name:'Enrolled Trainees', color: '#084f09' }]}
+        graphs={[{ name: 'Enrolled Trainees', color: '#084f09' }]}
       />
       <BarGraph<{
         title: string;

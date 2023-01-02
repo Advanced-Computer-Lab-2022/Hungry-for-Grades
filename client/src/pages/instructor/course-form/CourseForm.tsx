@@ -1,10 +1,9 @@
 import { object } from 'yup';
 import { Formik, Form, FormikHelpers, ErrorMessage, Field } from 'formik';
-import Modal from 'react-modal';
-
-import { BsFillXCircleFill } from 'react-icons/bs';
 
 import { useCallback, useState } from 'react';
+
+import { Modal } from 'react-bootstrap';
 
 import {
   CourseFormProps,
@@ -251,23 +250,15 @@ function CourseForm(props: CourseFormProps) {
             );
           }}
         </Formik>
-        <Modal className={styles['modal-container'] ?? ''} isOpen={modalOpen}>
-          <div className={styles['close-button-container'] ?? ''}>
-            <button
-              className={styles['close-button']}
-              type='button'
-              onClick={closeTerms}
-            >
-              <BsFillXCircleFill />
-            </button>
-          </div>
-          <div className={`container ${styles['scroll-container'] ?? ''}`}>
-            <h3>Terms and Conditions</h3>
+        <Modal show={modalOpen} onHide={closeTerms}>
+          <Modal.Header closeButton>
+            <Modal.Title>Enter Your Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <p>
               Please read the following terms and conditions carefully before
               proceeding.
             </p>
-
             <h4>Refund Policy</h4>
             <ul>
               <li style={{ listStyle: 'initial' }}>
@@ -322,7 +313,7 @@ function CourseForm(props: CourseFormProps) {
               trainees who purchased the course, will receive a full refund and
               this is deducted from instructors&apos; revenue.
             </p>
-          </div>
+          </Modal.Body>
         </Modal>
       </div>
     </div>

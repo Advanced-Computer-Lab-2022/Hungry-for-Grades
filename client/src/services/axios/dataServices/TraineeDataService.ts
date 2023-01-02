@@ -68,6 +68,12 @@ export const TraineeRoutes = {
       params: '',
       query: '',
       payload: ''
+    },
+    getViewedLessons: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
     }
   },
   POST: {
@@ -429,4 +435,25 @@ export async function deleteCourseReview(
   if (!res.data.success) {
     throw new Error(`server returned error ${res.data.message}`);
   }
+}
+
+export async function getViewedLessons(
+  courseId: string | undefined,
+  traineeId: string | undefined
+): Promise<string[] | null> {
+  if (!courseId || !traineeId) {
+    return null;
+  }
+  const viewedLessons = TraineeRoutes.GET.getViewedLessons;
+  viewedLessons.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/viewed-lessons`;
+  const res = await getRequest<HttpResponse<string[]>>(viewedLessons);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
 }

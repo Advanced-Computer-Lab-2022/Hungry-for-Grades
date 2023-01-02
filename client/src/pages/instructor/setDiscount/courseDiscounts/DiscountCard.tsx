@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/no-unused-prop-types */
-import axios from 'axios';
+
 import { useState } from 'react';
 import { Card, Stack, Badge } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -12,24 +12,26 @@ import DiscountModal from '../DiscountModal';
 import styles from './DiscountCard.module.scss';
 
 import { toastOptions } from '@/components/toast/options';
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
+import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { deleteRequest } from '@/services/axios/http-verbs';
 
 async function handleDelete(
   discountID: string,
   courseID: string,
   updateFunction: () => void
 ) {
-  await axios
-    .delete(`${APP_BASE_API_URL}/courses/${courseID}/discount/${discountID}`)
-    .then(_response => {
-      console.log(_response);
-      toast.success('Discount is Deleted Successfully...', toastOptions);
-    })
-    .catch(_error => {
-      console.log(_error);
-      toast.error('an Error has occurred please try again...');
-    });
+  const Discount = InstructorRoutes.DELETE.deleteDiscount;
+
+  Discount.URL = `/courses/${courseID}/discount/${discountID}`;
+
+  const data = await deleteRequest(Discount);
+
+  if (!data.status) {
+    toast.error('An error has occured please try again...', toastOptions);
+  } else {
+    toast.success('Discount is Deleted Successfully', toastOptions);
+  }
+
   updateFunction();
 }
 
@@ -68,7 +70,7 @@ export default function DiscountCard(props: {
             className='align-items-center justify-content-center h-100'
             gap={2}
           >
-            <span className='fs-5'>{props.percent.toString() + '%'}</span>
+            <span className='fs-5'>{props?.percent.toString() + '%'}</span>
 
             <Stack
               className='justify-content-center flex-wrap'

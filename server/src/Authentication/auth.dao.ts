@@ -19,7 +19,7 @@ import { IInstructor } from '@/Instructor/instructor.interface';
 import TraineeService from '@/Trainee/trainee.dao';
 import InstructorService from '@/Instructor/instructor.dao';
 import AdminService from '@/Admin/admin.dao';
-import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
+import { sendResetPasswordEmail, sendVerifyEmail } from '@/Common/Email Service/email.template';
 import { Types } from 'mongoose';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import { access } from 'fs';
@@ -213,16 +213,32 @@ class AuthService {
     return { cookie };
   };
 
-  public sendVerificationEmail = async (email: string, username: string): Promise<Number> => {
+  public sendVerificationEmail = async (email: string, username: string, name:string): Promise<Number> => {
+
+    email=email.toLowerCase();
+
     email = email.toLowerCase();
-    //generate a 6 digit code
+    const query = {
+      $or: [{ 'email.address': email?? '' }, { username: username ?? '' }],
+    };
+
+    const trainee = await traineeModel.findOne(query);
+    if (trainee) {
+      if (trainee.email.address === email)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This email ${email} already exists`);
+      if (trainee.username === username)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, `This username ${username} already exists`);
+    }
+
+    // //generate a 6 digit code
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
 
-    //send email
-    sendVerificationEmail(email, username, verificationCode);
+    // //send email
+    sendVerifyEmail(email, name, verificationCode);
 
-    // save code
+    // // save code
     return verificationCode;
+    
   };
 
   // creates a cookie
@@ -237,6 +253,9 @@ class AuthService {
       value: refreshToken,
     };
   }
+
+
+  
 }
 
 export default AuthService;

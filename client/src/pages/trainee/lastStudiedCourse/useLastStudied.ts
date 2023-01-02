@@ -14,9 +14,9 @@ function getLastStudied() {
   return getRequest<HttpResponse<EnrolledCourse>>(Courses);
 }
 
-const useLastStudiedQuery = () => {
+const useLastStudiedQuery = (location: Location) => {
   return {
-    ...useQuery(['traine-last-studied'], () => getLastStudied(), {
+    ...useQuery(['traine-last-studied', location], () => getLastStudied(), {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000,
       enabled: true // 1 second
