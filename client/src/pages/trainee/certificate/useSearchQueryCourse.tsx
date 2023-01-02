@@ -16,7 +16,7 @@ async function searchRequest(traineeId: string, courseId: string) {
 
 export default function useSearchQuery(traineeId: string, courseId: string) {
   return {
-    ...useQuery(['search-trainee-course', traineeId, courseId], () =>
+    ...useQuery(['search-trainee-coursee', traineeId, courseId], () =>
       searchRequest(traineeId, courseId)
     )
   };

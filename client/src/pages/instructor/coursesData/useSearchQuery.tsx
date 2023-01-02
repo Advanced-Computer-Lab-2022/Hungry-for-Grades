@@ -62,13 +62,13 @@ async function searchRequest(
   return getRequest<PaginatedResponse<ITeachedCourse>>(getCoursesSearchFilter);
 }
 
-function useSearchQuery(filters: SelectFiltersType) {
+function useSearchQuery(filters: SelectFiltersType, location: Location) {
   const [activePage, setActivePage] = useState<number>(1);
   const useUser = UseUser();
   const country = UseCountry();
   return {
     ...useQuery(
-      ['search-instructor-courses', filters, activePage, country],
+      ['search-instructor-courses', filters, activePage, country, location],
       () =>
         searchRequest(
           useUser?._id as string,
