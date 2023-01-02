@@ -11,12 +11,8 @@ import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService'
 export async function autoMail(
   traineeData: IUser,
   courseData: ICourse,
-  sendMail: (arg0: {
-    URL: string;
-    params: string;
-    query: string;
-    payload: unknown;
-  }) => Promise<unknown> | (() => Promise<unknown>)
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  sendMail: (arg0: { URL: string; params: string; query: {}; payload: {}; }) => Promise<unknown> | (() => Promise<unknown>)
 ) {
   let imgURL = '';
   const verifiedCourseData = courseData;
@@ -114,6 +110,8 @@ export async function autoMail(
   mail.URL = `/trainee/${traineeData?._id}/course/${courseData?._id}/certificate`;
 
   mail.payload = { certificate: tmp };
+
+  mail.query = {isAuto : 'true'};
 
   await toast.promise(
     sendMail(mail),
