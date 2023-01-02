@@ -114,14 +114,8 @@ function NavbarComponent() {
             </Nav.Link>
             {user && useUserIsAuthenticated ? (
               <div className='d-flex flex-row justify-content-evenly mt-2'>
-
-								{
-									user.role.toLocaleLowerCase() ===
-										Role.TRAINEE.toLocaleLowerCase() &&
-										(
-											<Progressbar/>
-										)
-								}
+                {user.role.toLocaleLowerCase() ===
+                  Role.TRAINEE.toLocaleLowerCase() && <Progressbar />}
                 {user.role.toLocaleLowerCase() ===
                   Role.TRAINEE.toLocaleLowerCase() &&
                   !(user as ITrainee).isCorporate && <WishCartButtons />}
