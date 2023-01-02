@@ -203,7 +203,7 @@ export default function Cart() {
                           color: 'grey'
                         }}
                       >
-                        {oldd}
+                        {oldd.toFixed(2)}
                         {course?.price?.currency}
                       </span>
                     </div>
