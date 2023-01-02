@@ -1,10 +1,10 @@
 import { HttpException } from '@/Exceptions/HttpException';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { isEmpty } from 'class-validator';
 import { CartDTO, TraineeDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
+import { Cart, EnrolledCourse, INote, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
 import traineeModel from './trainee.model';
 import AuthService from '@Authentication/auth.dao';
 import { PaginatedData } from '@/Utils/PaginationResponse';
@@ -12,9 +12,8 @@ import mongoose, { Types } from 'mongoose';
 import courseModel from '@/Course/course.model';
 import { ICourse, Price } from '@/Course/course.interface';
 import { getConversionRate, getCurrentPrice, getPriceAfterDiscount } from '@Course/course.common';
-import { sendEmail } from '@/Common/Email Service/nodemailer.service';
-import { sendResetPasswordEmail, sendVerificationEmail } from '@/Common/Email Service/email.template';
 import CourseService from '@/Course/course.dao';
+import { sendCertificateEmail } from '@/Common/Email Service/email.template';
 
 class TraineeService {
   public authService = new AuthService();
@@ -42,6 +41,20 @@ class TraineeService {
 
     return trainee;
   };
+  public getTrainees = async (): Promise<ITrainee[]> => {
+    const trainees = await traineeModel.find().select('-password ');
+
+    return trainees;
+  };
+  // get how many trainees are active
+  public getActiveTrainees = async (): Promise<number> => {
+    return await traineeModel.count({ active: true });
+  };
+
+  // get how many trainees are inactive
+  public getInactiveTrainees = async (): Promise<number> => {
+    return await traineeModel.count({ active: false });
+  };
 
   public getTraineeByEmail = async (traineeEmail: string): Promise<ITrainee> => {
     if (isEmpty(traineeEmail)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Email is empty');
@@ -66,7 +79,7 @@ class TraineeService {
 
   //update trainee
   public updateTrainee = async (traineeId: string, traineeData: TraineeDTO): Promise<ITrainee> => {
-    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
+    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
     const updatedTrainee = await traineeModel.findById(traineeId);
     updatedTrainee.set(traineeData);
@@ -76,11 +89,23 @@ class TraineeService {
     return updatedTrainee;
   };
 
+  //update notes
+  public updateNotes = async (traineeId: string, notes: INote[]): Promise<void> => {
+    if (isEmpty(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id ');
+
+    const updatedTrainee = await traineeModel.findById(traineeId);
+    updatedTrainee.set({
+      notes,
+    });
+
+    await updatedTrainee.save();
+  };
+
   //trainee sign up
   public addIndividualTrainee = async (traineeData: TraineeDTO): Promise<ITrainee> => {
-    if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee data is empty');
+    if (isEmpty(traineeData)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'No Trainee with this id');
 
-    const createdTrainee = await this.authService.signup(traineeData, Role.TRAINEE);
+    const createdTrainee = await this.authService.signup(traineeData, UserRole.TRAINEE);
     return createdTrainee;
   };
 
@@ -118,22 +143,35 @@ class TraineeService {
 
   // get enrolled course info
   public getEnrolledCourseById = async (traineeId: string, courseId: string): Promise<EnrolledCourse> => {
-    const trainee = await traineeModel.find({ '_enrolledCourses._course': courseId, _id: traineeId }).populate({
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is invalid');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is invalid');
+
+    const trainee = await traineeModel.findOne({ '_enrolledCourses._course': courseId, _id: traineeId }).populate({
       match: { _id: courseId },
       path: '_enrolledCourses._course',
       populate: {
         path: '_instructor',
         select: 'name rating.averageRating profileImage title speciality',
       },
-      select: '-rating.reviews -announcements -captions -coupouns  -outline -exam',
+      select: '-rating.reviews -captions -coupouns -exam',
     });
-    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist or is not enrolled in this course');
+
+    // get enrolled course (null if trainee not enrolled)
+    const enrolledCourse = trainee._enrolledCourses.find(course => course._course !== null) ?? null;
 
     // Adjust Last Visited Course
-    await this.markLastVisitedCourse(traineeId, courseId);
+    if (enrolledCourse) await this.markLastVisitedCourse(traineeId, courseId);
 
-    // returns null if trainee is not enrolled in the course
-    return trainee[0]?._enrolledCourses[0] ?? null;
+    return enrolledCourse;
+  };
+
+  // check if trainee is enrolled in a course
+  public isTraineeEnrolled = async (traineeId: string, courseId: string): Promise<boolean> => {
+    const trainee = await traineeModel.findOne({ '_enrolledCourses._course': courseId, _id: traineeId });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist or is not enrolled in this course');
+
+    return !!trainee;
   };
 
   // enroll trainee in a course
@@ -147,8 +185,18 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee not found');
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
+    // check if trainee is already enrolled in the course
+    const isTraineeEnrolled = trainee._enrolledCourses.some(enrolledCourse => enrolledCourse._course._id.toString() == courseId);
+    if (isTraineeEnrolled) return course;
+
     course.numberOfEnrolledTrainees++;
-    trainee._enrolledCourses.push({ _course: course, _submittedQuestions: [], dateOfEnrollment: new Date() });
+    trainee._enrolledCourses.push({
+      _course: course,
+      _submittedQuestions: [],
+      dateOfEnrollment: new Date(),
+      _submittedExamAnswers: [],
+      seenAnswers: false,
+    });
 
     await course.save();
     await trainee.save();
@@ -179,28 +227,47 @@ class TraineeService {
 
   // add to cart
   public addToCart = async (traineeId: string, courseId: string): Promise<ICourse[]> => {
-    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
-    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _cart: courseId } }, { new: true });
+    //const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _cart: courseId } }, { new: true });
+    const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
-    return trainee._cart;
+    const existingCart = trainee._cart.map(course => course._id.toString());
+    if (existingCart.includes(courseId)) {
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course already in cart');
+    }
+
+    const traineeCart: any[] = trainee._cart;
+    traineeCart.push(courseId);
+
+    await trainee.save();
+    return traineeCart;
   };
   // add to wishlist
   public addToWishlist = async (traineeId: string, courseId: string): Promise<ICourse[]> => {
-    if (isEmpty(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course id is empty');
     if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const course = await courseModel.findById(courseId);
     if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course not found');
 
-    const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _wishlist: courseId } }, { new: true });
+    //const trainee = await traineeModel.findByIdAndUpdate(traineeId, { $addToSet: { _wishlist: courseId } }, { new: true });
+    const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
-    return trainee._wishlist;
+
+    const existingWishlist = trainee._wishlist.map(course => course._id.toString());
+    if (existingWishlist.includes(courseId)) {
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course already in wishlist');
+    }
+
+    const traineeWishlist: any[] = trainee._wishlist;
+    traineeWishlist.push(courseId);
+
+    await trainee.save();
+    return traineeWishlist;
   };
 
   //remove from cart
@@ -215,10 +282,10 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     //convert price to local currency
-    const conversionRate = await getConversionRate(country);
-    for (const course of trainee._cart) {
-      course.price = await getCurrentPrice(course.price, conversionRate, country);
-    }
+    // const conversionRate = await getConversionRate(country);
+    // for (const course of trainee._cart) {
+    //   course.price = await getCurrentPrice(course.price, conversionRate, country);
+    // }
     return trainee._cart;
   };
 
@@ -233,10 +300,10 @@ class TraineeService {
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     //convert price to local currency
-    const conversionRate = await getConversionRate(country);
-    for (const course of trainee._wishlist) {
-      course.price = await getCurrentPrice(course.price, conversionRate, country);
-    }
+    // const conversionRate = await getConversionRate(country);
+    // for (const course of trainee._wishlist) {
+    //   course.price = await getCurrentPrice(course.price, conversionRate, country);
+    // }
 
     return trainee._wishlist;
   };
@@ -374,7 +441,7 @@ class TraineeService {
   };
 
   // Updates trainee's progress in a course only if trainee is enrolled in that course
-  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<void> => {
+  public updateTraineeProgressInCourseIfEnrolled = async (userId: string, courseId: string, lessonId: string): Promise<number> => {
     const course = await this.courseService.getCourseById(courseId);
 
     //get total number of lessons in course
@@ -399,6 +466,7 @@ class TraineeService {
     enrolledCourse.progress = Math.trunc(enrolledCourse.progress); //remove decimal part
 
     await trainee.save();
+    return enrolledCourse.progress;
   };
 
   public markLastVisitedCourse = async (traineeId: string, courseId: string): Promise<void> => {
@@ -462,25 +530,28 @@ class TraineeService {
     if (!question) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Question does not exist in this exercise');
 
     // check if question is already submitted
-    const submittedQuestion = enrolledCourse._submittedQuestions.find(submittedQuestion => submittedQuestion._questionId.toString() == questionId);
-    if (submittedQuestion) {
-      // update answer
-      submittedQuestion.submittedAnswer = answer;
-    } else {
-      // add submitted question
-      const newSubmittedQuestion: SubmittedQuestion = {
-        _questionId: new mongoose.Types.ObjectId(questionId),
-        submittedAnswer: answer,
-      };
+    const submittedQuestionIndex = enrolledCourse._submittedQuestions.findIndex(
+      submittedQuestion => submittedQuestion._questionId.toString() == questionId,
+    );
 
-      enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+    if (submittedQuestionIndex >= 0) {
+      enrolledCourse._submittedQuestions.splice(submittedQuestionIndex, 1);
     }
+    // add submitted question
+    const newSubmittedQuestion: SubmittedQuestion = {
+      _questionId: new mongoose.Types.ObjectId(questionId),
+      submittedAnswer: answer,
+    };
+
+    enrolledCourse._submittedQuestions.push(newSubmittedQuestion);
+
     await trainee.save();
   };
 
   // submit exam for trainee
-  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<void> => {
+  public submitExam = async (traineeId: string, courseId: string, examAnswers: string[]): Promise<number> => {
     if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
 
     const trainee = await traineeModel.findById(traineeId);
     if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
@@ -499,12 +570,116 @@ class TraineeService {
 
     const examGrade = (correctAnswersCount / exam.length) * 100;
     enrolledCourse.examGrade = examGrade;
+    await this.courseService.modifyAverageExamGrade(courseId, examGrade);
+    enrolledCourse._submittedExamAnswers = examAnswers;
+
     if (examGrade >= 50) {
       // Only Certify if at least 50%
       enrolledCourse.dateOfCompletion = new Date();
-      // certificate to be sent by email & downloaded as PDF
     }
     await trainee.save();
+    return examGrade;
+  };
+
+  // get trainee's submitted exam answers
+  // calling it implies that trainee has seen exam answers (his answers is compared against correct ones)
+  public getTraineeSubmittedExamAnswers = async (traineeId: string, courseId: string): Promise<string[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    enrolledCourse.seenAnswers = true;
+    await trainee.save();
+
+    return enrolledCourse._submittedExamAnswers;
+  };
+
+  // get trainee's viewed lessons
+  public getTraineeViewedLessons = async (traineeId: string, courseId: string): Promise<Types.ObjectId[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    //get enrolled course
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+
+    //get viewed lessons
+    const viewedLessons = enrolledCourse._visitedLessons;
+    return viewedLessons;
+  };
+
+  // get trainee's certified courses
+  public getTraineeCertifiedCourses = async (traineeId: string): Promise<EnrolledCourse[]> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId).populate({
+      path: '_enrolledCourses._course',
+      populate: {
+        path: '_instructor',
+        select: 'name rating.averageRating profileImage title speciality',
+      },
+      select: 'rating.averageRating title description _instructor category subcategory previewVideoURL thumbnail',
+    });
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    // select courses that trainee finished (implied certified)
+    const certifiedCourses = trainee._enrolledCourses.filter(enrolledCourse => enrolledCourse.dateOfCompletion);
+    return certifiedCourses;
+  };
+
+  // update trainee balance
+  // amount param should be in USD
+  public updateTraineeBalance = async (traineeId: string, amount: number): Promise<void> => {
+    if (!mongoose.Types.ObjectId.isValid(traineeId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    amount = Math.floor(amount * 100) / 100;
+    trainee.balance += amount;
+    await trainee.save();
+  };
+
+  // send certificate by email
+  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF: string, isAuto: boolean): Promise<void> => {
+    const trainee = await traineeModel.findById(traineeId);
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+
+    const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
+    if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
+    if (enrolledCourse.progress != 100) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course is not completed yet, progress must be 100%');
+
+    console.log(Boolean(enrolledCourse.dateOfCompletion));
+    if (isAuto) {
+      // email is sent auto only once (after course completion)
+      if (enrolledCourse.dateOfCompletion)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Certificate already sent automatically by mail before');
+      //date of completion should be set
+      enrolledCourse.dateOfCompletion = new Date();
+      await trainee.save();
+    }
+
+    await sendCertificateEmail(certificatePDF, trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
   };
 }
 export default TraineeService;
+
+/*
+
+Object : UserID COurseID Q A
+GET :
+API : Ask userID, CourseID Q POST A ""
+API : Answer PATCH COURSEID USERID A --> asjifaskjf
+
+
+
+
+*/

@@ -1,20 +1,17 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import InstructorDash from '@components/Instructor/InstructorMainSection';
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
-
-//import { Role } from '@enums/role.enum';
+import { Role } from '@/enums/role.enum';
 
 export default function InstructorRoutes() {
-  //const token = UseToken();
   const location = useLocation();
   const useUserIsAuthenticated = UseUserIsAuthenticated();
+  const useUser = UseUser();
 
-  //'instructor' === Role.INSTRUCTOR
-  return true ? (
+  return useUser?.role.toLocaleLowerCase() ===
+    Role.INSTRUCTOR.toLocaleLowerCase() ? (
     <>
-      <InstructorDash />
       <Outlet />
     </>
   ) : useUserIsAuthenticated ? (

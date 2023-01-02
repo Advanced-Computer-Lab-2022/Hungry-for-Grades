@@ -7,7 +7,7 @@ import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 
 class NewsLetterService {
   public getAllEmails = async (filters: INewsLetterFilters): Promise<PaginatedData<INewsletter>> => {
-    const { page = 1, limit = '12', email = '', role = '', sortBy = -1 } = filters;
+    const { page = 1, limit = '12', email = '', role = '', sortBy = -1, all = 0 } = filters;
     const pageLimit: number = parseInt(`${limit}`) ?? 12;
     const toBeSkipped = (parseInt(`${page}`) - 1) * pageLimit ?? 0;
 
@@ -25,13 +25,18 @@ class NewsLetterService {
       {
         $sort: { email: parseInt(`${sortBy}`) },
       },
-      {
-        $skip: toBeSkipped,
-      },
-      {
-        $limit: pageLimit,
-      },
     ];
+
+    if (all === 0) {
+      aggregateQuery.push(
+        {
+          $skip: toBeSkipped,
+        },
+        {
+          $limit: pageLimit,
+        },
+      );
+    }
 
     let queryResult: INewsletter[];
     let count: { count: number }[] | undefined;
@@ -51,14 +56,18 @@ class NewsLetterService {
     } catch (error) {
       throw new HttpException(500, 'Internal error occured while fetching from database');
     }
-    //logger.info(OqueryResult);
     const totalEmails: number = count && count?.length > 0 ? count[0].count : 0;
     const totalPages = Math.ceil(totalEmails / pageLimit);
 
     return {
       data: queryResult,
       page: page,
-      pageSize: parseInt(`${limit}`) < parseInt(`${totalEmails}`) ? parseInt(`${limit}`) : parseInt(`${totalEmails}`),
+      pageSize:
+        all === 0
+          ? parseInt(`${limit}`) < parseInt(`${totalEmails}`)
+            ? parseInt(`${limit}`)
+            : parseInt(`${totalEmails}`)
+          : parseInt(`${totalEmails}`),
       totalPages: totalPages,
       totalResults: totalEmails,
     };

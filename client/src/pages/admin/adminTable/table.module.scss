@@ -1,0 +1,106 @@
+
+.container {
+    
+    width:100rem;
+    height: fit-content;
+    //margin-left: 1rem;
+    //padding: 20px;
+    font-family: udemy sans,sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+    font-weight: 400;
+    line-height: 1.2;
+    border-collapse:collapse;
+    font-size: 1.1rem;
+    background-color: white;
+}
+
+.container tr
+{
+        border-bottom: rgb(239, 239, 239) 1.5px;
+        border-style: solid;
+        height: 3.5rem;
+        white-space:nowrap;
+        //display: table;
+        width:100%;
+}
+
+
+.container
+{
+    input[type=checkbox] {
+        accent-color: #DC3535;
+      }
+}
+
+
+.aprove
+{
+    font-size : 0.8rem;
+    border-radius: 10px;
+    background-color: 	#1746A2;
+    color: white;
+    height:fit-content;
+    width:fit-content;
+    margin-right: 1rem;
+}
+
+.decline
+{
+    font-size : 0.8rem;
+    border-radius: 10px;
+    background-color: #A00407;
+    color: white;
+    height:fit-content;
+    width:fit-content;
+}
+
+.statusP
+{
+    font-weight:500;
+    font-size:0.8rem;
+    background-color: 	#fbe0cb;
+    color:orange;
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.statusResolved
+{
+    font-weight:500;
+    font-size:0.8rem;
+    background-color: rgb(231, 239, 229);
+    color:green;
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.statusRej
+{
+    font-weight:500;
+    font-size:0.8rem;
+    background-color:#d37070;
+    color:white;
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.statusUnseen
+{
+    font-weight:500;
+    font-size:0.8rem;
+    background-color:#c1c1c1;
+    color:rgb(63, 63, 63);
+    height:2rem;
+    width:5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+
+}
+
+
+

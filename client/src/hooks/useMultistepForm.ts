@@ -2,19 +2,21 @@ import { ReactElement, useState } from 'react';
 
 type Step = {
   currentStepIndex: number;
-  steps: ReactElement[];
-  step: ReactElement;
+  steps: (ReactElement | string)[];
+  step: ReactElement | string;
   title?: string;
   subtitle?: string;
+  subtitles?: string[];
   isFirstStep: boolean;
   isLastStep: boolean;
   next: () => void;
   prev: () => void;
+  titles: string[] | undefined;
   goTo: (stepIndex: number) => void;
 };
 
 function useMultistepForm(
-  steps: ReactElement[],
+  steps: (ReactElement | string)[],
   titles: string[] | undefined,
   subtitles: string[] | undefined
 ): Step {
@@ -41,8 +43,10 @@ function useMultistepForm(
     subtitle: subtitles ? subtitles.at(currentStepIndex) : undefined,
     isFirstStep: currentStepIndex === 0,
     isLastStep: currentStepIndex === steps.length - 1,
+    subtitles,
     next,
     prev,
+    titles,
     goTo
   };
 }

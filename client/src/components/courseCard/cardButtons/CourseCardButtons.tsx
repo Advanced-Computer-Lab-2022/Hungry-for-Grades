@@ -9,7 +9,14 @@ import { HiShoppingCart } from 'react-icons/hi';
 
 import styles from './course-card-buttons.module.scss';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
+import {
+  addtoWishList,
+  addtoCart,
+  useCartDeleteQuery,
+  useWishListDeleteQuery
+} from './buttons';
+
+import { UseUser, UseUserIsAuthenticated } from '@store/userStore';
 
 import {
   UseCartStoreInCart,
@@ -21,32 +28,34 @@ import {
   UseWishListAddCourse,
   UseWishListRemoveCourse
 } from '@store/wishListStore';
-import { ICart } from '@/interfaces/cart.interface';
 
-function CourseCardButtons(props: ICart) {
+import { IUser } from '@/interfaces/user.interface';
+import usePostQuery from '@/hooks/usePostQuery';
+
+function CourseCardButtons(props: { id: string }) {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
-  const isInCart = UseCartStoreInCart()(props._id);
+  const isInCart = UseCartStoreInCart()(props?.id);
   const addCourseToWishList = UseWishListAddCourse();
   const removeCourseToWishList = UseWishListRemoveCourse();
-  const isInWishList = UseWishListInCart()(props._id);
+  const isInWishList = UseWishListInCart()(props?.id);
   const addCourseToCart = UseCartStoreAddCourse();
   const removeCourseToCart = UseCartStoreRemoveCourse();
+  const user = UseUser();
+  //Actual Post Requests
+  const { mutateAsync: addToWishListFromTheButton } = usePostQuery();
+  const { mutateAsync: addToCartFromTheButton } = usePostQuery();
 
   console.log(isInCart);
-  function addtoWishList(course: ICart) {
-    if (!isInCart) {
-      addCourseToWishList(course);
-    } else {
-      removeCourseToWishList(course._id);
-    }
-  }
-  function addtoCart(course: ICart) {
-    if (!isInWishList) {
-      addCourseToCart(course);
-    } else {
-      removeCourseToCart(course._id);
-    }
-  }
+
+  //Actual Delete
+  const { refetch: actualDeleteWishList } = useWishListDeleteQuery(
+    user?._id as string,
+    props?.id
+  );
+  const { refetch: actualDeleteCart } = useCartDeleteQuery(
+    user?._id as string,
+    props?.id
+  );
 
   return (
     <>
@@ -55,7 +64,25 @@ function CourseCardButtons(props: ICart) {
           <button
             className={styles.button}
             type='button'
-            onClick={() => addtoWishList(props)}
+            onClick={async () => {
+              const xx = await addtoWishList(
+                props?.id,
+                isInCart,
+                isInWishList,
+                user as IUser,
+                addCourseToWishList,
+                removeCourseToWishList,
+                removeCourseToCart,
+                addToWishListFromTheButton
+              );
+              if (xx === 1) {
+                await actualDeleteCart();
+              } else if (xx === 2) {
+                //alert('I will Delete Back ' + props?.id);
+                await actualDeleteWishList();
+                //alert('Done');
+              }
+            }}
           >
             {isInWishList && <AiFillHeart className={styles.icon} />}
             {!isInWishList && <AiOutlineHeart className={styles.icon} />}{' '}
@@ -63,7 +90,23 @@ function CourseCardButtons(props: ICart) {
           <button
             className={styles.button}
             type='button'
-            onClick={() => addtoCart(props)}
+            onClick={async () => {
+              const xx = await addtoCart(
+                props?.id,
+                isInCart,
+                isInWishList,
+                user as IUser,
+                addCourseToCart,
+                removeCourseToWishList,
+                removeCourseToCart,
+                addToCartFromTheButton
+              );
+              if (xx === 1) {
+                await actualDeleteCart();
+              } else if (xx === 2) {
+                await actualDeleteWishList();
+              }
+            }}
           >
             {isInCart && <HiShoppingCart className={styles.icon} />}
             {!isInCart && <AiOutlineShoppingCart className={styles.icon} />}
@@ -72,7 +115,7 @@ function CourseCardButtons(props: ICart) {
       ) : (
         <NavLink
           replace
-          state={{ from: '/course/' + props._id }}
+          state={{ from: '/course/' + props.id }}
           to='/auth/login'
         >
           <div className='d-flex flex-row justify-content-between'>

@@ -1,4 +1,4 @@
-import { Rating, Review } from '@/Common/Types/common.types';
+import { Rating, Review, ReviewDTO } from '@/Common/Types/common.types';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
@@ -135,10 +135,10 @@ class CourseController {
   //add review to course controller
   public addReviewToCourse = async (req: Request, res: Response<HttpResponse<Rating>>, next: NextFunction) => {
     try {
-      const { courseId } = req.params;
+      const { courseId, traineeId } = req.params;
       const userReview: Review = req.body;
 
-      const courseRating: Rating = await this.courseService.addReviewToCourse(courseId, userReview);
+      const courseRating: Rating = await this.courseService.addReviewToCourse(courseId, traineeId, userReview);
 
       res.json({
         data: courseRating,
@@ -180,6 +180,41 @@ class CourseController {
       res.json({
         data: traineeReview,
         message: 'Review Added Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // delete user review controller
+  public deleteUserReview = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
+    try {
+      const courseId = req.params.courseId as string;
+      const traineeId = req.params.traineeId as string;
+
+      await this.courseService.deleteUserReviewOnCourse(courseId, traineeId);
+      res.json({
+        data: null,
+        message: 'Review Deleted Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // update review controller
+  public updateUserReview = async (req: Request, res: Response<HttpResponse<Review>>, next: NextFunction) => {
+    try {
+      const courseId = req.params.courseId as string;
+      const traineeId = req.params.traineeId as string;
+      const reviewData: ReviewDTO = req.body;
+
+      const updatedReview: Review = await this.courseService.updateUserReviewOnCourse(courseId, traineeId, reviewData);
+      res.json({
+        data: updatedReview,
+        message: 'Review Updated Successfully',
         success: true,
       });
     } catch (error) {
@@ -384,8 +419,9 @@ class CourseController {
   public getCourseDiscount = async (req: Request, res: Response<HttpResponse<Discount[]>>, next: NextFunction) => {
     try {
       const { courseId } = req.params;
+      const issuedByInstructor = Number((req.query?.issuedByInstructor as string) ?? '-1');
 
-      const discounts = await this.courseService.getAllCourseDiscounts(courseId);
+      const discounts = await this.courseService.getAllCourseDiscounts(courseId, issuedByInstructor);
 
       res.json({
         data: discounts,
@@ -585,14 +621,14 @@ class CourseController {
   };
 
   // get lesson by id controller
-  public getLessonById = async (req: Request, res: Response<HttpResponse<Lesson>>, next: NextFunction) => {
+  public getLessonById = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction) => {
     try {
       const { userId, courseId, lessonId } = req.params;
 
-      const lesson = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
+      const lessonWithProgress = await this.courseService.getLessonByIdAndUpdateProgress(courseId, lessonId, userId);
 
       res.json({
-        data: lesson,
+        data: lessonWithProgress,
         message: 'Lesson Fetched Successfully',
         success: true,
       });
@@ -699,6 +735,25 @@ class CourseController {
       res.json({
         data: null,
         message: 'Question Updated Successfully',
+        success: true,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // add discount to serveral courses with filters
+  public addDiscountToCoursesWithFilters = async (req: Request, res: Response<HttpResponse<string[]>>, next: NextFunction) => {
+    try {
+      const discountData: Discount = req.body as Discount;
+      const requestFilters: CourseFilters = req.query as unknown as CourseFilters;
+
+      const newFilters = await addDefaultValuesToCourseFilters(requestFilters);
+      const failedCoursesErrors = await this.courseService.addDiscountToCourses(newFilters, discountData);
+
+      res.json({
+        data: failedCoursesErrors,
+        message: 'Completed Successfully',
         success: true,
       });
     } catch (error) {

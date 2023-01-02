@@ -4,6 +4,8 @@ import styles from './note-list.module.scss';
 
 import { type ITag } from '@interfaces/note.interface';
 
+import { UseTraineeNoteStoreBackgroundUrl } from '@store/noteStore';
+
 type SimplifiedNote = {
   tags: ITag[];
   title: string;
@@ -12,9 +14,17 @@ type SimplifiedNote = {
 };
 
 function NoteCard({ title, tags, courseName }: Partial<SimplifiedNote>) {
+  const useTraineeNoteStoreBackgroundUrl = UseTraineeNoteStoreBackgroundUrl();
   return (
     <Card
       className={`h-100 text-reset text-decoration-none ${styles.card ?? ''}`}
+      style={{
+        backgroundImage: `url(${useTraineeNoteStoreBackgroundUrl ?? ''})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: `${useTraineeNoteStoreBackgroundUrl ?? ''}`
+      }}
     >
       <Card.Body>
         <Stack

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
 import { AiFillLinkedin, AiFillGithub, AiFillYoutube } from 'react-icons/ai';
 
 import { BiWorld } from 'react-icons/bi';
@@ -8,11 +6,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useParams } from 'react-router-dom';
 
+import { AxiosResponse } from 'axios';
+
+import ReviewSection from './ReviewSection';
+
 import styles from './InstructorPage.module.scss';
 
 import CourseList from './CourseList';
-
-import ReviewSection from './ReviewSection';
 
 import ReviewList from './ReviewList';
 
@@ -22,12 +22,18 @@ import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataSe
 
 import { getRequest } from '@/services/axios/http-verbs';
 
+import { IInstructor } from '@/interfaces/instructor.interface';
+
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
+import { Role } from '@/enums/role.enum';
+
 async function getInstructor(id: string) {
   const Inst = InstructorRoutes.GET.getInstructor;
 
   Inst.params = id;
 
-  return getRequest(Inst);
+  return getRequest<AxiosResponse<IInstructor>>(Inst);
 }
 
 export default function InstructorPage() {
@@ -35,9 +41,11 @@ export default function InstructorPage() {
 
   console.log(instructorId);
 
+  const user = UseUser();
+
   const { isLoading, data } = useQuery(
-    ['getInstructorNow', instructorId],
-    () => getInstructor(instructorId  as string),
+    ['getInstructorNowww', instructorId],
+    () => getInstructor(instructorId as string),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000 // 1 second
@@ -47,6 +55,10 @@ export default function InstructorPage() {
   const Instructor = data?.data?.data;
 
   if (isLoading) return <Loader />;
+
+  if (Instructor === undefined || !data?.status) {
+    return <ErrorMessage errorMessage={data?.statusText} />;
+  }
 
   return (
     <div className={styles.page}>
@@ -58,8 +70,8 @@ export default function InstructorPage() {
             src={Instructor?.profileImage}
           />
           <div className={styles.social_wrapper}>
-            {Instructor?.socialMedia?.linkedin?.length > 0 && (
-              <a href={Instructor?.socialMedia?.linkedin}>
+            {Instructor?.socialMedia?.linkin?.length > 0 && (
+              <a href={Instructor?.socialMedia?.linkin}>
                 {' '}
                 <AiFillLinkedin style={{ fontSize: '2rem' }} />{' '}
               </a>
@@ -93,7 +105,7 @@ export default function InstructorPage() {
           <h1>{Instructor?.name}</h1>
           <h2>{Instructor?.speciality}</h2>
           <h3 style={{ fontWeight: '700', fontSize: '1.2rem', color: 'grey' }}>
-            {Instructor.title}
+            {Instructor?.title}
           </h3>
           <div style={{ display: 'flex' }}>
             <div style={{ marginRight: '1.5rem' }}>
@@ -104,7 +116,7 @@ export default function InstructorPage() {
             </div>
             <div>
               <div className={styles.property}>Reviews</div>
-              <div className={styles.value}>554,468</div>
+              <div className={styles.value}>{Instructor?.totalReviews}</div>
             </div>
           </div>
 
@@ -113,7 +125,9 @@ export default function InstructorPage() {
         </div>
       </div>
       <CourseList namme={Instructor?.name} text={instructorId as string} />
-      <ReviewSection />
+      {user?.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase() && (
+        <ReviewSection instructrID={instructorId as string} />
+      )}
       <div style={{ marginBottom: '5rem' }}>
         <h2 style={{ fontWeight: '700', fontSize: '1.6rem' }}>Reviews</h2>
         <ReviewList text={instructorId as string} />

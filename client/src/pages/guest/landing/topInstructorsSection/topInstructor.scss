@@ -6,7 +6,7 @@
 
 .profile-card-4 {
     max-width: 400px;
-    background-color: #FFF;
+    background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -22,7 +22,7 @@
 .profile-card-4 .profile-content {
     position: relative;
     padding: 15px;
-    background-color: #FFF;
+    background-color: #fff;
 }
 
 .profile-card-4 .profile-name {
@@ -30,13 +30,19 @@
     position: absolute;
     left: 0px;
     right: 0px;
-    top: -70px;
-    color: #FFF;
+    top: -130px;
+    color: #fff;
     font-size: 17px;
 }
 
 .profile-card-4 .profile-name p {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.profile-card-4 .profile-name small {
+    font-weight: 500;
     font-size: 13px;
     letter-spacing: 1.5px;
 }
@@ -63,13 +69,13 @@
 }
 
 .profile-card-4 .profile-content::before {
-    content: "";
+    content: '';
     position: absolute;
     height: 20px;
     top: -10px;
     left: 0px;
     right: 0px;
-    background-color: #FFF;
+    background-color: #fff;
     z-index: 0;
     transform: skewY(3deg);
 }

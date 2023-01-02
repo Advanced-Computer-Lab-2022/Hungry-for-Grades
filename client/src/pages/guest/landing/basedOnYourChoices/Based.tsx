@@ -8,30 +8,31 @@ import useQueryBased from './UseQueryBased';
 
 import { UseCacheStoreData } from '@/store/cacheStore';
 import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
-import { ICourse } from '@/interfaces/course.interface';
 import CourseCard from '@/components/courseCard/CourseCard';
-import { CoursesRoutes } from '@/services/axios/dataServices/CoursesDataService';
 import Pagination from '@/components/pagination/Pagination';
 import { UseCountry } from '@/store/countryStore';
 
 export default function Based() {
   const { category, subCategory } = UseCacheStoreData();
 
-  const location = useLocation();
-
   const [activePage, setActivePage] = useState(1);
 
-  const con = UseCountry();
+  const country = UseCountry();
 
-  const { isLoading, data } = useQueryBased(
+  const locationn = useLocation();
+
+  const { isLoading, data, isError } = useQueryBased(
     category,
     subCategory,
     activePage,
-    con,
-    location
+    country,
+    locationn as unknown as Location
   );
-
-  if (!category) {
+  console.log(data);
+  if (category == '') {
+    return <></>;
+  }
+  if (isError) {
     return <></>;
   }
 
@@ -43,21 +44,23 @@ export default function Based() {
     );
   }
 
-  const list: typeof CoursesRoutes.GET.getCoursesSearchFilter.response.data =
-    data?.data?.data;
+  const list = data?.data?.data;
 
-  console.log(list.length);
-
-  if (list.length == 0) {
+  if (list?.length == 0) {
     return <></>;
   }
 
   const toShow = list?.map(course => {
-    const courseData: ICourse = course;
-    const courseCardP = mapCourseToCardProps(courseData);
+    //const courseData: ICourse = course;
+    const courseCardP = mapCourseToCardProps(course);
     return (
-      <div key={courseData._id} className={'col-12 col-md-6 col-lg-4'}>
-        <CourseCard key={courseData._id} percent={-1} pprops={courseCardP} />
+      <div key={course?._id} className={'col-12 col-md-6 col-lg-4'}>
+        <CourseCard
+          key={course._id}
+          enrolled={false}
+          percent={-1}
+          pprops={courseCardP}
+        />
       </div>
     );
   });
@@ -67,11 +70,11 @@ export default function Based() {
       <h2 className='text-dark text-left mb-2'>Based on your Recent Choices</h2>
 
       <div className='row'>{toShow}</div>
-      {data?.data?.totalPages > 1 && (
+      {data?.data?.totalPages != undefined && data?.data?.totalPages > 1 && (
         <div style={{ marginLeft: 'auto' }}>
           <Pagination
             activePage={activePage}
-            pages={data?.data?.totalPages as number}
+            pages={data?.data?.totalPages}
             setActivePage={setActivePage}
           />
         </div>

@@ -9,14 +9,26 @@ function FeatureSection() {
             <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
               <div className='features-item'>
                 <div className='features-icon'>
-                  <h2>01</h2>
+                  <h2
+                    style={{
+                      zIndex: '-1'
+                    }}
+                  >
+                    01
+                  </h2>
                   <img alt='' src='/features-icon-1.png' />
-                  <h4>Trend Analysis</h4>
+                  <h4
+                    style={{
+                      zIndex: 99999
+                    }}
+                  >
+                    Trendy Courses
+                  </h4>
                   <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
+                    Education is the key to all the locked doors of the unknown.
+                    Find Out Your Favorite courses
                   </p>
-                  <a className='main-button' href='#testimonials'>
+                  <a className='main-button' href='#rated-courses'>
                     Read More
                   </a>
                 </div>
@@ -27,12 +39,9 @@ function FeatureSection() {
                 <div className='features-icon'>
                   <h2>02</h2>
                   <img alt='' src='/features-icon-2.png' />
-                  <h4>Site Optimization</h4>
-                  <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
-                  </p>
-                  <a className='main-button' href='#testimonials'>
+                  <h4>Top Rated Instructors</h4>
+                  <p>Get to see our Top Instructors</p>
+                  <a className='main-button' href='#rated-instructors'>
                     Discover More
                   </a>
                 </div>
@@ -43,13 +52,10 @@ function FeatureSection() {
                 <div className='features-icon'>
                   <h2>03</h2>
                   <img alt='' src='/features-icon-3.png' />
-                  <h4>Email Design</h4>
-                  <p>
-                    Curabitur pulvinar vel odio sed sagittis. Nam maximus ex
-                    diam, nec consectetur diam.
-                  </p>
-                  <a className='main-button' href='#testimonials'>
-                    More Detail
+                  <h4>Signup to our Newsletter</h4>
+                  <p>Get to know about our latest courses and updates</p>
+                  <a className='main-button' href='#newsletter'>
+                    Sign Up
                   </a>
                 </div>
               </div>
@@ -58,7 +64,12 @@ function FeatureSection() {
         </div>
       </section>
 
-      <div className='left-image-decor' />
+      <div
+        className='left-image-decor'
+        style={{
+          zIndex: '-1'
+        }}
+      />
     </>
   );
 }

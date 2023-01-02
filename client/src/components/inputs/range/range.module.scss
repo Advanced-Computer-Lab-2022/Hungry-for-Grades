@@ -13,7 +13,7 @@ input[type='range']:focus {
     outline: none;
 }
 
-input[type='range']+label {
+input[type='number'].rangeNumber {
     background-color: #fff;
     position: absolute;
     top: -4px;

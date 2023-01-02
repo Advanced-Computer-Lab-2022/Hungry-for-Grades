@@ -4,6 +4,7 @@ import { PaginatedData } from '@/Utils/PaginationResponse';
 
 export class TraineeDTO extends UserDTO {
   isCorporate: boolean;
+  corporate: string;
 }
 
 export interface CartDTO extends PaginatedData<ICourse> {

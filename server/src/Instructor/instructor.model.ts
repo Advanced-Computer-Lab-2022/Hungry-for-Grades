@@ -98,8 +98,14 @@ const instructorSchema = new Schema<IInstructor>(
         youtube: String,
       },
     },
-    speciality: String,
-    title: String,
+    speciality: {
+      default: '',
+      type: String,
+    },
+    title: {
+      type: String,
+      default: '',
+    },
     username: {
       match: [/^[a-zA-Z0-9]+$/, ' username is invalid'],
       required: [true, " username can't be blank"],

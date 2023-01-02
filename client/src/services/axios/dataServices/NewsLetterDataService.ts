@@ -8,27 +8,17 @@ export const NewsLetterRoutes = {
       payload: {
         email: '',
         role: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     },
     sendEmail: {
       URL: '/newsletter' as const,
       params: '' as const,
-      query: '' as const,
+      query: '',
       options: {},
 
       payload: {
         body: '',
         subject: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     }
   },
@@ -36,15 +26,10 @@ export const NewsLetterRoutes = {
     getAllSubscribers: {
       URL: '/newsletter/subscribers' as const,
       params: '' as const,
-      query: '' as const,
+      query: '',
       options: {},
 
-      payload: {},
-      response: {
-        data: {},
-        message: '',
-        success: ''
-      }
+      payload: {}
     }
   },
   DELETE: {
@@ -55,11 +40,6 @@ export const NewsLetterRoutes = {
       options: {},
       payload: {
         email: ''
-      },
-      response: {
-        data: {},
-        message: '',
-        success: ''
       }
     }
   }

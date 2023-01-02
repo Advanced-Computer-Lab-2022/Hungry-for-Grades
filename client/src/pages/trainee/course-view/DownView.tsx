@@ -1,35 +1,39 @@
+import Board from '../board/Board';
+
 import Navigation from './Navigation';
 
 import Overview from './Overview';
 import QandA from './QandA';
-import Announcments from './Announcment';
+import Announcements from './Announcement';
 import Notes from './Notes';
 
 import useMultistepForm from '@/hooks/useMultistepForm';
+import { ICourse } from '@/interfaces/course.interface';
 type DownViewProps = {
-  lessonId: string;
-  courseName: string;
+  itemid: string;
+  course: ICourse;
 };
-const titles = ['Overview', 'Q&A', 'Notes', 'Announcments'];
+const titles = ['Overview', 'Q&A', 'Notes', 'Announcements'];
 
-function DownView({ lessonId, courseName }: DownViewProps) {
+function DownView({ itemid, course }: DownViewProps) {
   const { step, goTo } = useMultistepForm(
     [
-      <Overview key='11231313213' />,
-      <QandA key='we9rw9rwe9r' />,
+      <Overview key={`Overview${itemid}`} {...course} />,
+      <QandA key={`QandA${itemid}`} {...course} />,
       <Notes
-        key='sadsaasdasd34ew43'
-        courseName={courseName}
-        lessonId={lessonId}
+        key={`Notes${itemid}`}
+        courseName={course.title}
+        lessonId={itemid}
       />,
-      <Announcments key='sdadasdwerre654' />
+      <Board key={`Board${itemid}`} />,
+      <Announcements key={`Announcements${itemid}`} {...course} />
     ],
     titles,
     []
   );
 
   return (
-    <section className='container-fluid'>
+    <section className='container-fluid mb-5'>
       <div className='row'>
         <div className='col-12'>
           <div className='card'>
@@ -37,7 +41,14 @@ function DownView({ lessonId, courseName }: DownViewProps) {
               <div className='row'>
                 <div className='col-12'>
                   <Navigation goTo={goTo} />
-                  <div className='container'>{step}</div>
+                  <div
+                    className='container'
+                    style={{
+                      backgroundColor: 'white'
+                    }}
+                  >
+                    {step}
+                  </div>
                 </div>
               </div>
             </div>

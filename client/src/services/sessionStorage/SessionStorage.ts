@@ -9,9 +9,12 @@ class SessionStorage {
 
   get<T>(key: string): T | string | null {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
-    console.log(key);
     const value = this.storage.getItem(key);
-    if (value && (value.includes('{') || value.includes('['))) {
+    if (
+      value &&
+      ((value.includes('{') && value.includes('}')) ||
+        (value.includes('[') && value.includes(']')))
+    ) {
       return JSON.parse(value) as T;
     }
     if (value) {
@@ -25,11 +28,13 @@ class SessionStorage {
   set<T>(key: string, value: string | T) {
     key = (this.STORAGE_KEYS_PREFIX + key).toUpperCase();
     console.log(key);
-    if (typeof key === 'string') {
+    console.log(value);
+    if (typeof value === 'string') {
       this.storage.setItem(key, value as string);
+      return;
     }
 
-    const valueToStore = JSON.stringify(value);
+    const valueToStore = JSON.stringify(value, null, '\t');
     this.storage.setItem(key, valueToStore);
   }
 

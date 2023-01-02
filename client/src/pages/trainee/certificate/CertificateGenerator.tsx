@@ -1,105 +1,124 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
+import { useParams } from 'react-router-dom';
 
-import CourseRating from '../../course/CourseRating';
+import { toast } from 'react-toastify';
+
+import CourseRating from '../../guest/course/CourseRating';
 
 import styles from './certificate-generator.module.scss';
 import useSearchQueryCourse from './useSearchQueryCourse';
-import useSearchQueryTrainee from './useSearchQueryTrainee';
 
 import { formatDuration } from '@/utils/duration';
 import ErrorMessage from '@components/error/message/ErrorMessage';
+import { UseUser } from '@/store/userStore';
+import usePostQuery from '@/hooks/usePostQuery';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import { toastOptions } from '@/components/toast/options';
+import ShareButton from '@/components/buttons/shareButton/ShareButton';
 
 export default function CertificateGenerator() {
-  const { isLoading, isError, data: courseData } = useSearchQueryCourse();
-  const { isLoading: traineeIsLoading, data: traineeData } =
-    useSearchQueryTrainee();
-  const verifiedTraineeData = traineeData?.data?.data;
-  const verifiedCourseData = courseData?.data?.data._course;
+  const { courseId } = useParams<{ courseId: string }>();
+  const traineeData = UseUser();
+  const {
+    isLoading,
+    isError,
+    data: courseData
+  } = useSearchQueryCourse(traineeData?._id as string, courseId as string);
+  const verifiedCourseData = courseData?.data?.data?._course;
   const courseTitle = verifiedCourseData?.title;
-  let date = courseData?.data?.data.dateOfCompletion;
+  let date = courseData?.data?.data.dateOfCompletion?.toString();
   date = date?.split('T')[0];
   const instructorName = verifiedCourseData?._instructor[0]?.name;
-
-  if (isError) return <ErrorMessage />;
-
   const [imageURL, setImageURL] = useState('');
-  const canvasRef = useRef(null);
-  const img = useMemo(() => new Image(), []);
+
+  const img = document.createElement('img');
   img.src = '/Certificate.png';
 
+  const { mutateAsync: sendMail } = usePostQuery();
+
   useEffect(() => {
-    if (
-      !isLoading &&
-      !traineeIsLoading &&
-      verifiedCourseData &&
-      verifiedTraineeData
-    ) {
-      const canvas = canvasRef.current;
-      const context = canvas?.getContext('2d');
+    if (!isLoading && verifiedCourseData) {
+      const canvas = document.createElement('canvas');
+      const context: CanvasRenderingContext2D | null = canvas?.getContext('2d');
+      if (context === null) return;
       context.canvas.width = 770;
       context.canvas.height = 595;
       img.onload = () => {
         context.drawImage(img, 0, 0);
         context.font = 'bold 34px open sans';
         context.fillStyle = 'black';
-        context.fillText(verifiedTraineeData?.name, 80, 282);
+        context.fillText(traineeData?.name as string, 80, 282);
         const spaceIndexes: number[] = [];
-        for (let i = 0; i < courseTitle.length; i++)
-          if (courseTitle[i] === ' ') spaceIndexes.push(i);
+        for (let i = 0; i < (courseTitle ? courseTitle.length : 0); i++)
+          if (courseTitle && courseTitle[i] === ' ') spaceIndexes.push(i);
 
-        if (courseTitle.length <= 30) {
+        if (courseTitle && courseTitle.length <= 30) {
           context.font = 'bold 26px open sans';
           context.fillText(courseTitle, 80, 400);
-        } else if (courseTitle.length > 30 && courseTitle.length <= 60) {
+        } else if (
+          courseTitle &&
+          courseTitle.length > 30 &&
+          courseTitle.length <= 60
+        ) {
           context.font = 'bold 24px open sans';
           let lastSpace = 0;
           for (let i = 0; i < spaceIndexes.length; i++) {
-            if (spaceIndexes[i] > 30) {
-              if (i > 0) lastSpace = spaceIndexes[i - 1];
+            if ((spaceIndexes[i] as number) > 30) {
+              if (i > 0) lastSpace = spaceIndexes[i - 1] as number;
               break;
             }
           }
           context.fillText(courseTitle.slice(0, lastSpace), 80, 380);
           context.fillText(courseTitle.slice(lastSpace + 1), 80, 410);
         } else {
-          const numberOfLines = Math.ceil(courseTitle.length / 40);
-          console.log(spaceIndexes);
+          const numberOfLines = Math.ceil(
+            courseTitle ? courseTitle.length / 40 : 0
+          );
           let lastSpaceIndex = 0;
           for (let i = 0; i < numberOfLines; i++) {
-            const spaceFlag = courseTitle[lastSpaceIndex] === ' ' ? 1 : 0;
+            const spaceFlag =
+              courseTitle && courseTitle[lastSpaceIndex] === ' ' ? 1 : 0;
 
             let spaceIndex = -1;
             for (let index = 0; index < spaceIndexes.length; index++) {
-              if (spaceIndexes[index] > lastSpaceIndex + 40) {
-                spaceIndex = spaceIndexes[index - 1];
+              if ((spaceIndexes[index] as number) > lastSpaceIndex + 40) {
+                spaceIndex = spaceIndexes[index - 1] as number;
                 break;
               }
             }
             if (spaceIndex === -1) {
-              spaceIndex = courseTitle.length;
+              spaceIndex = courseTitle?.length as number;
             }
             context.font = 'bold 18px open sans';
-            context.fillText(
-              courseTitle.slice(lastSpaceIndex + spaceFlag, spaceIndex),
-              80,
-              372 + i * 24
-            );
+            if (courseTitle)
+              context.fillText(
+                courseTitle.slice(lastSpaceIndex + spaceFlag, spaceIndex),
+                80,
+                372 + i * 24
+              );
             lastSpaceIndex = spaceIndex;
           }
         }
         context.font = 'bold 11px open sans';
-        context.fillText(date, 190, 449);
+        if (date) context.fillText(date.toString(), 190, 449); // need to be revised
         context.font = 'bold 14px open sans';
-        context.fillText(instructorName, 473, 484);
+        context.fillText(instructorName as string, 473, 484);
         setImageURL(canvas?.toDataURL());
       };
     }
-  }, [courseData]);
+  }, [
+    courseData,
+    courseTitle,
+    date,
+    img,
+    instructorName,
+    isLoading,
+    traineeData,
+    verifiedCourseData
+  ]);
 
   const handleDownloadPDF = () => {
     const pdf = new jsPDF({
@@ -114,30 +133,63 @@ export default function CertificateGenerator() {
     pdf.save('certificate.pdf');
   };
 
-  if (!imageURL)
-    return (
-      <>
-        <div>Loading...</div>
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-      </>
-    );
+  async function sendOnMail() {
+    const pdf: jsPDF = new jsPDF({
+      orientation: 'landscape',
+      unit: 'cm',
+      format: [29.7, 21]
+    });
 
-  if (isLoading) return <div>Loading...</div>;
+    const imgProperties = pdf.getImageProperties(imageURL);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+    const tmp = pdf.output('datauristring');
+
+    const mail = TraineeRoutes.POST.sendCertificateByMail;
+
+    //alert(`trainee/${traineeData?._id as string}/course/${courseId as string}/certificate` )
+    mail.URL = `/trainee/${traineeData?._id as string}/course/${
+      courseId as string
+    }/certificate`;
+
+    mail.payload = { certificate: tmp };
+
+    const response = await toast.promise(
+      sendMail(mail),
+      {
+        pending: 'Sending Certificate to your email ....'
+      },
+      toastOptions
+    );
+    if (!response?.status) {
+      toast.success(
+        'Certificate Sent to your email successfully',
+        toastOptions
+      );
+    } else {
+      toast.error('Error Sending Certificate', toastOptions);
+    }
+  }
+
+  if (isError) return <ErrorMessage />;
+  if (isLoading) return <LoaderComponent />;
   return (
-    <div className='container mt-4'>
+    <div className='container-md mt-4'>
       <div className='row gx-5'>
-        <div className='col-12 col-md-8 border-end border-2 pt-3 pb-3'>
+        <div className='col-12 col-md-8 border-end border-2 py-3'>
           <div className='d-flex justify-content-center'>
             <img
-              alt='Course Certificate'
+              alt='Course Certificate img'
               className='img-responsive'
               src={imageURL}
-              style={{ maxWidth: '65vw' }}
+              style={{ maxWidth: '65vw', width: '100%' }}
             />
           </div>
         </div>
-        <div className='col-sm-12 col-md-4 pt-3'>
-          <div className='container mx-auto'>
+        <div className='col-sm-12 col-md-4 pt-3 d-flex justify-content-md-start justify-content-center'>
+          <div>
             <div className='h5'>Certificate Recipient:</div>
             <div className='d-flex flex-col'>
               <span className='py-1 me-2'>
@@ -151,10 +203,10 @@ export default function CertificateGenerator() {
 
               <div>
                 <div className={`${styles.nameFnt || ''} pt-1`}>
-                  {verifiedTraineeData?.name}
+                  {traineeData?.name}
                 </div>
                 <div className={styles.userNameFnt}>
-                  {verifiedTraineeData?.username}
+                  {traineeData?.username}
                 </div>
               </div>
             </div>
@@ -180,7 +232,10 @@ export default function CertificateGenerator() {
                   marginBottom: '0.1rem'
                 }}
               >
-                <CourseRating reviews={[]} {...verifiedCourseData.rating} />
+
+                {verifiedCourseData && (
+                  <CourseRating {...verifiedCourseData.rating} />
+                )}
               </div>
               <div
                 className={`${styles.userNameFnt ?? ''} mb-3`}
@@ -191,25 +246,37 @@ export default function CertificateGenerator() {
                   0
                 )}{' '}
                 lessons&nbsp; • &nbsp;
-                {formatDuration(
-                  verifiedCourseData?.sections.reduce(
-                    (s, l) =>
-                      s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
-                    0
-                  )
-                )}
+                {verifiedCourseData &&
+                  formatDuration(
+                    verifiedCourseData?.sections.reduce(
+                      (s, l) =>
+                        s +
+                        l.lessons.reduce(
+                          (s2, l2) => s2 + (l2.duration ?? 0),
+                          0
+                        ),
+                      0
+                    )
+                  )}
               </div>
             </div>
-            <button
-              className='btn btn-primary me-2'
-              type='submit'
-              onClick={handleDownloadPDF}
-            >
-              Download
-            </button>
-            <button className='btn btn-primary' type='submit'>
-              Share
-            </button>
+            <div className='d-flex flex-md-row flex-sm-column  gap-md-2 flex-wrap mb-md-4'>
+              <button
+                className='btn btn-primary btn-lg '
+                type='submit'
+                onClick={handleDownloadPDF}
+              >
+                Download
+              </button>
+              <ShareButton link={`course/${courseId as string}`} />
+              <button
+                className='btn btn-primary btn-lg'
+                type='submit'
+                onClick={() => sendOnMail()}
+              >
+                Mail
+              </button>
+            </div>
           </div>
         </div>
       </div>

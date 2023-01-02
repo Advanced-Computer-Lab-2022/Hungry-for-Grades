@@ -1,14 +1,14 @@
 import { ICourse } from '@/Course/course.interface';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { IUser } from '@/User/user.interface';
 import { PaginatedRequest } from '@/Utils/PaginationResponse';
-import { isEnum } from 'class-validator';
 import { Types } from 'mongoose';
 
 export enum Status {
   PENDING = 'Pending',
   REJECTED = 'Rejected',
   RESOLVED = 'Resolved',
+  UNSEEN = 'Unseen',
 }
 
 export enum Reason {
@@ -19,12 +19,14 @@ export enum Reason {
   TECHNICAL = 'Technical',
 }
 export interface Report {
-  _course: ICourse;
+  _course: ICourse | Types.ObjectId;
   _id: Types.ObjectId;
-  _user: IUser;
+  _user: IUser | Types.ObjectId;
+  createdAt: Date;
   description: string;
+  followUp: Message[];
   reason: Reason;
-  role: Role;
+  role: UserRole;
   status: Status;
 }
 
@@ -32,7 +34,15 @@ export interface IReportFilters extends PaginatedRequest {
   _course?: string;
   _user?: string;
   endDate?: Date;
-  reason?: Reason;
+  reason?: string | string[];
+  sort?: number;
+  // 1: ascending, -1: descending , undefined: default (no sort)
   startDate?: Date;
   status?: Status;
+}
+
+export interface Message {
+  content: string;
+  createdAt: Date;
+  isAdmin: boolean;
 }

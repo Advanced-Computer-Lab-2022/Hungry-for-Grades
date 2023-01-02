@@ -1,5 +1,4 @@
 import { Reason, Report, Status } from '@/Report/report.interface';
-import { Role } from '@/User/user.enum';
 import { Document, model, Schema } from 'mongoose';
 
 const reportSchema = new Schema<Report>(
@@ -19,9 +18,19 @@ const reportSchema = new Schema<Report>(
       type: String,
     },
     status: {
-      default: Status.PENDING,
+      default: Status.UNSEEN,
       enum: Object.values(Status),
       type: String,
+    },
+    followUp: {
+      default: [],
+      type: [
+        {
+          content: String,
+          createdAt: Date,
+          isAdmin: Boolean,
+        },
+      ],
     },
   },
   {

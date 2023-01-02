@@ -2,13 +2,15 @@ import { logger } from '@/Utils/logger';
 import { EMAIL_SERVICE, SENDER_MAIL, SENDER_PASSSWORD } from '@Config';
 import nodemailer from 'nodemailer';
 
-export function sendEmail(receiverEmail: string, emailBody: string, emailSubject = 'CanCham Support') {
+export async function sendEmail(receiverEmail: string, emailBody: string, emailSubject = 'CanCham Support', attachments = []) {
   const mailTransporter = nodemailer.createTransport({
+    host: `smtp.${EMAIL_SERVICE}.com`, // hostname,
+    service: EMAIL_SERVICE,
+    port: 587,
     auth: {
       pass: SENDER_PASSSWORD,
       user: SENDER_MAIL,
     },
-    service: EMAIL_SERVICE,
   });
 
   const mailDetails = {
@@ -16,14 +18,14 @@ export function sendEmail(receiverEmail: string, emailBody: string, emailSubject
     html: emailBody,
     subject: emailSubject,
     to: receiverEmail,
+    attachments,
   };
 
-  mailTransporter.sendMail(mailDetails, (err, data) => {
+  mailTransporter.sendMail(mailDetails, err => {
     if (err) {
       logger.error(`Error occured while sending email${err.message}`);
-      //console.log('Error Occurs while sending email', err.message);
     } else {
-      //console.log('Email sent successfully');
+      logger.info('Email sent successfully');
     }
   });
 }

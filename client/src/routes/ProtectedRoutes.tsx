@@ -1,54 +1,69 @@
-import { Suspense, useEffect } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Suspense } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import Loader from '../components/loader/loaderpage/Loader';
 
+import useUserInfoQuery from './useUserInfoQuery';
+
 import Footer from '@/components/footer/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-import { UseUserIsAuthenticated } from '@store/userStore';
-import useRefreshToken from '@/hooks/useRefreshToken';
+import { Role } from '@/enums/role.enum';
+import { ITrainee } from '@/interfaces/course.interface';
+import { UseCartStoreSetCart } from '@/store/cartStore';
+import { UseWishListSetCart } from '@/store/wishListStore';
+import { UseSetUser, UseUserIsAuthenticated } from '@store/userStore';
 
-/*
-function Auth() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  try {
-    const token = Cookie.get('token');
-    if (!token) return false;
-    // const user = jwt.decode(token);
-    //return !!user;
-  } catch (e) {
-    navigate(location.pathname);
-    navigate('/login');
-
-    return false;
-  }
-}
-*/
-
+import { removeInfo } from '@services/savedInfo/SavedInfo';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 function ProtectedRoutes() {
   const useUserIsAuthenticated = UseUserIsAuthenticated();
-  const location = useLocation();
-  const refresh = useRefreshToken();
 
-  useEffect(() => {
-    /*    refresh()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      }); */
-    /* 		if (!access) {
-			return <Navigate replace state={{ from: location }} to='/auth/login' />;
-		} */
-  }, [refresh]);
+  const { isLoading, isError, data, error } = useUserInfoQuery(
+    !useUserIsAuthenticated ? true : false
+  );
+
+  const useSetUser = UseSetUser();
+
+  const useCartStoreSetCart = UseCartStoreSetCart();
+  const useWishListSetCart = UseWishListSetCart();
+
+  if (
+    !isLoading &&
+    !isError &&
+    data &&
+    data.data &&
+    data.data.data &&
+    (LocalStorage.get('loggingOut') === null ||
+      LocalStorage.get('loggingOut') !== 'true')
+  ) {
+    const userData = data?.data?.data;
+
+    useSetUser(userData);
+    if (
+      userData.role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()
+    ) {
+      useCartStoreSetCart((userData as ITrainee)?._cart);
+      useWishListSetCart((userData as ITrainee)?._wishlist);
+    }
+  }
+
+  const location = useLocation();
+
+  if (isLoading && !data && !useUserIsAuthenticated) {
+    return <Loader />;
+  }
+
+  if (isError || error) {
+    removeInfo();
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
+  }
+  if (useUserIsAuthenticated === null) {
+    return <></>;
+  }
 
   if (useUserIsAuthenticated) {
-    return <Navigate replace state={{ from: location }} to='/auth/login' />;
-  } else {
     return (
       <Suspense fallback={<Loader />}>
         <Navbar />
@@ -56,6 +71,8 @@ function ProtectedRoutes() {
         <Footer />
       </Suspense>
     );
+  } else {
+    return <Navigate replace state={{ from: location }} to='/auth/login' />;
   }
 }
 

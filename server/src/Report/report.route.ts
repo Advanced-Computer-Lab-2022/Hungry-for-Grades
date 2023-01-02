@@ -1,3 +1,4 @@
+import { authenticateUser } from '@/Middlewares/auth.middleware';
 import validationMiddleware from '@/Middlewares/validation.middleware';
 import { Routes } from '@Common/Interfaces/routes.interface';
 import { Router } from 'express';
@@ -14,14 +15,13 @@ class ReportRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post('/', validationMiddleware(ReportDTO, 'body'), this.reportController.reportProblemOrRequestCourse);
-    this.router.get('/', this.reportController.getAllReports);
-    this.router.get('/:reportId', this.reportController.getReportById);
-    this.router.delete('/:reportId', this.reportController.deleteReport);
+    this.router.post('/', authenticateUser, validationMiddleware(ReportDTO, 'body'), this.reportController.reportProblemOrRequestCourse); // guest??
+    this.router.get('/', authenticateUser, this.reportController.getAllReports);
+    this.router.get('/:reportId', authenticateUser, this.reportController.getReportById);
+    this.router.delete('/:reportId', authenticateUser, this.reportController.deleteReport);
+    this.router.patch('/:reportId', authenticateUser, validationMiddleware(ReportDTO, 'body'), this.reportController.updateReport);
 
-    // Resolving & Rejecting
-    this.router.patch('/:reportId/resolve', this.reportController.resolveReport);
-    this.router.patch('/:reportId/reject', this.reportController.rejectReport);
+    this.router.post('/:reportId/user/:userId', authenticateUser, this.reportController.addFollowUpMessage);
   }
 }
 

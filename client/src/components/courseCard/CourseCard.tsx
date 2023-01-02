@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Link } from 'react-router-dom';
 
@@ -16,10 +17,13 @@ import CourseCardButtons from './cardButtons/CourseCardButtons';
 
 import { CourseCardProps } from '@/pages/guest/landing/types';
 
-import CourseRating from '@/pages/course/CourseRating';
+import CourseRating from '@/pages/guest/course/CourseRating';
 import { formatDuration } from '@/utils/duration';
 
 import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
+import { UseUser } from '@/store/userStore';
+import { Role } from '@/enums/role.enum';
+import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -37,6 +41,7 @@ function CourseCardPreview({
     <img
       alt={title}
       className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+      loading='lazy'
       src={image && image.length > 0 ? image : COMPANY_LOGO}
       onError={e => {
         e.currentTarget.src = COMPANY_LOGO;
@@ -61,8 +66,36 @@ function CourseCardPreview({
   );
 }
 
-function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
-  const props = x.pprops;
+function CourseCard(courseProps: {
+  pprops: CourseCardProps;
+  percent: number;
+  enrolled: boolean;
+}) {
+  const useUser = UseUser();
+  const props = courseProps.pprops;
+
+  let isActualEnrolled = courseProps.enrolled;
+
+  //const isEnrolledActually = UseUser();
+
+  function isActuallyEnrolled() {
+    for (
+      let i = 0;
+      i < ((useUser as ITrainee)?._enrolledCourses as EnrolledCourse[])?.length;
+      ++i
+    ) {
+      if (
+        (((useUser as ITrainee)?._enrolledCourses as EnrolledCourse[])[i]
+          ?._course as unknown as string) == courseProps?.pprops?.id
+      ) {
+        isActualEnrolled = true;
+        break;
+      }
+    }
+  }
+
+  isActuallyEnrolled();
+
   function renderCouseCardOverlay(ps: Record<string, unknown>) {
     return (
       <Tooltip {...ps}>
@@ -96,7 +129,13 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
             </div>
           </Link>
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
-            <Link to={`/course/${props.id}`}>
+            <Link
+              to={`${
+                !isActualEnrolled
+                  ? `/course/${props.id}`
+                  : `/trainee/view-course/${props.id}/`
+              }`}
+            >
               <h4
                 className={`${styles.course__title ?? ''} ${
                   styles['fnt-md'] ?? ''
@@ -118,18 +157,42 @@ function CourseCard(x: { pprops: CourseCardProps; percent: number }) {
                   />
                 </div>
                 <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-                  <strong>Duration: {formatDuration(props.duration)}</strong>
+                  {props.duration && (
+                    <strong>
+                      Duration: {formatDuration(props.duration * 60)}
+                    </strong>
+                  )}
                 </div>
                 <CourseRating {...props.rating} />
-                {x.percent == -1 && <Price {...props.price} />}
-                {x.percent != -1 && <ProgressBar completed={x.percent} />}
+                {isActualEnrolled && (
+                  <div className='my-2'>
+                    <Link
+                      className='btn btn-primary text-light'
+                      to={`/trainee/view-course/${props.id}`}
+                    >
+                      View Course
+                    </Link>
+                  </div>
+                )}
+                {courseProps.percent == -1 && <Price {...props.price} />}
+                {courseProps.percent != -1 && (
+                  <ProgressBar
+                    completed={courseProps.percent}
+                    courseID={courseProps?.pprops?.id}
+                  />
+                )}
               </div>
-              <div>
-                <CourseCardButtons
-                  _id={props.id}
-                  price={props.price.currentValue}
-                />
-              </div>
+              {(useUser === null ||
+                ((useUser.role.toLocaleLowerCase() ===
+                  Role.TRAINEE.toLocaleLowerCase() ||
+                  useUser.role.toLocaleLowerCase() ===
+                    Role.NONE.toLocaleLowerCase()) &&
+                  !(useUser as ITrainee)?.isCorporate)) &&
+                !isActualEnrolled && (
+                  <div>
+                    <CourseCardButtons id={courseProps?.pprops?.id} />
+                  </div>
+                )}
             </div>
           </div>
         </article>

@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useQuery } from '@tanstack/react-query';
 
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -11,6 +9,8 @@ import { getRequest } from '@services/axios/http-verbs';
 
 import { UseCountry } from '@/store/countryStore';
 import { customComparator } from '@/utils/comparator';
+import { PaginatedResponse } from '@/interfaces/response.interface';
+import { ICourse } from '@/interfaces/course.interface';
 
 let oldFilters: SelectFiltersType;
 
@@ -36,7 +36,7 @@ async function searchRequest(
     {},
     CoursesRoutes.GET.getCoursesSearchFilter
   );
-  const searchQuery = `category=${filters.category.trim()}
+  const searchQuery = `category=${filters.category}
 	&subCategory=${filters.subCategory}
 	&level=${filters.level}
 	&priceLow=${
@@ -45,26 +45,18 @@ async function searchRequest(
 	&priceHigh=${
     filters.paid && filters.free ? filters.max : filters.free ? 0 : filters.max
   }
+	&rating=${filters.rating}
 	&sortBy=${filters.sortBy}
 	&durationLow=${(filters.durationLow ?? 0) * 24 * 30}
 	&durationHigh=${filters.durationHigh * 24 * 30}
-	&country=${filters.country.trim()}
+	&country=${filters.country}
 	&limit=${18}
 	&page=${page}
-	&searchTerm=${filters.searchTerm.trim()}
+	&searchTerm=${filters.searchTerm}
 	`.trim();
   getCoursesSearchFilter.query = searchQuery;
-  //	const [searchParams] = useSearchParams();
 
-  //	alert(getCoursesSearchFilter.query);
-  /*   const searchQuery = toString(filters);
-
-	console.log('searchQuery');
-	console.log(searchQuery);
-  //navigateSearch('/courses', searchQuery);
- */
-
-  return getRequest(getCoursesSearchFilter);
+  return getRequest<PaginatedResponse<ICourse>>(getCoursesSearchFilter);
 }
 
 function useSearchQuery(filters: SelectFiltersType) {

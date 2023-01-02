@@ -1,22 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
-
 import { getRequest } from '@/services/axios/http-verbs';
 
-const traineeId = '637969352c3f71696ca34759';
-const courseId = '637a0262301cbd719dff6006';
+import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
-async function searchRequest() {
+import { HttpResponse } from '@/interfaces/response.interface';
+import { EnrolledCourse } from '@/interfaces/course.interface';
+
+async function searchRequest(traineeId: string, courseId: string) {
   const course = TraineeRoutes.GET.getEnrolledCourse;
   course.URL = `/trainee/${traineeId}/course/${courseId}`;
-  return getRequest(course);
+  console.log(course);
+  return getRequest<HttpResponse<EnrolledCourse>>(course);
 }
 
-export default function useSearchQuery() {
+export default function useSearchQuery(traineeId: string, courseId: string) {
   return {
-    ...useQuery(['search-trainee-course', traineeId, courseId], () =>
-      searchRequest()
+    ...useQuery(['search-trainee-coursee', traineeId, courseId], () =>
+      searchRequest(traineeId, courseId)
     )
   };
 }

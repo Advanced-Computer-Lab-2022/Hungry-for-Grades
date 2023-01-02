@@ -1,4 +1,7 @@
 import { useCallback } from 'react';
+import { toast } from 'react-toastify';
+
+import { toastOptions } from '../toast/options';
 
 import useValidation from './UseValidation';
 
@@ -6,6 +9,7 @@ import usePostQuery from '@/hooks/usePostQuery';
 import { NewsLetterRoutes } from '@services/axios/dataServices/NewsLetterDataService';
 
 import './newsletter.scss';
+
 function Newsletter() {
   const { formik } = useValidation();
   const { mutateAsync: signupToNewsletter } = usePostQuery();
@@ -18,7 +22,15 @@ function Newsletter() {
         email,
         role: 'guest'
       };
-      await signupToNewsletter(subscribeRoute);
+      await toast.promise(
+        signupToNewsletter(subscribeRoute),
+        {
+          pending: 'Subscribing...',
+          success: 'Subscribed successfully',
+          error: 'Error while subscribing'
+        },
+        toastOptions
+      );
     } catch (err) {
       console.log(err);
       return false;
@@ -32,6 +44,7 @@ function Newsletter() {
       <div className='container form d-flex flex-row justify-content-center'>
         <input
           className='form__email mx-2'
+          id='newsletter'
           name='email'
           placeholder='Enter your email address'
           type='email'

@@ -21,7 +21,7 @@
     "lint": "concurrently \"cd server && yarn run lint\" \"cd client && yarn run lint\"",
     "lint:packages": "prettier-package-json --write ./package.json ./server/package.json ./client/package.json",
     "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
-    "test": "concurrently \"cd server && yarn run test\" \"cd client && yarn run test\""
+    "test": "concurrently \"yarn dev\" \"cd 'end-to-end testing' && npx cypress open\""
   },
   "config": {
     "commitizen": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "@types/prop-types": "^15.7.5",
     "country-flag-icons": "^1.5.5",
+    "pdfkit": "^0.13.0",
     "react-country-flag": "^3.0.2",
     "react-datepicker": "^4.8.0",
     "stripe": "^11.1.0"
@@ -38,9 +39,11 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/regenerator-runtime": "^0.13.1",
     "@typescript-eslint/parser": "^5.41.0",
     "commitizen": "^4.2.5",
     "concurrently": "^7.5.0",
+    "cypress": "^12.1.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.26.0",
     "eslint-plugin-perf-standard": "^1.0.3",

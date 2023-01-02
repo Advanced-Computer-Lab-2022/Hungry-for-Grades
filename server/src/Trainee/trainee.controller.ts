@@ -1,13 +1,15 @@
+import { RequestWithTokenPayload, RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
 import { ICourse } from '@/Course/course.interface';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
+import { logger } from '@/Utils/logger';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
 import TraineeService from '@Trainee/trainee.dao';
 import { NextFunction, Request, Response } from 'express';
+
 import { Types } from 'mongoose';
 import { CartDTO, WishlistDTO } from './trainee.dto';
-import { Cart, EnrolledCourse, ITrainee, SubmittedQuestion, Wishlist } from './trainee.interface';
-
+import { EnrolledCourse, INote, ITrainee, SubmittedQuestion } from './trainee.interface';
 class TraineeController {
   public traineeService = new TraineeService();
 
@@ -16,6 +18,50 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.getTraineeById(traineeId);
       res.json({ data: trainee, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // @desc gets Trainee info by accessToken
+  public getTraineeInfo = async (req: RequestWithTokenPayloadAndUser, res: Response<HttpResponse<ITrainee>>, next: NextFunction): Promise<void> => {
+    try {
+      res.json({ data: req.user as ITrainee, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets all Trainees info
+  public getTrainees = async (
+    req: Request,
+    res: Response<HttpResponse<{ trainees: ITrainee[]; count: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const traineesData: ITrainee[] = await this.traineeService.getTrainees();
+      res.json({ data: { trainees: traineesData, count: traineesData.length }, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // @desc gets all Trainees info
+  public getActiveTrainees = async (
+    req: Request,
+    res: Response<HttpResponse<{ active: number; inactive: number }>>,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const activetraineesCount: number = await this.traineeService.getActiveTrainees();
+      const inactivetraineesCount: number = await this.traineeService.getInactiveTrainees();
+      res.json({
+        data: {
+          active: activetraineesCount,
+          inactive: inactivetraineesCount,
+        },
+        message: 'Completed Successfully',
+        success: true,
+      });
     } catch (error) {
       next(error);
     }
@@ -50,6 +96,19 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const trainee: ITrainee = await this.traineeService.updateTrainee(traineeId, req.body);
       res.json({ data: trainee, message: 'Updated Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public updateNotes = async (req: RequestWithTokenPayload, res: Response<HttpResponse<null>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = `${req.tokenPayload._id}`;
+      logger.info(traineeId);
+
+      const { notes } = req.body as { notes: INote[] };
+
+      await this.traineeService.updateNotes(traineeId, notes);
+      res.json({ data: null, message: 'Updated Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -135,7 +194,7 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
       const courses: ICourse[] = await this.traineeService.addToWishlist(traineeId, courseId);
-      res.json({ data: courses, message: 'Added to cart Successfully', success: true });
+      res.json({ data: courses, message: 'Added to wishlist Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -162,7 +221,7 @@ class TraineeController {
       const country = (req.query.country as string) ?? 'US';
 
       const courses: ICourse[] = await this.traineeService.removeFromWishlist(traineeId, courseId, country);
-      res.json({ data: courses, message: 'Removed from cart Successfully', success: true });
+      res.json({ data: courses, message: 'Removed from wishlist Successfully', success: true });
     } catch (error) {
       next(error);
     }
@@ -239,10 +298,13 @@ class TraineeController {
   };
 
   // get last viewed course controller
-  public getLastViewedCourse = async (req: Request, res: Response<HttpResponse<EnrolledCourse>>, next: NextFunction): Promise<void> => {
+  public getLastViewedCourse = async (
+    req: RequestWithTokenPayload,
+    res: Response<HttpResponse<EnrolledCourse>>,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
-      const traineeId = req.params.traineeId as string;
-
+      const traineeId = `${req.tokenPayload._id}`;
       const lastViewedCourse = await this.traineeService.getLastViewedCourse(traineeId);
       res.json({ data: lastViewedCourse, message: 'Completed Successfully', success: true });
     } catch (error) {
@@ -295,14 +357,79 @@ class TraineeController {
   };
 
   //submit exam controller
-  public submitExam = async (req: Request, res: Response<HttpResponse<object>>, next: NextFunction): Promise<void> => {
+  public submitExam = async (req: Request, res: Response<HttpResponse<number>>, next: NextFunction): Promise<void> => {
     try {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
       const examAnswers: string[] = req.body;
 
-      await this.traineeService.submitExam(traineeId, courseId, examAnswers);
+      const examGrade = await this.traineeService.submitExam(traineeId, courseId, examAnswers);
+      res.json({ data: examGrade, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee's submitted exam answers
+  public getSubmittedExamAnswers = async (req: Request, res: Response<HttpResponse<string[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const submittedExamAnswers = await this.traineeService.getTraineeSubmittedExamAnswers(traineeId, courseId);
+      res.json({ data: submittedExamAnswers, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee's viewed lessons controller
+  public getViewedLessons = async (req: Request, res: Response<HttpResponse<Types.ObjectId[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      const viewedLessons = await this.traineeService.getTraineeViewedLessons(traineeId, courseId);
+      res.json({ data: viewedLessons, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // get trainee's certified courses
+  public getCertifiedCourses = async (req: Request, res: Response<HttpResponse<EnrolledCourse[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+
+      const certifiedCourses = await this.traineeService.getTraineeCertifiedCourses(traineeId);
+      res.json({ data: certifiedCourses, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // send certificate by mail controller
+  public sendCertificate = async (req: Request, res: Response<HttpResponse<any>>, next: NextFunction): Promise<void> => {
+    try {
+      const traineeId = req.params.traineeId as string;
+      const courseId = req.params.courseId as string;
+
+      // 0 signifies email sent manual by user
+      const isAuto = (req.query.isAuto as string) === 'true' ?? false;
+      const certificatePDFBase64 = req.body.certificate; // Base 64 encoded
+
+      //const certificateFile = req.files.certificate as UploadedFile;
+
+      // Assuming certificate is pdf file
+      //const filePath = path.join(__dirname, '../Uploads/certificate.pdf');
+      // certificateFile.mv(filePath, err => {
+      //   if (err) {
+      //     throw new HttpException(500, 'Error sending certificate');
+      //   }
+      // });
+
+      await this.traineeService.sendCertificateByEmail(traineeId, courseId, certificatePDFBase64, isAuto);
       res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

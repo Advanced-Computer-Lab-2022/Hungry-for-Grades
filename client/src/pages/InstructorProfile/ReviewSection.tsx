@@ -1,104 +1,135 @@
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
-import { MdCheckCircle } from 'react-icons/md';
+import { useQuery } from '@tanstack/react-query';
 
-import styles from './ReviewSectior.module.scss';
+import { toast } from 'react-toastify';
 
-import ControlledStarsRating from '@/components/starsRating/ControlledStarsRating';
+import { useLocation } from 'react-router-dom';
 
-export default function ReviewSection() {
-  const [states, setStates] = useState({
-    open: false,
-    submit: false,
-    rating: 0
-  });
+import AddReview from './AddReview';
+
+import { UseUser } from '@/store/userStore';
+import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { deleteRequest, getRequest } from '@/services/axios/http-verbs';
+import { HttpResponse } from '@/interfaces/response.interface';
+import { Review } from '@/interfaces/course.interface';
+
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+import ReviewContainer from '@/components/reviewHolder/ReviewContainer';
+import { toastOptions } from '@/components/toast/options';
+
+function getMyReview(userID: string, instructorID: string) {
+  const myReview = InstructorRoutes.GET.getUserReview;
+
+  myReview.URL = `/instructor/rating/${instructorID}/trainee/${userID}`;
+
+  return getRequest<HttpResponse<Review>>(myReview);
+}
+
+export default function ReviewSection(props: { instructrID: string }) {
+  /*
+  i get my Review for this instructor if possible 
+  if i can review this instructor then i will show my review with the option to update
+  if i don't have a review hence i will add the review section and try to add review
+  */
+
+  const user = UseUser();
+
+  const [update, setUpdate] = useState(0);
+
+  const [showForm, setShowForm] = useState<boolean>(false);
+
+  function handleUpdate() {
+    setUpdate(update + 1);
+    setShowForm(false);
+  }
+
+  const locationn = useLocation();
+
+  const { data, isLoading, isError, error } = useQuery(
+    ['person-get-my-instructor-reviewwwww', locationn, update],
+    () => getMyReview(user?._id as string, props?.instructrID),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000,
+      enabled: true // 1 second
+    }
+  );
+
+  if (isLoading) return <LoaderComponent />;
+
+  if (isError || error) return <ErrorMessage />;
+
+  const review = data?.data?.data;
+
+  console.log(review);
+
+  async function handleDelete() {
+    const rev = InstructorRoutes.DELETE.userDeleteReview;
+
+    rev.URL = `/instructor/rating/${props.instructrID}/trainee/${
+      user?._id as string
+    }`;
+
+    await deleteRequest(rev);
+
+    setUpdate(update + 1);
+
+    toast.success('Your Review is Deleted Successfully...', toastOptions);
+  }
 
   return (
-    <div style={{ marginBottom: '2rem' }}>
-      {!states.open && !states.submit && (
-        <button
-          className='btn btn-danger'
-          style={{ fontSize: '1.1rem', fontWeight: '500' }}
-          type='button'
-          onClick={() =>
-            setStates(prev => {
-              return { ...prev, open: true };
-            })
-          }
-        >
-          Review Instructor
-        </button>
-      )}
-
-      {states.open && (
-        <div className={styles.review_editor}>
-          <div
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              marginBottom: '1.5rem'
-            }}
-          >
-            How do you rate this Instructor
+    <>
+      {review != null && review != undefined && (
+        <>
+          <div style={{ fontWeight: '700', fontSize: '1.5rem' }}>
+            Your Review
           </div>
-
-          <ControlledStarsRating
-            rating={states.rating}
-            setRating={function (
-              value: SetStateAction<{
-                open: boolean;
-                submit: boolean;
-                rating: number;
-              }>
-            ): void {
-              setStates(prev => {
-                return { ...prev, rating: value };
-              });
+          <ReviewContainer
+            comment={review?.comment}
+            country={review?._trainee?.country}
+            createdAt={review?.createdAt.toString()}
+            img={review?._trainee?.profileImage}
+            name={review?._trainee?.name}
+            rating={review?.rating}
+          />
+          <button
+            style={{
+              border: 'none',
+              backgroundColor: '#a00407',
+              color: 'white',
+              borderRadius: '10px'
             }}
-          />
-
-          <textarea
-            aria-label='With textarea'
-            className='form-control'
-            placeholder='Write Review'
-            style={{ marginBottom: '2rem' }}
-          />
-
-          <button
-            className='btn btn-danger'
-            style={{ fontSize: '1rem', fontWeight: '600' }}
             type='button'
-            onClick={() =>
-              setStates(prev => {
-                return { ...prev, open: false };
-              })
-            }
+            onClick={() => setShowForm(!showForm)}
           >
-            Cancel
+            Edit
           </button>
-          <>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>
-
           <button
-            className='btn btn-primary'
-            style={{ fontSize: '1rem', fontWeight: '600' }}
+            style={{ border: 'none', color: '#a00407', borderRadius: '10px' }}
             type='button'
-            onClick={() =>
-              setStates(prev => {
-                return { ...prev, submit: true, open: false };
-              })
-            }
+            onClick={() => handleDelete()}
           >
-            Submit
+            Delete
           </button>
-        </div>
+        </>
       )}
-      {states.submit && (
-        <div style={{ fontSize: '1rem', fontWeight: '700', color: 'green' }}>
-          Your Review is Added Successfully
-          <>&nbsp;</>
-          <MdCheckCircle />{' '}
-        </div>
+      {showForm && review != null && review != undefined && (
+        <AddReview
+          isUpdating
+          instructorID={props?.instructrID}
+          updateFunction={handleUpdate}
+        />
       )}
-    </div>
+      {(review && null) ||
+        (review == undefined && (
+          <AddReview
+            instructorID={props?.instructrID}
+            isUpdating={false}
+            updateFunction={handleUpdate}
+          />
+        ))}
+    </>
   );
 }

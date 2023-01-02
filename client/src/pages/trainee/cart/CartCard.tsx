@@ -1,32 +1,33 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useQuery } from '@tanstack/react-query';
 
 import styles from './cart-card.module.scss';
 
-import CourseRating from '@pages/course/CourseRating';
+import CourseRating from '@/pages/guest/course/CourseRating';
 
-import { Rating } from '@/interfaces/course.interface';
+import { CourseDiscount, Rating } from '@/interfaces/course.interface';
 
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 
 import { deleteRequest, postRequest } from '@/services/axios/http-verbs';
 
 import { UseCartStoreRemoveCourse } from '@/store/cartStore';
-import { POSTRoutesType } from '@/services/axios/types';
 
-function remove(courseId: string) {
+import { POSTRoutesType } from '@/services/axios/types';
+import { UseUser } from '@/store/userStore';
+import { IUser } from '@/interfaces/user.interface';
+
+function remove(courseId: string, user: IUser) {
   const Courses = TraineeRoutes.DELETE.removeFromCart;
 
-  Courses.URL = `/trainee/637969352c3f71696ca34759/cart/${courseId}`;
+  Courses.URL = `/trainee/${user?._id}/cart/${courseId}`;
 
   return deleteRequest(Courses);
 }
 
-function move(courseId: string) {
+function move(courseId: string, user: IUser) {
   const Courses = TraineeRoutes.POST.addToWishlist;
 
-  Courses.URL = `/trainee/637969352c3f71696ca34759/wishlist/${courseId}`;
+  Courses.URL = `/trainee/${user?._id}/wishlist/${courseId}`;
 
   return postRequest(Courses as POSTRoutesType);
 }
@@ -38,26 +39,32 @@ export default function CartCard(props: {
   category: string;
   subcategory: string;
   price: number;
-  discount: [];
+  discount: CourseDiscount[];
   currency: string;
   img: string;
-  old: number;
+  old: number | undefined;
   id: string;
   passedFunction2(): unknown;
 }) {
   const rating: Rating = { averageRating: props.rating, reviews: [] };
 
+  const user = UseUser();
+
   const removeFromCart = UseCartStoreRemoveCourse();
 
-  const { refetch } = useQuery(['ASJLHFXYZZZY'], () => remove(props.id), {
-    cacheTime: 1000 * 60 * 60 * 24,
-    retryDelay: 1000, // 1 second
-    enabled: false
-  });
+  const { refetch } = useQuery(
+    ['ASJLHFXYZZZY'],
+    () => remove(props.id, user as IUser),
+    {
+      cacheTime: 1000 * 60 * 60 * 24,
+      retryDelay: 1000, // 1 second
+      enabled: false
+    }
+  );
 
   const { refetch: moveToWishListRefetch } = useQuery(
     ['ASJLHFXYZZZYX'],
-    () => move(props.id),
+    () => move(props.id, user as IUser),
     {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000, // 1 second
@@ -101,8 +108,12 @@ export default function CartCard(props: {
           <span>{props.subcategory}</span>
         </div>
         <div className={styles.actions}>
-          <span onClick={handleRemoveCart}>Remove</span>
-          <span onClick={handleMoveToWishList}>Move to Whishlist</span>
+          <button type='button' onClick={handleRemoveCart}>
+            Remove
+          </button>
+          <button type='button' onClick={handleMoveToWishList}>
+            Move to Whishlist
+          </button>
         </div>
       </div>
       <div className={styles.pricing}>

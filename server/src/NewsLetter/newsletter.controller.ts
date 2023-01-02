@@ -1,7 +1,6 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { isEmpty } from '@/Utils/util';
 import { HttpResponse } from '@/Utils/HttpResponse';
-import { logger } from '@/Utils/logger';
 import { sendEmail } from '@/Common/Email Service/nodemailer.service';
 import { INewsletter } from './newsletter.interface';
 import { PaginatedData, PaginatedResponse } from '@/Utils/PaginationResponse';
@@ -15,22 +14,20 @@ class NewsController {
   public getAllEmails = async (req: Request<{}, {}, {}, INewsLetterFilters>, res: Response<PaginatedResponse<INewsletter>>, next: NextFunction) => {
     try {
       const requestFilters: INewsLetterFilters = req.query;
-      logger.info(requestFilters.email);
 
       const newsLetterPaginatedResponse: PaginatedData<INewsletter> = (await this.newsLetterService.getAllEmails(
         requestFilters,
       )) as PaginatedData<INewsletter>;
-      logger.info(newsLetterPaginatedResponse);
 
       res.json({ ...newsLetterPaginatedResponse, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }
   };
-  public sendEmails = async (req: Request<{}, {}, { body: string; subject: string }, INewsLetterFilters>, res: Response, next: NextFunction) => {
+  public sendEmails = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { body, subject } = req.body;
-      const requestFilters: INewsLetterFilters = req.query;
+      const requestFilters = req.query as unknown as INewsLetterFilters;
       if (isEmpty(req.body) && body && subject)
         throw new HttpException(400, 'Please provide the body and subject of the email to be sent to the users');
       const emails = await this.newsLetterService.getAllEmails(requestFilters);

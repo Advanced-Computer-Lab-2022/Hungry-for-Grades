@@ -5,7 +5,7 @@ import * as yt from 'youtube-info-streams';
 import { getYoutubeVideoID } from './course.common';
 import categories from '@Course/category.json';
 
-//balabizo
+//course 
 const courseSchema = new Schema<ICourse>(
   {
     _instructor: [
@@ -39,7 +39,6 @@ const courseSchema = new Schema<ICourse>(
     },
     description: requiredString,
     duration: {
-      required: true,
       type: Number,
     },
     exam: [
@@ -95,6 +94,7 @@ const courseSchema = new Schema<ICourse>(
         type: [
           {
             endDate: Date,
+            issuedByInstructor: Boolean,
             percentage: Number,
             startDate: Date,
           },
@@ -154,6 +154,16 @@ const courseSchema = new Schema<ICourse>(
     subcategory: [requiredString],
     thumbnail: requiredString,
     title: requiredString,
+    examGrades: {
+      average: {
+        default: 0,
+        type: Number,
+      },
+      totalAttempts: {
+        default: 0,
+        type: Number,
+      },
+    },
   },
   {
     timestamps: true,
@@ -171,7 +181,7 @@ courseSchema.pre('save', async function (next) {
     if (this.isModified('exam')) {
       this.exam.forEach(question => {
         if (!question.options.includes(question.answer)) {
-          throw new Error('Answer is not included inside options array in exam');
+          throw new Error(`Answer '${question.answer}' is not included inside options array in exam`);
         }
       });
     }
@@ -180,7 +190,7 @@ courseSchema.pre('save', async function (next) {
       section.exercises.forEach(exercise => {
         exercise.questions.forEach(question => {
           if (!question.options.includes(question.answer)) {
-            throw new Error('Answer is not included inside options array in sections exercises');
+            throw new Error(`Answer '${question.answer}' is not included inside options array in sections exercises`);
           }
         });
       });

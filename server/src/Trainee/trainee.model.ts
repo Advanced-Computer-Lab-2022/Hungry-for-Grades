@@ -22,6 +22,19 @@ const traineeSchema = new Schema<ITrainee>(
             submittedAnswer: String,
           },
         ],
+        _submittedExamAnswers: {
+          default: [],
+          type: [
+            {
+              type: String,
+              _id: false,
+            },
+          ],
+        },
+        seenAnswers: {
+          default: false,
+          type: Boolean,
+        },
         _visitedLessons: [{ ref: 'Lesson', type: Schema.Types.ObjectId }],
         dateOfCompletion: Date,
         dateOfEnrollment: Date,
@@ -29,13 +42,7 @@ const traineeSchema = new Schema<ITrainee>(
           default: 0,
           type: Number,
         },
-        notes: [
-          {
-            content: String,
-            createdAt: Date,
-            title: String,
-          },
-        ],
+
         progress: {
           default: 0,
           type: Number,
@@ -47,7 +54,6 @@ const traineeSchema = new Schema<ITrainee>(
       type: Schema.Types.ObjectId,
     },
     _wishlist: [{ ref: 'Course', type: Schema.Types.ObjectId }],
-
     active: {
       default: true,
       type: Boolean,
@@ -56,6 +62,7 @@ const traineeSchema = new Schema<ITrainee>(
       default: 0,
       type: Number,
     },
+
     country: String,
     creditCards: [
       {
@@ -81,11 +88,31 @@ const traineeSchema = new Schema<ITrainee>(
       default: false,
       type: Boolean,
     },
+    corporate: {
+      type: String,
+      default: null,
+    },
     lastLogin: {
       type: Date,
     },
-
     name: requiredString,
+    notes: [
+      {
+        _id: false,
+        courseName: String,
+        id: String,
+        lessonId: String,
+        markdown: String,
+        tags: [
+          {
+            _id: false,
+            id: String,
+            label: String,
+          },
+        ],
+        title: String,
+      },
+    ],
     password: { ...requiredString, minlength: 8 },
     phone: String,
     preferredSkills: [

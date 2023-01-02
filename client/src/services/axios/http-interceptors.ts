@@ -7,9 +7,9 @@ import axios, {
 
 import SessionStorage from '../sessionStorage/SessionStorage';
 
-import { type IToken } from '@interfaces/token.interface';
+import { removeInfo } from '../savedInfo/SavedInfo';
 
-import LocalStorage from '@services/localStorage/LocalStorage';
+import LocalStorage from '@/services/localStorage/LocalStorage';
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -19,12 +19,9 @@ let http: AxiosInstance;
 
 function onRequest(config: AxiosRequestConfig): AxiosRequestConfig {
   const accessToken = SessionStorage.get<string | null>('accessToken');
-  console.log('accessToken');
-  console.log(accessToken);
 
   if (accessToken) {
-    const authorization = `Bearers ${accessToken}`;
-
+    const authorization = `Bearer ${accessToken}`;
     config.headers.Authorization = authorization;
   }
   return config;
@@ -61,36 +58,40 @@ function onResponse(response: AxiosResponse): AxiosResponse {
 }
 
 async function onResponseError(error: AxiosError): Promise<AxiosError> {
-  const unParsedToken = LocalStorage.get('_TOKEN');
+  const rememberMe = LocalStorage.get('rememberMe');
+  console.log(error);
+
   if (
     error.response &&
-    unParsedToken &&
     error.response.status === 401 &&
     error.response.data
+
     //error.response.data?.error !== null &&
     //error.response.data?.message === 'jwt expired'
   ) {
     try {
       const prevRequest = error.config;
-
-      if (prevRequest && !prevRequest?.sent) {
-        const { refreshToken } = unParsedToken as IToken;
+      if (prevRequest && !prevRequest?.sent && rememberMe) {
         prevRequest.sent = true;
-        const res = await axios.post(`${APP_BASE_API_URL}/refresh`, {
-          refreshToken: refreshToken
-        });
 
-        const { accessToken }: { accessToken: string } = res.data as {
+        const res = await axios.get(`${APP_BASE_API_URL}/refresh`, {
+          withCredentials: true
+        });
+        const { accessToken }: { accessToken: string } = res.data.data as {
           accessToken: string;
         };
-        SessionStorage.set('accessToken', accessToken);
+        SessionStorage.set<string>('accessToken', accessToken);
+        prevRequest.headers.Authorization = `Bearer ${accessToken}`;
+        window.location.reload();
         await http(prevRequest);
       } else {
+        removeInfo();
+        window.location.replace(loginRoute);
         return await Promise.reject(error);
       }
     } catch (_error) {
-      LocalStorage.remove('_TOKEN');
-      SessionStorage.remove('accessToken');
+      removeInfo();
+
       window.location.replace(loginRoute);
 
       return Promise.reject(_error);

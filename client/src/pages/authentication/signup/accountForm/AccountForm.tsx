@@ -10,6 +10,7 @@ import Input from '@components/inputs/input/Input';
 import Button from '@/components/buttons/button/Button';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import Modal from '@components/modal/Modal';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
 function AccountForm({
   email,
   password,
@@ -61,6 +62,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.username}
           hint=''
+          id='accountform-username'
           isError={
             formik.touched.username && formik.errors.username ? true : null
           }
@@ -81,6 +83,7 @@ function AccountForm({
           correctMessage=''
           errorMessage={formik.errors.email}
           hint=''
+          id='accountform-emailAddress'
           isError={formik.touched.email && formik.errors.email ? true : null}
           isTop={false}
           label='Email Address'
@@ -94,11 +97,12 @@ function AccountForm({
         />
       </div>
       <div className='col-12 col-md-6  my-3'>
-        <Input
+        <PasswordInput
           key='password'
           correctMessage=''
           errorMessage={formik.errors.password}
           hint=''
+          id='accountform-password'
           isError={
             formik.touched.password && formik.errors.password ? true : null
           }
@@ -114,11 +118,12 @@ function AccountForm({
         />
       </div>
       <div className='col-12 col-md-6  my-3'>
-        <Input
+        <PasswordInput
           key='confirmPassword'
           correctMessage=''
           errorMessage={formik.errors.confirmPassword}
           hint=''
+          id='accountform-confirmPassword'
           isError={
             formik.touched.confirmPassword && formik.errors.confirmPassword
               ? true
@@ -141,6 +146,7 @@ function AccountForm({
           data-bs-target={`#modalTerms`}
           data-bs-toggle='modal'
           href='/'
+          id='accountform-modalTerms'
           type='button'
         >
           <CheckBoxInput

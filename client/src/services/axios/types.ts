@@ -7,6 +7,10 @@ import { AuthRoutes } from './dataServices/AuthDataService';
 import { TraineeRoutes } from './dataServices/TraineeDataService';
 import { NewsLetterRoutes } from './dataServices/NewsLetterDataService';
 
+import { PaymentRoutes } from './dataServices/PaymenrDataService';
+
+import { ReportDataService } from '@services/axios/dataServices/ReportDataService';
+
 /**
  * HTTP methods
  */
@@ -27,29 +31,36 @@ export type AdminRoutesType = typeof AdminRoutes['POST'][keyof Partial<
   typeof AdminRoutes['POST']
 >];
 
-export type CoursesRoutesType = typeof CoursesRoutes['GET'][keyof Partial<
-  typeof CoursesRoutes['GET']
->];
-
-export type InstructorRouteType<T extends 'GET' | 'POST'> =
+export type InstructorRouteType<T extends 'GET' | 'POST' | 'PATCH' | 'DELETE'> =
   typeof InstructorRoutes[T][keyof Partial<typeof InstructorRoutes[T]>];
 
-export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
+export type TraineeRouteType<T extends 'GET' | 'POST' | 'DELETE' | 'PATCH'> =
   typeof TraineeRoutes[T][keyof Partial<typeof TraineeRoutes[T]>];
 
 export type NewsLetterRouteType<T extends 'GET' | 'POST' | 'DELETE'> =
   typeof NewsLetterRoutes[T][keyof Partial<typeof NewsLetterRoutes[T]>];
+
+export type ReportRouteType<T extends 'GET' | 'POST' | 'PATCH'> =
+  typeof ReportDataService[T][keyof Partial<typeof ReportDataService[T]>];
+
+export type CourseRouteType<T extends 'GET' | 'POST' | 'PUT' | 'DELETE'> =
+  typeof CoursesRoutes[T][keyof Partial<typeof CoursesRoutes[T]>];
+
+export type PaymentRouteType = typeof PaymentRoutes['POST'][keyof Partial<
+  typeof PaymentRoutes['POST']
+>];
 
 /**
  * All GET routes that are available for the  data service
  */
 export type GETRoutesType =
   | CategoryRouteType
-  | CoursesRoutesType
+  | CourseRouteType<'GET'>
   | InstructorRouteType<'GET'>
   | AuthRoutesType<'GET'>
   | TraineeRouteType<'GET'>
-  | NewsLetterRouteType<'GET'>;
+  | NewsLetterRouteType<'GET'>
+  | ReportRouteType<'GET'>;
 /**
  * All POST routes that are available for the  data service
  */
@@ -58,7 +69,9 @@ export type POSTRoutesType =
   | AuthRoutesType<'POST'>
   | TraineeRouteType<'POST'>
   | NewsLetterRouteType<'POST'>
-  | InstructorRouteType<'POST'>;
+  | InstructorRouteType<'POST'>
+  | ReportRouteType<'POST'>
+  | PaymentRouteType;
 
 /**
  * All Delete Requests
@@ -66,11 +79,16 @@ export type POSTRoutesType =
 
 export type DELETERoutesType =
   | TraineeRouteType<'DELETE'>
-  | NewsLetterRouteType<'DELETE'>;
+  | NewsLetterRouteType<'DELETE'>
+  | CourseRouteType<'DELETE'>
+  | InstructorRouteType<'DELETE'>;
 
 /**
  * All PUT routes that are available for the  data service
  */
-export type PUTRoutesType = null;
-export type PATCHRoutesType = null;
+export type PUTRoutesType = CourseRouteType<'PUT'>;
+export type PATCHRoutesType =
+  | ReportRouteType<'PATCH'>
+  | InstructorRouteType<'PATCH'>
+  | TraineeRouteType<'PATCH'>;
 //export type DELETERoutesType = null;

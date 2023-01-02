@@ -1,10 +1,9 @@
 import { HttpException } from '@/Exceptions/HttpException';
 import { verifyRefreshToken } from '@/Token/token.util';
 import { UserDTO, UserLoginDTO } from '@/User/user.dto';
-import { Role } from '@/User/user.enum';
+import { UserRole } from '@/User/user.enum';
 import { HttpResponse } from '@/Utils/HttpResponse';
 import HttpStatusCodes from '@/Utils/HttpStatusCodes';
-import { logger } from '@/Utils/logger';
 import AuthService from '@Authentication/auth.dao';
 import { type IUser } from '@User/user.interface';
 import { NextFunction, Request, Response } from 'express';
@@ -15,9 +14,8 @@ class AuthController {
 
   public signUp = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.info('signUp');
       const userData: UserDTO = req.body;
-      const signUpUserData: IUser = await this.authService.signup(userData, Role.TRAINEE);
+      const signUpUserData: IUser = await this.authService.signup(userData, UserRole.TRAINEE);
 
       res.status(HttpStatusCodes.CREATED).json({
         data: signUpUserData,
@@ -31,16 +29,31 @@ class AuthController {
   // @desc login
   // @route POST /login
   // @access Public
-  public logIn = async (req: Request, res: Response, next: NextFunction) => {
+  public logIn = async (
+    req: Request,
+    res: Response<
+      HttpResponse<{
+        firstLogin: boolean;
+        role: UserRole;
+        token: {
+          accessToken: string;
+          refreshToken: string;
+        };
+        user: IUser;
+      }>
+    >,
+    next: NextFunction,
+  ) => {
     try {
       const userData: UserLoginDTO = req.body;
-      const { cookie, findUser, accessToken, refreshToken, role } = await this.authService.login(userData);
+      const { cookie, findUser, accessToken, refreshToken, role, firstLogin } = await this.authService.login(userData);
 
       //res.setHeader('Set-Cookie', [cookie]);
       res.cookie(cookie.name, cookie.value, cookie.options);
       res.status(HttpStatusCodes.OK).json({
-        data: { role, token: { accessToken, expiryToken: cookie.options.maxAge, refreshToken }, user: findUser },
+        data: { firstLogin, role, token: { accessToken, refreshToken }, user: findUser },
         message: 'login',
+        success: true,
       });
     } catch (error) {
       next(error);
@@ -79,14 +92,15 @@ class AuthController {
   public refresh = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { cookies } = req;
-      if (!cookies || !cookies?.Authorization) throw new HttpException(HttpStatusCodes.UNAUTHORIZED, "There's No Authorization Cookies");
-
       const refreshToken = cookies.Authorization ?? cookies.authorization;
+      if (!cookies || (!cookies?.Authorization && !cookies.authorization))
+        throw new HttpException(HttpStatusCodes.UNAUTHORIZED, "There's No Authorization Cookies");
+
       const accessToken = verifyRefreshToken(refreshToken);
 
       res.status(HttpStatusCodes.OK).json({
         data: { accessToken },
-        message: 'refreshed refresh token',
+        message: 'refreshed access token',
       });
     } catch (error) {
       next(error);
@@ -97,7 +111,9 @@ class AuthController {
   public forgetPassword = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
     try {
       const { email } = req.body;
-      await this.authService.sendResetPasswordEmail(email);
+      const { cookie } = await this.authService.sendResetPasswordEmail(email);
+      res.cookie(cookie.name, cookie.value, cookie.options);
+
       res.status(HttpStatusCodes.CREATED).json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
@@ -107,8 +123,8 @@ class AuthController {
   // send verification email
   public sendVerificationEmail = async (req: Request, res: Response<HttpResponse<Number>>, next: NextFunction): Promise<void> => {
     try {
-      const { email, username } = req.body;
-      const verificationCode: Number = await this.authService.sendVerificationEmail(email, username);
+      const { email, username,name } = req.body;
+      const verificationCode: Number = await this.authService.sendVerificationEmail(email, username,name);
       res.status(HttpStatusCodes.CREATED).json({ data: verificationCode, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
@@ -116,10 +132,14 @@ class AuthController {
   };
 
   // Change Password
-  public changePassword = async (req: Request, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
+  public changePassword = async (req: RequestWithTokenPayload, res: Response<HttpResponse<IUser>>, next: NextFunction): Promise<void> => {
     try {
-      const { _id, role, oldPassword, newPassword } = req.body;
-      const user = await this.authService.changePassword(_id, role, oldPassword, newPassword);
+      const { oldPassword, newPassword } = req.body;
+      // old Password only if isReset=false
+      const isReset = (req.query.isReset as string) === 'true';
+
+      const { _id, role } = req.tokenPayload;
+      const user = await this.authService.changePassword(_id.toString() ?? '', role, oldPassword, newPassword, isReset);
       res.status(HttpStatusCodes.CREATED).json({ data: user, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

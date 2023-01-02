@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 import { getSubmittedQuestions } from '@/services/axios/dataServices/TraineeDataService';
-import LoaderCards from '@/components/loader/loaderCard/LoaderCards';
 import { ICourseExercise } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
+import Loader from '@/components/loader/loaderpage/Loader';
 
 function ExerciseResult(props: ICourseExercise) {
   const traineeId = useTraineeId();
@@ -16,7 +16,7 @@ function ExerciseResult(props: ICourseExercise) {
   if (isLoading) {
     return (
       <div className='container'>
-        <LoaderCards numberOfCards={6} />
+        <Loader />
       </div>
     );
   } else if (isError) {
@@ -54,8 +54,10 @@ function ExerciseResult(props: ICourseExercise) {
         {data?.map((d, index) => {
           return (
             <div key={d._questionId} className='row m-3'>
-              <h6>Question #{index + 1}</h6>
-              <p>
+              <h6 className='text-dark'>
+                1. {props.questions[index]?.question}
+              </h6>
+              <p className='text-dark'>
                 Your answer was: {d.submittedAnswer}
                 <br />
                 Correct answer is: {props.questions[index]?.answer}

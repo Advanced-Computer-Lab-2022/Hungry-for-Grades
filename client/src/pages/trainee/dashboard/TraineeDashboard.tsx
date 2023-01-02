@@ -1,54 +1,48 @@
-import { NavLink, Outlet } from 'react-router-dom';
-
 import { RiDashboardFill } from 'react-icons/ri';
 import { BsFillBookFill } from 'react-icons/bs';
-import { AiFillHeart, AiFillCreditCard } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 import { BiNote } from 'react-icons/bi';
 import { HiShoppingCart } from 'react-icons/hi';
 import { FiUser } from 'react-icons/fi';
+import { FaPaintBrush } from 'react-icons/fa';
+import { VscReport } from 'react-icons/vsc';
 
-import styles from './trainee-dashboard.module.scss';
+import Dashboard from '@/components/dashboard/Dashboard';
+import MusicPlayer from '@/components/mediaPlayer/Music';
+import { UseUser } from '@/store/userStore';
+import { ITrainee } from '@/interfaces/course.interface';
 
-function navIsActive({ isActive }: { isActive: boolean }) {
-  return `${isActive ? styles.active__link ?? '' : ''} ${
-    styles.listitem ?? ''
-  }`;
-}
-
-const navLinks = {
+const corpLinks = {
   Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
-  Courses: { path: '/trainee/courses', icon: <BsFillBookFill /> },
-  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
-  Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
+  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
   Notes: { path: '/trainee/notes', icon: <BiNote /> },
-  Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
+  Reports: { path: '/trainee/reports', icon: <VscReport /> },
   Profile: { path: '/trainee/profile', icon: <FiUser /> }
 };
+
+const traineeLinks = {
+  Dashboard: { path: '/trainee/dashboard', icon: <RiDashboardFill /> },
+  Courses: { path: '/trainee/enrolled-courses', icon: <BsFillBookFill /> },
+  Cart: { path: '/trainee/cart', icon: <HiShoppingCart /> },
+  Wishlist: { path: '/trainee/wishlist', icon: <AiFillHeart /> },
+  Notes: { path: '/trainee/notes', icon: <BiNote /> },
+  //Payment: { path: '/trainee/payment', icon: <AiFillCreditCard /> },
+  Board: { path: '/trainee/board', icon: <FaPaintBrush /> },
+  Reports: { path: '/trainee/reports', icon: <VscReport /> },
+  Profile: { path: '/trainee/profile', icon: <FiUser /> }
+};
+
 function TraineeDashboard() {
+  const user = UseUser();
+
   return (
-    <>
-      <div>
-        <div className={styles.hero}>
-          <div style={{ marginLeft: '15%', marginTop: '2rem' }}>
-            <div className={styles.mylearning}>My learning</div>
-            <div className={styles.list}>
-              {Object.keys(navLinks).map((key: string) => (
-                <div key={key} style={{ marginRight: '3.2rem' }}>
-                  <NavLink
-                    className={navIsActive}
-                    style={{ color: 'inherit' }}
-                    to={navLinks[key].path as string}
-                  >
-                    <span className=''>{navLinks[key].icon}</span> &nbsp;{key}
-                  </NavLink>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <Outlet />
-    </>
+    <Dashboard
+      media={<MusicPlayer />}
+      navLinks={(user as ITrainee)?.isCorporate ? corpLinks : traineeLinks}
+      title='My Learning'
+    />
   );
 }
 export default TraineeDashboard;

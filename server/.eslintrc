@@ -22,10 +22,10 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-var-requires": "error",
-    "typescript-sort-keys/interface": "error",
-    "typescript-sort-keys/string-enum": "error",
-    "sort-keys": "error",
-    "no-console": "error",
+    "typescript-sort-keys/interface": "off",
+    "typescript-sort-keys/string-enum": "off",
+    "sort-keys": "off",
+    "no-console": "warn",
     "no-debugger": "error",
     "no-var": "error",
     "prefer-const": "error",
@@ -34,7 +34,7 @@
     "prefer-rest-params": "error",
     "prefer-spread": "error",
     "prefer-destructuring": "error",
-    "sort-keys-fix/sort-keys-fix": "error",
+    "sort-keys-fix/sort-keys-fix": "off",
     "xss/no-location-href-assign": "error",
     "xss/no-mixed-html": "off"
   }

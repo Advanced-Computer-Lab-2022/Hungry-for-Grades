@@ -1,13 +1,23 @@
-import axios from 'axios';
+import {
+  deleteRequest,
+  getRequest,
+  patchRequest,
+  postRequest
+} from '../http-verbs';
 
-import { getCourseReviews } from './CoursesDataService';
+import { createQueryString, getCourseReviews } from './CoursesDataService';
 
-import { Review, ICourseReview, Rating } from '@/interfaces/course.interface';
+import {
+  Review,
+  ICourseReview,
+  Rating,
+  EnrolledCourse,
+  ICourse,
+  ReviewDTO
+} from '@/interfaces/course.interface';
 import { PaginatedRequest } from '@/interfaces/request.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { SubmittedQuestion } from '@/interfaces/user.interface';
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 export const TraineeRoutes = {
   GET: {
@@ -15,305 +25,64 @@ export const TraineeRoutes = {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            _course: {
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: []
-              },
-              rating: {
-                averageRating: 0,
-                reviews: []
-              },
-              _id: '',
-              _instructor: [
-                {
-                  rating: {
-                    reviews: []
-                  },
-                  _id: '',
-                  name: '',
-                  profileImage: ''
-                }
-              ],
-              captions: [''],
-              category: '',
-              duration: 0,
-              language: '',
-              level: '',
-              previewVideoURL: '',
-              subcategory: [''],
-              thubmnail: '',
-              title: '',
-              id: ''
-            },
-            dateOfEnrollment: '',
-            _id: '',
-            notes: [],
-            examGrade: 0,
-            progress: 0
-          }
-        ]
-      }
+      payload: {}
     },
     getMyCart: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            price: {
-              currency: '',
-              currentValue: 0,
-              discounts: []
-            },
-            rating: {
-              averageRating: 0,
-              reviews: []
-            },
-            _id: '',
-            _instructor: [
-              {
-                rating: {
-                  averageRating: 0,
-                  reviews: []
-                },
-                _id: '',
-                name: '',
-                profileImage: '',
-                speciality: '',
-                title: ''
-              }
-            ],
-            category: '',
-            description: '',
-            subcategory: [''],
-            thumbnail: '',
-            title: '',
-            id: ''
-          }
-        ]
-      }
+      payload: {}
     },
     getMyWishlist: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            price: {
-              currency: '',
-              currentValue: 0,
-              discounts: [
-                {
-                  endData: '',
-                  percentage: 0,
-                  startDate: '',
-                  _id: ''
-                }
-              ]
-            },
-            rating: {
-              averageRating: 0,
-              reviews: []
-            },
-            _id: '',
-            _instructor: [
-              {
-                rating: {
-                  averageRating: 0,
-                  reviews: []
-                },
-                _id: '',
-                name: '',
-                profileImage: '',
-                speciality: '',
-                title: ''
-              }
-            ],
-            category: '',
-            description: '',
-            subcategory: [''],
-            thumbnail: '',
-            title: '',
-            id: ''
-          }
-        ]
-      }
+      payload: {}
     },
     getLastViewed: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: {
-          price: {
-            currency: '',
-            currentValue: 0,
-            discounts: []
-          },
-          rating: {
-            averagerating: 0,
-            reviews: []
-          },
-          _id: '',
-          _instructor: [
-            {
-              rating: {
-                averageRating: 0,
-                reviews: []
-              },
-              _id: '',
-              name: '',
-              profileImage: '',
-              speciality: '',
-              title: ''
-            }
-          ],
-          category: '',
-          description: '',
-          subcategory: [],
-          thubmnail: '',
-          title: '',
-          id: ''
-        },
-        message: '',
-        success: true
-      }
+      payload: {}
     },
     getEnrolledCourse: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [
-          {
-            _course: {
-              _id: '',
-              category: '',
-              description: '',
-              duration: 0,
-              level: '',
-              numberOfEnrolledTrainees: 0,
-              previewVideoURL: '',
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: [
-                  {
-                    endDate: '',
-                    percentage: 0,
-                    startDate: '',
-                    _id: ''
-                  }
-                ]
-              },
-              rating: {
-                averageRating: 0
-              },
-              subcategory: [''],
-              thumbnail: '',
-              title: ''
-            },
-            earning: 0
-          },
-          {
-            _course: {
-              _id: '',
-              category: '',
-              description: '',
-              duration: 0,
-              level: '',
-              numberOfEnrolledTrainees: 0,
-              previewVideoURL: '',
-              price: {
-                currency: '',
-                currentValue: 0,
-                discounts: []
-              },
-              rating: {
-                averageRating: 0
-              },
-              subcategory: ['', ''],
-              thumbnail: '',
-              title: ''
-            },
-            earning: 0
-          }
-        ],
-        page: 0,
-        pageSize: 0,
-        totalPages: 0,
-        totalResults: 0,
-        message: '',
-        success: false
-      }
+      payload: {}
     },
     getTrainee: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: {
-          _id: '',
-          _cart: [''],
-          _wishlist: [''],
-          active: false,
-          balance: 0,
-          email: {
-            address: '',
-            _id: '',
-            isVerified: false
-          },
-          name: '',
-          preferredSkills: [],
-          profileImage: '',
-          username: '',
-          _enrolledCourses: [
-            {
-              _course: '',
-              dateOfEnrollment: '',
-              _id: '',
-              notes: [],
-              examGrade: 0,
-              progress: 0,
-              dateOfCompletion: '',
-              _visitedLessons: [],
-              _submittedQuestions: [
-                {
-                  _questionId: '',
-                  submittedAnswer: ''
-                }
-              ]
-            }
-          ],
-          creditCards: [],
-          createdAt: '',
-          updatedAt: '',
-          lastLogin: '',
-          phone: '',
-          gender: '',
-          __v: 0,
-          country: '',
-          _lastViewedCourse: ''
-        },
-        message: '',
-        success: false
-      }
+      payload: {}
+    },
+    getSubmittedQuestions: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getEnrolledCourseById: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
+    },
+    getViewedLessons: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: ''
     }
   },
   POST: {
+    storeNotes: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
     signup: {
       URL: '/trainee/signup' as const,
       params: '',
@@ -329,55 +98,104 @@ export const TraineeRoutes = {
         password: '',
         gender: '',
         country: ''
-      },
-      response: {
-        data: {
-          accessToken: '',
-          refreshToken: ''
-        }
       }
     },
     addToWishlist: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: [],
-        message: '',
-        success: false
-      }
+      payload: {}
+    },
+    addToCart: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     },
     changePassword: {
       URL: '/change-password' as const,
       params: '',
       query: '',
+      payload: {}
+    },
+    addSubmittedQuestion: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {} as object
+    },
+    addReviewToCourse: {
+      URL: 'courses/rating',
+      params: '',
+      query: '',
+      payload: {} as Review
+    },
+    checkout: {
+      URL: '',
+      params: '',
+      query: '',
       payload: {},
-      response: {
-        data: {},
-        message: '',
-        success: false
-      }
+      response: {}
+    },
+    savePayment: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {},
+      response: {}
+    },
+    sendCertificateByMail: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   },
   DELETE: {
+    removeFromWishlist: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
     removeFromCart: {
       URL: '',
       params: '',
       query: '',
-      payload: '',
-      response: {
-        data: '',
-        message: '',
-        success: ''
-      }
+      payload: {}
+    },
+    renoveFromWishList: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    deleteCourseReview: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    }
+  },
+  PATCH: {
+    updateProfile: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
+    },
+    updateCourseReview: {
+      URL: '',
+      params: '',
+      query: '',
+      payload: {}
     }
   }
 };
 
 export async function getTraineeReviewById(
   courseId: string | undefined,
-  traineeId: string
+  traineeId: string | undefined
 ): Promise<ICourseReview | null> {
   const props: PaginatedRequest = {
     page: 1,
@@ -399,14 +217,19 @@ export async function getTraineeReviewById(
 export async function addReviewToCourse(
   courseId: string | undefined,
   traineeReview: Review
-): Promise<Rating | undefined> {
-  if (!courseId) {
-    return undefined;
+): Promise<Rating | null> {
+  if (!courseId || !traineeReview) {
+    return null;
   }
-  const res = await axios.post<HttpResponse<Rating>>(
-    `${APP_BASE_API_URL}/courses/rating/${encodeURIComponent(courseId)}`,
-    traineeReview
-  );
+  const newReview = TraineeRoutes.POST.addReviewToCourse;
+  newReview.URL = `courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${encodeURIComponent(traineeReview._trainee._id)}`;
+  newReview.payload = traineeReview;
+  const res = await postRequest<HttpResponse<Rating>>(newReview);
+  if (res.status === 409) {
+    return null;
+  }
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }
@@ -426,14 +249,14 @@ export async function addSubmittedQuestion(
   if (!courseId || !traineeId || !exerciseId || !questionId || !answer) {
     return;
   }
-  await axios.post<HttpResponse<SubmittedQuestion>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}/question/${encodeURIComponent(questionId)}`,
-    { answer }
-  );
+  const answerToQuestion = TraineeRoutes.POST.addSubmittedQuestion;
+  answerToQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}/question/${encodeURIComponent(questionId)}`;
+  answerToQuestion.payload = { answer };
+  await postRequest<HttpResponse<SubmittedQuestion>>(answerToQuestion);
 }
 
 export async function getSubmittedQuestions(
@@ -444,13 +267,188 @@ export async function getSubmittedQuestions(
   if (!courseId || !traineeId || !exerciseId) {
     return null;
   }
-  const res = await axios.get<HttpResponse<SubmittedQuestion[]>>(
-    `${APP_BASE_API_URL}/trainee/${encodeURIComponent(
-      traineeId
-    )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
-      exerciseId
-    )}`
+  const submittedQuestion = TraineeRoutes.GET.getSubmittedQuestions;
+  submittedQuestion.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/exercise/${encodeURIComponent(
+    exerciseId
+  )}`;
+  const res = await getRequest<HttpResponse<SubmittedQuestion[]>>(
+    submittedQuestion
   );
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function getEnrolledCourseById(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<EnrolledCourse | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const enrolledCourse = TraineeRoutes.GET.getEnrolledCourseById;
+  enrolledCourse.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}`;
+  const res = await getRequest<HttpResponse<EnrolledCourse>>(enrolledCourse);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function addToCart(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const cart = TraineeRoutes.POST.addToWishlist;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
+  const res = await postRequest<HttpResponse<ICourse[]>>(cart);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function addToWishlist(
+  traineeId: string | undefined,
+  courseId: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId) {
+    return null;
+  }
+  const wishlist = TraineeRoutes.POST.addToWishlist;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
+  const res = await postRequest<HttpResponse<ICourse[]>>(wishlist);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function removeFromCart(
+  traineeId: string | undefined,
+  courseId: string | undefined,
+  country: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId || !country) {
+    return null;
+  }
+  const cart = TraineeRoutes.DELETE.removeFromWishlist;
+  cart.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/cart/${encodeURIComponent(courseId)}`;
+  cart.query = createQueryString(country);
+  const res = await deleteRequest<HttpResponse<ICourse[]>>(cart);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function removeFromWishlist(
+  traineeId: string | undefined,
+  courseId: string | undefined,
+  country: string | undefined
+): Promise<ICourse[] | null> {
+  if (!traineeId || !courseId || !country) {
+    return null;
+  }
+  const wishlist = TraineeRoutes.DELETE.removeFromWishlist;
+  wishlist.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/wishlist/${encodeURIComponent(courseId)}`;
+  wishlist.query = createQueryString(country);
+  const res = await deleteRequest<HttpResponse<ICourse[]>>(wishlist);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function updateCourseReview(
+  courseId: string | undefined,
+  traineeId: string | undefined,
+  reviewData: ReviewDTO
+): Promise<Review | null> {
+  if (!courseId || !traineeId || !reviewData) {
+    return null;
+  }
+  const updatedReview = TraineeRoutes.PATCH.updateCourseReview;
+  updatedReview.URL = `/courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${traineeId}`;
+  updatedReview.payload = reviewData;
+  const res = await patchRequest<HttpResponse<Review>>(updatedReview);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+  return res.data?.data;
+}
+
+export async function deleteCourseReview(
+  courseId: string | undefined,
+  traineeId: string | undefined
+): Promise<void> {
+  if (!courseId || !traineeId) {
+    return;
+  }
+  const deletedReview = TraineeRoutes.DELETE.deleteCourseReview;
+  deletedReview.URL = `/courses/rating/${encodeURIComponent(
+    courseId
+  )}/trainee/${encodeURIComponent(traineeId)}`;
+  const res = await deleteRequest<HttpResponse<object>>(deletedReview);
+  if (res.statusText !== 'OK') {
+    throw new Error(`server returned response status ${res.statusText}`);
+  }
+  if (!res.data.success) {
+    throw new Error(`server returned error ${res.data.message}`);
+  }
+}
+
+export async function getViewedLessons(
+  courseId: string | undefined,
+  traineeId: string | undefined
+): Promise<string[] | null> {
+  if (!courseId || !traineeId) {
+    return null;
+  }
+  const viewedLessons = TraineeRoutes.GET.getViewedLessons;
+  viewedLessons.URL = `/trainee/${encodeURIComponent(
+    traineeId
+  )}/course/${encodeURIComponent(courseId)}/viewed-lessons`;
+  const res = await getRequest<HttpResponse<string[]>>(viewedLessons);
   if (res.statusText !== 'OK') {
     throw new Error(`server returned response status ${res.statusText}`);
   }

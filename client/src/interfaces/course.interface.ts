@@ -1,13 +1,13 @@
+import { INote } from './note.interface';
 import { PaginatedRequest } from './request.interface';
 
 import {
-  Address,
   CreditCard,
   IUser,
   Note,
   Reminder,
   SubmittedQuestion
-} from '@/interfaces/user.interface';
+} from './user.interface';
 
 import { Level } from '@/enums/level.enum';
 
@@ -38,7 +38,7 @@ interface IBaseCourse {
   subcategory: string[];
   thumbnail: string;
   title: string;
-  duration: number;
+  duration?: number;
   outline: string[];
   sections: ICourseSection[];
 }
@@ -47,11 +47,31 @@ export interface IAddCourseRequest extends IBaseCourse {
   instructorID: string;
 }
 
+export type Announcement = {
+  _id: string;
+  createdAt: Date;
+  description: string;
+  title: string;
+};
+
+export type FrequentlyAskedQuestion = {
+  _id: string;
+  answer: string;
+  question: string;
+  votes: number;
+};
+
 export interface ICourse extends IBaseCourse {
   _id: string;
   _instructor: Instructor[];
   numberOfEnrolledTrainees: number;
   rating: Rating;
+  examGrades?: {
+    average: number;
+    totalAttempts: number;
+  };
+  announcements: Announcement[];
+  frequentlyAskedQuestions: FrequentlyAskedQuestion[];
 }
 
 export type CourseDiscount = {
@@ -65,14 +85,16 @@ export type IPrice = {
   currentValue: number;
   discounts: Array<CourseDiscount>;
 };
-export type Review = {
-  _trainee: ITrainee;
+export type ReviewDTO = {
   comment: string;
-  createdAt: Date;
   rating: number;
 };
+export type Review = {
+  _trainee: ITrainee;
+  createdAt: Date;
+} & ReviewDTO;
 export type ICourseReview = {
-  _traineeId: string;
+  _traineeId: string | undefined;
   comment: string;
   createdAt: Date;
   rating: number;
@@ -101,7 +123,6 @@ export type Instructor = {
   _id: string;
   name: string;
   profileImage: string;
-  address: Address;
   email: Email;
   biography: string;
   balance: number;
@@ -122,9 +143,10 @@ export type Instructor = {
 export type ICourseLesson = {
   _id?: string;
   description: string;
-  duration: number;
+  duration?: number;
   title: string;
   videoURL: string;
+  progress?: number;
 };
 
 export type ICourseQuestion = {
@@ -164,13 +186,16 @@ export type EnrolledCourse = {
 };
 
 export interface ITrainee extends IUser {
-  _cart?: ICourse[];
+  _cart: string[];
   _enrolledCourses?: EnrolledCourse[];
   _lastViewedCourse?: ICourse | string;
-  _wishlist?: ICourse[];
+  _wishlist: string[];
   balance: number;
+  currency: string;
   creditCards: CreditCard[];
   preferredSkills: string[];
+  notes: INote[];
+  isCorporate: boolean;
 }
 
 export { type ICourseFilters };

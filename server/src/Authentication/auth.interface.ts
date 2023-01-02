@@ -11,6 +11,13 @@ export interface RequestWithTokenPayloadAndUser extends RequestWithTokenPayload 
   user: ITrainee | IAdmin | IInstructor;
 }
 
+export enum AuthRole {
+  ADMIN = 'admin',
+  INSTRUCTOR = 'instructor',
+  INDIVIDUAL_TRAINEE = 'individual trainee',
+  CORPORATE_TRAINEE = 'corporate trainee',
+}
+
 export interface ICookie {
   name: string;
   options: {

@@ -1,43 +1,56 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-import { useCallback } from 'react';
-
-import { LoginProps } from './types';
+import { toast } from 'react-toastify';
 
 import useValidation from './useValidation';
 
 import { Role } from '@/enums/role.enum';
 
 import { UseSetUser } from '@/store/userStore';
+import { UseCartStoreSetCart } from '@/store/cartStore';
+import { UseWishListSetCart } from '@/store/wishListStore';
 
 import { AuthRoutes } from '@services/axios/dataServices/AuthDataService';
 import usePostQuery from '@/hooks/usePostQuery';
 import Button from '@components/buttons/button/Button';
 import Form from '@components/form/Form';
 import Input from '@components/inputs/input/Input';
-import {
-  UseAuthStoreSetToken,
-  UseAuthStoreRemoveToken
-} from '@store/authStore';
-
-import { UseCartStoreSetCart } from '@store/cartStore';
-import { UseWishListSetCart } from '@store/wishListStore';
 
 import './login.scss';
 import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 import { UpdateCountry } from '@/store/countryStore';
 import SessionStorage from '@/services/sessionStorage/SessionStorage';
+import LocalStorage from '@/services/localStorage/LocalStorage';
+import { HttpResponse } from '@/interfaces/response.interface';
+import { IUser } from '@/interfaces/user.interface';
+import { ITrainee } from '@/interfaces/course.interface';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
+
+import { toastOptions } from '@/components/toast/options';
+import { UseTraineeNoteStoreSetNotes } from '@/store/noteStore';
+import PasswordInput from '@/components/inputs/input/PasswordInput';
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
 function Login() {
-  const { mutateAsync: login, isError, error } = usePostQuery();
+  const { data, mutateAsync: login } = usePostQuery<
+    HttpResponse<{
+      firstLogin: boolean;
+      role: Role;
+      token: {
+        accessToken: string;
+        refreshToken: string;
+      };
+      user: IUser;
+    }>
+  >();
+
+  const useTraineeNoteStoreSetNotes = UseTraineeNoteStoreSetNotes();
+
   const updateCountry = UpdateCountry();
 
   const useSetUser = UseSetUser();
-  const useAuthStoreSetToken = UseAuthStoreSetToken();
-  const useAuthStoreRemoveToken = UseAuthStoreRemoveToken();
+
   const useCartStoreSetCart = UseCartStoreSetCart();
   const useWishListSetCart = UseWishListSetCart();
 
@@ -45,13 +58,10 @@ function Login() {
   const location = useLocation();
   const from: string = location?.state?.from?.pathname || '';
   const { formik } = useValidation();
-  const navigateToSignup = useCallback(() => {
-    navigate('/auth/signup');
-  }, [navigate]);
 
-  const handleSubmit = useCallback(async () => {
+  async function handleSubmit() {
     try {
-      const { email, password } = (await formik.submitForm()) as LoginProps;
+      const { email, password, rememberMe } = formik.values;
       const loginRoute = Object.assign({}, AuthRoutes.POST.login);
       loginRoute.payload = {
         email: {
@@ -60,26 +70,28 @@ function Login() {
         password
       };
       const response = await login(loginRoute);
-      if (response && response.status === 200) {
-        const { token, user, role } = response?.data?.data;
-        const userRole: Role = role.toLocaleLowerCase();
-        console.log(user);
-        console.log(response?.data?.data);
-        useSetUser({ ...user, role: userRole });
-        useCartStoreSetCart(user?._cart);
-        useWishListSetCart(user?._wishList);
-        SessionStorage.set('accessToken', token.accessToken);
-        console.log('token.accessToken');
-        console.log(token.accessToken);
-        updateCountry(user.country);
-        if (formik.values.rememberMe) {
-          useAuthStoreSetToken(token);
-        } else {
-          useAuthStoreRemoveToken();
-        }
 
-        console.log(user);
-        console.log(token);
+      if (response && response.status === 200) {
+        const { token, user, role, firstLogin } = response?.data?.data;
+        const userRole: Role = role.toLocaleLowerCase() as Role;
+        useSetUser({ ...user, role: userRole });
+        LocalStorage.set('firstLogin', firstLogin);
+
+        if (role.toLocaleLowerCase() === Role.TRAINEE.toLocaleLowerCase()) {
+          useCartStoreSetCart((user as ITrainee)?._cart);
+          useWishListSetCart((user as ITrainee)?._wishlist);
+          useTraineeNoteStoreSetNotes((user as ITrainee)?.notes);
+        }
+        //session
+        SessionStorage.set('accessToken', token.accessToken);
+        updateCountry('US');
+        if (rememberMe) {
+          LocalStorage.set('rememberme', true);
+        } else {
+          LocalStorage.set('rememberme', false);
+        }
+        LocalStorage.set('role', userRole);
+
         if (from) {
           navigate(from.toLocaleLowerCase());
         } else {
@@ -90,29 +102,22 @@ function Login() {
 
         return true;
       }
+
+      toast.error(response?.response?.data?.message, toastOptions);
       return false;
     } catch (err) {
       console.log(err);
       return false;
     }
-  }, [
-    formik,
-    login,
-    useSetUser,
-    useCartStoreSetCart,
-    useWishListSetCart,
-    updateCountry,
-    from,
-    useAuthStoreSetToken,
-    useAuthStoreRemoveToken,
-    navigate
-  ]);
+  }
+
+  console.log('error');
 
   return (
     <div className='login d-flex flex-row justify-content-between'>
       <section className='container-fluid'>
         <div className='form__container'>
-          <Link to='/'>
+          <Link id='login-to-landing-page-navlink' to='/'>
             <div className='form__container__logo'>
               <img alt='logo' src={COMPANY_LOGO} />
             </div>
@@ -129,6 +134,7 @@ function Login() {
                 correctMessage={''}
                 errorMessage={formik.errors.email as string}
                 hint={''}
+                id='login-email-input'
                 isError={
                   formik.touched.email && formik.errors.email ? true : null
                 }
@@ -142,11 +148,12 @@ function Login() {
                 onBlurFunc={formik.handleBlur}
                 onChangeFunc={formik.handleChange}
               />,
-              <Input
-                key={'password-1'}
+              <PasswordInput
+                key={'login-password-1'}
                 correctMessage={''}
                 errorMessage={formik.errors.password as string}
                 hint={''}
+                id='login-password-1'
                 isError={
                   formik.touched.password && formik.errors.password
                     ? true
@@ -168,14 +175,14 @@ function Login() {
             method={'post'}
             subtitle='Login to your account'
             title='Login'
-            onResetFunc={formik.handleReset}
+            onResetFunc={undefined}
           >
             <span className='d-flex flex-row justify-content-between'>
               <CheckBoxInput
                 checked={formik.values.rememberMe}
                 className={''}
                 errorMessage={''}
-                id='rememberMe'
+                id='rememberMe-jnjnjn'
                 isChecked={formik.values.rememberMe}
                 label='Remember Me'
                 name='rememberMe'
@@ -189,22 +196,14 @@ function Login() {
                 Forgot Password?
               </Link>
             </span>
-            {isError && error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                {error?.response?.data?.message}
-              </div>
-            )}
-            {isError && !error?.response?.data?.message && (
-              <div className='alert alert-danger' role='alert'>
-                Please report this Problem through this
-                <Link className='alert-link' to='/report'>
-                  Link
-                </Link>
-              </div>
+
+            {data && data?.response && (
+              <ErrorMessage errorMessage={data?.response?.data?.message} />
             )}
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
+                id='login-submit'
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Login'
                 name='login'
@@ -213,9 +212,7 @@ function Login() {
               />
               <span className='d-flex flex-row justify-content-end'>
                 Don&apos;t have an account? &nbsp;
-                <Link to='/auth/signup' onClick={navigateToSignup}>
-                  Sign Up
-                </Link>
+                <Link to='/auth/signup'>Sign Up</Link>
               </span>
             </div>
             <div />

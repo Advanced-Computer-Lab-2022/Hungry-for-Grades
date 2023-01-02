@@ -1,23 +1,33 @@
-export interface Note extends NoteData {
-  id: string;
+import { ICourse, Rating, SocialMedia } from './course.interface';
+import { IUser } from './user.interface';
+
+export type BankAccount = {
+  accountHolderName: string;
+  accountNumber: string;
+  bankName: string;
+  branchAddress: string;
+  branchName: string;
+  swiftCode: string;
+};
+
+export interface ITeachedCourse {
+  _course: ICourse;
+  earning: number;
 }
 
-export interface NoteData {
+export interface IInstructor extends IUser {
+  _teachedCourses: ITeachedCourse[];
+  balance: number;
+  currency: string;
+  bankAccount: BankAccount;
+  biography: string;
+  rating: Rating;
+  socialMedia: SocialMedia;
+  speciality: string;
   title: string;
-  tags: Tag[];
-  markdown: string;
-}
-
-export interface Tag {
-  label: string;
-}
-
-export interface RawNote extends RawNoteData {
-  id: string;
-}
-
-export interface RawNoteData {
-  title: string;
-  markdown: string;
-  tagLabels: string[];
+  email: {
+    address: string;
+    isValidated: boolean;
+  };
+  totalReviews: number;
 }

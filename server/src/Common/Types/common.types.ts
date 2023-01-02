@@ -10,3 +10,8 @@ export type Review = {
   createdAt: Date;
   rating: number;
 };
+
+export type ReviewDTO = {
+  comment: string;
+  rating: number;
+};

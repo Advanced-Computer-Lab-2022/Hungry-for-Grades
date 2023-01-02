@@ -9,6 +9,8 @@ import {
 } from 'react-icons/fa';
 
 import Newsletter from '../newsletter/Newsletter';
+
+import ReportForm from './ReportForm';
 function Footer() {
   const COMPANY_NAME = import.meta.env.VITE_COMPANY_NAME;
   const COMPANY_ADDRESS = import.meta.env.VITE_COMPANY_ADDRESS;
@@ -25,7 +27,7 @@ function Footer() {
   const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
   return (
-    <div className='container-fluid bg-dark mt-5'>
+    <div className='container-fluid bg-dark'>
       <footer className='text-center  text-lg-start text-white'>
         <section className='d-flex justify-content-between p-4 bg-primary'>
           <div className='me-5'>
@@ -33,63 +35,78 @@ function Footer() {
           </div>
 
           <div>
-            <a
-              className='text-white me-4'
-              href={COMPANY_FACEBOOK}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              className='text-white me-4'
-              href={COMPANY_TWITTER}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaTwitter />
-            </a>
+            {COMPANY_FACEBOOK && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_FACEBOOK}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaFacebookF />
+              </a>
+            )}
+            {COMPANY_TWITTER && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_TWITTER}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaTwitter />
+              </a>
+            )}
 
-            <a
-              className='text-white me-4'
-              href={COMPANY_LINKEDIN}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaLinkedinIn />
-            </a>
-            <a
-              className='text-white me-4'
-              href={COMPANY_INSTAGRAM}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaInstagram />
-            </a>
-            <a
-              className='text-white me-4'
-              href={COMPANY_YOUTUBE}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaYoutube />
-            </a>
-            <a
-              className='text-white me-4'
-              href={COMPANY_GOOGLE_PLAY}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaGooglePlay />
-            </a>
-            <a
-              className='text-white me-4'
-              href={COMPANY_APP_STORE}
-              rel='noopener noreferrer'
-              target='_blank'
-            >
-              <FaApple />
-            </a>
+            {COMPANY_LINKEDIN && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_LINKEDIN}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaLinkedinIn />
+              </a>
+            )}
+            {COMPANY_INSTAGRAM && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_INSTAGRAM}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaInstagram />
+              </a>
+            )}
+            {COMPANY_YOUTUBE && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_YOUTUBE}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaYoutube />
+              </a>
+            )}
+
+            {COMPANY_GOOGLE_PLAY && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_GOOGLE_PLAY}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaGooglePlay />
+              </a>
+            )}
+            {COMPANY_APP_STORE && (
+              <a
+                className='text-white me-4'
+                href={COMPANY_APP_STORE}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                <FaApple />
+              </a>
+            )}
           </div>
         </section>
 
@@ -122,9 +139,11 @@ function Footer() {
                 </h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  Here you can use rows and columns to organize your footer
-                  content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                  elit.
+                  Canadian Chamber of Commerce in Egypt (CanCham) was officially
+                  inaugurated on the 31st of May 2006. It was established in
+                  Egypt as a non-profit and non-governmental organization. It is
+                  an official member at the Canadian Chamber of Commerce in
+                  Canada; having access to their members database who ...
                 </p>
               </div>
 
@@ -132,23 +151,32 @@ function Footer() {
                 <h6 className='text-uppercase fw-bold'>Products</h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  <a className='text-white' href='#!'>
-                    MDBootstrap
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/services.html'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    Services
+                  </a>
+                </p>
+
+                <p>
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/membership.html'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    Membership
                   </a>
                 </p>
                 <p>
-                  <a className='text-white' href='#!'>
-                    MDWordPress
-                  </a>
-                </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    BrandFlow
-                  </a>
-                </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Bootstrap Angular
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/courses.html'
+                  >
+                    Training
                   </a>
                 </p>
               </div>
@@ -157,25 +185,17 @@ function Footer() {
                 <h6 className='text-uppercase fw-bold'>Useful links</h6>
                 <hr className='mb-4 mt-0 d-inline-block mx-auto' />
                 <p>
-                  <a className='text-white' href='#!'>
-                    Your Account
+                  <a
+                    className='text-white'
+                    href='https://cancham.org.eg/en/about_us.html'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    About us
                   </a>
                 </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Become an Affiliate
-                  </a>
-                </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Shipping Rates
-                  </a>
-                </p>
-                <p>
-                  <a className='text-white' href='#!'>
-                    Help
-                  </a>
-                </p>
+
+                <ReportForm courseID={''} />
               </div>
 
               <div className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
@@ -205,7 +225,7 @@ function Footer() {
         </section>
 
         <div className='text-center p-3'>
-          © {new Date().getFullYear()} Copyright &middot;{' '}
+          © {new Date().getFullYear()} Copyright &middot;
           <a className='text-white' href={COMPANY_WEBSITE}>
             {COMPANY_NAME}
           </a>

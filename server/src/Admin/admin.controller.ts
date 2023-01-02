@@ -7,6 +7,8 @@ import { CreateInstructorDTO } from '@/Instructor/instructor.dto';
 import { TraineeDTO } from '@/Trainee/trainee.dto';
 import { ITrainee } from '@/Trainee/trainee.interface';
 import { IAdmin } from './admin.interface';
+import { RequestWithTokenPayloadAndUser } from '@/Authentication/auth.interface';
+import { HttpResponse } from '@/Utils/HttpResponse';
 class AdminController {
   public adminService = new adminService();
 
@@ -35,6 +37,23 @@ class AdminController {
         message: 'Instructor created successfully',
         success: true,
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // @desc gets Admin info by accessToken
+  public getAdminInfo = async (req: RequestWithTokenPayloadAndUser, res: Response<HttpResponse<IAdmin>>, next: NextFunction): Promise<void> => {
+    try {
+      res.json({ data: req.user as IAdmin, message: 'Completed Successfully', success: true });
+    } catch (error) {
+      next(error);
+    }
+  };
+  // @desc gets all Admins info
+  public getAllAdmins = async (req: Request, res: Response<HttpResponse<IAdmin[]>>, next: NextFunction): Promise<void> => {
+    try {
+      const adminsData: IAdmin[] = await this.adminService.findAdmins();
+      res.json({ data: adminsData, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);
     }

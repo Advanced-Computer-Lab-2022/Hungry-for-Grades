@@ -1,4 +1,4 @@
-// /* eslint-disable security/detect-object-injection */
+/* // /* eslint-disable security/detect-object-injection */
 // import { HttpException } from '@/Exceptions/HttpException';
 // import { CreateUserDto } from '@/User/user.dto';
 // import { IUser } from '@/User/user.interface';
@@ -9,45 +9,45 @@
 // import mongoose from 'mongoose';
 // import { filters } from './user.type';
 
-// class UserService {
+/* class UserService {
 
-//   //   public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
-//   //     const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
-//   //     const query = {};
-//   //     query['$and'] = [];
-//   //     for (const key in filters) {
-//   //       if (filters[key] && key !== 'page' && key !== 'limit' && key !== 'sortBy' && key !== 'orderBy') {
-//   //         const filter = {};
-//   //         filter[key] = filters[key];
-//   //         query['$and'].push(filter);
-//   //       }
-//   //     }
-//   //     if (search) {
-//   //       query['$or'] = [
-//   //         {
-//   //           name: {
-//   //             $options: 'i',
-//   //             $regex: search,
-//   //           },
-//   //         },
-//   //         {
-//   //           email: {
-//   //             $options: 'i',
-//   //             $regex: search,
-//   //           },
-//   //         },
-//   //       ];
-//   //     }
-//   //     let users: (IUser &
-//   //       mongoose.Document & {
-//   //         _id: mongoose.Types.ObjectId;
-//   //       })[];
+   public async findAllUser(filters: filters): Promise<PaginatedData<IUser>> {
+     const { page = 1, limit = 12, sortBy, orderBy, search } = filters;
+    const query = {};
+query['$and'] = [];
+for (const key in filters) {
+     if (filters[key] && key !== 'page' && key !== 'limit' && key !== 'sortBy' && key !== 'orderBy') {
+         const filter = {};
+        filter[key] = filters[key];
+         query['$and'].push(filter);
+       }
+    }
+     if (search) {
+      query['$or'] = [
+{
+           name: {
+           $options: 'i',
+            $regex: search,
+           },
+         },
+         {
+           email: {
+             $options: 'i',
+             $regex: search,
+           },
+        },
+       ];
+     }
+     let users: (IUser &
+      mongoose.Document & {
+         _id: mongoose.Types.ObjectId;
+     })[];
 
-//   //     if (sortBy && orderBy) {
-//   //       users = await this.users
-//   //         .find(query)
-//   //         .sort({ sortBy: orderBy })
-//   //         .skip((page - 1) * limit)
+     if (sortBy && orderBy) {
+       users = await this.users
+        .find(query)
+        .sort({ sortBy: orderBy })
+        .skip((page - 1) * limit) */
 //   //         .limit(limit);
 //   //     } else {
 //   //       users = await this.users

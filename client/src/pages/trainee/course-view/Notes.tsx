@@ -274,6 +274,7 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
             <Form.Group controlId='title'>
               <Form.Label>Title</Form.Label>
               <Form.Control
+                placeholder='Search notes by title'
                 type='text'
                 value={title}
                 onChange={function onChange(e) {
@@ -292,6 +293,7 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
                     return { label: tag.label, value: tag.id };
                   }) ?? []
                 }
+                placeholder='Search notes by tags'
                 value={
                   selectedTags?.map(tag => {
                     return { label: tag.label, value: tag.id };
@@ -317,6 +319,7 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
                     return { label: course, value: course };
                   }) ?? []
                 }
+                placeholder='Search notes by courses'
                 value={
                   selectedCourseNames?.map(course => {
                     return { label: course, value: course };
@@ -334,7 +337,16 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
           </Col>
         </Row>
       </Form>
-      <Row className='g-3' lg={3} sm={2} xl={4} xs={1}>
+      <Row
+        className='g-3 d-flex justify-content-center'
+        lg={3}
+        sm={2}
+        style={{
+          textAlign: 'center'
+        }}
+        xl={4}
+        xs={1}
+      >
         {filteredNotes?.map(note => (
           <Col
             key={note.id}
@@ -351,13 +363,12 @@ function Notes({ lessonId, courseName }: Partial<NoteListProps>) {
           </Col>
         ))}
         {filteredNotes?.length === 0 && (
-          <div className='container mt-5'>
+          <div className='mt-5'>
             <div
               className='alert alert-danger d-flex justify-content-center'
               role='alert'
             >
-              No notes found,
-              <span className='alert-link'> Create Note</span>
+              No notes found
             </div>
           </div>
         )}

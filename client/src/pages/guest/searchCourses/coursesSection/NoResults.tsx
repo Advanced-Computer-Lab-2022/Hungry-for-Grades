@@ -11,7 +11,7 @@ function NoResults() {
           &#x2713; &nbsp; Try more general search terms
         </li>
         <li className='list-group-item'>
-          &#x2713; &nbsp;Try different search terms
+          &#x2713; &nbsp; Try different search terms
         </li>
       </ul>
     </div>

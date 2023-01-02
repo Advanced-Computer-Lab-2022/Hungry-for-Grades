@@ -57,7 +57,7 @@ function Modal(props: ModalProps) {
             <div className='modal-footer'>
               {isClose && (
                 <button
-                  className='btn btn-secondary'
+                  className='btn btn-outline-primary'
                   data-bs-dismiss='modal'
                   data-bs-target='classNamemodal'
                   type='button'
@@ -68,27 +68,25 @@ function Modal(props: ModalProps) {
               {isDelete && (
                 <button
                   aria-label='Close'
-                  className='btn  btn-danger'
+                  className='btn  btn-outline-primary'
                   data-bs-dismiss='modal'
                   data-bs-target='classNamemodal'
                   type='button'
                   onClick={onDelete}
                 >
                   {deleteText}
-                  <i className='fa-solid fa-trash-can' />
                 </button>
               )}
               {isDone && (
                 <button
                   aria-label='Close'
-                  className='btn  btn-success'
+                  className='btn  btn-primary '
                   data-bs-dismiss='modal'
                   data-bs-target='classNamemodal'
                   type='button'
                   onClick={onDone}
                 >
                   {doneText}
-                  <i className='fa-solid fa-check' />
                 </button>
               )}
               {submit}

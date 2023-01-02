@@ -13,7 +13,7 @@ import { UseCountry } from '@/store/countryStore';
 function TopRatedCourses() {
   const country = UseCountry();
   const { data, isLoading, isError } = useQuery(['topRated', country], () =>
-    getTopRatedCourses(country)
+    getTopRatedCourses(country, 1)
   );
   const coursesMapped = data?.data.map(mapCourseToCardProps);
   if (isLoading) {
@@ -26,17 +26,24 @@ function TopRatedCourses() {
     return <></>;
   } else if (coursesMapped) {
     return (
-      <section className='container'>
-        <h2 className='text-dark text-left mb-2'>Top rated courses</h2>
+      <section className='container' id='rated-courses'>
+        <h2 className='text-dark text-left mb-2'>Top Rated Courses</h2>
         <div className='row'>
           {coursesMapped?.map(course => (
             <div key={course.id} className='col-12 col-md-6 col-lg-4'>
-              <CourseCard percent={-1} pprops={course} />
+              <CourseCard enrolled={false} percent={-1} pprops={course} />
             </div>
           ))}
         </div>
         <p className='text-end'>
-          <Link to='/courses'>View all courses</Link>
+          <Link
+            style={{
+              zIndex: '999'
+            }}
+            to='/courses'
+          >
+            View all courses
+          </Link>
         </p>
       </section>
     );

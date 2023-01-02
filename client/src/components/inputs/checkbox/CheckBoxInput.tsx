@@ -1,4 +1,5 @@
 import { CheckBoxInputProps } from './types';
+
 function CheckBoxInput(props: CheckBoxInputProps) {
   return (
     <div className='d-flex flex-raw'>

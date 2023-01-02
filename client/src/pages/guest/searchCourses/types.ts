@@ -1,4 +1,4 @@
-import { Level } from '@enums/level.enum';
+import { Level } from '@/enums/level.enum';
 export type SelectFiltersType = {
   category: string;
   subCategory: string;

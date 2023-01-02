@@ -6,6 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
+import { BiUserPin } from 'react-icons/bi';
+
+import { FaRegAddressCard } from 'react-icons/fa';
+
+import { MdMarkEmailRead } from 'react-icons/md';
+
 import AccountForm from './accountForm/AccountForm';
 import { type SignupData, type UpdateSignupData } from './types';
 import UserForm from './userForm/UserForm';
@@ -16,11 +22,12 @@ import useMultistepForm from '@hooks/useMultistepForm';
 
 import { Gender } from '@/enums/gender.enum';
 import Form from '@components/form/Form';
-import ProgressSteps from '@components/progress/ProgressSteps';
+import ProgressSteps from '@components/progress/progressStepper/ProgressStepper';
 import './signup.scss';
 import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@services/axios/dataServices/TraineeDataService';
 import { toastOptions } from '@/components/toast/options';
+import { HttpResponse } from '@/interfaces/response.interface';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -40,14 +47,13 @@ const titles = ['User Form', 'Account Form', 'Confirm Email'];
 
 function Signup() {
   const [data, setData] = useState<SignupData>(INITIAL_DATA);
-  const { mutateAsync } = usePostQuery();
+  const { mutateAsync } = usePostQuery<HttpResponse<null>>();
   const navigate = useNavigate();
   function updateData(newData: UpdateSignupData) {
     setData(prev => {
       return { ...prev, ...newData };
     });
-    console.log('newData');
-    console.log(newData);
+
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     next();
   }
@@ -58,9 +64,11 @@ function Signup() {
     step,
     title,
     subtitle,
+    subtitles,
     isLastStep,
     next,
-    prev
+    prev,
+    goTo
   } = useMultistepForm(
     [
       // eslint-disable-next-line react/jsx-no-bind
@@ -101,14 +109,21 @@ function Signup() {
         },
         name
       };
-      await toast.promise(
+      const response = await toast.promise(
         mutateAsync(signup),
         {
-          pending: 'Pending',
-          success: `Welcome ${name}`
+          pending: 'Signing up ...'
         },
         toastOptions
       );
+
+      if (!response.status) {
+        toast.error(response.data.message, toastOptions);
+
+        return;
+      } else {
+        toast.success(`Welcome ${name}`, toastOptions);
+      }
 
       navigate('/auth/login', {
         state: {
@@ -143,6 +158,22 @@ function Signup() {
         <div className={`form__container `}>
           <div className='container'>
             <div className='d-flex flex-column flex-lg-row justify-content-between m-0 p-0'>
+              <div className='mt-4'>
+                <ProgressSteps
+                  currentStepIndex={currentStepIndex}
+                  goTo={goTo}
+                  icons={[
+                    <BiUserPin key='icon-12313' className='icon' />,
+                    <FaRegAddressCard
+                      key='icon-123dssd00013'
+                      className='icon'
+                    />,
+                    <MdMarkEmailRead key='icon-12dssd313' className='icon' />
+                  ]}
+                  steps={titles}
+                  subtitles={subtitles}
+                />
+              </div>
               <Link className='p-0 m-0' to='/'>
                 <img
                   alt='logo'
@@ -155,11 +186,6 @@ function Signup() {
                   }}
                 />
               </Link>
-
-              <ProgressSteps
-                currentStepIndex={currentStepIndex}
-                steps={titles}
-              />
             </div>
             <hr />
             <div className='text-muted'>
