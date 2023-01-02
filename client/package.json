@@ -66,6 +66,7 @@
     "react-accessible-accordion": "^5.0.0",
     "react-audio-player": "^0.17.0",
     "react-bootstrap": "^2.5.0",
+    "react-circular-progressbar": "^2.1.0",
     "react-country-flag": "^3.0.2",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",

@@ -63,12 +63,19 @@ export default function Create() {
       },
       role: 'Admin'
     };
-    const response = await createUser(AdminRoutee);
+    const response = await toast.promise(
+      createUser(AdminRoutee),
+      {
+        pending: 'Creating Admin User'
+      },
+      toastOptions
+    );
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Admin Created Successfully', toastOptions);
-    else toast.error(response?.response?.data?.message, toastOptions);
-    actions.resetForm();
+    if (success == undefined) {
+      actions.resetForm();
+
+      toast.success('Admin Is Created Successfully', toastOptions);
+    } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
   async function createinstructor(
@@ -103,12 +110,18 @@ export default function Create() {
       },
       role: 'Instructor'
     };
-    const response = await createUser(AdminRoutee);
+    const response = await toast.promise(
+      createUser(AdminRoutee),
+      {
+        pending: 'Creating Instructor User'
+      },
+      toastOptions
+    );
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Instructor Created Successfully', toastOptions);
-    else toast.error(response?.response?.data?.message, toastOptions);
-    actions.resetForm();
+    if (success == undefined) {
+      actions.resetForm();
+      toast.success('Instructor Is Created Successfully', toastOptions);
+    } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
   async function createTrainee(
@@ -144,12 +157,18 @@ export default function Create() {
       corporate: values.corporate,
       role: 'Trainee'
     };
-    const response = await createUser(AdminRoutee);
+    const response = await toast.promise(
+      createUser(AdminRoutee),
+      {
+        pending: 'Creating Corporate Trainee User'
+      },
+      toastOptions
+    );
     const success = response?.response?.data?.success;
-    if (success == undefined)
-      toast.success('Corporate Trainee Created Successfully', toastOptions);
-    else toast.error(response?.response?.data?.message, toastOptions);
-    actions.resetForm();
+    if (success == undefined) {
+      toast.success('Corporate Trainee Is Created Successfully', toastOptions);
+      actions.resetForm();
+    } else toast.error(response?.response?.data?.message, toastOptions);
   }
 
   return (

@@ -9,13 +9,13 @@ export const ValidationSchema = yup.object().shape({
   userName: yup
     .string()
     .matches(/^[A-Za-z0-9]+$/, 'Your Username must be alphabetical characters')
-    .min(6, 'User Name must be at least 6 characters')
+    .min(8, 'User Name must be at least 8 characters')
     .required('User Name is Required'),
 
   email: yup.string().email('Email is invalid').required('Email is required'),
   password: yup
     .string()
-    .min(6, 'Password must be at least 6 charaters')
+    .min(8, 'Password must be at least 8 charaters')
     .required('Password is required'),
   confirmPassword: yup
     .string()

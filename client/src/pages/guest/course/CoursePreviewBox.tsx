@@ -32,10 +32,10 @@ import {
   UseWishListRemoveCourse,
   UseWishListInCart
 } from '@/store/wishListStore';
-import { IUser } from '@/interfaces/user.interface';
 import { ReportDataService } from '@/services/axios/dataServices/ReportDataService';
 import { Reason, Status } from '@/interfaces/reports.interface';
 import { toastOptions } from '@/components/toast/options';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -53,6 +53,7 @@ function getEmbedUrl(url: string) {
 }
 
 function CoursePreviewBox(props: ICourse) {
+  const redirectToLogin = useRedirectToLogin();
   const isInCart = UseCartStoreInCart()(props?._id);
   const addCourseToWishList = UseWishListAddCourse();
   const removeCourseToWishList = UseWishListRemoveCourse();
@@ -77,7 +78,7 @@ function CoursePreviewBox(props: ICourse) {
     props?._id
   );
 
-  async function requestAcessHussein() {
+  async function requestAccessToCourse() {
     const req = ReportDataService.POST.makeReport;
     req.payload = {
       _course: props?._id,
@@ -86,7 +87,13 @@ function CoursePreviewBox(props: ICourse) {
       status: Status.UNSEEN
     };
 
-    const ress = await makeCourseRequest(req);
+    const ress = await toast.promise(
+      makeCourseRequest(req),
+      {
+        pending: 'requesting access to this course ...'
+      },
+      toastOptions
+    );
 
     if (!ress?.status)
       toast.error(
@@ -95,7 +102,7 @@ function CoursePreviewBox(props: ICourse) {
       );
     else
       toast.success(
-        'YOur request is sent to the admin successfully',
+        'Your request is sent to the admin successfully',
         toastOptions
       );
   }
@@ -140,11 +147,15 @@ function CoursePreviewBox(props: ICourse) {
             className='btn btn-dark my-1 w-100'
             type='button'
             onClick={async () => {
+              if (!user) {
+                redirectToLogin();
+                return;
+              }
               const xx = await addtoCart(
                 props?._id,
                 isInCart,
                 isInWishList,
-                user as IUser,
+                user,
                 addCourseToCart,
                 removeCourseToWishList,
                 removeCourseToCart,
@@ -157,7 +168,8 @@ function CoursePreviewBox(props: ICourse) {
               }
             }}
           >
-            <strong>Add to Cart</strong>
+            {!isInCart && <strong>Add to Cart</strong>}
+            {isInCart && <strong>Remove from Cart</strong>}
           </button>
         </div>
       )}
@@ -167,11 +179,15 @@ function CoursePreviewBox(props: ICourse) {
             className='btn btn-light border border-2 my-1 w-100'
             type='button'
             onClick={async () => {
+              if (!user) {
+                redirectToLogin();
+                return;
+              }
               const xx = await addtoWishList(
                 props?._id,
                 isInCart,
                 isInWishList,
-                user as IUser,
+                user,
                 addCourseToWishList,
                 removeCourseToWishList,
                 removeCourseToCart,
@@ -186,7 +202,8 @@ function CoursePreviewBox(props: ICourse) {
               }
             }}
           >
-            <strong>Add to Wishlist</strong>
+            {!isInWishList && <strong>Add to Wishlist</strong>}
+            {isInWishList && <strong>Remove from Wishlist</strong>}
           </button>
         </div>
       )}
@@ -196,7 +213,7 @@ function CoursePreviewBox(props: ICourse) {
             className='btn btn-dark my-1 w-100'
             type='button'
             onClick={async () => {
-              await requestAcessHussein();
+              await requestAccessToCourse();
             }}
           >
             <strong>Request access</strong>
@@ -222,7 +239,9 @@ function CoursePreviewBox(props: ICourse) {
         <br />
         <MdOndemandVideo />
         &nbsp;
-        <span>{formatDuration(props.duration * 60)} on-demand video</span>
+        <span>
+          {formatDuration((props.duration ?? 0) * 60)} on-demand video
+        </span>
         <br />
         <CgInfinity />
         &nbsp;

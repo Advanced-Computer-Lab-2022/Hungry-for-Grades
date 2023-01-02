@@ -27,7 +27,7 @@ const backStyle = {
   boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)',
   backgroundColor: 'white'
 };
-function Trainees() {
+function Instructors() {
   const { data, isLoading, isError } = UseDataQuery();
   const {
     data: analytics,
@@ -35,8 +35,7 @@ function Trainees() {
     isError: isErrorAnalytics
   } = UseDataAnalyticsQuery();
 
-	console.log(analytics);
-	
+  console.log(analytics);
 
   const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
@@ -46,9 +45,9 @@ function Trainees() {
             analytics
               ? analytics?.data?.data?.map(instructor => {
                   return {
-                    Earnings: instructor.balance ,
-										title:instructor.name,
-										'Average Rating':instructor.rating.averageRating
+                    Earnings: instructor.balance,
+                    title: instructor.name,
+                    'Average Rating': instructor.rating.averageRating
                   };
                 })
               : []
@@ -57,32 +56,32 @@ function Trainees() {
       </div>,
       <div key='line-analytics-instructor-earnings'>
         <LineAnalytics
-         data={
-					analytics
-						? analytics?.data?.data?.map(instructor => {
-								return {
-									Earnings: instructor.balance ,
-									title:instructor.name,
-									'Average Rating':instructor.rating.averageRating
-								};
-							})
-						: []
-				}
+          data={
+            analytics
+              ? analytics?.data?.data?.map(instructor => {
+                  return {
+                    Earnings: instructor.balance,
+                    title: instructor.name,
+                    'Average Rating': instructor.rating.averageRating
+                  };
+                })
+              : []
+          }
         />
       </div>,
       <div key='bar-analytics-instructor-earnings'>
         <BarAnalytics
-       data={
-				analytics
-					? analytics?.data?.data?.map(instructor => {
-							return {
-								Earnings: instructor.balance ,
-								title:instructor.name,
-								'Average Rating':instructor.rating.averageRating
-							};
-						})
-					: []
-			}
+          data={
+            analytics
+              ? analytics?.data?.data?.map(instructor => {
+                  return {
+                    Earnings: instructor.balance,
+                    title: instructor.name,
+                    'Average Rating': instructor.rating.averageRating
+                  };
+                })
+              : []
+          }
         />
       </div>
     ],
@@ -99,7 +98,6 @@ function Trainees() {
   const { active, inactive } = data?.data.data;
   return (
     <>
-      {' '}
       <div className='row'>
         <div className='col-md-4 mb-4'>
           <div className={`${styles.card ?? ''} card`} style={backStyle}>
@@ -131,7 +129,7 @@ function Trainees() {
             </div>
           </div>
         </div>
-				<div className='d-flex justify-content-between'>
+        <div className='d-flex justify-content-between'>
           <div className='container d-flex flex-row justify-content-center mb-4'>
             {titles?.map((title, index) => (
               <button
@@ -149,13 +147,13 @@ function Trainees() {
             ))}
           </div>
         </div>
-				<div className={`${styles.card ?? ''} container p-5`} style={backStyle}>
-				<h3 className='text-dark text-left m-2 mb-4'>Top Instructors</h3>
-				<div>{step}</div>
-				</div>
+        <div className={`${styles.card ?? ''} container p-5`} style={backStyle}>
+          <h3 className='text-dark text-left m-2 mb-4'>Top Instructors</h3>
+          <div>{step}</div>
+        </div>
       </div>
     </>
   );
 }
 
-export default Trainees;
+export default Instructors;

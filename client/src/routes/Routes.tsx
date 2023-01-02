@@ -86,17 +86,17 @@ const LazyTraineeViewCourse = lazy(
   () => import('@/pages/trainee/course-view/TraineeCourseView')
 );
 
-const LazyMyReports = lazy(
+const LazyTraineeReports = lazy(
   () => import('@/pages/trainee/myReports/ReportTable')
 );
 
 /**
  * Instructor Pages
  */
-const LazyAddCourse = lazy(
+const LazyInstructorAddCourse = lazy(
   () => import('@/pages/instructor/course-form/AddCourse')
 );
-const LazyEditCourse = lazy(
+const LazyInstructorEditCourse = lazy(
   () => import('@/pages/instructor/course-form/EditCourse')
 );
 const LazyInstructorProfileToShow = lazy(
@@ -118,6 +118,9 @@ const LazyInstructorEditProfile = lazy(
 
 const LazyInstructorDashboard = lazy(
   () => import('@/pages/instructor/dashboard/InstructorDashboard')
+);
+const LazyInstructorReports = lazy(
+  () => import('@/pages/instructor/myReports/ReportTable')
 );
 
 const LazyInstructorEarnings = lazy(
@@ -250,7 +253,7 @@ function AllRoutes() {
                 <Route element={<LazyTraineeNoteEdit />} path='edit' />
               </Route>
             </Route>
-            <Route element={<LazyMyReports />} path='my-reports' />
+            <Route element={<LazyTraineeReports />} path='reports' />
             <Route element={<LazyTraineeCart />} path='cart' />
             <Route element={<LazyTraineeWishlist />} path='wishlist' />
             <Route
@@ -287,11 +290,14 @@ function AllRoutes() {
             <Route element={<LazyMyReview />} path='rating-review' />
 
             <Route element={<LazyInstructorEditProfile />} path='profile' />
+            <Route element={<LazyInstructorReports />} path='reports' />
           </Route>
-          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route
+            element={<LazyInstructorEditCourse />}
+            path='edit-course/:courseid'
+          />
           <Route element={<LazyDiscounts />} path='hussein/:title/:courseid' />
-          <Route element={<LazyAddCourse />} path='add-course' />
-          <Route element={<LazyEditCourse />} path='edit-course/:courseid' />
+          <Route element={<LazyInstructorAddCourse />} path='add-course' />
           <Route element={<LazyAddExam />} path='create-exam/:courseid' />
           <Route element={<LazyInstructorEditProfile />} path='edit-profile' />
         </Route>

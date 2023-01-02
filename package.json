@@ -21,7 +21,7 @@
     "lint": "concurrently \"cd server && yarn run lint\" \"cd client && yarn run lint\"",
     "lint:packages": "prettier-package-json --write ./package.json ./server/package.json ./client/package.json",
     "node-shield": "nvm-shield --version=16 --compare=major && echo 'Node version is CORRECT' || (echo 'Node version is INCORRECT please run \"nvm use\"' && exit 1) ",
-    "test": "concurrently \"cd server && yarn run test\" \"cd client && yarn run test\""
+    "test": "concurrently \"yarn dev\" \"cd 'end-to-end testing' && npx cypress open\""
   },
   "config": {
     "commitizen": {

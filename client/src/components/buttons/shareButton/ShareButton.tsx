@@ -91,6 +91,7 @@ function ShareButton({ link }: { link: string }) {
             <img
               alt='file'
               className='img-fluid ml-1'
+              loading='lazy'
               src={qrcodeImg}
               style={{
                 border: '2px solid var(--primary-color)',

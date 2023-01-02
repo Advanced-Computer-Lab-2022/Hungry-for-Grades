@@ -17,7 +17,6 @@ import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeData
 import Loader from '@/components/loader/loaderpage/Loader';
 import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 import { getSectionById } from '@/services/axios/dataServices/CoursesDataService';
-import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 type LeftViewProps = {
@@ -35,7 +34,7 @@ function LeftView(props: LeftViewProps) {
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
   if (isLoading) {
-    return <LoaderComponent />;
+    return <Loader />;
   }
   if (isError) {
     return <ErrorMessage />;

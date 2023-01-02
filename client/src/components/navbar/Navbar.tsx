@@ -45,17 +45,19 @@ function NavbarComponent() {
               className={function activate({ isActive }) {
                 return isActive ? 'nav-link active' : 'nav-link';
               }}
+              id='courses-navlink'
               to='/courses'
             >
               <span style={{ color: 'inherit' }}>Courses</span>
             </NavLink>
-            <NavDropdown id='basic-nav-dropdown' title='Explore'>
+            <NavDropdown id='explore-nav-dropdown' title='Explore'>
               {!isError &&
                 data?.data?.map(category => (
                   <NavDropdown.Item key={category.label}>
                     <div className={styles.category__parent__link}>
                       <Link
                         className={styles.category__link}
+                        id={`category-${category.label}`}
                         to={`/courses?category=${encodeURIComponent(
                           category.label
                         )}`}
@@ -71,6 +73,7 @@ function NavbarComponent() {
                           <Link
                             key={subCat.label}
                             className=''
+                            id={`subcategory-${category.label}`}
                             to={`/courses?category=${encodeURIComponent(
                               category.label
                             )}&subCategory=${encodeURIComponent(subCat.label)}`}
@@ -87,7 +90,7 @@ function NavbarComponent() {
                 <>
                   <NavDropdown.Divider />
                   <NavDropdown.Item>
-                    <ReportForm />
+                    <ReportForm courseID='' />
                   </NavDropdown.Item>
                 </>
               )}
@@ -113,18 +116,20 @@ function NavbarComponent() {
                   Role.TRAINEE.toLocaleLowerCase() &&
                   !(user as ITrainee).isCorporate && <WishCartButtons />}
 
-                {user.role !== Role.ADMIN && !(user as ITrainee).isCorporate && (
-                  <Link
-                    className={styles.user__balance}
-                    to={`/${user.role.toLocaleLowerCase()}/dashboard`}
-                  >
-                    <BiWallet />
-                    {(user as ITrainee | IInstructor)?.currency
-                      ? (user as ITrainee | IInstructor)?.currency
-                      : 'USD'}
-                    {toSmallNumber(user.balance as number)}
-                  </Link>
-                )}
+                {user.role.toLocaleLowerCase() !==
+                  Role.ADMIN.toLocaleLowerCase() &&
+                  !(user as ITrainee).isCorporate && (
+                    <Link
+                      className={styles.user__balance}
+                      to={`/${user.role.toLocaleLowerCase()}/dashboard`}
+                    >
+                      <BiWallet />
+                      {(user as ITrainee | IInstructor)?.currency
+                        ? (user as ITrainee | IInstructor)?.currency
+                        : 'USD'}
+                      {toSmallNumber(user.balance as number)}
+                    </Link>
+                  )}
 
                 <Link to={`/${user.role.toLocaleLowerCase()}/dashboard`}>
                   <div className='text-muted py-3 mx-3 w-100 px-0 text-truncate'>

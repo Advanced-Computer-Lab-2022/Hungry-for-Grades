@@ -19,11 +19,11 @@ import { toastOptions } from '@/components/toast/options';
 
 const validationSchema = Yup.object({
   oldPassword: Yup.string()
-    .min(6, 'Password is Too Short!')
+    .min(8, 'Password is Too Short!')
     .max(50, 'Password is Too Long!')
     .required('Current password is Required'),
   newPassword: Yup.string()
-    .min(6, 'Password is Too Short!')
+    .min(8, 'Password is Too Short!')
     .max(50, 'Password is Too Long!')
     .required('New password is Required'),
   confirmPassword: Yup.string()

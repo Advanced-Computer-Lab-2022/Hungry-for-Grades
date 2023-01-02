@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import AreaGraph from '@/components/graphs/areaGraph/AreaGraph';
 
 type AnalyticData = {

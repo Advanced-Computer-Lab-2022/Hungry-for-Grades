@@ -415,6 +415,8 @@ class TraineeController {
       const traineeId = req.params.traineeId as string;
       const courseId = req.params.courseId as string;
 
+      // 0 signifies email sent manual by user
+      const isAuto = (req.query.isAuto as string) === 'true' ?? false;
       const certificatePDFBase64 = req.body.certificate; // Base 64 encoded
 
       //const certificateFile = req.files.certificate as UploadedFile;
@@ -427,7 +429,7 @@ class TraineeController {
       //   }
       // });
 
-      await this.traineeService.sendCertificateByEmail(traineeId, courseId, certificatePDFBase64);
+      await this.traineeService.sendCertificateByEmail(traineeId, courseId, certificatePDFBase64, isAuto);
       res.json({ data: null, message: 'Completed Successfully', success: true });
     } catch (error) {
       next(error);

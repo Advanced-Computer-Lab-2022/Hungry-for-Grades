@@ -36,10 +36,13 @@ function ReportForm(props: { courseID: string }) {
       status: 'Unseen'
     };
 
-    await submitReport(Courses as POSTRoutesType);
-
-    toast.success(
-      'Your Report is sent to the Admin successfully...',
+    await toast.promise(
+      submitReport(Courses as POSTRoutesType),
+      {
+        pending: 'Sending Report...',
+        success: 'Report sent successfully',
+        error: 'Error while sending Report'
+      },
       toastOptions
     );
   }

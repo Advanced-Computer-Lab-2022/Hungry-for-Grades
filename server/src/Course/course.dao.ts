@@ -22,6 +22,9 @@ import traineeModel from '@/Trainee/trainee.model';
 import TraineeService from '@/Trainee/trainee.dao';
 import { logger } from '@/Utils/logger';
 import { ITrainee } from '@/Trainee/trainee.interface';
+import PaymentService from '@/Payment/payment.dao';
+import ReportService from '@/Report/report.dao';
+import { report } from 'process';
 
 class CourseService {
   public getAllCourses = async (filters: CourseFilters): Promise<PaginatedData<ICourse>> => {
@@ -301,6 +304,21 @@ class CourseService {
       { _teachedCourses: { $elemMatch: { _course: deletedCourse._id } } },
       { $pull: { _teachedCourses: { _course: deletedCourse._id } } },
     );
+
+    // delete course from trainee's enrolled courses
+    const traineesAffected = await traineeModel.find({ _enrolledCourses: { $elemMatch: { _course: deletedCourse._id } } });
+    const paymentService = new PaymentService();
+    const traineeService = new TraineeService();
+    const reportService = new ReportService();
+
+    for (const trainee of traineesAffected) {
+      await paymentService.refundPayment(trainee._id.toString(), courseId);
+      //unroll trainee from course
+      await traineeService.unrollTrainee(trainee._id.toString(), courseId);
+    }
+
+    // delete all reports involving this course
+    await reportService.deleteReportsRelatedToCourse(courseId);
     return deletedCourse;
   };
 
@@ -336,7 +354,7 @@ class CourseService {
 
     // check if the user already reviewed the course
     const userReviewIndex = course.rating.reviews.findIndex(review => review._trainee._id.toString() === traineeId);
-    if (userReviewIndex) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
+    if (userReviewIndex >= 0) throw new HttpException(HttpStatusCodes.CONFLICT, 'You already reviewed this course');
 
     userReview._trainee = traineeId as unknown as ITrainee;
     const totalReviews = course.rating.reviews.length;
@@ -417,8 +435,12 @@ class CourseService {
     const userReview = course.rating.reviews[userReviewIndex];
 
     const totalReviews = course.rating.reviews.length;
-    const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
-    course.rating.averageRating = Math.round(newRating * 100) / 100;
+    if (totalReviews !== 1) {
+      const newRating = (course.rating.averageRating * totalReviews - userReview.rating) / (totalReviews - 1);
+      course.rating.averageRating = Math.round(newRating * 100) / 100;
+    } else {
+      course.rating.averageRating = 0;
+    }
     course.rating.reviews.splice(userReviewIndex, 1);
 
     await course.save();
@@ -661,9 +683,10 @@ class CourseService {
     if (!discount) throw new HttpException(HttpStatusCodes.CONFLICT, "Discount doesn't exist");
 
     //update discount
-    discount.startDate = discountData.startDate;
-    discount.endDate = discountData.endDate;
-    discount.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+    if(discountData.startDate)  discount.startDate = discountData.startDate;
+    if (discountData.endDate)   discount.endDate = discountData.endDate;
+    if (discount.percentage)  discount.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+    
 
     await course.save();
     return course.price.discounts;

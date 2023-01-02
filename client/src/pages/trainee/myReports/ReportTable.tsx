@@ -42,7 +42,7 @@ export default function ReportsTable() {
   console.log(arr);
 
   const toShow =
-    arr != undefined ? (
+    arr != undefined && arr.length > 0 ? (
       arr?.map((report: AllReport, index) => {
         const styleContent = 'fit-content';
         const date = report?.createdAt.toString().substring(0, 10);
@@ -171,7 +171,7 @@ export default function ReportsTable() {
       >
         <div className='table-responsive'>
           <table
-            className={`${styles.container ?? ''} table`}
+            className={`${styles.container ?? ''} table table-hover`}
             style={{
               filter: 'drop-shadow(0 0 0.1rem #eee)',
               borderRadius: '0.25rem',

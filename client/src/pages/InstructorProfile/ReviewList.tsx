@@ -43,19 +43,24 @@ export default function ReviewList(props: { text: string }) {
 
   const reviewList: Review[] = data?.data?.data as Review[];
 
-  const toShow = reviewList?.map((review: Review) => {
-    return (
-      <ReviewContainer
-        key={review?._trainee?.username}
-        comment={review.comment}
-        country={review._trainee.country}
-        createdAt={review.createdAt.toString()}
-        img={review._trainee.profileImage}
-        name={review._trainee.name}
-        rating={review.rating}
-      />
+  const toShow =
+    reviewList && reviewList?.length ? (
+      reviewList?.map((review: Review) => {
+        return (
+          <ReviewContainer
+            key={review?._trainee?.username}
+            comment={review.comment}
+            country={review._trainee.country}
+            createdAt={review.createdAt.toString()}
+            img={review._trainee.profileImage}
+            name={review._trainee.name}
+            rating={review.rating}
+          />
+        );
+      })
+    ) : (
+      <div className='alert alert-danger'>No Reviews Yet</div>
     );
-  });
 
   return (
     <div className='container'>

@@ -89,7 +89,13 @@ export default function Refund() {
       Rep.payload = {
         status: status
       };
-      await updateReport(Rep);
+      await toast.promise(
+        updateReport(Rep),
+        {
+          pending: 'Applying Actions...'
+        },
+        toastOptions
+      );
       /* if (status == Status.RESOLVED) {
         const Reffund = PaymentRoutes.POST.Refund;
 

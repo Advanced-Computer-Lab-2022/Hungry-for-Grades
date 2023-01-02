@@ -172,6 +172,7 @@ class AuthService {
 
     const salt = await genSalt();
     newPassword = await hash(newPassword, salt);
+    console.log(newPassword);
 
     const updatedUser = await userModel.findByIdAndUpdate(userId, { password: newPassword });
     return updatedUser;

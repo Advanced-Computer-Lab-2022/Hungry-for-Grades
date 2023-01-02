@@ -86,15 +86,18 @@ function MenuHeadersExample() {
                 zIndex: 9999
               }}
             >
-              <NavDropdown.Item>
-                <NavLink
-                  style={{ color: 'inherit' }}
-                  to={`/${user.role}/profile`}
-                >
-                  <FiUser className={styles.nav__icon} />
-                  Personal Profile
-                </NavLink>
-              </NavDropdown.Item>
+              {user.role.toLocaleLowerCase() !==
+                Role.ADMIN.toLocaleLowerCase() && (
+                <NavDropdown.Item>
+                  <NavLink
+                    style={{ color: 'inherit' }}
+                    to={`/${user.role}/profile`}
+                  >
+                    <FiUser className={styles.nav__icon} />
+                    Personal Profile
+                  </NavLink>
+                </NavDropdown.Item>
+              )}
               <NavDropdown.Item>
                 <NavLink
                   style={{ color: 'inherit' }}
@@ -105,14 +108,17 @@ function MenuHeadersExample() {
                 </NavLink>
               </NavDropdown.Item>
               <hr />
-              <NavDropdown.Item>
-                <NavLink
-                  style={{ color: 'inherit' }}
-                  to={`/${user.role}/profile`}
-                >
-                  <IoSettingsOutline className={styles.nav__icon} /> Settings
-                </NavLink>
-              </NavDropdown.Item>
+              {user.role.toLocaleLowerCase() !==
+                Role.ADMIN.toLocaleLowerCase() && (
+                <NavDropdown.Item>
+                  <NavLink
+                    style={{ color: 'inherit' }}
+                    to={`/${user.role}/profile`}
+                  >
+                    <IoSettingsOutline className={styles.nav__icon} /> Settings
+                  </NavLink>
+                </NavDropdown.Item>
+              )}
               <NavDropdown.Item onClick={logout}>
                 <button
                   style={{

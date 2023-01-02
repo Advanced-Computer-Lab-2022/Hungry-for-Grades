@@ -6,8 +6,6 @@ import { HiOutlineDocumentReport } from 'react-icons/hi';
 
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import DescriptionModal from '../reportRequests/DescriptionModal';
 
 // eslint-disable-next-line css-modules/no-unused-class
@@ -38,8 +36,6 @@ export default function AdminHome(props: {
 
   const [description, setDescription] = useState('');
 
-  const navigate = useNavigate();
-
   function closeModal() {
     setShowDescription(false);
   }
@@ -54,8 +50,7 @@ export default function AdminHome(props: {
     }
   }
 
-  function handleClick()
-  {
+  function handleClick() {
     setShowModal(!showModal);
   }
 
@@ -255,14 +250,10 @@ export default function AdminHome(props: {
               <button
                 style={{ color: '#a00407' }}
                 type='button'
-                onClick={() =>{
-                  
-                  setShowModal(!showModal)
-                  setCurr(report)
-                }
-
-
-                }
+                onClick={() => {
+                  setShowModal(!showModal);
+                  setCurr(report);
+                }}
               >
                 Follow ups
               </button>
@@ -279,8 +270,15 @@ export default function AdminHome(props: {
     );
 
   return (
-    <div className='fluid-container' style={{ overflowX: 'auto' }}>
-      <table className={`${styles.container ?? ''}  table table-responsive`}>
+    <div
+      className='fluid-container table-responsive'
+      style={{ overflowX: 'auto' }}
+    >
+      <table
+        className={`${
+          styles.container ?? ''
+        }  table table-responsive table-hover`}
+      >
         <thead>
           <tr
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
@@ -317,8 +315,13 @@ export default function AdminHome(props: {
               handleClose={closeModal}
             />
           )}
-          {showModal && 
-          <FollowUp func={ handleClick } report = {curr as AllReport} trainee={'false'} />}
+          {showModal && (
+            <FollowUp
+              func={handleClick}
+              report={curr as AllReport}
+              trainee={'false'}
+            />
+          )}
         </tbody>
       </table>
     </div>

@@ -41,6 +41,7 @@ function CourseCardPreview({
     <img
       alt={title}
       className={`card-img-top img-fluid ${styles.course__img ?? ''}`}
+      loading='lazy'
       src={image && image.length > 0 ? image : COMPANY_LOGO}
       onError={e => {
         e.currentTarget.src = COMPANY_LOGO;
@@ -111,7 +112,7 @@ function CourseCard(courseProps: {
             styles.course__card ?? ''
           } card card-cascade rounded bg-light shadow my-5`}
         >
-          <Link to={`${`/course/${props.id}`}`}>
+          <Link to={`/course/${props.id}`}>
             <div className={`${styles.course__img__container ?? ''}`}>
               <img
                 alt={props.title}
@@ -156,9 +157,11 @@ function CourseCard(courseProps: {
                   />
                 </div>
                 <div className={` ${styles['fnt-xs'] ?? ''} text-break`}>
-                  <strong>
-                    Duration: {formatDuration(props.duration * 60)}
-                  </strong>
+                  {props.duration && (
+                    <strong>
+                      Duration: {formatDuration(props.duration * 60)}
+                    </strong>
+                  )}
                 </div>
                 <CourseRating {...props.rating} />
                 {isActualEnrolled && (

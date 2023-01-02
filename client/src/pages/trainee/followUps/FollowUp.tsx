@@ -17,6 +17,8 @@ import usePostQuery from '@/hooks/usePostQuery';
 import { TraineeRoutes } from '@/services/axios/dataServices/TraineeDataService';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { ITrainee } from '@/interfaces/course.interface';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
+import ErrorMessage from '@/components/error/message/ErrorMessage';
 
 async function getReport(id: string) {
   const report = ReportDataService.GET.getReportById;
@@ -36,14 +38,6 @@ async function getReport(id: string) {
   };
 }
 
-/*
-
-i want it as a modal ??
-Make the Modal Here and take the report with you
-
-
-*/
-
 export default function FollowUp(props: {
   report: AllReport;
   func: () => void;
@@ -51,19 +45,12 @@ export default function FollowUp(props: {
 }) {
   const user = UseUser();
 
-  //const param = useParams();
-
-  //const [searchParams] = useSearchParams();
-
   const [txt, setTxt] = useState<string>('');
 
   const [update, setUpdate] = useState(0);
 
-  //const reportID = param?.reportId;
-  //const trainee = searchParams.get('trainee') as string;
-
   const { data } = useQuery(
-    ['get me a report right nowwwwwwwwx', update, location, props?.report?._id],
+    ['follow-ups', update, location, props?.report?._id],
     () => getReport(props?.report?._id),
     {
       cacheTime: 1000 * 60 * 60 * 24,
@@ -77,18 +64,9 @@ export default function FollowUp(props: {
     props?.func();
   }
 
-  const { mutateAsync: sendMessage } = usePostQuery();
-
-  /*if(isLoading)
-  {
-    return <Loader />
-  }*/
-
-  //console.log(data);
+  const { mutateAsync: sendMessage, isLoading, isError } = usePostQuery();
 
   const report = data?.report as unknown as AllReport;
-
-  //console.log(report);
 
   let i = -1;
   const img =
@@ -96,39 +74,49 @@ export default function FollowUp(props: {
       ? 'https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg?w=640'
       : data?.img;
 
-  const toShow = report?.followUp?.map((message: Message) => {
-    const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
+  const toShow =
+    report?.followUp?.length > 0 ? (
+      report?.followUp?.map((message: Message) => {
+        const sender: boolean = (props?.trainee == 'true') !== message?.isAdmin;
 
-    return (
-      <div key={++i} className='row my-2'>
-        <div className='col-1'>
-          {!sender && (
-            <img
-              alt={'Some Dude'}
-              height='35'
-              src={img}
-              style={{ borderRadius: '50px' }}
-              width='40'
-            />
-          )}
-        </div>
-        <div
-          className={`col-11 d-flex ${
-            sender ? 'justify-content-end' : 'justify-content-start'
-          }`}
-        >
-          <div
-            className={` ${
-              sender ? styles.sender || '' : styles.receiver || ''
-            }`}
-            style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
-          >
-            {message.content}
+        return (
+          <div key={++i} className='row my-2'>
+            <div className='col-1'>
+              {!sender && (
+                <img
+                  alt={'Some Dude'}
+                  height='35'
+                  src={img}
+                  style={{ borderRadius: '50px' }}
+                  width='40'
+                />
+              )}
+            </div>
+            <div
+              className={`col-11 d-flex ${
+                sender ? 'justify-content-end' : 'justify-content-start'
+              }`}
+            >
+              <div
+                className={` ${
+                  sender ? styles.sender || '' : styles.receiver || ''
+                }`}
+                style={{ minWidth: '3rem', padding: '0.5rem 0.7rem' }}
+              >
+                {message.content}
+              </div>
+            </div>
           </div>
-        </div>
+        );
+      })
+    ) : (
+      <div
+        className='text-center alert alert-primary'
+        style={{ fontSize: '1.5rem', fontWeight: '500', marginTop: '2rem' }}
+      >
+        No Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
       </div>
     );
-  });
 
   async function SendMessage() {
     const message = ReportDataService.POST.sendMessage;
@@ -152,10 +140,7 @@ export default function FollowUp(props: {
           <Modal.Title>Follow Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div
-            className='container'
-            style={{ maxWidth: '40rem', margin: '3rem auto' }}
-          >
+          <div className='container mx-auto' style={{ maxWidth: '40rem' }}>
             {/*<div
           className='text-center'
           style={{
@@ -167,24 +152,30 @@ export default function FollowUp(props: {
         >
           Follow Ups with the {props?.trainee == 'true' ? 'Admin' : 'User'}
         </div>*/}
-            <div className={styles.message_holder}>{toShow}</div>
-
-            <div className={styles.send_message}>
-              <textarea
-                className={styles.message}
-                value={txt}
-                onChange={e => setTxt(e.target.value)}
-              />
-              <button
-                style={{ border: 'none' }}
-                type='button'
-                onClick={() => SendMessage()}
-              >
-                <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
-              </button>
+            <div className={styles.message_holder}>
+              {isError && <ErrorMessage />}
+              {isLoading && <LoaderComponent />}
+              {!isError && !isLoading && report && toShow}
+              <div id='scroll-here' />
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <div className={styles.send_message}>
+            <textarea
+              className={styles.message}
+              value={txt}
+              onChange={e => setTxt(e.target.value)}
+            />
+            <button
+              style={{ border: 'none' }}
+              type='button'
+              onClick={() => SendMessage()}
+            >
+              <FiSend style={{ color: '#a00407', fontSize: '1.4rem' }} />
+            </button>
+          </div>
+        </Modal.Footer>
       </Modal>
     </>
   );

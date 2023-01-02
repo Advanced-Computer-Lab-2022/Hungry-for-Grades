@@ -35,6 +35,7 @@ import {
 import ProgressStepper from '@/components/progress/progressStepper/ProgressStepper';
 import useMultistepForm from '@/hooks/useMultistepForm';
 import useInstructorId from '@/hooks/useInstuctorId';
+import useRedirectToLogin from '@/hooks/useRedirectToLogin';
 
 // import CheckBoxInput from '@/components/inputs/checkbox/CheckBoxInput';
 
@@ -60,10 +61,9 @@ const schemas = [
 
 async function submitCourse(
   values: CourseFormValues,
-  submitAction: CourseSubmitAction
+  submitAction: CourseSubmitAction,
+  instructorId: string | undefined
 ) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const instructorId = useInstructorId();
   if (!instructorId) {
     return;
   }
@@ -92,7 +92,6 @@ async function submitCourse(
       })),
       lessons: s.lessons.map(l => ({
         _id: l._id,
-        duration: parseInt(l.duration, 10),
         videoURL: l.videoURL,
         title: l.title,
         description: l.description
@@ -103,16 +102,7 @@ async function submitCourse(
       currency: 'CAD',
       discounts: [] as CourseDiscount[]
     },
-    keywords: [] as string[],
-    duration: values.sections.reduce(
-      (sum, sec) =>
-        sum +
-        sec.lessons.reduce(
-          (sum2, les) => sum2 + parseInt(les.duration as unknown as string, 10),
-          0
-        ),
-      0
-    )
+    keywords: [] as string[]
   };
 
   await submitAction(course);
@@ -122,6 +112,8 @@ function CourseForm(props: CourseFormProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const openTerms = useCallback(() => setModalOpen(true), [setModalOpen]);
   const closeTerms = useCallback(() => setModalOpen(false), [setModalOpen]);
+  const instructorId = useInstructorId();
+  const redirectToLogin = useRedirectToLogin();
   const {
     currentStepIndex,
     steps,
@@ -141,12 +133,15 @@ function CourseForm(props: CourseFormProps) {
     stepTitles.slice(0, props.isUpdating ? 1 : 3),
     stepDescriptions.slice(0, props.isUpdating ? 1 : 3)
   );
+  if (!instructorId) {
+    redirectToLogin();
+  }
   const handleSubmit = async (
     values: CourseFormValues,
     actions: FormikHelpers<CourseFormValues>
   ) => {
     if (isLastStep) {
-      await submitCourse(values, props.submitAction);
+      await submitCourse(values, props.submitAction, instructorId);
     } else {
       actions.setTouched({});
       actions.setSubmitting(false);

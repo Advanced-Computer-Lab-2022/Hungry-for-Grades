@@ -156,15 +156,21 @@ export default function CertificateGenerator() {
 
     mail.payload = { certificate: tmp };
 
-    await toast.promise(
+    const response = await toast.promise(
       sendMail(mail),
       {
-        pending: 'Sending Certificate',
-        success: 'Certificate Sent',
-        error: 'Error Sending Certificate'
+        pending: 'Sending Certificate to your email ....'
       },
       toastOptions
     );
+    if (!response?.status) {
+      toast.success(
+        'Certificate Sent to your email successfully',
+        toastOptions
+      );
+    } else {
+      toast.error('Error Sending Certificate', toastOptions);
+    }
   }
 
   if (isError) return <ErrorMessage />;
@@ -244,29 +250,33 @@ export default function CertificateGenerator() {
                   formatDuration(
                     verifiedCourseData?.sections.reduce(
                       (s, l) =>
-                        s + l.lessons.reduce((s2, l2) => s2 + l2.duration, 0),
+                        s +
+                        l.lessons.reduce(
+                          (s2, l2) => s2 + (l2.duration ?? 0),
+                          0
+                        ),
                       0
                     )
                   )}
               </div>
             </div>
-						<div className='d-flex flex-md-row flex-sm-column  gap-md-2 flex-wrap mb-md-4'>
-            <button
-              className='btn btn-primary btn-lg '
-              type='submit'
-              onClick={handleDownloadPDF}
-            >
-              Download
-            </button>
-            <ShareButton link={`course/${courseId as string}`} />
-            <button
-              className='btn btn-primary btn-lg mx-2'
-              type='submit'
-              onClick={() => sendOnMail()}
-            >
-               Mail
-            </button>
-						</div>
+            <div className='d-flex flex-md-row flex-sm-column  gap-md-2 flex-wrap mb-md-4'>
+              <button
+                className='btn btn-primary btn-lg '
+                type='submit'
+                onClick={handleDownloadPDF}
+              >
+                Download
+              </button>
+              <ShareButton link={`course/${courseId as string}`} />
+              <button
+                className='btn btn-primary btn-lg'
+                type='submit'
+                onClick={() => sendOnMail()}
+              >
+                Mail
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
     rating: course.rating,
-    duration: course.duration,
+    duration: course.duration ?? 0,
     description: course.description,
     outline: course.outline,
     previewVideoURL: course.previewVideoURL

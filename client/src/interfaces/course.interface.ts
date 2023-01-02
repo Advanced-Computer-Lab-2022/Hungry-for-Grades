@@ -38,7 +38,7 @@ interface IBaseCourse {
   subcategory: string[];
   thumbnail: string;
   title: string;
-  duration: number;
+  duration?: number;
   outline: string[];
   sections: ICourseSection[];
 }
@@ -85,12 +85,14 @@ export type IPrice = {
   currentValue: number;
   discounts: Array<CourseDiscount>;
 };
-export type Review = {
-  _trainee: ITrainee;
+export type ReviewDTO = {
   comment: string;
-  createdAt: Date;
   rating: number;
 };
+export type Review = {
+  _trainee: ITrainee;
+  createdAt: Date;
+} & ReviewDTO;
 export type ICourseReview = {
   _traineeId: string | undefined;
   comment: string;
@@ -141,9 +143,10 @@ export type Instructor = {
 export type ICourseLesson = {
   _id?: string;
   description: string;
-  duration: number;
+  duration?: number;
   title: string;
   videoURL: string;
+  progress?: number;
 };
 
 export type ICourseQuestion = {
