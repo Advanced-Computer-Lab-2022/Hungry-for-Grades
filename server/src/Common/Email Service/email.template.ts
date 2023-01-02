@@ -14,18 +14,18 @@ import {
 } from '@/Config';
 import { UserRole } from '@/User/user.enum';
 
-export function sendVerificationEmail(traineeEmail: string, username: string, code: number) {
-  const emailBody = getVerifyEmailHTML(username, code);
+export function sendVerifyEmail(traineeEmail: string, name: string, code: number) {
+  const emailBody = getVerifyEmailHTML(name, code);
   sendEmail(traineeEmail, emailBody, 'CanCham Support - Verification Email');
 }
 
-function getVerifyEmailHTML(username: string, code: number): string {
+function getVerifyEmailHTML(name: string, code: number): string {
   const filePath = path.join(__dirname, '/templates/VerifyEmail.html');
   const source = fs.readFileSync(filePath, 'utf-8').toString();
   const template = handlebars.compile(source);
   const replacements = {
     code,
-    username,
+    username: name,
   };
   const htmlToSend = template(replacements);
   return htmlToSend;
