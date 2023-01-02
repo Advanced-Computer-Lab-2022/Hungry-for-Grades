@@ -36,9 +36,7 @@ function ConfirmEmail({
       name: `${firstName} ${lastName}`,
 			username
     };
-    const response = await toast.promise(mutateAsync(verifyEmail),{
-			pending: 'Sending Email ...'
-		},toastOptions);
+    const response = await mutateAsync(verifyEmail)
 
 
 		if (!response.status) {
@@ -46,7 +44,6 @@ function ConfirmEmail({
 
 			return;
 		} else {
-			toast.success(`Email is Sent`, toastOptions);
 		}
 
     return response.data;
@@ -76,7 +73,7 @@ function ConfirmEmail({
           console.log('verifiedCode');
           console.log(verifiedCode);
           toast.update(id, {
-            render: 'We sent you a code to your email address',
+            render: "We've sent to you verification code to your email address",
             type: 'success',
             isLoading: false,
             ...toastOptions
@@ -131,7 +128,7 @@ function ConfirmEmail({
                 verifiedCode = `${response?.data}`;
 
                 toast.update(id, {
-                  render: 'We sent you a code to your email address',
+									render: "We've sent to you verification code to your email address",
                   type: 'success',
                   isLoading: false,
                   ...toastOptions
