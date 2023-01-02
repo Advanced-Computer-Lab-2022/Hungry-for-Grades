@@ -16,12 +16,9 @@ import { toastOptions } from '@/components/toast/options';
 
 import Input from '@/components/inputs/input/Input';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
-import {  postRequest } from '@/services/axios/http-verbs';
+import { postRequest } from '@/services/axios/http-verbs';
 import { CourseDiscount } from '@/interfaces/course.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
-
-
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 export default function DiscountModal(props: {
   handleClose: () => void;
@@ -34,7 +31,7 @@ export default function DiscountModal(props: {
     props.handleClose();
   }
 
-  const { mutateAsync: updateDiscount } = usePatchQuery()
+  const { mutateAsync: updateDiscount } = usePatchQuery();
 
   return (
     <Modal show onHide={props.handleClose}>
@@ -89,17 +86,20 @@ export default function DiscountModal(props: {
               } else {
                 if (values.percent != 0) {
                   dddiscount.payload = { percentage: values.percent };
-                } 
+                }
               }
               //alert('UPDATE ' + toBeUpdated.endDate + " " + toBeUpdated.percent)
 
               //here i have my patch request that i want to do
 
-              const dddata = await updateDiscount(dddiscount)
-              if(!dddata?.status) toast.error('An Error has occured, Please try again', toastOptions);
+              const dddata = await updateDiscount(dddiscount);
+              if (!dddata?.status)
+                toast.error(
+                  'An Error has occured, Please try again',
+                  toastOptions
+                );
               else toast.success('Update is sent successfully', toastOptions);
               console.log(dddata);
-
 
               /*await axios
                 .patch(

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/no-unused-prop-types */
-import axios from 'axios';
+
 import { useState } from 'react';
 import { Card, Stack, Badge } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -15,26 +15,20 @@ import { toastOptions } from '@/components/toast/options';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
 import { deleteRequest } from '@/services/axios/http-verbs';
 
-
 async function handleDelete(
   discountID: string,
   courseID: string,
   updateFunction: () => void
 ) {
-
-
   const Discount = InstructorRoutes.DELETE.deleteDiscount;
 
-  Discount.URL = `/courses/${courseID}/discount/${discountID}`
+  Discount.URL = `/courses/${courseID}/discount/${discountID}`;
 
   const data = await deleteRequest(Discount);
 
-  if(!data.status)
-  {
+  if (!data.status) {
     toast.error('An error has occured please try again...', toastOptions);
-  }
-  else
-  {
+  } else {
     toast.success('Discount is Deleted Successfully', toastOptions);
   }
 

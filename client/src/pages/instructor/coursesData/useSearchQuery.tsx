@@ -62,7 +62,7 @@ async function searchRequest(
   return getRequest<PaginatedResponse<ITeachedCourse>>(getCoursesSearchFilter);
 }
 
-function useSearchQuery(filters: SelectFiltersType, location : Location) {
+function useSearchQuery(filters: SelectFiltersType, location: Location) {
   const [activePage, setActivePage] = useState<number>(1);
   const useUser = UseUser();
   const country = UseCountry();

@@ -39,7 +39,7 @@ export default function CourseDiscounts() {
     setRefresh(refresh + 1);
   }
 
-  const locationn  = useLocation() ;
+  const locationn = useLocation();
 
   const { isLoading, data } = useCourseDiscountsQuery(
     id.courseid as string,

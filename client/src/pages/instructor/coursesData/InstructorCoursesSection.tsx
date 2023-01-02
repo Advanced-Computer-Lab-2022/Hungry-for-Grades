@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 import InstructorCourseCard from './InstructorCourseCard';
 
 import useSearchQuery from './useSearchQuery';
@@ -16,7 +18,6 @@ import { SelectFiltersType } from '@pages/guest/searchCourses/types';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import useMultistepForm from '@/hooks/useMultistepForm';
 
-import { useLocation } from 'react-router-dom';
 function InstructorCoursesSection() {
   const { currentStepIndex, goTo } = useMultistepForm(
     [<></>, <></>],

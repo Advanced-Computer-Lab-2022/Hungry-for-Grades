@@ -114,7 +114,7 @@ function InstructorCourseCard(props: ITeachedCourse) {
                 {formatCurrency(
                   price?.currentValue ? price.currentValue : 0,
                   price?.currency ? price.currency : 'US'
-                )}{' '}{' '}
+                )}{' '}
               </div>
             </div>
           </div>
