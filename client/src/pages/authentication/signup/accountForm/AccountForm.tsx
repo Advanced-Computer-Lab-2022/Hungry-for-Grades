@@ -148,9 +148,9 @@ function AccountForm({
           href='/'
           id='accountform-modalTerms'
           style={{
-						textDecoration: 'underline',
-					}}
-					type='button'
+            textDecoration: 'underline'
+          }}
+          type='button'
         >
           <CheckBoxInput
             checked={formik.values.terms}

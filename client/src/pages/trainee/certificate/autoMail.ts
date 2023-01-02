@@ -14,7 +14,7 @@ export async function autoMail(
   sendMail: (arg0: {
     URL: string;
     params: string;
-    query: string;
+    query: unknown;
     payload: unknown;
   }) => Promise<unknown> | (() => Promise<unknown>)
 ) {
@@ -114,6 +114,7 @@ export async function autoMail(
   mail.URL = `/trainee/${traineeData?._id}/course/${courseData?._id}/certificate`;
 
   mail.payload = { certificate: tmp };
+  mail.query = { isAuto: 'true' };
 
   await toast.promise(
     sendMail(mail),

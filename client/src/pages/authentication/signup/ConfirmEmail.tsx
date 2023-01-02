@@ -21,7 +21,8 @@ function ConfirmEmail({
   prev,
   firstName,
   lastName,
-  email,username
+  email,
+  username
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
   const { mutateAsync, isError, isSuccess, error } =
@@ -34,20 +35,23 @@ function ConfirmEmail({
     verifyEmail.payload = {
       email,
       name: `${firstName} ${lastName}`,
-			username
+      username
     };
-    const response = await toast.promise(mutateAsync(verifyEmail),{
-			pending: 'Sending Email ...'
-		},toastOptions);
+    const response = await toast.promise(
+      mutateAsync(verifyEmail),
+      {
+        pending: 'Sending Email ...'
+      },
+      toastOptions
+    );
 
+    if (!response.status) {
+      toast.error(response.data.message, toastOptions);
 
-		if (!response.status) {
-			toast.error(response.data.message, toastOptions);
-
-			return;
-		} else {
-			toast.success(`Email is Sent`, toastOptions);
-		}
+      return;
+    } else {
+      toast.success(`Email is Sent`, toastOptions);
+    }
 
     return response.data;
   };

@@ -147,7 +147,7 @@ export const TraineeRoutes = {
     sendCertificateByMail: {
       URL: '',
       params: '',
-      query: '',
+      query: {},
       payload: {}
     }
   },

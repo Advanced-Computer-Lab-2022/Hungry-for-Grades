@@ -1,11 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from '@tanstack/react-query';
 
+import { autoMail } from '../certificate/autoMail';
+
 import { useTraineeId } from '@/hooks/useTraineeId';
 import { getLessonById } from '@/services/axios/dataServices/CoursesDataService';
 import Loader from '@/components/loader/loaderpage/Loader';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
-import { UseUserSetProgressBar } from '@/store/userStore';
+import { UseUser, UseUserSetProgressBar } from '@/store/userStore';
+import { EnrolledCourse } from '@/interfaces/course.interface';
+import usePostQuery from '@/hooks/usePostQuery';
+import { IUser } from '@/interfaces/user.interface';
 
 function parseYoutubeUrl(url: string) {
   const regExp =
@@ -21,13 +26,14 @@ function getEmbedUrl(url: string) {
   }
   return `https://www.youtube.com/embed/${id}`;
 }
-function Video(props: { lessonId: string; courseId: string }) {
+function Video(props: { lessonId: string; course: EnrolledCourse }) {
   const userId = useTraineeId();
+  const user = UseUser();
   const useUserSetProgressBar = UseUserSetProgressBar();
-
+  const { mutateAsync: sendAutoMail } = usePostQuery();
   const { data, isError, isLoading } = useQuery(
-    ['getLessonById', props.lessonId, props.courseId, userId],
-    () => getLessonById(props.courseId, props.lessonId, userId)
+    ['getLessonById', props.lessonId, props.course._course._id, userId],
+    () => getLessonById(props.course._course._id, props.lessonId, userId)
   );
   if (isLoading) {
     return (
@@ -51,6 +57,13 @@ function Video(props: { lessonId: string; courseId: string }) {
   }
   if (data) {
     useUserSetProgressBar(data.progress as number);
+  }
+  if (
+    data.progress === 100 &&
+    (props.course.dateOfCompletion === null ||
+      props.course.dateOfCompletion === undefined)
+  ) {
+    void autoMail(user as IUser, props.course._course, sendAutoMail);
   }
   const embeddedUrl = getEmbedUrl(data.videoURL);
   return (
