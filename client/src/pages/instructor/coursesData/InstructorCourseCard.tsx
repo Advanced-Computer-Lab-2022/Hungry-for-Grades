@@ -1,14 +1,16 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 
-import { AiFillEdit } from 'react-icons/ai';
-
 import { BsFillTrashFill } from 'react-icons/bs';
 
 import { Link } from 'react-router-dom';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
+
+import { Modal } from 'react-bootstrap';
+
+import { AiOutlineWarning } from 'react-icons/ai';
 
 import styles from './InstructorCourseCard.module.scss';
 
@@ -48,20 +50,21 @@ function InstructorCourseCard(props: ITeachedCourse) {
   const oldPrice = getOriginalPrice(price.currentValue, discount);
   const courseId = data._id;
   const queryClient = useQueryClient();
-  const deleteCourseWithConfirm = useCallback(async () => {
-    if (
-      !window.confirm(
-        'Are you sure you want to delete this course? This action cannot be undone!'
-      )
-    ) {
-      return false;
-    }
+  const [modalOpen, setModalOpen] = useState(false);
+  const showDeleteConfirmation = useCallback(() => {
+    setModalOpen(true);
+  }, [setModalOpen]);
+  const closeDeleteConfirmation = useCallback(() => {
+    setModalOpen(false);
+  }, [setModalOpen]);
+  const callDeleteCourse = useCallback(async () => {
+    closeDeleteConfirmation();
     await deleteCourse(courseId);
     await queryClient.invalidateQueries({
       queryKey: ['search-instructor-courses'],
       exact: false
     });
-  }, [courseId, queryClient]);
+  }, [courseId, queryClient, closeDeleteConfirmation]);
   if (!props._course.price) return <></>;
   return (
     <div className={`${styles.cardContainer ?? ''}`}>
@@ -183,22 +186,48 @@ function InstructorCourseCard(props: ITeachedCourse) {
         </Link>
 
         <ShareButton link={`course/${courseId}`} />
-        <Link
-          className='btn btn-primary btn-lg'
-          to={`/instructor/edit-course/${data?._id}`}
-        >
-          Edit
-          <AiFillEdit />
-        </Link>
         <button
           className='btn btn-secondary btn-lg ms-3'
           type='button'
-          onClick={deleteCourseWithConfirm}
+          onClick={showDeleteConfirmation}
         >
           Delete
           <BsFillTrashFill />
         </button>
       </div>
+      <Modal show={modalOpen} onHide={closeDeleteConfirmation}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <span className='text-dark'>Confirm Course Deletion</span>
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <h1 className='text-center text-danger'>
+            <AiOutlineWarning />
+          </h1>
+          <p className='text-danger' role='alert'>
+            Are you sure you want to delete this course? This action cannot be
+            undone!
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className='btn btn-danger'
+            type='button'
+            onClick={callDeleteCourse}
+          >
+            Yes
+          </button>
+          <button
+            className='btn btn-secondary'
+            type='button'
+            onClick={closeDeleteConfirmation}
+          >
+            No
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
