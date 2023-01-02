@@ -12,24 +12,32 @@ import DiscountModal from '../DiscountModal';
 import styles from './DiscountCard.module.scss';
 
 import { toastOptions } from '@/components/toast/options';
+import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
+import { deleteRequest } from '@/services/axios/http-verbs';
 
-const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
 async function handleDelete(
   discountID: string,
   courseID: string,
   updateFunction: () => void
 ) {
-  await axios
-    .delete(`${APP_BASE_API_URL}/courses/${courseID}/discount/${discountID}`)
-    .then(_response => {
-      console.log(_response);
-      toast.success('Discount is Deleted Successfully...', toastOptions);
-    })
-    .catch(_error => {
-      console.log(_error);
-      toast.error('an Error has occurred please try again...');
-    });
+
+
+  const Discount = InstructorRoutes.DELETE.deleteDiscount;
+
+  Discount.URL = `/courses/${courseID}/discount/${discountID}`
+
+  const data = await deleteRequest(Discount);
+
+  if(!data.status)
+  {
+    toast.error('An error has occured please try again...', toastOptions);
+  }
+  else
+  {
+    toast.success('Discount is Deleted Successfully', toastOptions);
+  }
+
   updateFunction();
 }
 

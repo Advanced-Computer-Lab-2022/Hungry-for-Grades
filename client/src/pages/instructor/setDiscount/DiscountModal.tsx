@@ -2,20 +2,24 @@ import { Formik, Form } from 'formik';
 
 import { Modal } from 'react-bootstrap';
 
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+
 import { toast } from 'react-toastify';
 
 import { advancedSchema } from './ValidationSchema';
 
 import { UpdateValidation } from './UpdateValidation';
 
+import usePatchQuery from '@/hooks/usePatchQuery';
+
 import { toastOptions } from '@/components/toast/options';
 
 import Input from '@/components/inputs/input/Input';
 import { InstructorRoutes } from '@/services/axios/dataServices/InstructorDataService';
-import { postRequest } from '@/services/axios/http-verbs';
+import {  postRequest } from '@/services/axios/http-verbs';
 import { CourseDiscount } from '@/interfaces/course.interface';
 import { HttpResponse } from '@/interfaces/response.interface';
+
 
 const APP_BASE_API_URL = import.meta.env.VITE_SERVER_BASE_API_URL;
 
@@ -29,6 +33,8 @@ export default function DiscountModal(props: {
     props.updateFunc();
     props.handleClose();
   }
+
+  const { mutateAsync: updateDiscount } = usePatchQuery()
 
   return (
     <Modal show onHide={props.handleClose}>
@@ -69,28 +75,33 @@ export default function DiscountModal(props: {
                 toast.success('Discount is Added Successfully', toastOptions);
               }
             } else {
-              let toBeUpdated = {};
-              if (values.endDate != '') {
+              const dddiscount = InstructorRoutes.PATCH.updateDiscount;
+              dddiscount.URL = `/courses/${props.id}/discount/${props?.updateFlag}`;
+              if (values.endDate != '' && values.endDate != undefined) {
                 if (values.percent != 0) {
-                  toBeUpdated = {
+                  dddiscount.payload = {
                     endDate: values.endDate,
                     percent: values.percent
                   };
                 } else {
-                  toBeUpdated = { endDate: values.endDate };
+                  dddiscount.payload = { endDate: values.endDate };
                 }
               } else {
                 if (values.percent != 0) {
-                  toBeUpdated = { percent: values.percent };
-                } else {
-                  toBeUpdated = {};
-                }
+                  dddiscount.payload = { percent: values.percent };
+                } 
               }
               //alert('UPDATE ' + toBeUpdated.endDate + " " + toBeUpdated.percent)
 
               //here i have my patch request that i want to do
 
-              await axios
+              const dddata = await updateDiscount(dddiscount)
+              if(!dddata?.status) toast.error('An Error has occured, Please try again', toastOptions);
+              else toast.success('Update is sent successfully', toastOptions);
+              console.log(dddata);
+
+
+              /*await axios
                 .patch(
                   `${APP_BASE_API_URL}/courses/${props.id}/discount/${props.updateFlag}`,
                   toBeUpdated
@@ -105,7 +116,7 @@ export default function DiscountModal(props: {
                 .catch(_error => {
                   toast.error('an Error has occured...', toastOptions);
                   console.log(_error);
-                });
+                });*/
             }
             handleAll();
           }}

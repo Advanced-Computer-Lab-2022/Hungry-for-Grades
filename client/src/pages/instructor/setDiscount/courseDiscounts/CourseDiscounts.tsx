@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SetStateAction, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import DiscountModal from '../DiscountModal';
 
@@ -39,9 +39,12 @@ export default function CourseDiscounts() {
     setRefresh(refresh + 1);
   }
 
+  const locationn  = useLocation() ;
+
   const { isLoading, data } = useCourseDiscountsQuery(
     id.courseid as string,
-    refresh
+    refresh,
+    locationn
   );
 
   if (isLoading) {

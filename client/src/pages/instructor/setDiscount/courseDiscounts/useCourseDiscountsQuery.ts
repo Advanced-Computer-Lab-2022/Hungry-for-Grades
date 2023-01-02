@@ -11,9 +11,9 @@ async function getDiscounts(id: string) {
 
   return getRequest(Discounts);
 }
-const useCourseDiscountsQuery = (id: string, refresh: number) => {
+const useCourseDiscountsQuery = (id: string, refresh: number, location : Location) => {
   return {
-    ...useQuery(['course-discountsss', refresh, id], () => getDiscounts(id), {
+    ...useQuery(['course-discountsssss', refresh, id, location], () => getDiscounts(id), {
       cacheTime: 1000 * 60 * 60 * 24,
       retryDelay: 1000,
       enabled: true // 1 second
