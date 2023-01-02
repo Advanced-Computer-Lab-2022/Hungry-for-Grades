@@ -25,7 +25,8 @@ export const AuthRoutes = {
       query: '',
       payload: {
         email: '',
-        username: ''
+        username: '',
+				name:''
       }
     },
     login: {
