@@ -152,7 +152,7 @@ export default function Cart() {
       <>
         <div className={styles.product}>
           <div className='row'>
-            <div className='col-md-3'>
+            <div className='col-md-3  mx-1'>
               <img
                 alt='course'
                 className='img-fluid mx-auto d-block image'
