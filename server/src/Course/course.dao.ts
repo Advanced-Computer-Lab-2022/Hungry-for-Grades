@@ -683,9 +683,10 @@ class CourseService {
     if (!discount) throw new HttpException(HttpStatusCodes.CONFLICT, "Discount doesn't exist");
 
     //update discount
-    discount.startDate = discountData.startDate;
-    discount.endDate = discountData.endDate;
-    discount.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+    if(discountData.startDate)  discount.startDate = discountData.startDate;
+    if (discountData.endDate)   discount.endDate = discountData.endDate;
+    if (discount.percentage)  discount.percentage = discountData.percentage < 0 ? 0 : discountData.percentage > 100 ? 100 : discountData.percentage;
+    
 
     await course.save();
     return course.price.discounts;
