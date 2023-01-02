@@ -73,10 +73,10 @@ function Content(props: ICourse) {
                       >
                         <li className='list-item'>
                           {data && data?.find(id => id === l._id) && (
-                            <input checked type='checkbox' />
+                            <input checked className='form-check-input' type='checkbox' />
                           )}
                           {data && !data?.find(id => id === l._id) && (
-                            <input checked={false} type='checkbox' />
+                            <input checked={false} className='form-check-input' type='checkbox' />
                           )}
                           &nbsp;
                           <strong>{l.title}</strong>{' '}
