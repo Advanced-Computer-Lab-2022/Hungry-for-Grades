@@ -187,12 +187,14 @@ export async function getCourseByID(
 }
 
 export async function createCourse(
-  course: IAddCourseRequest
+  course: IAddCourseRequest,
+  country: string
 ): Promise<ICourse | null> {
   if (!course) {
     return null;
   }
   const newCourse = CoursesRoutes.POST.createCourse;
+  newCourse.query = createQueryString({ country });
   newCourse.payload = course;
   const res = await postRequest<HttpResponse<ICourse>>(newCourse);
   if (res.statusText !== 'Created') {
