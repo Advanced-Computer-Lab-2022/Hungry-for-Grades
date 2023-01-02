@@ -30,13 +30,13 @@ const backStyle = {
 function Trainees() {
   const { data, isLoading, isError } = UseDataQuery();
 
-	const {
+  const {
     data: analytics,
     isLoading: isLoadingAnalytics,
     isError: isErrorAnalytics
   } = UseDataAnalyticsQuery();
 
-	const { currentStepIndex, goTo, step, titles } = useMultistepForm(
+  const { currentStepIndex, goTo, step, titles } = useMultistepForm(
     [
       <div key='area-analytics-instructor-earnings'>
         <AreaAnalytics
@@ -87,7 +87,7 @@ function Trainees() {
     ['Area', 'Line', 'Bar'],
     ['']
   );
-	if (isLoading || isLoadingAnalytics) {
+  if (isLoading || isLoadingAnalytics) {
     return <LoaderComponent />;
   }
   if (isError || isErrorAnalytics) {
@@ -129,7 +129,7 @@ function Trainees() {
             </div>
           </div>
         </div>
-				<div className='d-flex justify-content-between'>
+        <div className='d-flex justify-content-between'>
           <div className='container d-flex flex-row justify-content-center mb-4'>
             {titles?.map((title, index) => (
               <button
