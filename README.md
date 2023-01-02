@@ -153,6 +153,7 @@ yarn dev
 
 ## API Documentation
 Check out our API documentation on Postman by clicking [here](https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344)
+<br/>
 <a href="https://www.getpostman.com/"><img src="https://assets.getpostman.com/common-share/postman-logo-horizontal-320x132.png" /></a><br />
 
 
@@ -166,3 +167,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 - [Ahmed Wahba](https://github.com/AWahba1)
 - [Hussein Yasser](https://github.com/HusseinYasser)
 - [Mohamed Shams](https://github.com/Abo4ams)
+
+## License
+
+MIT

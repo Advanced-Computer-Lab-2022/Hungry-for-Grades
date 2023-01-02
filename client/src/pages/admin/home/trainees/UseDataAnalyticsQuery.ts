@@ -7,7 +7,7 @@ import { PaginatedResponse } from '@/interfaces/response.interface';
 import { CoursesRoutes } from '@/services/axios/dataServices/CoursesDataService';
 
 async function searchRequest() {
-	const getCoursesSearchFilter = Object.assign(
+  const getCoursesSearchFilter = Object.assign(
     {},
     CoursesRoutes.GET.getCoursesSearchFilter
   );

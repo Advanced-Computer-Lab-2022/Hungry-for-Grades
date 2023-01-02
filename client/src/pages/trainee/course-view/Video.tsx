@@ -89,7 +89,7 @@ function Video(props: { lessonId: string; courseId: string }) {
         </div>
       </p>
       <div className='container'>
-        <p className='m-3'>{data?.description}</p>
+        <p className='m-3 text-center text-dark'>{data?.description}</p>
       </div>
     </>
   );
