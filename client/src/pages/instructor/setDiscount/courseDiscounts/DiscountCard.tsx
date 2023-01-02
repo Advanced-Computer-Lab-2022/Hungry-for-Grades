@@ -76,7 +76,7 @@ export default function DiscountCard(props: {
             className='align-items-center justify-content-center h-100'
             gap={2}
           >
-            <span className='fs-5'>{props.percent.toString() + '%'}</span>
+            <span className='fs-5'>{props?.percent.toString() + '%'}</span>
 
             <Stack
               className='justify-content-center flex-wrap'

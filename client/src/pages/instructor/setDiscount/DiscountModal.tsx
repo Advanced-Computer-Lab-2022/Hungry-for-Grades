@@ -81,14 +81,14 @@ export default function DiscountModal(props: {
                 if (values.percent != 0) {
                   dddiscount.payload = {
                     endDate: values.endDate,
-                    percent: values.percent
+                    percentage: values.percent
                   };
                 } else {
                   dddiscount.payload = { endDate: values.endDate };
                 }
               } else {
                 if (values.percent != 0) {
-                  dddiscount.payload = { percent: values.percent };
+                  dddiscount.payload = { percentage: values.percent };
                 } 
               }
               //alert('UPDATE ' + toBeUpdated.endDate + " " + toBeUpdated.percent)
