@@ -278,6 +278,11 @@ export default function AdminHome(props: {
         className={`${
           styles.container ?? ''
         }  table table-responsive table-hover`}
+				style={{
+					filter: 'drop-shadow(0 0 0.1rem #eee)',
+					borderRadius: '0.25rem',
+					boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)'
+				}}
       >
         <thead>
           <tr

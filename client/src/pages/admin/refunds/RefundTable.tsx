@@ -217,7 +217,11 @@ export default function RefundTable(props: {
 
   return (
     <div className='table-responsive' style={{ overflowX: 'auto' }}>
-      <table className={`${styles.container ?? ''} table table-hover `}>
+      <table className={`${styles.container ?? ''} table table-hover `}  style={{
+              filter: 'drop-shadow(0 0 0.1rem #eee)',
+              borderRadius: '0.25rem',
+              boxShadow: ' 0 5px 8px 0 rgba(0, 0, 0, 0.2)'
+            }}>
         <thead>
           <tr
             style={{ fontWeight: '600', fontSize: '1rem', paddingLeft: '1rem' }}
