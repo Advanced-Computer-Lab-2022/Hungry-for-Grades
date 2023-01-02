@@ -114,6 +114,7 @@ export async function autoMail(
   mail.URL = `/trainee/${traineeData?._id}/course/${courseData?._id}/certificate`;
 
   mail.payload = { certificate: tmp };
+  mail.query = { isAuto: 'true' };
 
   mail.query = { isAuto: 'true' };
 
