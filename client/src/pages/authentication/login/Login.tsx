@@ -203,9 +203,9 @@ function Login() {
             <div className='d-flex flex-column justify-content-between'>
               <Button
                 backgroundColor='primary-bg'
+                id='login-submit'
                 isDisabled={!formik.isValid || !formik.dirty}
                 label='Login'
-								id='login-submit'
                 name='login'
                 type='button'
                 onClickFunc={handleSubmit}

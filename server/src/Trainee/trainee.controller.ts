@@ -416,7 +416,7 @@ class TraineeController {
       const courseId = req.params.courseId as string;
 
       // 0 signifies email sent manual by user
-      const isAuto=(req.query.isAuto as string==='true') ??false;
+      const isAuto = (req.query.isAuto as string) === 'true' ?? false;
       const certificatePDFBase64 = req.body.certificate; // Base 64 encoded
 
       //const certificateFile = req.files.certificate as UploadedFile;

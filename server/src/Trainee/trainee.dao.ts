@@ -649,23 +649,25 @@ class TraineeService {
   };
 
   // send certificate by email
-  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF: string, isAuto:boolean): Promise<void> => {
+  public sendCertificateByEmail = async (traineeId: string, courseId: string, certificatePDF: string, isAuto: boolean): Promise<void> => {
     const trainee = await traineeModel.findById(traineeId);
-    if(!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
+    if (!trainee) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee does not exist');
 
     const enrolledCourse = trainee._enrolledCourses.find(enrolledCourse => enrolledCourse._course.toString() == courseId);
     if (!enrolledCourse) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee is not enrolled in this course or Course does not exist');
-    if(enrolledCourse.progress!=100) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course is not completed yet, progress must be 100%');
+    if (enrolledCourse.progress != 100) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course is not completed yet, progress must be 100%');
 
-    console.log(isAuto);
-    if(isAuto && !enrolledCourse.dateOfCompletion){// email is sent auto only once (after course completion)
+    console.log(Boolean(enrolledCourse.dateOfCompletion));
+    if (isAuto) {
+      // email is sent auto only once (after course completion)
+      if (enrolledCourse.dateOfCompletion)
+        throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Certificate already sent automatically by mail before');
       //date of completion should be set
-      enrolledCourse.dateOfCompletion=new Date();
+      enrolledCourse.dateOfCompletion = new Date();
       await trainee.save();
     }
 
     await sendCertificateEmail(certificatePDF, trainee.email.address, trainee.name, enrolledCourse._course.title, `${enrolledCourse.examGrade}`);
-    
   };
 }
 export default TraineeService;

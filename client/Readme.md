@@ -10,6 +10,7 @@
 - [Help](#help)
 
 ## installation
+
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
 
 - to install packages : `yarn install`
@@ -67,96 +68,53 @@
 ## Screenshots
 
 - Landing page
-  <img src="../screenshots/Landing Page.png" alt="Landing Page" align="center" >
-
-- Navigation bar
-  <img src="../screenshots/Nav bar.png" alt="Nav bar" align="center" >
-
+  <img src="../screenshots/Landing Page.gif" alt="Landing Page" align="center" >
+  <br/>
 - Explore Tab
-  <img src="../screenshots/Nav bar hover explore.png" alt="Nav bar hover explore" align="center">
+  <img src="../screenshots/explore.gif" alt="Nav bar" align="center" >
+  <br/>
 
-  <img src="../screenshots/Explore Tab hover frontend.png" alt="Nav bar hover frontend" align="center">
-
-  <img src="../screenshots/All courses filters.png" alt="Courses Page with filters" align="center">
-
-- Countries Tab
-  <img src="../screenshots/Nav bar hover countries.png" alt="Nav bar hover countries" align="center">
-
-  <p align="center"><img src="../screenshots/Countries Tab.png" alt="Countries tab" align="center"> </p>
-
-- Courses Tab
-  <img src="../screenshots/Nav bar hover courses.png" alt="Nav bar hover courses" align="center">
-
-  <p align="center"><img src="../screenshots/All courses page.png" alt="Courses page" align="center"> </p>
-
-- Sign up Tab
-  <img src="../screenshots/Nav bar hover sign up.png" alt="Nav bar hover Sign up" align="center">
-
-- Sign up Page
-  <img src="../screenshots/sign up 1.png" alt="Sign up User Form" align="center" >
-
-  <img src="../screenshots/sign up 1 filled hover next.png" alt="Sign up User Form hover next" align="center" >
-
-  <img src="../screenshots/sign up 2 filled.png" alt="Sign up 2 User Form" align="center" >
-
-  <img src="../screenshots/sign up 2 filled hover terms.png" alt="Sign up 2 User Form" align="center" >
-
-  <p align="center"><img src="../screenshots/sign up terms.png" alt="Sign up 2 User Form hover terms" align="center" > </p>
-
-  <img src="../screenshots/sign up 2 filled hover next.png" alt="Sign up 2 User Form hover next" align="center" >
-
-  <img src="../screenshots/sign up 3 filled hover submit.png" alt="Sign up 3 User Form hover submit" align="center" >
-
-  <img src="../screenshots/login page.png" alt="Login form" align="center" >
-
-  <img src="../screenshots/login page filled hover login.png" alt="Login form hover login" align="center" >
-
-- Trainee Dashboard
-  <img src="../screenshots/Trainee Dashboard.png" alt="Trainee dashboard" align="center" >
-
-- Trainee Profile
-  <img src="../screenshots/Trainee profile.png" alt="Trainee profile" align="center" >
-
-    <img src="../screenshots/Trainee profile changes.png" alt="Trainee profile save changes" align="center" >
-
-    <img src="../screenshots/Trainee profile hover security.png" alt="Trainee profile hover security" align="center" >
-
-    <img src="../screenshots/Trainee profile security.png" alt="Trainee profile security" align="center" >
-
-    <img src="../screenshots/Trainee invalid password.png" alt="Trainee invalid password" align="center" >
-
-    <img src="../screenshots/Trainee Correct password.png" alt="Trainee correct password" align="center" >
-  Trainee Board
-    <img src="../screenshots/Trainee board.png" alt="Trainee board" align="center" >
-
-    <img src="../screenshots/Trainee board write hello.png" alt="Trainee board write hello" align="center" >
-
-    <p align="center"><img src="../screenshots/Trainee board brush color.png" alt="Trainee board brush color" align="center" > </p>
-
-    <img src="../screenshots/Trainee board write edit.png" alt="Trainee board write edit" align="center" >
-
-    <img src="../screenshots/Trainee board save image.png" alt="Trainee board hover save image" align="center" >
-
-- Trainee Enrolled courses
-  <img src="../screenshots/Trainee enrolled courses.png" alt="Trainee enrolled courses" align="center" >
-
-  <img src="../screenshots/Trainee enrolled courses hover browse now.png" alt="Trainee enrolled courses hover browse now" align="center" >
-
-  <p align="center"><img src="../screenshots/All courses page.png" alt="Courses page" align="center"> </p>
-
-- Trainee cart
-  <img src="../screenshots/Trainee cart.png" alt="Trainee cart" align="center" >
-
-  <img src="../screenshots/Trainee cart hover keep shopping.png" alt="Trainee cart hover keep shopping" align="center" >
-
-  <p align="center"><img src="../screenshots/All courses page.png" alt="Courses page" align="center"> </p>
-
-- Trainee Wishlist
-  <img src="../screenshots/Trainee wishlist.png" alt="Trainee wishlist" align="center" >
-
-  <img src="../screenshots/Trainee wishlist hover browse courses now.png" alt="Trainee wishlist hover browse courses now" align="center" >
-
-  <p align="center"><img src="../screenshots/All courses page.png" alt="Courses page" align="center"> </p>
+- Sign up
+  <img src="../screenshots/Sign up.gif" alt="Sign up gif" align="center">
+  <br/>
+  <img src="../screenshots/Sign up verification.gif" alt="Sign up continue gif" align="center">
+  <br/>
+- Login as Trainee
+  <img src="../screenshots/Login.gif" alt="Login gif" align="center">
+  <br/>
+- Exploring trainee
+  <img src="../screenshots/Exploring trainee.gif" alt="exploring trainee gif" align="center">
+  <br/>
+  <img src="../screenshots/Trainee change password.gif" alt="exploring trainee continue gif" align="center">
+  <br/>
+- Pay for a course
+  <img src="../screenshots/Cart hover pay with card.png" alt="Cart page with hover pay with card img" align="center">
+  <br/>
+  <img src="../screenshots/Stripe.gif" alt="Payment page gif" align="center">
+  <br/>
+  <img src="../screenshots/Payment success.gif" alt="Payment succeed page" align="center">
+  <br/>
+- Ask for refund and report
+  <img src="../screenshots/Report.gif" alt="Refund and report gif" align="center">
+  <br/>
+- Exploring Instructor
+  <img src="../screenshots/Instructor.gif" alt="Exploring instructor page gif" align="center">
+  <br/>
+- Create course
+  <img src="../screenshots/Create course.gif" alt="Create course page gif" align="center">
+  <br/>
+- Add discount and delete course
+  <img src="../screenshots/Delete course.gif" alt="Delete course gif" align="center">
+  <br/>
+- Explore Admin
+  <img src="../screenshots/Admin.gif" alt="Explore admin page gif" align="center">
+  <br/>
+- Accepting and rejecting requests
+  <img src="../screenshots/Corporate.gif" alt="Accepting and rejecting some requests gif" align="center">
+  <br/>
+- Explore Corporate trainee
+  <img src="../screenshots/Corporate.gif" alt="Exploring corporate trainee page gif" align="center">
+  <br/>
 
 ## Help
 

@@ -25,9 +25,7 @@ class AuthRoute implements Routes {
     // Protected endpoints
     //this.router.use(authenticateUser);
     this.router.post('/auth/logout', authenticateUser, this.authController.logOut);
-    this.router.post('/change-password', 
-    authenticateUser, 
-    limiterMiddleware, this.authController.changePassword);
+    this.router.post('/change-password', authenticateUser, limiterMiddleware, this.authController.changePassword);
   }
 }
 
