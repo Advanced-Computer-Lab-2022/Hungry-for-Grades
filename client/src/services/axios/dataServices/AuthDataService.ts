@@ -26,7 +26,7 @@ export const AuthRoutes = {
       payload: {
         email: '',
         username: '',
-				name:''
+        name: ''
       }
     },
     login: {

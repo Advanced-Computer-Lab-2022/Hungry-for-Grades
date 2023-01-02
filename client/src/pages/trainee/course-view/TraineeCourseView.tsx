@@ -4,14 +4,14 @@ import { useParams } from 'react-router-dom';
 
 import Content from './Content';
 
-import Video from './Video';
-
 import SolveExercise from './SolveExercise';
 
 import DownView from './DownView';
 
+import Video from './Video';
+
 import { UseCountry } from '@/store/countryStore';
-import { ICourse } from '@/interfaces/course.interface';
+import { EnrolledCourse } from '@/interfaces/course.interface';
 import { useTraineeId } from '@/hooks/useTraineeId';
 import { getEnrolledCourseById } from '@/services/axios/dataServices/TraineeDataService';
 import Loader from '@/components/loader/loaderpage/Loader';
@@ -23,13 +23,13 @@ type LeftViewProps = {
   sectionid: string | undefined;
   itemid: string | undefined;
   itemType: string | undefined;
-  course: ICourse;
+  course: EnrolledCourse;
 };
 
 function LeftView(props: LeftViewProps) {
   const { data, isError, isLoading } = useQuery(
-    ['getSectionById', props.course._id, props.sectionid],
-    () => getSectionById(props.course._id, props.sectionid)
+    ['getSectionById', props.course._course._id, props.sectionid],
+    () => getSectionById(props.course._course._id, props.sectionid)
   );
   const traineeId = useTraineeId();
   const redirectToLogin = useRedirectToLogin();
@@ -54,7 +54,7 @@ function LeftView(props: LeftViewProps) {
     return (
       <SolveExercise
         {...exercise}
-        courseId={props.course._id}
+        courseId={props.course._course._id}
         traineeId={traineeId}
       />
     );
@@ -62,7 +62,7 @@ function LeftView(props: LeftViewProps) {
   if (!props.itemid) {
     return <></>;
   }
-  return <Video courseId={props.course._id} lessonId={props.itemid} />;
+  return <Video course={props.course} lessonId={props.itemid} />;
 }
 
 function CourseView() {
@@ -95,7 +95,7 @@ function CourseView() {
   const leftProps = {
     itemid,
     sectionid,
-    course: data._course,
+    course: data,
     itemType
   };
   const section = sectionid
