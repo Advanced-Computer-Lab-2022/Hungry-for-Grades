@@ -12,11 +12,11 @@ function useValidation() {
     },
     validationSchema: Yup.object({
       newPassword: Yup.string()
-        .min(6, 'New Password is Too Short!')
+        .min(9, 'New Password is Too Short!')
         .max(50, 'New Password is Too Long!')
         .required('New Password is Required'),
       confirmPassword: Yup.string()
-        .min(6, 'Confirm Password is Too Short!')
+        .min(9, 'Confirm Password is Too Short!')
         .max(50, 'Confirm Password is Too Long!')
         .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
         .required('Confirm Password is Required')

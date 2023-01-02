@@ -1,8 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { AiOutlineShoppingCart, AiOutlineHeart } from 'react-icons/ai';
-import {  NavLink } from 'react-router-dom';
-
-
+import { NavLink } from 'react-router-dom';
 
 import styles from './wish-cart-buttons.module.scss';
 
@@ -21,7 +19,6 @@ function WishCartButtons() {
   return (
     <>
       <div className='d-flex flex-row justify-content-between'>
-
         <NavLink className='mt-2' to='/trainee/cart'>
           <p className='position-relative'>
             <AiOutlineShoppingCart className={styles.icon} />

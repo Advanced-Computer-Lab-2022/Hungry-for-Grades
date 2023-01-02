@@ -147,6 +147,9 @@ function AccountForm({
           data-bs-toggle='modal'
           href='/'
           id='accountform-modalTerms'
+          style={{
+            textDecoration: 'underline'
+          }}
           type='button'
         >
           <CheckBoxInput

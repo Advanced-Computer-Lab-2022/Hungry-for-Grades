@@ -110,9 +110,13 @@ function RateCourse(props: { courseid: string }) {
     <>
       {value !== undefined ? (
         <div className='text-star mx-2 btn btn-link'>
-          <button type='button' onClick={openPopup}style={{
-						border:'none'
-					}}>
+          <button
+            style={{
+              border: 'none'
+            }}
+            type='button'
+            onClick={openPopup}
+          >
             <strong style={{ fontSize: '0.9rem', lineHeight: '0' }}>
               Your Review:
             </strong>
@@ -130,7 +134,6 @@ function RateCourse(props: { courseid: string }) {
                 } /* number of selected icon (`0` - none, `1` - first) */
               />
             </h6>
-
           </button>
         </div>
       ) : (

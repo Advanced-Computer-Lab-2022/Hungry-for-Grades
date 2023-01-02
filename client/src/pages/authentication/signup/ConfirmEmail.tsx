@@ -15,13 +15,14 @@ import ErrorMessage from '@/components/error/message/ErrorMessage';
 import { HttpResponse } from '@/interfaces/response.interface';
 import { toastOptions } from '@/components/toast/options';
 let verifiedCode: string;
-
+let effectOnce = 1;
 function ConfirmEmail({
   handleSubmit,
   prev,
   firstName,
   lastName,
-  email
+  email,
+  username
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
   const { mutateAsync, isError, isSuccess, error } =
@@ -33,11 +34,21 @@ function ConfirmEmail({
     const verifyEmail = Object.assign({}, AuthRoutes.POST.verifyEmail);
     verifyEmail.payload = {
       email,
-      username: `${firstName} ${lastName}`
+      name: `${firstName} ${lastName}`,
+      username
     };
-    const { data } = await mutateAsync(verifyEmail);
+    const response = await mutateAsync(verifyEmail)
 
-    return data;
+
+
+		if (!response.status) {
+			toast.error(response.data.message, toastOptions);
+
+			return;
+		} else {
+		}
+
+    return response.data;
   };
   async function submit() {
     const combinedCode = code.join('');
@@ -51,35 +62,38 @@ function ConfirmEmail({
   }
 
   useEffect(() => {
-    const id = toast.loading(
-      'Please wait while we send you a code to your email address',
-      toastOptions
-    );
-    getVerifiedCode()
-      .then(response => {
-        console.log('response');
-        console.log(response);
-        verifiedCode = `${response?.data}`;
-        console.log('verifiedCode');
-        console.log(verifiedCode);
-        toast.update(id, {
-          render: 'We sent you a code to your email address',
-          type: 'success',
-          isLoading: false,
-          ...toastOptions
-        });
-      })
-      .catch(err => {
-        toast.update(id, {
-          render: 'unable to send verification code',
-          type: 'error',
-          isLoading: false,
-          ...toastOptions
-        });
+    if (effectOnce === 1) {
+      const id = toast.loading(
+        'Please wait while we send you a code to your email address',
+        toastOptions
+      );
+      getVerifiedCode()
+        .then(response => {
+          console.log('response');
+          console.log(response);
+          verifiedCode = `${response?.data}`;
+          console.log('verifiedCode');
+          console.log(verifiedCode);
+          toast.update(id, {
+            render: "We've sent to you verification code to your email address",
+            type: 'success',
+            isLoading: false,
+            ...toastOptions
+          });
+        })
+        .catch(err => {
+          toast.update(id, {
+            render: 'unable to send verification code',
+            type: 'error',
+            isLoading: false,
+            ...toastOptions
+          });
 
-        console.log('error');
-        console.log(err);
-      });
+          console.log('error');
+          console.log(err);
+        });
+      effectOnce = 0;
+    }
   }, [mutateAsync]);
 
   return (
@@ -116,7 +130,7 @@ function ConfirmEmail({
                 verifiedCode = `${response?.data}`;
 
                 toast.update(id, {
-                  render: 'We sent you a code to your email address',
+									render: "We've sent to you verification code to your email address",
                   type: 'success',
                   isLoading: false,
                   ...toastOptions
