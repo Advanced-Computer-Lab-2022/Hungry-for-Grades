@@ -232,7 +232,7 @@ export default function CertificateGenerator() {
                   marginBottom: '0.1rem'
                 }}
               >
-                $
+
                 {verifiedCourseData && (
                   <CourseRating {...verifiedCourseData.rating} />
                 )}
