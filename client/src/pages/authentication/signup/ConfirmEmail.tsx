@@ -21,7 +21,8 @@ function ConfirmEmail({
   prev,
   firstName,
   lastName,
-  email,username
+  email,
+  username
 }: ConfirmEmailProps) {
   const [code, setCode] = useState<number[]>([0, 0, 0, 0, 0, 0]);
   const { mutateAsync, isError, isSuccess, error } =
@@ -34,9 +35,10 @@ function ConfirmEmail({
     verifyEmail.payload = {
       email,
       name: `${firstName} ${lastName}`,
-			username
+      username
     };
     const response = await mutateAsync(verifyEmail)
+
 
 
 		if (!response.status) {
