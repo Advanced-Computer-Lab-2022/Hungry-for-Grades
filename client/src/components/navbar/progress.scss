@@ -1,3 +1,7 @@
 .progressbar {
-    //   background-color: #DC3535;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    &:hover {
+        color: var(--secondary-color);
+    }
 }
