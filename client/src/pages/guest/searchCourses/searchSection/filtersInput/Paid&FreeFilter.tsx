@@ -21,8 +21,9 @@ function PaidFreeFilter(props: SearchSectionProps) {
               : e.target.checked
               ? 1
               : selectedFilters.min;
+							const maxValue = e.target.checked && selectedFilters.free?10000:e.target.checked?	10000:0;
           setSelectedFilters(prev => {
-            return { ...prev, paid: e.target.checked, min: minValue };
+            return { ...prev, paid: e.target.checked, min: minValue,max:maxValue };
           });
         }}
       />
@@ -38,7 +39,7 @@ function PaidFreeFilter(props: SearchSectionProps) {
         onChange={function handleChange(e) {
           const minValue =
             e.target.checked && selectedFilters.paid
-              ? selectedFilters.min
+              ? 0
               : e.target.checked
               ? 0
               : selectedFilters.min;

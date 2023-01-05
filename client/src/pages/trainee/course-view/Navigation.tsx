@@ -13,7 +13,7 @@ function Navigation({ goTo }: { goTo: (step: number) => void }) {
           Overview{' '}
         </Nav.Link>
       </Nav.Item>
-      <Nav.Item>
+{/*       <Nav.Item>
         <Nav.Link
           eventKey='link-2'
           onClick={function click() {
@@ -22,7 +22,7 @@ function Navigation({ goTo }: { goTo: (step: number) => void }) {
         >
           Q&A
         </Nav.Link>
-      </Nav.Item>
+      </Nav.Item> */}
       <Nav.Item>
         <Nav.Link
           eventKey='link-3'

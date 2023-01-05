@@ -143,6 +143,9 @@ function CourseCard(courseProps: {
               >
                 {props.title}
               </h4>
+							<h6>
+								{props?.category}  .  {props?.subcategory}
+							</h6>
             </Link>
             <div className='d-flex flex-row justify-content-between'>
               <div>
