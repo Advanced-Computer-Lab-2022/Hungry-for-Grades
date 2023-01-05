@@ -6,6 +6,7 @@
 - [Color Reference](#color-reference)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Development Tools and Libraries](#development-tools-and-libraries)
+- [Folder Structure](#folder-structure)
 - [Screenshots](#screenshots)
 - [Help](#help)
 
@@ -64,6 +65,167 @@
 - React Query : Fetch, cache and update data in your React and React Native applications all without touching any "global state".
 - Zustand : A small, fast and scalable bearbones state-management solution using simplified flux principles. Has a comfy api based on hooks,
 - click to component
+
+
+## Folder Structure
+
+```
+├── docs
+│   ├── assets
+│   ├── functions
+│   ├── modules
+│   ├── types
+│   └── variables
+├── public
+├── src
+│   ├── assets
+│   ├── components
+│   │   ├── buttons
+│   │   │   ├── button
+│   │   │   ├── copy
+│   │   │   ├── screenMode
+│   │   │   └── shareButton
+│   │   ├── carousel
+│   │   ├── courseCard
+│   │   │   └── cardButtons
+│   │   ├── dashboard
+│   │   ├── dictaphone
+│   │   ├── error
+│   │   │   ├── message
+│   │   │   └── page
+│   │   ├── footer
+│   │   ├── form
+│   │   ├── graphs
+│   │   │   ├── areaGraph
+│   │   │   ├── barGraph
+│   │   │   └── lineGraph
+│   │   ├── header
+│   │   ├── HomeSection
+│   │   ├── inputs
+│   │   │   ├── checkbox
+│   │   │   ├── input
+│   │   │   ├── range
+│   │   │   └── select
+│   │   ├── instructorBillboard
+│   │   ├── loader
+│   │   │   ├── loaderCard
+│   │   │   ├── loaderComponent
+│   │   │   └── loaderpage
+│   │   ├── mediaPlayer
+│   │   ├── modal
+│   │   ├── navbar
+│   │   │   ├── searchBar
+│   │   │   └── userDropDown
+│   │   ├── newsletter
+│   │   ├── pagination
+│   │   ├── progress
+│   │   │   └── progressStepper
+│   │   ├── reader
+│   │   ├── reviewHolder
+│   │   ├── slider
+│   │   ├── starsRating
+│   │   ├── toast
+│   │   ├── toogle
+│   │   └── trophy
+│   ├── context
+│   ├── enums
+│   ├── hooks
+│   ├── interfaces
+│   ├── pages
+│   │   ├── admin
+│   │   │   ├── addDiscounts
+│   │   │   ├── adminTable
+│   │   │   ├── adminTable2
+│   │   │   ├── corporateRequests
+│   │   │   ├── createUser
+│   │   │   ├── dashboard
+│   │   │   ├── home
+│   │   │   │   ├── instructors
+│   │   │   │   │   └── analytics
+│   │   │   │   └── trainees
+│   │   │   │       └── analytics
+│   │   │   ├── newsletter
+│   │   │   ├── refunds
+│   │   │   ├── reportRequests
+│   │   │   └── sendEmail
+│   │   ├── authentication
+│   │   │   ├── changePassword
+│   │   │   ├── forgotPassword
+│   │   │   ├── login
+│   │   │   └── signup
+│   │   │       ├── accountForm
+│   │   │       └── userForm
+│   │   ├── comment
+│   │   ├── course-view
+│   │   │   └── notes
+│   │   ├── guest
+│   │   │   ├── course
+│   │   │   ├── landing
+│   │   │   │   ├── basedOnYourChoices
+│   │   │   │   ├── featureSection
+│   │   │   │   ├── mainSection
+│   │   │   │   ├── sponsers
+│   │   │   │   ├── testmonialSection
+│   │   │   │   └── topInstructorsSection
+│   │   │   └── searchCourses
+│   │   │       ├── coursesSection
+│   │   │       └── searchSection
+│   │   │           └── filtersInput
+│   │   ├── instructor
+│   │   │   ├── course-form
+│   │   │   ├── coursesData
+│   │   │   │   └── analytics
+│   │   │   ├── dashboard
+│   │   │   ├── earnings
+│   │   │   │   └── analytics
+│   │   │   ├── edit-profile
+│   │   │   │   └── pages
+│   │   │   ├── exam-form
+│   │   │   ├── myReports
+│   │   │   ├── reviewAndRating
+│   │   │   └── setDiscount
+│   │   │       └── courseDiscounts
+│   │   ├── InstructorProfile
+│   │   ├── payment
+│   │   ├── task
+│   │   ├── trainee
+│   │   │   ├── board
+│   │   │   ├── cart
+│   │   │   ├── cart2
+│   │   │   ├── certificate
+│   │   │   ├── courses
+│   │   │   ├── course-view
+│   │   │   ├── dashboard
+│   │   │   ├── editProfile
+│   │   │   │   └── pages
+│   │   │   ├── followUps
+│   │   │   ├── lastStudiedCourse
+│   │   │   ├── myReports
+│   │   │   ├── note
+│   │   │   │   └── modals
+│   │   │   ├── profile
+│   │   │   ├── progressBar
+│   │   │   └── wishlist
+│   │   └── user
+│   │       └── profile
+│   ├── routes
+│   ├── services
+│   │   ├── axios
+│   │   │   └── dataServices
+│   │   ├── cookie
+│   │   ├── localStorage
+│   │   ├── savedInfo
+│   │   ├── sessionStorage
+│   │   └── socket
+│   ├── store
+│   ├── stories
+│   │   └── assets
+│   ├── test
+│   └── utils
+└── storybook-static
+
+```
+
 
 ## Screenshots
 
