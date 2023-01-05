@@ -64,6 +64,8 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Installation](#installation)
 - [Authors](#authors)
 - [Credits](#credits)
+- [Contributing](#contributing)
+
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -204,3 +206,13 @@ MIT
 - [NodeJs docs](https://nodejs.org/en/)
 - [Stripe docs](https://stripe.com/docs/)
 - [Dev.io post](https://dev.to/)
+
+
+
+## Contributing
+
+Contributions are always welcome!
+
+See [contributing.md](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CONTRIBUTING.md) for how to get started.
+
+Please adhere to this [project's code of conduct](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CODE_OF_CONDUCT.md).
