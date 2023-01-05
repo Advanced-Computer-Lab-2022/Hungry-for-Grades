@@ -60,6 +60,7 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Installation](#installation)
 - [Authors](#authors)
+- [Credits](#credits)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -171,3 +172,17 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 ## License
 
 MIT
+
+
+
+## Credits
+
+- [Clean code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+
+- [Systen Design](https://www.youtube.com/watch?v=MbjObHmDbZo)
+- [Mongoose with typescript docs](https://mongoosejs.com/docs/typescript.html)
+- [Express docs](https://expressjs.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [ReactJs docs](https://reactjs.org/)
+- [NodeJs docs](https://nodejs.org/en/)
+- [Stripe docs](https://stripe.com/docs/)
