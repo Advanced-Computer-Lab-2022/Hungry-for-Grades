@@ -68,6 +68,7 @@ LinkedIn Learning, Great Learning and Udacity.
 
 
 
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Motivation
@@ -90,7 +91,7 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 - [Prettier](https://prettier.io/) : it is a code formatter that runs automatically before each commit on the whole code so that the codes looks well formatted across the whole project
 - [Husky](https://dev.to/murtuzaalisurti/creating-git-hooks-using-husky-5fbk): They are used to verify everything is as expected before or after executing a git command or action to make sure is error-free before commiting so dont distrubt the rest of the team and to run prettier to format and eslint checks.
 - [Github actions with eslint](https://github.com/features/actions) : runs before each pull request to test if the code is matching Eslint Rules
-
+- [.editorconfig](https://editorconfig.org/): This  file specifies our coding practices and ensures they are maintained throughout the entire project.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Tools and Frameworks
