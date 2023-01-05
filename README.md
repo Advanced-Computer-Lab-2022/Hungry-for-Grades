@@ -57,7 +57,10 @@ LinkedIn Learning, Great Learning and Udacity.
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
 - [Objectives](#objectives)
+- [Code Styles](#code-styles)
 - [Tools and Frameworks](#tools-and-frameworks)
+- [Build Status](#build-status)
+- [Features](#features)
 - [Installation](#installation)
 - [Authors](#authors)
 - [Credits](#credits)
@@ -80,6 +83,13 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Code Styles
+- [Eslint](https://eslint.org/docs/latest/user-guide/getting-started) : in the backend and the frontend to write the most optimum clean code possible and to define rules for the team to be able to write code in the same code style
+- [Prettier](https://prettier.io/) : it is a code formatter that runs automatically before each commit on the whole code so that the codes looks well formatted across the whole project
+- [Husky](https://dev.to/murtuzaalisurti/creating-git-hooks-using-husky-5fbk): They are used to verify everything is as expected before or after executing a git command or action to make sure is error-free before commiting so dont distrubt the rest of the team and to run prettier to format and eslint checks.
+- [Github actions with eslint](https://github.com/features/actions) : runs before each pull request to test if the code is matching Eslint Rules
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Tools and Frameworks
 This project is fully implemented using the MERN Stack and docker. MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
@@ -124,7 +134,7 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 #### You can use either use Makefile or yarn to install dependencies and run the whole project
 
 ### Using Makefile
-1 - make sure that you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
+1 - make sure tfhat you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
 
 2 - run `make installall` to install dependencies
 
@@ -160,6 +170,13 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 <br/><br/>
 
+
+## Build Status
+- 
+
+## Features
+
+
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
 
@@ -186,3 +203,4 @@ MIT
 - [ReactJs docs](https://reactjs.org/)
 - [NodeJs docs](https://nodejs.org/en/)
 - [Stripe docs](https://stripe.com/docs/)
+- [Dev.io post](https://dev.to/)
