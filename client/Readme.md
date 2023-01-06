@@ -1,11 +1,12 @@
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [installation](#installation)
 - [process](#process)
 - [Color Reference](#color-reference)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Development Tools and Libraries](#development-tools-and-libraries)
+- [Folder Structure](#folder-structure)
+- [Environment Variables](#environment-variables)
 - [Screenshots](#screenshots)
 - [Help](#help)
 
@@ -64,6 +65,277 @@
 - React Query : Fetch, cache and update data in your React and React Native applications all without touching any "global state".
 - Zustand : A small, fast and scalable bearbones state-management solution using simplified flux principles. Has a comfy api based on hooks,
 - click to component
+
+
+## Folder Structure
+
+```
+├── docs
+│   ├── assets
+│   ├── functions
+│   ├── modules
+│   ├── types
+│   └── variables
+├── public
+├── src
+│   ├── assets
+│   ├── components
+│   │   ├── buttons
+│   │   │   ├── button
+│   │   │   ├── copy
+│   │   │   ├── screenMode
+│   │   │   └── shareButton
+│   │   ├── carousel
+│   │   ├── courseCard
+│   │   │   └── cardButtons
+│   │   ├── dashboard
+│   │   ├── dictaphone
+│   │   ├── error
+│   │   │   ├── message
+│   │   │   └── page
+│   │   ├── footer
+│   │   ├── form
+│   │   ├── graphs
+│   │   │   ├── areaGraph
+│   │   │   ├── barGraph
+│   │   │   └── lineGraph
+│   │   ├── header
+│   │   ├── HomeSection
+│   │   ├── inputs
+│   │   │   ├── checkbox
+│   │   │   ├── input
+│   │   │   ├── range
+│   │   │   └── select
+│   │   ├── instructorBillboard
+│   │   ├── loader
+│   │   │   ├── loaderCard
+│   │   │   ├── loaderComponent
+│   │   │   └── loaderpage
+│   │   ├── mediaPlayer
+│   │   ├── modal
+│   │   ├── navbar
+│   │   │   ├── searchBar
+│   │   │   └── userDropDown
+│   │   ├── newsletter
+│   │   ├── pagination
+│   │   ├── progress
+│   │   │   └── progressStepper
+│   │   ├── reader
+│   │   ├── reviewHolder
+│   │   ├── slider
+│   │   ├── starsRating
+│   │   ├── toast
+│   │   ├── toogle
+│   │   └── trophy
+│   ├── context
+│   ├── enums
+│   ├── hooks
+│   ├── interfaces
+│   ├── pages
+│   │   ├── admin
+│   │   │   ├── addDiscounts
+│   │   │   ├── adminTable
+│   │   │   ├── adminTable2
+│   │   │   ├── corporateRequests
+│   │   │   ├── createUser
+│   │   │   ├── dashboard
+│   │   │   ├── home
+│   │   │   │   ├── instructors
+│   │   │   │   │   └── analytics
+│   │   │   │   └── trainees
+│   │   │   │       └── analytics
+│   │   │   ├── newsletter
+│   │   │   ├── refunds
+│   │   │   ├── reportRequests
+│   │   │   └── sendEmail
+│   │   ├── authentication
+│   │   │   ├── changePassword
+│   │   │   ├── forgotPassword
+│   │   │   ├── login
+│   │   │   └── signup
+│   │   │       ├── accountForm
+│   │   │       └── userForm
+│   │   ├── comment
+│   │   ├── course-view
+│   │   │   └── notes
+│   │   ├── guest
+│   │   │   ├── course
+│   │   │   ├── landing
+│   │   │   │   ├── basedOnYourChoices
+│   │   │   │   ├── featureSection
+│   │   │   │   ├── mainSection
+│   │   │   │   ├── sponsers
+│   │   │   │   ├── testmonialSection
+│   │   │   │   └── topInstructorsSection
+│   │   │   └── searchCourses
+│   │   │       ├── coursesSection
+│   │   │       └── searchSection
+│   │   │           └── filtersInput
+│   │   ├── instructor
+│   │   │   ├── course-form
+│   │   │   ├── coursesData
+│   │   │   │   └── analytics
+│   │   │   ├── dashboard
+│   │   │   ├── earnings
+│   │   │   │   └── analytics
+│   │   │   ├── edit-profile
+│   │   │   │   └── pages
+│   │   │   ├── exam-form
+│   │   │   ├── myReports
+│   │   │   ├── reviewAndRating
+│   │   │   └── setDiscount
+│   │   │       └── courseDiscounts
+│   │   ├── InstructorProfile
+│   │   ├── payment
+│   │   ├── task
+│   │   ├── trainee
+│   │   │   ├── board
+│   │   │   ├── cart
+│   │   │   ├── cart2
+│   │   │   ├── certificate
+│   │   │   ├── courses
+│   │   │   ├── course-view
+│   │   │   ├── dashboard
+│   │   │   ├── editProfile
+│   │   │   │   └── pages
+│   │   │   ├── followUps
+│   │   │   ├── lastStudiedCourse
+│   │   │   ├── myReports
+│   │   │   ├── note
+│   │   │   │   └── modals
+│   │   │   ├── profile
+│   │   │   ├── progressBar
+│   │   │   └── wishlist
+│   │   └── user
+│   │       └── profile
+│   ├── routes
+│   ├── services
+│   │   ├── axios
+│   │   │   └── dataServices
+│   │   ├── cookie
+│   │   ├── localStorage
+│   │   ├── savedInfo
+│   │   ├── sessionStorage
+│   │   └── socket
+│   ├── store
+│   ├── stories
+│   │   └── assets
+│   ├── test
+│   └── utils
+└── storybook-static
+
+```
+
+## Environment Variables
+
+```
+#=================== Enviroment ================= #
+
+# env
+NODE_ENV=development
+
+
+#======================= Client ================= #
+
+# Client URL
+VITE_APP_CLIENT_URL=http://localhost:8000/
+
+# App Code Name
+VITE_APP_TITLE_NAME
+
+# App Description
+VITE_APP_DESCRIPTION=
+
+# App Author
+VITE_APP_AUTHOR
+
+
+# App Code Name
+VITE_APP_CODE_NAME
+
+# App Keywords
+VITE_APP_KEYWORDS
+
+
+
+# App default direction
+VITE_APP_DEFAULT_DIRECTION
+
+# App Locale Codes
+VITE_APP_LOCAL_CODES
+
+# App Production Base Path
+VITE_APP_BASE_PATH
+
+# App PORT
+VITE_APP_CLIENT_PORT
+
+# App Production Public Url
+PUBLIC_URL
+
+# STORAGE KEYS PREFIX
+VITE_STORAGE_KEYS_PREFIX
+
+
+
+# Company Info
+VITE_APP_LOGO_URL
+VITE_COMPANY_NAME
+VITE_COMPANY_ADDRESS
+VITE_COMPANY_EMAIL
+VITE_COMPANY_WEBSITE
+VITE_COMPANY_FACEBOOK
+VITE_COMPANY_TWITTER
+VITE_COMPANY_INSTAGRAM
+VITE_COMPANY_YOUTUBE
+VITE_COMPANY_LINKEDIN
+VITE_COMPANY_GITHUB
+VITE_COMPANY_GOOGLE_PLAY
+VITE_COMPANY_APP_STORE
+VITE_COMPANY_END_DATE
+VITE_COMPANY_PHONE
+
+
+
+
+#======================= Emailjs ================= #
+
+# Service ID
+VITE_APP_SERVICE_ID=
+
+# Template ID
+VITE_APP_TEMPLATE_ID=
+
+# Public Key
+VITE_APP_PUBLIC_KEY=
+#======================= Server ================= #
+
+# SERVER API URL
+VITE_SERVER_BASE_API_URL
+
+# SERVER API Port
+VITE_SERVER_PORT
+
+# SERVER API Key
+VITE_SERVER_API_KEY
+
+# PAGINATION Limit
+VITE_PAGINATION_LIMIT
+
+
+
+#======================= My Info ================= #
+
+# Primary Email
+VITE_APP_PRIMARY_EMAIL
+
+# Secondary Email
+VITE_APP_SECONDARY_EMAIL
+
+# Phone Number
+VITE_APP_PHONE_NUMBER
+```
+
 
 ## Screenshots
 

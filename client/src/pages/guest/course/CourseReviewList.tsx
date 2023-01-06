@@ -23,9 +23,11 @@ export default function CourseReviewList(props: { id: string }) {
     }
   );
 
+	console.log(data)
+
   return (
     <div>
-      <h1 style={{ fontSize: '1.5rem', color: '#520e0e' }}>Course Reviews</h1>
+      {list?.length > 0 && <h1 style={{ fontSize: '1.5rem', color: '#520e0e' }}>Course Reviews</h1>}
       {toShow}
       {data?.data?.data?.totalPages > 1 && (
         <Pagination

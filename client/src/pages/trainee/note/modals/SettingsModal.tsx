@@ -25,6 +25,7 @@ function SettingsModal({ handleClose, show }: SettingsModalProps) {
               <Col>
                 <Form.Label>Theme</Form.Label>
                 <Form.Control
+								placeholder='paste an image url'
                   type='text'
                   value={UseTraineeNoteStoreBackgroundUrl()}
                   onChange={function onChange(e) {

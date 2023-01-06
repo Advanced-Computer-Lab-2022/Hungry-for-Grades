@@ -162,7 +162,7 @@ export default function CertificateGenerator() {
       },
       toastOptions
     );
-    if (!response?.status) {
+    if (response?.status) {
       toast.success(
         'Certificate Sent to your email successfully',
         toastOptions

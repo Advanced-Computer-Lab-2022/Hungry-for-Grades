@@ -126,7 +126,7 @@ export default function AdminHome(props: {
                 onClick={() => handleMultipleRows(report)}
               />
             </td>
-            <td>{report?.instructorInfo?.at(0)?.name? report?.instructorInfo?.at(0)?.name:report?.traineeInfo?.at(0)?.name }</td>
+            <td>{report?.instructorInfo?.at(0)?.name? report?.instructorInfo?.at(0)?.name:report?.traineeInfo.at(0)?.name}</td>
             <td>{report?.reason}</td>
             <td>{reportDate}</td>
             {report?.status == 'Pending' && (
@@ -263,7 +263,7 @@ export default function AdminHome(props: {
       })
     ) : (
       <tr>
-        <td colSpan={6} style={{ textAlign: 'center' }}>
+        <td colSpan={8} style={{ textAlign: 'center' }}>
           No Reports are Found
         </td>
       </tr>

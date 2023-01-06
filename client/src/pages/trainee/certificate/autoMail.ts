@@ -21,6 +21,8 @@ export async function autoMail(
   let imgURL = '';
   const verifiedCourseData = courseData;
   const courseTitle = verifiedCourseData?.title;
+	alert(courseTitle);
+
   let date = new Date().toString();
   date = date?.split('T')[0] as string;
   const instructorName = verifiedCourseData?._instructor[0]?.name;
@@ -29,6 +31,8 @@ export async function autoMail(
 
   const canvas = document.createElement('canvas');
   const context: CanvasRenderingContext2D | null = canvas?.getContext('2d');
+	console.log('ca');
+	console.log(context);
   if (context === null) return;
   context.canvas.width = 770;
   context.canvas.height = 595;
@@ -95,6 +99,9 @@ export async function autoMail(
     imgURL = canvas?.toDataURL();
   };
 
+	console.log(traineeData)
+	console.log(courseData)
+
   const pdf: jsPDF = new jsPDF({
     orientation: 'landscape',
     unit: 'cm',
@@ -106,7 +113,9 @@ export async function autoMail(
   const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
   pdf.addImage(imgURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
 
+
   const tmp = pdf.output('datauristring');
+
 
   const mail = TraineeRoutes.POST.sendCertificateByMail;
 
@@ -114,7 +123,8 @@ export async function autoMail(
   mail.URL = `/trainee/${traineeData?._id}/course/${courseData?._id}/certificate`;
 
   mail.payload = { certificate: tmp };
-  mail.query = { isAuto: 'true' };
+  //mail.query = { isAuto: 'true' };
+	alert('Helo')
 
   mail.query = { isAuto: 'true' };
 
