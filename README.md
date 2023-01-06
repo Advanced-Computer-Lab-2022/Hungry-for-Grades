@@ -314,7 +314,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 - The software is open source under the  [Apache 2.0](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/LICENSE) License.
 
-
+-The Stripe is licensed under the Apache License 2.0 
 
 
 ## Credits
