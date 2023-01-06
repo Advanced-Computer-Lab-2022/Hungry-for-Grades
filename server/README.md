@@ -280,6 +280,7 @@ STRIPE_PRIVATE_KEY
 ```
 
 ## Code Samples
+- Getting all Course Reviews Paginated
 ```
  public async getCourseReviews(courseID: string, page: number, pageLimit: number): Promise<PaginatedData<Review>> {
     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
@@ -311,7 +312,7 @@ STRIPE_PRIVATE_KEY
     };
   }
 ```
-
+- Reporting a problem or Requesting a refund/course from Admin
 ```
 public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report> {
     const courseId = reportData._course;
@@ -347,6 +348,7 @@ public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report
     return report;
   }
 ```
+- Mongoose pre middleware for hashing a password when signing up.
 ```
 instructorSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
@@ -356,4 +358,26 @@ instructorSchema.pre('save', async function (next) {
   this.password = await hash(this.password, salt);
   next();
 });
+```
+- Authentication Middleware
+```
+async function authenticateUser(req: RequestWithTokenPayload, res: Response, next: NextFunction) {
+  try {
+    const authHeader: string = req.headers.authorization || (req.headers.Authorization as string);
+    if (!authHeader || !authHeader?.startsWith('Bearer ')) {
+      throw new HttpException(HttpStatusCodes.UNAUTHORIZED, 'No authentication token, please log in');
+    }
+    const [, accessToken] = authHeader.split(' ');
+    verify(accessToken, ACCESS_TOKEN_PRIVATE_KEY, (err, decoded) => {
+      if (err) {
+        throw new HttpException(HttpStatusCodes.UNAUTHORIZED, ' Invalid authentication token, please log in');
+      }
+      const { _id, role } = decoded as ITokenPayload;
+      req.tokenPayload = { _id, role };
+      next();
+    });
+  } catch (error) {
+    next(new HttpException(HttpStatusCodes.UNAUTHORIZED, 'Wrong authentication token, please log in'));
+  }
+}
 ```
