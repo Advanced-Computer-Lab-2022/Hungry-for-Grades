@@ -225,39 +225,61 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 
 ### As an Admin I could
-- Add instructors and corporate trainees to the system
-- View Reported problems and resolve them
+- See User insights
+- See Top Instructors analytics by (different variety of graphs)
+- See Top Courses analytics by (different variety of graphs)
+- Send Emails to speciic users
+- Send Newsletter to all subscribed users
+- Browse, search and filter(with different variety) all the courses published on the website.
+- Add admins,instructors and corporate trainees to the system
+- View Reported problems and resolve them of different roles
 - View access requests from Corporate Trainees and grant access
-- View Refund Requests from Individual Trainees
+- View Refund Requests from Individual Trainees and their progress
+
 
 ### As an Instructor I could
-- Create and edit a draft Course
-- Publish draft Course so trainees could enroll in
-- Close a published course to prevent more trainees from enrolling in it
-- View my settlements and update my profile
-- Add a promotion for a specific period
+- Browse, search and filter(with different variety) all the courses published on the website.
+- Create Course
+- View Course analytics and (with different variety of Graphs)
+- Add discounts for a specific period
+- change profile
+- report an issue
+
 
 ### As an Individual Trainee I could
-- Search and filter Courses
-- Pay for a course
-- Report problems
+- Browse, search and filter(with different variety) all the courses published on the website
+- Add Courses to Cart
+- Add Courses to wishlist
+- Add notes , download,edit,and delete
+- Draw and save in boards
+- Pay for a course using wallet or with card using stripe
 - Watch a video and solve exercises from my courses
-- See my progress
-- Recieve a certificate by mail
+- See my progress relative to course
+- Recieve a certificate by mail,download,and share once finish course
 - Request refund
 - Rate a course and its instructor
+- Change profile
+- Report an issue
+
+
 
 ### As a Corporate Trainee I could
-- Search and filter Courses
-- Send access requests for specific course
+- Browse, search and filter(with different variety) all the courses published on the website.
+- Send access requests for specific course to admins to get it 
+- Add Notes , download,edit,and delete
 - Watch a video and solve exercises from my courses
-- See my progress
-- Recieve a certificate by mail
+- See my course progress
+- Recieve a certificate by mail,download,and share once finish course
 - Rate a course and its instructor
+- Change profile
+- Report an issue
 
-# As a Guest I could
+
+### As a Guest I could
 - Sign up as individual trainee
 - Search and filter courses
+- Report an issue
+
 
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
