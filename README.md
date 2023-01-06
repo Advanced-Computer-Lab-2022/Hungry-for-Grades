@@ -239,7 +239,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ### As an Instructor I could
 - Browse, search and filter(with different variety) all the courses published on the website.
-- Create Course
+- Create and Share(Qrcodes and different social media) Course
 - View Course analytics and (with different variety of Graphs)
 - Add discounts for a specific period
 - change profile
@@ -248,6 +248,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ### As an Individual Trainee I could
 - Browse, search and filter(with different variety) all the courses published on the website
+- Sign up to newsletter
 - Add Courses to Cart
 - Add Courses to wishlist
 - Add notes , download,edit,and delete
@@ -265,6 +266,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ### As a Corporate Trainee I could
 - Browse, search and filter(with different variety) all the courses published on the website.
+- Sign up to newsletter
 - Send access requests for specific course to admins to get it 
 - Add Notes , download,edit,and delete
 - Watch a video and solve exercises from my courses
@@ -277,7 +279,8 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ### As a Guest I could
 - Sign up as individual trainee
-- Search and filter courses
+- Sign up to newsletter
+- Browse, search and filter(with different variety) all the courses published on the website.
 - Report an issue
 
 
