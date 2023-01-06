@@ -53,6 +53,14 @@ LinkedIn Learning, Great Learning and Udacity.
 
 ## Table of Contents
 - [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
+	- [installation](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#installation)
+	- [process](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#process)
+	- [Color Reference](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#color-reference)
+	- [Tools and Frameworks](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#tools-and-frameworks)
+	- [Development Tools and Libraries](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#development-tools-and-libraries)
+	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#folder-structure)
+	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#screenshots)
+	- [Help](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#help)
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
