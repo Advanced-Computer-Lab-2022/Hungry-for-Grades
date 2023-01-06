@@ -4,7 +4,7 @@ import styles from './payment-rejected.module.scss';
 
 import failureIcon from 'src/assets/Rejected.jpg';
 
-export default function PaymentAccepted() {
+export default function PaymentRejected() {
   const navigate = useNavigate();
   const routeChange = () => {
     navigate('/cart');

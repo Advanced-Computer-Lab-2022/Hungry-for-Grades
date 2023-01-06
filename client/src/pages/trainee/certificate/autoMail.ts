@@ -126,6 +126,8 @@ export async function autoMail(
   //mail.query = { isAuto: 'true' };
 	alert('Helo')
 
+  mail.query = { isAuto: 'true' };
+
   await toast.promise(
     sendMail(mail),
     {

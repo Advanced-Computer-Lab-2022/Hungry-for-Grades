@@ -15,6 +15,7 @@
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
 - [Code Samples](#code-samples)
+- [Testing](#Testing)
 
 ## installation
 
@@ -280,6 +281,7 @@ STRIPE_PRIVATE_KEY
 ```
 
 ## Code Samples
+- Getting all Course Reviews Paginated
 ```
  public async getCourseReviews(courseID: string, page: number, pageLimit: number): Promise<PaginatedData<Review>> {
     if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
@@ -311,7 +313,7 @@ STRIPE_PRIVATE_KEY
     };
   }
 ```
-
+- Reporting a problem or Requesting a refund/course from Admin
 ```
 public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report> {
     const courseId = reportData._course;
@@ -327,19 +329,19 @@ public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report
     if (reportData.reason === Reason.REFUND) {
       // trainee should be enrolled in course and at most 50% of the course content should be seen
       const enrolledCourse = await this.traineeService.getEnrolledCourseById(userId, courseId);
-      if (!enrolledCourse) throw new HttpException(400, 'Trainee is not enrolled in this course');
+      if (!enrolledCourse) throw new HttpException(422, 'Trainee is not enrolled in this course');
 
       const traineeProgress = enrolledCourse?.progress ?? 0;
 
-      if (traineeProgress >= 50) throw new HttpException(404, 'Refund is not allowed after 50% of the course is completed');
+      if (traineeProgress >= 50) throw new HttpException(400, 'Refund is not allowed after 50% of the course is completed');
       const report = await reportModel.findOne({ reason: 'Refund', _user: `${reportData?._user}`, _course: `${reportData?._course}` });
       if (report) {
-        throw new HttpException(400, 'You have asked for refund for this course before');
+        throw new HttpException(409, 'You have asked for refund for this course before');
       }
     } else if (reportData.reason === Reason.COUSE_REQUEST) {
       const report = await reportModel.findOne({ reason: Reason.COUSE_REQUEST, _user: `${reportData?._user}`, _course: `${reportData?._course}` });
       if (report) {
-        throw new HttpException(404, 'You have requested this course before');
+        throw new HttpException(409, 'You have requested this course before');
       }
     }
 
@@ -347,6 +349,7 @@ public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report
     return report;
   }
 ```
+- Mongoose pre middleware for hashing a password when signing up.
 ```
 instructorSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
@@ -357,3 +360,71 @@ instructorSchema.pre('save', async function (next) {
   next();
 });
 ```
+- Authentication Middleware
+```
+async function authenticateUser(req: RequestWithTokenPayload, res: Response, next: NextFunction) {
+  try {
+    const authHeader: string = req.headers.authorization || (req.headers.Authorization as string);
+    if (!authHeader || !authHeader?.startsWith('Bearer ')) {
+      throw new HttpException(HttpStatusCodes.UNAUTHORIZED, 'No authentication token, please log in');
+    }
+    const [, accessToken] = authHeader.split(' ');
+    verify(accessToken, ACCESS_TOKEN_PRIVATE_KEY, (err, decoded) => {
+      if (err) {
+        throw new HttpException(HttpStatusCodes.UNAUTHORIZED, ' Invalid authentication token, please log in');
+      }
+      const { _id, role } = decoded as ITokenPayload;
+      req.tokenPayload = { _id, role };
+      next();
+    });
+  } catch (error) {
+    next(new HttpException(HttpStatusCodes.UNAUTHORIZED, 'Wrong authentication token, please log in'));
+  }
+}
+```
+
+- Checkout using Stripe
+```
+public async checkoutStripe(traineeId: string, country: string): Promise<string> {
+    const currency = getCurrencyFromCountry(country);
+    // generate line items
+    const cartItems = (await this.traineeService.getCart(traineeId, country, 1, 10000)).data;
+    if (cartItems.length === 0) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Cart is empty');
+
+    const lineItems = cartItems.map(item => {
+      return {
+        price_data: {
+          currency,
+          product_data: {
+            name: item.title,
+          },
+          unit_amount: item.price.currentValue * 100,
+        },
+        quantity: 1,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      line_items: lineItems,
+      mode: 'payment',
+
+      payment_method_types: ['card'],
+      success_url: `${process.env.CLIENT_URL}trainee/payment-accepted?walletUsed=false`,
+      cancel_url: `${process.env.CLIENT_URL}trainee/payment-rejected`,
+    });
+
+    return session.url;
+  }
+  ```
+
+  ## Testing
+Delete Review Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Delete Review Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Reviews Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get All Instructor Reviews Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Courses Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Courses Test.png" alt="Sign up User Form" align="center" >
+Get Instructor Data Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Test.png" alt="Sign up User Form" align="center" >
+
+More Tests can be Found in the Postman Documentation.

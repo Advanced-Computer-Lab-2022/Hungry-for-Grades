@@ -132,9 +132,7 @@ function CourseCard(courseProps: {
           <div className={`card-body p-4 ${styles.course__card__body ?? ''}`}>
             <Link
               to={`${
-                !isActualEnrolled
-                  ? `/course/${props.id}`
-                  : `/trainee/view-course/${props.id}/`
+                `/course/${props.id}`
               }`}
             >
               <h4

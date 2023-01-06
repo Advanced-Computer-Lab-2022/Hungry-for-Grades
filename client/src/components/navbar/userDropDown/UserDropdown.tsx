@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Overlay from 'react-bootstrap/Overlay';
 import { FiLogOut, FiUser } from 'react-icons/fi';
-import { IoSettingsOutline } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 
 import { RiDashboardFill } from 'react-icons/ri';
