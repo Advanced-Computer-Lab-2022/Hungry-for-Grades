@@ -72,7 +72,7 @@ function ShareButton({ link }: { link: string }) {
         type='button'
       >
         Share
-        <BsShareFill />{' '}
+				{' '} <BsShareFill />{' '}
       </a>
 
       <Modal

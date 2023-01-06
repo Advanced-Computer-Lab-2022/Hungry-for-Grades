@@ -20,7 +20,7 @@ export default function useSeletedFilters() {
     country: searchParams.get('country') || 'CA',
     rating: parseInt(searchParams.get('rating') || '0'),
     min: parseInt(searchParams.get('min') || '0'),
-    max: parseInt(searchParams.get('max') || '10000000')
+    max: parseInt(searchParams.get('max') || '100000')
   });
   const navigate = useNavigate();
 
