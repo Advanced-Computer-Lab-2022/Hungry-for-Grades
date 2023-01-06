@@ -284,6 +284,16 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 - [NodeJs docs](https://nodejs.org/en/)
 - [Stripe docs](https://stripe.com/docs/)
 - [Dev.io post](https://dev.to/)
+- [MERN Youtube](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA)
+- [Stripe Youtube](https://youtu.be/1r-F3FIONl8)
+- [JWT](https://www.youtube.com/watch?v=mbsmsi7l3r4)
+
+
+
+
+
+
+
 
 
 
