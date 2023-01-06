@@ -24,6 +24,7 @@ import ProgressBar from '@/pages/trainee/progressBar/ProgressBar';
 import { UseUser } from '@/store/userStore';
 import { Role } from '@/enums/role.enum';
 import { EnrolledCourse, ITrainee } from '@/interfaces/course.interface';
+import RateCourse from '@/pages/trainee/course-view/RateCourse';
 
 const COMPANY_LOGO = import.meta.env.VITE_APP_LOGO_URL;
 
@@ -166,7 +167,7 @@ function CourseCard(courseProps: {
                     </strong>
                   )}
                 </div>
-                <CourseRating {...props.rating} />
+                {isActualEnrolled && <CourseRating {...props.rating} />}
                 {isActualEnrolled && (
                   <div className='my-2'>
                     <Link
@@ -175,6 +176,7 @@ function CourseCard(courseProps: {
                     >
                       View Course
                     </Link>
+										<RateCourse courseid={props.id} />
                   </div>
                 )}
                 {courseProps.percent == -1 && <Price {...props.price} />}
