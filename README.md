@@ -229,7 +229,8 @@ Getting Instructor Courses Route Testing
 Get Instructor Data Route Testing
 <img src="screenshots/testing/InstructorRoutes/Get Instructor Test.png" alt="Sign up User Form" align="center" >
 
-More Tests can be Found in the Postman Documentation.
+More Tests can be Found in the Postman Documentation[here](https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344)
+.
 
 
 
