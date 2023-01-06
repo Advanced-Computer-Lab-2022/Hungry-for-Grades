@@ -12,6 +12,7 @@
 - [Environment Variables](#environment-variables)
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
+- [Code Samples](#Code-Samples)
 
 Ideas for Scalability : 
 
