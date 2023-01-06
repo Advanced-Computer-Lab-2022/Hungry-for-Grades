@@ -9,7 +9,7 @@
 - [Data Partitioning](#Data-Partitioning)
 - [Database Type](#Database-Type)
 - [CAP](#CAP)
-- [Environement Varaibles](#environemnet-variables)
+- [Environment Variables](#environment-variables)
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
 
@@ -56,7 +56,7 @@ Now when choosing available system, the nodes will be available on any request b
 
 
 
-## Environement Varaibles
+## Environment Variables
 
 ```
 # PORT
