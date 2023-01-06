@@ -306,7 +306,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 - [Clean code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
 
-- [Systen Design](https://www.youtube.com/watch?v=MbjObHmDbZo)
+- [System Design](https://www.youtube.com/watch?v=MbjObHmDbZo)
 - [Mongoose with typescript docs](https://mongoosejs.com/docs/typescript.html)
 - [Express docs](https://expressjs.com/)
 - [Typescript](https://www.typescriptlang.org/)
