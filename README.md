@@ -191,7 +191,8 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ## License
 
-MIT
+- The software is open source under the  [Apache 2.0](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/LICENSE) License.
+
 
 
 
@@ -212,8 +213,11 @@ MIT
 
 ## Contributing
 
-Contributions are always welcome!
 
-See [contributing.md](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CONTRIBUTING.md) for how to get started.
+- See [contributing.md](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CONTRIBUTING.md) for how to get started.
 
-Please adhere to this [project's code of conduct](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CODE_OF_CONDUCT.md).
+- Please adhere to this [project's code of conduct](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CODE_OF_CONDUCT.md).
+
+
+## Feedback
+- If you have any feedback, please reach out to us omar.sherif9992@gmail.com
