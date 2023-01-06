@@ -38,7 +38,7 @@
   <p align="center">
     An Educational Website !
     <br />
-	  ·<a href="https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R">Published API Documentation</a>  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API WorkSpace</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
+     ·<a href="https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing">Team Requirements</a>·<a href="https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R">Published API Documentation</a>  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API WorkSpace</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
     <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20onCart&body=Dear%20Omar%20Sherif%2C%0A%0A%3D%3D%3E%20name%0A%3D%3D%3E%20email%0A%3D%3D%3E%20phone%20number%0A%3D%3D%3E%20github%20link%0A%0A%0A%0ANeeded%20Skills%3A%0A%0A1-Familiar%20with%20Python%0A2-Familiar%20with%20BeautifulSoup%0A3-Familiar%20with%20csv%0A4-Familiar%20with%20pandas%20%0A%0AI%20acquire%20all%20those%20needed%20Skills.%0A%0Aregards">Be a Contributer</a>
   </p>
@@ -58,21 +58,21 @@ LinkedIn Learning, Great Learning and Udacity.
 	- [Color Reference](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#color-reference)
 	- [Tools and Frameworks](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#tools-and-frameworks)
 	- [Development Tools and Libraries](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#development-tools-and-libraries)
-	- [Environment Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#environment-variables)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#environment-variables)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#folder-structure)
 	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#screenshots)
 	- [Help](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#help)
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
-	- [Scaling](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling)
-	- [Scaling Scheme](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling-scheme)
-	- [Balancing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#balancing)
-	- [Caching](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#caching)
-	- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)
-	- [Database Type](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#database-type)
-	- [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
-	- [Environment Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/Readme.md#environment-variables)
-	- [Screeshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
+	- [Installation](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#installation)
+	- [Database Models](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#database-models)
+	- [Ideas for Scalability](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#ideas-for-scalability)    - [Scaling](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling)
+		- [Scaling Scheme](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling-scheme)
+		- [Balancing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#balancing)
+		- [Caching](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#caching)
+		- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)   - [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#folder-structure)
+	- [Code Samples](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#Code-Samples)
 
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
@@ -225,39 +225,65 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 
 ### As an Admin I could
-- Add instructors and corporate trainees to the system
-- View Reported problems and resolve them
-- View access requests from Corporate Trainees and grant access
-- View Refund Requests from Individual Trainees
+- See User insights
+- See Top Instructors analytics using a wide range of graphs.
+- See Top Courses analytics by using a wide range of graphs.
+- Send Emails to specific users.
+- Send Newsletter to all subscribed users.
+- Browse, search and filter all the courses published on the website.
+- Add admins, instructors and corporate trainees to the system
+- View Reported problems and resolve them.
+- View access requests from Corporate Trainees and grant access.
+- View Refund Requests from Individual Trainees and their progress and approve or disapprove accordingly.
+
 
 ### As an Instructor I could
-- Create and edit a draft Course
-- Publish draft Course so trainees could enroll in
-- Close a published course to prevent more trainees from enrolling in it
-- View my settlements and update my profile
-- Add a promotion for a specific period
+- Browse, search and filter all the courses published on the website.
+- Create courses
+- Share my courses via a QR code or on social media.
+- View course analytics using a variety of graphs.
+- Add discounts on my courses for a specific period.
+- Edit my profile.
+- Report an issue.
+
 
 ### As an Individual Trainee I could
-- Search and filter Courses
-- Pay for a course
-- Report problems
-- Watch a video and solve exercises from my courses
-- See my progress
-- Recieve a certificate by mail
-- Request refund
-- Rate a course and its instructor
+- Browse, search and filter all the courses published on the website.
+- Sign up to newsletter
+- Add Courses to Cart
+- Add Courses to wishlist
+- Add, edit, delete and download my notes.
+- Draw and save in boards
+- Pay for a course using wallet or with card using stripe
+- Watch a video and solve exercises in my courses
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Request a refund.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
+
+
 
 ### As a Corporate Trainee I could
-- Search and filter Courses
-- Send access requests for specific course
+- Browse, search and filter all the courses published on the website.
+- Sign up to newsletter.
+- Send access requests for specific courses to admins. 
+- Add, edit, delete and download my notes.
 - Watch a video and solve exercises from my courses
-- See my progress
-- Recieve a certificate by mail
-- Rate a course and its instructor
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
 
-# As a Guest I could
-- Sign up as individual trainee
-- Search and filter courses
+
+### As a Guest I could
+- Sign up as an individual trainee.
+- Sign up to newsletter.
+- Browse, search and filter all the courses published on the website.
+- Report an issue
+
 
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
