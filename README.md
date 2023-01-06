@@ -204,9 +204,21 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 
 ## Build Status
-- 
+- The project is currently in development.
+- The project needs in the near future to be deployed through AWS Services or alike.
+- The End-to-End tests needs improvments and add more.
+- The Current Build Of the project contains no bugs or malfunctions we corrected the small tweaks in sprint3 evaluation and feedback (Reviews, progress, discounts), other than that all good and the system have many other additional advanced features . 
 
 ## Features
+
+### The system serves different roles of users :
+
+- Admin
+- Instructor 
+- Individual Trainee,
+- Corporate Trainee
+
+
 
 ### As an Admin I could
 - Add instructors and corporate trainees to the system
