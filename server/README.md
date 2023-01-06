@@ -10,6 +10,7 @@
 - [Database Type](#Database-Type)
 - [CAP](#CAP)
 - [Screeshots](#screenshots)
+- [Folder Structure](#folder-structure)
 
 Ideas for Scalability : 
 
@@ -55,3 +56,40 @@ Now when choosing available system, the nodes will be available on any request b
  ## screenshots
  
 <img src="../screenshots/systemDesign/My System Design.png" alt="Sign up User Form" align="center" >
+
+
+
+## Folder Structure
+
+```
+.
+└── src
+    ├── Admin
+    ├── Authentication
+    ├── Common
+    │   ├── Email Service
+    │   │   └── templates
+    │   ├── Interfaces
+    │   ├── Models
+    │   └── Types
+    ├── Config
+    ├── Course
+    ├── Databases
+    ├── Exceptions
+    ├── Instructor
+    ├── logs
+    │   ├── debug
+    │   └── error
+    ├── Message
+    ├── Middlewares
+    ├── NewsLetter
+    ├── Payment
+    ├── Report
+    ├── tests
+    ├── Token
+    ├── Trainee
+    ├── Uploads
+    ├── User
+    └── Utils
+```
+
