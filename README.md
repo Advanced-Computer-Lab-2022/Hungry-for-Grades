@@ -85,6 +85,9 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 - Learn the process of following a given set of System Requirements to develop a software.
 - Learn to research and master the use of the MERN Stack.
 - Learn how to work together as a team on GitHub.
+- Work under Project Manager and do feedback sessions to make more imporvments .
+- Work with real company [Cancham](https://cancham.org.eg/) that provided us with Requiremenets .
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
