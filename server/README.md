@@ -381,3 +381,36 @@ async function authenticateUser(req: RequestWithTokenPayload, res: Response, nex
   }
 }
 ```
+- Checkout using Stripe
+```
+public async checkoutStripe(traineeId: string, country: string): Promise<string> {
+    const currency = getCurrencyFromCountry(country);
+    // generate line items
+    const cartItems = (await this.traineeService.getCart(traineeId, country, 1, 10000)).data;
+    if (cartItems.length === 0) throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Cart is empty');
+
+    const lineItems = cartItems.map(item => {
+      return {
+        price_data: {
+          currency,
+          product_data: {
+            name: item.title,
+          },
+          unit_amount: item.price.currentValue * 100,
+        },
+        quantity: 1,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      line_items: lineItems,
+      mode: 'payment',
+
+      payment_method_types: ['card'],
+      success_url: `${process.env.CLIENT_URL}trainee/payment-accepted?walletUsed=false`,
+      cancel_url: `${process.env.CLIENT_URL}trainee/payment-rejected`,
+    });
+
+    return session.url;
+  }
+  ```
