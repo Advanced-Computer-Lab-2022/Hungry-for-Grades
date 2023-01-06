@@ -65,17 +65,12 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
 	- [Installation](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#installation)
 	- [Database Models](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#database-models)
-
-	- [Ideas for Scalability](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#ideas-for-scalability)
-
-		- [Scaling](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling)
+	- [Ideas for Scalability](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#ideas-for-scalability)    - [Scaling](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling)
 		- [Scaling Scheme](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling-scheme)
 		- [Balancing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#balancing)
 		- [Caching](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#caching)
-		- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)
-		- [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
-	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)
-	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
+		- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)   - [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#folder-structure)
 	- [Code Samples](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#Code-Samples)
 
