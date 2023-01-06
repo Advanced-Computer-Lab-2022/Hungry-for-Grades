@@ -129,7 +129,17 @@ STRIPE_PRIVATE_KEY
 .
 └── src
     ├── Admin
+    │   ├── admin.controller.ts
+    │   ├── admin.dao.ts
+    │   ├── admin.dto.ts
+    │   ├── admin.interface.ts
+    │   ├── admin.model.ts
+    │   └── admin.route.ts
     ├── Authentication
+    │   ├── auth.controller.ts
+    │   ├── auth.dao.ts
+    │   ├── auth.interface.ts
+    │   └── auth.route.ts
     ├── Common
     │   ├── Email Service
     │   │   └── templates
@@ -137,24 +147,87 @@ STRIPE_PRIVATE_KEY
     │   ├── Models
     │   └── Types
     ├── Config
+    │   └── index.ts
     ├── Course
+    │   ├── course.controller.ts
+    │   ├── course.dao.ts
+    │   ├── course.dto.ts
+    │   ├── course.interface.ts
+    │   ├── course.model.ts
+    │   ├── course.common.ts
+    │   ├── course.types.ts
+    │   └── course.route.ts
     ├── Databases
+    │   └── index.ts
     ├── Exceptions
+    │   └── HttpException.ts
     ├── Instructor
+    │   ├── instructor.controller.ts
+    │   ├── instructor.dao.ts
+    │   ├── instructor.dto.ts
+    │   ├── instructor.interface.ts
+    │   ├── instructor.model.ts
+    │   └── instructor.route.ts
     ├── logs
     │   ├── debug
     │   └── error
     ├── Message
     ├── Middlewares
+    │   ├── auth.middleware.ts
+    │   ├── error.middleware.ts
+    │   ├── rateLimiter.middleware.ts
+    │   ├── modelsError.middleware.ts
+    │   ├── user.middleware.ts
+    │   └── validation.middleware.ts
     ├── NewsLetter
+    │   ├── newsletter.controller.ts
+    │   ├── newsletter.dao.ts
+    │   ├── newsletter.dto.ts
+    │   ├── newsletter.interface.ts
+    │   ├── newsletter.model.ts
+    │   └── newsletter.route.ts
     ├── Payment
+    │   ├── payment.controller.ts
+    │   ├── payment.dao.ts
+    │   ├── payment.dto.ts
+    │   ├── payment.interface.ts
+    │   ├── payment.model.ts
+    │   └── payment.route.ts
     ├── Report
-    ├── tests
+    │   ├── report.controller.ts
+    │   ├── report.dao.ts
+    │   ├── report.dto.ts
+    │   ├── report.interface.ts
+    │   ├── report.model.ts
+    │   └── report.route.ts
+    ├── Tests
     ├── Token
+    │   ├── token.interface.ts
+    │   ├── token.model.ts
+    │   ├── trainee.util.ts
     ├── Trainee
+    │   ├── trainee.controller.ts
+    │   ├── trainee.dao.ts
+    │   ├── trainee.dto.ts
+    │   ├── trainee.interface.ts
+    │   ├── trainee.model.ts
+    │   └── trainee.route.ts
     ├── Uploads
     ├── User
-    └── Utils
+    │   ├── user.controller.ts
+    │   ├── user.dto.ts
+    │   ├── user.enum.ts
+    │   ├── user.interface.ts
+    │   ├── user.schema.ts
+    │   ├── user.type.ts
+    │   └── user.route.ts
+    ├── Utils
+    │   ├── HttpResponse.ts
+    │   ├── HttpStatusCodes.ts
+    │   ├── logger.ts
+    │   ├── PaginationResponse.ts
+    │   └── validateEnv.ts
+    
 ```
 
 ## Code Samples
