@@ -156,7 +156,9 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 
 ## Installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
-- make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine
+- make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine 
+- run `nvm use` make sure you have Node Version Manager
+ 
 ## Run Locally
 #### You can use either use Makefile or yarn to install dependencies and run the whole project
 
@@ -170,7 +172,7 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 ### Using yarn
 1 - make sure that you have yarn `npm i -g yarn` installed on your machine
 
-2 - run `yarn install` to install dependencies
+2 - run `yarn run install` to install dependencies
 
 3 - run `yarn dev` to run the project (Server and Client Concurrently)
 ### Start the frontend alone
@@ -178,14 +180,14 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 ```bash
 cd Hungry-for-Grades/client
 yarn
-yarn dev
+yarn run dev
 ```
 ### Start the backend
 - Change to the server directory and run yarn to install packages then yarn dev.
 ```bash
 cd Hungry-for-Grades/server
 yarn
-yarn dev
+yarn run dev
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
