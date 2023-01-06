@@ -418,7 +418,8 @@ VITE_APP_PHONE_NUMBER
             View all courses
           </Link>
         </p>
-      </section>
+</section>
+
 ```
 
 - Download Certificate as PDF Function
