@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from '@tanstack/react-query';
 
-import { useNavigate } from 'react-router-dom';
 
 
 import { useTraineeId } from '@/hooks/useTraineeId';
@@ -27,7 +26,6 @@ function getEmbedUrl(url: string) {
 }
 function Video(props: { lessonId: string; course: EnrolledCourse }) {
   const userId = useTraineeId();
-  const navigate = useNavigate()
   const useUserSetProgressBar = UseUserSetProgressBar();
   const { data, isError, isLoading } = useQuery(
     ['getLessonById', props.lessonId, props.course._course._id, userId],
@@ -55,14 +53,6 @@ function Video(props: { lessonId: string; course: EnrolledCourse }) {
   }
   if (data) {
     useUserSetProgressBar(data.progress as number);
-  }
-  if (
-    data.progress === 100 &&
-    (props.course.dateOfCompletion === null ||
-      props.course.dateOfCompletion === undefined)
-  ) {
-    navigate(`/trainee/certificate/${props.course._course._id}`);
-    return;
   }
   const embeddedUrl = getEmbedUrl(data.videoURL);
   return (

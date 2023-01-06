@@ -29,8 +29,7 @@ export default function CertificateGenerator() {
   } = useSearchQueryCourse(traineeData?._id as string, courseId as string);
   const verifiedCourseData = courseData?.data?.data?._course;
   const courseTitle = verifiedCourseData?.title;
-  let date = courseData?.data?.data.dateOfCompletion?.toString();
-  date = date?.split('T')[0];
+  let date = (new Date()).getFullYear();
   const instructorName = verifiedCourseData?._instructor[0]?.name;
   const [imageURL, setImageURL] = useState('');
 
@@ -163,7 +162,7 @@ export default function CertificateGenerator() {
       },
       toastOptions
     );
-    if (!response?.status) {
+    if (response?.status) {
       toast.success(
         'Certificate Sent to your email successfully',
         toastOptions

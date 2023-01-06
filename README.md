@@ -38,7 +38,7 @@
   <p align="center">
     An Educational Website !
     <br />
-	  ·<a href="https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R">Published API Documentation</a>  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API WorkSpace</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
+     ·<a href="https://docs.google.com/spreadsheets/d/1thSj70wa_c92RsPPZQMNa1ugQsBgJ7_skk99WifvcCI/edit?usp=sharing">Team Requirements</a>·<a href="https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R">Published API Documentation</a>  ·<a href="https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344">API WorkSpace</a>·<a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
     <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20onCart&body=Dear%20Omar%20Sherif%2C%0A%0A%3D%3D%3E%20name%0A%3D%3D%3E%20email%0A%3D%3D%3E%20phone%20number%0A%3D%3D%3E%20github%20link%0A%0A%0A%0ANeeded%20Skills%3A%0A%0A1-Familiar%20with%20Python%0A2-Familiar%20with%20BeautifulSoup%0A3-Familiar%20with%20csv%0A4-Familiar%20with%20pandas%20%0A%0AI%20acquire%20all%20those%20needed%20Skills.%0A%0Aregards">Be a Contributer</a>
   </p>
@@ -53,13 +53,43 @@ LinkedIn Learning, Great Learning and Udacity.
 
 ## Table of Contents
 - [Frontend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md)
+	- [installation](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#installation)
+	- [process](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#process)
+	- [Color Reference](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#color-reference)
+	- [Tools and Frameworks](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#tools-and-frameworks)
+	- [Development Tools and Libraries](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#development-tools-and-libraries)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#environment-variables)
+	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#folder-structure)
+	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#screenshots)
+	- [Help](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#help)
 - [Backend](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md)
+	- [Installation](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#installation)
+	- [Database Models](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#database-models)
+	- [Ideas for Scalability](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#ideas-for-scalability)    - [Scaling](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling)
+		- [Scaling Scheme](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#scaling-scheme)
+		- [Balancing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#balancing)
+		- [Caching](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#caching)
+		- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)   - [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
+	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#folder-structure)
+	- [Code Samples](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#Code-Samples)
+
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
 - [Objectives](#objectives)
+- [Code Styles](#code-styles)
 - [Tools and Frameworks](#tools-and-frameworks)
+- [Postman Testing](#postman-testing)
+- [Build Status](#build-status)
+- [Features](#features)
 - [Installation](#installation)
 - [Authors](#authors)
+- [Credits](#credits)
+- [Contributing](#contributing)
+- [Feedback](#feedback)
+
+
+
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -76,9 +106,19 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 - Learn the process of following a given set of System Requirements to develop a software.
 - Learn to research and master the use of the MERN Stack.
 - Learn how to work together as a team on GitHub.
+- Work under Project Manager and do feedback sessions to make more imporvments .
+- Work with real company [Cancham](https://cancham.org.eg/) that provided us with Requiremenets .
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Code Styles
+- [Eslint](https://eslint.org/docs/latest/user-guide/getting-started) : in the backend and the frontend to write the most optimum clean code possible and to define rules for the team to be able to write code in the same code style
+- [Prettier](https://prettier.io/) : it is a code formatter that runs automatically before each commit on the whole code so that the codes looks well formatted across the whole project
+- [Husky](https://dev.to/murtuzaalisurti/creating-git-hooks-using-husky-5fbk): They are used to verify everything is as expected before or after executing a git command or action to make sure is error-free before commiting so dont distrubt the rest of the team and to run prettier to format and eslint checks.
+- [Github actions with eslint](https://github.com/features/actions) : runs before each pull request to test if the code is matching Eslint Rules
+- [.editorconfig](https://editorconfig.org/): This  file specifies our coding practices and ensures they are maintained throughout the entire project.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Tools and Frameworks
 This project is fully implemented using the MERN Stack and docker. MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
@@ -118,12 +158,14 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 
 ## Installation
 - clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
-- make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine
+- make sure you have latest version of [Node.js](https://nodejs.org/en/) installed on your machine 
+- run `nvm use` make sure you have Node Version Manager
+ 
 ## Run Locally
 #### You can use either use Makefile or yarn to install dependencies and run the whole project
 
 ### Using Makefile
-1 - make sure that you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
+1 - make sure tfhat you have [MakeFile](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) installed on your machine
 
 2 - run `make installall` to install dependencies
 
@@ -132,7 +174,7 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 ### Using yarn
 1 - make sure that you have yarn `npm i -g yarn` installed on your machine
 
-2 - run `yarn install` to install dependencies
+2 - run `yarn run install` to install dependencies
 
 3 - run `yarn dev` to run the project (Server and Client Concurrently)
 ### Start the frontend alone
@@ -140,14 +182,14 @@ That’s where MongoDB comes in: JSON documents created in your React.js front e
 ```bash
 cd Hungry-for-Grades/client
 yarn
-yarn dev
+yarn run dev
 ```
 ### Start the backend
 - Change to the server directory and run yarn to install packages then yarn dev.
 ```bash
 cd Hungry-for-Grades/server
 yarn
-yarn dev
+yarn run dev
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -158,6 +200,91 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 
 <br/><br/>
+
+## Postman Testing
+
+<img src="./testing/" />
+
+
+
+## Build Status
+- The project is currently in development.
+- The project needs in the near future to be deployed through AWS Services or alike.
+- The End-to-End tests needs improvments and add more.
+- The Current Build Of the project contains no bugs or malfunctions we corrected the small tweaks in sprint3 evaluation and feedback (Reviews, progress, discounts), other than that all good and the system have many other additional advanced features . 
+
+## Features
+
+### The system serves different roles of users :
+
+- Admin
+- Instructor 
+- Individual Trainee,
+- Corporate Trainee
+
+
+
+### As an Admin I could
+- See User insights
+- See Top Instructors analytics using a wide range of graphs.
+- See Top Courses analytics by using a wide range of graphs.
+- Send Emails to specific users.
+- Send Newsletter to all subscribed users.
+- Browse, search and filter all the courses published on the website.
+- Add admins, instructors and corporate trainees to the system
+- View Reported problems and resolve them.
+- View access requests from Corporate Trainees and grant access.
+- View Refund Requests from Individual Trainees and their progress and approve or disapprove accordingly.
+
+
+### As an Instructor I could
+- Browse, search and filter all the courses published on the website.
+- Create courses
+- Share my courses via a QR code or on social media.
+- View course analytics using a variety of graphs.
+- Add discounts on my courses for a specific period.
+- Edit my profile.
+- Report an issue.
+
+
+### As an Individual Trainee I could
+- Browse, search and filter all the courses published on the website.
+- Sign up to newsletter
+- Add Courses to Cart
+- Add Courses to wishlist
+- Add, edit, delete and download my notes.
+- Draw and save in boards
+- Pay for a course using wallet or with card using stripe
+- Watch a video and solve exercises in my courses
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Request a refund.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
+
+
+
+### As a Corporate Trainee I could
+- Browse, search and filter all the courses published on the website.
+- Sign up to newsletter.
+- Send access requests for specific courses to admins. 
+- Add, edit, delete and download my notes.
+- Watch a video and solve exercises from my courses
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
+
+
+### As a Guest I could
+- Sign up as an individual trainee.
+- Sign up to newsletter.
+- Browse, search and filter all the courses published on the website.
+- Report an issue
+
+
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
@@ -170,4 +297,43 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ## License
 
-MIT
+- The software is open source under the  [Apache 2.0](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/LICENSE) License.
+
+
+
+
+## Credits
+
+- [Clean code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+
+- [Systen Design](https://www.youtube.com/watch?v=MbjObHmDbZo)
+- [Mongoose with typescript docs](https://mongoosejs.com/docs/typescript.html)
+- [Express docs](https://expressjs.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [ReactJs docs](https://reactjs.org/)
+- [NodeJs docs](https://nodejs.org/en/)
+- [Stripe docs](https://stripe.com/docs/)
+- [Dev.io post](https://dev.to/)
+- [MERN Youtube](https://www.youtube.com/channel/UC29ju8bIPH5as8OGnQzwJyA)
+- [Stripe Youtube](https://youtu.be/1r-F3FIONl8)
+- [JWT](https://www.youtube.com/watch?v=mbsmsi7l3r4)
+
+
+
+
+
+
+
+
+
+
+## Contributing
+
+
+- See [contributing.md](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CONTRIBUTING.md) for how to get started.
+
+- Please adhere to this [project's code of conduct](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/.github/CODE_OF_CONDUCT.md).
+
+
+## Feedback
+- If you have any feedback, please reach out to us omar.sherif9992@gmail.com

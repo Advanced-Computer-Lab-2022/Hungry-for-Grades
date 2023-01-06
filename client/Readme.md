@@ -1,12 +1,14 @@
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [installation](#installation)
 - [process](#process)
 - [Color Reference](#color-reference)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Development Tools and Libraries](#development-tools-and-libraries)
+- [Folder Structure](#folder-structure)
+- [Environment Variables](#environment-variables)
 - [Screenshots](#screenshots)
+- [Code_Samples](#code_samples)
 - [Help](#help)
 
 ## installation
@@ -64,6 +66,275 @@
 - React Query : Fetch, cache and update data in your React and React Native applications all without touching any "global state".
 - Zustand : A small, fast and scalable bearbones state-management solution using simplified flux principles. Has a comfy api based on hooks,
 - click to component
+
+## Folder Structure
+
+```
+├── docs
+│   ├── assets
+│   ├── functions
+│   ├── modules
+│   ├── types
+│   └── variables
+├── public
+├── src
+│   ├── assets
+│   ├── components
+│   │   ├── buttons
+│   │   │   ├── button
+│   │   │   ├── copy
+│   │   │   ├── screenMode
+│   │   │   └── shareButton
+│   │   ├── carousel
+│   │   ├── courseCard
+│   │   │   └── cardButtons
+│   │   ├── dashboard
+│   │   ├── dictaphone
+│   │   ├── error
+│   │   │   ├── message
+│   │   │   └── page
+│   │   ├── footer
+│   │   ├── form
+│   │   ├── graphs
+│   │   │   ├── areaGraph
+│   │   │   ├── barGraph
+│   │   │   └── lineGraph
+│   │   ├── header
+│   │   ├── HomeSection
+│   │   ├── inputs
+│   │   │   ├── checkbox
+│   │   │   ├── input
+│   │   │   ├── range
+│   │   │   └── select
+│   │   ├── instructorBillboard
+│   │   ├── loader
+│   │   │   ├── loaderCard
+│   │   │   ├── loaderComponent
+│   │   │   └── loaderpage
+│   │   ├── mediaPlayer
+│   │   ├── modal
+│   │   ├── navbar
+│   │   │   ├── searchBar
+│   │   │   └── userDropDown
+│   │   ├── newsletter
+│   │   ├── pagination
+│   │   ├── progress
+│   │   │   └── progressStepper
+│   │   ├── reader
+│   │   ├── reviewHolder
+│   │   ├── slider
+│   │   ├── starsRating
+│   │   ├── toast
+│   │   ├── toogle
+│   │   └── trophy
+│   ├── context
+│   ├── enums
+│   ├── hooks
+│   ├── interfaces
+│   ├── pages
+│   │   ├── admin
+│   │   │   ├── addDiscounts
+│   │   │   ├── adminTable
+│   │   │   ├── adminTable2
+│   │   │   ├── corporateRequests
+│   │   │   ├── createUser
+│   │   │   ├── dashboard
+│   │   │   ├── home
+│   │   │   │   ├── instructors
+│   │   │   │   │   └── analytics
+│   │   │   │   └── trainees
+│   │   │   │       └── analytics
+│   │   │   ├── newsletter
+│   │   │   ├── refunds
+│   │   │   ├── reportRequests
+│   │   │   └── sendEmail
+│   │   ├── authentication
+│   │   │   ├── changePassword
+│   │   │   ├── forgotPassword
+│   │   │   ├── login
+│   │   │   └── signup
+│   │   │       ├── accountForm
+│   │   │       └── userForm
+│   │   ├── comment
+│   │   ├── course-view
+│   │   │   └── notes
+│   │   ├── guest
+│   │   │   ├── course
+│   │   │   ├── landing
+│   │   │   │   ├── basedOnYourChoices
+│   │   │   │   ├── featureSection
+│   │   │   │   ├── mainSection
+│   │   │   │   ├── sponsers
+│   │   │   │   ├── testmonialSection
+│   │   │   │   └── topInstructorsSection
+│   │   │   └── searchCourses
+│   │   │       ├── coursesSection
+│   │   │       └── searchSection
+│   │   │           └── filtersInput
+│   │   ├── instructor
+│   │   │   ├── course-form
+│   │   │   ├── coursesData
+│   │   │   │   └── analytics
+│   │   │   ├── dashboard
+│   │   │   ├── earnings
+│   │   │   │   └── analytics
+│   │   │   ├── edit-profile
+│   │   │   │   └── pages
+│   │   │   ├── exam-form
+│   │   │   ├── myReports
+│   │   │   ├── reviewAndRating
+│   │   │   └── setDiscount
+│   │   │       └── courseDiscounts
+│   │   ├── InstructorProfile
+│   │   ├── payment
+│   │   ├── task
+│   │   ├── trainee
+│   │   │   ├── board
+│   │   │   ├── cart
+│   │   │   ├── cart2
+│   │   │   ├── certificate
+│   │   │   ├── courses
+│   │   │   ├── course-view
+│   │   │   ├── dashboard
+│   │   │   ├── editProfile
+│   │   │   │   └── pages
+│   │   │   ├── followUps
+│   │   │   ├── lastStudiedCourse
+│   │   │   ├── myReports
+│   │   │   ├── note
+│   │   │   │   └── modals
+│   │   │   ├── profile
+│   │   │   ├── progressBar
+│   │   │   └── wishlist
+│   │   └── user
+│   │       └── profile
+│   ├── routes
+│   ├── services
+│   │   ├── axios
+│   │   │   └── dataServices
+│   │   ├── cookie
+│   │   ├── localStorage
+│   │   ├── savedInfo
+│   │   ├── sessionStorage
+│   │   └── socket
+│   ├── store
+│   ├── stories
+│   │   └── assets
+│   ├── test
+│   └── utils
+└── storybook-static
+
+```
+
+## Environment Variables
+
+```
+#=================== Enviroment ================= #
+
+# env
+NODE_ENV=development
+
+
+#======================= Client ================= #
+
+# Client URL
+VITE_APP_CLIENT_URL=http://localhost:8000/
+
+# App Code Name
+VITE_APP_TITLE_NAME
+
+# App Description
+VITE_APP_DESCRIPTION=
+
+# App Author
+VITE_APP_AUTHOR
+
+
+# App Code Name
+VITE_APP_CODE_NAME
+
+# App Keywords
+VITE_APP_KEYWORDS
+
+
+
+# App default direction
+VITE_APP_DEFAULT_DIRECTION
+
+# App Locale Codes
+VITE_APP_LOCAL_CODES
+
+# App Production Base Path
+VITE_APP_BASE_PATH
+
+# App PORT
+VITE_APP_CLIENT_PORT
+
+# App Production Public Url
+PUBLIC_URL
+
+# STORAGE KEYS PREFIX
+VITE_STORAGE_KEYS_PREFIX
+
+
+
+# Company Info
+VITE_APP_LOGO_URL
+VITE_COMPANY_NAME
+VITE_COMPANY_ADDRESS
+VITE_COMPANY_EMAIL
+VITE_COMPANY_WEBSITE
+VITE_COMPANY_FACEBOOK
+VITE_COMPANY_TWITTER
+VITE_COMPANY_INSTAGRAM
+VITE_COMPANY_YOUTUBE
+VITE_COMPANY_LINKEDIN
+VITE_COMPANY_GITHUB
+VITE_COMPANY_GOOGLE_PLAY
+VITE_COMPANY_APP_STORE
+VITE_COMPANY_END_DATE
+VITE_COMPANY_PHONE
+
+
+
+
+#======================= Emailjs ================= #
+
+# Service ID
+VITE_APP_SERVICE_ID=
+
+# Template ID
+VITE_APP_TEMPLATE_ID=
+
+# Public Key
+VITE_APP_PUBLIC_KEY=
+#======================= Server ================= #
+
+# SERVER API URL
+VITE_SERVER_BASE_API_URL
+
+# SERVER API Port
+VITE_SERVER_PORT
+
+# SERVER API Key
+VITE_SERVER_API_KEY
+
+# PAGINATION Limit
+VITE_PAGINATION_LIMIT
+
+
+
+#======================= My Info ================= #
+
+# Primary Email
+VITE_APP_PRIMARY_EMAIL
+
+# Secondary Email
+VITE_APP_SECONDARY_EMAIL
+
+# Phone Number
+VITE_APP_PHONE_NUMBER
+```
 
 ## GIFs and screenshots
 
@@ -161,25 +432,66 @@
   <img src="../screenshots/Course.gif" alt="Exploring a course gif" align="center">
   <br/>
   - You can click on view course to view your course to start learning.
-  - You can choose from the Course content list on the right a tab in which you can choose a lesson you would like to watch and take notes inside it
+  - You can choose from the Course content list on the right a tab in which you can choose a lesson you would like to watch and take notes inside it.
+  - You can view the overview of the course.
+  - You can view and create notes on the course.
+  - You can draw on the board.
+  - You can see the course announcements.
+  - In case of the lesson you can play the video.
+  - In case of the exercise you can answer the question and by the end of it you will see your result.
     <br/>
 - Ask for refund and report
   <img src="../screenshots/Report.gif" alt="Refund and report gif" align="center">
   <br/>
   - this is how you can ask for a refund and report.
   - Your progress bar should be at most 50% to be able to ask for a refund.
+    <br/>
 - Exploring Instructor
   <img src="../screenshots/Instructor.gif" alt="Exploring instructor page gif" align="center">
   <br/>
+  In the instructor you can:
+  - Create a course by clicking on create course button on the dashboard.
+  - View your balance, number of courses, average rating and earnings graphs in the dashboard tab.
+  - View and filter your courses in courses tab where you can view, add discount, share or delete a specific course in course details tab, you can also view your courses analytics in courses analytics tab.
+  - View your ratings and reviews in rating & reviews tab.
+  - View your reports and can follow up in each report in reports tab.
+  - View and edit your profile in profile tab where you can:
+    - Edit your personal information (Profile picture, name, biography, username, email, phone number) in profile tab.
+    - Change your password by entering current and new password in security tab.
+    - Add and change your social accounts in accounts tab.
+      <br/>
 - Create course
   <img src="../screenshots/Create course.gif" alt="Create course page gif" align="center">
   <br/>
+  - To create a course you need to click on create course button on instructor dashboard.
+  - After that you will be required to enter the course information.
+  - After finishing entering the course information click next.
+  - Then you have to enter your course outline.
+  - After finishing entering the course outline click next.
+  - Then you should enter the course sections by adding chapters, lessons and exercises.
+  - after entering the course sections you have to read and accept terms and conditions by clicking on the empty square before I read and agree to the terms and conditions.
+  - Then you need to press submit to complete the creation process of your course.
+    <br/>
 - Add discount and delete course
   <img src="../screenshots/Delete course.gif" alt="Delete course gif" align="center">
   <br/>
+  - To add discount to your course you need to hover on the course you want to add discount on then click discounts.
+  - After that you need to click on add new discount then enter the discount end date and discount percentage then click submit.
+  - To delete a course you need to hover on the course you want to delete and press delete.
+    <br/>
 - Explore Admin
   <img src="../screenshots/Admin.gif" alt="Explore admin page gif" align="center">
   <br/>
+  In the admin you can:
+  - View the active and inactive trainees and instructors and top enrolled courses graphs in the dashboard tab.
+  - Create corporate trainee, instructor and admin in create user tab.
+  - Accept or reject course requests in course requests tab, you can filter the requests by status (resolved, pending, rejected and unseen) and you can also accept or reject multiple courses by selecting them and clicking on actions then clicking on the action you want.
+  - View the reports to resolve them in reports tab, you can filter the reports by status or report problem (financial or technical) you can also open the follow ups to contact the problem issuer.
+  - Add discounts to courses in discounts tab by selecting the courses then clicking add discount after that you enter the discount end date and discount percentage.
+  - You can accept or reject refunds in refunds tab, you can filter the reports by status and you can also make action on multiple requests.
+  - You can send newsletter to the subscribed members to this feature in the newsletter tab by entering the newsletter subject and selecting user roles (admin, trainee or instructors) then you write the body of the newsletter.
+  - You can send email to any user in send email tab by entering the email of the user and the role.
+    <br/>
 - Accepting and rejecting requests
   <img src="../screenshots/Corporate.gif" alt="Accepting and rejecting some requests gif" align="center">
   <br/>
@@ -187,6 +499,96 @@
   <img src="../screenshots/Corporate.gif" alt="Exploring corporate trainee page gif" align="center">
   <br/>
 
+  - The corporate trainee profile is similar to the trainee profile except you can't purchase a course you only request access to a course then the admin might accept your request and you don't have a cart or a wishlist.
+  - You request access to the course by going to the courses tab in the navigation bar then select a course and click on view course then click on request access on the right of the page.
+
+  <br/>
+
 ## Help
 
 - run `yarn run why` to understand the commands in the package.json
+
+## code_samples
+
+- Most Popular Courses Component
+
+```
+<section className='container' id='rated-courses'>
+        <h2 className='text-dark text-left mb-2'>Most Popular Courses</h2>
+        <div className='row'>
+          {coursesMapped?.map(course => (
+            <div key={course.id} className='col-12 col-md-6 col-lg-4'>
+              <CourseCard enrolled={false} percent={-1} pprops={course} />
+            </div>
+          ))}
+        </div>
+        <p className='text-end'>
+          <Link
+            style={{
+              zIndex: '999'
+            }}
+            to='/courses'
+          >
+            View all courses
+          </Link>
+        </p>
+      </section>
+```
+
+- Download Certificate as PDF Function
+
+```
+  const handleDownloadPDF = () => {
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'cm',
+      format: [29.7, 21]
+    });
+    const imgProperties = pdf.getImageProperties(imageURL);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('certificate.pdf');
+  };
+```
+
+- Line Graph for Instructor Page
+
+```
+<LineGraph<{
+        title: string;
+        Earnings: number;
+        Trainees: number;
+      }>
+        data={props?.data}
+        graphs={[
+          { name: 'Earnings', color: '#084f09' },
+          { name: 'Trainees', color: '#a00407' }
+        ]}
+      />
+      <LineGraph<{
+        title: string;
+        Earnings: number;
+      }>
+        data={props?.data.map(data => {
+          return {
+            title: data.title,
+            Earnings: data.Earnings
+          };
+        })}
+        graphs={[{ name: 'Earnings', color: '#084f09' }]}
+      />
+      <LineGraph<{
+        title: string;
+        Trainees: number;
+      }>
+        data={props?.data.map(data => {
+          return {
+            title: data.title,
+            Trainees: data.Trainees
+          };
+        })}
+        graphs={[{ name: 'Trainees', color: '#a00407' }]}
+      />
+    </>
+```
