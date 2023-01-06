@@ -7,7 +7,6 @@
 - [Balancing](#Balancing)
 - [Caching](#Caching)
 - [Data Partitioning](#Data-Partitioning)
-- [Database Type](#Database-Type)
 - [CAP](#CAP)
 - [Environment Variables](#environment-variables)
 - [Screeshots](#screenshots)
