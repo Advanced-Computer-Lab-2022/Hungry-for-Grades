@@ -58,7 +58,7 @@ LinkedIn Learning, Great Learning and Udacity.
 	- [Color Reference](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#color-reference)
 	- [Tools and Frameworks](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#tools-and-frameworks)
 	- [Development Tools and Libraries](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#development-tools-and-libraries)
-	- [Environement Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#environement-varaibles)
+	- [Environment Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#environment-variables)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#folder-structure)
 	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#screenshots)
 	- [Help](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/client/Readme.md#help)
@@ -70,7 +70,7 @@ LinkedIn Learning, Great Learning and Udacity.
 	- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)
 	- [Database Type](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#database-type)
 	- [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
-	- [Environement Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/Readme.md#environement-varaibles)
+	- [Environment Varaibles](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/Readme.md#environment-variables)
 	- [Screeshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#folder-structure)
 
