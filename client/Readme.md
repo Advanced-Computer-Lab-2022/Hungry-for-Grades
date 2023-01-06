@@ -8,6 +8,7 @@
 - [Folder Structure](#folder-structure)
 - [Environment Variables](#environment-variables)
 - [Screenshots](#screenshots)
+- [Code_Samples](#code_samples)
 - [Help](#help)
 
 ## installation
@@ -391,3 +392,87 @@ VITE_APP_PHONE_NUMBER
 ## Help
 
 - run `yarn run why` to understand the commands in the package.json
+
+
+
+## code_samples
+
+- Most Popular Courses Component
+```
+<section className='container' id='rated-courses'>
+        <h2 className='text-dark text-left mb-2'>Most Popular Courses</h2>
+        <div className='row'>
+          {coursesMapped?.map(course => (
+            <div key={course.id} className='col-12 col-md-6 col-lg-4'>
+              <CourseCard enrolled={false} percent={-1} pprops={course} />
+            </div>
+          ))}
+        </div>
+        <p className='text-end'>
+          <Link
+            style={{
+              zIndex: '999'
+            }}
+            to='/courses'
+          >
+            View all courses
+          </Link>
+        </p>
+      </section>
+```
+
+- Download Certificate as PDF Function
+```
+  const handleDownloadPDF = () => {
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'cm',
+      format: [29.7, 21]
+    });
+    const imgProperties = pdf.getImageProperties(imageURL);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    pdf.addImage(imageURL, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('certificate.pdf');
+  };
+```
+
+- Line Graph for Instructor Page
+```
+<LineGraph<{
+        title: string;
+        Earnings: number;
+        Trainees: number;
+      }>
+        data={props?.data}
+        graphs={[
+          { name: 'Earnings', color: '#084f09' },
+          { name: 'Trainees', color: '#a00407' }
+        ]}
+      />
+      <LineGraph<{
+        title: string;
+        Earnings: number;
+      }>
+        data={props?.data.map(data => {
+          return {
+            title: data.title,
+            Earnings: data.Earnings
+          };
+        })}
+        graphs={[{ name: 'Earnings', color: '#084f09' }]}
+      />
+      <LineGraph<{
+        title: string;
+        Trainees: number;
+      }>
+        data={props?.data.map(data => {
+          return {
+            title: data.title,
+            Trainees: data.Trainees
+          };
+        })}
+        graphs={[{ name: 'Trainees', color: '#a00407' }]}
+      />
+    </>
+```
