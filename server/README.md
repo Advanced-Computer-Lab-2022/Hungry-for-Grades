@@ -9,6 +9,7 @@
 - [Data Partitioning](#Data-Partitioning)
 - [Database Type](#Database-Type)
 - [CAP](#CAP)
+- [Environement Varaibles](#environemnet-variables)
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
 
@@ -53,7 +54,74 @@ We can tolerate some inconsistency in this platform and have eventually consiste
 So having NoSQL database will be better on Scalability, as it is more flexible and with better performance and faster than SQL databases.
 Now when choosing available system, the nodes will be available on any request but the node itself won't be up to date in any moment because it may need some data from other nodes and take time to get these data, and we chose availability so we can't ignore the user request waiting for data (here we lose avaialbility) but we respond with data available and then node will be updated. (this is what is called eventually consistent).
 
- ## screenshots
+
+
+## Environement Varaibles
+
+```
+# PORT
+PORT = 3000
+
+# DATABASE
+DB_USERNAME
+DB_PASSWORD 
+DB_DATABASE
+
+# REDIS
+REDIS_HOST 
+REDIS_PORT 
+REDIS_PASSWORD 
+
+
+# TOKEN
+ACCESS_TOKEN_PRIVATE_KEY
+
+REFRESH_TOKEN_PRIVATE_KEY
+
+
+# CLIENT URL
+CLIENT_URL
+#CLIENT_URL
+
+
+# Company Info
+COMPANY_LOGO
+COMPANY_ADDRESS
+COMPANY_PHONE
+COMPANY_EMAIL
+COMPANY_WEBSITE
+COMPANY_FACEBOOK
+COMPANY_TWITTER
+COMPANY_INSTAGRAM
+COMPANY_YOUTUBE
+COMPANY_LINKEDIN
+COMPANY_GITHUB
+COMPANY_GOOGLE_PLAY
+COMPANY_APP_STORE
+
+# LOG
+LOG_FORMAT
+LOG_DIR
+
+# CORS
+ORIGIN 
+CREDENTIALS
+
+# ExchangeRate API Key
+EXCHANGE_BASE_URL
+
+# Nodemailer
+EMAIL_SERVICE
+SENDER_MAIL
+SENDER_PASSSWORD
+
+#Stripe
+STRIPE_PRIVATE_KEY
+
+```
+
+
+## screenshots
  
 <img src="../screenshots/systemDesign/My System Design.png" alt="Sign up User Form" align="center" >
 
