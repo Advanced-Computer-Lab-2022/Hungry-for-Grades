@@ -77,6 +77,7 @@ LinkedIn Learning, Great Learning and Udacity.
 
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
+- [How To Use the System](#how-to-use-the-system)
 - [Objectives](#objectives)
 - [Code Styles](#code-styles)
 - [Tools and Frameworks](#tools-and-frameworks)
@@ -102,6 +103,18 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## How To Use the System
+- As a Contributer : https://youtu.be/mnZLnAFufjI
+- As an Admin : https://youtu.be/1tdg1lanSSA
+- As a Trainee : https://youtu.be/bSulL488dFc 
+- As a Instructor : https://youtu.be/YFIs-zrOzlE
+- As a Corporate Trainee : https://youtu.be/e0eYnUe2plg 
+- As a Guest : https://youtu.be/u5LHIeMTTkI
+
+
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Objectives
 - Learn how to properly use the Agile Methodology to plan out a project and develop the software.
