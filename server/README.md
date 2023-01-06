@@ -161,3 +161,81 @@ STRIPE_PRIVATE_KEY
     └── Utils
 ```
 
+## Code Samples
+```
+ public async getCourseReviews(courseID: string, page: number, pageLimit: number): Promise<PaginatedData<Review>> {
+    if (!mongoose.Types.ObjectId.isValid(courseID)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id is an invalid Object Id');
+
+    const course = await courseModel.findById(courseID).populate({
+      path: 'rating.reviews._trainee',
+      select: 'name country profileImage',
+    });
+
+    if (!course) throw new HttpException(HttpStatusCodes.NOT_FOUND, "Course doesn't exist");
+    const courseReviews = course.rating.reviews;
+
+    // sort descendingly
+    courseReviews.sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+
+    const toBeSkipped = (page - 1) * pageLimit;
+    const totalReviews = courseReviews.length;
+    const totalPages = Math.ceil(totalReviews / pageLimit);
+    const paginatedReviews = courseReviews.slice(toBeSkipped, toBeSkipped + pageLimit);
+
+    return {
+      data: paginatedReviews,
+      page,
+      pageSize: paginatedReviews.length,
+      totalPages,
+      totalResults: totalReviews,
+    };
+  }
+```
+
+```
+public async reportProblemOrRequestCourse(reportData: ReportDTO): Promise<Report> {
+    const courseId = reportData._course;
+    const userId = reportData._user;
+
+    //Validation
+    if (!mongoose.Types.ObjectId.isValid(userId)) throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Trainee Id is an invalid Object Id');
+    if (!mongoose.Types.ObjectId.isValid(courseId) && courseId != null)
+      throw new HttpException(HttpStatusCodes.NOT_FOUND, 'Course Id can only be an Object Id or null');
+    if ((reportData.reason === Reason.COUSE_REQUEST || reportData.reason === Reason.REFUND) && courseId == null)
+      throw new HttpException(HttpStatusCodes.BAD_REQUEST, 'Course Id is required for a Course Request or Refund Request');
+
+    if (reportData.reason === Reason.REFUND) {
+      // trainee should be enrolled in course and at most 50% of the course content should be seen
+      const enrolledCourse = await this.traineeService.getEnrolledCourseById(userId, courseId);
+      if (!enrolledCourse) throw new HttpException(400, 'Trainee is not enrolled in this course');
+
+      const traineeProgress = enrolledCourse?.progress ?? 0;
+
+      if (traineeProgress >= 50) throw new HttpException(404, 'Refund is not allowed after 50% of the course is completed');
+      const report = await reportModel.findOne({ reason: 'Refund', _user: `${reportData?._user}`, _course: `${reportData?._course}` });
+      if (report) {
+        throw new HttpException(400, 'You have asked for refund for this course before');
+      }
+    } else if (reportData.reason === Reason.COUSE_REQUEST) {
+      const report = await reportModel.findOne({ reason: Reason.COUSE_REQUEST, _user: `${reportData?._user}`, _course: `${reportData?._course}` });
+      if (report) {
+        throw new HttpException(404, 'You have requested this course before');
+      }
+    }
+
+    const report = await reportModel.create({ ...reportData });
+    return report;
+  }
+```
+```
+instructorSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = await genSalt();
+  this.password = await hash(this.password, salt);
+  next();
+});
+```
