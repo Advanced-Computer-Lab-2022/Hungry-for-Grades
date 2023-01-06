@@ -208,6 +208,41 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ## Features
 
+### As an Admin I could
+- Add instructors and corporate trainees to the system
+- View Reported problems and resolve them
+- View access requests from Corporate Trainees and grant access
+- View Refund Requests from Individual Trainees
+
+### As an Instructor I could
+- Create and edit a draft Course
+- Publish draft Course so trainees could enroll in
+- Close a published course to prevent more trainees from enrolling in it
+- View my settlements and update my profile
+- Add a promotion for a specific period
+
+### As an Individual Trainee I could
+- Search and filter Courses
+- Pay for a course
+- Report problems
+- Watch a video and solve exercises from my courses
+- See my progress
+- Recieve a certificate by mail
+- Request refund
+- Rate a course and its instructor
+
+### As a Corporate Trainee I could
+- Search and filter Courses
+- Send access requests for specific course
+- Watch a video and solve exercises from my courses
+- See my progress
+- Recieve a certificate by mail
+- Rate a course and its instructor
+
+# As a Guest I could
+- Sign up as individual trainee
+- Search and filter courses
+
 
 ##  [Authors](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/graphs/contributors)
 
