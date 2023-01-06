@@ -61,7 +61,7 @@ Now when choosing available system, the nodes will be available on any request b
 
 ```
 # PORT
-PORT = 3000
+PORT
 
 # DATABASE
 DB_USERNAME
@@ -76,14 +76,10 @@ REDIS_PASSWORD
 
 # TOKEN
 ACCESS_TOKEN_PRIVATE_KEY
-
 REFRESH_TOKEN_PRIVATE_KEY
-
 
 # CLIENT URL
 CLIENT_URL
-#CLIENT_URL
-
 
 # Company Info
 COMPANY_LOGO
