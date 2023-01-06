@@ -77,6 +77,7 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Objectives](#objectives)
 - [Code Styles](#code-styles)
 - [Tools and Frameworks](#tools-and-frameworks)
+- [Postman Testing](#postman-testing)
 - [Build Status](#build-status)
 - [Features](#features)
 - [Installation](#installation)
@@ -195,6 +196,11 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 
 <br/><br/>
+
+## Postman Testing
+
+<img src="./testing/" />
+
 
 
 ## Build Status
