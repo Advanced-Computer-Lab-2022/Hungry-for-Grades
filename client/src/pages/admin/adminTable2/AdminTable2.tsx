@@ -126,7 +126,7 @@ export default function AdminHome(props: {
                 onClick={() => handleMultipleRows(report)}
               />
             </td>
-            <td>{report?.traineeInfo.at(0)?.name}</td>
+            <td>{report?.instructorInfo?.at(0)?.name? report?.instructorInfo?.at(0)?.name:report?.traineeInfo?.at(0)?.name }</td>
             <td>{report?.reason}</td>
             <td>{reportDate}</td>
             {report?.status == 'Pending' && (
