@@ -65,6 +65,8 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Authors](#authors)
 - [Credits](#credits)
 - [Contributing](#contributing)
+- [Feedback](#feedback)
+
 
 
 
