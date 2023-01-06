@@ -1,8 +1,9 @@
-## Backend (Server)
+# Backend (Server)
   
 
 ## Table of Contents
-- [Database Models](database-models)
+- [Installation](#installation)
+- [Database Models](#database-models)
 - [Ideas for Scalability](#ideas-for-scalability)
   - [Scaling](#scaling)
   - [Scaling Scheme](#scaling-scheme)
@@ -15,8 +16,18 @@
 - [Folder Structure](#folder-structure)
 - [Code Samples](#code-samples)
 
+## installation
 
-# Database Models
+- clone the project `git clone https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades`
+
+- go to server : `cd server`
+
+- to install packages : `yarn install`
+
+- to run the backend : `yarn run dev`
+
+
+## Database Models
 - The Admin model is the user holds all the general information and personal information regarding that model like the name email password(hashed) and whether they are active or not and whether email is verfied or not..
 ```
 {"_id":{"$oid":"637a20d4a0fc7dcfe39b4927"},"active":true,"email":{"address":"ahmed@gmail.com","_id":{"$oid":"637a20d4a0fc7dcfe39b4928"},"isVerified":false},"name":"Ahmed Wahba","password":"$2b$10$xZGIRZG0cTmKnhRkBDpu1.BJAVVl1pe8hW1q9uceocCDwYEogGOg6","profileImage":"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500","username":"ahmeda1a6k1llklavs1akc1a","lastLogin":{"$date":"2023-01-05T14:11:42.149Z"},"__v":0}
