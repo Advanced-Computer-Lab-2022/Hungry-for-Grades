@@ -34,11 +34,10 @@ function ProtectedRoutes() {
     !isError &&
     data &&
     data.data &&
-    data.data.data &&
-    (LocalStorage.get('loggingOut') === null ||
-      LocalStorage.get('loggingOut') !== 'true')
+    data.data.data 
   ) {
     const userData = data?.data?.data;
+
 
     useSetUser(userData);
     if (
