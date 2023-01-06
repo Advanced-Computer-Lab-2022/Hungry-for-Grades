@@ -32,6 +32,8 @@ export type CourseCardProps = {
   duration: number;
   description: string;
   outline: string[];
+	category?:string;
+	subcategory?:string;
 };
 
 export function mapCourseToCardProps(course: ICourse): CourseCardProps {
@@ -44,9 +46,11 @@ export function mapCourseToCardProps(course: ICourse): CourseCardProps {
     originalPrice: getOriginalPrice(course.price),
     currency: course.price.currency,
     rating: course.rating,
-    duration: course.duration ?? 0,
+    duration: course.duration ?? 1,
     description: course.description,
     outline: course.outline,
-    previewVideoURL: course.previewVideoURL
+    previewVideoURL: course.previewVideoURL,
+		category: course?.category,
+		subcategory: course?.subcategory?.at(0)
   };
 }

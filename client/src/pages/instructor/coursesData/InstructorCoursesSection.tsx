@@ -17,6 +17,7 @@ import Pagination from '@/components/pagination/Pagination';
 import { SelectFiltersType } from '@pages/guest/searchCourses/types';
 import ErrorMessage from '@/components/error/message/ErrorMessage';
 import useMultistepForm from '@/hooks/useMultistepForm';
+import LoaderComponent from '@/components/loader/loaderComponent/LoaderComponent';
 
 function InstructorCoursesSection() {
   const { currentStepIndex, goTo } = useMultistepForm(
@@ -44,6 +45,8 @@ function InstructorCoursesSection() {
         setSelectedFilters={setSelectedFilters}
         subHeading=''
       />
+								{isLoading && <LoaderComponent/>}
+
       {!isLoading && !isError && data && (verifiedData?.length as number) > 0 && (
         <div className='container mb-5'>
           <div className='d-flex flex-row justify-content-evenly align-items-center mb-5'>
@@ -71,6 +74,7 @@ function InstructorCoursesSection() {
             </button>
           </div>
           {currentStepIndex === 1 && data && (
+
             <InstructorCoursesAnalytics
               data={verifiedData?.map(course => ({
                 Earnings: course.earning,

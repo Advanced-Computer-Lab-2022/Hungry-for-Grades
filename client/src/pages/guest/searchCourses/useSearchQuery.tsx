@@ -37,7 +37,7 @@ async function searchRequest(
     CoursesRoutes.GET.getCoursesSearchFilter
   );
   const searchQuery = `category=${filters.category}
-	&subCategory=${filters.subCategory}
+	&subcategory=${filters.subCategory}
 	&level=${filters.level}
 	&priceLow=${
     filters.paid && filters.free ? filters.min : filters.paid ? 1 : filters.min
