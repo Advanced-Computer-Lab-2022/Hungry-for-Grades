@@ -226,61 +226,62 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 ### As an Admin I could
 - See User insights
-- See Top Instructors analytics by (different variety of graphs)
-- See Top Courses analytics by (different variety of graphs)
-- Send Emails to speciic users
-- Send Newsletter to all subscribed users
-- Browse, search and filter(with different variety) all the courses published on the website.
-- Add admins,instructors and corporate trainees to the system
-- View Reported problems and resolve them of different roles
-- View access requests from Corporate Trainees and grant access
-- View Refund Requests from Individual Trainees and their progress
+- See Top Instructors analytics using a wide range of graphs.
+- See Top Courses analytics by using a wide range of graphs.
+- Send Emails to specific users.
+- Send Newsletter to all subscribed users.
+- Browse, search and filter all the courses published on the website.
+- Add admins, instructors and corporate trainees to the system
+- View Reported problems and resolve them.
+- View access requests from Corporate Trainees and grant access.
+- View Refund Requests from Individual Trainees and their progress and approve or disapprove accordingly.
 
 
 ### As an Instructor I could
-- Browse, search and filter(with different variety) all the courses published on the website.
-- Create and Share(Qrcodes and different social media) Course
-- View Course analytics and (with different variety of Graphs)
-- Add discounts for a specific period
-- change profile
-- report an issue
+- Browse, search and filter all the courses published on the website.
+- Create courses
+- Share my courses via a QR code or on social media.
+- View course analytics using a variety of graphs.
+- Add discounts on my courses for a specific period.
+- Edit my profile.
+- Report an issue.
 
 
 ### As an Individual Trainee I could
-- Browse, search and filter(with different variety) all the courses published on the website
+- Browse, search and filter all the courses published on the website.
 - Sign up to newsletter
 - Add Courses to Cart
 - Add Courses to wishlist
-- Add notes , download,edit,and delete
+- Add, edit, delete and download my notes.
 - Draw and save in boards
 - Pay for a course using wallet or with card using stripe
-- Watch a video and solve exercises from my courses
-- See my progress relative to course
-- Recieve a certificate by mail,download,and share once finish course
-- Request refund
-- Rate a course and its instructor
-- Change profile
-- Report an issue
+- Watch a video and solve exercises in my courses
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Request a refund.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
 
 
 
 ### As a Corporate Trainee I could
-- Browse, search and filter(with different variety) all the courses published on the website.
-- Sign up to newsletter
-- Send access requests for specific course to admins to get it 
-- Add Notes , download,edit,and delete
+- Browse, search and filter all the courses published on the website.
+- Sign up to newsletter.
+- Send access requests for specific courses to admins. 
+- Add, edit, delete and download my notes.
 - Watch a video and solve exercises from my courses
-- See my course progress
-- Recieve a certificate by mail,download,and share once finish course
-- Rate a course and its instructor
-- Change profile
-- Report an issue
+- See my progress relative to the course
+- Recieve a certificate by mail, download, and share once course is finished.
+- Rate a course and its instructor.
+- Edit my profile.
+- Report an issue.
 
 
 ### As a Guest I could
-- Sign up as individual trainee
-- Sign up to newsletter
-- Browse, search and filter(with different variety) all the courses published on the website.
+- Sign up as an individual trainee.
+- Sign up to newsletter.
+- Browse, search and filter all the courses published on the website.
 - Report an issue
 
 
