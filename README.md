@@ -220,7 +220,17 @@ yarn run dev
 
 ## Postman Testing
 
-<img src="./testing/" />
+Delete Review Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Delete Review Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Reviews Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get All Instructor Reviews Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Courses Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Courses Test.png" alt="Sign up User Form" align="center" >
+Get Instructor Data Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Test.png" alt="Sign up User Form" align="center" >
+
+More Tests can be Found in the Postman Documentation.
+
 
 
 
