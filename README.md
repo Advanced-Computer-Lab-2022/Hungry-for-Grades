@@ -70,12 +70,14 @@ LinkedIn Learning, Great Learning and Udacity.
 		- [Balancing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#balancing)
 		- [Caching](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#caching)
 		- [Data Partitioning](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#data-partitioning)   - [CAP](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#cap)
-	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
+	- [Environment Variables](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#environment-variables)
+	- [Screenshots](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#screenshots)
 	- [Folder Structure](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#folder-structure)
 	- [Code Samples](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/server/README.md#Code-Samples)
 
 - [End to End Testing](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/tree/development/end-to-end%20testing/Readme.md)
 - [Motivation](#motivation)
+- [How To Use the System](#how-to-use-the-system)
 - [Objectives](#objectives)
 - [Code Styles](#code-styles)
 - [Tools and Frameworks](#tools-and-frameworks)
@@ -84,6 +86,7 @@ LinkedIn Learning, Great Learning and Udacity.
 - [Features](#features)
 - [Installation](#installation)
 - [Authors](#authors)
+- [License](#license)
 - [Credits](#credits)
 - [Contributing](#contributing)
 - [Feedback](#feedback)
@@ -100,6 +103,18 @@ The project was created as a part for the CSEN704 Course (Advanced Programming L
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## How To Use the System
+- As a Contributer : https://youtu.be/mnZLnAFufjI
+- As an Admin : https://youtu.be/1tdg1lanSSA
+- As a Trainee : https://youtu.be/bSulL488dFc 
+- As a Instructor : https://youtu.be/YFIs-zrOzlE
+- As a Corporate Trainee : https://youtu.be/e0eYnUe2plg 
+- As a Guest : https://youtu.be/u5LHIeMTTkI
+
+
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Objectives
 - Learn how to properly use the Agile Methodology to plan out a project and develop the software.
@@ -194,7 +209,9 @@ yarn run dev
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## API Documentation
-Check out our API documentation on Postman by clicking [here](https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344)
+- Check out our API Documentation on Postman by clicking [here](https://documenter.getpostman.com/view/17286684/2s8Z6zzC3R)
+- Check out our API Workspace on Postman by clicking [here](https://www.postman.com/crimson-escape-923343/workspace/acl-team-workspace/collection/17286684-0dc5a3aa-0a42-4d4a-9e2b-cca9f820817a?action=share&creator=24014344)
+
 <br/>
 <a href="https://www.getpostman.com/"><img src="https://assets.getpostman.com/common-share/postman-logo-horizontal-320x132.png" /></a><br />
 
@@ -299,7 +316,7 @@ Check out our API documentation on Postman by clicking [here](https://www.postma
 
 - The software is open source under the  [Apache 2.0](https://github.com/Advanced-Computer-Lab-2022/Hungry-for-Grades/blob/development/LICENSE) License.
 
-
+- The Stripe is licensed under the Apache License 2.0 
 
 
 ## Credits
