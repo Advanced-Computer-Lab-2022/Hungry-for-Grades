@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import TraineeNoteList from '../note/TraineeNoteList';
 
@@ -14,8 +14,7 @@ import { EnrolledCourse } from '@/interfaces/course.interface';
 import Loader from '@/components/loader/loaderpage/Loader';
 
 export default function LastStudy() {
-  const location = useLocation();
-  const { data, isLoading } = useLastStudiedQuery(location);
+  const { data, isLoading } = useLastStudiedQuery();
 
   if (isLoading) {
     return <Loader />;
@@ -54,7 +53,7 @@ export default function LastStudy() {
                   completed={
                     course?.progress == undefined ? 0 : course?.progress
                   }
-                  courseID={course?._course?._id}
+                  courseID={''}
                 />
               </div>{' '}
               <div className='my-2'>
