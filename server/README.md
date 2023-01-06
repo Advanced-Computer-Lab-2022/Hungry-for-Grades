@@ -15,6 +15,7 @@
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
 - [Code Samples](#code-samples)
+- [Testing](#Testing)
 
 ## installation
 
@@ -381,6 +382,7 @@ async function authenticateUser(req: RequestWithTokenPayload, res: Response, nex
   }
 }
 ```
+
 - Checkout using Stripe
 ```
 public async checkoutStripe(traineeId: string, country: string): Promise<string> {
@@ -414,3 +416,15 @@ public async checkoutStripe(traineeId: string, country: string): Promise<string>
     return session.url;
   }
   ```
+
+  ## Testing
+Delete Review Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Delete Review Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Reviews Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get All Instructor Reviews Test.png" alt="Sign up User Form" align="center" >
+Getting Instructor Courses Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Courses Test.png" alt="Sign up User Form" align="center" >
+Get Instructor Data Route Testing
+<img src="../screenshots/testing/InstructorRoutes/Get Instructor Test.png" alt="Sign up User Form" align="center" >
+
+More Tests can be Found in the Postman Documentation.
