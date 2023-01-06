@@ -1,19 +1,39 @@
 ## Backend (Server)
-
+  
 
 ## Table of Contents
-- [Scaling](#Scaling)
-- [Scaling Scheme](#Scaling-Scheme)
-- [Balancing](#Balancing)
-- [Caching](#Caching)
-- [Data Partitioning](#Data-Partitioning)
-- [CAP](#CAP)
+- [Database Models](database-models)
+- [Ideas for Scalability](#ideas-for-scalability)
+  - [Scaling](#scaling)
+  - [Scaling Scheme](#scaling-scheme)
+  - [Balancing](#balancing)
+  - [Caching](#caching)
+  - [Data Partitioning](#data-partitioning)
+  - [CAP](#cap)
 - [Environment Variables](#environment-variables)
 - [Screeshots](#screenshots)
 - [Folder Structure](#folder-structure)
-- [Code Samples](#Code-Samples)
+- [Code Samples](#code-samples)
 
-Ideas for Scalability : 
+
+# Database Models
+- The Admin model is the user holds all the general information and personal information regarding that model like the name email password(hashed) and whether they are active or not.
+- The Trainee model is the user holds all the  general info and personal information regarding like social media accounts that model like the name email password(hashed) and whether they are active or not..
+- The Instructor model is the user holds all the general information like social media accounts and personal information regarding that model like the name email password(hashed) and whether they are active or not..
+
+- The course model which holds Course information and outlien and all the sections , excersises and lessons info that course has. Moreover, holds statistical information like the duration of each lesson (which is auto generated) and the duration of the whole course (auto-calculated).
+
+- The Reports Model which holds all the information regarding the problems like the description , date of submittion and the user who submitted that problem and finally the follow up if done by the user.
+
+```
+{"_id":{"$oid":"63b6d650be22527ce357b1b3"},"_course":{"$oid":"63acd1133e3bb517841b8124"},"_user":{"$oid":"63b6d05bbe22527ce357ad7b"},"description":"","reason":"Refund","status":"Resolved","followUp":[],"createdAt":{"$date":"2023-01-05T13:53:20.345Z"},"updatedAt":{"$date":"2023-01-05T14:03:17.690Z"},"__v":0}
+```
+
+- The  Requests Model which holds all the information regarding the request like ths user who submitted that report , the date and the type of that request.
+
+- The Newsletter model which holds all the emails that subscribed to the newsletter 
+
+# Ideas for Scalability
 
 ## Scaling
     
@@ -120,6 +140,9 @@ STRIPE_PRIVATE_KEY
 ## screenshots
  
 <img src="../screenshots/systemDesign/My System Design.png" alt="Sign up User Form" align="center" >
+
+
+
 
 
 
